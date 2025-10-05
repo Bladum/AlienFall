@@ -1,0 +1,86 @@
+
+---
+
+
+continents:
+  TBD:
+    color: white
+  Africa:
+    name: "CON_Africa"
+    culture_change: yes
+    color: brown
+    whiteman_penalty: no
+    popgrowth_island_colony: 2.00
+    popgrowth_continent_colony: 12.00
+    popgrowth_penalty: no
+    cot_assign_penalty: no
+    combat_overrun: no
+    badboy_penalty: yes
+    hre_election: no
+    available_mercenaries: no
+    can_convert_culture: no
+    vp_first_establishment: 5
+  America:
+    name: "CON_America"
+    culture_change: yes
+    whiteman_penalty: yes
+    color: blue
+    popgrowth_island_colony: 0.00
+    popgrowth_continent_colony: 0.00
+    popgrowth_penalty: no
+    cot_assign_penalty: no
+    combat_overrun: no
+    badboy_penalty: yes
+    hre_election: no
+    available_mercenaries: no
+    vp_discover_first:
+      desc: "SPEC_AMERICA"
+      province: any
+      value: 50
+    vp_first_establishment: 5
+  Asia:
+    name: "CON_Asia"
+    color: yellow
+    culture_change: yes
+    whiteman_penalty: no
+    popgrowth_island_colony: 1.00
+    popgrowth_continent_colony: 4.00
+    popgrowth_penalty: no
+    cot_assign_penalty: no
+    combat_overrun: no
+    badboy_penalty: yes
+    hre_election: no
+    available_mercenaries: no
+    can_convert_culture: no
+    vp_discover_first:
+      desc: "SPEC_ASIA"
+      province: any
+      value: 25
+  Europe:
+    name: "CON_Europe"
+    culture_change: no
+    color: red
+    whiteman_penalty: no
+    popgrowth_island_colony: 0.00
+    popgrowth_continent_colony: 0.00
+    popgrowth_penalty: yes
+    cot_assign_penalty: yes
+    combat_overrun: yes
+    badboy_penalty: no
+    hre_election: yes
+    available_mercenaries: yes
+    can_convert_culture: no
+  Oceania:
+    name: "CON_Oceania"
+    culture_change: yes
+    whiteman_penalty: yes
+    color: green
+    popgrowth_island_colony: 0.00
+    popgrowth_continent_colony: 0.00
+    popgrowth_penalty: no
+    cot_assign_penalty: no
+    combat_overrun: no
+    badboy_penalty: yes
+    hre_election: no
+    available_mercenaries: no
+    vp_first_establishment: 5

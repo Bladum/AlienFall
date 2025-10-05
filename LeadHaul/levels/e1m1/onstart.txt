@@ -1,0 +1,7 @@
+return function ()
+
+ProximityMessage:new( "Press '"..Controller.binds.interact.."' to interact", 3.5,7.5, 2 )
+ProximityMessage:new( "Hold '"..Controller.binds.fire.."' to shoot", 5.5,13.5, 2 )
+ProximityMessage:new( "Press '"..Controller.binds.melee.."' to melee", 15.5,19.5, 2 )
+
+end

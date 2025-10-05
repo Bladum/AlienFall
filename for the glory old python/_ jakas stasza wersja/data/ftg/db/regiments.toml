@@ -1,0 +1,240 @@
+#-----------------------------------------------------------
+#
+#  REGIMENT -> exist on tactical battle map only
+#
+#-----------------------------------------------------------
+
+#
+#   BASIC INFANTRY
+#
+
+[peasant]
+label = 'Peasant'
+unit = "infantry"
+class = 'land'
+desc = "This is description"
+sound = "inf.wav"
+image = "inf_peasant.png"
+shock = 3
+range = 1
+fire = 0
+defense = 3
+speed = 2
+sight = 1
+ammo = 16
+hp = 10
+entrench = true
+morale = 0
+
+[spearman]
+label = 'Peasant'
+unit = "infantry"
+class = 'land'
+desc = "This is description"
+sound = "inf.wav"
+image = "inf_spear.png"
+shock = 3
+range = 1
+fire = 0
+defense = 3
+speed = 2
+sight = 1
+ammo = 16
+hp = 10
+entrench = true
+morale = 0
+
+
+[maceman]
+label = 'Maceman'
+unit = "infantry"
+class = 'land'
+desc = "This is description"
+sound = "attack.wav"
+image = "inf_mace.png"
+shock = 5
+range = 1
+fire = 0
+defense = 5
+speed = 2
+sight = 2
+ammo = 16
+hp = 10
+entrench = true
+morale = 0
+
+#
+# INFANTRY RANGED
+#
+
+[archer]
+label = 'Archer'
+unit = "infantry"
+class = 'land'
+desc = "This is description"
+sound = "attack.wav"
+image = "inf_archer.png"
+shock = 2
+range = 3
+fire = 3
+defense = 2
+speed = 2
+sight = 2
+ammo = 12
+hp = 10
+entrench = true
+move_fire = true
+morale = 0
+
+[musket_man]
+label = 'Musketman'
+unit = "infantry"
+class = 'land'
+desc = "This is description"
+sound = "attack.wav"
+image = "inf.png"
+shock = 1
+range = 2
+fire = 5
+defense = 3
+speed = 2
+sight = 2
+ammo = 8
+hp = 10
+entrench = true
+move_fire = true
+morale = 0
+
+
+#
+#   BASIC CAVALRY
+#
+
+[squire]
+label = 'Squire'
+unit = "cavalry"
+class = 'land'
+desc = "This is description"
+sound = "attack.wav"
+image = "cav_squire.png"
+shock = 4
+range = 1
+fire = 0
+defense = 4
+speed = 4
+sight = 3
+ammo = 16
+hp = 10
+entrench = false
+move_fire = true
+morale = 0
+
+[knight]
+label = 'Knight'
+unit = "cavalry"
+class = 'land'
+desc = "This is description"
+sound = "attack.wav"
+image = "cav_knight.png"
+shock = 6
+range = 1
+fire = 0
+defense = 6
+speed = 3
+sight = 1
+ammo = 12
+hp = 10
+entrench = false
+move_fire = true
+morale = 0
+
+#
+#   ARTILERY
+#
+
+[catapult]
+label = 'Catapult'
+unit = "artillery"
+class = 'land'
+desc = "This is description"
+sound = "attack.wav"
+image = "art_catapult.png"
+shock = 1
+range = 4
+fire = 8
+defense = 2
+speed = 1
+sight = 1
+ammo = 4
+hp = 10
+entrench = false
+move_fire = false
+morale = 0
+
+[balista]
+label = 'Balista'
+unit = "artillery"
+class = 'land'
+desc = "This is description"
+sound = "attack.wav"
+image = "art_balista.png"
+shock = 1
+range = 3
+fire = 10
+defense = 2
+speed = 1
+sight = 1
+ammo = 6
+hp = 10
+entrench = false
+move_fire = false
+morale = 0
+
+
+#
+#   LEADER
+#
+
+[commander]
+label = 'Commander'
+unit = "leader"
+class = 'land'
+desc = "This is description"
+sound = "attack.wav"
+image = "leader.png"
+shock = 1
+range = 1
+fire = 0
+defense = 2
+speed = 3
+sight = 4
+cover = 1
+ammo = 8
+hp = 10
+entrench = true
+move_fire = true
+morale = 3
+skills = [ "heal", 'cover' ]
+
+#
+#   FORTS
+#
+
+[palisade]
+label = 'Palisade'
+unit = "FORT"
+class = 'land'
+desc = "This is description"
+sound = "attack.wav"
+image = "fort.png"
+shock = 0
+range = 1
+fire = 0
+defense = 8
+speed = 0
+sight = 3
+ammo = 0
+hp = 10
+entrench = false
+move_fire = false
+morale = 0

@@ -1,0 +1,50 @@
+[
+    {
+        "id": "sectoid_warrior",
+        "name": "Sectoid Warrior",
+        "race": "sectoid",
+        "class": "warrior",
+        "stats": {
+            "tu": 60,
+            "energy": 100,
+            "health": 35,
+            "morale": 70,
+            "strength": 25
+        },
+        "inventory_slots": [
+            {"id": "armor", "type": "armor", "item": null},
+            {"id": "primary_weapon", "type": "weapon", "item": null},
+            {"id": "secondary_weapon_1", "type": "weapon", "item": null},
+            {"id": "secondary_weapon_2", "type": "weapon", "item": null}
+        ],
+        "traits": ["psionic_sensitive"],
+        "abilities": ["mind_control"],
+        "rank": "rookie",
+        "experience": 0,
+        "promotion_threshold": 100
+    },
+    {
+        "id": "human_soldier",
+        "name": "Human Soldier",
+        "race": "human",
+        "class": "soldier",
+        "stats": {
+            "tu": 65,
+            "energy": 90,
+            "health": 40,
+            "morale": 80,
+            "strength": 30
+        },
+        "inventory_slots": [
+            {"id": "armor", "type": "armor", "item": null},
+            {"id": "primary_weapon", "type": "weapon", "item": null},
+            {"id": "secondary_weapon_1", "type": "weapon", "item": null},
+            {"id": "secondary_weapon_2", "type": "weapon", "item": null}
+        ],
+        "traits": ["disciplined"],
+        "abilities": ["overwatch"],
+        "rank": "rookie",
+        "experience": 0,
+        "promotion_threshold": 100
+    }
+]

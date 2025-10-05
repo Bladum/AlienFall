@@ -1,0 +1,135 @@
+countries:
+  DAU:
+    name: Dauphin (Royaume de Bourges)
+    ai: "DAU_1419.txt"
+    treasury: 50
+    inflation: 0
+    stability: 0
+    loans: 50
+
+    agents:
+      merchants: 1.083333
+      colonists: 0
+      diplomats: 0
+
+    religion: catholic
+    cultures:
+      - french
+
+    relations:
+      ARG: 150
+      BRI: 100
+      BUR: -50
+      ENG: -200
+      FRA: -25
+      KNI: 150
+      PRO: 100
+      SCO: 150
+      SAV: 90
+      
+    knownregions:
+      - Europe
+
+    ownedprovinces:
+      - 407
+      - 408
+      - 410
+      - 417
+      - 418
+      - 419
+      - 422
+      - 423
+      - 420
+      - 421
+      - 411
+      - 412
+    controlledprovinces:
+      - 407
+      - 408
+      - 410
+      - 417
+      - 418
+      - 419
+      - 422
+      - 423
+      - 420
+      - 421
+      - 411
+      - 412
+    nationalprovinces:
+      - 407
+      - 408
+      - 410
+      - 417
+      - 418
+      - 419
+      - 422
+      - 423
+    cities:
+      412:
+        buildings:
+          fortress: 1
+        population: 11
+      411:
+        buildings:
+          fortress: 1
+        population: 21
+      420:
+        buildings:
+          fortress: 1
+        population: 5
+      421:
+        buildings:
+          fortress: 1
+        population: 9
+      410:
+        buildings:
+          fortress: 2
+        population: 14
+        capital: yes
+      407:
+        buildings:
+          fortress: 1
+        population: 10
+      408:
+        buildings:
+          fortress: 1
+        population: 12
+      417:
+        buildings:
+          fortress: 1
+        population: 8
+      418:
+        buildings:
+          fortress: 1
+        population: 8
+      419:
+        buildings:
+          fortress: 1
+        population: 10
+      422:
+        buildings:
+          fortress: 1
+        population: 16
+      423:
+        buildings:
+          fortress: 1
+        population: 9
+    landunits:
+      - name: "Arme du Dauphin"
+        location: 410
+        infantry: 5
+        cavalry: 2
+        artillery: 0
+    navalunits:
+      - name: "Escadre du Ponant"
+        location: 417
+        warships: 10
+        galleys: 0
+        transports: 1
+    technology:
+      admin: 0
+      infra: 0
+      trade: 0
+      land: 1
+      naval: 1

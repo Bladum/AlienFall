@@ -1,0 +1,19 @@
+#-----------------------------------------------------------
+#
+#  EVENTS FOR POLAND
+#
+#-----------------------------------------------------------
+
+[5100]
+random = false
+prereq.country = 'POL'
+label = 'Nicolaus Copernicus'
+desc = 'This is event for Nicolai Copernicus'
+date = 1543-05-10
+
+[[5100.action]]
+name = "Perform actions"
+command.add_law = 'polish_innovation'
+command.revolt_risk = 3
+
+###

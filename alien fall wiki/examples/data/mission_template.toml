@@ -1,0 +1,163 @@
+# Mission Template Example
+# This file demonstrates a complete mission definition with objectives, enemies, and rewards
+# Copy this template and modify for your own missions
+
+[[mission]]
+id = "example_ufo_crash_site"
+name = "UFO Crash Site"
+description = "Investigate the crashed alien craft and secure any survivors or technology."
+
+# Mission classification
+type = "ufo_crash"           # Mission type determines spawning rules
+category = "tactical"         # tactical, terror, base_defense, special
+difficulty_tier = 2           # 1=easy, 2=medium, 3=hard, 4=very_hard
+
+# Mission parameters
+[mission.parameters]
+turn_limit = 15               # Maximum turns before mission fails
+time_limit_minutes = 0        # 0 = no time limit, otherwise minutes
+allow_retreat = true          # Can player abort mission?
+darkness_level = 0.3          # 0.0=day, 0.5=dusk, 1.0=night
+weather = "clear"             # clear, rain, snow, fog
+
+# Map generation
+[mission.map]
+size = "medium"               # small (20×20), medium (30×30), large (40×40)
+biome = "rural"              # urban, rural, industrial, forest, desert, arctic
+map_script = "ufo_crash"     # Which map generator script to use
+terrain_features = ["crater", "debris", "fire"]
+
+# Grid-based spawn zones (20×20 grid coordinates)
+[mission.map.spawn_zones]
+player_start = { x = 2, y = 2, radius = 3 }     # Player units spawn here
+enemy_start = { x = 15, y = 15, radius = 4 }    # Enemy units spawn here
+civilians = []                                   # No civilians in this mission
+
+# Enemy composition
+[[mission.enemies]]
+unit_type = "sectoid"
+count_min = 3
+count_max = 5
+spawn_zone = "enemy_start"
+equipment_tier = 2            # Determines weapon quality
+
+[[mission.enemies]]
+unit_type = "floater"
+count_min = 2
+count_max = 3
+spawn_zone = "enemy_start"
+equipment_tier = 2
+
+[[mission.enemies]]
+unit_type = "sectoid_commander"
+count_min = 1
+count_max = 1
+spawn_zone = "ufo_interior"   # Special spawn point in UFO
+equipment_tier = 3
+is_boss = true               # Boss units have special behavior
+
+# Mission objectives
+[[mission.objectives]]
+id = "eliminate_all"
+type = "kill_all_enemies"
+description = "Eliminate all alien forces"
+required = true              # Must complete to win
+points = 100                 # Score reward
+
+[[mission.objectives]]
+id = "secure_ufo"
+type = "control_zone"
+description = "Secure the UFO interior"
+required = false             # Optional objective
+zone = { x = 15, y = 15, radius = 3 }
+turns_required = 2           # Must control for 2 turns
+points = 50
+
+[[mission.objectives]]
+id = "recover_tech"
+type = "collect_item"
+description = "Recover alien navigation computer"
+required = false
+item_id = "alien_nav_computer"
+spawn_location = "ufo_command"
+points = 75
+
+# Rewards and loot
+[mission.rewards]
+credits_base = 15000         # Base credit reward
+credits_per_objective = 5000 # Bonus per optional objective
+experience_multiplier = 1.5  # XP multiplier for unit progression
+
+# Salvage tables (deterministic based on mission seed)
+[mission.rewards.salvage]
+guaranteed = ["ufo_power_source", "alien_alloys"]  # Always drops
+possible = [
+    { item = "plasma_rifle", chance = 0.6 },
+    { item = "sectoid_corpse", chance = 0.8 },
+    { item = "elerium", chance = 0.4 },
+    { item = "alien_entertainment", chance = 0.2 }
+]
+
+# Research unlocks
+[mission.rewards.research_unlocks]
+# Completing this mission unlocks these research projects
+unlocks = ["alien_navigation", "ufo_construction"]
+
+# Mission spawning conditions
+[mission.spawn_conditions]
+min_game_month = 2           # Won't spawn before month 2
+max_game_month = 0           # 0 = no limit
+requires_detection = true    # Must be detected by radar
+spawn_weight = 10            # Higher = more likely to spawn
+
+# Prerequisites
+[mission.spawn_conditions.prerequisites]
+research_required = []       # No research required
+story_flags = []            # No story progress required
+province_tags = ["rural", "coastal"]  # Can spawn in these province types
+
+# Failure consequences
+[mission.failure]
+panic_increase = 15          # Province panic increases by this amount
+funding_loss = 5000          # Monthly funding decreases
+reputation_loss = 10         # Organization reputation decreases
+
+# Special mechanics
+[mission.special]
+reinforcements = true        # Enemies can call reinforcements
+reinforcement_turns = [5, 10]  # Reinforcements arrive on these turns
+fog_of_war = true           # Enable fog of war
+permadeath = false          # Are casualties permanent? (overrides game setting)
+
+# Environmental hazards
+[[mission.hazards]]
+type = "fire"
+locations = ["crash_site"]   # Where hazards spawn
+damage_per_turn = 5
+spread_chance = 0.3         # Chance to spread each turn
+
+[[mission.hazards]]
+type = "toxic_gas"
+locations = ["ufo_interior"]
+damage_per_turn = 3
+vision_penalty = -20        # Reduces accuracy
+
+# AI behavior tags
+[mission.ai]
+aggression = 0.7            # 0.0=defensive, 1.0=aggressive
+flanking_preference = 0.6   # How much AI values flanking
+cover_preference = 0.8      # How much AI values cover
+ability_usage = 0.5         # How often AI uses special abilities
+
+# Deterministic seed scope
+[mission.rng_scope]
+# All random events in this mission use this scope prefix
+scope_prefix = "mission:ufo_crash"
+# Examples: "mission:ufo_crash:spawn", "mission:ufo_crash:loot", "mission:ufo_crash:ai"
+
+# Metadata
+[mission.metadata]
+author = "AlienFall Team"
+version = "1.0.0"
+created = "2025-09-30"
+tags = ["ufo", "crash_site", "mid_game", "tactical"]

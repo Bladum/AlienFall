@@ -1,0 +1,144 @@
+# Castile #
+
+countries:
+  CAS:
+    name: Castile
+    ai: "SPA_1399_Bettencourt.txt"
+
+    treasury: 400
+    inflation: 0
+    stability: 2
+
+    agents:
+      colonists: 3.25
+      merchants: 4.083333
+      diplomats: 1
+
+    religion: catholic
+    cultures:
+      - castilian
+      
+    diplomacy:
+      relations:
+        POR: 100
+        ARG: 150
+        GRA: 150
+        MOR: -200
+        TLE: -200
+        KNI: 170
+
+    knownregions:
+      - Europe
+      - North Africa
+      - TagoSea
+
+    knownprovinces:
+      - 477
+      - 478
+      - 817
+      
+      
+    ownedprovinces:
+      - 431
+      - 432
+      - 433
+      - 435
+      - 436
+      - 438
+      - 439
+      - 440
+      - 443
+      - 817
+      - 917
+      - 1948
+
+    controlledprovinces:
+      - 431
+      - 432
+      - 433
+      - 435
+      - 436
+      - 438
+      - 439
+      - 440
+      - 443
+      - 817
+      - 917
+      - 1948
+
+    nationalprovinces:
+      - 431
+      - 432
+      - 433
+      - 435
+      - 436
+      - 438
+      - 439
+      - 440
+      - 443
+
+    claimedprovinces:
+      - 444
+      - 445
+
+    cities:
+      436:
+        buildings:
+          fortress: 1
+        population: 38
+      431:
+        buildings:
+          fortress: 1
+        population: 20
+      432:
+        buildings:
+          fortress: 1
+        population: 6
+      433:
+        buildings:
+          fortress: 1
+        population: 24
+      435:
+        buildings:
+          fortress: 1
+        population: 18
+      438:
+        buildings:
+          fortress: 1
+        population: 5
+      439:
+        buildings:
+          fortress: 1
+          balliff: 1
+        population: 44
+        capital: yes
+      440:
+        buildings:
+          fortress: 1
+        population: 18
+      443:
+        buildings:
+          fortress: 1
+        population: 20
+      817:
+        population: 1
+
+    landunits:
+      - name: "Armada Real"
+        location: 439
+        infantry: 30
+        cavalry: 5
+
+    navalunits:
+      - name: "Flota Real"
+        location: 433
+        warships: 8
+        galleys: 15
+        transports: 2
+
+    technology:
+      admin: 1
+      infra: 1
+      trade: 1
+      land: 1
+      naval: 1

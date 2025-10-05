@@ -1,0 +1,69 @@
+countries:
+  AZT:
+    name: Aztec
+    ai: "default"
+
+    treasury: 120
+    inflation: 0
+    stability: 2
+
+    agents:
+      merchants: 0.083333
+      colonists: 0
+      diplomats: 0
+
+    religion: pagan
+    cultures:
+      - aztec
+
+    diplomacy:
+      relations: {}
+
+    knownregions:
+      - Azteca
+      - "Costa Rica"
+
+    knownprovinces:
+      - 24
+      - 25
+      - 26
+      - 27
+
+    ownedprovinces:
+      - 24
+      - 25
+      - 26
+      - 27
+
+    controlledprovinces:
+      - 24
+      - 25
+      - 26
+      - 27
+
+    nationalprovinces:
+      - 24
+      - 25
+      - 26
+      - 27
+      - 28
+
+    cities:
+      24:
+        population: 10
+      25:
+        population: 10
+      26:
+        population: 10
+      27:
+        buildings:
+          fortress: 1
+        population: 80
+        capital: yes
+
+    technology:
+      admin: 0
+      infra: 0
+      trade: 1
+      land: 0
+      naval: 0

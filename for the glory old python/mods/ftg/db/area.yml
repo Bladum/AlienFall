@@ -1,0 +1,574 @@
+#
+#Areas
+#
+
+areas:
+  TBD:
+    type: land
+    color: white
+
+  #Africa
+
+  #East Africa
+  Ethiopia:
+    type: land
+    color:  light_gray
+  Madagascar:
+    type: land
+    color: gray
+  Seychelles:
+    type: land
+    color: dark_gray
+  Socotra:
+    type: land
+    color:  light_red
+  Somalia:
+    type: land
+    color: red
+  Sudan:
+    type: land
+    color: dark_red
+  Tanganyika:
+    type: land
+    color:  light_purple
+  The Mascarenes:
+    type: land
+    color: purple
+
+  #North Africa
+  Egypt:
+    type: land
+    color: dark_purple
+  Maghreb:
+    type: land
+    color:  light_blue
+
+  #West Africa
+  Cameroon:
+    type: land
+    color: blue
+  Canarias:
+    type: land
+    color: dark_blue
+  Cape Verde:
+    type: land
+    color:  light_cyan
+  Congo:
+    type: land
+    color: cyan
+  Gabon:
+    type: land
+    color: dark_cyan
+  Gold:
+    type: land
+    color:  light_teal
+  Ivory:
+    type: land
+    color: teal
+  Mauritania:
+    type: land
+    color: dark_teal
+  Senegal:
+    type: land
+    color:  light_green
+  St Helena:
+    type: land
+    color: green
+  Timbuktu:
+    type: land
+    color: dark_green
+  Sahara:
+    type: land
+    color: yellow
+
+  #South Africa
+  Angola:
+    type: land
+    color:  light_yellow
+  Mozambicque:
+    type: land
+    color: yellow
+  Namibia:
+    type: land
+    color: dark_yellow
+  Sofala:
+    type: land
+    color:  light_olive
+  The Cape:
+    type: land
+    color: olive
+
+  #America
+
+  #Caribbean
+  Antilles:
+    type: land
+    color: dark_olive
+  Cuba:
+    type: land
+    color:  light_orange
+  Haiti:
+    type: land
+    color: orange
+
+  #Central America
+  Azteca:
+    type: land
+    color: dark_orange
+  Costa Rica:
+    type: land
+    color:  light_brown
+  Panama:
+    type: land
+    color: brown
+  Sonora:
+    type: land
+    color: dark_brown
+
+  #North America
+  Acadie:
+    type: land
+    color:  light_gray
+  Alaska:
+    type: land
+    color: gray
+  Appalachia:
+    type: land
+    color: dark_gray
+  Bermuda:
+    type: land
+    color:  light_red
+  California:
+    type: land
+    color: red
+  Florida:
+    type: land
+    color: dark_red
+  Georgia:
+    type: land
+    color:  light_purple
+  Grand Lacs:
+    type: land
+    color: purple
+  Greenland:
+    type: land
+    color: dark_purple
+  Hudson Bay:
+    type: land
+    color:  light_blue
+  Illinois:
+    type: land
+    color: blue
+  Kansas:
+    type: land
+    color: dark_blue
+  Labrador:
+    type: land
+    color:  light_cyan
+  Louisiane:
+    type: land
+    color: cyan
+  Maine:
+    type: land
+    color: dark_cyan
+  Nevada:
+    type: land
+    color:  light_teal
+  Newfoundland:
+    type: land
+    color: teal
+  Ohio:
+    type: land
+    color: dark_teal
+  Oregon:
+    type: land
+    color:  light_green
+  Plaines:
+    type: land
+    color: green
+  Quebec:
+    type: land
+    color: dark_green
+  Texas:
+    type: land
+    color:  light_yellow
+
+  #South America
+  Amazonia:
+    type: land
+    color: yellow
+  Bahia:
+    type: land
+    color: dark_yellow
+  Belem:
+    type: land
+    color:  light_olive
+  Chili:
+    type: land
+    color: olive
+  Ecuador:
+    type: land
+    color: dark_olive
+  Falklands:
+    type: land
+    color:  light_orange
+  Guiana:
+    type: land
+    color: orange
+  Inca:
+    type: land
+    color: dark_orange
+  La Plata:
+    type: land
+    color:  light_brown
+  Orenoque:
+    type: land
+    color: brown
+  Paraguay:
+    type: land
+    color: dark_brown
+  Patagonia:
+    type: land
+    color:  light_gray
+  Recife:
+    type: land
+    color: gray
+  Rio:
+    type: land
+    color: dark_gray
+
+  #Asia
+
+  #Central Asia
+  Afghanistan:
+    type: land
+    color:  light_red
+  Bahk:
+    type: land
+    color: red
+  Dzungaria:
+    type: land
+    color: dark_red
+  Kazakhstan:
+    type: land
+    color:  light_purple
+  Persia:
+    type: land
+    color: purple
+
+  #China
+  Canton:
+    type: land
+    color: dark_purple
+  Chengdu:
+    type: land
+    color:  light_blue
+  Formosa:
+    type: land
+    color: blue
+  Himalaya:
+    type: land
+    color: dark_blue
+  Manchuria:
+    type: land
+    color:  light_cyan
+  Peking:
+    type: land
+    color: cyan
+  Mongolia:
+    type: land
+    color: light_red
+  Sha Anxi:
+    type: land
+    color: dark_cyan
+  Shanghai:
+    type: land
+    color:  light_teal
+  Yunnan:
+    type: land
+    color: teal
+
+  #India
+  Bengal:
+    type: land
+    color: dark_teal
+  Carnatic:
+    type: land
+    color:  light_green
+  Ceylon:
+    type: land
+    color: green
+  Delhi:
+    type: land
+    color: dark_green
+  Gujarat:
+    type: land
+    color:  light_yellow
+  Hyderabad:
+    type: land
+    color: yellow
+  Lahore:
+    type: land
+    color: dark_yellow
+  Mahratti:
+    type: land
+    color:  light_olive
+  Malabar:
+    type: land
+    color: olive
+  Mysore:
+    type: land
+    color: dark_olive
+  Orissa:
+    type: land
+    color:  light_orange
+  Oudh:
+    type: land
+    color: orange
+  Punjab:
+    type: land
+    color: dark_orange
+
+  #Indochina
+  Annam:
+    type: land
+    color:  light_brown
+  Assam:
+    type: land
+    color: brown
+  Burma:
+    type: land
+    color: dark_brown
+  Malaya:
+    type: land
+    color:  light_gray
+  Siam:
+    type: land
+    color: gray
+
+  #Indonesia
+  Ajeh:
+    type: land
+    color: dark_gray
+  Amboina:
+    type: land
+    color:  light_red
+  Borneo:
+    type: land
+    color: red
+  Celebes:
+    type: land
+    color: dark_red
+  Java:
+    type: land
+    color:  light_purple
+  Lucon:
+    type: land
+    color: purple
+  Sumatra:
+    type: land
+    color: dark_purple
+  Surabaya:
+    type: land
+    color:  light_blue
+  Ternate:
+    type: land
+    color: blue
+
+  #Japan
+  Nippon:
+    type: land
+    color: dark_blue
+
+  #Korea
+  Joseon:
+    type: land
+    color:  cyan
+
+  #Middle East
+  Aden:
+    type: land
+    color: cyan
+  Anatolia:
+    type: land
+    color: dark_cyan
+  Levant:
+    type: land
+    color:  light_teal
+  Nefud:
+    type: land
+    color: teal
+  Oman:
+    type: land
+    color: dark_teal
+
+  #Siberia
+  Amur:
+    type: land
+    color:  light_green
+  Baikal:
+    type: land
+    color: green
+  Jenisej:
+    type: land
+    color: dark_green
+  Kamchatka:
+    type: land
+    color:  light_yellow
+  Lena:
+    type: land
+    color: yellow
+  Ob:
+    type: land
+    color: dark_yellow
+  Omsk:
+    type: land
+    color:  light_olive
+  Sibir:
+    type: land
+    color: olive
+
+  #Europe
+
+  #British Isles
+  England:
+    type: land
+    color: dark_olive
+  Ireland:
+    type: land
+    color:  light_orange
+  Scotland:
+    type: land
+    color: orange
+
+  #Central Europe
+  Balkans:
+    type: land
+    color: dark_orange
+  Danube:
+    type: land
+    color:  light_brown
+
+  #Eastern Europe
+  Baltic:
+    type: land
+    color: brown
+  Caucasus:
+    type: land
+    color: dark_brown
+  Poland:
+    type: land
+    color:  light_gray
+  Russia:
+    type: land
+    color: gray
+  Russian North:
+    type: land
+    color: dark_gray
+  Steppe:
+    type: land
+    color:  light_red
+  Ukraine:
+    type: land
+    color: red
+
+  #HRE
+  Germany:
+    type: land
+    color: dark_red
+  Hansa:
+    type: land
+    color:  light_purple
+  Lotharingia:
+    type: land
+    color: purple
+  Switzerland:
+    type: land
+    color: dark_purple
+
+  #Scandinavia
+  Denmark:
+    type: land
+    color:  light_blue
+  Finland:
+    type: land
+    color: blue
+  Norway:
+    type: land
+    color: dark_blue
+  Sweden:
+    type: land
+    color:  light_cyan
+
+  #Southern Europe
+  Iberia:
+    type: land
+    color: cyan
+  Italy:
+    type: land
+    color: dark_cyan
+  Mediterranean:
+    type: land
+    color:  light_teal
+
+  #Western Europe
+  France:
+    type: land
+    color: teal
+  Low Countries:
+    type: land
+    color: dark_teal
+
+  #Oceania
+
+  #Australia
+  Botany:
+    type: land
+    color:  light_green
+  Kanguru:
+    type: land
+    color: green
+  Maori:
+    type: land
+    color: dark_green
+  Papua:
+    type: land
+    color:  light_yellow
+  Tasmania:
+    type: land
+    color: yellow
+
+  #Pacific
+  Fiji:
+    type: land
+    color: dark_yellow
+  Hawaii:
+    type: land
+    color:  light_olive
+  Polynesia:
+    type: land
+    color: olive
+
+  #
+  #Global sea and lake areas
+
+  Sea:
+    type: sea
+    color: dark_olive
+  Lake:
+    type: lake
+    color:  light_orange
+
+  #
+  #Specific sea areas
+
+  HudsonBayArea:
+    type: sea
+    color: orange
+  CapeHornArea:
+    type: sea
+    color: dark_orange
+  GoodHopeArea:
+    type: sea
+    color:  light_brown
+

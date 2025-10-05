@@ -1,0 +1,416 @@
+#-----------------------------------------------------------
+#
+#  STATE / PROVINCE RELIGION
+#
+#-----------------------------------------------------------
+
+[catholic]
+group = "christian"
+subgroup = "catholic"
+color = "light_blue"
+papacy = true
+
+allowed_conversion = []
+war = []
+aggressiveness = []
+conflict = []
+heretic = []
+
+modifiers.tech_cost = 1.1
+modifiers.stability_cost = 0.7
+modifiers.diplomat = 2
+modifiers.settler = 2
+modifiers.missionary = 1
+modifiers.colonize_chance = 0.3
+
+
+[counterreform]
+group = "christian"
+subgroup = "catholic"
+color = "white"
+papacy = true
+modifiers.tech_cost = 1.2
+modifiers.stability_cost = 0.7
+modifiers.diplomat = 2
+modifiers.settler = 2
+modifiers.missionary = 2
+modifiers.colonize_chance = 0.35
+modifiers.army_morale = 0.5
+modifiers.navy_morale = 0.5
+modifiers.trade_eff = 0.9
+
+
+[hussite]
+group = "christian"
+subgroup = "radical_reformation"
+color = "dark_red"
+papacy = true
+modifiers.tech_cost = 0.95
+modifiers.stability_cost = 1.2
+modifiers.diplomat = 1
+modifiers.settler = 1
+modifiers.missionary = 0.5
+modifiers.colonize_chance = 0.30
+modifiers.army_morale = 0.5
+modifiers.production_eff = 1.1
+modifiers.taxes_eff = 1.1
+
+[protestant]
+group = "christian"
+subgroup = "reformation"
+color = "dark_blue"
+papacy = true
+modifiers.tech_cost = 0.95
+modifiers.stability_cost = 1.2
+modifiers.diplomat = 1
+modifiers.settler = 1
+modifiers.settler_coastal = 0.25
+modifiers.missionary = 0.5
+modifiers.colonize_chance = 0.30
+modifiers.production_eff = 1.1
+modifiers.taxes_eff = 1.1
+
+[anglican]
+group = "christian"
+subgroup = "reformation"
+color = "blue"
+papacy = true
+modifiers.tech_cost = 0.95
+modifiers.stability_cost = 1.2
+modifiers.diplomat = 1
+modifiers.settler = 1
+modifiers.settler_coastal = 0.25
+modifiers.missionary = 0.5
+modifiers.colonize_chance = 0.30
+modifiers.production_eff = 1.1
+modifiers.taxes_eff = 1.1
+
+[puritan]
+group = "christian"
+subgroup = "radical_reformation"
+color = "dark_teal"
+papacy = true
+modifiers.tech_cost = 0.95
+modifiers.stability_cost = 1.2
+modifiers.diplomat = 1
+modifiers.settler = 1
+modifiers.settler_coastal = 0.25
+modifiers.missionary = 0.5
+modifiers.colonize_chance = 0.30
+modifiers.production_eff = 1.1
+modifiers.taxes_eff = 1.1
+
+[reformed]
+group = "christian"
+subgroup = "radical_reformation"
+color = "brown"
+papacy = true
+modifiers.tech_cost = 0.9
+modifiers.stability_cost = 1.2
+modifiers.diplomat = 1
+modifiers.settler = 2
+modifiers.settler_coastal = 0.25
+modifiers.missionary = 0.5
+modifiers.colonize_chance = 0.30
+modifiers.trade_eff = 1.1
+modifiers.taxes_eff = 0.9
+
+[zwinglian]
+group = "christian"
+subgroup = "radical_reformation"
+color = "dark_brown"
+papacy = true
+modifiers.tech_cost = 0.9
+modifiers.stability_cost = 1.1
+modifiers.diplomat = 1
+modifiers.settler = 2
+modifiers.settler_coastal = 0.25
+modifiers.missionary = 0.5
+modifiers.colonize_chance = 0.25
+modifiers.trade_eff = 1.1
+modifiers.taxes_eff = 0.9
+
+
+
+[huguenot]
+group = "christian"
+subgroup = "radical_reformation"
+color = "red"
+papacy = true
+modifiers.tech_cost = 0.9
+modifiers.stability_cost = 1.1
+modifiers.diplomat = 1
+modifiers.settler = 2
+modifiers.settler_coastal = 0.25
+modifiers.missionary = 0.5
+modifiers.colonize_chance = 0.25
+modifiers.trade_eff = 1.1
+modifiers.taxes_eff = 0.9
+
+
+[presbyterian]
+group = "christian"
+subgroup = "radical_reformation"
+color = "light_brown"
+papacy = true
+modifiers.tech_cost = 0.9
+modifiers.stability_cost = 1.1
+modifiers.diplomat = 1
+modifiers.settler = 2
+modifiers.settler_coastal = 0.25
+modifiers.missionary = 0.5
+modifiers.colonize_chance = 0.25
+modifiers.trade_eff = 1.1
+modifiers.taxes_eff = 0.9
+
+#
+#   ORTHODOX
+#
+
+[orthodox]
+group = "christian"
+subgroup = "orthodox"
+color = "purple"
+papacy = true
+modifiers.tech_cost = 1.1
+modifiers.stability_cost = 0.8
+modifiers.diplomat = 0
+modifiers.settler = 1
+modifiers.missionary = 1
+modifiers.colonize_chance = 0.30
+
+[oriental_orthodox]
+group = "christian"
+subgroup = "oriental_orthodox"
+color = "light_brown"
+papacy = true
+modifiers.tech_cost = 1.1
+modifiers.stability_cost = 0.8
+modifiers.diplomat = 1
+modifiers.settler = 1
+modifiers.missionary = 1
+modifiers.colonize_chance = 0.20
+
+[assyrian]
+group = "christian"
+subgroup = "assyrian"
+color = "dark_brown"
+papacy = true
+modifiers.tech_cost = 1.1
+modifiers.stability_cost = 0.8
+modifiers.diplomat = 1
+modifiers.settler = 1
+modifiers.missionary = 1.5
+modifiers.colonize_chance = 0.33
+
+#
+#   MUSLIM
+#
+
+[sunni]
+group = "muslim"
+subgroup = "sunni"
+color = "green"
+modifiers.tech_cost = 1.1
+modifiers.stability_cost = 0.85
+modifiers.diplomat = 1.5
+modifiers.missionary = 1
+modifiers.colonize_chance = 0.30
+modifiers.taxes_eff = 0.9
+
+[shiite]
+group = "muslim"
+subgroup = "shiite"
+color = "light_green"
+modifiers.tech_cost = 1.1
+modifiers.stability_cost = 0.85
+modifiers.diplomat = 1.5
+modifiers.missionary = 2
+modifiers.colonize_chance = 0.30
+modifiers.taxes_eff = 0.9
+modifiers.army_morale = 0.25
+modifiers.navy_morale = 0.25
+
+[ibadi]
+group = "muslim"
+subgroup = "ibadi"
+color = "dark_green"
+modifiers.tech_cost = 1.1
+modifiers.stability_cost = 0.85
+modifiers.diplomat = 1.5
+modifiers.missionary = 1
+modifiers.colonize_chance = 0.30
+modifiers.army_morale = 0.25
+modifiers.navy_morale = 0.25
+modifiers.taxes_eff = 0.9
+
+[alevi]
+group = "muslim"
+subgroup = "alevi"
+color = "olive"
+modifiers.tech_cost = 1.1
+modifiers.stability_cost = 0.85
+modifiers.diplomat = 1.5
+modifiers.missionary = 1
+modifiers.colonize_chance = 0.30
+modifiers.army_morale = 0.25
+modifiers.navy_morale = 0.25
+modifiers.taxes_eff = 0.9
+
+
+[druze]
+group = "muslim"
+subgroup = "druze"
+color = "light_cyan"
+modifiers.tech_cost = 1.1
+modifiers.stability_cost = 0.85
+modifiers.diplomat = 1.5
+modifiers.missionary = 1
+modifiers.colonize_chance = 0.30
+modifiers.army_morale = 0.25
+modifiers.navy_morale = 0.25
+modifiers.taxes_eff = 0.9
+
+#
+#   EASTERN
+#
+
+[vajrayana]
+group = "eastern"
+subgroup = "vajrayana"
+color = "orange"
+modifiers.tech_cost = 1.25
+modifiers.stability_cost = 0.8
+modifiers.diplomat = 1
+modifiers.missionary = 1
+modifiers.colonize_chance = 0.25
+modifiers.taxes_eff = 0.85
+
+[buddhism]
+group = "eastern"
+subgroup = "buddhism"
+color = "dark_orange"
+modifiers.tech_cost = 1.25
+modifiers.stability_cost = 0.85
+modifiers.diplomat = 1
+modifiers.missionary = 1.5
+modifiers.colonize_chance = 0.30
+modifiers.taxes_eff = 0.85
+
+[mahayana]
+group = "eastern"
+subgroup = "mahayana"
+color = "yellow"
+modifiers.tech_cost = 1.4
+modifiers.stability_cost = 0.85
+modifiers.diplomat = 1
+modifiers.missionary = 1.25
+modifiers.colonize_chance = 0.25
+modifiers.taxes_eff = 0.8
+
+
+[confucianism]
+group = "eastern"
+subgroup = "mahayana"
+color = "dark_orange"
+modifiers.tech_cost = 1.6
+modifiers.stability_cost = 0.7
+modifiers.diplomat = 1
+modifiers.missionary = 1.25
+modifiers.colonize_chance = 0.25
+modifiers.taxes_eff = 0.8
+
+[taoism]
+group = "eastern"
+subgroup = "mahayana"
+color = "light_gray"
+modifiers.tech_cost = 1.4
+modifiers.stability_cost = 0.75
+modifiers.diplomat = 1
+modifiers.missionary = 1.25
+modifiers.colonize_chance = 0.25
+modifiers.taxes_eff = 0.8
+
+[shinto]
+group = "eastern"
+subgroup = "mahayana"
+color = "dark_gray"
+modifiers.tech_cost = 1.6
+modifiers.stability_cost = 0.75
+modifiers.diplomat = 1
+modifiers.missionary = 1.25
+modifiers.colonize_chance = 0.25
+modifiers.taxes_eff = 0.8
+modifiers.army_morale = 0.1
+modifiers.navy_morale = 0.1
+
+
+[hinduism]
+group = "eastern"
+subgroup = "hinduism"
+color = "dark_yellow"
+modifiers.tech_cost = 1.6
+modifiers.stability_cost = 1.2
+modifiers.diplomat = 1
+modifiers.missionary = 1
+modifiers.colonize_chance = 0.35
+modifiers.taxes_eff = 1.05
+modifiers.army_morale = 0.5
+modifiers.navy_morale = 0.5
+
+
+[sikh]
+group = "eastern"
+subgroup = "sikh"
+color = "dark_teal"
+papacy = false
+tech_speed = -15
+stability_bonus = 5
+stability_cost = 70
+colonists = 1
+diplomats = 1
+missionaries = 1
+
+modifiers.tech_cost = 1.8
+modifiers.stability_cost = 0.85
+modifiers.diplomat = 1
+modifiers.missionary = 1
+modifiers.colonize_chance = 0.35
+modifiers.taxes_eff = 0.95
+modifiers.army_morale = 0.65
+
+#
+#   PAGAN
+#
+
+[inti]
+group = "paganism"
+subgroup = "pagan"
+color = "dark_olive"
+modifiers.tech_cost = 2.5
+modifiers.stability_cost = 0.6
+modifiers.diplomat = 0.5
+modifiers.missionary = 0.3
+modifiers.colonize_chance = 0.10
+modifiers.nationalism_religion = 0.25
+
+[norse]
+group = "paganism"
+subgroup = "norse"
+color = "light_cyan"
+modifiers.tech_cost = 1.5
+modifiers.stability_cost = 0.8
+modifiers.diplomat = 0.5
+modifiers.missionary = 0.5
+modifiers.colonist = 1.0
+modifiers.colonize_chance = 0.35
+modifiers.army_morale = 0.2
+
+
+[pagan]
+group = "paganism"
+subgroup = "pagan"
+color = "gray"
+modifiers.tech_cost = 2.5
+modifiers.stability_cost = 0.75
+modifiers.colonize_chance = 0.50

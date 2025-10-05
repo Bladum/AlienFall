@@ -1,0 +1,112 @@
+PERSONAS
+    poprawic wszystkie linki do person
+    usunac z person linki na dole bo to jest wszystko w system prompt 
+
+PRACTICES
+    zrobic architekture best practice 
+
+HANDBOOK
+    zintegrowac z handbook sekcje do BIS API 
+        BIS API.md should be moved to wiki/handbook/BIS API.md and name properly
+        it should be then integrate with wiki/handbook including all links both sides
+
+
+TEST
+    test framwork aktywowac na projkcie
+    load dummy data zrobic
+    update dummy data na podstawie BIS API 
+    taski do genreowania testow
+    persona testera update do tego
+    dokumentacja do testow w `eng/test`
+
+PROMPTS
+    BIS Agent — Hello!
+
+
+Cleanup person do końca
+Uzupełnić instuckjr aby tworzylo resadme person 
+Uzupełnić instuckje o to że update persony albo nowa plus resadme 
+Link do handbooka do tego readme 
+Zrobić template z best practices 
+Puścic praktyki na nowym szablonie SQl python biznes 
+I zrobić praktyki architekta one tłumacza 12-15 diagramów 
+Zrobić readme w katalogu tak że update praktyki oraz udostr readme 
+Link do handbooka do tego readme 
+Zrobić template prompts z instrukcją tak samo jak personę 
+Puścic pierwsze prompt aby zaktualizować prompt 
+Przerobić prompts na nowe kategorie 
+
+
+
+Dodać do handbooka link do tego readme 
+
+SQL
+Python
+Job
+Data
+Visual
+UI
+Docs
+Kpi
+Report
+Test
+Testy
+
+create test
+run test
+create mocks from API
+Document test
+-----
+
+Job pipeline prompt 
+
+---- sekcje handbooka 
+
+Integracja bis API me z handbooka
+Integracja ai w jedną stronę 
+
+Każda strona handbooka ma review 
+
+Szablon handbooka pokazuje ogólnie tylko wytyczne ale każdy handbooka page jest inny
+Jakie nowe handbooka page ?
+Jakie nowe praktyki ?
+
+
+
+_-------
+
+
+
+Jak to przenieść na game dev ?
+
+Handbook to cały game design w modułach 
+Plus sekcja architektura plus API plus API system
+Testy i SRC tak samo 
+Persony to role na projekcie game dev tak samo 
+
+
+
+Praktyki 
+
+- grafiką (gfx)
+- story żeby było z lore ( lore )
+- nowe pozycje do API ( mod )
+- nowe audio ( sfx )
+- kod python ( code )
+- testy kody python a ( test )
+- nowe mechaniki w design ( design ) czyli handbook 
+- testy od strony gracza ,( play ) aby zdobyć analitykę 
+- wykorzystanie data do analytyki ( data )
+- logika ai w grze ( ai )
+- ai system czyli 3p ( system ) czyli prompt person practice 
+- dokumentacja engine ( docs )
+- rozpisanie pomysłów do design ( idea ) 
+- wsparcie pm po ( plan ) 
+- user experience I GUI ( UI )
+- debug trocushooting ( debug )
+
+Przedrostki praktyk są takie same jak praktyk 
+
+
+
+Skrócić nazwe best practices do practice    

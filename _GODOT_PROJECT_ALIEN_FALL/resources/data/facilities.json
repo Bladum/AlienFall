@@ -1,0 +1,192 @@
+[
+  {
+    "id": "command_center",
+    "name": "Command Center",
+    "type": "command",
+    "description": "Central command and control facility for base operations",
+    "build_cost": 50000,
+    "build_time": 1,
+    "maintenance_cost": 1000,
+    "power_required": 10,
+    "power_generation": 0,
+    "storage_capacity": 0,
+    "living_quarters": 0,
+    "staff_required": {
+      "scientist": 1
+    },
+    "capacities": {},
+    "services": {
+      "command": 1
+    },
+    "research_required": [],
+    "special_properties": ["required"],
+    "sprite_path": "",
+    "icon_path": ""
+  },
+  {
+    "id": "living_quarters",
+    "name": "Living Quarters",
+    "type": "living",
+    "description": "Provides housing for base personnel",
+    "build_cost": 30000,
+    "build_time": 2,
+    "maintenance_cost": 500,
+    "power_required": 5,
+    "power_generation": 0,
+    "storage_capacity": 0,
+    "living_quarters": 10,
+    "staff_required": {},
+    "capacities": {},
+    "services": {
+      "housing": 10
+    },
+    "research_required": [],
+    "special_properties": [],
+    "sprite_path": "",
+    "icon_path": ""
+  },
+  {
+    "id": "power_plant",
+    "name": "Power Plant",
+    "type": "power",
+    "description": "Generates electrical power for base facilities",
+    "build_cost": 40000,
+    "build_time": 3,
+    "maintenance_cost": 800,
+    "power_required": 0,
+    "power_generation": 50,
+    "storage_capacity": 0,
+    "living_quarters": 0,
+    "staff_required": {
+      "engineer": 1
+    },
+    "capacities": {},
+    "services": {
+      "power": 50
+    },
+    "research_required": [],
+    "special_properties": [],
+    "sprite_path": "",
+    "icon_path": ""
+  },
+  {
+    "id": "laboratory",
+    "name": "Laboratory",
+    "type": "science",
+    "description": "Research facility for scientific advancement",
+    "build_cost": 60000,
+    "build_time": 4,
+    "maintenance_cost": 1200,
+    "power_required": 15,
+    "power_generation": 0,
+    "storage_capacity": 0,
+    "living_quarters": 0,
+    "staff_required": {
+      "scientist": 2
+    },
+    "capacities": {},
+    "services": {
+      "research": 1
+    },
+    "research_required": ["basic_research"],
+    "special_properties": [],
+    "sprite_path": "",
+    "icon_path": ""
+  },
+  {
+    "id": "workshop",
+    "name": "Workshop",
+    "type": "engineering",
+    "description": "Engineering facility for manufacturing and repairs",
+    "build_cost": 55000,
+    "build_time": 4,
+    "maintenance_cost": 1100,
+    "power_required": 12,
+    "power_generation": 0,
+    "storage_capacity": 0,
+    "living_quarters": 0,
+    "staff_required": {
+      "engineer": 2
+    },
+    "capacities": {},
+    "services": {
+      "manufacturing": 1
+    },
+    "research_required": ["basic_engineering"],
+    "special_properties": [],
+    "sprite_path": "",
+    "icon_path": ""
+  },
+  {
+    "id": "storage_facility",
+    "name": "Storage Facility",
+    "type": "storage",
+    "description": "Provides storage space for equipment and supplies",
+    "build_cost": 25000,
+    "build_time": 2,
+    "maintenance_cost": 300,
+    "power_required": 3,
+    "power_generation": 0,
+    "storage_capacity": 100,
+    "living_quarters": 0,
+    "staff_required": {},
+    "capacities": {
+      "storage": 100
+    },
+    "services": {},
+    "research_required": [],
+    "special_properties": [],
+    "sprite_path": "",
+    "icon_path": ""
+  },
+  {
+    "id": "radar_system",
+    "name": "Radar System",
+    "type": "radar",
+    "description": "Detects incoming UFOs and other aerial threats",
+    "build_cost": 45000,
+    "build_time": 3,
+    "maintenance_cost": 900,
+    "power_required": 8,
+    "power_generation": 0,
+    "storage_capacity": 0,
+    "living_quarters": 0,
+    "staff_required": {
+      "engineer": 1
+    },
+    "capacities": {},
+    "services": {
+      "radar": 1
+    },
+    "research_required": ["radar_technology"],
+    "special_properties": ["detection"],
+    "sprite_path": "",
+    "icon_path": ""
+  },
+  {
+    "id": "hangar",
+    "name": "Hangar",
+    "type": "aviation",
+    "description": "Houses and maintains aircraft and interceptors",
+    "build_cost": 70000,
+    "build_time": 5,
+    "maintenance_cost": 1500,
+    "power_required": 20,
+    "power_generation": 0,
+    "storage_capacity": 0,
+    "living_quarters": 0,
+    "staff_required": {
+      "engineer": 2
+    },
+    "capacities": {
+      "aircraft": 2
+    },
+    "services": {
+      "maintenance": 1
+    },
+    "research_required": ["aviation_technology"],
+    "special_properties": [],
+    "sprite_path": "",
+    "icon_path": ""
+  }
+]

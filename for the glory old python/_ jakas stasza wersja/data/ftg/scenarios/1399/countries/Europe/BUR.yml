@@ -1,0 +1,100 @@
+countries:
+  BUR:
+    name: Burgundy
+    ai: "BUR_1399.txt"
+    treasury: 200
+    inflation: 0
+    stability: 2
+
+    agents:
+      merchants: 4.083333
+      colonists: 0
+      diplomats: 1
+
+    religion: catholic
+    cultures:
+      - french
+
+    diplomacy:
+      refusetrade:
+        HAU: False
+        LUX: False
+        ENG: False
+        FRA: False
+      access:
+        FRA: True
+      relations:
+        HAU: 175
+        LUX: 175
+        ENG: 150
+        FRA: 150
+        DAU: 75
+        STR: 180
+        KLE: 170
+        SAV: 150
+        KOL: 150
+        GEL: 150
+        BRG: 150
+        LOR: 150
+        TYR: 150
+        HEL: 150
+        PFA: 150
+
+    knownregions:
+      - Europe
+    knownprovinces:
+      - 732 # Tangiers
+      - 477
+      - 478 # Bosphorus strait
+      
+    ownedprovinces:
+      - 380
+      - 387
+      - 409
+    controlledprovinces:
+      - 380
+      - 387
+      - 409
+    nationalprovinces:
+      - 380
+      - 383
+      - 387
+      - 409
+    cities:
+      387:
+        buildings:
+          fortress: 1
+        population: 7
+      380:
+        buildings:
+          fortress: 1
+        population: 37
+      409:
+        buildings:
+          fortress: 1
+        population: 10
+        capital: yes
+        bailiff: yes
+    landunits:
+      - id:
+          type: 9423
+          id: 855
+        name: "Arme de Bourgogne"
+        location: 409
+        infantry: 7
+        cavalry: 3
+        artillery: 0
+      - id:
+          type: 9423
+          id: 2801
+        name: "Arme des Flandres"
+        location: 385
+        infantry: 5
+        cavalry: 1
+        artillery: 0
+    technology:
+      admin: 1
+      infra: 1
+      trade: 1
+      land: 1
+      naval: 0

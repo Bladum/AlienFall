@@ -1,0 +1,55 @@
+#
+# basic policies
+#
+
+---
+
+policies:
+
+  land_power:
+      name: "Land power"
+      desc: "Land power, great armies"
+      image: "land_power.png"
+
+      levels:
+        1:
+          cost: 4
+          delay: 12
+          stab_change: -1
+
+          requirements: {}
+
+          modifiers:
+            mod_armies_max: 1.5       # 50% more armies
+            mod_army_manpower: 1.1    # 20% more manpower
+            mod_army_morale: 0.5      # 0.5 more morale
+
+        2:
+          cost: 6
+          delay: 18
+          stab_change: -2
+
+          requirements:
+            technologies_above:
+              tech: Land
+              level: 4
+
+          modifiers:
+            mod_armies_max: 1.75       # 75% more armies
+            mod_army_manpower: 1.2     # 20% more manpower
+            mod_army_morale: 0.75      # 0.5 more morale
+
+        3:
+          cost: 8
+          delay: 24
+          stab_change: -3
+
+          requirements:
+            technologies_above:
+              tech: Land
+              level: 6
+
+          modifiers:
+            mod_armies_max: 2.0        # 100% more armies
+            mod_army_manpower: 1.3     # 20% more manpower
+            mod_army_morale: 1.0       # 1.0 more morale

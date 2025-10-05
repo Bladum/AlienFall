@@ -1,0 +1,4 @@
+name,label,desc,image,max_levels,advisor_cost,delay_year,stab_change,country,techgroup,culture,religion,technology,modifiers
+land_supremacy,Land supremacy,This is desc,policy.png,3,3,1,-1,,,,,,"land_morale = 0.25,land_army_max = 1,land_manpower = 1.2"
+free_trade,Free Trade,This is desc,policy.png,3,3,2,-1,,,,,,agent_merchant = 0.5
+mercentalism,Mercentalism,This is desc,policy.png,3,3,2,-1,,,,,,

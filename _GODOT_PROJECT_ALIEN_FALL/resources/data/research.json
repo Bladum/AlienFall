@@ -1,0 +1,74 @@
+[
+  {
+    "id": "basic_research",
+    "name": "Basic Research",
+    "description": "Fundamental research techniques and methodologies",
+    "research_cost": 50,
+    "scientists_required": 1,
+    "prerequisites": [],
+    "category": "fundamentals"
+  },
+  {
+    "id": "basic_engineering",
+    "name": "Basic Engineering",
+    "description": "Fundamental engineering principles and construction techniques",
+    "research_cost": 60,
+    "scientists_required": 1,
+    "prerequisites": [],
+    "category": "engineering"
+  },
+  {
+    "id": "radar_technology",
+    "name": "Radar Technology",
+    "description": "Advanced radar systems for detecting aerial threats",
+    "research_cost": 100,
+    "scientists_required": 2,
+    "prerequisites": ["basic_research", "basic_engineering"],
+    "category": "detection"
+  },
+  {
+    "id": "aviation_technology",
+    "name": "Aviation Technology",
+    "description": "Aircraft design and maintenance technologies",
+    "research_cost": 120,
+    "scientists_required": 2,
+    "prerequisites": ["basic_engineering"],
+    "category": "aviation"
+  },
+  {
+    "id": "advanced_materials",
+    "name": "Advanced Materials",
+    "description": "New materials for construction and equipment",
+    "research_cost": 80,
+    "scientists_required": 1,
+    "prerequisites": ["basic_research"],
+    "category": "materials"
+  },
+  {
+    "id": "energy_systems",
+    "name": "Energy Systems",
+    "description": "Advanced power generation and distribution",
+    "research_cost": 90,
+    "scientists_required": 2,
+    "prerequisites": ["basic_engineering"],
+    "category": "energy"
+  },
+  {
+    "id": "alien_materials",
+    "name": "Alien Materials Analysis",
+    "description": "Study of recovered alien materials and technology",
+    "research_cost": 150,
+    "scientists_required": 3,
+    "prerequisites": ["basic_research", "advanced_materials"],
+    "category": "xenotechnology"
+  },
+  {
+    "id": "plasma_weapons",
+    "name": "Plasma Weapons",
+    "description": "Development of plasma-based weaponry",
+    "research_cost": 200,
+    "scientists_required": 4,
+    "prerequisites": ["alien_materials", "energy_systems"],
+    "category": "weapons"
+  }
+]

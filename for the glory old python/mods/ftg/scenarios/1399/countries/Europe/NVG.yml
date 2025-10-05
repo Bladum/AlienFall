@@ -1,0 +1,122 @@
+countries:
+  NVG:
+    name: Novgorod
+    ai: "MOS_1419_Standard.txt"
+
+    treasury: 200
+    inflation: 0
+    stability: 0
+
+    agents:
+      merchants: 0
+      colonists: 1
+      diplomats: 1
+
+    religion: orthodox
+    cultures:
+      - russian
+      - ugric
+
+    diplomacy:
+      relations:
+        MOS: 5
+        SWE: 75
+        PSK: 100
+        LIT: 5
+        LIV: 60
+        NOR: 75
+        TVE: 150
+      refusetrade:
+        MOS: False
+        SWE: False
+        PSK: False
+        LIT: False
+        NOR: False
+      access:
+        TVE: True
+
+    knownregions:
+      - Europe
+      - Ob
+      - Sibir
+    knownprovinces:
+      - 732
+      - 477
+      - 478
+      
+    ownedprovinces:
+      - 262
+      - 266
+      - 267
+      - 269
+      - 274
+      - 275
+      - 1470
+    controlledprovinces:
+      - 262
+      - 266
+      - 267
+      - 269
+      - 274
+      - 275
+      - 1470
+    nationalprovinces:
+      - 262
+      - 266
+      - 267
+      - 268
+      - 269
+      - 270
+      - 271
+      - 272
+      - 274
+      - 275
+      - 277
+      - 278
+      - 448
+      - 1470
+      - 279
+      - 449
+    cities:
+      274:
+        buildings:
+          fortress: 1
+        population: 30
+        capital: yes
+      275:
+        buildings:
+          fortress: 1
+        population: 4
+      267:
+        buildings:
+          fortress: 1
+        population: 1
+      266:
+        buildings:
+          fortress: 1
+        population: 1
+      262:
+        buildings:
+          fortress: 1
+        population: 1
+      269:
+        buildings:
+          fortress: 1
+        population: 1
+      1470:
+        buildings:
+          fortress: 1
+        population: 1
+    landunits:
+      - name: "Novgorodian Guard"
+        location: 274
+        infantry: 10
+        cavalry: 1
+        artillery: 0
+
+    technology:
+      admin: 0
+      infra: 0
+      trade: 1
+      land: 0
+      naval: 0

@@ -1,0 +1,80 @@
+[gd_scene load_steps=2 format=3 uid="uid://test_main_menu"]
+
+[ext_resource type="Script" path="res://scripts/test_main_menu.gd" id="1"]
+
+[node name="TestMainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.1, 0.1, 0.15, 1)
+
+[node name="TitleLabel" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -200.0
+offset_top = 50.0
+offset_right = 200.0
+offset_bottom = 100.0
+grow_horizontal = 2
+text = "TEST MENU - Click buttons below"
+horizontal_alignment = 1
+
+[node name="TestButton1" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -100.0
+offset_top = 150.0
+offset_right = 100.0
+offset_bottom = -200.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Test Button 1"
+
+[node name="TestButton2" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -100.0
+offset_top = 250.0
+offset_right = 100.0
+offset_bottom = -100.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Test Button 2"
+
+[node name="StatusLabel" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = -200.0
+offset_top = -80.0
+offset_right = 200.0
+offset_bottom = -40.0
+grow_horizontal = 2
+text = "Status: Ready"
+horizontal_alignment = 1
+
+[connection signal="pressed" from="TestButton1" to="." method="_on_test_button_1_pressed"]
+[connection signal="pressed" from="TestButton2" to="." method="_on_test_button_2_pressed"]

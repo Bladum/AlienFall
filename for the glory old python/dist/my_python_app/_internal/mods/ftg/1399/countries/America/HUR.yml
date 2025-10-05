@@ -1,0 +1,65 @@
+countries:
+  HUR:
+    name: Huron
+    ai: "HUR_1419"
+
+    treasury: 99
+    inflation: 0
+    stability: 0
+
+    agents:
+      merchants: 0.083333
+      colonists: 0
+      diplomats: 0
+
+    religion: pagan
+    cultures:
+      - huron
+
+    diplomacy:
+      relations: {}
+
+    knownregions:
+      - Quebec
+      - "Grand Lacs"
+    ownedprovinces:
+      - 97
+      - 98
+      - 106
+      - 107
+    controlledprovinces:
+      - 97
+      - 98
+      - 106
+      - 107
+    nationalprovinces:
+      - 97
+      - 98
+      - 106
+      - 107
+    claimedprovinces: []
+
+    cities:
+      98:
+        buildings:
+          fortress: 1
+        population: 2
+        capital: yes
+      97:
+        buildings: {}
+        population: 1
+      106:
+        buildings: {}
+        population: 1
+      107:
+        buildings: {}
+        population: 1
+
+    landunits: []
+
+    technology:
+      admin: 0
+      infra: 0
+      trade: 0
+      land: 0
+      naval: 0

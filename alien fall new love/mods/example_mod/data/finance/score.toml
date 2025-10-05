@@ -1,0 +1,31 @@
+# Score configuration
+# Defines how different events affect organization score
+
+[mission]
+success = 10
+failure = -5
+aborted = -2
+
+[combat]
+unit_killed = -1
+civilian_killed = -2
+alien_killed = 1
+
+[base]
+destroyed = -20
+built = 5
+
+[research]
+completed = 15
+failed = -3
+
+[diplomacy]
+country_satisfied = 5
+country_angry = -10
+
+[thresholds]
+excellent = 100
+good = 50
+neutral = 0
+poor = -50
+terrible = -100

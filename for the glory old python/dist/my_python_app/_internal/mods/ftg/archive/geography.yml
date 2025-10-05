@@ -1,0 +1,194 @@
+#
+#
+#
+
+geography:
+  Africa:
+    East Africa:
+      - Ethiopia
+      - Madagascar
+      - Seychelles
+      - Socotra
+      - Somalia
+      - Sudan
+      - Tanganyika
+      - The Mascarenes
+    North Africa:
+      - Egypt
+      - Maghreb
+    South Africa:
+      - Angola
+      - Mozambicque
+      - Namibia
+      - Sofala
+      - The Cape
+    West Africa:
+      - Cameroon
+      - Canarias
+      - Cape Verde
+      - Congo
+      - Gabon
+      - Gold
+      - Ivory
+      - Mauritania
+      - Senegal
+      - St Helena
+      - Timbuktu
+  America:
+    Caribbean:
+      - Antilles
+      - Cuba
+      - Haiti
+    Central America:
+      - Azteca
+      - Costa Rica
+      - Panama
+      - Sonora
+    North America:
+      - Acadie
+      - Alaska
+      - Appalachia
+      - Bermuda
+      - California
+      - Florida
+      - Georgia
+      - Grand Lacs
+      - Greenland
+      - Hudson Bay
+      - Illinois
+      - Kansas
+      - Labrador
+      - Louisiane
+      - Maine
+      - Nevada
+      - Newfoundland
+      - Ohio
+      - Oregon
+      - Plaines
+      - Quebec
+      - Texas
+    South America:
+      - Amazonia
+      - Bahia
+      - Belem
+      - Chili
+      - Ecuador
+      - Falklands
+      - Guiana
+      - Inca
+      - La Plata
+      - Orenoque
+      - Paraguay
+      - Patagonia
+      - Recife
+      - Rio
+  Asia:
+    Central Asia:
+      - Afghanistan
+      - Bahk
+      - Dzungaria
+      - Kazakhstan
+      - Persia
+    China:
+      - Canton
+      - Chengdu
+      - Formosa
+      - Himalaya
+      - Manchuria
+      - Peking
+      - Sha Anxi
+      - Shanghai
+      - Yunnan
+    India:
+      - Bengal
+      - Carnatic
+      - Ceylon
+      - Delhi
+      - Gujarat
+      - Hyderabad
+      - Lahore
+      - Mahratti
+      - Malabar
+      - Mysore
+      - Orissa
+      - Oudh
+      - Punjab
+    Indochina:
+      - Annam
+      - Assam
+      - Burma
+      - Malaya
+      - Siam
+    Indonesia:
+      - Ajeh
+      - Amboina
+      - Borneo
+      - Celebes
+      - Java
+      - Lucon
+      - Sumatra
+      - Surabaya
+      - Ternate
+    Japan:
+      - Nippon
+    Korea:
+      - Joseon
+    Middle East:
+      - Aden
+      - Anatolia
+      - Levant
+      - Nefud
+      - Oman
+    Siberia:
+      - Amur
+      - Baikal
+      - Jenisej
+      - Kamchatka
+      - Lena
+      - Ob
+      - Omsk
+      - Sibir
+  Europe:
+    British Isles:
+      - England
+      - Ireland
+      - Scotland
+    Central Europe:
+      - Balkans
+      - Danube
+    Eastern Europe:
+      - Baltic
+      - Caucasus
+      - Poland
+      - Russia
+      - Russian North
+      - Steppe
+      - Ukraine
+    HRE:
+      - Germany
+      - Hansa
+      - Lotharingia
+      - Switzerland
+    Scandinavia:
+      - Denmark
+      - Finland
+      - Norway
+      - Sweden
+    Southern Europe:
+      - Iberia
+      - Italy
+      - Mediterranean
+    Western Europe:
+      - France
+      - Low Countries
+  Oceania:
+    Australia:
+      - Botany
+      - Kanguru
+      - Maori
+      - Papua
+      - Tasmania
+    Pacific:
+      - Fiji
+      - Hawaii
+      - Polynesia

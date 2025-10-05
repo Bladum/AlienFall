@@ -1,0 +1,165 @@
+# Facility Definitions - ALL facilities are DATA-DRIVEN
+# NO facilities should be hardcoded in Lua engine code
+# Engine (src/) contains only configurable systems
+# Actual facilities defined in TOML data files
+
+[[facilities]]
+id = "hangar"
+name = "Hangar"
+description = "Aircraft storage and maintenance facility"
+
+# Physical Properties
+size_width = 2
+size_height = 2
+
+# Costs
+build_cost = 500000
+build_time = 20         # days
+maintenance_cost = 10000 # per month
+
+# Capacities
+[facilities.capacities]
+craft_storage = 2       # can store 2 crafts
+craft_repair = 1        # can repair 1 craft at a time
+
+# Services
+[facilities.services]
+provides = ["craft_storage", "craft_repair", "refuel"]
+requires = ["power", "access"]
+
+# Connectivity
+requires_hq_connection = true
+
+# Health and Defense
+hp = 100
+armor = 5
+
+# Tags
+tags = ["infrastructure", "craft_support"]
+
+[[facilities]]
+id = "laboratory"
+name = "Research Laboratory"
+description = "Scientific research facility for technology advancement"
+
+# Physical Properties
+size_width = 2
+size_height = 1
+
+# Costs
+build_cost = 400000
+build_time = 15
+maintenance_cost = 15000
+
+# Capacities
+[facilities.capacities]
+research_capacity = 50  # research points per day
+scientist_slots = 10    # can employ 10 scientists
+
+# Services
+[facilities.services]
+provides = ["research"]
+requires = ["power", "access"]
+
+# Connectivity
+requires_hq_connection = true
+
+hp = 80
+armor = 2
+
+tags = ["research", "science"]
+
+[[facilities]]
+id = "workshop"
+name = "Manufacturing Workshop"
+description = "Production facility for items and equipment"
+
+# Physical Properties
+size_width = 2
+size_height = 1
+
+# Costs
+build_cost = 350000
+build_time = 15
+maintenance_cost = 12000
+
+# Capacities
+[facilities.capacities]
+production_capacity = 50 # production points per day
+engineer_slots = 10     # can employ 10 engineers
+
+# Services
+[facilities.services]
+provides = ["manufacturing"]
+requires = ["power", "access"]
+
+# Connectivity
+requires_hq_connection = true
+
+hp = 90
+armor = 3
+
+tags = ["production", "manufacturing"]
+
+[[facilities]]
+id = "power_generator"
+name = "Power Generator"
+description = "Provides electrical power to base facilities"
+
+# Physical Properties
+size_width = 1
+size_height = 1
+
+# Costs
+build_cost = 200000
+build_time = 10
+maintenance_cost = 5000
+
+# Capacities
+[facilities.capacities]
+power_generation = 100  # power units
+
+# Services
+[facilities.services]
+provides = ["power"]
+requires = ["access"]
+
+# Connectivity
+requires_hq_connection = true
+
+hp = 100
+armor = 8               # heavily armored
+
+tags = ["infrastructure", "power"]
+
+[[facilities]]
+id = "barracks"
+name = "Living Quarters"
+description = "Accommodation for soldiers and staff"
+
+# Physical Properties
+size_width = 2
+size_height = 1
+
+# Costs
+build_cost = 200000
+build_time = 10
+maintenance_cost = 8000
+
+# Capacities
+[facilities.capacities]
+soldier_capacity = 20   # can house 20 soldiers
+staff_capacity = 10     # can house 10 staff
+
+# Services
+[facilities.services]
+provides = ["accommodation"]
+requires = ["power", "access"]
+
+# Connectivity
+requires_hq_connection = true
+
+hp = 80
+armor = 4
+
+tags = ["infrastructure", "accommodation"]

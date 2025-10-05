@@ -1,0 +1,35 @@
+#-----------------------------------------------------------
+#
+#  GENERIC LEADER FOR ARMY / NAVY
+#
+#-----------------------------------------------------------
+
+INCLUDE = [
+"..\\leaders\\leader_POL.toml"
+]
+
+[10000]
+label = "Random Leader"
+category = "land"
+start = 1200-01-01
+end = 1900-12-01
+
+skill.tactics = 2
+skill.strategy = 2
+skill.leadership = 2
+
+rank = 1
+remarks = "random leader"
+
+[10001]
+label = "Random Leader"
+category = "sea"
+start = 1200-01-01
+end = 1900-12-01
+
+skill.tactics = 2
+skill.strategy = 2
+skill.leadership = 2
+
+rank = 1
+remarks = "random leader"

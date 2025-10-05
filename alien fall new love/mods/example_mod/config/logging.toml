@@ -1,0 +1,32 @@
+# Logging Configuration for Example Mod
+# This file defines logging settings specific to the mod
+
+[logging]
+format = "{timestamp} [MOD] [{level}] {category}: {message}"
+timestamp_format = "%Y-%m-%d %H:%M:%S"
+max_file_size = 5
+max_files = 3
+log_level = "info"
+enable_file_logging = true
+enable_console_logging = true
+
+# Mod-specific log categories
+[logging.categories]
+mod_initialization = "info"
+content_loading = "debug"
+event_handling = "info"
+error_handling = "error"
+performance = "debug"
+
+# Log file locations
+[logging.files]
+main_log = "logs/example_mod.log"
+error_log = "logs/example_mod_errors.log"
+debug_log = "logs/example_mod_debug.log"
+
+# Filtering options
+[logging.filters]
+include_categories = ["mod_initialization", "content_loading", "event_handling"]
+exclude_categories = ["performance"]
+min_level = "debug"
+max_level = "error"

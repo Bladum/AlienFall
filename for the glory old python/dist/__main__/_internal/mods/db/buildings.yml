@@ -1,0 +1,154 @@
+#
+# basic buildings
+#
+
+---
+
+buildings:
+  farmlands:
+    name: "Farmlands"
+    image: "farm.png"
+    tooltip: |
+      Increase growth of population in province by 3%.
+    max_levels: 1
+
+    modifiers:
+      mod_population_growth: 3
+      mod_population_supply: 10
+
+    build_cost: 300
+    build_time: 6
+
+
+  barracks:
+    name: "Barracks"
+    image: "barracks.png"
+    tooltip: |
+      Double manpower in province. 
+      Generates some general agents.
+    max_levels: 1
+
+    modifiers:
+      mod_army_manpower: 2.0
+      mod_army_morale: 0.5
+      mod_army_training: 1
+
+    build_cost: 300
+    build_time: 6
+
+
+  fort:
+    name: "Fortification"
+    image: "fort.png"
+    tooltip: | 
+      Adds additional defensive units to province.
+      Allows to survive siege by 3 months.
+    max_levels: 5
+
+    modifiers:
+      mod_fort_units: 5
+      mod_fort_supplies: 3
+
+    build_cost: 300
+    build_time: 6
+
+
+  shipyard:
+    name: "Shipyard"
+    image: "shipyard.png"
+    tooltip: |
+      Speed up ship production by 6.
+      Increase number of max naval units.
+      Generate some merchants and explorers.
+    max_levels: 1
+
+    modifiers:
+      mod_navy_manpower: 5
+      mod_navies_max: 1
+      mod_explorer: 0.1
+      mod_advisor: 0.1
+      mod_merchant: 0.5
+
+    build_cost: 300
+    build_time: 6
+
+
+  manufactory:
+    name: "Manufactory"
+    image: "manufactory.png"
+    tooltip: |
+      Increase income from province by 50%.
+    max_levels: 1
+
+    modifiers:
+      mod_production_income: 1.5
+
+    build_cost: 300
+    build_time: 6
+
+
+  market:
+    name: "Market"
+    image: "market.png"
+    max_levels: 1
+    tooltip: |
+        Increase value of province for Center of Trade by 100%.
+
+    modifiers:
+      mod_trade_value: 2.0
+
+    build_cost: 300
+    build_time: 6
+
+
+  library:
+    name: "Library"
+    image: "library.png"
+    max_levels: 1
+    tooltip: |
+      Generate some inventor agents.
+      Increase max number of inventors. 
+      Increase stability cost by 5%.
+
+    modifiers:
+      mod_inventor: 0.2
+      mod_inventors_max: 0.1
+      mod_stab_cost: 0.05
+
+    build_cost: 300
+    build_time: 6
+
+  temple:
+    name: "Temple"
+    image: "temple.png"
+    max_levels: 1
+    tooltip: |
+      Generate some missionary agents. 
+      Decrease revolt risk by 2%.
+      Decrease stability cost by 5%.
+
+    modifiers:
+      mod_revolt_risk: -2
+      mod_missionary: 0.5
+      mod_missionaries_max: 0.1
+      mod_stab_cost: -0.05
+
+    build_cost: 300
+    build_time: 6
+
+  roads:
+    name: "Roads"
+    image: "roads.png"
+    max_levels: 1
+    tooltip: |
+        Increase local tax income by 10%. 
+        Increase value for center of trade by 10%.
+        Reduce land movement cost by 25%.
+
+    modifiers:
+      mod_production_income: 1.1
+      mod_trade_value: 1.1
+      mod_land_movement_cost: 0.75
+
+    build_cost: 300
+    build_time: 6

@@ -1,0 +1,18 @@
+[mod]
+id = "test_mod"
+name = "Test Mod"
+version = "1.0.0"
+
+[content]
+units = ["soldier.toml", "medic.toml"]
+items = ["rifle.toml"]
+
+[soldier]
+name = "Soldier"
+health = 100
+damage = 25
+
+[rifle]
+name = "Assault Rifle"
+damage = 30
+range = 20

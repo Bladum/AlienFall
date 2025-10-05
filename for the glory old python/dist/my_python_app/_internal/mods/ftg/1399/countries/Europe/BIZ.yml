@@ -1,0 +1,97 @@
+# Byzantium #
+
+countries:
+  BYZ:
+    name: Byzantium
+    ai: "default_ai"
+
+    treasury: 100
+    loans: 100
+    inflation: 0
+    stability: 0
+
+    agents:
+      colonists: 0
+      merchants: 0.083333
+      diplomats: 1
+
+    religion: orthodox
+    cultures:
+      - greek
+
+    diplomacy:
+      trade:
+        GEN: True
+      access:
+        GZI: True
+      relations:
+        TUR: -25
+        SER: 170
+        WAL: 170
+        MOL: 170
+        TRE: 170
+        ALB: 170
+        HUN: 155
+        SIE: 155
+        VEN: 150
+        GEN: 150
+        KNI: 25
+        MRE: 200
+        GZI: 150
+        THO: 50
+
+    knownregions:
+      - Europe
+      - Middle East
+      - North Africa
+      - Persia
+
+    knownprovinces: []
+    
+    ownedprovinces:
+      - 357
+    controlledprovinces:
+      - 357
+    nationalprovinces:
+      - 357
+    claimedprovinces:
+      - 358
+      - 359
+      - 360
+      - 321
+      - 477
+      - 478
+      - 479
+      - 820
+    
+    cities:
+      buildings:
+        fortress: 3
+        balliff: 1
+      population: 10
+      location: 357
+      capital: yes
+      
+    landunit:
+      -  name: "Excubitors Tagma"
+         location: 357
+         infantry: 4
+         cavalry: 1
+         artillery: 0
+    
+    navalunit:
+      id:
+        type: 6001
+        id: 209
+      name: "Cibyrrhaeots Theme"
+      location: 357
+      warships: 0
+      galleys: 1
+      transports: 0
+
+    technology:
+      admin: 0
+      infra: 1
+      trade: 1
+      land: 1
+      naval: 1

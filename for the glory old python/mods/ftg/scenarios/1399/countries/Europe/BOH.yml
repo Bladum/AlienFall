@@ -1,0 +1,99 @@
+# Bohemia #
+
+countries:
+  BOH:
+    name: Bohemia
+    ai: "BOH_1419"
+
+    treasury: 100
+    inflation: 0
+    stability: -1
+
+    agents:
+      merchants: 0.083333
+      colonists: 0
+      diplomats: 1
+
+    religion: catholic
+    cultures:
+      - czech
+      - german
+
+    diplomacy:
+      relation:
+        HUN: 175
+        LUX: 175
+        HAB: 150
+        BAY: 150 # marriage with Sophia of Wittelsbach
+        POL: 140
+        LIT: 130
+        MEI: 140
+
+    knownregions:
+      - Europe
+
+    knownprovinces:
+      - 732 # Tangiers
+      - 477
+      - 478 # Bosphorus strait
+    ownedprovinces:
+      - 314
+      - 315
+      - 328
+      - 329
+      - 330
+      - 327
+    controlledprovinces:
+      - 314
+      - 315
+      - 328
+      - 329
+      - 330
+      - 327
+    nationalprovinces:
+      - 314
+      - 315
+      - 327
+      - 328
+      - 329
+      - 330
+    cities:
+      328:
+        buildings:
+          fortress: 2
+          bailiff: 1
+        population: 40
+        capital: yes
+      329:
+        buildings:
+          fortress: 1
+        population: 8
+      330:
+        buildings:
+          fortress: 1
+        population: 10
+      315:
+        buildings:
+          fortress: 2
+        population: 12
+      314:
+        buildings:
+          fortress: 2
+        population: 20
+      327:
+        buildings:
+          fortress: 1
+        population: 4
+    landunits:
+      - name: "Bohemian Army"
+        location: 328
+        infantry: 15
+        cavalry: 5
+        artillery: 0
+
+    technology:
+      admin: 0
+      infra: 1
+      trade: 1
+      land: 1
+      naval: 0

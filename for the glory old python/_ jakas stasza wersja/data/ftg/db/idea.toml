@@ -1,0 +1,72 @@
+#-----------------------------------------------------------
+#
+#  COUNTRY IDEAS
+#
+#-----------------------------------------------------------
+
+INCLUDE = [
+"..\\ideas\\idea_POL.toml"
+]
+
+#
+#   LAND SUPREMACY
+#
+
+[land_supremacy]
+label = "Land supremacy"
+desc = "This is desc"
+image = "policy.png"
+advisor_cost = 3
+build_time = 12
+stab_change = -1
+modifiers = { army_morale = 0.25, army_max = 1, army_manpower = 1.2 }
+prereq.technology = { tech = 'land', level = 2 }
+
+#
+#   NAVAL SUPREMACY
+#
+
+[naval_supremacy_1]
+label = "Naval supremacy I"
+desc = "This is desc"
+image = "policy.png"
+advisor_cost = 3
+build_time = 12
+stab_change = -1
+modifiers = { navy_morale = 0.25, navy_max = 1, navy_manpower = 1.2 }
+prereq.technology =  { tech = 'naval', level = 2 }
+
+#
+#   TRADING
+#
+
+[free_trade_1]
+label = "Free Trade"
+desc = "This is desc"
+image = "policy.png"
+advisor_cost = 3
+build_time = 12
+stab_change = -1
+modifiers = { merchant = 0.25, merchant_max = 3 }
+prereq.technology =  { tech = 'trade', level = 2 }
+
+
+[mercentalism_1]
+label = "Mercentalism"
+desc = "This is desc"
+image = "policy.png"
+advisor_cost = 3
+build_time = 12
+stab_change = -1
+prereq.technology =  { tech = 'trade', level = 2 }
+modifiers = { merchant = -0.25, trade_eff = 1.1 }
+
+
+
+[rule_jihad]
+label = 'Jihad - war with heretics'
+
+[rule_exceptional_year]
+label = "Exceptional year"
+
+

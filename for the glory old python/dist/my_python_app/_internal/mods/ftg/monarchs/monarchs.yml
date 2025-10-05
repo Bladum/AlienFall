@@ -1,0 +1,15 @@
+#
+# MONARCHS
+#
+
+---
+
+monarchs:
+  10000:
+    name: Random King V
+    country: REB
+    start_date: 1440-10-01
+    end_date: 1480-10-10
+    DIP: 2
+    ADM: 2
+    MIL: 2

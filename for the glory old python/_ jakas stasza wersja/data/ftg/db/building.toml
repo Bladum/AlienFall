@@ -1,0 +1,329 @@
+#-----------------------------------------------------------
+#
+#  BUILDING ON PROVINCE LEVEL
+#
+#-----------------------------------------------------------
+
+#
+#   POPULATION GROWTH
+#
+
+[granary]
+label = "Granary"
+rank = 1
+desc = "This is building"
+image = "build.png"
+build_time = 3
+build_cost = 300
+engineer_cost = 1
+upkeep = 0
+prereq.technology =  { tech = 'infra', level = 2 }
+modifiers = { population_growth = 2 }
+
+[farmland]
+label = "Farmland"
+rank = 2
+desc = "This is building"
+image = "build.png"
+build_time = 6
+build_cost = 500
+engineer_cost = 2
+upkeep = 0
+prereq.building = "granary"
+prereq.technology =  { tech = 'infra', level = 5 }
+prereq.terrain = [ "!desert", "!mountain", "!marsh" ]
+modifiers = { population_growth = 3 }
+
+#
+# MILITARY
+#
+
+[barracks]
+rank = 1
+desc = "This is building"
+image = "build.png"
+build_time = 6
+build_cost = 300
+engineer_cost = 1
+upkeep = 0
+prereq.technology = { tech = 'land', level = 2 }
+modifiers = { army_manpower = 1.5 }
+
+[conscript_center]
+rank = 2
+desc = "This is building"
+image = "build.png"
+build_time = 12
+build_cost = 800
+engineer_cost = 3
+upkeep = 5
+prereq.building = "barracks"
+prereq.technology =  { tech = 'land', level = 8 }
+modifiers = { army_manpower = 2 , general = 0.1 }
+
+#
+#   COASTAL
+#
+
+[harbor]
+rank = 2
+desc = "This is building"
+image = "build.png"
+build_time = 6
+build_cost = 500
+engineer_cost = 2
+upkeep = 0
+coastal = true
+prereq.technology =  { tech = 'naval', level = 3 }
+
+[shipyard]
+rank = 3
+desc = "This is building"
+image = "build.png"
+build_time = 12
+build_cost = 500
+engineer_cost = 2
+upkeep = 0
+coastal = true
+prereq.building = "harbor"
+prereq.technology =  { tech = 'naval', level = 6 }
+modifiers = { navy_manpower = 5 , settler = 0.1 }
+
+#
+#   PRODICTION
+#
+
+[workshop]
+label = "Workshop"
+rank = 1
+desc = "This is building"
+image = "build.png"
+build_time = 3
+build_cost = 300
+engineer_cost = 1
+upkeep = 0
+modifiers = { production_eff = 1.25 }
+
+[manufactory]
+label = "Manufactory"
+rank = 2
+desc = "This is building"
+image = "build.png"
+build_time = 6
+build_cost = 600
+engineer_cost = 2
+upkeep = 0
+prereq.building = "workshop"
+prereq.technology = { tech = 'infra', level = 5 }
+modifiers = { production_eff = 1.5 }
+
+#
+# MANUFACTORIES
+#
+
+[refinery]
+label = "Refinery"
+rank = 2
+desc = "This is building"
+image = "build.png"
+build_time = 50
+build_cost = 1000
+engineer_cost = 2
+upkeep = 0
+prereq.good = [ "wine", "sugar" ]
+prereq.technology =  { tech = 'trade', level = 5 }
+modifiers = { production_eff = 1.25, population_growth = 1, trade_value = 1.5 }
+
+#
+#   TRADE VALUE
+#
+
+[market]
+label = "Marketplace"
+rank = 1
+desc = "This is building"
+image = "build.png"
+build_time = 3
+build_cost = 300
+engineer_cost = 1
+upkeep = 0
+prereq.technology = { tech = 'trade', level = 4 }
+modifiers = { trade_value = 1.5 }
+
+[bank]
+label = "Bank"
+rank = 2
+desc = "This is building"
+image = "build.png"
+build_time = 6
+build_cost = 500
+engineer_cost = 2
+upkeep = 0
+prereq.building = "market"
+prereq.technology =  { tech = 'trade', level = 8 }
+modifiers = { trade_value = 1.5 }
+
+#
+#   TECHNOLOGY
+#
+
+[library]
+label = "Library"
+rank = 1
+desc = "This is building"
+image = "build.png"
+build_time = 3
+build_cost = 300
+engineer_cost = 1
+upkeep = 1
+prereq.technology =  { tech = 'admin', level = 4 }
+modifiers = { inventor = 0.1 }
+
+
+[university]
+label = "University"
+rank = 2
+desc = "This is building"
+image = "build.png"
+build_time = 6
+build_cost = 500
+engineer_cost = 2
+upkeep = 2
+prereq.building = "library"
+prereq.technology =  { tech = 'admin', level = 8 }
+modifiers = { inventor = 0.1 }
+
+#
+#   FROM WOOD
+#
+
+[lumbermill]
+label = "Lumbermill"
+rank = 1
+desc = "This is building"
+image = "build.png"
+build_time = 6
+build_cost = 250
+engineer_cost = 1
+upkeep = 1
+prereq.technology =  { tech = 'infra', level = 2 }
+prereq.terrain = "forest"
+modifiers = { production_eff = 1.25 }
+
+#
+#   MINES
+#
+
+[mine]
+label = "Mine"
+rank = 1
+desc = "This is building"
+image = "build.png"
+build_time = 24
+build_cost = 250
+engineer_cost = 2
+upkeep = 1
+prereq.technology =  { tech = 'infra', level = 3 }
+prereq.terrain = [ "hill", "mountain" ]
+modifiers = { production_eff = 1.25 }
+
+[mine_copper]
+label = "Copper Mine"
+rank = 2
+desc = "This is building"
+image = "build.png"
+build_time = 24
+build_cost = 500
+engineer_cost = 2
+upkeep = 1
+prereq.building = "mine"
+prereq.technology = { tech = 'infra', level = 5 }
+prereq.goods = "copper"
+prereq.terrain = [ "hill", "mountain" ]
+modifiers = { production_eff = 1.5 }
+
+#
+# FORTS
+#
+
+[fort_01]
+label = "Fort I"
+rank = 1
+desc = "This is building"
+image = "build.png"
+build_time = 3
+build_cost = 200
+engineer_cost = 1
+upkeep = 1
+prereq.technology =  { tech = 'land', level = 2 }
+modifiers = { army_supply = 1.2, fort_defences = 3, fort_units = [ 'infantry', 'infantry', 'fort' ] }
+
+[fort_02]
+label = "Fort II"
+rank = 2
+desc = "This is building"
+image = "build.png"
+build_time = 6
+build_cost = 400
+engineer_cost = 2
+upkeep = 1
+prereq.technology =  { tech = 'land', level = 5 }
+prereq.building = 'fort_01'
+modifiers = { army_supply = 1.2, fort_defences = 3, fort_units = [ 'infantry', 'infantry', 'fort' ] }
+
+[fort_03]
+label = "Fort III"
+rank = 3
+desc = "This is building"
+image = "build.png"
+build_time = 9
+build_cost = 600
+engineer_cost = 3
+upkeep = 1
+prereq.technology =  { tech = 'land', level = 8 }
+prereq.building = 'fort_02'
+modifiers = { army_supply = 1.2, fort_defences = 3,  fort_units = [ 'infantry', 'infantry', 'fort' ] }
+
+[fort_04]
+label = "Fort IV"
+rank = 4
+desc = "This is building"
+image = "build.png"
+build_time = 12
+build_cost = 800
+engineer_cost = 4
+upkeep = 1
+prereq.technology =  { tech = 'land', level = 11 }
+prereq.building = 'fort_03'
+modifiers = { army_supply = 1.2, fort_defences = 3,  fort_units = [ 'infantry', 'infantry', 'fort' ] }
+
+[fort_05]
+label = "Fort V"
+rank = 5
+desc = "This is building"
+image = "build.png"
+build_time = 15
+build_cost = 1000
+engineer_cost = 5
+upkeep = 1
+prereq.technology =  { tech = 'land', level = 14 }
+prereq.building = 'fort_04'
+modifiers = { army_supply = 1.2, fort_defences = 3, fort_units = [ 'infantry', 'infantry', 'fort' ] }
+
+#
+#   WONDERS
+#
+
+[eiffel_tower]
+label = "Eiffel Tower"
+rank = 3
+desc = "This is building"
+image = "build.png"
+build_time = 36
+build_cost = 3000
+engineer_cost = 10
+upkeep = 1
+unique = true
+prereq.technology =  { tech = 'infra', level = 12 }
+prereq.province_id = 315
+modifiers = { fame = 1.0 }

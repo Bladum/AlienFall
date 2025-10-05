@@ -1,0 +1,24 @@
+# Debt configuration
+# Defines lending institutions and loan terms
+
+[[institutions]]
+name = "IMF"
+interest_rate = 0.05
+max_loan = 100000
+term_months = 12
+
+[[institutions]]
+name = "World Bank"
+interest_rate = 0.03
+max_loan = 200000
+term_months = 24
+
+[[institutions]]
+name = "Private Bank"
+interest_rate = 0.08
+max_loan = 50000
+term_months = 6
+
+[penalties]
+default_fee = 0.1  # Percentage of remaining loan as penalty
+score_penalty = 50  # Reputation hit for defaulting

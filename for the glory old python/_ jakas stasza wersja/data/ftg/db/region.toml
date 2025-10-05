@@ -1,0 +1,360 @@
+#-----------------------------------------------------------
+#
+#  GEOGRAPHY REGIONS
+#
+#-----------------------------------------------------------
+
+#
+#   LAND
+#
+
+[tbd]
+label = "TBD"
+color = "white"
+modifiers = { explore_cost = 1 }
+type = "land"
+
+[east_africa]
+label = "East Africa"
+modifiers = { revolt_strength = 0.75, land_movement = 1.5, explore_cost = 1.2, army_morale = 0.8 }
+natives = "africa"
+color = "light_gray"
+type = "land"
+
+[north_africa]
+label = "North Africa"
+modifiers = { revolt_strength = 1.1, explore_cost = 1 }
+natives = "north_africa"
+color = "gray"
+type = "land"
+
+[west_africa]
+label = "West Africa"
+modifiers = { revolt_strength = 0.75, land_movement = 1.5 , explore_cost = 1 }
+natives = "africa"
+color = "dark_gray"
+type = "land"
+
+[carribean]
+label = "Carribean"
+modifiers = { revolt_strength = 0.75, population_health = 0.5 , explore_cost = 1 }
+natives = "central_america"
+color = "light_red"
+type = "land"
+
+[central_america]
+label = "Central America"
+modifiers = { revolt_strength = 0.75, population_health = 0.5 , explore_cost = 1 }
+natives = "central_america"
+color = "red"
+type = "land"
+
+[north_america]
+label = "North America"
+modifiers = { revolt_strength = 0.75, population_health = 0.5 , explore_cost = 1 }
+natives = "north_america"
+color = "dark_red"
+type = "land"
+
+[south_america]
+label = "South America"
+modifiers = { revolt_strength = 0.75, population_health = 0.5 , explore_cost = 1 }
+natives = "south_america"
+color = "light_purple"
+type = "land"
+
+[central_asia]
+label = "Central Asia"
+modifiers = { revolt_strength = 0.75 , explore_cost = 1 }
+natives = "siberia"
+color = "purple"
+type = "land"
+
+[china]
+label = "China"
+modifiers = { revolt_strength = 0.75,  vp_colonization = 5 , explore_cost = 1 }
+natives = "china"
+color = "dark_purple"
+type = "land"
+
+[india]
+label = "India"
+natives = "india"
+color = "light_blue"
+modifiers = { revolt_strength = 0.75, vp_discovery = 25, vp_colonization = 5  , explore_cost = 1 }
+type = "land"
+
+[indochina]
+label = "Indochina"
+modifiers = { revolt_strength = 0.75 , explore_cost = 1 }
+natives = "indonesia"
+color = "blue"
+type = "land"
+
+[indonesia]
+label = "Indonesia"
+modifiers = { revolt_strength = 0.75 , explore_cost = 1 }
+natives = "indonesia"
+color = "dark_blue"
+type = "land"
+
+[japan]
+label = "Japan"
+natives = "japan"
+color = "light_cyan"
+modifiers = { revolt_strength = 0.75, vp_colonization= 5 , explore_cost = 1 }
+type = "land"
+
+[middle_east]
+label = "Middle East"
+modifiers = { revolt_strength = 1.2 , explore_cost = 1 }
+natives = "north_africa"
+color = "cyan"
+type = "land"
+
+[siberia]
+label = "Siberia"
+natives = "siberia"
+color = "dark_cyan"
+modifiers = { revolt_strength = 0.75, vp_colonization = 5, land_movement = 1.5 , explore_cost = 1 }
+type = "land"
+
+[british_isles]
+label = "British Isles"
+modifiers = { revolt_strength = 1.0  , explore_cost = 1 }
+color = "light_teal"
+type = "land"
+
+[central_europe]
+label = "Central Europe"
+modifiers = { revolt_strength = 1.0 , explore_cost = 1 }
+color = "teal"
+type = "land"
+
+[eastern_europe]
+label = "Eastern Europe"
+modifiers = { revolt_strength = 1.0  }
+color = "dark_teal"
+type = "land"
+
+[hre]
+label = "HRE"
+modifiers = { revolt_strength = 1.0  }
+color = "light_green"
+type = "land"
+
+[scandinavia]
+label = "Scandinavia"
+modifiers = { revolt_strength = 0.5  }
+color = "green"
+type = "land"
+
+[southern_europe]
+label = "Southern Europe"
+modifiers = { revolt_strength =1  }
+color = "dark_green"
+type = "land"
+
+[western_europe]
+label = "Western Europe"
+modifiers = { revolt_strength =1.25  }
+color = "light_yellow"
+type = "land"
+
+[australia]
+label = "Australia"
+natives = "indonesia"
+color = "yellow"
+modifiers = { revolt_strength = 0.75, vp_discovery = 5, vp_colonization = 5   }
+type = "land"
+
+[pacific]
+label = "Pacific"
+natives = "indonesia"
+color = "dark_yellow"
+modifiers = { revolt_strength = 0.75, vp_discovery = 10, vp_colonization = 10   }
+
+#
+#   SEA
+#
+
+[alaska_sea]
+label = "AlaskaSea"
+color = "light_red"
+type = "sea"
+
+[arctic_sea_sea]
+label = "ArcticSeaSea"
+color = "light_blue"
+type = "sea"
+
+[barrierreef_sea]
+label = "BarrierreefSea"
+color = "light_green"
+type = "sea"
+
+[biscay_sea]
+label = "BiscaySea"
+color = "light_yellow"
+type = "sea"
+
+[caribbean_sea]
+label = "CaribbeanSea"
+color = "light_purple"
+type = "sea"
+
+[china_sea]
+label = "ChinaSea"
+color = "light_cyan"
+type = "sea"
+
+[ec_atlantic_sea]
+label = "ECAtlanticSea"
+color = "light_teal"
+type = "sea"
+modifiers = { wind_power = 0.5 }
+
+[e_med_sea]
+label = "EMedSea"
+color = "light_orange"
+type = "sea"
+modifiers = { piracy_risk = 0.5 }
+
+[ena_coast_sea]
+label = "ENACoastSea"
+color = "light_brown"
+type = "sea"
+
+[e_pacific_sea]
+label = "EPacificSea"
+color = "light_gray"
+type = "sea"
+modifiers = { wind_power = 1.5 }
+
+[gulf_sea]
+label = "GulfSea"
+color = "light_olive"
+type = "sea"
+
+[hudson_bay_sea]
+label = "HudsonBaySea"
+color = "light_red"
+type = "sea"
+
+[japan_sea]
+label = "JapanSea"
+color = "light_blue"
+type = "sea"
+
+[kamtchatka_sea]
+label = "KamtchatkaSea"
+color = "light_green"
+type = "sea"
+
+[n_atlantic_sea]
+label = "NAtlanticSea"
+color = "light_yellow"
+type = "sea"
+
+[nc_atlantic_sea]
+label = "NCAtlanticSea"
+color = "light_purple"
+type = "sea"
+
+[north_sea_sea]
+label = "NorthSeaSea"
+color = "light_cyan"
+type = "sea"
+
+[ne_indian_sea]
+label = "NEIndianSea"
+color = "light_teal"
+type = "sea"
+
+[nw_indian_sea]
+label = "NWIndianSea"
+color = "light_orange"
+type = "sea"
+modifiers = { wind_power = 0.5 }
+
+[nw_pacific_sea]
+label = "NWPacificSea"
+color = "light_brown"
+type = "sea"
+
+[oceania_sea]
+label = "OceaniaSea"
+color = "light_gray"
+type = "sea"
+
+[red_sea_sea]
+label = "RedSeaSea"
+color = "light_olive"
+type = "sea"
+
+[scandinavia_sea]
+label = "ScandinaviaSea"
+color = "light_red"
+type = "sea"
+modifiers = { piracy_risk = 0.5 }
+
+[se_atlantic_sea]
+label = "SEAtlanticSea"
+color = "light_blue"
+type = "sea"
+
+[se_indian_sea]
+label = "SEIndianSea"
+color = "light_green"
+type = "sea"
+
+[se_pacific_sea]
+label = "SEPacificSea"
+color = "light_yellow"
+type = "sea"
+
+[siberia_sea]
+label = "SiberiaSea"
+color = "light_purple"
+type = "sea"
+
+[sw_atlantic_sea]
+label = "SWAtlanticSea"
+color = "light_cyan"
+type = "sea"
+
+[sw_indian_sea]
+label = "SWIndianSea"
+color = "light_teal"
+type = "sea"
+
+[sw_pacific_sea]
+label = "SWPacificSea"
+color = "light_orange"
+type = "sea"
+
+[tago_sea]
+label = "TagoSea"
+color = "light_brown"
+type = "sea"
+
+[thai_sea]
+label = "ThaiSea"
+color = "light_gray"
+type = "sea"
+
+[wc_atlantic_sea]
+label = "WCAtlanticSea"
+color = "light_olive"
+type = "sea"
+
+[w_med_sea]
+label = "WMedSea"
+color = "light_red"
+type = "sea"
+modifiers = { piracy_risk = 0.5 }
+
+[w_pacific_sea]
+label = "WPacificSea"
+color = "light_blue"
+type = "sea"

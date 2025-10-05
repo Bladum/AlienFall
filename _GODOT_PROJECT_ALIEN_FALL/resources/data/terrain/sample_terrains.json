@@ -1,0 +1,54 @@
+[
+  {
+    "id": "urban",
+    "name": "Urban Terrain",
+    "description": "City streets and buildings",
+    "width": 20,
+    "height": 20,
+    "levels": 2,
+    "floor_chance": 0.6,
+    "wall_chance": 0.3,
+    "feature_chance": 0.1,
+    "lighting": "mixed",
+    "cover_types": ["low_wall", "car", "crate"]
+  },
+  {
+    "id": "forest",
+    "name": "Forest Terrain",
+    "description": "Dense woodland with trees and underbrush",
+    "width": 25,
+    "height": 25,
+    "levels": 1,
+    "floor_chance": 0.8,
+    "wall_chance": 0.1,
+    "feature_chance": 0.1,
+    "lighting": "dim",
+    "cover_types": ["tree", "bush", "log"]
+  },
+  {
+    "id": "desert",
+    "name": "Desert Terrain",
+    "description": "Open desert with sand dunes",
+    "width": 30,
+    "height": 30,
+    "levels": 1,
+    "floor_chance": 0.9,
+    "wall_chance": 0.05,
+    "feature_chance": 0.05,
+    "lighting": "bright",
+    "cover_types": ["dune", "rock", "cactus"]
+  },
+  {
+    "id": "industrial",
+    "name": "Industrial Terrain",
+    "description": "Factory complex with machinery",
+    "width": 22,
+    "height": 22,
+    "levels": 3,
+    "floor_chance": 0.7,
+    "wall_chance": 0.2,
+    "feature_chance": 0.1,
+    "lighting": "artificial",
+    "cover_types": ["crate", "machine", "pipe"]
+  }
+]

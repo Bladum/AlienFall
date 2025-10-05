@@ -1,0 +1,128 @@
+# Geoscape Expansion - New Portals
+# Adds exotic portal configurations for new worlds
+
+[venus_portal_1]
+id = "venus_portal_1"
+name = "Venusian Surface Breach"
+world_id = "venus"
+province_id = "venus_atlanticus"
+coordinates = [450, 320]
+activity_level = 0.2
+escalation_rate = 0.15
+max_activity = 0.8
+reinforcement_types = ["venusian_drone", "atmospheric_horror", "pressure_beast"]
+detection_difficulty = 0.7
+environmental_hazards = ["extreme_heat", "corrosive_atmosphere", "lightning_storms"]
+tags = ["venusian", "atmospheric", "extreme_pressure", "corrosive"]
+
+[venus_portal_2]
+id = "venus_portal_2"
+name = "Aphrodite Terra Incursion"
+world_id = "venus"
+province_id = "venus_aphrodite"
+coordinates = [280, 180]
+activity_level = 0.1
+escalation_rate = 0.12
+max_activity = 0.9
+reinforcement_types = ["venusian_warrior", "heat_elemental", "lava_spawn"]
+detection_difficulty = 0.8
+environmental_hazards = ["volcanic_activity", "toxic_gases", "magnetic_storms"]
+tags = ["venusian", "volcanic", "toxic", "magnetic"]
+
+[titan_portal_1]
+id = "titan_portal_1"
+name = "Kraken Mare Emergence"
+world_id = "titan"
+province_id = "titan_kraken"
+coordinates = [520, 280]
+activity_level = 0.3
+escalation_rate = 0.18
+max_activity = 0.7
+reinforcement_types = ["titanian_aquatic", "methane_beast", "cryo_horror"]
+detection_difficulty = 0.5
+environmental_hazards = ["methane_lakes", "extreme_cold", "organic_haze"]
+tags = ["titanian", "cryogenic", "methane", "aquatic"]
+
+[titan_portal_2]
+id = "titan_portal_2"
+name = "Ontario Lacus Breach"
+world_id = "titan"
+province_id = "titan_ontario"
+coordinates = [380, 420]
+activity_level = 0.25
+escalation_rate = 0.16
+max_activity = 0.75
+reinforcement_types = ["titanian_stalker", "ice_wraith", "hydrocarbon_entity"]
+detection_difficulty = 0.6
+environmental_hazards = ["liquid_methane", "nitrogen_atmosphere", "cryovolcanism"]
+tags = ["titanian", "hydrocarbon", "cryovolcanic", "stalker"]
+
+[proxima_portal_1]
+id = "proxima_portal_1"
+name = "Proxima Prime Nexus"
+world_id = "proxima_b"
+province_id = "proxima_prime"
+coordinates = [600, 350]
+activity_level = 0.4
+escalation_rate = 0.22
+max_activity = 0.95
+reinforcement_types = ["proxima_predator", "energy_parasite", "quantum_horror"]
+detection_difficulty = 0.4
+environmental_hazards = ["radiation_storms", "quantum_instability", "biotic_swarm"]
+tags = ["proxima", "quantum", "biotic", "radiation"]
+
+[proxima_portal_2]
+id = "proxima_portal_2"
+name = "Proxima Nova Outbreak"
+world_id = "proxima_b"
+province_id = "proxima_nova"
+coordinates = [250, 480]
+activity_level = 0.35
+escalation_rate = 0.20
+max_activity = 0.85
+reinforcement_types = ["proxima_hunter", "reality_distortion", "void_spawn"]
+detection_difficulty = 0.5
+environmental_hazards = ["dimensional_rifts", "temporal_anomalies", "psychic_interference"]
+tags = ["proxima", "dimensional", "temporal", "psychic"]
+
+[venus_portal_3]
+id = "venus_portal_3"
+name = "Ishtar Terra Anomaly"
+world_id = "venus"
+province_id = "venus_ishtar"
+coordinates = [180, 250]
+activity_level = 0.15
+escalation_rate = 0.10
+max_activity = 0.6
+reinforcement_types = ["venusian_scout", "atmospheric_drone", "pressure_elemental"]
+detection_difficulty = 0.9
+environmental_hazards = ["acid_rain", "electromagnetic_pulses", "thermal_extremes"]
+tags = ["venusian", "scout", "electromagnetic", "thermal"]
+
+[titan_portal_3]
+id = "titan_portal_3"
+name = "Ligeia Mare Deep"
+world_id = "titan"
+province_id = "titan_ligeia"
+coordinates = [480, 380]
+activity_level = 0.2
+escalation_rate = 0.14
+max_activity = 0.8
+reinforcement_types = ["titanian_depth_dweller", "methane_serpent", "cryo_guardian"]
+detection_difficulty = 0.7
+environmental_hazards = ["deep_methane", "pressure_crushing", "bioluminescent_haze"]
+tags = ["titanian", "depth", "serpent", "bioluminescent"]
+
+[proxima_portal_3]
+id = "proxima_portal_3"
+name = "Proxima Abyss Breach"
+world_id = "proxima_b"
+province_id = "proxima_abyss"
+coordinates = [420, 220]
+activity_level = 0.5
+escalation_rate = 0.25
+max_activity = 1.0
+reinforcement_types = ["proxima_overlord", "reality_shredder", "void_lord"]
+detection_difficulty = 0.3
+environmental_hazards = ["reality_tears", "entropy_fields", "consciousness_drain"]
+tags = ["proxima", "abyss", "reality", "entropy"]

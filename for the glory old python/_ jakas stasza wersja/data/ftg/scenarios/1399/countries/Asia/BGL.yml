@@ -1,0 +1,164 @@
+countries:
+  BGL:
+    name: Bengal
+    ai: "BGL_1419.txt"
+
+    treasury: 100
+    inflation: 0
+    stability: 0
+
+    agents:
+      merchants: 0.083333
+      colonists: 0
+      diplomats: 0
+
+    religion: eastern_sunni
+    cultures:
+      - bengali
+
+    diplomacy:
+      relations: {}
+
+    knownregions:
+      - Indian Mainland
+      - Afghanistan
+      - Tibet
+      - Indian Sea Zones
+      - Persian Gulf
+    knownprovinces:
+      - 539
+      - 540
+      - 541
+      - 542
+      - 543
+      - 544
+      - 545
+      - 546
+      - 547
+      - 548
+      - 549
+      - 550
+      - 551
+      - 552
+      - 553
+      - 554
+      - 555
+      - 556
+      - 557
+      - 558
+      - 559
+      - 560
+      - 561
+      - 562
+      - 563
+      - 564
+      - 565
+      - 566
+      - 567
+      - 568
+      - 569
+      - 570
+      - 571
+      - 572
+      - 573
+      - 574
+      - 575
+      - 576
+      - 671
+      - 672
+      - 1520
+      - 1521
+      - 1522
+      - 1523
+      - 1545
+      - 1546
+      - 1524
+      - 1525
+      - 1526
+      - 1527
+      - 1528
+      - 1531
+      - 1591
+      - 1592
+      - 1539
+      - 1540
+      - 1541
+      - 1542
+      - 1543
+      - 1138
+      - 1140
+      - 1066
+      - 1069
+      - 1070
+      - 1071
+      - 1072
+      - 1073
+      - 1074
+      - 1078
+      - 504
+      - 533
+      - 534
+      - 535
+      - 536
+      - 537
+      - 538
+      - 1063
+      - 1065
+      - 1363
+
+    ownedprovinces:
+      - 554
+      - 556
+      - 557
+      - 558
+      - 559
+    controlledprovinces:
+      - 554
+      - 556
+      - 557
+      - 558
+      - 559
+    nationalprovinces:
+      - 554
+      - 555
+      - 556
+      - 557
+      - 558
+      - 559
+
+    cities:
+      559:
+        buildings:
+          fortress: 1
+        population: 50
+        capital: yes
+      556:
+        buildings:
+          fortress: 1
+        population: 10
+      557:
+        buildings:
+          fortress: 1
+        population: 19
+      558:
+        buildings:
+          fortress: 1
+        population: 22
+      554:
+        buildings:
+          fortress: 1
+        population: 18
+
+    landunits:
+      - name: "Bengal Army"
+        location: 559
+        infantry: 10
+        cavalry: 5
+        artillery: 0
+
+    technology:
+      admin: 0
+      infra: 0
+      trade: 1
+      land: 0
+      naval: 0

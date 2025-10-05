@@ -1,0 +1,85 @@
+# Craft Definitions - Energy Pool System (NO AMMO)
+# All crafts have UP TO 2 weapon slots + 1 addon slot
+# Energy pool = Base EP + Weapon 1 EP + Weapon 2 EP + Addon EP
+# Regen per turn = Base Regen + equipment regen bonuses
+
+[[crafts]]
+id = "interceptor"
+name = "Interceptor"
+description = "Fast fighter craft for air-to-air combat"
+type = "fighter"
+
+# Base Stats
+speed = 8               # movement speed
+armor = 4               # damage reduction
+hull_hp = 20            # hit points
+energy_base = 8         # base energy pool
+energy_regen = 3        # base regen per turn (approximately 1/3 of base)
+
+# Equipment Slots - EXACTLY 2 weapons + 1 addon
+[crafts.equipment_slots]
+weapon_1 = true
+weapon_2 = true
+addon = true
+
+# No Additional Slots
+no_ammo_system = true
+no_cargo_pods = true
+
+starting_equipment = ["autocannon", "missile_rack", "targeting_computer"]
+fuel_capacity = 100
+range = 1000            # km
+tags = ["fighter", "fast", "air_superiority"]
+
+[[crafts]]
+id = "dropship"
+name = "Dropship"
+description = "Transport craft for ground operations"
+type = "transport"
+
+# Base Stats
+speed = 5
+armor = 8
+hull_hp = 40
+energy_base = 10
+energy_regen = 3
+
+# Equipment Slots
+[crafts.equipment_slots]
+weapon_1 = true
+weapon_2 = true
+addon = true
+
+no_ammo_system = true
+
+starting_equipment = ["plasma_cannon", "defensive_turret", "troop_bay"]
+transport_capacity = 10 # number of units
+fuel_capacity = 120
+range = 800
+tags = ["transport", "durable", "troop_carrier"]
+
+[[crafts]]
+id = "heavy_bomber"
+name = "Heavy Bomber"
+description = "Slow but heavily armed strike craft"
+type = "bomber"
+
+# Base Stats
+speed = 4
+armor = 12
+hull_hp = 50
+energy_base = 12        # high energy for heavy weapons
+energy_regen = 4
+
+# Equipment Slots
+[crafts.equipment_slots]
+weapon_1 = true
+weapon_2 = true
+addon = true
+
+no_ammo_system = true
+
+starting_equipment = ["fusion_bomb", "plasma_cannon", "armor_plating"]
+fuel_capacity = 150
+range = 600
+tags = ["bomber", "heavy", "strike"]

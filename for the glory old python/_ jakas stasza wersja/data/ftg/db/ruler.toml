@@ -1,0 +1,24 @@
+#-----------------------------------------------------------
+#
+#  GENERIC COUNTRY RULER
+#
+#-----------------------------------------------------------
+
+INCLUDE = [
+"..\\rulers\\ruler_POL.toml"
+]
+
+[1000]
+name = "Random Ruler"
+start_date = 1200-01-01
+end_date = 1900-01-01
+culture = "polish"
+religion = "catholic"
+
+skill.politics = 2
+skill.economy = 2
+skill.military = 2
+skill.technology = 2
+
+dormant = false
+remark = "random ruler"

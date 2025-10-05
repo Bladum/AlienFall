@@ -1,0 +1,113 @@
+#-----------------------------------------------------------
+#
+#  TUEOTIC ORDER
+#
+#-----------------------------------------------------------
+
+name = "Teutonic Order"
+tag = "LAT"
+
+# ------------------ BUDGET -------------------
+
+[budget]
+treasury = 200
+inflation = 0
+stability = 2
+badboy = 10
+government = 'monarchy'
+
+# ------------------ SOCIAL ------------------
+
+[social]
+religion = "catholic"
+cultures = ["german", "baltic"]
+
+# ------------------ PROVINCES -------------------
+
+[geography]
+knownregions = ["europe"]
+knownprovinces = [732, 477, 478]
+ownedprovinces = [289, 290, 301, 313, 1944]
+controlledprovinces = [289, 290, 301, 313, 1944]
+nationalprovinces = [289, 290, 301, 313]
+
+# ------------------ AGENTS ------------------
+
+[agents]
+colonists = 0
+merchants = 0.083333
+
+# ------------------ DIPLOMACY -------------------
+
+[relations]
+LIV = 175
+HAB = 165
+BRA = 165
+SAC = 165
+LIT = 155
+POL = 155
+MAS = 165
+
+# ------------------ CITIES -------------------
+
+[[cities]]
+location = 289
+buildings = ["fort_02"]
+population = 5
+
+[[cities]]
+location = 290
+buildings = ["fort_02", 'balliff']
+population = 15
+capital = true
+
+[[cities]]
+location = 301
+buildings = ["fort_02"]
+population = 17
+
+[[cities]]
+location = 313
+buildings = ["fort_02"]
+population = 5
+
+# ------------------ ARMY & NAVY -------------------
+
+[[armies]]
+name = "Prussian Reiterregiment"
+location = 290
+units.infantry = 50
+units.cavalry = 6
+units.artillery = 0
+
+[[armies]]
+name = "St Mary's Corps"
+location = 301
+units.infantry = 5
+units.cavalry = 5
+units.artillery = 0
+
+# ------------------ TECHNOLOGY -------------------
+
+[technology]
+admin = 0
+infra = 1
+trade = 1
+land = 1
+naval = 0
+diplo = 2
+
+# ------------------ POLICIES -------------------
+
+[policies]
+governance = 0
+innovation = 2
+nobility = -4
+freedom = 2
+commerce = 3
+expansion = 1
+domain = 1
+conscription = 1
+balance = 2
+honor = 1
+social = 0

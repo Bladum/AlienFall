@@ -1,0 +1,106 @@
+#-----------------------------------------------------------
+#
+#  PROVINCE CLIMATE
+#
+#-----------------------------------------------------------
+
+[none]
+color = "black"
+modifiers = { population_growth = 0,  explore_cost = 1  }
+colonist_cost = 1
+merchant_cost = 1
+
+[arctic]
+color = "white"
+weather.10 = [ 'snow' ]
+weather.11 = [ 'snow' ]
+weather.12 = [ 'blizzard', 'snow' ]
+weather.01 = [ 'blizzard','snow' ]
+weather.02 = [ 'blizzard','snow' ]
+weather.03 = [ 'snow' ]
+weather.04 = [ 'snow' ]
+weather.05 = [ 'snow' ]
+modifiers = { population_growth = -3, army_movement = 1.5, army_attrition = 1.2,  explore_cost = 4}
+colonist_cost = 1
+merchant_cost = 1
+
+[desertic]
+color = "yellow"
+weather.05 = [ 'drought' ]
+weather.06 = [ 'drought' ]
+weather.07 = [ 'drought' ]
+weather.08 = [ 'drought' ]
+weather.09 = [ 'drought' ]
+modifiers = { population_growth = -2, army_movement = 1.25, army_attrition = 1.5,  explore_cost = 2 }
+colonist_cost = 1
+merchant_cost = 1
+
+[ncontinental]
+color = "orange"
+
+weather.01 = [ 'blizzard', 'snow' ]
+weather.02 = [ 'snow' ]
+weather.03 = [ 'mud' ]
+weather.04 = [ 'flood', 'mud' ]
+weather.05 = [ 'mud' ]
+weather.09 = [ 'mud' ]
+weather.10 = [  'flood', 'mud' ]
+weather.11 = [ 'mud' ]
+weather.12 = [ 'snow' ]
+
+modifiers = { population_growth = -1,  explore_cost = 1  }
+colonist_cost = 1
+merchant_cost = 1
+
+[scontinental]
+color = "light_red"
+
+weather.06 = [ 'blizzard', 'snow' ]
+weather.07 = [ 'snow' ]
+weather.03 = [ 'mud' ]
+weather.04 = [ 'flood', 'mud' ]
+weather.05 = [ 'mud' ]
+weather.09 = [ 'mud' ]
+weather.10 = [  'flood', 'mud' ]
+weather.11 = [ 'mud' ]
+weather.12 = [ 'snow' ]
+
+modifiers = { population_growth = -1, explore_cost = 1 }
+colonist_cost = 1
+merchant_cost = 1
+
+[temperate]
+color = "light_green"
+
+weather.01 = [ 'snow' ]
+weather.04 = [ 'mud' ]
+weather.07 = [ 'drought' ]
+weather.08 = [ 'drought' ]
+weather.10 = [ 'mud' ]
+
+modifiers = { population_growth = 0, explore_cost = 1 }
+colonist_cost = 1
+merchant_cost = 1
+
+[tropical]
+color = "dark_green"
+move = 1.5
+modifiers = { population_growth = -5 , army_movement = 1.5, explore_cost = 3}
+
+weather.05 = [ 'typhoon' ]
+weather.06 = [ 'typhoon' ]
+weather.07 = [ 'typhoon' ]
+
+colonist_cost = 2
+merchant_cost = 2
+
+[tundra]
+color = "light_blue"
+weather.11 = [ 'snow' ]
+weather.12 = [  'snow' ]
+weather.01 = [ 'blizzard','snow' ]
+weather.02 = [ 'blizzard','snow' ]
+weather.03 = [ 'snow' ]
+modifiers = { population_growth = -2, explore_cost = 2 }
+colonist_cost = 1
+merchant_cost = 1

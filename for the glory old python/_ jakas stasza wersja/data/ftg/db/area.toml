@@ -1,0 +1,790 @@
+#-----------------------------------------------------------
+#
+#  GEOGRAPHY AREAS
+#
+#-----------------------------------------------------------
+
+[tbd]
+color = "white"
+modifiers = { explore_cost = 1 }
+label = "TBD"
+
+[ethiopia]
+color = "light_gray"
+modifiers = { explore_cost = 1 }
+label = "Ethiopia"
+
+[somalia]
+color = "light_orange"
+modifiers = { explore_cost = 1 }
+label = "Somalia"
+
+[madagascar]
+color = "gray"
+modifiers = { explore_cost = 1 }
+label = "Madagascar"
+
+[mozambicque]
+color = "yellow"
+modifiers = { explore_cost = 1 }
+label = "Mozambicque"
+
+[zambia]
+color = "light_teal"
+modifiers = { explore_cost = 1 }
+label = "Zambia"
+
+[seychelles]
+color = "dark_gray"
+modifiers = { explore_cost = 1 }
+label = "Seychelles"
+
+[sofala]
+color = "light_olive"
+modifiers = { explore_cost = 1 }
+label = "Sofala"
+
+[sudan]
+color = "dark_red"
+modifiers = { explore_cost = 1 }
+label = "Sudan"
+
+[tanganyika]
+color = "light_purple"
+modifiers = { explore_cost = 1 }
+label = "Tanganyika"
+
+[the_cape]
+color = "olive"
+modifiers = { explore_cost = 1 }
+label = "The Cape"
+
+[the_mascarenes]
+color = "purple"
+modifiers = { explore_cost = 1 }
+label = "The Mascarenes"
+
+[egypt]
+color = "dark_purple"
+modifiers = { explore_cost = 1 }
+label = "Egypt"
+
+[maghreb]
+color = "light_blue"
+modifiers = { explore_cost = 1 }
+label = "Maghreb"
+
+[angola]
+color = "light_yellow"
+modifiers = { explore_cost = 1 }
+label = "Angola"
+
+[cameroon]
+color = "blue"
+modifiers = { explore_cost = 1 }
+label = "Cameroon"
+
+[cape_verde]
+color = "light_cyan"
+modifiers = { explore_cost = 1 }
+label = "Cape Verde"
+
+[congo]
+color = "cyan"
+modifiers = { explore_cost = 1 }
+label = "Congo"
+
+[gabon]
+color = "dark_cyan"
+modifiers = { explore_cost = 1 }
+label = "Gabon"
+
+[gold]
+color = "light_teal"
+modifiers = { explore_cost = 1 }
+label = "Gold"
+
+[ivory]
+color = "teal"
+modifiers = { explore_cost = 1 }
+label = "Ivory"
+
+[mauritania]
+color = "dark_teal"
+modifiers = { explore_cost = 1 }
+label = "Mauritania"
+
+[namibia]
+color = "dark_yellow"
+modifiers = { explore_cost = 1 }
+label = "Namibia"
+
+[senegal]
+color = "light_green"
+modifiers = { explore_cost = 1 }
+label = "Senegal"
+
+[st_helena]
+color = "green"
+modifiers = { explore_cost = 1 }
+label = "St Helena"
+
+[timbuktu]
+color = "dark_green"
+modifiers = { explore_cost = 1 }
+label = "Timbuktu"
+
+[antilles]
+color = "light_olive"
+modifiers = { explore_cost = 1 }
+label = "Antilles"
+
+[cuba]
+color = "light_orange"
+modifiers = { explore_cost = 1 }
+label = "Cuba"
+
+[haiti]
+color = "orange"
+modifiers = { explore_cost = 1 }
+label = "Haiti"
+
+[azteca]
+color = "dark_orange"
+modifiers = { explore_cost = 1 }
+label = "Azteca"
+
+[costa_rica]
+color = "light_brown"
+modifiers = { explore_cost = 1 }
+label = "Costa Rica"
+
+[panama]
+color = "brown"
+modifiers = { explore_cost = 1 }
+label = "Panama"
+
+[sonora]
+color = "dark_brown"
+modifiers = { explore_cost = 1 }
+label = "Sonora"
+
+[acadie]
+color = "light_gray"
+modifiers = { explore_cost = 1 }
+label = "Acadie"
+
+[alaska]
+color = "gray"
+modifiers = { explore_cost = 1 }
+label = "Alaska"
+
+[america]
+color = "light_red"
+modifiers = { explore_cost = 1 }
+label = "America"
+
+[bermuda]
+color = "light_red"
+modifiers = { explore_cost = 1 }
+label = "Bermuda"
+
+[california]
+color = "red"
+modifiers = { explore_cost = 1 }
+label = "California"
+
+[florida]
+color = "dark_red"
+modifiers = { explore_cost = 1 }
+label = "Florida"
+
+[georgia]
+color = "light_purple"
+modifiers = { explore_cost = 1 }
+label = "Georgia"
+
+[grand_lacs]
+color = "purple"
+modifiers = { explore_cost = 1 }
+label = "Grand Lacs"
+
+[greenland]
+color = "dark_purple"
+modifiers = { explore_cost = 1 }
+label = "Greenland"
+
+[hudson_bay]
+color = "light_blue"
+modifiers = { explore_cost = 1 }
+label = "Hudson Bay"
+
+[illinois]
+color = "blue"
+modifiers = { explore_cost = 1 }
+label = "Illinois"
+
+[kansas]
+color = "dark_blue"
+modifiers = { explore_cost = 1 }
+label = "Kansas"
+
+[labrador]
+color = "light_cyan"
+modifiers = { explore_cost = 1 }
+label = "Labrador"
+
+[louisiane]
+color = "cyan"
+modifiers = { explore_cost = 1 }
+label = "Louisiane"
+
+[maine]
+color = "dark_cyan"
+modifiers = { explore_cost = 1 }
+label = "Maine"
+
+[nevada]
+color = "light_teal"
+modifiers = { explore_cost = 1 }
+label = "Nevada"
+
+[newfoundland]
+color = "teal"
+modifiers = { explore_cost = 1 }
+label = "Newfoundland"
+
+[ohio]
+color = "dark_teal"
+modifiers = { explore_cost = 1 }
+label = "Ohio"
+
+[oregon]
+color = "light_green"
+modifiers = { explore_cost = 1 }
+label = "Oregon"
+
+[plaines]
+color = "green"
+modifiers = { explore_cost = 1 }
+label = "Plaines"
+
+[quebec]
+color = "dark_green"
+modifiers = { explore_cost = 1 }
+label = "Quebec"
+
+[texas]
+color = "light_yellow"
+modifiers = { explore_cost = 1 }
+label = "Texas"
+
+[amazonia]
+color = "yellow"
+modifiers = { explore_cost = 1 }
+label = "Amazonia"
+
+[bahia]
+color = "dark_yellow"
+modifiers = { explore_cost = 1 }
+label = "Bahia"
+
+[belem]
+color = "light_olive"
+modifiers = { explore_cost = 1 }
+label = "Belem"
+
+[chili]
+color = "olive"
+modifiers = { explore_cost = 1 }
+label = "Chili"
+
+[ecuador]
+color = "dark_olive"
+modifiers = { explore_cost = 1 }
+label = "Ecuador"
+
+[falklands]
+color = "light_orange"
+modifiers = { explore_cost = 1 }
+label = "Falklands"
+
+[guiana]
+color = "orange"
+modifiers = { explore_cost = 1 }
+label = "Guiana"
+
+[inca]
+color = "dark_orange"
+modifiers = { explore_cost = 1 }
+label = "Inca"
+
+[la_plata]
+color = "light_brown"
+modifiers = { explore_cost = 1 }
+label = "La Plata"
+
+[orenoque]
+color = "brown"
+modifiers = { explore_cost = 1 }
+label = "Orenoque"
+
+[paraguay]
+color = "dark_brown"
+modifiers = { explore_cost = 1 }
+label = "Paraguay"
+
+[urugway]
+color = "light_teal"
+modifiers = { explore_cost = 1 }
+label = "Urugway"
+
+[bolivia]
+color = "light_red"
+modifiers = { explore_cost = 1 }
+label = "Bolivia"
+
+[patagonia]
+color = "light_gray"
+modifiers = { explore_cost = 1 }
+label = "Patagonia"
+
+[recife]
+color = "gray"
+modifiers = { explore_cost = 1 }
+label = "Recife"
+
+[rio]
+color = "dark_gray"
+modifiers = { explore_cost = 1 }
+label = "Rio"
+
+[afghanistan]
+color = "light_red"
+modifiers = { explore_cost = 1 }
+label = "Afghanistan"
+
+[kazakhstan]
+color = "light_purple"
+modifiers = { explore_cost = 1 }
+label = "Kazakhstan"
+
+[persia]
+color = "purple"
+modifiers = { explore_cost = 1 }
+label = "Persia"
+
+[canton]
+color = "dark_purple"
+modifiers = { explore_cost = 1 }
+label = "Canton"
+
+[chengdu]
+color = "light_blue"
+modifiers = { explore_cost = 1 }
+label = "Chengdu"
+
+[formosa]
+color = "blue"
+modifiers = { explore_cost = 1 }
+label = "Formosa"
+
+[himalaya]
+color = "dark_blue"
+modifiers = { explore_cost = 1 }
+label = "Himalaya"
+
+[korea]
+color = "cyan"
+modifiers = { explore_cost = 1 }
+label = "Korea"
+
+[manchuria]
+color = "light_cyan"
+modifiers = { explore_cost = 1 }
+label = "Manchuria"
+
+[peking]
+color = "cyan"
+modifiers = { explore_cost = 1 }
+label = "Peking"
+
+[sha_anxi]
+color = "dark_cyan"
+modifiers = { explore_cost = 1 }
+label = "Sha Anxi"
+
+[shanghai]
+color = "light_teal"
+modifiers = { explore_cost = 1 }
+label = "Shanghai"
+
+[yunnan]
+color = "teal"
+modifiers = { explore_cost = 1 }
+label = "Yunnan"
+
+[bengal]
+color = "dark_teal"
+modifiers = { explore_cost = 1 }
+label = "Bengal"
+
+[carnatic]
+color = "light_green"
+modifiers = { explore_cost = 1 }
+label = "Carnatic"
+
+[ceylon]
+color = "green"
+modifiers = { explore_cost = 1 }
+label = "Ceylon"
+
+[delhi]
+color = "dark_green"
+modifiers = { explore_cost = 1 }
+label = "Delhi"
+
+[gujarat]
+color = "light_yellow"
+modifiers = { explore_cost = 1 }
+label = "Gujarat"
+
+[hyderabad]
+color = "yellow"
+modifiers = { explore_cost = 1 }
+label = "Hyderabad"
+
+[lahore]
+color = "dark_yellow"
+modifiers = { explore_cost = 1 }
+label = "Lahore"
+
+[mahratti]
+color = "light_olive"
+modifiers = { explore_cost = 1 }
+label = "Mahratti"
+
+[malabar]
+color = "olive"
+modifiers = { explore_cost = 1 }
+label = "Malabar"
+
+[mysore]
+color = "dark_olive"
+modifiers = { explore_cost = 1 }
+label = "Mysore"
+
+[orissa]
+color = "light_orange"
+modifiers = { explore_cost = 1 }
+label = "Orissa"
+
+[oudh]
+color = "orange"
+modifiers = { explore_cost = 1 }
+label = "Oudh"
+
+[punjab]
+color = "dark_orange"
+modifiers = { explore_cost = 1 }
+label = "Punjab"
+
+[annam]
+color = "light_brown"
+modifiers = { explore_cost = 1 }
+label = "Annam"
+
+[malaya]
+color = "light_gray"
+modifiers = { explore_cost = 1 }
+label = "Malaya"
+
+[siam]
+color = "gray"
+modifiers = { explore_cost = 1 }
+label = "Siam"
+
+[ajeh]
+color = "dark_gray"
+modifiers = { explore_cost = 1 }
+label = "Ajeh"
+
+[amboina]
+color = "light_red"
+modifiers = { explore_cost = 1 }
+label = "Amboina"
+
+[borneo]
+color = "red"
+modifiers = { explore_cost = 1 }
+label = "Borneo"
+
+[celebes]
+color = "dark_red"
+modifiers = { explore_cost = 1 }
+label = "Celebes"
+
+[java]
+color = "light_purple"
+modifiers = { explore_cost = 1 }
+label = "Java"
+
+[lucon]
+color = "purple"
+modifiers = { explore_cost = 1 }
+label = "Lucon"
+
+[sumatra]
+color = "dark_purple"
+modifiers = { explore_cost = 1 }
+label = "Sumatra"
+
+[surabaya]
+color = "light_blue"
+modifiers = { explore_cost = 1 }
+label = "Surabaya"
+
+[ternate]
+color = "blue"
+modifiers = { explore_cost = 1 }
+label = "Ternate"
+
+[nippon]
+color = "dark_blue"
+modifiers = { explore_cost = 1 }
+label = "Nippon"
+
+[aden]
+color = "cyan"
+modifiers = { explore_cost = 1 }
+label = "Aden"
+
+[bahk]
+color = "red"
+modifiers = { explore_cost = 1 }
+label = "Bahk"
+
+[levant]
+color = "light_teal"
+modifiers = { explore_cost = 1 }
+label = "Levant"
+
+[nefud]
+color = "teal"
+modifiers = { explore_cost = 1 }
+label = "Nefud"
+
+[oman]
+color = "dark_teal"
+modifiers = { explore_cost = 1 }
+label = "Oman"
+
+[amur]
+color = "light_green"
+modifiers = { explore_cost = 1 }
+label = "Amur"
+
+[baikal]
+color = "green"
+modifiers = { explore_cost = 1 }
+label = "Baikal"
+
+[jenisej]
+color = "dark_green"
+modifiers = { explore_cost = 1 }
+label = "Jenisej"
+
+[kamchatka]
+color = "light_yellow"
+modifiers = { explore_cost = 1 }
+label = "Kamchatka"
+
+[lena]
+color = "yellow"
+modifiers = { explore_cost = 1 }
+label = "Lena"
+
+[ob]
+color = "dark_yellow"
+modifiers = { explore_cost = 1 }
+label = "Ob"
+
+[omsk]
+color = "light_olive"
+modifiers = { explore_cost = 1 }
+label = "Omsk"
+
+[sibir]
+color = "olive"
+modifiers = { explore_cost = 1 }
+label = "Sibir"
+
+[england]
+color = "dark_olive"
+modifiers = { explore_cost = 1 }
+label = "England"
+
+[ireland]
+color = "light_orange"
+modifiers = { explore_cost = 1 }
+label = "Ireland"
+
+[scotland]
+color = "orange"
+modifiers = { explore_cost = 1 }
+label = "Scotland"
+
+[balkans]
+color = "dark_orange"
+modifiers = { explore_cost = 1 }
+label = "Balkans"
+
+[danube]
+color = "light_brown"
+modifiers = { explore_cost = 1 }
+label = "Danube"
+
+[anatolia]
+color = "dark_cyan"
+modifiers = { explore_cost = 1 }
+label = "Anatolia"
+
+[baltic]
+color = "brown"
+modifiers = { explore_cost = 1 }
+label = "Baltic"
+
+[caucasus]
+color = "dark_brown"
+modifiers = { explore_cost = 1 }
+label = "Caucasus"
+
+[poland]
+color = "light_gray"
+modifiers = { explore_cost = 1 }
+label = "Poland"
+
+[russia]
+color = "gray"
+modifiers = { explore_cost = 1 }
+label = "Russia"
+
+[ukraine]
+color = "red"
+modifiers = { explore_cost = 1 }
+label = "Ukraine"
+
+[germany]
+color = "dark_red"
+modifiers = { explore_cost = 1 }
+label = "Germany"
+
+[denmark]
+color = "light_blue"
+modifiers = { explore_cost = 1 }
+label = "Denmark"
+
+[finland]
+color = "blue"
+modifiers = { explore_cost = 1 }
+label = "Finland"
+
+[norway]
+color = "dark_blue"
+modifiers = { explore_cost = 1 }
+label = "Norway"
+
+[sweden]
+color = "light_cyan"
+modifiers = { explore_cost = 1 }
+label = "Sweden"
+
+[iberia]
+color = "cyan"
+modifiers = { explore_cost = 1 }
+label = "Iberia"
+
+[italy]
+color = "dark_cyan"
+modifiers = { explore_cost = 1 }
+label = "Italy"
+
+[mediterranean]
+color = "light_teal"
+modifiers = { explore_cost = 1 }
+label = "Mediterranean"
+
+[france]
+color = "teal"
+modifiers = { explore_cost = 1 }
+label = "France"
+
+[low_countries]
+color = "dark_teal"
+modifiers = { explore_cost = 1 }
+label = "Low Countries"
+
+[botany]
+color = "light_green"
+modifiers = { explore_cost = 1 }
+label = "Botany"
+
+[kanguru]
+color = "green"
+modifiers = { explore_cost = 1 }
+label = "Kanguru"
+
+[maori]
+color = "dark_green"
+modifiers = { explore_cost = 1 }
+label = "Maori"
+
+[papua]
+color = "light_yellow"
+modifiers = { explore_cost = 1 }
+label = "Papua"
+
+[tasmania]
+color = "yellow"
+modifiers = { explore_cost = 1 }
+label = "Tasmania"
+
+[fiji]
+color = "dark_yellow"
+modifiers = { explore_cost = 1 }
+label = "Fiji"
+
+[hawaii]
+color = "light_olive"
+modifiers = { explore_cost = 1 }
+label = "Hawaii"
+
+[polynesia]
+color = "olive"
+modifiers = { explore_cost = 1 }
+label = "Polynesia"
+
+[sea]
+color = "dark_olive"
+modifiers = { explore_cost = 1 }
+label = "Sea"
+
+[lake]
+color = "light_orange"
+modifiers = { explore_cost = 1 }
+label = "Lake"
+
+[hudsonbayarea]
+color = "orange"
+modifiers = { explore_cost = 1 }
+label = "Hudson Bay Area"
+
+[capehornarea]
+color = "dark_orange"
+modifiers = { explore_cost = 1 }
+label = "Cape Horn Area"
+
+[goodhopearea]
+color = "light_brown"
+modifiers = { explore_cost = 1 }
+label = "Good Hope Area"

@@ -1,0 +1,76 @@
+# Brandenburg #
+
+countries:
+  BRA:
+    name: Brandenburg
+    ai: "PRU_1701_Kingdom"
+
+    treasury: 150
+    inflation: 0
+    stability: 3
+
+    agents:
+      colonists: 0
+      merchants: 0
+
+    religion: catholic
+    cultures:
+      - german
+
+    diplomacy:
+      relation:
+        LAT: 100
+        HAB: 100
+        BUR: 50
+        MAG: 100
+        BOH: 150
+        HUN: 150
+
+    knownregions:
+      - Europe
+    knownprovinces:
+      - 732 # Tangiers
+      - 477
+      - 478 # Bosphorus strait
+    ownedprovinces:
+     - 312
+     - 311
+     - 1941
+    controlledprovinces:
+     - 312
+     - 311
+     - 1941
+    nationalprovinces:
+     - 312
+     - 311
+    
+    cities:
+      312:
+         buildings:
+            fortress: 1
+            balliff: 1
+         population: 18
+         capital: yes
+      311:
+        buildings:
+           fortress: 1
+        population: 10000
+    
+    landunits:
+     - name: "Brandenburg Army"
+       location: 312
+       infantry: 6
+       cavalry: 5
+       artillery: 0
+     - name: "Frankische Garde"
+       location: 311
+       infantry: 4
+       cavalry: 1
+       artillery: 0
+    
+    technology:
+      admin: 0
+      infra: 1
+      trade: 1
+      land: 0
+      naval: 0

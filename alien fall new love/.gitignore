@@ -1,0 +1,68 @@
+# Alien Fall .gitignore
+
+# Love2D
+*.love
+
+# Lua bytecode
+*.luac
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE files
+.vscode/settings.json
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+logs/
+
+# Temporary files and test scripts
+temp/
+*.tmp
+*.temp
+
+# Build artifacts
+build/
+dist/
+
+# Save files (if any)
+saves/
+
+# Mod cache or generated files
+mods/*/cache/
+mods/*/generated/
+
+# Love2D executables (keep the directories but ignore binaries if copied)
+love.exe
+lovec.exe
+lua.exe
+
+# Node.js (if used for tooling)
+node_modules/
+npm-debug.log*
+
+# Python (if used for tooling)
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+
+# Windows executables
+*.exe
+*.dll
+*.lib
+*.pdb

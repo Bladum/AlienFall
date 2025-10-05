@@ -1,0 +1,241 @@
+countries:
+  CHI:
+    name: China (Ming)
+    ai: "CHI_1419_ZengHe.txt"
+
+    treasury: 500
+    inflation: 0
+    stability: 0
+
+    agents:
+      merchants: 0.083333
+      colonists: 0
+      diplomats: 0
+
+    religion: confucian
+    cultures:
+      - han
+
+    diplomacy:
+      relations: {}
+
+    knownregions:
+      - China
+      - Indochina
+      - Japan
+      - Korea
+      - ChinaSea
+      - ThaiSea
+    knownprovinces:
+      - 1600
+      - 1601
+      - 1602
+      - 1603
+      - 1604
+      - 1605
+      - 1606
+      - 1607
+      - 1608
+
+    ownedprovinces:
+      - 647
+      - 648
+      - 649
+      - 650
+      - 651
+      - 652
+      - 653
+      - 654
+      - 655
+      - 656
+      - 657
+      - 658
+      - 659
+      - 660
+      - 661
+      - 1544
+      - 1545
+      - 1553
+      - 1555
+      - 1556
+      - 1557
+      - 1558
+      - 1559
+      - 1560
+      - 1561
+      - 1562
+      - 1563
+      - 1564
+      - 1565
+      - 1566
+      - 1567
+
+    controlledprovinces:
+      - 647
+      - 648
+      - 650
+      - 651
+      - 652
+      - 653
+      - 654
+      - 655
+      - 656
+      - 657
+      - 658
+      - 659
+      - 660
+      - 661
+      - 1544
+      - 1545
+      - 1555
+      - 1556
+      - 1557
+      - 1558
+      - 1559
+      - 1560
+      - 1563
+      - 1564
+      - 1565
+      - 1566
+      - 1567
+
+    nationalprovinces:
+      - 647
+      - 648
+      - 649
+      - 650
+      - 651
+      - 652
+      - 653
+      - 654
+      - 655
+      - 656
+      - 657
+      - 658
+      - 659
+      - 660
+      - 661
+      - 689
+      - 1544
+      - 1545
+      - 1553
+      - 1555
+      - 1556
+      - 1557
+      - 1558
+      - 1559
+      - 1560
+      - 1561
+      - 1562
+      - 1563
+      - 1564
+      - 1565
+      - 1566
+      - 1567
+
+    cities:
+      650:
+        buildings:
+          fortress: 1
+        population: 50
+      660:
+        buildings:
+          fortress: 1
+        population: 25
+      661:
+        buildings:
+          fortress: 1
+        population: 24
+      659:
+        buildings:
+          fortress: 1
+        population: 25
+      658:
+        buildings:
+          fortress: 1
+        population: 25
+      657:
+        buildings:
+          fortress: 1
+        population: 50
+      656:
+        buildings:
+          fortress: 1
+        population: 25
+      655:
+        buildings:
+          fortress: 1
+        population: 26
+      654:
+        population: 50
+        capital: yes
+      653:
+        buildings:
+          fortress: 1
+        population: 50
+      652:
+        buildings:
+          fortress: 1
+        population: 25
+      651:
+        population: 25
+      649:
+        buildings:
+          fortress: 1
+        population: 100
+      647:
+        buildings:
+          fortress: 1
+        population: 40
+      648:
+        buildings:
+          fortress: 1
+        population: 13
+      1544:
+        population: 3
+      1545:
+        buildings:
+          fortress: 1
+        population: 7
+      1559:
+        population: 6
+      1560:
+        population: 6
+      1561:
+        population: 6
+      1553:
+        population: 10
+      1557:
+        population: 8
+      1558:
+        population: 8
+      1556:
+        population: 10
+      1563:
+        population: 25
+      1562:
+        population: 25
+      1566:
+        population: 25
+      1564:
+        population: 25
+      1565:
+        population: 25
+      1567:
+        population: 25
+      1555:
+        population: 25
+
+    landunits:
+      - name: "Imperial Army"
+        location: 654
+        infantry: 40
+        cavalry: 12
+        artillery: 0
+
+    technology:
+      admin: 0
+      infra: 0
+      trade: 1
+      land: 0
+      naval: 0

@@ -1,0 +1,15 @@
+[[facilities]]
+id = "barracks"
+name = "Barracks"
+cost = 1000
+
+[facilities.effects]
+capacity = 20
+
+[[facilities]]
+id = "lab"
+name = "Laboratory"
+cost = 1500
+
+[facilities.effects]
+research_bonus = 15

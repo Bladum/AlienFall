@@ -1,0 +1,309 @@
+#-----------------------------------------------------------
+#
+#  COUNTRY TAG DEFINITIONS
+#
+#-----------------------------------------------------------
+
+[MAS]
+label = "Masovia"
+color = "light_red"
+techgroup = "eastern"
+leader_language = "POL"
+modifiers =  { army_morale = 0, navy_morale = 0 }
+
+[POM]
+label = "Pomerania"
+color = "light_orange"
+techgroup = "western"
+leader_language = "POL"
+
+[POR]
+label = "Portugal"
+color = "dark_green"
+techgroup = "western"
+leader_language = "POR"
+
+[CAS]
+label = "Castile"
+color = "yellow"
+techgroup = "western"
+leader_language = "SPA"
+
+
+
+[LIV]
+label = "Livonian Order"
+color = "dark_yellow"
+techgroup = "western"
+leader_language = "GER"
+
+
+[BYZ]
+label = "Byzantium"
+color = "dark_purple"
+techgroup = "eastern"
+leader_language = "BYZ"
+
+[ARG]
+label = "Aragon"
+color = "gray"
+techgroup = "western"
+leader_language = "SPA"
+
+[BRA]
+label = "Brandenburg"
+color = "gray"
+techgroup = "western"
+leader_language = "GER"
+
+[CAT]
+label = "Catalonia"
+color = "dark_yellow"
+techgroup = "western"
+leader_language = "SPA"
+
+[ENG]
+label = "England"
+color = "red"
+techgroup = "western"
+leader_language = "ENG"
+
+[KUS]
+label = "Kustrin"
+color = "dark_blue"
+techgroup = "western"
+leader_language = "GER"
+
+
+[LAP]
+label = "Argentina"
+color = "light_gray"
+techgroup = "western"
+leader_language = "SPA"
+
+[POL]
+label = "Poland"
+color = "dark_orange"
+techgroup = "eastern"
+leader_language = "POL"
+
+[LAT]
+label = "Teutonic order"
+color = "light_brown"
+techgroup = "western"
+leader_language = "GER"
+
+[LIT]
+label = "Lithuania"
+color = "dark_gray"
+techgroup = "eastern"
+leader_language = "LIT"
+
+[HAB]
+label = "Austria"
+color = "white"
+techgroup = "western"
+leader_language = "GER"
+
+[SWE]
+label = "Sweden"
+color = "blue"
+techgroup = "western"
+leader_language = "GER"
+
+[DAN]
+label = "Denmark"
+color = "purple"
+techgroup = "western"
+leader_language = "GER"
+
+[BUR]
+label = "Burgundy"
+color = "dark_red"
+techgroup = "western"
+leader_language = "FRA"
+
+
+[FRA]
+label = "France"
+color = "dark_blue"
+techgroup = "western"
+leader_language = "FRA"
+
+[BOH]
+label = "Bohemia"
+color = "brown"
+techgroup = "western"
+leader_language = "GER"
+
+[HUN]
+label = "Hungary"
+color = "light_brown"
+techgroup = "western"
+leader_language = "GER"
+
+
+
+[VEN]
+label = "Venice"
+color = "light_purple"
+techgroup = "western"
+leader_language = "ITA"
+
+
+[KUR]
+label = "Courland"
+color = "light_brown"
+techgroup = "western"
+leader_language = "GER"
+
+[NVG]
+label = "Novogrod"
+color = "white"
+techgroup = "eastern"
+leader_language = "RUS"
+
+[NOR]
+label = "Norway"
+color = "brown"
+techgroup = "western"
+leader_language = "NOR"
+
+[DAU]
+label = "Dauphine"
+color = "light_gray"
+techgroup = "western"
+leader_language = "FRA"
+
+#
+#   ottomans
+#
+
+[TUR]
+label = "Ottoman Empire"
+color = "green"
+techgroup = "ottoman"
+leader_language = "TUR"
+
+#
+#   MUSLIM
+#
+
+[ADE]
+label = "Aden"
+color = "gray"
+techgroup = "muslim"
+leader_language = "MUS"
+
+#
+#   NEW WORLD
+#
+
+
+[AZT]
+label = "Aztecs"
+color = "light_yellow"
+techgroup = "new_world"
+leader_language = "AZT"
+
+[INC]
+label = "Inca"
+color = "light_blue"
+techgroup = "new_world"
+leader_language = "INC"
+
+
+[MAA]
+label = "Maya"
+color = "light_blue"
+techgroup = "new_world"
+leader_language = "AZT"
+
+
+[HUR]
+label = "Huron"
+color = "yellow"
+techgroup = "new_world"
+leader_language = "OHI"
+
+
+#
+#   NOMADIC
+#
+
+
+[STE]
+label = "Golden Horde"
+color = "yellow"
+techgroup = "nomad"
+leader_language = "TUR"
+
+
+[KZK]
+label = "Kazakh"
+color = "light_blue"
+techgroup = "indian"
+leader_language = "TUR"
+
+#
+# AFRICA
+#
+
+[KON]
+label = "Kongo"
+color = "light_orange"
+techgroup = "new_world"
+leader_language = "KON"
+
+[MAL]
+label = "Mali"
+color = "dark_orange"
+techgroup = "african"
+leader_language = "MAL"
+
+#
+# ASIA
+#
+
+
+[KUT]
+label = "Kutei"
+color = "dark_red"
+techgroup = "chineese"
+leader_language = "BEI"
+
+
+[NIP]
+label = "Japan"
+color = "purple"
+techgroup = "chineese"
+leader_language = "NIP"
+
+[KHM]
+label = "Khmer Empire"
+color = "dark_green"
+techgroup = "chineese"
+leader_language = "CAM"
+
+[CHI]
+label = "China"
+color = "yellow"
+techgroup = "chineese"
+leader_language = "CHI"
+
+
+[KOR]
+label = "Korea"
+color = "white"
+techgroup = "chineese"
+leader_language = "KOR"
+
+#
+# INDIAs
+#
+
+[BGL]
+label = "Bengal"
+color = "light_orange"
+techgroup = "muslim"
+leader_language = "CHI"

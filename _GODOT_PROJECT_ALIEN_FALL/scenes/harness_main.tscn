@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://harness_main"]
+
+[ext_resource type="Script" path="res://scripts/harness/geoscape_headless_harness.gd" id="1"]
+
+[node name="HarnessMain" type="Node"]
+script = ExtResource("1")
+
+# Default configuration - can be overridden by command line or modified in script
+[node name="Config" type="Node" parent="."]
+
+[connection signal="ready" from="." to="." method="_initialize_from_command_line"]

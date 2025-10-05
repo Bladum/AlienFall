@@ -1,0 +1,10 @@
+#-----------------------------------------------------------
+#
+#  MAP MODES
+#
+#-----------------------------------------------------------
+
+[terrain]
+primary_color = 'basic_land'
+weather_effect = nan
+secondary_color = nan

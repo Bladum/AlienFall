@@ -1,0 +1,8 @@
+decimal = 123
+negative = -456
+float = 3.14159
+scientific = 1e10
+hex = 0xDEADBEEF
+octal = 0o755
+binary = 0b101010
+with_underscores = 1_000_000

@@ -1,0 +1,76 @@
+[gd_scene load_steps=4 format=3 uid="uid://b8q4x7m2k3p5"]
+
+[ext_resource type="Script" path="res://scripts/battlescape/minimap_unit_icon.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://c8q4x7m2k3p6" path="res://assets/minimap/unit_icon.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://d8q4x7m2k3p7" path="res://assets/minimap/selection_ring.png" id="3"]
+
+[node name="MinimapUnitIcon" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 16.0
+offset_bottom = 16.0
+script = ExtResource("1")
+
+[node name="Icon" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 16.0
+offset_bottom = 16.0
+texture = ExtResource("2")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="SelectionIndicator" type="TextureRect" parent="."]
+visible = false
+layout_mode = 0
+offset_left = -4.0
+offset_top = -4.0
+offset_right = 20.0
+offset_bottom = 20.0
+texture = ExtResource("3")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="HealthBar" type="Control" parent="."]
+visible = false
+layout_mode = 0
+offset_left = -4.0
+offset_top = -8.0
+offset_right = 20.0
+offset_bottom = -6.0
+
+[node name="HealthFill" type="ColorRect" parent="HealthBar"]
+layout_mode = 0
+offset_right = 24.0
+offset_bottom = 2.0
+color = Color(0, 1, 0, 1)
+
+[node name="PathIndicator" type="Line2D" parent="."]
+visible = false
+points = PackedVector2Array(0, 0, 10, 10)
+width = 2.0
+default_color = Color(1, 1, 1, 0.5)
+
+[node name="FogOverlay" type="ColorRect" parent="."]
+visible = false
+layout_mode = 0
+offset_left = -2.0
+offset_top = -2.0
+offset_right = 18.0
+offset_bottom = 18.0
+color = Color(0, 0, 0, 0.7)
+
+[node name="ParticleEffect" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 8
+lifetime = 0.5
+one_shot = true
+explosiveness = 1.0
+texture = ExtResource("2")
+direction = Vector2(0, -1)
+spread = 180.0
+gravity = Vector2(0, -100)
+initial_velocity_min = 20.0
+initial_velocity_max = 40.0
+scale_amount_min = 0.1
+scale_amount_max = 0.3
+color = Color(1, 1, 1, 1)

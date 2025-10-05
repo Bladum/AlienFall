@@ -1,0 +1,13 @@
+[mod]
+id = "test_mod"
+name = "Test Mod"
+version = "1.0.0"
+author = "Test Author"
+description = "A test mod for validation"
+
+[dependencies]
+base_game = ">=1.0.0"
+
+[metadata]
+category = "utility"
+tags = ["test", "example"]

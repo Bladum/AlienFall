@@ -1,0 +1,14 @@
+[mod]
+id = "economy_expansion_mod"
+name = "Economy Expansion Mod"
+version = "1.0.0"
+author = "GitHub Copilot"
+description = "Expands the economy system with new manufacturing recipes, research projects, suppliers, and marketplace items"
+
+[dependencies]
+# No dependencies required
+
+[metadata]
+website = "https://github.com/alienfall/economy-expansion"
+license = "MIT"
+tags = ["economy", "manufacturing", "research", "suppliers", "marketplace"]

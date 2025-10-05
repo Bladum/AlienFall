@@ -1,0 +1,44 @@
+name: Test Suite
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  test:
+    name: Run Tests
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      
+    - name: Download Love2D
+      run: |
+        Invoke-WebRequest -Uri "https://github.com/love2d/love/releases/download/11.5/love-11.5-win64.zip" -OutFile "love.zip"
+        Expand-Archive -Path "love.zip" -DestinationPath "."
+      shell: powershell
+      
+    - name: Run test suite
+      run: |
+        ./love-11.5-win64/lovec.exe . --test
+      shell: powershell
+      timeout-minutes: 10
+      
+    - name: Check test results
+      if: always()
+      run: |
+        if (Test-Path "test_results.txt") {
+          Get-Content "test_results.txt"
+        }
+      shell: powershell
+      
+    - name: Upload test results
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: test-results
+        path: test_results.txt
+        if-no-files-found: warn

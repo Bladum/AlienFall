@@ -1,0 +1,111 @@
+#-----------------------------------------------------------
+#
+#  PROVINCE TERRAIN
+#
+#-----------------------------------------------------------
+
+#
+#   LAND TERRAINS
+#
+
+[plains]
+label = "Plains"
+color = "basic_land"
+effect = true
+modifiers.army_movement = 1.0
+modifiers.merchant_movement = 1.0
+modifiers.explore_cost = 1.0
+modifiers.unit_quality.cavalery = 1.25
+is_land = true
+
+[forest]
+label = "Forest"
+color = "green"
+effect = true
+modifiers.army_movement = 1.25
+modifiers.merchant_movement = 1.0
+modifiers.fort_defences = 1.25
+modifiers.explore_cost = 2
+is_land = true
+
+[desert]
+label = "Desert"
+color = "yellow"
+effect = true
+modifiers.army_movement = 1.25
+modifiers.merchant_movement = 1.5
+modifiers.population_growth = -2
+modifiers.fort_defences = 1.25
+modifiers.army_attrition = 1.25
+modifiers.explore_cost = 2
+is_land = true
+
+[hill]
+label = "Hills"
+color = "orange"
+effect = true
+modifiers.army_movement = 1.5
+modifiers.merchant_movement = 2.0
+modifiers.fort_defences = 1.50
+modifiers.army_attrition = 1.25
+modifiers.explore_cost = 2
+is_land = true
+
+[mountain]
+label = "Mountains"
+color = "grayed"
+effect = true
+modifiers.army_movement = 2.0
+modifiers.merchant_movement = 4.0
+modifiers.fort_defences = 1.75
+modifiers.army_attrition = 1.50
+modifiers.explore_cost = 3
+modifiers.unit_quality.cavalery = 0.75
+is_land = true
+
+[marsh]
+label = "Swamp"
+color = "olive"
+effect = true
+modifiers.army_movement = 1.5
+modifiers.merchant_movement = 3.0
+modifiers.population_health = 0.9
+modifiers.population_growth = -1
+modifiers.fort_defences = 1.50
+modifiers.army_attrition = 1.50
+modifiers.explore_cost = 4
+modifiers.unit_quality.cavalery = 0.5
+modifiers.unit_quality.artillery = 0.75
+is_land = true
+
+#
+# WATER TERRAINS
+#
+
+[sea]
+label = "Water"
+color = "basic_water"
+effect = false
+modifiers.navy_movement = 1.0
+modifiers.merchant_movement = 0.5
+modifiers.explore_cost = 0.5
+is_land = false
+
+[lake]
+label = "Water"
+color = "basic_water"
+effect = false
+modifiers.navy_movement = 1.0
+modifiers.merchant_movement = 0.5
+modifiers.explore_cost = 0.5
+is_land = false
+
+[ocean]
+label = "Water"
+color = "basic_water"
+effect = false
+modifiers.navy_movement = 0.75
+modifiers.merchant_movement = 0.5
+modifiers.explore_cost = 0.25
+modifiers.unit_quality.galley = 0.25
+is_land = false

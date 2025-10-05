@@ -1,0 +1,42 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="AlienFall"
+config/description="Turn-based strategy game inspired by X-COM"
+run/main_scene="res://main.tscn"
+config/features=PackedStringArray("4.4")
+
+[autoload]
+
+EventBus="*res://scripts/autoloads/event_bus.gd"
+RNGService="*res://scripts/autoloads/rng_service.gd"
+DataRegistry="*res://scripts/autoloads/data_registry.gd"
+TimeService="*res://scripts/autoloads/time_service.gd"
+GameState="*res://scripts/autoloads/game_state.gd"
+BaseManager="*res://scripts/autoloads/base_manager.gd"
+BattleService="*res://scripts/autoloads/battle_service.gd"
+PurchaseSystem="*res://scripts/economy/purchase_system.gd"
+ResearchManager="*res://scripts/autoloads/research_manager.gd"
+GeoscapeManager="*res://scripts/geoscape/geoscape_manager.gd"
+MissionFactory="*res://scripts/geoscape/mission_factory.gd"
+DetectionSystem="*res://scripts/geoscape/detection_system.gd"
+Telemetry="*res://scripts/autoloads/telemetry.gd"
+StateStack="*res://scripts/autoloads/state_stack.gd"
+
+[display]
+
+window/size/viewport_width=1280
+window/size/viewport_height=720
+
+[rendering]
+
+renderer/rendering_method="gl_compatibility"

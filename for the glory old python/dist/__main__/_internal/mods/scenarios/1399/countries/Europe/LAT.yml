@@ -1,0 +1,89 @@
+# Teutonic Order #
+
+countries:
+  LAT:
+    name: Teutonic Order
+    treasury: 200
+    inflation: 0
+    stability: 2
+    badboy: 10
+
+    agents:
+      colonists: 0
+      merchants: 0.083333
+
+    religion: catholic
+    cultures:
+      - german
+      - baltic
+
+    diplomacy:
+      relations:
+        LIV: 175
+        HAB: 165
+        BRA: 165
+        SAC: 165
+        LIT: 155
+        POL: 155
+        MAS: 165
+
+    knownregions:
+      - Europe
+    knownprovinces:
+      - 732 # Tangiers
+      - 477
+      - 478 # Bosphorus strait
+    ownedprovinces:
+      - 289
+      - 290
+      - 301
+      - 313
+    controlledprovinces:
+      - 289
+      - 290
+      - 301
+      - 313
+    nationalprovinces:
+      - 289
+      - 290
+      - 301
+      - 313
+    cities:
+      289:
+        buildings:
+          fortress: 2
+        population: 5
+      290:
+        buildings:
+          fortress: 2
+          bailiff: 1
+        population: 15
+        capital: yes
+      301:
+        buildings:
+          fortress: 2
+        population: 17
+      313:
+        buildings:
+          fortress: 2
+        population: 5
+    
+    landunits:
+      - name: "Prussian Reiterregiment"
+        location: 290
+        infantry: 50
+        cavalry: 6
+        artillery: 0
+      - name: "St Mary's Corps"
+        location: 301
+        infantry: 5
+        cavalry: 5
+        artillery: 0
+
+
+    technology:
+      admin: 0
+      infra: 1
+      trade: 1
+      land: 1
+      naval: 0

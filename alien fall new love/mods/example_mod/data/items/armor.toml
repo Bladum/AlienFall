@@ -1,0 +1,142 @@
+# Armor Definitions - XCOM/5 Scaling
+# All armor values use XCOM/5 scaling where original XCOM values are divided by 5
+# Strength = Capacity, weight must not exceed unit strength stat
+
+[[armor]]
+id = "coveralls"
+name = "Coveralls"
+description = "Basic civilian clothing offering minimal protection"
+type = "unit_armor"
+slot = "armor"
+
+# XCOM/5 Stats
+armor_value = 1         # damage reduction
+weight = 1              # mass units
+
+# Tags and properties
+tags = ["light", "conventional", "civilian"]
+tech_tier = "conventional"
+movement_penalty = 0
+provides_abilities = []
+
+[[armor]]
+id = "shield"
+name = "Combat Shield"
+description = "Defensive shield providing significant armor bonus"
+type = "unit_armor"
+slot = "weapon"         # can be wielded as secondary weapon
+
+# XCOM/5 Stats
+armor_value = 4         # damage reduction bonus
+weight = 2              # mass units
+
+# Tags and properties
+tags = ["shield", "conventional", "defensive"]
+tech_tier = "conventional"
+movement_penalty = 0
+blocks_weapon_slot = true
+provides_cover_bonus = 2
+
+[[armor]]
+id = "armored_suit"
+name = "Armored Suit"
+description = "Light combat armor with good protection and mobility"
+type = "unit_armor"
+slot = "armor"
+
+# XCOM/5 Stats
+armor_value = 4         # damage reduction
+weight = 4              # mass units
+
+# Tags and properties
+tags = ["light_armor", "conventional"]
+tech_tier = "conventional"
+movement_penalty = 0
+provides_abilities = []
+
+[[armor]]
+id = "personal_armor"
+name = "Personal Armor"
+description = "Medium combat armor with strong protection"
+type = "unit_armor"
+slot = "armor"
+
+# XCOM/5 Stats
+armor_value = 8         # damage reduction
+weight = 8              # mass units
+
+# Tags and properties
+tags = ["medium_armor", "conventional"]
+tech_tier = "conventional"
+movement_penalty = 0
+provides_abilities = []
+
+[[armor]]
+id = "power_armor"
+name = "Power Armor"
+description = "Heavy powered exoskeleton with excellent protection"
+type = "unit_armor"
+slot = "armor"
+
+# XCOM/5 Stats
+armor_value = 18        # damage reduction
+weight = 12             # mass units (power-assisted reduces effective weight)
+
+# Tags and properties
+tags = ["heavy_armor", "powered", "advanced"]
+tech_tier = "power_systems"
+movement_penalty = 0    # powered assistance negates weight
+strength_bonus = 4      # increases effective carrying capacity
+provides_abilities = ["enhanced_strength"]
+
+[[armor]]
+id = "tank_armor"
+name = "Tank Armor Plating"
+description = "Vehicle-grade armor for maximum protection"
+type = "vehicle_armor"
+slot = "armor"
+
+# XCOM/5 Stats
+armor_value = 24        # damage reduction
+weight = 0              # vehicles don't have weight limits
+
+# Tags and properties
+tags = ["vehicle", "heavy_armor", "tank"]
+tech_tier = "conventional"
+vehicle_only = true
+provides_abilities = []
+
+[[armor]]
+id = "alloy_vest"
+name = "Alien Alloy Vest"
+description = "Light armor made from alien materials"
+type = "unit_armor"
+slot = "armor"
+
+# XCOM/5 Stats
+armor_value = 6         # damage reduction
+weight = 2              # very light for its protection
+
+# Tags and properties
+tags = ["light_armor", "alien_tech"]
+tech_tier = "alien_alloys"
+movement_penalty = 0
+provides_abilities = []
+
+[[armor]]
+id = "flying_suit"
+name = "Flying Suit"
+description = "Powered armor with flight capability"
+type = "unit_armor"
+slot = "armor"
+
+# XCOM/5 Stats
+armor_value = 12        # damage reduction
+weight = 10             # mass units
+
+# Tags and properties
+tags = ["medium_armor", "powered", "flight"]
+tech_tier = "advanced_power_systems"
+movement_penalty = 0
+provides_abilities = ["flight", "increased_mobility"]
+flight_fuel = 20        # turns of flight available

@@ -1,0 +1,8 @@
+[server]
+[server.http]
+port = 8080
+host = "0.0.0.0"
+
+[server.ssl]
+enabled = true
+cert = "/path/to/cert.pem"

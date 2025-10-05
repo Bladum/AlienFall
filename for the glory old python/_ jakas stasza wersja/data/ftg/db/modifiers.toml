@@ -1,0 +1,212 @@
+#-----------------------------------------------------------
+#
+#  API DESCRIPTION FOR MODIFIERS
+#   This file is not loaded by game
+#-----------------------------------------------------------
+
+[agent]
+diplomat = 0                        # country or province, number of diplomat income per year
+diplomat_max = 12                   # country or province, max number of diplomats
+
+# what about spies ?
+
+general = 0                        # country or province, number of agents collecte
+general_max = 12                   # country or province, max number of agents
+
+# what about explored / colonist ?
+
+settler = 0                        # country or province, number of agents collecte
+settler_max = 12                   # country or province, max number of agents
+settler_coastal = 0                # country or province, number of agents collected only from coastal provinces
+colonize_cost = 1.0                # country, cost to perform missions on colonize
+colonize_chance = 1.0              # country, chance to perform missions on colonize
+
+advisor = 0                       # country or province, number of agents collecte
+advisor_max = 12                  # country or province, max number of agents
+policy_cost = 1.0                 # country modifier to cost of policy
+
+merchant = 0                      # country or province, number of agents collecte
+merchant_max = 12                 # country or province, max number of agents
+merchant_cost = 1.0               # country, modifier to sent a merchant in ducats
+merchant_movement = 1.0           # province, modifier to merchant movement path
+merchant_duration = 1.0           # country, modifier how long merchant stays at COT
+
+inventor = 0                       # country or province, number of agents collecte
+inventor_max = 12                  # country or province, max number of agents
+tech_cost = 1.0                    # country modifier to cost of technology
+
+engineer = 0                       # country or province, number of agents collecte
+engineer_max = 12                  # country or province, max number of agents
+
+missionary = 0                    # country or province, number of agents collected per year
+missionary_max = 12               # country or province, max number of agents
+
+religion_convert_cost = 1.0       # country, cost to perform missions on religion convert
+religion_convert_time = 1.0
+culture_convert_cost = 1.0        # country, cost to perform missions on culture convert
+culture_convert = 1.0             # province, how fast culture convert is
+
+vasal_income = 1.0
+
+[diplomacy]
+diplomacy_eff = 1.0                     # country, country modifier to chance for all diplomatic actions
+espionage_eff = 1.0                     # country, modifier for spy missions
+
+[stability]
+stability_cost = 1.0                    # country cost of stability for 1 level
+stability_invest = 0                    # country, monthly change of stab (range is from -3 to +3)
+war_exhaustion = 1.0                    # country, during war period how long you can
+rebelion_delay = 1.0
+revolt_risk = 0                         # country or province level, revolt risk in % per month
+revolt_strength = 1.0                   # province level how strong are rebels if they already happen
+nationalism_religion = 1.0              # province level modifier if people are revolting due to religion difference
+nationalism_culture = 1.0               # province level modifier if people are revolting due to culture difference
+piracy_risk = 0                         # province level piracy chance on water / land, random
+bravery = 0                             # province, morale of units build from this province
+
+# wind penelty move to climate / weather
+# galley penelty move to type of terrain like sea / ocean
+
+[trade]
+trade_eff = 1.0                         # country, trade effieciency mod on trade from COTs
+trade_cot_max_usage = 0.25              # country, max value of COT assigned to one country
+trade_value = 1.0                       # province, value for COT
+trade_tariffs_cot = 1.0                 # country, value of tariffs on COT level to owner
+trade_tariffs_road = 1.0                # country, value of tariffs on merchant path
+trade_boycott = 0                       # country, something with trade refusal
+
+[explore]
+vp_discovery = 0                        # province, get points for who first discover this place
+vp_colonization = 0                     # province, get points for who first have province in this place
+explore_cost = 1                        # province, cost to explore this province
+
+[fame]
+fame = 0                                # country / province - change of fame per turn
+fame_eff = 1.0                          # country - modifier to all actions that cause change of fame
+
+[corruption]
+corruption = 1.0                        # province - total impact on corruption on this province
+coruption_distance = 1.0                # country - corruption related to distance from capitol
+coruption_size = 1.0                    # country - corruption related to size of country
+coruption_no_capitol = 1.0              # country - corryption related to no connection to capitol
+coruption_religion_diff = 1.0           # country - corruption related to religion diff
+coruption_culture_diff = 1.0            # country - corruption related to
+
+
+[army]
+army_morale = 1.0                       # country / province / army land army morale modifier
+army_cost = 1.0                         # country / province land army build cost in gold
+army_wounds = 0.5                       # country / province land army ability to heal after battle
+army_upkeep = 1.0                       # country land army maintenance cost
+army_manpower = 1.0                     # country / province land army modifier to build units
+
+army_experience = 1.0                   # country modifier how fast army gain experinece
+army_train = 1.0                        # province / army - how army get experience via training
+army_attrition = 1.0                    # country / province -  modifier to attrition for your units, which is damage taken on province without battle
+army_siege = 1.0                        # country / army - modifier to your army how much they do consume supplies of fort during siege
+army_movement = 1.0                     # country / army / province - what is cost to move for army
+army_speed = 1.0                        # country / army / province - how fast is army
+army_supply = 1.0                       # country or province modifier how large army can be suplied in province
+
+army_max = 1.0                          # country or province, max nmber of armies for a country
+
+army_mercenary = 1.0                    # province, price of mercenary, if zero then not available
+army_entrench = 1.0                     # province modifier ???
+
+unit_quality.infantry = 1.0             # country / province / army - quality of this category of unit, morale
+unit_quality.cavalry = 1.0              # country / province / army -  quality of this category of unit, morale
+unit_quality.artillery = 1.0            # country / province / army -  quality of this category of unit, morale
+
+unit_cost.infantry = 1.0             # country / army - bonus to morale to unit category
+unit_cost.cavalry = 1.0              # country / army - bonus to morale to unit category
+unit_cost.artillery = 1.0            # country / army - bonus to morale to unit category
+
+unit_speed.infantry = 1.0             # country / army - bonus to speed to unit category
+unit_speed.cavalry = 1.0              # country / army - bonus to speed to unit category
+unit_speed.artillery = 1.0            # country / army - bonus to speed to unit category
+
+unit_experience.infantry = 1.0             # country / army - bonus to experience to unit category
+unit_experience.cavalry = 1.0              # country / army - bonus to experience to unit category
+unit_experience.artillery = 1.0           # country / army - bonus to experience to unit category
+
+[navy]
+navy_morale = 1.0                      # country or province modifier to naval morale
+navy_cost = 1.0                        # country or province modifier to build cost of navy
+navy_wounds = 0.6                      # country or province modifier for auto repair of units after battle
+navy_upkeep = 1.0                      # country modifier of naval units maintenance
+navy_manpower = 1.0                    # country or provice modifier of naval manpower available to build units
+
+navy_experience = 1.0                  # country, modifier how fast you gain experince on army levels
+navy_train = 1.0                       # province, how navy in this province get experience via training
+navy_piracy = 1.0                      # ????
+navy_attrition = 1.0                   # country modifier to attrition for your units, which is damage taken on province without battle
+navy_movement = 1.0                    # country / army / province - modifier to navy on terrain level
+navy_speed = 1.0                       # country / army / province - how navy moves fast
+navy_supply = 1.0                      # country or province modifier how large navy can be supplied in province
+
+navy_mercenary = 1.0                    # province, price of mercenary, if zero then not available
+navy_max = 1.0                          # country or province max number of navies for a country
+
+unit_quality.warship = 1.0             # country / province / army - quality of this category of unit, morale
+unit_quality.galley = 1.0              # country / province / army - quality of this category of unit, morale
+unit_quality.transport = 1.0           # country / province / army - quality of this category of unit, morale
+
+unit_cost.warship = 1.0             # country / province / army - bonus to morale to unit category
+unit_cost.galley = 1.0              # country / province / army - bonus to morale to unit category
+unit_cost.transport = 1.0           # country / province / army - bonus to morale to unit category
+
+unit_speed.warship = 1.0             # country / army - bonus to speed to unit category
+unit_speed.galley = 1.0              # country / army - bonus to speed to unit category
+unit_speed.transport = 1.0           # country / army - bonus to speed to unit category
+
+unit_experience.warship = 1.0             # country / army - bonus to experience to unit category
+unit_experience.galley = 1.0              # country / army - bonus to experience to unit category
+unit_experience.transport = 1.0           # country / army - bonus to experience to unit category
+
+[population]
+population_growth = 3                   # province level, population growth in % per decade for all provinces
+population_growth_island = 0            # province level, population growth in % per decade for islands
+population_growth_coastal = 0           # province level, population growth in % per decade for coastal
+population_growth_inland = 0            # province level, population growth in % per decade for inland
+isolation_penalty = 1.0                 # country, modifier to ??? when country has no
+
+[plague]
+plague_risk = 0.0                       # province, chance to get this province with plague as source
+plague_spread = 0.2                     # province, chance to get this province spread plague to neighbours, where there is no plague yet
+plague_duration = 0                     # province, how long plague last in province until it will die out
+plague_mortality = 0                    # how plague affects population growth in province
+population_health = 1.0                 # country or province level ability to fight with illness
+
+[weather]
+wind_power = 1.0                        # province, ability to impact ships on sea similar way to morale (lose move or get move)
+                                        # weak wind, there is a chance ship will lose turn due to no wind
+                                        # string wind, there is a chance ship will gain turn / get damage due to weather
+[production]
+production_eff = 1.0                    # province or country, income from production of goods
+
+[finance]
+taxes_eff = 1.0                         # province or country, income from population
+budget_spending = 1.0                        # country, total spending from budget before going to treasure
+
+[core]
+manpower_core = 1.0                     # country, modifier to manpower for core provs
+manpower_non_core = 0.5                 # country, modifier to manpower for non core provs
+tax_core = 1.0                          # country, modifier to taxes for core provs
+tax_non_core = 0.5                      # country, modifier to taxes for none core provs
+production_core = 1.0                    # country, modifier to production for core provs
+production_non_core = 0.75               # country, modifier to production for non core provs
+
+[building]
+building_cost = 1.0                     # country, modifier to cost of building in ducats
+building_time = 1.0                     # country, modifier to time build of building in turns
+
+[fort]
+fort_cost = 1.0                         # country, modifier to fort cost in ducats
+fort_upkeep = 1.0                       # country, modifier to upkeep exisits forts
+fort_units = 1.0                        # province, how many units exist in fort for purpose of assult
+fort_defences = 3.0                     # province, how strong defences in province vs enemy siege skill
+                                        # higher supplies = longer siege as defender
+                                        # if its zero then province is captured
+[battle]
+battle_initiative = 0                   # army, who first starts battle, if difference is more then 1 then it got free turn
+general_chance = 0                      # army, chance to have a special general unit for this battle

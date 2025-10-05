@@ -1,0 +1,20 @@
+#-----------------------------------------------------------
+#
+#  PROVINCE CLIMATE
+#
+#-----------------------------------------------------------
+
+cot_colors = [
+    'black', 'grayed', 'white',
+    'light_gray', 'gray', 'dark_gray',
+    'light_red', 'red', 'dark_red',
+    'light_purple', 'purple', 'dark_purple',
+    'light_blue', 'blue', 'dark_blue',
+    'light_cyan', 'cyan', 'dark_cyan',
+    'light_teal', 'teal', 'dark_teal',
+    'light_green', 'green', 'dark_green',
+    'light_yellow', 'yellow', 'dark_yellow',
+    'light_olive', 'olive', 'dark_olive',
+    'light_orange', 'orange', 'dark_orange',
+    'light_brown', 'brown', 'dark_brown'
+]

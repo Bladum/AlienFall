@@ -1,0 +1,733 @@
+#-----------------------------------------------------------
+#
+#  RULERS FOR POLAND
+#
+#-----------------------------------------------------------
+
+[4110]
+name = "Wladyslaw II Jagiello"
+start_date = 1386-01-01
+end_date = 1434-06-01
+culture = "polish"
+religion = "catholic"
+skill.politics = 3
+skill.economy = 3
+skill.military = 3
+skill.technology = 2
+dormant = false
+remark = ""
+
+[4111]
+name = "Wladyslaw III"
+start_date = 1434-06-01
+end_date = 1444-11-01
+culture = "polish"
+religion = "catholic"
+skill.politics = 2
+skill.economy = 2
+skill.military = 1
+skill.technology = 2
+dormant = false
+remark = ""
+
+[4112]
+name = "Kazimierz IV"
+start_date = 1444-11-01
+end_date = 1492-06-01
+culture = "polish"
+religion = "catholic"
+skill.politics = 3
+skill.economy = 4
+skill.military = 3
+skill.technology = 2
+dormant = false
+remark = ""
+
+[4113]
+name = "Jan I Olbracht"
+start_date = 1492-06-01
+end_date = 1501-06-01
+culture = "polish"
+religion = "catholic"
+skill.politics = 2
+skill.economy = 2
+skill.military = 2
+skill.technology = 2
+dormant = false
+remark = ""
+
+[4114]
+name = "Aleksander I"
+start_date = 1501-06-01
+end_date = 1506-08-01
+culture = "polish"
+religion = "catholic"
+skill.politics = 1
+skill.economy = 3
+skill.military = 1
+skill.technology = 2
+dormant = false
+remark = ""
+
+[4115]
+name = "Zygmunt I Stary"
+start_date = 1506-08-01
+end_date = 1548-04-01
+culture = "polish"
+religion = "catholic"
+skill.politics = 3
+skill.economy = 3
+skill.military = 2
+skill.technology = 2
+dormant = false
+remark = ""
+
+[4116]
+name = "Zygmunt II August"
+start_date = 1548-04-01
+end_date = 1572-07-01
+culture = "polish"
+religion = "catholic"
+skill.politics = 3
+skill.economy = 3
+skill.military = 3
+skill.technology = 2
+dormant = false
+remark = "Union of Lublin 1569"
+
+[4133]
+name = "Anna Jagiellonka"
+start_date = 1572-07-01
+end_date = 1596-09-01
+culture = "polish"
+religion = "catholic"
+skill.politics = 3
+skill.economy = 3
+skill.military = 2
+skill.technology = 2
+dormant = false
+remark = "Zygmunt's daughter; disputed Queen. later married Stefan Batory and became his consort."
+
+[4134]
+name = "Zygmunt III Waza"
+start_date = 1596-09-01
+end_date = 1632-04-01
+culture = "polish"
+religion = "catholic"
+skill.politics = 2
+skill.economy = 2
+skill.military = 2
+skill.technology = 2
+dormant = false
+remark = ""
+
+[4135]
+name = "Wladyslaw IV Waza"
+start_date = 1632-04-01
+end_date = 1648-05-01
+culture = "polish"
+religion = "catholic"
+skill.politics = 4
+skill.economy = 3
+skill.military = 3
+skill.technology = 2
+dormant = false
+remark = ""
+
+[4136]
+name = "Jan II Kazimierz"
+start_date = 1648-05-01
+end_date = 1672-12-01
+culture = "polish"
+religion = "catholic"
+skill.politics = 3
+skill.economy = 1
+skill.military = 2
+skill.technology = 2
+dormant = false
+remark = "Last Polish line Vasa dynast; can be succeeded by his cousin Christina of Sweden."
+
+[4137]
+name = "Krystyna Wazowna"
+start_date = 1672-12-01
+end_date = 1689-04-01
+culture = "polish"
+religion = "catholic"
+skill.politics = 3
+skill.economy = 2
+skill.military = 2
+skill.technology = 2
+dormant = false
+remark = "Last Swedish line Vasa dynast."
+
+[5937]
+name = "Sejm Walny"
+start_date = 1689-04-01
+end_date = 1837-01-01
+culture = "polish"
+religion = "catholic"
+skill.politics = 2
+skill.economy = 3
+skill.military = 2
+skill.technology = 2
+dormant = false
+remark = "Mostly here so we have a backup default monarch at all times."
+
+[4117]
+name = "Henryk I Walezy"
+start_date = 1572-07-01
+end_date = 1589-08-01
+culture = "polish"
+religion = "catholic"
+skill.politics = 2
+skill.economy = 2
+skill.military = 2
+skill.technology = 2
+dormant = true
+remark = "Left Poland to become Henri III of France in 1575."
+
+[4118]
+name = "Stefan I Batory"
+start_date = 1574-06-01
+end_date = 1586-12-01
+culture = "polish"
+religion = "catholic"
+skill.politics = 2
+skill.economy = 4
+skill.military = 4
+skill.technology = 2
+dormant = true
+remark = "Elected in 1575, crowned May 1, 1576"
+
+[4119]
+name = "Zygmunt III Waza"
+start_date = 1586-12-01
+end_date = 1632-04-01
+culture = "polish"
+religion = "catholic"
+skill.politics = 2
+skill.economy = 2
+skill.military = 2
+skill.technology = 2
+dormant = true
+remark = ""
+
+[4120]
+name = "Wladyslaw IV Waza"
+start_date = 1632-04-01
+end_date = 1648-05-01
+culture = "polish"
+religion = "catholic"
+skill.politics = 4
+skill.economy = 3
+skill.military = 3
+skill.technology = 2
+dormant = true
+remark = ""
+
+[4121]
+name = "Jan II Kazimierz"
+start_date = 1648-05-01
+end_date = 1668-09-01
+culture = "polish"
+religion = "catholic"
+skill.politics = 3
+skill.economy = 1
+skill.military = 2
+skill.technology = 2
+dormant = true
+remark = "Abdicated in 1668, died in 1672."
+
+[4122]
+name = "Michal I Korybut"
+start_date = 1668-09-01
+end_date = 1673-11-01
+culture = "polish"
+religion = "catholic"
+skill.politics = 1
+skill.economy = 1
+skill.military = 1
+skill.technology = 2
+dormant = true
+remark = ""
+
+[4123]
+name = "Jan III Sobieski"
+start_date = 1673-11-01
+end_date = 1696-06-01
+culture = "polish"
+religion = "catholic"
+skill.politics = 4
+skill.economy = 2
+skill.military = 4
+skill.technology = 2
+dormant = true
+remark = ""
+
+[4129]
+name = "Jakub I Sobieski"
+start_date = 1696-06-01
+end_date = 1737-12-01
+culture = "polish"
+religion = "catholic"
+skill.politics = 3
+skill.economy = 3
+skill.military = 3
+skill.technology = 2
+dormant = true
+remark = ""
+
+[4130]
+name = "Karol I Edward"
+start_date = 1737-12-01
+end_date = 1788-02-01
+culture = "polish"
+religion = "catholic"
+skill.politics = 2
+skill.economy = 1
+skill.military = 2
+skill.technology = 2
+dormant = true
+remark = "Bonnie Prince Charlie, James Sobieski's grandson and heir."
+
+[5933]
+name = "Henryk II Benedykt"
+start_date = 1788-02-01
+end_date = 1807-07-01
+culture = "polish"
+religion = "catholic"
+skill.politics = 4
+skill.economy = 3
+skill.military = 2
+skill.technology = 2
+dormant = true
+remark = ""
+
+[5934]
+name = "Karolina *"
+start_date = 1807-07-01
+end_date = 1837-11-01
+culture = "polish"
+religion = "catholic"
+skill.politics = 2
+skill.economy = 2
+skill.military = 3
+skill.technology = 2
+dormant = true
+remark = "Fantasy"
+
+[4124]
+name = "August II Mocny"
+start_date = 1696-06-01
+end_date = 1733-02-01
+culture = "polish"
+religion = "catholic"
+skill.politics = 2
+skill.economy = 2
+skill.military = 1
+skill.technology = 2
+dormant = true
+remark = ""
+
+[4127]
+name = "August III Sas"
+start_date = 1733-02-01
+end_date = 1763-10-01
+culture = "polish"
+religion = "catholic"
+skill.politics = 3
+skill.economy = 2
+skill.military = 1
+skill.technology = 2
+dormant = true
+remark = ""
+
+[4168]
+name = "Fryderyk I Krystian"
+start_date = 1763-10-01
+end_date = 1763-12-01
+culture = "polish"
+religion = "catholic"
+skill.politics = 2
+skill.economy = 2
+skill.military = 2
+skill.technology = 2
+dormant = true
+remark = ""
+
+[4169]
+name = "Fryderyk II August"
+start_date = 1763-12-01
+end_date = 1827-05-01
+culture = "polish"
+religion = "catholic"
+skill.politics = 3
+skill.economy = 2
+skill.military = 3
+skill.technology = 2
+dormant = true
+remark = ""
+
+[4126]
+name = "Maria Augusta"
+start_date = 1827-05-01
+end_date = 1863-03-01
+culture = "polish"
+religion = "catholic"
+skill.politics = 3
+skill.economy = 3
+skill.military = 2
+skill.technology = 2
+dormant = true
+remark = ""
+
+[4125]
+name = "Stanislaw I Leszczynski"
+start_date = 1700-01-01
+end_date = 1766-02-01
+culture = "polish"
+religion = "catholic"
+skill.politics = 2
+skill.economy = 4
+skill.military = 3
+skill.technology = 2
+dormant = true
+remark = "Elected twice; disputed and led to the War of Polish Succession."
+
+[4128]
+name = "Stanislaw II August"
+start_date = 1763-10-01
+end_date = 1798-02-01
+culture = "polish"
+religion = "catholic"
+skill.politics = 3
+skill.economy = 2
+skill.military = 2
+skill.technology = 2
+dormant = true
+remark = "The last King of Poland; abdicated in 1795."
+
+[5948]
+name = "Stanislaw III Aleksander *"
+start_date = 1798-02-01
+end_date = 1837-01-01
+culture = "polish"
+religion = "catholic"
+skill.politics = 3
+skill.economy = 2
+skill.military = 2
+skill.technology = 2
+dormant = true
+remark = "Fantasy"
+
+[4131]
+name = "Franciszek I Ludwik"
+start_date = 1696-06-01
+end_date = 1709-02-01
+culture = "polish"
+religion = "catholic"
+skill.politics = 2
+skill.economy = 2
+skill.military = 2
+skill.technology = 2
+dormant = true
+remark = "for if Poland survives - can be a random noble elected after Poniatowski dies."
+
+[4132]
+name = "Ludwik I Armand"
+start_date = 1709-02-01
+end_date = 1727-05-01
+culture = "polish"
+religion = "catholic"
+skill.politics = 2
+skill.economy = 1
+skill.military = 2
+skill.technology = 2
+dormant = true
+remark = ""
+
+[4138]
+name = "Ludwik II Franciszek"
+start_date = 1727-05-01
+end_date = 1776-08-01
+culture = "polish"
+religion = "catholic"
+skill.politics = 3
+skill.economy = 2
+skill.military = 1
+skill.technology = 2
+dormant = true
+remark = ""
+
+[4160]
+name = "Ludwik III Franciszek"
+start_date = 1776-08-01
+end_date = 1814-03-01
+culture = "polish"
+religion = "catholic"
+skill.politics = 2
+skill.economy = 2
+skill.military = 2
+skill.technology = 2
+dormant = true
+remark = ""
+
+[5935]
+name = "Franciszek II Jakub *"
+start_date = 1814-03-01
+end_date = 1837-01-01
+culture = "polish"
+religion = "catholic"
+skill.politics = 2
+skill.economy = 3
+skill.military = 2
+skill.technology = 2
+dormant = true
+remark = "Fantasy"
+
+[4161]
+name = "Ernest"
+start_date = 1572-07-01
+end_date = 1595-02-01
+culture = "polish"
+religion = "catholic"
+skill.politics = 3
+skill.economy = 2
+skill.military = 2
+skill.technology = 2
+dormant = true
+remark = ""
+
+[4162]
+name = "Maksymilian"
+start_date = 1586-12-01
+end_date = 1618-11-01
+culture = "polish"
+religion = "catholic"
+skill.politics = 2
+skill.economy = 3
+skill.military = 2
+skill.technology = 2
+dormant = true
+remark = ""
+
+[4163]
+name = "Fiodor"
+start_date = 1572-07-01
+end_date = 1598-01-01
+culture = "polish"
+religion = "catholic"
+skill.politics = 2
+skill.economy = 2
+skill.military = 3
+skill.technology = 2
+dormant = true
+remark = ""
+
+[4164]
+name = "Ludwik I"
+start_date = 1668-09-01
+end_date = 1686-12-01
+culture = "polish"
+religion = "catholic"
+skill.politics = 3
+skill.economy = 2
+skill.military = 4
+skill.technology = 2
+dormant = true
+remark = ""
+
+[4165]
+name = "Fryderyk Wilhelm"
+start_date = 1668-09-01
+end_date = 1688-05-01
+culture = "polish"
+religion = "catholic"
+skill.politics = 4
+skill.economy = 3
+skill.military = 4
+skill.technology = 2
+dormant = true
+remark = ""
+
+[4166]
+name = "Jerzy Dunski"
+start_date = 1673-11-01
+end_date = 1708-10-01
+culture = "polish"
+religion = "catholic"
+skill.politics = 3
+skill.economy = 2
+skill.military = 2
+skill.technology = 2
+dormant = true
+remark = ""
+
+[4167]
+name = "Emanuel Franciszek"
+start_date = 1733-02-01
+end_date = 1766-08-01
+culture = "polish"
+religion = "catholic"
+skill.politics = 3
+skill.economy = 3
+skill.military = 1
+skill.technology = 2
+dormant = true
+remark = ""
+
+[5936]
+name = "Sejm Walny"
+start_date = 1572-01-01
+end_date = 1837-01-01
+culture = "polish"
+religion = "catholic"
+skill.politics = 2
+skill.economy = 3
+skill.military = 2
+skill.technology = 2
+dormant = true
+remark = ""
+
+[5949]
+name = "Sejm Walny"
+start_date = 1766-01-01
+end_date = 1837-01-01
+culture = "polish"
+religion = "catholic"
+skill.politics = 2
+skill.economy = 3
+skill.military = 2
+skill.technology = 2
+dormant = true
+remark = ""
+
+[5938]
+name = "August II Mocny"
+start_date = 1689-04-01
+end_date = 1733-02-01
+culture = "polish"
+religion = "catholic"
+skill.politics = 2
+skill.economy = 2
+skill.military = 1
+skill.technology = 2
+dormant = true
+remark = ""
+
+[5939]
+name = "Jakub I Stuart"
+start_date = 1689-04-01
+end_date = 1701-09-01
+culture = "polish"
+religion = "catholic"
+skill.politics = 2
+skill.economy = 2
+skill.military = 3
+skill.technology = 2
+dormant = true
+remark = ""
+
+[5940]
+name = "Jakub II Stuart"
+start_date = 1701-09-01
+end_date = 1766-01-01
+culture = "polish"
+religion = "catholic"
+skill.politics = 2
+skill.economy = 2
+skill.military = 2
+skill.technology = 2
+dormant = true
+remark = ""
+
+[5941]
+name = "Karol I Edward"
+start_date = 1766-01-01
+end_date = 1788-02-01
+culture = "polish"
+religion = "catholic"
+skill.politics = 2
+skill.economy = 1
+skill.military = 2
+skill.technology = 2
+dormant = true
+remark = ""
+
+[5942]
+name = "Henryk II Wielki"
+start_date = 1589-08-01
+end_date = 1610-05-01
+culture = "polish"
+religion = "catholic"
+skill.politics = 4
+skill.economy = 4
+skill.military = 4
+skill.technology = 2
+dormant = true
+remark = ""
+
+[5943]
+name = "Ludwik I Sprawiedliwy"
+start_date = 1610-05-01
+end_date = 1643-05-01
+culture = "polish"
+religion = "catholic"
+skill.politics = 2
+skill.economy = 2
+skill.military = 3
+skill.technology = 2
+dormant = true
+remark = ""
+
+[5944]
+name = "Ludwik II Wielki"
+start_date = 1643-05-01
+end_date = 1715-09-01
+culture = "polish"
+religion = "catholic"
+skill.politics = 3
+skill.economy = 3
+skill.military = 4
+skill.technology = 2
+dormant = true
+remark = ""
+
+[5945]
+name = "Ludwik III Ukochany"
+start_date = 1715-09-01
+end_date = 1774-05-01
+culture = "polish"
+religion = "catholic"
+skill.politics = 2
+skill.economy = 2
+skill.military = 3
+skill.technology = 2
+dormant = true
+remark = ""
+
+[5946]
+name = "Ludwik IV August"
+start_date = 1774-05-01
+end_date = 1811-09-01
+culture = "polish"
+religion = "catholic"
+skill.politics = 2
+skill.economy = 2
+skill.military = 3
+skill.technology = 2
+dormant = true
+remark = ""
+
+[5947]
+name = "Ludwik V Karol"
+start_date = 1811-09-01
+end_date = 1849-01-01
+culture = "polish"
+religion = "catholic"
+skill.politics = 2
+skill.economy = 3
+skill.military = 2
+skill.technology = 2
+dormant = true
+remark = ""

@@ -1,0 +1,46 @@
+#
+#   climates
+#
+
+---
+
+climates:
+    none:
+        color: black
+    arctic:
+        color: white
+        snow: [ 10, 11, 12, 1, 2, 3, 4, 5 ]
+        modifiers:
+            move: 0.6
+            attrition: 1.2
+            mod_population_growth: -3
+    desertic:
+        color: yellow
+        modifiers:
+            attrition: 1.5
+            move: 0.8
+            mod_population_growth: -2
+    ncontinental:
+        color: orange
+        snow: [ 12, 1, 2]
+        modifiers: {}
+    scontinental:
+        color: light_red
+        snow: [ 6, 7, 8 ]
+        modifiers: {}
+    temperate:
+        color: light_green
+        modifiers:
+            mod_population_growth: 1
+    tropical:
+        color: dark_green
+        modifiers:
+            attrition: 1.5
+            colonist_cost: 0.5
+            mod_population_growth: -5
+            merchant_cost: 2.0
+    tundra:
+        color: light_blue
+        snow: [ 11, 12, 1, 2, 3]
+        modifiers:
+            mod_population_growth: -2

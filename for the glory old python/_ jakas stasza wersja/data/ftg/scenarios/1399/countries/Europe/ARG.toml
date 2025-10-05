@@ -1,0 +1,152 @@
+#-----------------------------------------------------------
+#
+#  ARAGON
+#
+#-----------------------------------------------------------
+
+tag = "ARG"
+name = "Aragon"
+
+# ------------------ BUDGET -------------------
+
+[budget]
+treasury = 400
+inflation = 0
+stability = 2
+government = 'monarchy'
+
+# ------------------ PROVINCES -------------------
+
+[geography]
+knownregions = ["europe", "north_africa"]
+ownedprovinces = [395, 396, 397, 426, 427, 429, 430, 437, 819, 821]
+controlledprovinces = [395, 396, 397, 426, 427, 429, 430, 437, 819, 821]
+nationalprovinces = [395, 396, 397, 426, 427, 429, 430, 437, 819, 821]
+
+# ------------------ SOCIAL -------------------
+
+[social]
+religion = "catholic"
+cultures = ["catalan", "italian", "maltese"]
+
+# ------------------ AGENTS -------------------
+
+[agents]
+colonists = 3.25
+merchants = 4
+diplomats = 1
+
+# ------------------ DIPLOMACY -------------------
+
+[relations]
+POR = 150
+CAS = 150
+NAV = 150
+GRA = 165
+MOR = -200
+TLE = -200
+FRA = 175
+KNI = 175
+FOI = 150
+
+# ------------------ CITIES -------------------
+
+[[cities]]
+location = 427
+buildngs = [ 'fort_01' ]
+population = 3
+
+[[cities]]
+location = 429
+buildings = [ 'fort_01', 'workshop' ]
+population = 4
+capital = true
+
+[[cities]]
+location = 430
+buildings = [ 'fort_01' ]
+population = 5
+
+[[cities]]
+location = 437
+buildings = [ 'fort_01' ]
+population = 5
+
+[[cities]]
+location = 426
+buildings = [ 'fort_01' ]
+population = 4
+
+[[cities]]
+location = 821
+buildings = [ 'fort_01' ]
+population = 2
+
+[[cities]]
+location = 397
+buildings = [ 'fort_01' ]
+population = 3
+
+[[cities]]
+location = 396
+buildings = [ 'fort_01' ]
+population = 6
+
+[[cities]]
+location = 395
+buildings = [ 'fort_01' ]
+population = 6
+
+[[cities]]
+location = 819
+buildings = [ 'fort_01' ]
+population = 4
+
+# ------------------ ARMY & NAVY -------------------
+
+[[armies]]
+name = "Army of Aragon"
+location = 437
+units.infantry = 20
+units.cavalry = 5
+units.artillery = 0
+morale = 2
+
+[[navies]]
+name = "Fleet of Aragon"
+location = 429
+units.warships = 2
+units.galleys = 10
+units.transports = 4
+morale = -3
+
+# ------------------ TECHNOLOGY -------------------
+
+[technologies]
+admin = 1
+infra = 1
+trade = 1
+land = 1
+naval = 1
+diplo = 1
+
+# ------------------ POLICIES -------------------
+
+[policies]
+governance = 0
+innovation = 2
+nobility = -4
+freedom = 2
+commerce = 3
+expansion = 1
+domain = 1
+conscription = 1
+balance = 2
+honor = 1
+social = 0
+
+# ------------------ IDEAS ------------------
+
+ideas = [
+  'test_idea'
+]

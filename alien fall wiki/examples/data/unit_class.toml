@@ -1,0 +1,191 @@
+# Unit Class Definition Example
+# This file demonstrates a complete soldier class with stats, abilities, and progression
+
+[[unit_class]]
+id = "ranger"
+name = "Ranger"
+description = "Mobile scout specializing in flanking maneuvers and reconnaissance."
+
+# Class category
+category = "soldier"          # soldier, specialist, support, heavy
+role = "scout"               # assault, scout, support, heavy, sniper
+tier = "standard"            # rookie, standard, veteran, elite
+
+# Base statistics (at rank 1)
+[unit_class.base_stats]
+health = 80                  # Hit points
+action_points = 12           # Actions per turn (high mobility)
+mobility = 8                 # Movement tiles per AP
+accuracy = 75                # Base hit chance %
+defense = 15                 # Dodge/evasion %
+will = 60                    # Resistance to panic/psionics
+hacking = 0                  # Not a hacker class
+
+# Stat growth per rank (added each promotion)
+[unit_class.stat_growth]
+health = 5                   # +5 HP per rank
+action_points = 0            # AP doesn't grow
+mobility = 0                 # Mobility doesn't grow
+accuracy = 3                 # +3% accuracy per rank
+defense = 2                  # +2% defense per rank
+will = 4                     # +4 will per rank
+hacking = 0
+
+# Rank progression
+[[unit_class.ranks]]
+rank = 1
+name = "Squaddie"
+experience_required = 0
+abilities = []               # No abilities at rank 1
+
+[[unit_class.ranks]]
+rank = 2
+name = "Corporal"
+experience_required = 100
+abilities = ["run_and_gun"]  # Can move and shoot
+
+[[unit_class.ranks]]
+rank = 3
+name = "Sergeant"
+experience_required = 300
+abilities = ["run_and_gun", "tactical_sense"]  # +defense when in cover
+
+[[unit_class.ranks]]
+rank = 4
+name = "Lieutenant"
+experience_required = 600
+abilities = ["run_and_gun", "tactical_sense", "lightning_reflexes"]  # +dodge vs overwatch
+
+[[unit_class.ranks]]
+rank = 5
+name = "Captain"
+experience_required = 1000
+abilities = ["run_and_gun", "tactical_sense", "lightning_reflexes", "rapid_fire"]  # Two shots, reduced accuracy
+
+[[unit_class.ranks]]
+rank = 6
+name = "Major"
+experience_required = 1500
+abilities = ["run_and_gun", "tactical_sense", "lightning_reflexes", "rapid_fire", "untouchable"]  # First attack always misses
+
+[[unit_class.ranks]]
+rank = 7
+name = "Colonel"
+experience_required = 2200
+abilities = ["run_and_gun", "tactical_sense", "lightning_reflexes", "rapid_fire", "untouchable", "reaper"]  # No action cost until miss
+
+# Class abilities (defined in detail)
+[[unit_class.abilities]]
+id = "run_and_gun"
+name = "Run and Gun"
+description = "Move and still fire your weapon with no accuracy penalty."
+type = "passive"
+cooldown = 0                 # 0 = no cooldown (always active)
+ap_cost = 0                  # Passive abilities have no cost
+
+[[unit_class.abilities]]
+id = "tactical_sense"
+name = "Tactical Sense"
+description = "+10 defense when in cover."
+type = "passive"
+effect = { defense = 10 }
+condition = "in_cover"
+
+[[unit_class.abilities]]
+id = "lightning_reflexes"
+name = "Lightning Reflexes"
+description = "+30 defense against overwatch shots."
+type = "passive"
+effect = { defense = 30 }
+condition = "vs_overwatch"
+
+[[unit_class.abilities]]
+id = "rapid_fire"
+name = "Rapid Fire"
+description = "Fire two shots at -15% accuracy each."
+type = "active"
+ap_cost = 4
+cooldown = 3                 # 3 turns between uses
+effect = { shots = 2, accuracy_penalty = -15 }
+
+[[unit_class.abilities]]
+id = "untouchable"
+name = "Untouchable"
+description = "If you score a kill, the next enemy attack against you will miss."
+type = "triggered"
+trigger = "on_kill"
+effect = { dodge_next_attack = true }
+duration = 1                 # Lasts until next attack
+
+[[unit_class.abilities]]
+id = "reaper"
+name = "Reaper"
+description = "Killing an enemy does not cost an action. Lasts until you miss."
+type = "triggered"
+trigger = "on_kill"
+effect = { refund_action_points = true }
+duration = "until_miss"
+
+# Equipment restrictions
+[unit_class.equipment]
+primary_weapons = ["rifle", "shotgun", "smg"]  # Can use these weapon types
+secondary_weapons = ["pistol"]
+armor_types = ["light", "medium"]  # Cannot use heavy armor
+items = ["medikit", "grenade", "flashbang", "smoke"]  # Can carry these items
+max_items = 2                # Can carry 2 items max
+
+# Training requirements
+[unit_class.training]
+base_training_days = 7       # Days to train a new recruit to this class
+facility_required = "barracks"
+cost_credits = 5000
+instructor_required = false  # No veteran instructor needed
+
+# Specializations (branching options at rank 3)
+[[unit_class.specializations]]
+id = "ranger_assault"
+name = "Assault Specialist"
+rank_available = 3
+description = "Focus on aggressive flanking tactics"
+bonus_stats = { action_points = 2 }
+bonus_abilities = ["close_combat_specialist"]
+
+[[unit_class.specializations]]
+id = "ranger_scout"
+name = "Scout Specialist"
+rank_available = 3
+description = "Focus on reconnaissance and detection"
+bonus_stats = { mobility = 2 }
+bonus_abilities = ["phantom"]  # Concealment on mission start
+
+# AI behavior tags (how AI uses this class)
+[unit_class.ai_behavior]
+aggression = 0.8             # High aggression
+flanking_preference = 0.9    # Strongly prefers flanking
+cover_preference = 0.5       # Moderate cover preference
+ability_priority = [
+    { ability = "rapid_fire", priority = 0.8 },
+    { ability = "run_and_gun", priority = 0.9 }
+]
+
+# Visual customization
+[unit_class.visuals]
+icon = "assets/icons/ranger.png"  # 20×20 icon
+sprite_base = "assets/units/ranger/"  # Sprite directory
+armor_tint = { r = 100, g = 150, b = 100 }  # Green tint
+voice_set = "voice_ranger"   # Voice lines identifier
+
+# Balance metadata
+[unit_class.balance]
+power_level = 75             # 0-100 relative power
+difficulty = "medium"        # easy, medium, hard to play effectively
+popularity = "high"          # Expected player usage
+strategic_value = 80         # AI strategic assessment
+
+# Modding support
+[unit_class.modding]
+mod_id = "base_game"
+author = "AlienFall Team"
+version = "1.0.0"
+override_priority = 100
+tags = ["mobility", "flanking", "scout", "mid_range"]

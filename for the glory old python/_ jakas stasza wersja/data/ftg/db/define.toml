@@ -1,0 +1,143 @@
+
+#-----------------------------------------------------------
+#
+#  GAME CONSTANTS
+#
+#-----------------------------------------------------------
+
+[population_growth]
+base = 5
+country_stab = 1.0
+capitol = 1
+# buildings
+# terrain
+# climate
+center_of_trade = 2
+close_COT = 1
+occupied = -5
+looted = -10
+enemy = -15
+# goods
+current_pop_level = -1.0
+
+[land_manpower]
+min_value = 1
+is_capitol = 1.5
+# buildings
+not_core = 0.5
+not_connected_capitol = 0.75
+# policies
+# budget decisions
+
+[production_eff]
+# goods in province
+# building in province
+is_capitol = 1.25
+# state religion
+# state policies
+culture_difference = 0.75
+religion_difference = 0.75
+not_connected_capitol = 0.75
+base_value = 1.0
+stability = [ 0.8, 0.9, 1.0, 1.0, 1.0, 1.1, 1.2 ]
+# budget decisions
+is_occupied = 0.5
+
+[agents]
+
+# diplomats
+
+diplomat.base_value = 1
+# from ruler skill
+# state religion
+diplomat.at_war = 1
+# state policies
+
+# merchants
+
+merchant.base_value = 1
+merchant.owned_cot = 1
+# from technology
+# from state policies
+# from religion
+merchant.coastal_provinces = 0.25
+merchant.stability = [ -3, -2, -1, 0, 1, 2, 3 ]
+
+# settlers
+
+settler.base_value = -1
+settler.owned_shipyard = 1
+# state policies
+
+# general
+
+# state policies
+# from ruler
+# province buildings
+
+# missionary
+
+# from state policies
+# from religion
+# from buildings
+# from ruler skill
+
+# inventor
+
+# from ruler skills
+# from buildings
+# from policies
+# from religion
+# from budget decision
+
+# advisors
+
+# from ruler skills
+
+# engineers
+
+engineer.base_value = 1
+# from ruler skill
+# from budget deicions
+# from technology
+# from state policy
+
+
+#
+#   Country size
+#
+
+[country_size]
+tiny = { size = [1, 1], income = 1.0 }
+small = { size = [2, 4], income = 1.5 }
+medium = { size = [5, 9], income = 2.0 }
+large = { size = [10, 16], income = 2.5 }
+huge = { size = [17, 25], income = 3.0 }
+massive = { size = [26, 1000], income = 3.5 }
+
+
+#
+#   army with higher morale has chance to additional attack AFTER its own move
+#   army with bad morale has chance to panic at start of its own turn
+#
+
+[battle_morale]
+good_morale_chance_attack = 0.10        # 1 point -> 10%
+bad_morale_chance_panic = 0.20          # 1 point -> 20%
+
+#
+# army has experience and its going up on training and battle and going down in time and with recruits
+#
+
+[battle_experience]
+0 = { exp = 0, bonus = 1.0 }
+1 = { exp = 10, bonus = 1.1 }
+2 = { exp = 30, bonus = 1.2 }
+3 = { exp = 60, bonus = 1.3 }
+4 = { exp = 100, bonus = 1.4 }
+5 = { exp = 150, bonus = 1.5 }
+
+[mercenaries]
+base_cost.gold = 2.0
+base_cost.manpower = 0
+base_cost.general = 0

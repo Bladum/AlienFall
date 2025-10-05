@@ -1,0 +1,172 @@
+[gd_scene load_steps=2 format=3 uid="uid://base_management"]
+
+[ext_resource type="Script" path="res://scripts/states/base_management_state.gd" id="1"]
+
+[node name="BaseManagement" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.1, 0.15, 0.1, 1)
+
+[node name="TitleLabel" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -200.0
+offset_top = 20.0
+offset_right = 200.0
+offset_bottom = 60.0
+grow_horizontal = 2
+text = "BASE MANAGEMENT"
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_font_sizes/font_size = 36
+
+[node name="BaseSelector" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -150.0
+offset_top = 80.0
+offset_right = 150.0
+offset_bottom = 120.0
+grow_horizontal = 2
+
+[node name="BaseLabel" type="Label" parent="BaseSelector"]
+layout_mode = 2
+text = "Base:"
+vertical_alignment = 1
+
+[node name="BaseDropdown" type="OptionButton" parent="BaseSelector"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MainContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 140.0
+offset_right = -20.0
+offset_bottom = -80.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LeftPanel" type="VBoxContainer" parent="MainContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="BaseInfoPanel" type="VBoxContainer" parent="MainContainer/LeftPanel"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="BaseInfoLabel" type="Label" parent="MainContainer/LeftPanel/BaseInfoPanel"]
+layout_mode = 2
+text = "BASE INFORMATION"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 18
+
+[node name="BaseStats" type="VBoxContainer" parent="MainContainer/LeftPanel/BaseInfoPanel"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="PowerLabel" type="Label" parent="MainContainer/LeftPanel/BaseInfoPanel/BaseStats"]
+layout_mode = 2
+text = "Power: 0/0 MW"
+
+[node name="PersonnelLabel" type="Label" parent="MainContainer/LeftPanel/BaseInfoPanel/BaseStats"]
+layout_mode = 2
+text = "Personnel: 0/0"
+
+[node name="StorageLabel" type="Label" parent="MainContainer/LeftPanel/BaseInfoPanel/BaseStats"]
+layout_mode = 2
+text = "Storage: 0/100"
+
+[node name="FacilitiesPanel" type="VBoxContainer" parent="MainContainer/LeftPanel"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="FacilitiesLabel" type="Label" parent="MainContainer/LeftPanel/FacilitiesPanel"]
+layout_mode = 2
+text = "FACILITIES"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 18
+
+[node name="FacilitiesList" type="VBoxContainer" parent="MainContainer/LeftPanel/FacilitiesPanel"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="RightPanel" type="VBoxContainer" parent="MainContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="PersonnelPanel" type="VBoxContainer" parent="MainContainer/RightPanel"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="PersonnelLabel" type="Label" parent="MainContainer/RightPanel/PersonnelPanel"]
+layout_mode = 2
+text = "PERSONNEL"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 18
+
+[node name="PersonnelList" type="VBoxContainer" parent="MainContainer/RightPanel/PersonnelPanel"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ConstructionPanel" type="VBoxContainer" parent="MainContainer/RightPanel"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ConstructionLabel" type="Label" parent="MainContainer/RightPanel/ConstructionPanel"]
+layout_mode = 2
+text = "CONSTRUCTION QUEUE"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 18
+
+[node name="ConstructionList" type="VBoxContainer" parent="MainContainer/RightPanel/ConstructionPanel"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="BottomPanel" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = -60.0
+offset_right = -20.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="BuildFacilityButton" type="Button" parent="BottomPanel"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "BUILD FACILITY"
+
+[node name="AssignPersonnelButton" type="Button" parent="BottomPanel"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "ASSIGN PERSONNEL"
+
+[node name="BackButton" type="Button" parent="BottomPanel"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "BACK TO GEOSCAPE"

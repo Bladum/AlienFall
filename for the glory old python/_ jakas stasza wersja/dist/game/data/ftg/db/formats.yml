@@ -1,0 +1,249 @@
+
+---
+
+color_sets:
+  weather:
+    - ice
+    - mud
+    - rain
+    - snow
+    - storm
+    - wave
+    
+  terrains:
+    - forest
+    - mountain
+    - marsh
+    - desert
+    - plains
+    - hill
+    # - sea
+  
+  army:
+    - white
+    - grayed
+    - light_gray
+    - gray
+    - dark_gray
+    - light_red
+    - red
+    - dark_red
+    - light_purple
+    - purple
+    - dark_purple
+    - light_blue
+    - blue
+    - dark_blue
+    - light_cyan
+    - cyan
+    - dark_cyan
+    - light_teal
+    - teal
+    - dark_teal
+    - light_green
+    - green
+    - dark_green
+    - light_yellow
+    - yellow
+    - dark_yellow
+    - light_olive
+    - olive
+    - dark_olive
+    - light_orange
+    - orange
+    - dark_orange
+    - light_brown
+    - brown
+    - dark_brown
+
+  pattern:
+    - white
+    - black
+    - basic_water
+    - light_gray
+    - gray
+    - dark_gray
+    - light_red
+    - red
+    - dark_red
+    - light_purple
+    - purple
+    - dark_purple
+    - light_blue
+    - blue
+    - dark_blue
+    - light_cyan
+    - cyan
+    - dark_cyan
+    - light_teal
+    - teal
+    - dark_teal
+    - light_green
+    - green
+    - dark_green
+    - light_yellow
+    - yellow
+    - dark_yellow
+    - light_olive
+    - olive
+    - dark_olive
+    - light_orange
+    - orange
+    - dark_orange
+    - light_brown
+    - brown
+    - dark_brown
+
+pen_size:
+  road_land: 1
+  road_sea: 1
+  road_coast: 1
+
+  border_land: 3
+  border_coastal: 4
+  border_sea: 3
+  border_country: 4
+  river: 6
+  road_max_size: 32
+
+font_size:
+  land: 9
+  sea: 12
+  debug: 15
+
+map_size:
+  rect_size: 16
+  width: 875
+  height: 375
+
+z_value:
+  map_tile: 0
+  sea_border: 1
+  coast_border: 2
+  river: 3
+  province_border: 4
+  country_border: 5
+  road: 7
+  province_name: 8
+  city: 9
+  army: 10
+
+colors:
+
+  # fonts
+
+  font_land: '#B0282828'
+  font_sea: '#A0294990'
+
+  # borders
+
+  border_province: '#A03C3C3C'
+  border_country: '#D00000'
+  border_coastal: '#192269'
+  border_sea: '#80294990'
+
+  # roads
+
+  road_land: '#EBDCDE'
+  road_sea: '#A3BEC9'
+  road_coastal: '#202020'
+
+  # basics
+
+  basic_land: '#E8D8B8'
+  basic_ocean: '#3A65A5'
+  basic_water: '#4070B8'
+  basic_sea: '#467AC9'
+  basic_river: '#4070B8'
+  fog_of_war: '#90101010'
+
+  black: '#303336'
+  grayed: '#BABCBE'
+  white: "#F0F5FF"
+
+  # CORE COLORS
+
+  light_gray: "#CFD8DC"
+  gray: "#90A4AE"
+  dark_gray: "#546E7A"
+
+  light_red: "#FFCDD2"
+  red: "#E57373"
+  dark_red: "#E53935"
+
+  light_purple: '#E1BEE7'
+  purple: "#BA68C8"
+  dark_purple: "#8E24AA"
+
+  light_blue: "#C5CAE9"
+  blue: "#7986CB"
+  dark_blue: "#3949AB"
+
+  light_cyan: "#B3E5FC"
+  cyan: "#4FC3F7"
+  dark_cyan: "#039BE5"
+
+  light_teal: "#B2DFDB"
+  teal: "#4DB6AC"
+  dark_teal: "#00897B"
+
+  light_green: "#DCEDC8"
+  green: "#AED581"
+  dark_green: "#7CB342"
+
+  light_yellow: "#FFF9C4"
+  yellow: "#FFF176"
+  dark_yellow: "#FBC02D"
+
+  light_olive: "#F0F4C3"
+  olive: "#DCE775"
+  dark_olive: "#C0CA33"
+
+  light_orange: "#FFE0B2"
+  orange: '#FFB74D'
+  dark_orange: "#F57C00"
+
+  light_brown: "#D7CCC8"
+  brown: "#A1887F"
+  dark_brown: "#6D4C41"
+
+  # END OF COLOR COLORS
+
+  good_00: '#E8F5E9'
+  good_01: '#C8E6C9'
+  good_02: '#A5D6A7'
+  good_03: '#81C784'
+  good_04: '#66BB6A'
+  good_05: '#4CAF50'
+  good_06: '#43A047'
+  good_07: '#388E3C'
+  good_08: '#2E7D32'
+  good_09: '#1B5E20'
+
+  bad_00: '#FBE9E7'
+  bad_01: '#FFCCBC'
+  bad_02: '#FFAB91'
+  bad_03: '#FF8A65'
+  bad_04: '#FF7043'
+  bad_05: '#FF5722'
+  bad_06: '#F4511E'
+  bad_07: '#E64A19'
+  bad_08: '#D84315'
+  bad_09: '#BF360C'
+
+  ratio_N4: '#2E7D32'
+  ratio_N3: '#4CAF50'
+  ratio_N2: '#81C784'
+  ratio_N1: '#C8E6C9'
+  ratio_00: '#FFFDE7'
+  ratio_P1: '#FFCCBC'
+  ratio_P2: '#FF8A65'
+  ratio_P3: '#FF5722'
+  ratio_P4: '#D84315'
+
+  level_00: '#EDE7F6'
+  level_01: '#D1C4E9'
+  level_02: '#B39DDB'
+  level_03: '#9575CD'
+  level_04: '#673AB7'
+  level_05: '#512DA8'

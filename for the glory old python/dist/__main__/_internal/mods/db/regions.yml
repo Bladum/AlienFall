@@ -1,0 +1,244 @@
+#
+# regions
+#
+
+---
+
+regions:
+  TBD:
+    color: white
+  #
+  # LAND
+  #
+
+  East Africa:
+    movement_penalty: yes
+    revolt_strength: 0.75
+    natives: africa
+    color: dark_gray
+  North Africa:
+    revolt_strength: 1.10
+    natives: north_africa
+    color: red
+  West Africa:
+    movement_penalty: yes
+    revolt_strength: 0.75
+    natives: africa
+    color: purple
+  South Africa:
+    movement_penalty: yes
+    revolt_strength: 0.75
+    natives: africa
+    color: cyan
+  Caribbean:
+    revolt_strength: 0.75
+    natives: central_america
+    natives_death: 5
+    color: teal
+  Central America:
+    revolt_strength: 0.75
+    natives: central_america
+    natives_death: 5
+    color: dark_green
+  North America:
+    revolt_strength: 0.75
+    natives: north_america
+    color: yellow
+  South America:
+    revolt_strength: 0.75
+    natives: south_america
+    natives_death: 5
+    color: dark_olive
+  Central Asia:
+    revolt_strength: 0.75
+    natives: siberia
+    color: orange
+  China:
+    revolt_strength: 0.75
+    natives: china
+    vp_first_establishment: 5
+    color: dark_brown
+  India:
+    revolt_strength: 0.75
+    natives: india
+    vp_discover_first:
+      desc: "SPEC_INDIA"
+      province: any
+      value: 25
+    vp_first_establishment: 5
+    color: brown
+  Indochina:
+    revolt_strength: 0.75
+    natives: indonesia
+    color: dark_red
+  Indonesia:
+    revolt_strength: 0.75
+    natives: indonesia
+    color: dark_purple
+  Japan:
+    revolt_strength: 0.75
+    natives: japan
+    vp_first_establishment: 5
+    color: dark_cyan
+  Korea:
+    revolt_strength: 0.75
+    natives: japan
+    color: dark_teal
+  Middle East:
+    revolt_strength: 1.10
+    natives: north_africa
+    color: dark_green
+  Siberia:
+    colonization_spread: yes
+    revolt_strength: 0.75
+    natives: siberia
+    vp_first_establishment: 5
+    color: dark_yellow
+  British Isles:
+    revolt_strength: 1.00
+    natives: europe
+    piracy: low
+    color: dark_orange
+  Central Europe:
+    revolt_strength: 1.00
+    natives: europe
+    piracy: low
+    color: brown
+  Eastern Europe:
+    revolt_strength: 1.00
+    natives: europe
+    piracy: low
+    color: dark_red
+  HRE:
+    revolt_strength: 1.00
+    natives: europe
+    piracy: low
+    color: dark_purple
+  Scandinavia:
+    revolt_strength: 0.50
+    natives: europe
+    piracy: low
+    color: dark_cyan
+  Southern Europe:
+    revolt_strength: 1.00
+    natives: europe
+    piracy: low
+    color: dark_teal
+  Western Europe:
+    revolt_strength: 1.00
+    natives: europe
+    piracy: low
+    color: dark_green
+  Australia:
+    revolt_strength: 0.75
+    natives: oceania
+    vp_discover_first:
+      desc: "SPEC_AUSTRALIA"
+      province: any
+      value: 5
+    color: dark_yellow
+
+  #
+  # WATER
+  #
+
+  Pacific:
+    revolt_strength: 0.75
+    natives: oceania
+    vp_discover_first:
+      desc: "SPEC_PACIFIC"
+      province: any
+      value: 10
+    color: dark_orange
+  AlaskaSea:
+    color: brown
+  AralSea:
+    color: dark_red
+  ArcticSeaSea:
+    piracy: low
+    color: dark_purple
+  BarrierReefSea:
+    color: dark_cyan
+  BiscaySea:
+    piracy: low
+    color: dark_teal
+  CaribbeanSea:
+    piracy: high
+    color: dark_green
+  CaspianSea:
+    color: dark_yellow
+  ChinaSea:
+    piracy: high
+    color: dark_orange
+  ECAtlanticSea:
+    color: brown
+  EMedSea:
+    galleys_penalty: no
+    wind_penalty: 5
+    piracy: low
+    color: dark_red
+  ENACoastSea:
+    color: dark_purple
+  EPacificSea:
+    color: dark_cyan
+  GulfSea:
+    color: dark_teal
+  HudsonBaySea:
+    color: dark_green
+  JapanSea:
+    piracy: high
+    color: dark_yellow
+  KamtchatkaSea:
+    color: dark_orange
+  NAtlanticSea:
+    color: brown
+  NCAtlanticSea:
+    color: dark_red
+  NorthSeaSea:
+    piracy: low
+    color: dark_purple
+  NEIndianSea:
+    color: dark_cyan
+  NWIndianSea:
+    color: dark_teal
+  NWPacificSea:
+    color: dark_green
+  OceaniaSea:
+    color: dark_yellow
+  RedSeaSea:
+    color: dark_orange
+  ScandinaviaSea:
+    galleys_penalty: no
+    piracy: low
+    color: brown
+  SEAtlanticSea:
+    color: dark_red
+  SEIndianSea:
+    color: dark_purple
+  SEPacificSea:
+    color: dark_cyan
+  SiberiaSea:
+    color: dark_teal
+  SWAtlanticSea:
+    color: dark_green
+  SWIndianSea:
+    piracy: high
+    color: dark_yellow
+  SWPacificSea:
+    color: dark_orange
+  TagoSea:
+    color: brown
+  ThaiSea:
+    color: dark_red
+  WCAtlanticSea:
+    color: dark_purple
+  WMedSea:
+    galleys_penalty: no
+    wind_penalty: 5
+    piracy: low
+    color: dark_cyan
+  WPacificSea:
+    color: dark_teal
+
+  Lake:
+    color:  light_orange

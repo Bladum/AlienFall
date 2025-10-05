@@ -1,0 +1,18 @@
+#
+#   traits FOR UNITS
+#
+#   TYPE
+#       6 is for temporary effects on battle like effects
+#
+effects:
+    berzerk:
+        name: "Battle frenzy"
+        sprite: 'trait_berzerk'
+        races: []
+        type: 6
+        description: "Berzerk rage"
+        stats:
+            aim: -3
+            reaction: -3
+        recovery_time: 30
+

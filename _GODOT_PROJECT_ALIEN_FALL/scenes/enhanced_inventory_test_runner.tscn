@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://enhanced_inventory_test_runner"]
+
+[ext_resource type="Script" path="res://scripts/tests/enhanced_inventory_test_runner.gd" id="1"]
+
+[node name="EnhancedInventoryTestRunner" type="Node"]
+script = ExtResource("1")

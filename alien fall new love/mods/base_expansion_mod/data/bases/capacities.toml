@@ -1,0 +1,182 @@
+# Base Capacities Configuration
+# Defines all capacity types and their default configurations for Alien Fall basescape
+
+# =============================================================================
+# STORAGE CAPACITIES
+# =============================================================================
+
+[[capacities]]
+id = "item_storage"
+name = "Item Storage"
+type = "storage"
+default_amount = 0
+overflow_policy = "auto_sell"
+description = "Storage capacity for weapons, armor, and equipment"
+
+[[capacities]]
+id = "resource_storage"
+name = "Resource Storage"
+type = "storage"
+default_amount = 0
+overflow_policy = "block"
+description = "Storage capacity for raw materials and resources"
+
+[[capacities]]
+id = "fuel_storage"
+name = "Fuel Storage"
+type = "storage"
+default_amount = 0
+overflow_policy = "block"
+description = "Storage capacity for craft fuel"
+
+# =============================================================================
+# PERSONNEL CAPACITIES
+# =============================================================================
+
+[[capacities]]
+id = "personnel_quarters"
+name = "Personnel Quarters"
+type = "slots"
+default_amount = 0
+overflow_policy = "block"
+description = "Living space for base personnel"
+
+[[capacities]]
+id = "officer_quarters"
+name = "Officer Quarters"
+type = "slots"
+default_amount = 0
+overflow_policy = "block"
+description = "Private quarters for command personnel"
+
+# =============================================================================
+# CRAFT CAPACITIES
+# =============================================================================
+
+[[capacities]]
+id = "craft_berths"
+name = "Craft Berths"
+type = "slots"
+default_amount = 0
+overflow_policy = "block"
+description = "Hangar space for aircraft storage"
+
+[[capacities]]
+id = "transport_slots"
+name = "Transport Slots"
+type = "slots"
+default_amount = 0
+overflow_policy = "block"
+description = "Dedicated space for transport craft"
+
+# =============================================================================
+# PRISONER CAPACITIES
+# =============================================================================
+
+[[capacities]]
+id = "prisoner_cells"
+name = "Prisoner Cells"
+type = "slots"
+default_amount = 0
+overflow_policy = "auto_transfer"
+description = "Containment for captured aliens"
+
+# =============================================================================
+# THROUGHPUT CAPACITIES
+# =============================================================================
+
+[[capacities]]
+id = "manufacturing_hours"
+name = "Manufacturing Hours"
+type = "throughput"
+default_amount = 0
+overflow_policy = "queue"
+description = "Daily manufacturing capacity in man-hours"
+
+[[capacities]]
+id = "research_points"
+name = "Research Points"
+type = "throughput"
+default_amount = 0
+overflow_policy = "queue"
+description = "Daily research capacity in points"
+
+[[capacities]]
+id = "training_xp"
+name = "Training XP"
+type = "throughput"
+default_amount = 0
+overflow_policy = "block"
+description = "Daily soldier training capacity"
+
+# =============================================================================
+# SERVICE CAPACITIES (BOOLEAN)
+# =============================================================================
+
+[[capacities]]
+id = "power_generation"
+name = "Power Generation"
+type = "service"
+default_amount = false
+overflow_policy = "block"
+description = "Base power supply availability"
+
+[[capacities]]
+id = "communications"
+name = "Communications"
+type = "service"
+default_amount = false
+overflow_policy = "block"
+description = "Base communication systems"
+
+[[capacities]]
+id = "medical_facility"
+name = "Medical Facility"
+type = "service"
+default_amount = false
+overflow_policy = "block"
+description = "Medical care and treatment"
+
+[[capacities]]
+id = "radar_coverage"
+name = "Radar Coverage"
+type = "service"
+default_amount = false
+overflow_policy = "block"
+description = "Detection and radar systems"
+
+# =============================================================================
+# SPECIALIZED CAPACITIES
+# =============================================================================
+
+[[capacities]]
+id = "scientist_capacity"
+name = "Scientist Capacity"
+type = "slots"
+default_amount = 0
+overflow_policy = "block"
+description = "Number of scientists that can work in research facilities"
+
+[[capacities]]
+id = "engineer_capacity"
+name = "Engineer Capacity"
+type = "slots"
+default_amount = 0
+overflow_policy = "block"
+description = "Number of engineers that can work in manufacturing facilities"
+
+[[capacities]]
+id = "psi_training_capacity"
+name = "Psi Training Capacity"
+type = "slots"
+default_amount = 0
+overflow_policy = "block"
+description = "Number of psionic trainees that can be trained"
+
+[[capacities]]
+id = "training_slots"
+name = "Training Slots"
+type = "slots"
+default_amount = 0
+overflow_policy = "block"
+description = "Number of soldiers that can train simultaneously"

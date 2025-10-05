@@ -1,0 +1,1678 @@
+﻿id,continent,region,area,terrain,religion,climate,culture,goods,name,colonization difficulty,manpower,tax
+1,America,NorthAmerica,Alaska,hill,pagan,arctic,inuit,gold,Yukon,9,1,1
+2,America,NorthAmerica,Alaska,hill,pagan,arctic,inuit,fur,Kitimat,8,1,1
+3,America,NorthAmerica,Alaska,forest,pagan,arctic,salishan,fur,Sitka,7,1,1
+4,America,NorthAmerica,Oregon,hill,pagan,ncontinental,salishan,fish,Nanaimo,7,1,2
+5,America,NorthAmerica,Oregon,hill,pagan,ncontinental,salishan,naval supplies,Olympia,6,1,3
+6,America,NorthAmerica,Oregon,forest,pagan,ncontinental,salishan,fur,Columbia,4,1,5
+7,America,NorthAmerica,Oregon,forest,pagan,ncontinental,salishan,fur,Nehalem,5,1,3
+8,America,NorthAmerica,California,plains,pagan,temperate,miwok,wine,Sacramento,2,2,7
+9,America,NorthAmerica,California,hill,pagan,temperate,miwok,gold,Monterey,4,1,5
+10,America,NorthAmerica,California,hill,pagan,temperate,takic,wool,Sierra Madre,4,1,4
+11,America,NorthAmerica,California,plains,pagan,temperate,takic,grain,San Bernardino,3,2,5
+12,America,CentralAmerica,Sonora,hill,pagan,desertic,hokan,fish,Ensenada,8,1,1
+13,America,CentralAmerica,Sonora,hill,pagan,desertic,hokan,fish,Baja,8,1,1
+14,America,NorthAmerica,Nevada,desert,pagan,desertic,hokan,salt,Salton,9,1,1
+15,America,CentralAmerica,Sonora,desert,pagan,desertic,hokan,wool,Altar,9,1,1
+16,America,NorthAmerica,Nevada,desert,pagan,desertic,hokan,wool,Canyon,9,1,1
+17,America,CentralAmerica,Sonora,desert,pagan,desertic,tarahumara,wool,Empalme,9,1,1
+18,America,NorthAmerica,Nevada,hill,pagan,desertic,apache,wool,Arizona,9,1,1
+19,America,NorthAmerica,Nevada,hill,pagan,temperate,apache,wool,Pinalero,8,1,1
+20,America,CentralAmerica,Sonora,desert,pagan,desertic,tarahumara,wool,Chihuahua,7,1,1
+21,America,CentralAmerica,Sonora,hill,pagan,desertic,tarahumara,grain,Mazatlan,7,1,1
+22,America,NorthAmerica,Texas,plains,pagan,temperate,apache,wool,El Paso,7,1,2
+23,America,CentralAmerica,Sonora,desert,pagan,desertic,tarahumara,wool,Coahuilha,7,1,1
+24,America,CentralAmerica,Azteca,hill,pagan,temperate,aztec,gold,Jalisco,3,1,5
+25,America,CentralAmerica,Azteca,plains,pagan,temperate,aztec,gold,Saltillo,6,1,2
+26,America,CentralAmerica,Azteca,hill,pagan,temperate,aztec,gold,Michoagan,3,3,7
+27,America,CentralAmerica,Azteca,hill,pagan,temperate,aztec,gold,Tenochtitlan,3,3,8
+28,America,CentralAmerica,Azteca,plains,pagan,temperate,aztec,sugar,Tampico,6,2,3
+29,America,CentralAmerica,Azteca,plains,pagan,tropical,zapotec,sugar,Tlaxcala,4,2,5
+30,America,CentralAmerica,Azteca,plains,pagan,tropical,zapotec,fish,Atlixco,4,1,5
+31,America,CentralAmerica,Azteca,hill,pagan,tropical,zapotec,grain,Tehuantepec,3,1,3
+32,America,CentralAmerica,Azteca,marsh,pagan,tropical,mayan,sugar,Tehuacan,5,1,5
+33,America,CentralAmerica,Costa Rica,hill,pagan,tropical,mayan,coffee,Guatemala,4,1,3
+34,America,CentralAmerica,Costa Rica,marsh,pagan,tropical,mayan,sugar,Campeche,6,1,4
+35,America,CentralAmerica,Costa Rica,forest,pagan,tropical,mayan,fish,Yucatan,7,1,2
+36,America,CentralAmerica,Costa Rica,forest,pagan,tropical,mesoamerican,coffee,Honduras,5,1,3
+37,America,CentralAmerica,Costa Rica,marsh,pagan,tropical,mesoamerican,coffee,Nicaragua,6,1,3
+38,America,CentralAmerica,Costa Rica,marsh,pagan,tropical,chibcha,naval supplies,Mosquitos,7,1,1
+39,America,CentralAmerica,Panama,marsh,pagan,tropical,chibcha,fish,Isthmus,6,1,2
+40,America,NorthAmerica,Texas,plains,pagan,temperate,apache,wool,Pecos,6,1,2
+41,America,NorthAmerica,Texas,plains,pagan,temperate,karankawa,grain,Rio Grande,4,1,3
+42,America,NorthAmerica,Texas,plains,pagan,temperate,apache,grain,Concho,5,1,2
+43,America,NorthAmerica,Texas,marsh,pagan,temperate,karankawa,sugar,Matagorda,5,1,3
+44,America,NorthAmerica,Louisiane,plains,pagan,temperate,apache,grain,Wichita,5,1,3
+45,America,NorthAmerica,Louisiane,marsh,pagan,temperate,creek,cotton,Bayou,6,1,5
+46,America,NorthAmerica,Louisiane,marsh,pagan,temperate,creek,cotton,Biloxi,6,1,5
+47,America,NorthAmerica,Louisiane,marsh,pagan,temperate,creek,cotton,Mobile,4,1,5
+48,America,NorthAmerica,Florida,marsh,pagan,temperate,creek,cotton,Talahassee,5,1,4
+49,America,NorthAmerica,Florida,marsh,pagan,temperate,creek,sugar,Seminole,7,1,2
+50,America,NorthAmerica,Florida,marsh,pagan,tropical,creek,fish,Everglades,9,1,1
+51,America,NorthAmerica,Louisiane,plains,pagan,temperate,mississippian,cotton,Arkansas,5,1,3
+52,America,NorthAmerica,Louisiane,forest,pagan,ncontinental,cherokee,cotton,Yazoo,5,1,4
+53,America,NorthAmerica,Louisiane,forest,pagan,temperate,cherokee,cotton,Tuscaloosa,5,2,4
+54,America,NorthAmerica,Georgia,marsh,pagan,temperate,creek,cotton,Savannah,5,2,5
+55,America,NorthAmerica,Georgia,hill,pagan,ncontinental,cherokee,cotton,Alabama,5,2,4
+56,America,NorthAmerica,Georgia,forest,pagan,ncontinental,cherokee,grain,Tennessee,6,2,3
+57,America,NorthAmerica,Louisiane,plains,pagan,ncontinental,mississippian,grain,Mississippi,4,2,3
+58,America,NorthAmerica,Kansas,plains,pagan,tundra,mississippian,grain,Missouri,6,2,3
+59,America,NorthAmerica,Illinois,plains,pagan,tundra,mississippian,grain,Illinois,5,2,4
+60,America,NorthAmerica,Illinois,forest,pagan,tundra,shawnee,grain,Miamis,5,1,3
+61,America,NorthAmerica,Appalachia,hill,pagan,ncontinental,cherokee,fur,Alleghany,6,1,3
+62,America,NorthAmerica,Appalachia,forest,pagan,temperate,creek,cotton,Carolina,5,2,5
+63,America,NorthAmerica,Appalachia,forest,pagan,temperate,creek,cotton,Santee,5,2,4
+64,America,NorthAmerica,Appalachia,marsh,pagan,temperate,creek,tobacco,Roanoke,6,2,6
+65,America,NorthAmerica,Appalachia,forest,pagan,ncontinental,cherokee,tobacco,Catawba,5,1,4
+66,America,NorthAmerica,Appalachia,hill,pagan,ncontinental,cherokee,naval supplies,Appalache,7,1,3
+67,America,NorthAmerica,Ohio,forest,pagan,tundra,shawnee,fur,Kentucky,5,2,3
+68,America,NorthAmerica,Appalachia,marsh,pagan,ncontinental,lenape,tobacco,Chesapeake,4,2,6
+69,America,NorthAmerica,Appalachia,plains,pagan,tundra,iroquois,tobacco,Powhatan,4,2,7
+70,America,NorthAmerica,Appalachia,hill,pagan,tundra,iroquois,iron,Shenandoah,5,2,5
+71,America,NorthAmerica,Ohio,forest,pagan,tundra,shawnee,fur,Erie,6,5,3
+72,America,NorthAmerica,Grand Lacs,plains,pagan,tundra,shawnee,fur,Hindua,6,2,3
+73,America,NorthAmerica,Illinois,forest,pagan,tundra,shawnee,fur,Fox,5,2,3
+74,America,NorthAmerica,Illinois,plains,pagan,tundra,sioux,fur,Milwaukee,5,2,3
+75,America,NorthAmerica,Kansas,plains,pagan,tundra,sioux,grain,Iowa,6,1,3
+76,America,NorthAmerica,Kansas,plains,pagan,arctic,sioux,grain,Minnesota,7,1,3
+77,America,NorthAmerica,Plaines,forest,pagan,arctic,sioux,grain,Mesabi,7,1,2
+78,America,NorthAmerica,Plaines,forest,pagan,arctic,sioux,grain,Duluth,6,2,3
+79,America,NorthAmerica,Plaines,forest,pagan,tundra,sioux,iron,Wisconsin,7,2,2
+80,America,NorthAmerica,Illinois,forest,pagan,tundra,sioux,fur,Oskosh,6,2,2
+81,America,NorthAmerica,Grand Lacs,forest,pagan,tundra,shawnee,fur,Michilimakinak,6,1,3
+82,America,NorthAmerica,Grand Lacs,plains,pagan,tundra,shawnee,fur,Detroit,5,1,3
+83,America,NorthAmerica,Ohio,hill,pagan,tundra,iroquois,fur,Irondekoit,7,2,2
+84,America,NorthAmerica,Appalachia,forest,pagan,tundra,iroquois,fur,Tuscarora,5,2,4
+85,America,NorthAmerica,Appalachia,forest,pagan,tundra,iroquois,grain,Susquehanna,5,2,6
+86,America,NorthAmerica,Appalachia,forest,pagan,ncontinental,lenape,tobacco,Delaware,4,3,6
+87,America,NorthAmerica,Appalachia,forest,pagan,ncontinental,lenape,fur,Manhattan,4,2,7
+88,America,NorthAmerica,Appalachia,hill,pagan,tundra,iroquois,fur,Catskill,5,1,4
+89,America,NorthAmerica,Appalachia,hill,pagan,tundra,iroquois,fur,Oswego,6,1,2
+90,America,NorthAmerica,Ohio,hill,pagan,tundra,iroquois,fur,Mohawk,7,2,3
+91,America,NorthAmerica,Ohio,forest,pagan,tundra,iroquois,fur,Onondaga,7,2,3
+92,America,NorthAmerica,Grand Lacs,forest,pagan,tundra,huron,fur,Niagara,4,2,4
+93,America,NorthAmerica,Grand Lacs,forest,pagan,tundra,sioux,fur,Sault,7,1,3
+94,America,NorthAmerica,Plaines,forest,pagan,arctic,huron,naval supplies,Superior,8,2,2
+95,America,NorthAmerica,Grand Lacs,forest,pagan,arctic,huron,fur,Nipigon,7,1,2
+96,America,NorthAmerica,Grand Lacs,forest,pagan,arctic,huron,fur,Nipissing,7,1,2
+97,America,NorthAmerica,Grand Lacs,forest,pagan,tundra,huron,grain,Oshawa,4,2,3
+98,America,NorthAmerica,Grand Lacs,forest,pagan,tundra,huron,fur,Huron,5,4,5
+99,America,NorthAmerica,Appalachia,forest,pagan,tundra,huron,fur,Ticonderoga,5,2,5
+100,America,NorthAmerica,Appalachia,forest,pagan,tundra,iroquois,fur,Adirondak,5,2,5
+101,America,NorthAmerica,Maine,forest,pagan,tundra,iroquois,naval supplies,Sebago,6,1,4
+102,America,NorthAmerica,Maine,forest,pagan,ncontinental,lenape,grain,Connecticut,5,2,5
+103,America,NorthAmerica,Maine,forest,pagan,ncontinental,lenape,fish,Massachussetts,5,2,5
+104,America,NorthAmerica,Maine,forest,pagan,tundra,abenaki,naval supplies,Penobscot,6,1,4
+105,America,NorthAmerica,Quebec,hill,pagan,tundra,abenaki,fur,Megantic,5,1,4
+106,America,NorthAmerica,Quebec,forest,pagan,tundra,huron,fur,Hochelaga,5,1,4
+107,America,NorthAmerica,Quebec,forest,pagan,arctic,huron,fur,Ottawa,5,2,5
+108,America,NorthAmerica,Quebec,forest,pagan,arctic,naskapi,fur,Laurentia,5,1,3
+109,America,NorthAmerica,Quebec,forest,pagan,tundra,naskapi,grain,Shawinigan,5,1,4
+110,America,NorthAmerica,Quebec,forest,pagan,tundra,naskapi,naval supplies,Stadacone,5,3,5
+111,America,NorthAmerica,Quebec,hill,pagan,tundra,abenaki,fur,Bas St-Laurent,5,2,3
+112,America,NorthAmerica,Maine,forest,pagan,tundra,abenaki,naval supplies,Bangor,4,2,3
+113,America,NorthAmerica,Acadie,forest,pagan,tundra,abenaki,fish,Micmac,4,1,3
+114,America,NorthAmerica,Acadie,hill,pagan,tundra,abenaki,fish,Gaspesie,5,1,2
+115,America,NorthAmerica,Acadie,plains,pagan,tundra,abenaki,salt,Acadie,4,1,2
+116,America,NorthAmerica,Acadie,plains,pagan,ncontinental,abenaki,fish,Nova Scotia,3,1,3
+117,America,NorthAmerica,Acadie,forest,pagan,ncontinental,abenaki,naval supplies,Isle Royale,4,1,2
+118,America,NorthAmerica,Newfoundland,hill,pagan,tundra,abenaki,fish,Gander,7,1,1
+119,America,NorthAmerica,Newfoundland,forest,pagan,ncontinental,abenaki,fish,Placentia,6,1,2
+120,America,NorthAmerica,Newfoundland,forest,pagan,tundra,abenaki,fish,Wabana,6,1,1
+121,America,NorthAmerica,Quebec,forest,pagan,arctic,naskapi,fur,Saguenay,6,1,2
+122,America,NorthAmerica,Quebec,forest,pagan,arctic,naskapi,fish,Manicouagan,6,1,1
+123,America,NorthAmerica,Labrador,forest,pagan,arctic,naskapi,fish,Anticosti,8,1,1
+124,America,NorthAmerica,Labrador,forest,pagan,arctic,naskapi,fish,Belle Isle,8,1,1
+125,America,NorthAmerica,Labrador,forest,pagan,arctic,naskapi,naval supplies,Caniapiscau,8,1,1
+126,America,NorthAmerica,Labrador,forest,pagan,arctic,inuit,fur,Nain,8,1,1
+127,America,NorthAmerica,Labrador,hill,pagan,arctic,inuit,fur,Torngat,9,1,1
+128,America,NorthAmerica,Hudson Bay,forest,pagan,arctic,inuit,fur,Ungava,9,1,1
+129,America,NorthAmerica,Hudson Bay,forest,pagan,arctic,inuit,copper,Minto,9,1,1
+130,America,NorthAmerica,Hudson Bay,forest,pagan,arctic,inuit,fish,Chisasibi,8,1,1
+131,America,NorthAmerica,Hudson Bay,forest,pagan,arctic,inuit,fur,Attawapiskat,8,1,1
+132,America,NorthAmerica,Hudson Bay,forest,pagan,arctic,cree,fur,Winisk,7,1,1
+133,America,NorthAmerica,Plaines,forest,pagan,arctic,cree,fur,Athabaska,8,1,1
+134,America,NorthAmerica,Hudson Bay,forest,pagan,arctic,cree,fur,Chimo,7,1,1
+135,America,NorthAmerica,Hudson Bay,forest,pagan,arctic,cree,fur,Eskimalt,8,1,1
+136,America,NorthAmerica,Hudson Bay,forest,pagan,arctic,cree,fur,Nueltin,8,1,1
+137,America,Caribbean,Cuba,forest,pagan,tropical,arawak,tobacco,Havana,3,1,7
+138,America,Caribbean,Cuba,forest,pagan,tropical,arawak,coffee,Moron,3,1,5
+139,America,Caribbean,Cuba,forest,pagan,tropical,arawak,sugar,Guantanamo,3,1,5
+140,America,Caribbean,Cuba,forest,pagan,tropical,arawak,sugar,Jamaica,4,1,6
+141,America,Caribbean,Haiti,marsh,pagan,tropical,arawak,sugar,Les Cayes,6,1,7
+142,America,Caribbean,Haiti,hill,pagan,tropical,arawak,sugar,Tortuga,5,1,4
+143,America,Caribbean,Haiti,forest,pagan,tropical,arawak,sugar,Barahona,5,1,5
+144,America,Caribbean,Antilles,forest,pagan,tropical,arawak,sugar,Puerto Rico,4,1,5
+145,America,Caribbean,Antilles,forest,pagan,tropical,carib,sugar,St. Thomas,2,1,5
+146,America,Caribbean,Antilles,forest,pagan,tropical,carib,sugar,St. Martin,3,1,6
+147,America,Caribbean,Antilles,forest,pagan,tropical,carib,sugar,Antigua,2,1,6
+148,America,Caribbean,Antilles,forest,pagan,tropical,carib,sugar,Dominica,3,1,6
+149,America,Caribbean,Antilles,forest,pagan,tropical,carib,sugar,Guadeloupe,2,1,6
+150,America,Caribbean,Antilles,forest,pagan,tropical,carib,sugar,Martinique,2,1,6
+151,America,Caribbean,Antilles,forest,pagan,tropical,arawak,sugar,Tobago & Trinidad,3,1,6
+152,America,Caribbean,Antilles,forest,pagan,tropical,carib,sugar,Barbados,3,1,6
+153,America,SouthAmerica,Orenoque,forest,pagan,tropical,arawak,sugar,Curacao,3,1,4
+154,America,SouthAmerica,Orenoque,forest,pagan,tropical,arawak,sugar,Yaraguay,7,1,2
+155,America,SouthAmerica,Orenoque,marsh,pagan,tropical,arawak,wool,Apure,8,1,2
+156,America,SouthAmerica,Orenoque,forest,pagan,tropical,arawak,sugar,Tocuvo,7,1,3
+157,America,SouthAmerica,Orenoque,marsh,pagan,tropical,chibcha,coffee,Maracaibo,6,1,3
+158,America,SouthAmerica,Orenoque,marsh,pagan,tropical,chibcha,coffee,Cartagena,5,1,4
+159,America,SouthAmerica,Orenoque,hill,pagan,tropical,chibcha,gold,Yarumal,6,1,3
+160,America,SouthAmerica,Orenoque,hill,pagan,tropical,chibcha,coffee,Bogota,5,1,4
+161,America,SouthAmerica,Orenoque,forest,pagan,tropical,chibcha,fur,Cupica,6,1,2
+162,America,SouthAmerica,Ecuador,forest,pagan,tropical,quechua,grain,Cali,5,1,2
+163,America,SouthAmerica,Ecuador,hill,pagan,tropical,quechua,gold,Azuay,6,1,2
+164,America,SouthAmerica,Ecuador,plains,pagan,tropical,quechua,grain,Guayaquil,4,1,3
+165,America,SouthAmerica,Inca,plains,pagan,tropical,quechua,coffee,Cajamarca,3,1,4
+166,America,SouthAmerica,Inca,plains,pagan,tropical,quechua,grain,Huanuco,4,1,4
+167,America,SouthAmerica,Inca,hill,pagan,temperate,quechua,gold,Ayacucho,4,1,3
+168,America,SouthAmerica,Inca,plains,pagan,temperate,quechua,fish,Lima,4,1,6
+169,America,SouthAmerica,Inca,hill,pagan,temperate,quechua,gold,Cuzco,4,3,5
+170,America,SouthAmerica,Inca,hill,pagan,temperate,aymara,grain,Arequipa,4,1,5
+171,America,SouthAmerica,Inca,hill,pagan,temperate,aymara,coffee,Moquega,7,1,3
+172,America,SouthAmerica,Inca,desert,pagan,desertic,aymara,copper,Arica,8,1,1
+173,America,SouthAmerica,Chili,plains,pagan,desertic,mapuche,copper,Atacama,6,1,2
+174,America,SouthAmerica,Chili,forest,pagan,temperate,mapuche,grain,Coquimbo,5,1,3
+175,America,SouthAmerica,Chili,forest,pagan,temperate,mapuche,fish,Valparaiso,4,1,6
+176,America,SouthAmerica,Chili,forest,pagan,temperate,mapuche,naval supplies,Talca,5,1,4
+177,America,SouthAmerica,Chili,hill,pagan,scontinental,mapuche,fish,Aisen,7,1,2
+178,America,SouthAmerica,Orenoque,marsh,pagan,tropical,arawak,wool,Caribe,8,1,2
+179,America,SouthAmerica,Guiana,marsh,pagan,tropical,arawak,fish,Cuyuni,8,1,2
+180,America,SouthAmerica,Guiana,forest,pagan,tropical,arawak,gold,Guyana,9,1,1
+181,America,SouthAmerica,Guiana,marsh,pagan,tropical,arawak,sugar,Surinam,7,1,2
+182,America,SouthAmerica,Guiana,marsh,pagan,tropical,arawak,sugar,Maroni,7,1,2
+183,America,SouthAmerica,Guiana,marsh,pagan,tropical,arawak,fish,Amapa,7,1,2
+184,America,SouthAmerica,Amazonia,forest,pagan,tropical,amazonian,fur,Manaus,9,1,1
+185,America,SouthAmerica,Amazonia,forest,pagan,tropical,amazonian,wool,Solimoes,9,1,1
+186,America,NorthAmerica,Alaska,hill,pagan,arctic,inuit,fur,Aleutes,8,1,1
+187,America,SouthAmerica,Ecuador,forest,pagan,tropical,amazonian,copper,Pastaza,5,1,3
+188,America,SouthAmerica,Amazonia,marsh,pagan,tropical,amazonian,naval supplies,Mirim,9,1,1
+189,America,SouthAmerica,Amazonia,forest,pagan,tropical,amazonian,naval supplies,Macacos,9,1,1
+190,America,SouthAmerica,Amazonia,forest,pagan,tropical,amazonian,fur,Japura,9,1,1
+191,America,SouthAmerica,Amazonia,forest,pagan,tropical,amazonian,naval supplies,Canuma,9,1,1
+192,America,SouthAmerica,Amazonia,forest,pagan,tropical,aymara,grain,Taqari,9,1,1
+193,America,SouthAmerica,Inca,hill,pagan,temperate,aymara,wool,Titicaca,6,1,3
+194,America,SouthAmerica,Inca,hill,pagan,temperate,aymara,gold,Potosi,5,1,3
+195,America,SouthAmerica,Amazonia,forest,pagan,tropical,tapuia,gold,Mato Grosso,9,1,1
+196,America,SouthAmerica,Amazonia,forest,pagan,tropical,tapuia,grain,Goias,9,1,1
+197,America,SouthAmerica,Amazonia,marsh,pagan,tropical,tapuia,fur,Caracas,9,1,1
+198,America,SouthAmerica,Belem,marsh,pagan,tropical,tupi,sugar,Marajo,7,1,4
+199,America,SouthAmerica,Belem,forest,pagan,tropical,tupi,tobacco,Para,6,1,2
+200,America,SouthAmerica,Recife,forest,pagan,tropical,tapuia,sugar,Tiracambu,5,1,4
+201,America,SouthAmerica,Recife,forest,pagan,tropical,tapuia,grain,Maranhao,5,1,3
+202,America,SouthAmerica,Recife,forest,pagan,tropical,tupi,sugar,Parnaiba,5,1,4
+203,America,SouthAmerica,Recife,forest,pagan,tropical,tupi,sugar,Recife,5,1,5
+204,America,SouthAmerica,Recife,forest,pagan,tropical,tapuia,tobacco,Iguato,5,1,3
+205,America,SouthAmerica,Recife,forest,pagan,tropical,tupi,tobacco,Pernambuc,5,1,6
+206,America,SouthAmerica,Bahia,forest,pagan,tropical,tapuia,grain,Alagoas,5,1,3
+207,America,SouthAmerica,Bahia,forest,pagan,tropical,tupi,sugar,Diamentina,5,1,2
+208,America,SouthAmerica,Bahia,forest,pagan,tropical,tapuia,copper,Minas Gerais,5,1,2
+209,America,SouthAmerica,Bahia,forest,pagan,tropical,tapuia,sugar,Salvador,4,1,3
+210,America,SouthAmerica,Bahia,forest,pagan,tropical,tupi,tobacco,Itaimas,4,1,4
+211,America,SouthAmerica,Rio,forest,pagan,tropical,tupi,sugar,Niteroi,5,1,5
+212,America,SouthAmerica,Rio,plains,pagan,tropical,tapuia,grain,Araxa,6,1,2
+213,America,SouthAmerica,Rio,plains,pagan,tropical,tupi,grain,Curitiba,4,1,5
+214,America,SouthAmerica,Rio,forest,pagan,tropical,tapuia,grain,Cangucu,4,1,3
+215,America,SouthAmerica,La Plata,plains,pagan,temperate,tapuia,grain,Uruguay,3,1,6
+216,America,SouthAmerica,Paraguay,forest,pagan,tropical,guarani,grain,Artigas,6,1,2
+217,America,SouthAmerica,La Plata,forest,pagan,temperate,guarani,wool,Parana,4,1,5
+218,America,SouthAmerica,Paraguay,forest,pagan,tropical,guarani,grain,Neembucu,5,1,4
+219,America,SouthAmerica,Inca,hill,pagan,temperate,wichi,gold,Tucuman,5,1,2
+220,America,SouthAmerica,Inca,plains,pagan,tropical,wichi,wool,Jujuy,7,1,3
+221,America,SouthAmerica,Paraguay,forest,pagan,temperate,wichi,grain,Corrientes,5,1,3
+222,America,SouthAmerica,La Plata,plains,pagan,temperate,guarani,grain,Rosario,3,1,5
+223,America,SouthAmerica,La Plata,plains,pagan,temperate,guarani,fish,Aires,3,1,6
+224,America,SouthAmerica,La Plata,plains,pagan,temperate,guarani,grain,Copetonas,3,1,4
+225,America,SouthAmerica,Patagonia,plains,pagan,temperate,tehuelche,grain,San Matias,7,1,2
+226,America,SouthAmerica,Patagonia,plains,pagan,temperate,tehuelche,grain,Chubut,8,1,2
+227,America,SouthAmerica,Patagonia,plains,pagan,temperate,tehuelche,fish,Santa Cruz,8,1,1
+228,America,SouthAmerica,Patagonia,hill,pagan,scontinental,tehuelche,fish,Magallanes,9,1,1
+229,America,SouthAmerica,Patagonia,hill,pagan,scontinental,tehuelche,fish,Tierra del Fuego,9,1,1
+230,America,SouthAmerica,Falklands,plains,pagan,scontinental,tehuelche,fish,The Falklands,8,1,1
+231,Europe,BritishIsles,Ireland,marsh,catholic,temperate,celtic,fish,Connaught,0,1,5
+232,Europe,BritishIsles,Ireland,hill,catholic,temperate,celtic,cloth,Ulster,0,2,7
+233,Europe,BritishIsles,Ireland,marsh,catholic,temperate,celtic,grain,Meath,0,2,5
+234,Europe,BritishIsles,Ireland,hill,catholic,temperate,celtic,fish,Leinster,0,2,6
+235,Europe,BritishIsles,Ireland,hill,catholic,temperate,celtic,fish,Munster,0,2,5
+236,Europe,BritishIsles,Scotland,hill,catholic,temperate,celtic,fish,The Highlands,0,3,3
+237,Europe,BritishIsles,Scotland,hill,catholic,temperate,celtic,wool,The Grampians,0,2,5
+238,Europe,BritishIsles,Scotland,plains,catholic,temperate,english,fish,Lothian,0,3,6
+239,Europe,BritishIsles,Scotland,hill,catholic,temperate,english,iron,Strathclyde,0,2,7
+240,Europe,BritishIsles,England,hill,catholic,temperate,english,cloth,Northumberland,0,2,7
+241,Europe,BritishIsles,England,plains,catholic,temperate,english,cloth,Yorkshire,0,3,9
+242,Europe,BritishIsles,England,forest,catholic,temperate,english,iron,Lancashire,0,5,11
+243,Europe,BritishIsles,England,hill,catholic,temperate,celtic,iron,Wales,0,3,7
+244,Europe,BritishIsles,England,plains,catholic,temperate,english,iron,Midlands,0,5,11
+245,Europe,BritishIsles,England,plains,catholic,temperate,english,cloth,Lincoln,0,4,8
+246,Europe,BritishIsles,England,plains,catholic,temperate,english,fish,Bristol,0,4,9
+247,Europe,BritishIsles,England,marsh,catholic,temperate,english,grain,Anglia,0,8,16
+248,Europe,BritishIsles,England,plains,catholic,temperate,english,grain,Kent,0,4,9
+249,Europe,BritishIsles,England,forest,catholic,temperate,english,grain,Wessex,0,3,8
+250,Europe,BritishIsles,England,plains,catholic,temperate,celtic,fish,Cornwall,0,2,8
+251,Europe,Scandinavia,Denmark,plains,catholic,temperate,nordic,grain,Skane,0,5,15
+252,Europe,Scandinavia,Sweden,forest,catholic,ncontinental,nordic,naval supplies,Smaland,0,2,4
+253,Europe,Scandinavia,Sweden,forest,catholic,ncontinental,nordic,grain,Vaster gotland,0,2,6
+254,Europe,Scandinavia,Sweden,forest,catholic,ncontinental,nordic,fish,Svealand,0,5,10
+255,Europe,Scandinavia,Norway,hill,catholic,ncontinental,nordic,naval supplies,Ostlandet,0,2,7
+256,Europe,Scandinavia,Norway,hill,catholic,tundra,nordic,fish,Bergenshus,0,2,6
+257,Europe,Scandinavia,Sweden,forest,catholic,tundra,nordic,copper,Bergslagen,0,2,8
+258,Europe,Scandinavia,Norway,hill,catholic,tundra,nordic,fish,Trondelag,0,2,5
+259,Europe,Scandinavia,Norway,hill,catholic,tundra,ugric,fish,Narvik,0,1,2
+260,Europe,Scandinavia,Sweden,marsh,catholic,tundra,ugric,iron,Lappland,0,1,1
+261,Europe,Scandinavia,Norway,hill,catholic,tundra,ugric,fish,Finnmark,0,1,1
+262,Europe,EasternEurope,Russian North,hill,orthodox,tundra,ugric,fur,Kola,0,1,4
+263,Europe,Scandinavia,Finland,forest,catholic,tundra,ugric,fur,Osterbotten,0,1,1
+264,Europe,Scandinavia,Finland,forest,catholic,tundra,ugric,naval supplies,Tavastland,0,1,1
+265,Europe,Scandinavia,Finland,forest,catholic,tundra,ugric,naval supplies,Nyland,0,2,4
+266,Europe,EasternEurope,Russian North,marsh,orthodox,tundra,ugric,naval supplies,Kexholm,0,2,5
+267,Europe,EasternEurope,Russian North,forest,orthodox,tundra,ugric,fur,Olonets,0,4,5
+268,Europe,EasternEurope,Russia,forest,orthodox,tundra,russian,naval supplies,Vologda,0,4,6
+269,Europe,EasternEurope,Russian North,forest,orthodox,tundra,ugric,fur,Arkhangelsk,0,2,9
+270,Europe,EasternEurope,Russia,forest,orthodox,tundra,russian,grain,Moscow,0,12,13
+271,Europe,EasternEurope,Russia,forest,orthodox,tundra,russian,copper,Vladimir,0,8,8
+272,Europe,EasternEurope,Russia,forest,orthodox,tundra,russian,grain,Nizhgorod,0,6,6
+273,Europe,Scandinavia,Finland,forest,orthodox,tundra,ugric,iron,Savolaks,0,1,2
+274,Europe,EasternEurope,Russia,forest,orthodox,tundra,russian,fur,Novgorod,0,8,14
+275,Europe,EasternEurope,Baltic,marsh,orthodox,tundra,ugric,iron,Ingermanland,0,3,7
+276,Europe,EasternEurope,Baltic,forest,catholic,tundra,ugric,grain,Estland,0,3,6
+277,Europe,EasternEurope,Russia,forest,orthodox,tundra,russian,grain,Pskov,0,5,5
+278,Europe,EasternEurope,Russia,forest,orthodox,tundra,russian,grain,Tver,0,5,5
+279,Europe,EasternEurope,Russia,forest,orthodox,tundra,russian,grain,Tula,0,6,6
+280,Europe,EasternEurope,Russia,forest,orthodox,tundra,russian,grain,Welikia,0,5,6
+281,Europe,EasternEurope,Russia,forest,orthodox,tundra,lithuanian,iron,Polotsk,0,5,5
+282,Europe,EasternEurope,Baltic,marsh,catholic,ncontinental,ugric,grain,Livland,0,5,6
+283,Europe,EasternEurope,Baltic,forest,catholic,ncontinental,baltic,grain,Kurland,0,4,7
+284,Europe,EasternEurope,Russia,forest,orthodox,tundra,lithuanian,naval supplies,Belarus,0,5,8
+285,Europe,EasternEurope,Russia,plains,orthodox,tundra,russian,grain,Smolensk,0,5,6
+286,Europe,EasternEurope,Russia,plains,orthodox,tundra,russian,grain,Kursk,0,5,4
+287,Europe,EasternEurope,Russia,plains,orthodox,tundra,lithuanian,wool,Mozyr,0,5,3
+288,Europe,EasternEurope,Poland,forest,catholic,tundra,lithuanian,grain,Lithuania,0,5,8
+289,Europe,EasternEurope,Baltic,marsh,catholic,ncontinental,baltic,grain,Memel,0,4,6
+290,Europe,EasternEurope,Baltic,forest,catholic,ncontinental,baltic,naval supplies,Prussia,0,4,8
+291,Europe,EasternEurope,Poland,forest,catholic,ncontinental,polish,cloth,Mazovia,0,6,10
+292,Europe,EasternEurope,Poland,marsh,catholic,tundra,polish,grain,Podlasia,0,4,6
+293,Europe,EasternEurope,Poland,marsh,catholic,tundra,lithuanian,wool,Volyn,0,4,3
+294,Europe,EasternEurope,Ukraine,plains,orthodox,tundra,ruthenian,iron,Chernigov,0,4,6
+295,Europe,EasternEurope,Ukraine,plains,orthodox,tundra,ruthenian,grain,Ukraina,0,8,14
+296,Europe,EasternEurope,Ukraine,plains,orthodox,temperate,vlach,wool,Jedisan,0,5,5
+297,Europe,EasternEurope,Ukraine,plains,orthodox,tundra,ruthenian,grain,Podolia,0,8,12
+298,Europe,EasternEurope,Poland,plains,catholic,tundra,polish,grain,Galizien,0,5,9
+299,Europe,EasternEurope,Poland,forest,catholic,ncontinental,polish,cloth,Krakow,0,7,13
+300,Europe,EasternEurope,Poland,plains,catholic,ncontinental,polish,cloth,Wielkopolska,0,6,12
+301,Europe,EasternEurope,Baltic,marsh,catholic,ncontinental,german,grain,Danzig,0,5,12
+302,Europe,HRE,Hansa,marsh,catholic,ncontinental,german,salt,Hinterpommern,0,4,6
+303,Europe,EasternEurope,Poland,forest,catholic,ncontinental,polish,salt,Poznan,0,5,7
+304,Europe,HRE,Hansa,marsh,catholic,ncontinental,german,naval supplies,Vorpommern,0,4,7
+305,Europe,HRE,Hansa,plains,catholic,temperate,german,naval supplies,Mecklemburg,0,6,10
+306,Europe,HRE,Hansa,plains,catholic,ncontinental,german,fish,Holstein,0,5,13
+307,Europe,Scandinavia,Denmark,plains,catholic,temperate,nordic,fish,Sjalland,0,6,16
+308,Europe,Scandinavia,Denmark,forest,catholic,ncontinental,nordic,fish,Gotland,0,2,8
+309,Europe,Scandinavia,Denmark,plains,catholic,temperate,nordic,grain,Jylland,0,5,15
+310,Europe,HRE,Germany,plains,catholic,ncontinental,german,cloth,Hannover,0,5,12
+311,Europe,HRE,Germany,plains,catholic,ncontinental,german,cloth,Magdeburg,0,4,14
+312,Europe,HRE,Germany,forest,catholic,ncontinental,german,wool,Brandenburg,0,8,12
+313,Europe,HRE,Germany,forest,catholic,ncontinental,german,wool,Kustrin,0,4,6
+314,Europe,HRE,Germany,plains,catholic,ncontinental,german,iron,Silesia,0,6,10
+315,Europe,CentralEurope,Danube,forest,catholic,ncontinental,slovak,wine,Moravia,0,5,6
+316,Europe,CentralEurope,Danube,hill,catholic,ncontinental,slovak,naval supplies,Carpathia,0,3,3
+317,Europe,CentralEurope,Danube,hill,orthodox,ncontinental,magyar,grain,Ruthenia,0,3,3
+318,Europe,CentralEurope,Danube,forest,orthodox,ncontinental,vlach,wool,Moldova,0,3,6
+319,Europe,CentralEurope,Danube,marsh,orthodox,temperate,vlach,wool,Bujak,0,3,5
+320,Europe,CentralEurope,Danube,marsh,orthodox,temperate,slavonic,fish,Dobrudja,0,3,3
+321,Europe,CentralEurope,Balkans,forest,orthodox,temperate,slavonic,naval supplies,Rumelia,0,3,6
+322,Europe,CentralEurope,Danube,forest,orthodox,ncontinental,vlach,grain,Wallachia,0,3,8
+323,Europe,CentralEurope,Danube,hill,catholic,ncontinental,magyar,wool,Transylvania,0,3,6
+324,Europe,CentralEurope,Danube,forest,catholic,ncontinental,magyar,naval supplies,Maros,0,4,6
+325,Europe,CentralEurope,Danube,plains,catholic,ncontinental,magyar,grain,Magyar,0,3,11
+326,Europe,CentralEurope,Danube,plains,catholic,ncontinental,magyar,grain,Presburg,0,4,6
+327,Europe,CentralEurope,Danube,forest,catholic,ncontinental,german,iron,Ostmarch,0,4,8
+328,Europe,CentralEurope,Danube,forest,catholic,ncontinental,czech,grain,Bohemia,0,4,13
+329,Europe,CentralEurope,Danube,hill,catholic,ncontinental,czech,iron,Erz,0,3,5
+330,Europe,CentralEurope,Danube,hill,catholic,ncontinental,czech,copper,Sudeten,0,3,6
+331,Europe,HRE,Germany,forest,catholic,ncontinental,german,iron,Sachsen,0,4,11
+332,Europe,HRE,Germany,plains,catholic,ncontinental,german,wool,Anhalt,0,4,9
+333,Europe,HRE,Germany,forest,catholic,ncontinental,german,cloth,Hessen,0,4,11
+334,Europe,HRE,Germany,plains,catholic,ncontinental,german,salt,Muunster,0,4,7
+335,Europe,HRE,Hansa,plains,catholic,ncontinental,german,salt,Oldenburg,0,4,6
+336,Europe,HRE,Hansa,plains,catholic,temperate,german,fish,Bremen,0,4,9
+337,Europe,WesternEurope,Low Countries,marsh,catholic,temperate,dutch,fish,Friesen,0,4,11
+338,Europe,WesternEurope,Low Countries,marsh,catholic,temperate,dutch,grain,Geldre,0,5,13
+339,Europe,WesternEurope,Low Countries,marsh,catholic,temperate,dutch,fish,Holland,0,5,17
+340,Europe,WesternEurope,Low Countries,marsh,catholic,temperate,dutch,fish,Zeeland,0,5,15
+341,Europe,Scandinavia,Sweden,forest,catholic,tundra,nordic,naval supplies,Vusterbotten,0,1,1
+342,Europe,Scandinavia,Finland,forest,catholic,tundra,nordic,grain,Finland,0,1,4
+343,Europe,HRE,Germany,plains,catholic,ncontinental,german,grain,Kleves,0,4,7
+344,Europe,HRE,Germany,plains,catholic,ncontinental,german,grain,Koln,0,4,8
+345,Europe,HRE,Germany,forest,catholic,ncontinental,german,grain,Pfalz,0,4,9
+346,Europe,HRE,Germany,forest,catholic,ncontinental,german,wool,Mainz,0,4,7
+347,Europe,HRE,Germany,forest,catholic,ncontinental,german,wool,Wurzburg,0,4,10
+348,Europe,HRE,Germany,forest,catholic,ncontinental,german,iron,Ansbach,0,4,8
+349,Europe,HRE,Germany,forest,catholic,ncontinental,german,grain,Bayern,0,6,14
+350,Europe,CentralEurope,Danube,hill,catholic,ncontinental,german,salt,Salzburg,0,4,9
+351,Europe,CentralEurope,Danube,forest,catholic,ncontinental,german,grain,Austria,0,6,13
+352,Europe,CentralEurope,Danube,plains,catholic,ncontinental,magyar,copper,Odenburg,0,3,6
+353,Europe,CentralEurope,Danube,plains,catholic,ncontinental,magyar,grain,Pest,0,3,10
+354,Europe,CentralEurope,Danube,plains,catholic,ncontinental,magyar,wool,Banat,0,3,4
+355,Europe,CentralEurope,Balkans,plains,orthodox,ncontinental,slavonic,grain,Serbia,0,3,6
+356,Europe,CentralEurope,Balkans,hill,orthodox,ncontinental,slavonic,iron,Bulgaria,0,3,5
+357,Europe,CentralEurope,Balkans,plains,orthodox,temperate,greek,grain,Thrace,0,4,17
+358,Europe,CentralEurope,Balkans,plains,orthodox,temperate,greek,grain,Macedonia,0,4,11
+359,Europe,SouthernEurope,Mediterranean,plains,orthodox,temperate,greek,fish,Hellas,0,3,5
+360,Europe,SouthernEurope,Mediterranean,hill,orthodox,temperate,greek,wine,Morea,0,3,3
+361,Europe,CentralEurope,Balkans,hill,orthodox,temperate,albanian,wool,Albania,0,3,2
+362,Europe,CentralEurope,Balkans,hill,catholic,temperate,slavonic,fish,Ragusa,0,3,5
+363,Europe,CentralEurope,Balkans,forest,orthodox,ncontinental,slavonic,wool,Kosovo,0,3,4
+364,Europe,CentralEurope,Balkans,hill,catholic,ncontinental,slavonic,wool,Bosnia,0,3,5
+365,Europe,CentralEurope,Balkans,hill,catholic,temperate,slavonic,wool,Dalmatia,0,3,5
+366,Europe,CentralEurope,Balkans,forest,catholic,ncontinental,slavonic,cloth,Croatia,0,3,5
+367,Europe,CentralEurope,Balkans,hill,catholic,ncontinental,slavonic,iron,Krain,0,3,5
+368,Europe,SouthernEurope,Italy,hill,catholic,temperate,italian,wool,Istria,0,3,6
+369,Europe,CentralEurope,Danube,hill,catholic,ncontinental,german,gold,Steiermark,0,3,9
+370,Europe,SouthernEurope,Italy,marsh,catholic,temperate,italian,fish,Veneto,0,6,15
+371,Europe,CentralEurope,Danube,mountain,catholic,ncontinental,german,iron,Tirol,0,2,4
+372,Europe,HRE,Germany,forest,catholic,ncontinental,german,iron,Wurttemberg,0,4,8
+373,Europe,HRE,Germany,forest,catholic,ncontinental,german,gold,Baden,0,4,7
+374,Europe,HRE,Lotharingia,forest,catholic,ncontinental,german,wine,Alsace,0,6,10
+375,Europe,HRE,Lotharingia,forest,catholic,ncontinental,french,iron,Lorraine,0,6,9
+376,Europe,WesternEurope,France,plains,catholic,ncontinental,french,wine,Champagne,0,5,13
+377,Europe,WesternEurope,Low Countries,forest,catholic,ncontinental,german,iron,Luxembourg,0,5,10
+378,Europe,WesternEurope,Low Countries,plains,catholic,temperate,dutch,cloth,Brabant,0,5,15
+379,Europe,WesternEurope,Low Countries,plains,catholic,temperate,french,cloth,Artois,0,6,10
+380,Europe,WesternEurope,Low Countries,plains,catholic,temperate,dutch,cloth,Flandern,0,6,17
+381,Europe,Scandinavia,Norway,forest,catholic,tundra,nordic,fur,Jamtland,0,1,2
+382,Europe,WesternEurope,France,plains,catholic,temperate,english,cloth,Calais,0,5,15
+383,Europe,WesternEurope,France,plains,catholic,temperate,french,cloth,Picardie,0,5,6
+384,Europe,WesternEurope,France,plains,catholic,temperate,french,fish,Caux,0,5,6
+385,Europe,WesternEurope,France,plains,catholic,temperate,french,grain,Ile de France,0,5,15
+386,Europe,WesternEurope,France,plains,catholic,ncontinental,french,grain,Nivernais,0,5,9
+387,Europe,HRE,Lotharingia,forest,catholic,ncontinental,french,copper,Franche Comte,0,5,7
+388,Europe,HRE,Switzerland,mountain,catholic,ncontinental,swiss,iron,Bern,0,7,9
+389,Europe,SouthernEurope,Italy,plains,catholic,temperate,italian,cloth,Lombardia,0,5,16
+390,Europe,SouthernEurope,Italy,marsh,catholic,temperate,italian,grain,Mantua,0,5,14
+391,Europe,SouthernEurope,Italy,plains,catholic,temperate,italian,salt,Romagna,0,5,8
+392,Europe,SouthernEurope,Italy,plains,catholic,temperate,italian,wool,Marche,0,5,6
+393,Europe,SouthernEurope,Italy,plains,catholic,temperate,italian,wine,Napoli,0,8,12
+394,Europe,SouthernEurope,Italy,hill,catholic,temperate,italian,salt,Apulia,0,5,4
+395,Europe,SouthernEurope,Italy,hill,catholic,temperate,italian,fish,Messina,0,5,6
+396,Europe,SouthernEurope,Italy,plains,catholic,temperate,italian,wine,Sicily,0,5,7
+397,Europe,SouthernEurope,Italy,hill,catholic,temperate,italian,fish,Sardinia,0,2,4
+398,Europe,SouthernEurope,Italy,hill,catholic,temperate,italian,naval supplies,Corsica,0,2,3
+399,Europe,SouthernEurope,Italy,plains,catholic,temperate,italian,grain,Roma,0,8,12
+400,Europe,SouthernEurope,Italy,hill,catholic,temperate,italian,cloth,Siena,0,6,11
+401,Europe,SouthernEurope,Italy,plains,catholic,temperate,italian,wine,Firenze,0,5,16
+402,Europe,SouthernEurope,Italy,plains,catholic,temperate,italian,wine,Emilia,0,5,10
+403,Europe,SouthernEurope,Italy,hill,catholic,temperate,italian,wool,Liguria,0,6,10
+404,Europe,SouthernEurope,Italy,hill,catholic,temperate,italian,fish,Piemonte,0,5,6
+405,Europe,HRE,Lotharingia,hill,catholic,temperate,french,cloth,Savoie,0,6,14
+406,Europe,WesternEurope,France,hill,catholic,temperate,occitan,wine,Provence,0,5,13
+407,Europe,WesternEurope,France,hill,catholic,ncontinental,french,iron,Dauphine,0,5,9
+408,Europe,WesternEurope,France,plains,catholic,ncontinental,french,grain,Lyonnais,0,5,13
+409,Europe,WesternEurope,France,plains,catholic,ncontinental,french,wine,Bourgogne,0,5,10
+410,Europe,WesternEurope,France,plains,catholic,temperate,french,grain,Berri,0,5,8
+411,Europe,WesternEurope,France,plains,catholic,temperate,french,grain,Orleanais,0,5,12
+412,Europe,WesternEurope,France,plains,catholic,temperate,french,grain,Maine,0,5,10
+413,Europe,WesternEurope,France,forest,catholic,temperate,french,naval supplies,Normandie,0,5,7
+414,Europe,WesternEurope,France,plains,catholic,temperate,french,fish,Armor,0,5,9
+415,Europe,WesternEurope,France,forest,catholic,temperate,celtic,fish,Bretagne,0,3,7
+416,Europe,WesternEurope,France,plains,catholic,temperate,french,fish,Morbihan,0,4,10
+417,Europe,WesternEurope,France,forest,catholic,temperate,french,salt,Vendee,0,6,7
+418,Europe,WesternEurope,France,marsh,catholic,temperate,french,salt,Poitou,0,5,6
+419,Europe,WesternEurope,France,forest,catholic,temperate,occitan,grain,Limousin,0,5,7
+420,Europe,WesternEurope,France,hill,catholic,ncontinental,occitan,iron,Auvergne,0,5,4
+421,Europe,WesternEurope,France,hill,catholic,ncontinental,occitan,wool,Cevennes,0,5,4
+422,Europe,WesternEurope,France,plains,catholic,temperate,occitan,wine,Languedoc,0,5,11
+423,Europe,WesternEurope,France,forest,catholic,temperate,occitan,wine,Guyenne,0,5,11
+424,Europe,WesternEurope,France,forest,catholic,temperate,occitan,wine,Gascogne,0,5,10
+425,Europe,WesternEurope,France,forest,catholic,temperate,basque,wool,Bearn,0,5,6
+426,Europe,WesternEurope,France,plains,catholic,temperate,occitan,wine,Roussillon,0,5,5
+427,Europe,SouthernEurope,Iberia,hill,catholic,temperate,iberian,fish,Gerona,0,5,4
+428,Europe,SouthernEurope,Iberia,hill,catholic,temperate,basque,iron,Navarra,0,5,8
+429,Europe,SouthernEurope,Iberia,plains,catholic,temperate,iberian,wine,Catalonia,0,7,13
+430,Europe,SouthernEurope,Iberia,hill,catholic,temperate,iberian,iron,Aragon,0,5,7
+431,Europe,SouthernEurope,Iberia,forest,catholic,temperate,iberian,naval supplies,Cantabria,0,6,9
+432,Europe,SouthernEurope,Iberia,hill,catholic,temperate,iberian,copper,Asturias,0,5,7
+433,Europe,SouthernEurope,Iberia,hill,catholic,temperate,iberian,iron,Galicia,0,5,5
+434,Europe,SouthernEurope,Iberia,hill,catholic,temperate,portuguese,wine,Oporto,0,6,14
+435,Europe,SouthernEurope,Iberia,plains,catholic,temperate,iberian,grain,Leon,0,7,5
+436,Europe,SouthernEurope,Iberia,hill,catholic,temperate,iberian,iron,Castilla,0,6,11
+437,Europe,SouthernEurope,Iberia,plains,catholic,temperate,iberian,wine,Valencia,0,5,9
+438,Europe,SouthernEurope,Iberia,hill,sunni,temperate,iberian,salt,Murcia,0,4,5
+439,Europe,SouthernEurope,Iberia,hill,catholic,temperate,iberian,gold,Toledo,0,4,7
+440,Europe,SouthernEurope,Iberia,hill,catholic,temperate,iberian,wool,Estramadura,0,4,6
+441,Europe,SouthernEurope,Iberia,plains,catholic,temperate,portuguese,fish,Tago,0,6,19
+442,Europe,SouthernEurope,Iberia,plains,catholic,temperate,portuguese,fish,Algarve,0,4,11
+443,Europe,SouthernEurope,Iberia,plains,sunni,temperate,iberian,wine,Andalusia,0,6,15
+444,Europe,SouthernEurope,Iberia,hill,sunni,temperate,berber,copper,Granada,0,5,7
+445,Europe,SouthernEurope,Iberia,hill,sunni,temperate,iberian,fish,Gibraltar,0,2,7
+446,Europe,EasternEurope,Steppe,forest,sunni,tundra,tatar,iron,Kazan,0,5,9
+447,Europe,EasternEurope,Russia,plains,orthodox,tundra,ugric,iron,Tambow,0,5,6
+448,Europe,EasternEurope,Russia,plains,orthodox,tundra,russian,wool,Ryazan,0,8,8
+449,Europe,EasternEurope,Russia,plains,orthodox,tundra,russian,grain,Vorones,0,5,6
+450,Europe,EasternEurope,Russia,plains,orthodox,tundra,ruthenian,grain,Belgorod,0,5,5
+451,Europe,EasternEurope,Russia,plains,sunni,tundra,tatar,wool,Bogutjar,0,5,5
+452,Europe,EasternEurope,Russia,plains,sunni,tundra,tatar,grain,Saratow,0,5,6
+453,Europe,EasternEurope,Steppe,plains,sunni,tundra,tatar,wool,Ufa,0,5,7
+454,Europe,EasternEurope,Steppe,forest,sunni,tundra,tatar,gold,Samara,0,5,9
+455,Europe,EasternEurope,Steppe,plains,sunni,tundra,tatar,copper,Uralsk,0,5,6
+456,Europe,EasternEurope,Steppe,plains,sunni,tundra,tatar,copper,Orenburg,0,5,3
+457,Europe,EasternEurope,Steppe,plains,sunni,tundra,tatar,wool,Astrakhan,0,5,10
+458,Europe,EasternEurope,Steppe,plains,sunni,tundra,tatar,grain,Volgograd,0,5,3
+459,Europe,EasternEurope,Steppe,plains,sunni,tundra,tatar,grain,Lugansk,0,5,4
+460,Europe,EasternEurope,Ukraine,plains,orthodox,tundra,ruthenian,iron,Donetsk,0,5,7
+461,Europe,EasternEurope,Ukraine,plains,orthodox,tundra,ruthenian,grain,Poltava,0,5,8
+462,Europe,EasternEurope,Ukraine,plains,orthodox,temperate,ruthenian,wool,Krementjug,0,5,7
+463,Europe,EasternEurope,Ukraine,plains,sunni,temperate,tatar,salt,Crimea,0,5,7
+464,Europe,EasternEurope,Ukraine,hill,orthodox,temperate,greek,wine,Kaffa,0,5,5
+465,Europe,EasternEurope,Ukraine,marsh,orthodox,temperate,greek,fish,Kerch,0,5,5
+466,Europe,EasternEurope,Caucasus,plains,sunni,temperate,tatar,salt,Azow,0,5,4
+467,Europe,EasternEurope,Caucasus,plains,sunni,ncontinental,tatar,wool,Kalmuk,0,5,1
+468,Europe,EasternEurope,Caucasus,hill,sunni,ncontinental,circassian,wool,Kouban,0,5,1
+469,Europe,EasternEurope,Caucasus,hill,orthodox,ncontinental,georgian,wool,Sochi,0,5,4
+470,Europe,EasternEurope,Caucasus,hill,orthodox,ncontinental,georgian,wine,Georgia,0,5,5
+471,Europe,EasternEurope,Caucasus,plains,sunni,ncontinental,turkish,wool,Daghestan,0,5,5
+472,Europe,EasternEurope,Caucasus,hill,miaphysite,ncontinental,armenian,gold,Armenia,0,5,4
+473,Asia,MiddleEast,Levant,hill,sunni,ncontinental,kurdish,iron,Kurdistan,0,6,5
+474,Asia,MiddleEast,Anatolia,hill,sunni,ncontinental,turkish,wool,Sivas,0,5,4
+475,Asia,MiddleEast,Anatolia,marsh,orthodox,temperate,greek,copper,Trabzon,0,5,6
+476,Asia,MiddleEast,Anatolia,hill,sunni,ncontinental,turkish,iron,Angora,0,5,6
+477,Asia,MiddleEast,Anatolia,plains,orthodox,temperate,greek,cloth,Anatolia,0,5,8
+478,Asia,MiddleEast,Anatolia,plains,orthodox,temperate,greek,wine,Smyrna,0,5,11
+479,Europe,SouthernEurope,Mediterranean,plains,orthodox,temperate,greek,wine,Ionia,0,3,3
+480,Europe,SouthernEurope,Mediterranean,hill,orthodox,temperate,greek,sugar,Crete,0,3,5
+481,Europe,SouthernEurope,Mediterranean,hill,orthodox,temperate,greek,fish,Rhodes,0,3,2
+482,Asia,MiddleEast,Anatolia,hill,sunni,ncontinental,turkish,salt,Konya,0,3,4
+483,Asia,MiddleEast,Anatolia,hill,miaphysite,ncontinental,armenian,fish,Adana,0,3,3
+484,Europe,SouthernEurope,Mediterranean,hill,orthodox,temperate,greek,wine,Cyprus,0,3,8
+485,Asia,MiddleEast,Levant,plains,orthodox,ncontinental,arab,cloth,Aleppo,0,6,7
+486,Asia,MiddleEast,Levant,desert,sunni,desertic,kurdish,copper,Nuyssaybin,0,5,2
+487,Asia,CentralAsia,Persia,hill,sunni,ncontinental,turkish,wool,Azerbaijan,0,6,9
+488,Asia,MiddleEast,Levant,desert,sunni,desertic,arab,iron,Kirkuk,0,6,4
+489,Asia,MiddleEast,Levant,desert,sunni,desertic,arab,grain,Iraq,0,8,14
+490,Asia,MiddleEast,Levant,plains,sunni,ncontinental,arab,grain,Syria,0,5,12
+491,Asia,MiddleEast,Levant,hill,catholic,temperate,arab,naval supplies,Lebanon,0,4,7
+492,Asia,MiddleEast,Levant,plains,sunni,temperate,arab,wool,Samaria,0,3,5
+493,Asia,MiddleEast,Levant,plains,sunni,temperate,arab,grain,Judea,0,3,5
+494,Asia,MiddleEast,Levant,desert,sunni,desertic,arab,salt,Sinai,0,1,1
+495,Asia,MiddleEast,Levant,desert,sunni,desertic,arab,grain,Jordan,0,2,4
+496,Asia,MiddleEast,Levant,desert,sunni,desertic,arab,wool,Arabia,0,2,3
+497,Asia,MiddleEast,Nefud,desert,sunni,desertic,arab,chinaware,Medina,9,2,2
+498,Asia,MiddleEast,Nefud,desert,sunni,desertic,arab,spices,Mekkah,9,3,2
+499,Asia,MiddleEast,Aden,hill,sunni,desertic,arab,coffee,Yemen,7,4,3
+500,Asia,MiddleEast,Aden,hill,sunni,desertic,arab,coffee,Aden,7,3,2
+501,Asia,MiddleEast,Aden,desert,sunni,desertic,arab,wool,Hadramut,8,2,1
+502,Asia,MiddleEast,Aden,hill,sunni,desertic,arab,fish,Dofhar,6,2,1
+503,Asia,MiddleEast,Oman,desert,sunni,desertic,arab,spices,Masirah,9,2,1
+504,Asia,MiddleEast,Oman,hill,sunni,desertic,arab,chinaware,Mascate,7,5,3
+505,Asia,MiddleEast,Oman,hill,sunni,desertic,arab,wool,Al Kharam,9,1,2
+506,Asia,MiddleEast,Nefud,desert,sunni,desertic,arab,chinaware,Quatar,9,2,1
+507,Asia,MiddleEast,Nefud,desert,sunni,desertic,arab,wool,Damman,9,2,1
+508,Asia,MiddleEast,Levant,desert,sunni,desertic,arab,spices,Basrah,7,6,9
+509,Asia,MiddleEast,Nefud,desert,sunni,desertic,arab,spices,Bahrein,9,3,1
+510,Asia,Siberia,Sibir,forest,sunni,tundra,altai,fur,Kurgan,3,2,3
+511,Asia,Siberia,Sibir,forest,sunni,tundra,altai,fur,Kustanai,3,1,3
+512,Asia,Siberia,Sibir,plains,sunni,ncontinental,altai,wool,Tenghiz,4,1,3
+513,Asia,Siberia,Sibir,plains,sunni,ncontinental,nogai,grain,Orsk,3,1,5
+514,Asia,Siberia,Sibir,plains,sunni,tundra,nogai,grain,Irgiz,4,1,3
+515,Asia,Siberia,Sibir,plains,sunni,ncontinental,nogai,wool,Alga,5,1,3
+516,Asia,CentralAsia,Kazakhstan,plains,sunni,ncontinental,uzbek,salt,Aralsk,6,2,2
+517,Asia,CentralAsia,Kazakhstan,plains,sunni,ncontinental,kazakh,wool,Turgai,5,2,3
+518,Asia,CentralAsia,Kazakhstan,plains,sunni,ncontinental,uzbek,wool,Ust Urt,6,2,2
+519,Asia,CentralAsia,Kazakhstan,plains,sunni,ncontinental,nogai,wool,Emba,8,4,3
+520,Asia,CentralAsia,Kazakhstan,desert,sunni,desertic,nogai,wool,Bouzatchi,9,2,1
+521,Asia,CentralAsia,Kazakhstan,desert,sunni,desertic,persian,wool,Karabogaz,8,2,1
+522,Asia,CentralAsia,Kazakhstan,desert,sunni,desertic,persian,wool,Khwarizm,7,3,3
+523,Asia,CentralAsia,Kazakhstan,desert,sunni,desertic,persian,wool,Kara Kum,4,3,3
+524,Asia,CentralAsia,Kazakhstan,desert,sunni,desertic,persian,wool,Turkmenistan,4,3,3
+525,Asia,CentralAsia,Persia,hill,sunni,temperate,persian,fish,Elbruz,6,2,6
+526,Asia,CentralAsia,Persia,hill,sunni,ncontinental,persian,wool,Meched,8,2,7
+527,Asia,CentralAsia,Persia,hill,sunni,ncontinental,persian,wool,Kerman,8,1,5
+528,Asia,CentralAsia,Persia,desert,sunni,desertic,persian,wool,Lut,9,1,2
+529,Asia,CentralAsia,Persia,hill,sunni,ncontinental,persian,chinaware,Tabaristan,8,10,16
+530,Asia,CentralAsia,Persia,hill,sunni,temperate,persian,chinaware,Tabriz,8,8,14
+531,Asia,CentralAsia,Persia,hill,sunni,ncontinental,persian,cloth,Hamadan,8,5,8
+532,Asia,CentralAsia,Persia,desert,sunni,desertic,persian,grain,Ahwaz,7,6,9
+533,Asia,CentralAsia,Persia,hill,sunni,desertic,persian,chinaware,Isfahan,9,12,17
+534,Asia,CentralAsia,Persia,hill,sunni,desertic,persian,spices,Fars,9,5,2
+535,Asia,CentralAsia,Persia,hill,sunni,ncontinental,persian,chinaware,Hormouz,7,7,12
+536,Asia,CentralAsia,Bahk,hill,sunni,ncontinental,baluchi,wool,Mekran,8,6,2
+537,Asia,CentralAsia,Bahk,desert,sunni,desertic,baluchi,wool,Baluchistan,9,6,1
+538,Asia,CentralAsia,Bahk,desert,sunni,desertic,baluchi,cotton,Kalat,8,2,1
+539,Asia,India,Lahore,plains,sunni,tropical,gujarati,salt,Indus,7,3,7
+540,Asia,India,Lahore,desert,sunni,tropical,gujarati,salt,Sindh,9,2,4
+541,Asia,India,Gujarat,plains,sunni,tropical,gujarati,chinaware,Kutch,6,3,5
+542,Asia,India,Punjab,desert,hindu,tropical,rajput,grain,Rajputana,8,7,12
+543,Asia,India,Delhi,plains,hindu,tropical,hindi,chinaware,Delhi,3,8,19
+544,Asia,India,Delhi,marsh,hindu,tropical,hindi,cloth,Awadh,3,6,16
+545,Asia,India,Delhi,desert,hindu,tropical,hindi,cloth,Bundelkhand,7,3,7
+546,Asia,India,Delhi,hill,hindu,tropical,hindi,cotton,Malwa,8,6,12
+547,Asia,India,Gujarat,desert,hindu,tropical,gujarati,spices,Gujarat,8,4,7
+548,Asia,India,Gujarat,plains,hindu,tropical,marathi,chinaware,Bombay,6,3,9
+549,Asia,India,Malabar,forest,hindu,tropical,marathi,spices,Goa,5,3,8
+550,Asia,India,Hyderabad,hill,hindu,tropical,marathi,spices,Maharashtra,7,7,12
+551,Asia,India,Hyderabad,forest,hindu,tropical,marathi,cotton,Khandesh,5,4,8
+552,Asia,India,Delhi,forest,hindu,tropical,gondi,cotton,Gondwana,7,3,8
+553,Asia,India,Mahratti,plains,hindu,tropical,gondi,grain,Raipur,5,2,5
+554,Asia,India,Oudh,plains,hindu,tropical,nepali,grain,Tirhut,5,2,7
+555,Asia,India,Oudh,plains,hindu,tropical,bengali,cotton,Koch,5,1,5
+556,Asia,India,Bengal,marsh,hindu,tropical,bengali,naval supplies,Santal,5,2,6
+557,Asia,India,Bengal,marsh,hindu,tropical,bengali,chinaware,Ganges,7,3,5
+558,Asia,India,Bengal,marsh,hindu,tropical,bengali,spices,Howrah,7,4,5
+559,Asia,India,Mahratti,plains,hindu,tropical,bengali,tea,Bihar,5,5,11
+560,Asia,India,Orissa,plains,hindu,tropical,bengali,cotton,Odisa,5,5,8
+561,Asia,India,Orissa,forest,hindu,tropical,bengali,tea,Berhampur,6,3,9
+562,Asia,India,Mahratti,hill,hindu,tropical,bengali,tea,Sambalpur,5,2,5
+563,Asia,India,Mahratti,hill,hindu,tropical,telugu,copper,Bastar,6,2,5
+564,Asia,India,Orissa,forest,hindu,tropical,telugu,spices,Palakimedi,6,3,9
+565,Asia,India,Orissa,forest,hindu,tropical,telugu,chinaware,Yanam,5,3,6
+566,Asia,India,Hyderabad,hill,hindu,tropical,marathi,cotton,Hyderabad,6,8,14
+567,Asia,India,Mysore,hill,hindu,tropical,kannadiga,wool,Bangalore,7,5,9
+568,Asia,India,Malabar,forest,hindu,tropical,kannadiga,fish,Mangalore,5,4,6
+569,Asia,India,Malabar,forest,hindu,tropical,kannadiga,fish,Kerala,6,5,7
+570,Asia,India,Mysore,hill,hindu,tropical,kannadiga,iron,Mysore,7,7,15
+571,Asia,India,Carnatic,forest,hindu,tropical,kannadiga,spices,Madras,5,4,8
+572,Asia,India,Carnatic,forest,hindu,tropical,tamil,spices,Pondicherry,6,5,7
+573,Asia,India,Malabar,forest,hindu,tropical,tamil,chinaware,Cochin,6,5,5
+574,Asia,India,Malabar,forest,hindu,tropical,tamil,spices,Trivandrum,7,4,6
+575,Asia,India,Carnatic,forest,hindu,tropical,tamil,naval supplies,Madurai,7,4,7
+576,Asia,India,Ceylon,hill,buddhist,tropical,tamil,sugar,Colombo,8,3,9
+577,Asia,India,Ceylon,marsh,buddhist,tropical,tamil,spices,Jaffna,7,2,5
+578,Asia,Siberia,Sibir,plains,pagan,tundra,altai,grain,Ichim,5,1,3
+579,Asia,Siberia,Omsk,plains,pagan,ncontinental,kazakh,iron,Karaganda,3,1,3
+580,Asia,Siberia,Omsk,plains,pagan,tundra,kazakh,grain,Omsk,4,1,5
+581,Asia,Siberia,Omsk,forest,pagan,tundra,altai,fur,Tchany,4,1,3
+582,Asia,Siberia,Omsk,plains,pagan,tundra,kazakh,copper,Semipalatinsk,3,1,4
+583,Asia,Siberia,Omsk,forest,pagan,tundra,altai,fur,Irtych,4,1,3
+584,Asia,Siberia,Omsk,plains,pagan,tundra,kazakh,grain,Novosibirsk,3,1,3
+585,Asia,Siberia,Omsk,plains,pagan,tundra,altai,wool,Altai,4,1,2
+586,Asia,Siberia,Omsk,forest,pagan,tundra,altai,fur,Demianka,4,1,2
+587,Asia,Siberia,Omsk,plains,pagan,ncontinental,altai,wool,Barabinsk,4,1,3
+588,Asia,Siberia,Omsk,forest,pagan,tundra,altai,fur,Ob,4,1,3
+589,Asia,Siberia,Omsk,forest,pagan,tundra,altai,fur,Tomsk,4,1,4
+590,Asia,Siberia,Jenisej,forest,pagan,tundra,altai,gold,Angara,5,1,2
+591,Asia,Siberia,Jenisej,plains,pagan,tundra,altai,fur,Krasnoyarsk,4,1,5
+592,Asia,Siberia,Jenisej,plains,pagan,tundra,altai,fur,Balakhta,4,1,2
+593,Asia,Siberia,Jenisej,forest,pagan,tundra,altai,fur,Tchuma,5,1,2
+594,Asia,Siberia,Jenisej,plains,pagan,tundra,altai,fur,Bratsk,4,1,2
+595,Asia,Siberia,Lena,plains,pagan,tundra,mongol,fur,Oka,6,1,2
+596,Asia,Siberia,Jenisej,hill,pagan,tundra,altai,fur,Touva,6,1,3
+597,Asia,Siberia,Lena,hill,pagan,tundra,mongol,fur,Saian,7,1,1
+598,Asia,Siberia,Lena,plains,pagan,tundra,mongol,fur,Zima,6,1,1
+599,Asia,Siberia,Lena,hill,pagan,tundra,mongol,fur,Tannu Ola,7,1,2
+600,Asia,Siberia,Lena,plains,pagan,tundra,mongol,fish,Irkutsk,6,1,3
+601,Asia,Siberia,Lena,hill,pagan,tundra,mongol,fish,Chatga,6,1,1
+602,Asia,Siberia,Lena,plains,pagan,tundra,mongol,wool,Selenga,6,1,2
+603,Asia,Siberia,Lena,forest,pagan,tundra,mongol,fur,Ulan Ude,6,1,2
+604,Asia,Siberia,Lena,hill,pagan,tundra,mongol,gold,Buriat,8,1,1
+605,Asia,Siberia,Lena,forest,pagan,tundra,mongol,wool,Tchita,6,1,4
+606,Asia,Siberia,Lena,forest,pagan,tundra,mongol,fur,Kalakan,7,1,2
+607,Asia,Siberia,Baikal,forest,pagan,tundra,mongol,fur,Sretensk,7,1,3
+608,Asia,Siberia,Baikal,forest,pagan,tundra,mongol,copper,Kalar,7,1,2
+609,Asia,Siberia,Baikal,forest,pagan,tundra,mongol,fish,Mogotcha,7,1,2
+610,Asia,Siberia,Baikal,forest,pagan,tundra,mongol,fish,Djagdi,7,1,2
+611,Asia,Siberia,Baikal,plains,pagan,tundra,mongol,fur,Chilka,6,1,3
+612,Asia,Siberia,Baikal,forest,pagan,tundra,mongol,fish,Stanovoe,8,1,1
+613,Asia,Siberia,Amur,forest,pagan,tundra,altai,fur,Baladok,7,1,1
+614,Asia,Siberia,Amur,forest,pagan,tundra,altai,fish,Djugdjur,7,1,1
+615,Asia,Siberia,Amur,hill,pagan,tundra,altai,gold,Enkan,8,1,1
+616,Asia,Siberia,Amur,forest,pagan,tundra,altai,fish,Okhotsk,6,1,2
+617,Asia,Siberia,Amur,hill,pagan,tundra,altai,fur,Magadan,7,1,1
+618,Asia,Siberia,Kamchatka,hill,pagan,arctic,altai,copper,Kolyma,9,1,1
+619,Asia,Siberia,Kamchatka,hill,pagan,arctic,altai,fur,Chelekov,9,1,1
+620,Asia,Siberia,Kamchatka,hill,pagan,arctic,altai,fur,Kamenkoie,8,1,1
+621,Asia,Siberia,Kamchatka,hill,pagan,arctic,altai,fur,Korfa,9,1,1
+622,Asia,Siberia,Kamchatka,hill,pagan,arctic,altai,fish,Palana,7,1,1
+623,Asia,Siberia,Amur,forest,pagan,tundra,altai,naval supplies,Tchumkan,7,1,2
+624,Asia,Siberia,Amur,forest,pagan,tundra,altai,fur,Amgoun,7,1,1
+625,Asia,Siberia,Amur,forest,pagan,tundra,ainu,fish,Bogorodsk,6,2,1
+626,Asia,Siberia,Amur,hill,pagan,tundra,ainu,fish,Vanin,7,2,1
+627,Asia,Siberia,Amur,forest,confucian,tundra,manchu,naval supplies,Sofiisk,6,2,1
+628,Asia,Siberia,Amur,forest,confucian,tundra,manchu,fur,Amour,6,3,2
+629,Asia,Siberia,Amur,forest,pagan,tundra,altai,fur,Tchekunda,6,1,2
+630,Asia,Siberia,Baikal,forest,pagan,tundra,mongol,fur,Boureia,7,1,2
+631,Asia,Siberia,Baikal,plains,pagan,tundra,mongol,fur,Ekimcan,7,1,3
+632,Asia,Siberia,Baikal,plains,pagan,tundra,mongol,fur,Nerchiinsk,6,1,3
+633,Asia,Siberia,Baikal,forest,confucian,tundra,mongol,fur,Norsk,7,1,2
+634,Asia,Siberia,Baikal,forest,confucian,tundra,manchu,fur,Birobidjan,7,3,2
+635,Asia,China,Manchuria,forest,confucian,tundra,manchu,cloth,Heilongjiang,7,6,4
+636,Asia,China,Manchuria,forest,confucian,tundra,manchu,fur,Viazemski,6,3,2
+637,Asia,China,Manchuria,hill,confucian,tundra,manchu,fur,Sikhote,7,2,1
+638,Asia,China,Manchuria,hill,confucian,tundra,manchu,iron,Nelma,7,2,1
+639,Asia,China,Manchuria,hill,confucian,tundra,manchu,fish,Olga,7,2,1
+640,Asia,China,Manchuria,forest,confucian,tundra,manchu,fish,Nakhodka,5,2,3
+641,Asia,Korea,Joseon,plains,confucian,temperate,korean,grain,Kyongju,5,8,9
+642,Asia,Korea,Joseon,hill,confucian,ncontinental,korean,chinaware,Yalu,9,7,13
+643,Asia,China,Manchuria,hill,confucian,ncontinental,manchu,iron,Jilin,6,7,6
+644,Asia,China,Manchuria,plains,confucian,ncontinental,manchu,spices,Baicheng,5,3,6
+645,Asia,China,Manchuria,plains,confucian,ncontinental,manchu,cloth,Jehol,5,2,9
+646,Asia,China,Manchuria,plains,confucian,ncontinental,manchu,fish,Liaotung,4,5,8
+647,Asia,China,Peking,plains,confucian,temperate,han,grain,Liaoning,5,5,19
+648,Asia,China,Peking,plains,confucian,ncontinental,han,wool,Hepei,6,4,9
+649,Asia,China,Peking,plains,confucian,temperate,han,spices,Hebei,4,10,15
+650,Asia,China,Peking,hill,confucian,temperate,han,grain,Shandong,5,6,10
+651,Asia,China,Peking,plains,confucian,temperate,han,grain,Jinan,4,5,12
+652,Asia,China,Shanghai,plains,confucian,temperate,han,grain,Jiangsu,9,8,15
+653,Asia,China,Shanghai,marsh,confucian,tropical,han,chinaware,Shanghai,9,8,18
+654,Asia,China,Shanghai,plains,confucian,tropical,han,grain,Anhui,9,6,16
+655,Asia,China,Shanghai,hill,confucian,tropical,han,fish,Zhejiang,9,6,15
+656,Asia,China,Canton,forest,confucian,tropical,han,spices,Fujian,9,4,9
+657,Asia,China,Canton,hill,confucian,tropical,zhuang,chinaware,Kowloon,9,6,10
+658,Asia,China,Canton,forest,confucian,tropical,zhuang,chinaware,Guangzhou,9,5,8
+659,Asia,China,Canton,plains,confucian,tropical,zhuang,chinaware,Guangdong,9,5,19
+660,Asia,China,Canton,plains,confucian,tropical,zhuang,fish,Hainan,9,3,6
+661,Asia,China,Canton,hill,confucian,tropical,zhuang,chinaware,Guangxi,9,4,9
+662,Asia,Indochina,Annam,marsh,buddhist,tropical,vietnamese,naval supplies,Hanoi,5,6,11
+663,Asia,Indochina,Annam,forest,buddhist,tropical,vietnamese,fish,Tanh Noah,6,5,8
+664,Asia,Indochina,Annam,hill,hindu,tropical,cham,chinaware,Da Nang,7,5,8
+665,Asia,Indochina,Annam,forest,hindu,tropical,cham,fish,Da Lat,6,3,7
+666,Asia,Indochina,Annam,marsh,buddhist,tropical,khmer,spices,Mekong Delta,6,4,7
+667,Asia,Indochina,Siam,marsh,buddhist,tropical,khmer,ivory,Khmer,9,3,7
+668,Asia,Indochina,Siam,forest,buddhist,tropical,khmer,naval supplies,Cambodia,9,5,12
+669,Asia,Indochina,Siam,forest,buddhist,tropical,siamese,grain,Laos,9,4,9
+670,Asia,Indochina,Siam,forest,buddhist,tropical,siamese,chinaware,Bangkok,9,6,15
+671,Asia,Indochina,Assam,marsh,hindu,tropical,burmese,naval supplies,Chin,4,3,4
+672,Asia,Indochina,Burma,marsh,buddhist,tropical,burmese,copper,Tarakan,8,5,7
+673,Asia,Indochina,Burma,marsh,buddhist,tropical,mon,spices,Irrawady,9,5,6
+674,Asia,Indochina,Burma,forest,buddhist,tropical,mon,spices,Kwai,9,3,6
+675,Asia,Indochina,Siam,forest,buddhist,tropical,siamese,fish,Phuket,9,2,6
+676,Asia,Indochina,Malaya,forest,sunni,tropical,malay,fish,Perak,7,3,4
+677,Asia,Indochina,Malaya,forest,sunni,tropical,malay,spices,Malacca,6,6,14
+678,Asia,Indochina,Malaya,forest,sunni,tropical,malay,fish,Johor,7,4,8
+679,Asia,Indonesia,Ajeh,forest,sunni,tropical,malay,spices,Ajeh,6,6,12
+680,Asia,Indonesia,Ajeh,forest,buddhist,tropical,malay,naval supplies,Riau,9,4,8
+681,Asia,Indonesia,Sumatra,forest,buddhist,tropical,malay,gold,Jambi,5,4,8
+682,Asia,Indonesia,Sumatra,marsh,sunni,tropical,malay,spices,Palembang,5,5,10
+683,Asia,Japan,Nippon,hill,pagan,ncontinental,ainu,fish,Ezochi,7,1,1
+684,Asia,Japan,Nippon,plains,shinto,temperate,japanese,grain,Tohoku,5,6,14
+685,Asia,Japan,Nippon,hill,shinto,temperate,japanese,grain,Kanto,3,8,18
+686,Asia,Japan,Nippon,hill,shinto,temperate,japanese,chinaware,Kansai,3,8,18
+687,Asia,Japan,Nippon,plains,shinto,temperate,japanese,fish,Shikoku,3,6,17
+688,Asia,Japan,Nippon,hill,shinto,temperate,japanese,chinaware,Kyushu,3,8,19
+689,Asia,China,Formosa,hill,pagan,tropical,formosan,chinaware,Taiwan,9,1,4
+690,Asia,Indonesia,Lucon,marsh,pagan,tropical,filipino,gold,Luzon,4,4,10
+691,Asia,Indonesia,Lucon,forest,pagan,tropical,filipino,sugar,Mindoro,5,4,10
+692,Asia,Indonesia,Lucon,forest,pagan,tropical,filipino,spices,Samar,5,3,8
+693,Asia,Indonesia,Lucon,hill,sunni,tropical,filipino,spices,Mindanao,6,3,8
+694,Asia,Indonesia,Lucon,forest,pagan,tropical,filipino,fish,Palawan,7,3,7
+695,Asia,Indonesia,Borneo,hill,pagan,tropical,malay,spices,Sabah,4,3,6
+696,Asia,Indonesia,Borneo,forest,sunni,tropical,malay,spices,Brunei,4,6,14
+697,Asia,Indonesia,Borneo,forest,hindu,tropical,malay,naval supplies,Sarawak,3,3,6
+698,Asia,Indonesia,Borneo,marsh,hindu,tropical,javanese,iron,Bandjarmasin,4,3,6
+699,Asia,Indonesia,Borneo,marsh,hindu,tropical,javanese,chinaware,Selatan,4,3,6
+700,Asia,Indonesia,Borneo,marsh,hindu,tropical,javanese,fish,Kalimantan,4,2,5
+701,Asia,Indonesia,Java,forest,hindu,tropical,javanese,spices,Sunda,3,6,12
+702,Asia,Indonesia,Java,marsh,hindu,tropical,javanese,sugar,Jakarta,3,8,16
+703,Asia,Indonesia,Java,hill,hindu,tropical,javanese,cotton,Bandung,3,6,14
+704,Asia,Indonesia,Surabaya,hill,hindu,tropical,javanese,cotton,Surabaja,3,7,16
+705,Asia,Indonesia,Surabaya,marsh,hindu,tropical,javanese,coffee,Bali,3,5,12
+706,Asia,Indonesia,Celebes,forest,pagan,tropical,indonesian,spices,Manado,3,2,8
+707,Asia,Indonesia,Celebes,hill,pagan,tropical,indonesian,coffee,Sulawesi,3,3,10
+708,Asia,Indonesia,Celebes,marsh,pagan,tropical,indonesian,spices,Makassar,3,5,14
+709,Asia,Indonesia,Celebes,forest,pagan,tropical,indonesian,spices,Salabanka,3,3,10
+710,Asia,Indonesia,Amboina,forest,hindu,tropical,indonesian,coffee,Sumbawa,3,3,10
+711,Asia,Indonesia,Amboina,forest,pagan,tropical,indonesian,spices,Flores,3,3,8
+712,Asia,Indonesia,Amboina,forest,pagan,tropical,indonesian,spices,Timor,5,2,6
+713,Asia,Indonesia,Ternate,forest,pagan,tropical,indonesian,spices,Tindore,4,4,12
+714,Asia,Indonesia,Ternate,forest,pagan,tropical,indonesian,coffee,Buru,5,2,6
+715,Asia,Indonesia,Ternate,forest,pagan,tropical,indonesian,spices,Ceram,5,2,6
+716,Oceania,Australia,Papua,hill,pagan,tropical,melanesian,fish,Sorong,8,1,1
+717,Oceania,Australia,Papua,marsh,pagan,tropical,melanesian,fish,Kalepam,7,1,1
+718,Oceania,Australia,Papua,forest,pagan,tropical,melanesian,gold,Wewak,9,1,1
+719,Oceania,Australia,Papua,forest,pagan,tropical,melanesian,fish,Rabaul,9,1,1
+720,Oceania,Australia,Kanguru,plains,pagan,temperate,aboriginal,wool,Manunda,3,1,5
+721,Oceania,Australia,Kanguru,plains,pagan,temperate,aboriginal,wool,Murumbidgee,3,1,6
+722,Oceania,Australia,Kanguru,plains,pagan,temperate,aboriginal,grain,Yarra,3,1,8
+723,Oceania,Australia,Botany,plains,pagan,temperate,aboriginal,wool,Wagga,3,1,6
+724,Oceania,Australia,Botany,plains,pagan,temperate,aboriginal,grain,Wollongong,3,1,7
+725,Oceania,Australia,Botany,forest,pagan,temperate,aboriginal,wool,Nandewar,3,1,5
+726,Oceania,Australia,Botany,forest,pagan,tropical,aboriginal,fish,Towoomba,4,1,5
+727,Oceania,Australia,Maori,plains,pagan,temperate,polynesian,grain,Whangarei,4,1,7
+728,Oceania,Australia,Maori,plains,pagan,temperate,polynesian,wool,Taranaki,4,1,5
+729,Oceania,Australia,Maori,hill,pagan,temperate,polynesian,wool,Wairoa,4,1,6
+730,Oceania,Australia,Maori,hill,pagan,temperate,polynesian,wool,Timaru,5,1,5
+731,Oceania,Australia,Tasmania,forest,pagan,temperate,aboriginal,fish,Macquarie,2,1,6
+732,Africa,NorthAfrica,Maghreb,plains,sunni,temperate,arab,fish,Tangiers,0,2,8
+733,Africa,NorthAfrica,Maghreb,hill,sunni,temperate,arab,grain,Fez,0,5,12
+734,Africa,NorthAfrica,Maghreb,plains,sunni,temperate,arab,wine,Orania,0,3,6
+735,Africa,NorthAfrica,Maghreb,hill,sunni,temperate,berber,wool,Atlas,0,1,4
+736,Africa,NorthAfrica,Maghreb,hill,sunni,temperate,berber,iron,Aures,0,1,4
+737,Africa,NorthAfrica,Maghreb,plains,sunni,temperate,arab,grain,Al Djazair,0,4,7
+738,Africa,NorthAfrica,Maghreb,hill,sunni,temperate,berber,grain,Kabylia,0,1,5
+739,Africa,NorthAfrica,Maghreb,desert,sunni,temperate,arab,grain,Tunisia,0,1,8
+740,Africa,NorthAfrica,Maghreb,desert,sunni,desertic,arab,ivory,Tripolitania,0,1,3
+741,Africa,NorthAfrica,Maghreb,desert,sunni,desertic,arab,wool,Cyrenaica,0,1,3
+742,Africa,NorthAfrica,Egypt,desert,sunni,desertic,arab,wool,Quattara,0,1,1
+743,Africa,NorthAfrica,Egypt,plains,miaphysite,desertic,arab,grain,Cataract,0,1,2
+744,Africa,NorthAfrica,Egypt,plains,sunni,desertic,arab,grain,Alexandria,0,6,11
+745,Africa,NorthAfrica,Egypt,marsh,sunni,temperate,arab,fish,Delta,0,6,7
+746,Africa,NorthAfrica,Egypt,plains,sunni,desertic,arab,grain,Egypt,0,6,16
+747,Africa,NorthAfrica,Egypt,plains,sunni,desertic,arab,grain,Nile,0,6,9
+748,Africa,EastAfrica,Sudan,desert,miaphysite,desertic,nubian,ivory,Batn al Hajar,7,2,4
+749,Africa,EastAfrica,Sudan,desert,miaphysite,desertic,nubian,slaves,Nubia,9,2,3
+750,Africa,EastAfrica,Sudan,desert,miaphysite,desertic,nubian,slaves,Sudan,9,2,3
+751,Africa,EastAfrica,Sudan,desert,miaphysite,desertic,nubian,slaves,Bisharin,9,2,3
+752,Africa,EastAfrica,Ethiopia,desert,sunni,desertic,ethiopian,slaves,Massawa,9,1,2
+753,Africa,EastAfrica,Ethiopia,hill,sunni,desertic,ethiopian,coffee,Keren,9,1,1
+754,Africa,EastAfrica,Somalia,hill,sunni,desertic,afar,fish,Issas,8,1,1
+755,Africa,EastAfrica,Somalia,hill,sunni,desertic,afar,slaves,Afars,8,1,1
+756,Africa,EastAfrica,Socotra,hill,miaphysite,desertic,somali,fish,Socotra,8,1,2
+757,Africa,EastAfrica,Somalia,desert,sunni,desertic,somali,slaves,Somalia,8,1,1
+758,Africa,EastAfrica,Somalia,desert,sunni,desertic,somali,wool,Ogaden,9,1,1
+759,Africa,EastAfrica,Somalia,desert,sunni,desertic,somali,slaves,Mudugh,7,1,2
+760,Africa,EastAfrica,Somalia,desert,sunni,desertic,somali,spices,Mogadiscio,6,1,1
+761,Africa,EastAfrica,Tanganyika,plains,sunni,tropical,swahili,slaves,Malindi,5,1,2
+762,Africa,EastAfrica,Tanganyika,plains,sunni,tropical,swahili,slaves,Kenya,6,1,2
+763,Africa,EastAfrica,Tanganyika,forest,sunni,tropical,swahili,spices,Mombasa,7,1,4
+764,Africa,EastAfrica,Tanganyika,forest,sunni,tropical,swahili,slaves,Tanga,5,2,3
+765,Africa,EastAfrica,Tanganyika,plains,sunni,tropical,swahili,spices,Zanzibar,0,2,5
+766,Africa,EastAfrica,Tanganyika,forest,sunni,tropical,swahili,ivory,Rufiji,5,2,3
+767,Africa,EastAfrica,Tanganyika,forest,sunni,tropical,swahili,slaves,Lindi,5,2,3
+768,Africa,EastAfrica,Tanganyika,forest,sunni,tropical,swahili,slaves,Mtawa,5,2,2
+769,Africa,EastAfrica,Tanganyika,marsh,sunni,tropical,swahili,ivory,Niassa,5,2,2
+770,Africa,SouthAfrica,Mozambicque,marsh,pagan,tropical,shona,slaves,Nampuia,5,2,2
+771,Africa,SouthAfrica,Mozambicque,marsh,pagan,tropical,shona,slaves,Zambezia,4,2,3
+772,Africa,SouthAfrica,Mozambicque,marsh,pagan,tropical,tsonga,slaves,Inhambane,4,2,3
+773,Africa,SouthAfrica,Mozambicque,forest,pagan,tropical,zulu,fish,Natal,4,4,5
+774,Africa,SouthAfrica,The Cape,forest,pagan,tropical,zulu,grain,Transkei,3,4,5
+775,Africa,SouthAfrica,The Cape,hill,pagan,temperate,xhosa,sugar,Ciskei,3,2,4
+776,Africa,SouthAfrica,The Cape,plains,pagan,temperate,xhosa,grain,Karroo,4,1,4
+777,Africa,SouthAfrica,The Cape,plains,pagan,temperate,khoikhoi,copper,Bushman,4,1,3
+778,Africa,SouthAfrica,The Cape,plains,pagan,temperate,khoikhoi,wine,Table,3,1,7
+779,Africa,SouthAfrica,Namibia,desert,pagan,desertic,khoikhoi,ivory,Namaqua,9,1,0
+780,Africa,SouthAfrica,Namibia,desert,pagan,desertic,khoikhoi,fish,Damara,9,1,1
+781,Africa,SouthAfrica,Namibia,plains,pagan,desertic,khoikhoi,ivory,Ovambo,9,1,1
+782,Africa,SouthAfrica,Angola,plains,pagan,tropical,mbundu,slaves,Curango,4,1,4
+783,Africa,SouthAfrica,Angola,forest,pagan,tropical,mbundu,slaves,Lobito,5,1,4
+784,Africa,SouthAfrica,Angola,forest,pagan,tropical,mbundu,slaves,Luanda,5,1,4
+785,Africa,SouthAfrica,Angola,marsh,pagan,tropical,mbundu,slaves,Zaire,8,2,4
+786,Africa,WestAfrica,Congo,forest,pagan,tropical,bakongo,slaves,Cabinda,8,1,1
+787,Africa,WestAfrica,Congo,forest,pagan,tropical,bakongo,slaves,Mayumba,7,1,2
+788,Africa,WestAfrica,Gabon,marsh,pagan,tropical,bakongo,ivory,Muni,8,1,2
+789,Africa,WestAfrica,Cameroon,forest,pagan,tropical,bakongo,slaves,Kribi,8,1,2
+790,Africa,WestAfrica,Cameroon,forest,pagan,tropical,bakongo,slaves,Douala,7,1,2
+791,Africa,WestAfrica,Ivory,marsh,pagan,tropical,yoruba,slaves,Nigeria,7,2,2
+792,Africa,WestAfrica,Ivory,forest,pagan,tropical,yoruba,slaves,Accra,7,2,3
+793,Africa,WestAfrica,Ivory,marsh,pagan,tropical,yoruba,ivory,Ivoria,7,2,5
+794,Africa,WestAfrica,Ivory,marsh,pagan,tropical,akan,slaves,Palanas,8,2,3
+795,Africa,WestAfrica,Gold,forest,pagan,tropical,ashanti,ivory,Leone,7,3,5
+796,Africa,WestAfrica,Gold,forest,pagan,tropical,jola,slaves,Guinea,7,2,4
+797,Africa,WestAfrica,Senegal,marsh,pagan,tropical,jola,ivory,Casamance,7,1,1
+798,Africa,WestAfrica,Senegal,forest,pagan,tropical,senegambian,slaves,Gambia,6,1,2
+799,Africa,WestAfrica,Senegal,plains,pagan,temperate,senegambian,slaves,Dakar,4,1,2
+800,Africa,WestAfrica,Senegal,plains,sunni,temperate,senegambian,ivory,Senegal,4,1,3
+801,Africa,WestAfrica,Senegal,desert,sunni,desertic,senegambian,ivory,Louga,8,1,1
+802,Africa,WestAfrica,Mauritania,desert,sunni,desertic,berber,slaves,Nouakchott,9,1,1
+803,Africa,WestAfrica,Mauritania,desert,sunni,desertic,berber,fish,Nouadibuh,9,1,1
+804,Africa,WestAfrica,Mauritania,desert,sunni,desertic,berber,slaves,Tassaret,9,1,1
+805,Africa,WestAfrica,Mauritania,desert,sunni,desertic,berber,slaves,Sahara,9,1,2
+806,Africa,NorthAfrica,Maghreb,hill,sunni,temperate,arab,wool,Toubkal,0,2,9
+807,Africa,EastAfrica,Madagascar,forest,pagan,tropical,malagasy,slaves,Ambovombe,5,1,2
+808,Africa,EastAfrica,Madagascar,forest,pagan,tropical,malagasy,sugar,Antsirana,6,1,2
+809,Africa,EastAfrica,The Mascarenes,forest,pagan,tropical,malagasy,sugar,Bourbon,3,1,5
+810,Africa,EastAfrica,The Mascarenes,forest,pagan,tropical,malagasy,sugar,Mauritius,3,1,5
+811,Africa,EastAfrica,Seychelles,plains,pagan,tropical,malagasy,spices,Mahe,4,1,2
+812,Oceania,Pacific,Hawaii,hill,pagan,tropical,polynesian,sugar,Kauai,4,1,3
+813,Oceania,Pacific,Hawaii,forest,pagan,tropical,polynesian,sugar,Oahu,4,1,3
+814,Oceania,Pacific,Polynesia,forest,pagan,tropical,polynesian,spices,Tahiti,2,1,3
+815,Oceania,Pacific,Fiji,forest,pagan,tropical,polynesian,sugar,Viti Levu,5,1,3
+816,Africa,WestAfrica,Cameroon,forest,pagan,tropical,yoruba,slaves,Fernando Po,5,1,2
+817,Africa,WestAfrica,Canarias,hill,catholic,temperate,iberian,sugar,The Canary Islands,0,1,3
+818,Africa,WestAfrica,Cape Verde,forest,pagan,tropical,senegambian,fish,Cape Verde,3,1,2
+819,Europe,SouthernEurope,Mediterranean,forest,catholic,temperate,maltese,fish,Malta,0,2,3
+820,Europe,SouthernEurope,Mediterranean,hill,orthodox,temperate,greek,fish,Corfu,0,1,4
+821,Europe,SouthernEurope,Iberia,hill,catholic,temperate,iberian,fish,The Baleares,0,1,4
+822,America,CentralAmerica,Costa Rica,forest,pagan,tropical,mesoamerican,tobacco,Costa Rica,5,1,3
+823,Europe,SouthernEurope,Iberia,hill,catholic,temperate,portuguese,fish,The Azores,0,1,3
+824,Africa,WestAfrica,St Helena,hill,pagan,temperate,tehuelche,fish,St. Helena,3,1,1
+825,America,NWPacificSea,Sea,sea,,ncontinental,,,Bering Straits
+826,America,AlaskaSea,Sea,sea,,tundra,,,Aleutian Sea
+827,America,AlaskaSea,Sea,sea,,tundra,,,Aleutian Islands
+828,America,AlaskaSea,Sea,sea,,,,,Gulf of Alaska,0
+829,America,HudsonBaySea,HudsonBayArea,sea,,,,,Hudson Bay,0
+830,America,HudsonBaySea,Sea,sea,,,,,Hudson Straits,0
+831,America,HudsonBaySea,Sea,sea,,,,,Sea of Baffin,0
+832,America,HudsonBaySea,Sea,sea,,,,,Strait of Labrador,0
+833,America,HudsonBaySea,Sea,sea,,,,,Gulf of Saint Lawrence,0
+834,America,HudsonBaySea,Sea,sea,,,,,Sea of Labrador,0
+835,America,ArcticSeaSea,Sea,sea,,,,,Coast of Greenland,0
+836,Europe,ArcticSeaSea,Sea,sea,,,,,Coast of Iceland,0
+837,Europe,ArcticSeaSea,Sea,sea,,,,,Icelandic Sea,0
+838,Europe,ArcticSeaSea,Sea,sea,,arctic,,,Jan Mayen Sea,0
+839,Europe,ArcticSeaSea,Sea,sea,,arctic,,,Spitzberg,0
+840,Europe,ArcticSeaSea,Sea,sea,,arctic,,,Throndheim Fjord,0
+841,Europe,ArcticSeaSea,Sea,sea,,arctic,,,The Lofotens
+842,Europe,ArcticSeaSea,Sea,sea,,arctic,,,North Cape,0
+843,Europe,ArcticSeaSea,Sea,sea,,arctic,,,White Sea,0
+844,Asia,KamtchatkaSea,Sea,sea,,,,,Bay of Ajan,0
+845,Asia,KamtchatkaSea,Sea,sea,,,,,Bay of Magadan,0
+846,Asia,KamtchatkaSea,Sea,sea,,,,,Gulf of Kolyma,0
+847,Asia,KamtchatkaSea,Sea,sea,,,,,Bay of Kamenskoie,0
+848,Asia,KamtchatkaSea,Sea,sea,,,,,Coast of Kamchatska,0
+849,Asia,KamtchatkaSea,Sea,sea,,,,,Cape of Kamchatska,0
+850,Asia,KamtchatkaSea,Sea,sea,,,,,Komandorski Islands,0
+851,Asia,KamtchatkaSea,Sea,sea,,,,,Bay of Uka,0
+852,Asia,KamtchatkaSea,Sea,sea,,,,,Bay of Oljut,0
+853,Asia,NWPacificSea,Sea,sea,,,,,Bay of Anadyr,0
+854,Asia,NWPacificSea,Sea,sea,,tundra,,,Western Aleutian Sea
+855,Asia,NWPacificSea,Sea,sea,,tundra,,,Central Aleutian Sea
+856,America,NWPacificSea,Sea,sea,,,,,South Aleutian Sea
+857,America,AlaskaSea,Sea,sea,,,,,Northwestern Pacific Ocean
+858,America,AlaskaSea,Sea,sea,,,,,Northern Pacific Ocean,0
+859,America,AlaskaSea,Sea,sea,,,,,Northwestern Pacific Ocean
+860,America,AlaskaSea,Sea,sea,,,,,Coast of Oregon,0
+861,America,AlaskaSea,Sea,sea,,,,,Coast of Columbia,0
+862,America,ENACoastSea,Sea,sea,,,,,Cheasapeake Bay,0
+863,America,ENACoastSea,Sea,sea,,,,,Massachussetts Bay,0
+864,America,HudsonBaySea,Sea,sea,,,,,Bay of Fundy,0
+865,America,HudsonBaySea,Sea,sea,,,,,Newfoundland Banks,0
+866,America,NAtlanticSea,Sea,sea,,,,,Greenland Sea,0
+867,Europe,NAtlanticSea,Sea,sea,,,,,Western Icelandic Sea
+868,Europe,NAtlanticSea,Sea,sea,,,,,South Icelandic Sea,0
+869,Europe,NorthSeaSea,Sea,sea,,,,,Faeroes,0
+870,Europe,NorthSeaSea,Sea,sea,,,,,Shetland Straits,0
+871,Europe,NorthSeaSea,Sea,sea,,,,,Shetlands,0
+872,Europe,NorthSeaSea,Sea,sea,,,,,Norwegian Sea,0
+873,Europe,NorthSeaSea,Sea,sea,,,,,Sea of Bergen,0
+874,Europe,NorthSeaSea,Sea,sea,,,,,Sea of Stavanger,0
+875,Europe,ScandinaviaSea,Sea,sea,,ncontinental,,,The Sund,0
+876,Europe,ScandinaviaSea,Sea,sea,,ncontinental,,,Baltic Sea,0
+877,Europe,ScandinaviaSea,Sea,sea,,ncontinental,,,Kalmar Strait,0
+878,Europe,ScandinaviaSea,Sea,sea,,ncontinental,,,Gulf of Riga,0
+879,Europe,ScandinaviaSea,Sea,sea,,tundra,,,Gulf of Finland,0
+880,Europe,ScandinaviaSea,Sea,sea,,tundra,,,�land Sea
+881,Europe,ScandinaviaSea,Sea,sea,,arctic,,,Gulf of Turku,0
+882,Europe,ScandinaviaSea,Sea,sea,,arctic,,,Gulf of Bothnia,0
+883,Asia,KamtchatkaSea,Sea,sea,,,,,Amur Delta,0
+884,Asia,KamtchatkaSea,Sea,sea,,,,,Okhotsk Sea,0
+885,Asia,JapanSea,Sea,sea,,,,,Coast of Sakhalin,0
+886,Asia,JapanSea,Sea,sea,,,,,Tatar Straits,0
+887,Asia,JapanSea,Sea,sea,,,,,Soya Strait,0
+888,Asia,JapanSea,Sea,sea,,,,,The Kuriles,0
+889,Asia,NWPacificSea,Sea,sea,,,,,Northern Pacific Ocean
+890,Asia,NWPacificSea,Sea,sea,,,,,Northern Pacific Ocean
+891,Asia,NWPacificSea,Sea,sea,,,,,Northern Pacific Ocean
+892,Asia,NWPacificSea,Sea,sea,,,,,Northern Pacific Ocean
+893,Asia,NWPacificSea,Sea,sea,,,,,Northern Pacific Ocean
+894,America,AlaskaSea,Sea,sea,,,,,Northern Pacific Ocean
+895,America,AlaskaSea,Sea,sea,,,,,Northern Pacific Ocean
+896,America,AlaskaSea,Sea,sea,,,,,Northern Pacific Ocean
+897,America,AlaskaSea,Sea,sea,,,,,Santa Catalina Islands,0
+898,America,EPacificSea,Sea,sea,,,,,Northern Pacific Ocean
+899,America,EPacificSea,Sea,sea,,,,,Coast of California,0
+900,America,EPacificSea,Sea,sea,,,,,Californian Gulf,0
+901,America,EPacificSea,Sea,sea,,,,,Mazatlan Bay,0
+902,America,CaribbeanSea,Sea,sea,,,,,Tampico Bay,0
+903,America,CaribbeanSea,Sea,sea,,,,,Yucatan Sea,0
+904,America,CaribbeanSea,Sea,sea,,,,,Gulf of Mexico,0
+905,America,CaribbeanSea,Sea,sea,,,,,Mississippi Bay,0
+906,America,CaribbeanSea,Sea,sea,,,,,Mobile Bay,0
+907,America,ENACoastSea,Sea,sea,,,,,Cape Canaveral
+908,America,ENACoastSea,Sea,sea,,,,,Coast of Carolina,0
+909,America,ENACoastSea,Sea,sea,,,,,Cape Hatteras,0
+910,America,ENACoastSea,Sea,sea,,,,,Bermuda Triangle,0
+911,America,ENACoastSea,Sea,sea,,,,,Northern Atlantic Ocean,0
+912,America,ENACoastSea,Sea,sea,,,,,The Bermudas,0
+913,America,ENACoastSea,Sea,sea,,,,,Northern Atlantic Ocean
+914,America,NAtlanticSea,Sea,sea,,,,,Northern Atlantic Ocean
+915,America,NAtlanticSea,Sea,sea,,,,,Northern Atlantic Ocean
+916,Europe,NAtlanticSea,Sea,sea,,,,,Northern Atlantic Ocean
+917,Europe,NAtlanticSea,Sea,sea,,,,,Northern Atlantic Ocean
+918,Europe,NAtlanticSea,Sea,sea,,,,,Rockall,0
+919,Europe,BiscaySea,Sea,sea,,,,,Finisterre,0
+920,Europe,BiscaySea,Sea,sea,,,,,Cantabrian Sea,0
+921,Europe,BiscaySea,Sea,sea,,,,,C�te d'Argent
+922,Europe,BiscaySea,Sea,sea,,,,,Quiberon Bay,0
+923,Europe,BiscaySea,Sea,sea,,,,,Bay of Biscay,0
+924,Europe,BiscaySea,Sea,sea,,,,,Western Approaches,0
+925,Europe,BiscaySea,Sea,sea,,,,,Coast of Brittany
+926,Europe,BiscaySea,Sea,sea,,,,,Land's End,0
+927,Europe,NorthSeaSea,Sea,sea,,,,,Bantry Bay,0
+928,Europe,NorthSeaSea,Sea,sea,,,,,Donegal Bay,0
+929,Europe,NorthSeaSea,Sea,sea,,,,,Irish Sea,0
+930,Europe,NorthSeaSea,Sea,sea,,,,,Hebrides,0
+931,Europe,NorthSeaSea,Sea,sea,,,,,Moray Firth,0
+932,Europe,NorthSeaSea,Sea,sea,,,,,Firth of Forth
+933,Europe,NorthSeaSea,Sea,sea,,,,,The North Sea,0
+934,Europe,NorthSeaSea,Sea,sea,,,,,Tyne,0
+935,Europe,NorthSeaSea,Sea,sea,,,,,Dogger Bank,0
+936,Europe,BiscaySea,Sea,sea,,,,,The Channel,0
+937,Europe,NorthSeaSea,Sea,sea,,,,,Straits of Dover,0
+938,Europe,NorthSeaSea,Sea,sea,,,,,Coast of Holland,0
+939,Europe,NorthSeaSea,Sea,sea,,,,,German Bight,0
+940,Asia,ChinaSea,Sea,sea,,,,,Korea Bay,0
+941,Asia,ChinaSea,Sea,sea,,,,,Yellow Sea,0
+942,Asia,JapanSea,Sea,sea,,,,,South Korean Sea,0
+943,Asia,JapanSea,Sea,sea,,,,,North Korean Sea,0
+944,Asia,JapanSea,Sea,sea,,,,,Tsushima Strait,0
+945,Asia,JapanSea,Sea,sea,,,,,Sado Strait,0
+946,Asia,JapanSea,Sea,sea,,,,,Sea of Japan
+947,Asia,JapanSea,Sea,sea,,,,,Western Japan Sea,0
+948,Asia,JapanSea,Sea,sea,,,,,Northern Japan Sea,0
+949,Asia,JapanSea,Sea,sea,,,,,Tsugaru Strait,0
+950,Asia,JapanSea,Sea,sea,,,,,Taihei Ocean,0
+951,Asia,WPacificSea,Sea,sea,,,,,Taihei Ocean 2,0
+952,Asia,WPacificSea,Sea,sea,,,,,Northern Pacific Ocean
+953,Asia,NWPacificSea,Sea,sea,,,,,Northern Pacific Ocean
+954,Asia,NWPacificSea,Sea,sea,,,,,Northern Pacific Ocean
+955,Asia,WPacificSea,Sea,sea,,,,,Northern Pacific Ocean
+956,Oceania,EPacificSea,Sea,sea,,,,,Midway Island
+957,Oceania,EPacificSea,Sea,sea,,,,,Hawaiian Sea
+958,Oceania,EPacificSea,Sea,sea,,,,,Northeastern Pacific Ocean
+959,Oceania,EPacificSea,Sea,sea,,,,,Northeastern Pacific Ocean
+960,America,EPacificSea,Sea,sea,,,,,Northeastern Pacific Ocean
+961,America,EPacificSea,Sea,sea,,,,,Northeastern Pacific Ocean
+962,America,EPacificSea,Sea,sea,,,,,Manzanillo Bay,0
+963,America,EPacificSea,Sea,sea,,,,,Acapulco Bay,0
+964,America,CaribbeanSea,Sea,sea,,,,,Belize Bay,0
+965,America,CaribbeanSea,Sea,sea,,,,,Florida Straits,0
+966,America,CaribbeanSea,Sea,sea,,,,,Jamaican Sea,0
+967,America,CaribbeanSea,Sea,sea,,,,,The Bahamas,0
+968,America,ENACoastSea,Sea,sea,,,,,Sea of Sargassos,0
+969,America,CaribbeanSea,Sea,sea,,,,,Tortuga Island,0
+970,America,NCAtlanticSea,Sea,sea,,,,,Central Atlantic Ocean,0
+971,America,NCAtlanticSea,Sea,sea,,,,,Central Atlantic Ocean,0
+972,America,NCAtlanticSea,Sea,sea,,,,,Central Atlantic Ocean,0
+973,America,NCAtlanticSea,Sea,sea,,,,,Central Atlantic Ocean
+974,America,NCAtlanticSea,Sea,sea,,,,,Central Atlantic Ocean
+975,America,NCAtlanticSea,Sea,sea,,,,,Central Atlantic Ocean
+976,Europe,TagoSea,Sea,sea,,,,,Sea of Azores,0
+977,Europe,TagoSea,Sea,sea,,,,,Central Atlantic Ocean
+978,Europe,TagoSea,Sea,sea,,,,,Central Atlantic Ocean
+979,Europe,TagoSea,Sea,sea,,,,,Lusitanian Sea,0
+980,Europe,TagoSea,Sea,sea,,,,,Gulf of Cadiz,0
+981,Africa,TagoSea,Sea,sea,,,,,Central Atlantic Ocean
+982,Europe,TagoSea,Sea,sea,,,,,Straits of Gibraltar,0
+983,Europe,WMedSea,Sea,sea,,,,,Gulf of Almeria,0
+984,Europe,WMedSea,Sea,sea,,,,,Gulf of Valencia,0
+985,Europe,WMedSea,Sea,sea,,,,,Gulf of Mallorca,0
+986,Europe,WMedSea,Sea,sea,,,,,Barbary Coast,0
+987,Europe,WMedSea,Sea,sea,,,,,Gulf of Lion,0
+988,Europe,WMedSea,Sea,sea,,,,,C�te d'Azur
+989,Europe,WMedSea,Sea,sea,,,,,Western Mediterranean,0
+990,Europe,WMedSea,Sea,sea,,,,,Cape Bon,0
+991,Europe,WMedSea,Sea,sea,,,,,Gulf of Cagliari,0
+992,Europe,WMedSea,Sea,sea,,,,,Ligurian Sea,0
+993,Europe,WMedSea,Sea,sea,,,,,Tyrrenean Sea,0
+994,Europe,WMedSea,Sea,sea,,,,,Bay of Naples,0
+995,Europe,EMedSea,Sea,sea,,,,,Straits of Messina,0
+996,Europe,EMedSea,Sea,sea,,,,,Malta Channel,0
+997,Europe,EMedSea,Sea,sea,,,,,Gulf of Sirte,0
+998,Europe,EMedSea,Sea,sea,,,,,Gulf of Taranto,0
+999,Europe,EMedSea,Sea,sea,,,,,Gulf of Venice,0
+1000,Europe,EMedSea,Sea,sea,,,,,Adriatic Sea,0
+1001,Europe,EMedSea,Sea,sea,,,,,Straits of Otranto,0
+1002,Europe,EMedSea,Sea,sea,,,,,Ionian Sea,0
+1003,Europe,EMedSea,Sea,sea,,,,,Gulf of Tobruk,0
+1004,Europe,EMedSea,Sea,sea,,,,,Bay of Alexandria,0
+1005,Europe,EMedSea,Sea,sea,,,,,Coast of Palestine,0
+1006,Europe,EMedSea,Sea,sea,,,,,Gulf of Cyprus,0
+1007,Europe,EMedSea,Sea,sea,,,,,Eastern Mediterranean,0
+1008,Europe,EMedSea,Sea,sea,,,,,Cretan Sea,0
+1009,Europe,EMedSea,Sea,sea,,,,,The Dodecanese,0
+1010,Europe,EMedSea,Sea,sea,,,,,The Cyclades,0
+1011,Europe,EMedSea,Sea,sea,,,,,Aegean Sea,0
+1012,Europe,EMedSea,Sea,sea,,,,,Sea of Marmara,0
+1013,Europe,EMedSea,Sea,sea,,,,,Gulf of Varna,0
+1014,Europe,EMedSea,Sea,sea,,,,,Gulf of Odessa,0
+1015,Europe,EMedSea,Sea,sea,,,,,Western Black Sea,0
+1016,Europe,EMedSea,Sea,sea,,,,,Eastern Black Sea,0
+1017,Europe,EMedSea,Sea,sea,,,,,Sea of Azov,0
+1018,Asia,ChinaSea,Sea,sea,,,,,Yang Tse Delta,0
+1019,Asia,ChinaSea,Sea,sea,,,,,Amakusa Sea,0
+1020,Asia,JapanSea,Sea,sea,,,,,Setto Inland Sea,0
+1021,Asia,JapanSea,Sea,sea,,,,,Tokai Sea,0
+1022,Asia,JapanSea,Sea,sea,,,,,Iwo Jima Sea,0
+1023,Asia,WPacificSea,Sea,sea,,,,,Northwestern Pacific Ocean
+1024,Asia,WPacificSea,Sea,sea,,,,,Northwestern Pacific Ocean
+1025,Asia,WPacificSea,Sea,sea,,,,,Northwestern Pacific Ocean
+1026,Oceania,WPacificSea,Sea,sea,,,,,Northwestern Pacific Ocean
+1027,Asia,NWPacificSea,Sea,sea,,,,,Northwestern Pacific Ocean
+1028,Oceania,WPacificSea,Sea,sea,,,,,Northwestern Pacific Ocean
+1029,Oceania,EPacificSea,Sea,sea,,,,,Central Pacific Ocean
+1030,Oceania,EPacificSea,Sea,sea,,,,,Central Pacific Ocean
+1031,Oceania,EPacificSea,Sea,sea,,,,,Central Pacific Ocean
+1032,Oceania,EPacificSea,Sea,sea,,,,,Northeastern Pacific Ocean
+1033,Oceania,EPacificSea,Sea,sea,,,,,Northeastern Pacific Ocean
+1034,Oceania,SEPacificSea,Sea,sea,,,,,Galapagos Islands,0
+1035,Oceania,EPacificSea,Sea,sea,,,,,Northeastern Pacific Ocean
+1036,America,EPacificSea,Sea,sea,,,,,Northeastern Pacific Ocean
+1037,America,EPacificSea,Sea,sea,,,,,Northeastern Pacific Ocean
+1038,America,EPacificSea,Sea,sea,,,,,Bay of Costa Rica,0
+1039,America,EPacificSea,Sea,sea,,,,,Gulf of Panama,0
+1040,America,SEPacificSea,Sea,sea,,,,,Gulf of Guayaquil,0
+1041,America,SEPacificSea,Sea,sea,,,,,Coast of Ecuador,0
+1042,America,CaribbeanSea,Sea,sea,,,,,Mosquitos Coast,0
+1043,America,CaribbeanSea,Sea,sea,,,,,Gulf of Darien,0
+1044,America,CaribbeanSea,Sea,sea,,,,,Caribbean Sea,0
+1045,America,CaribbeanSea,Sea,sea,,,,,Venezuelan Sea,0
+1046,America,CaribbeanSea,Sea,sea,,,,,Straits of Puerto Rico,0
+1047,America,CaribbeanSea,Sea,sea,,,,,Leeward Islands,0
+1048,America,CaribbeanSea,Sea,sea,,,,,Winward Islands,0
+1049,America,CaribbeanSea,Sea,sea,,,,,Central Atlantic Ocean
+1050,America,CaribbeanSea,Sea,sea,,,,,Central Atlantic Ocean
+1051,America,NCAtlanticSea,Sea,sea,,,,,Central Atlantic Ocean
+1052,America,NCAtlanticSea,Sea,sea,,,,,Central Atlantic Ocean
+1053,Africa,NCAtlanticSea,Sea,sea,,,,,Central Atlantic Ocean
+1054,Africa,NCAtlanticSea,Sea,sea,,,,,Arguin Bank,0
+1055,Africa,TagoSea,Sea,sea,,,,,Central Atlantic Ocean
+1056,Africa,ECAtlanticSea,Sea,sea,,,,,Mauretanian Coast,0
+1057,Africa,TagoSea,Sea,sea,,,,,Canarian Sea,0
+1058,Africa,TagoSea,Sea,sea,,,,,Coast of Morocco,0
+1059,Africa,RedSeaSea,Sea,sea,,,,,Gulf of Suez,0
+1060,Africa,RedSeaSea,Sea,sea,,,,,Red Sea,0
+1061,Africa,RedSeaSea,Sea,sea,,,,,Straits of Obock,0
+1062,Africa,RedSeaSea,Sea,sea,,,,,Bab El Mandeb,0
+1063,Asia,GulfSea,Sea,sea,,,,,Straits of Ormuz,0
+1064,Asia,GulfSea,Sea,sea,,,,,Coast of Mascate,0
+1065,Asia,GulfSea,Sea,sea,,,,,Mascate Coast,0
+1066,Asia,GulfSea,Sea,sea,,,,,Gulf of Indus,0
+1067,Asia,GulfSea,Sea,sea,,,,,Western Arabian Sea,0
+1068,Asia,NWIndianSea,Sea,sea,,,,,Eastern Arabian Sea,0
+1069,Asia,NWIndianSea,Sea,sea,,,,,Coast of Gujarat,0
+1070,Asia,NWIndianSea,Sea,sea,,,,,Lacquedive Islands,0
+1071,Asia,NWIndianSea,Sea,sea,,,,,Coast of Malabar,0
+1072,Asia,NEIndianSea,Sea,sea,,,,,Coast of Coromandel,0
+1073,Asia,NEIndianSea,Sea,sea,,,,,Coast of Orissa,0
+1074,Asia,NEIndianSea,Sea,sea,,,,,Ganges Delta,0
+1075,Asia,NEIndianSea,Sea,sea,,,,,Gulf of Bengal,0
+1076,Asia,NEIndianSea,Sea,sea,,,,,Northern Bay of Bengale,0
+1077,Asia,NEIndianSea,Sea,sea,,,,,Andaman Sea,0
+1078,Asia,NEIndianSea,Sea,sea,,,,,Akyab Bay,0
+1079,Asia,NEIndianSea,Sea,sea,,,,,Irrawady Delta,0
+1080,Asia,NEIndianSea,Sea,sea,,,,,Mergui Archipelago,0
+1081,Asia,ThaiSea,Sea,sea,,,,,Gulf of Siam,0
+1082,Asia,ThaiSea,Sea,sea,,,,,Gulf of Tonkin,0
+1083,Asia,ThaiSea,Sea,sea,,,,,Coast of Annam,0
+1084,Asia,ThaiSea,Sea,sea,,,,,Paracel Islands,0
+1085,Asia,ChinaSea,Sea,sea,,,,,Taiwan Strait,0
+1086,Asia,ChinaSea,Sea,sea,,,,,Strait of Luzon,0
+1087,Asia,ChinaSea,Sea,sea,,,,,Sea of Taiwan,0
+1088,Asia,ChinaSea,Sea,sea,,,,,Eastern China sea,0
+1089,Asia,ChinaSea,Sea,sea,,,,,Ryukyu Islands,0
+1090,Asia,WPacificSea,Sea,sea,,,,,Mariana Islands,0
+1091,Oceania,WPacificSea,Sea,sea,,,,,Tinian Sea
+1092,Oceania,WPacificSea,Sea,sea,,,,,Wake Island
+1093,Oceania,WPacificSea,Sea,sea,,,,,Northern Micronesia
+1094,Oceania,SWPacificSea,Sea,sea,,,,,Central Pacific Ocean
+1095,Oceania,EPacificSea,Sea,sea,,,,,Central Pacific Ocean
+1096,Oceania,EPacificSea,Sea,sea,,,,,Central Pacific Ocean
+1097,Oceania,SEPacificSea,Sea,sea,,,,,Central Pacific Ocean
+1098,Oceania,SEPacificSea,Sea,sea,,,,,Central Pacific Ocean
+1099,Oceania,SEPacificSea,Sea,sea,,,,,Central Pacific Ocean
+1100,Oceania,SEPacificSea,Sea,sea,,,,,Central Pacific Ocean
+1101,America,SEPacificSea,Sea,sea,,,,,Coast of Peru,0
+1102,America,SEPacificSea,Sea,sea,,,,,Central Pacific Ocean
+1103,America,SEPacificSea,Sea,sea,,,,,Juan Fernandez Islands
+1104,America,SEPacificSea,Sea,sea,,,,,Arica Gulf,0
+1105,America,SEPacificSea,Sea,sea,,,,,Arequipa Bay,0
+1106,America,CaribbeanSea,Sea,sea,,,,,Guyana Coast,0
+1107,America,CaribbeanSea,Sea,sea,,,,,Bay of Belem,0
+1108,America,WCAtlanticSea,Sea,sea,,,,,Gulf of the Amazon,0
+1109,America,WCAtlanticSea,Sea,sea,,,,,Central Atlantic Ocean
+1110,America,WCAtlanticSea,Sea,sea,,,,,Coast of Brazil,0
+1111,America,WCAtlanticSea,Sea,sea,,,,,South Central Atlantic Ocean
+1112,America,WCAtlanticSea,Sea,sea,,,,,Coast of Recife,0
+1113,America,WCAtlanticSea,Sea,sea,,,,,Coast of Pernambuc,0
+1114,America,WCAtlanticSea,Sea,sea,,,,,Todos Santos Bay,0
+1115,America,WCAtlanticSea,Sea,sea,,,,,Rio de Janeiro,0
+1116,America,WCAtlanticSea,Sea,sea,,,,,Southern Atlantic Ocean
+1117,America,WCAtlanticSea,Sea,sea,,,,,Southern Atlantic Ocean
+1118,America,WCAtlanticSea,Sea,sea,,,,,South Central Atlantic Ocean
+1119,America,WCAtlanticSea,Sea,sea,,,,,South Central Atlantic Ocean
+1120,America,ECAtlanticSea,Sea,sea,,,,,South Central Atlantic Ocean
+1121,Africa,ECAtlanticSea,Sea,sea,,,,,Cape Verde Islands,0
+1122,Africa,ECAtlanticSea,Sea,sea,,,,,South Central Atlantic Ocean
+1123,Africa,ECAtlanticSea,Sea,sea,,,,,South Central Atlantic Ocean
+1124,Africa,WCAtlanticSea,Sea,sea,,,,,Southern Atlantic Ocean
+1125,Africa,ECAtlanticSea,Sea,sea,,,,,Ascension Island
+1126,Africa,ECAtlanticSea,Sea,sea,,,,,South Central Atlantic Ocean
+1127,Africa,ECAtlanticSea,Sea,sea,,,,,Gor�e Island
+1128,Africa,ECAtlanticSea,Sea,sea,,,,,Coast of Gambia,0
+1129,Africa,ECAtlanticSea,Sea,sea,,,,,Gold Coast,0
+1130,Africa,SEAtlanticSea,Sea,sea,,,,,Gulf of Nigeria,0
+1131,Africa,SEAtlanticSea,Sea,sea,,,,,Gulf of Guinea,0
+1132,Africa,SEAtlanticSea,Sea,sea,,,,,Coast of Cameroon,0
+1133,Africa,SWIndianSea,Sea,sea,,,,,Coast of Pepper,0
+1134,Africa,SWIndianSea,Sea,sea,,,,,Horn of Africa,0
+1135,Africa,RedSeaSea,Sea,sea,,,,,Socotra Island,0
+1136,Asia,SWIndianSea,Sea,sea,,,,,Oman Sea,0
+1137,Asia,SWIndianSea,Sea,sea,,,,,The Maldives,0
+1138,Asia,NWIndianSea,Sea,sea,,,,,Comorin Cape,0
+1139,Asia,SWIndianSea,Sea,sea,,,,,Ceylon Sea,0
+1140,Asia,NWIndianSea,Sea,sea,,,,,Coast of Trincomalee,0
+1141,Asia,NEIndianSea,Sea,sea,,,,,Bay of Bengale,0
+1142,Asia,NEIndianSea,Sea,sea,,,,,Central Indian Ocean
+1143,Asia,NEIndianSea,Sea,sea,,,,,Straits of Malacca,0
+1144,Asia,NEIndianSea,Sea,sea,,,,,Coast of Sumatra,0
+1145,Asia,NEIndianSea,Sea,sea,,,,,Straits of Johore,0
+1146,Asia,ThaiSea,Sea,sea,,,,,Malayan Sea
+1147,Asia,ThaiSea,Sea,sea,,,,,South China Sea,0
+1148,Asia,OceaniaSea,Sea,sea,,,,,Balabac Strait,0
+1149,Asia,OceaniaSea,Sea,sea,,,,,South China Sea 2,0
+1150,Asia,OceaniaSea,Sea,sea,,,,,Sulu Sea,0
+1151,Asia,OceaniaSea,Sea,sea,,,,,Gulf of Leyte,0
+1152,Asia,OceaniaSea,Sea,sea,,,,,Coast of Luzon,0
+1153,Asia,ChinaSea,Sea,sea,,,,,North Philippine Sea,0
+1154,Asia,OceaniaSea,Sea,sea,,,,,Yap Island
+1155,Asia,OceaniaSea,Sea,sea,,,,,Philippine Sea,0
+1156,Asia,OceaniaSea,Sea,sea,,,,,Palau Island,0
+1157,Oceania,WPacificSea,Sea,sea,,,,,Mariana Sea
+1158,Oceania,OceaniaSea,Sea,sea,,,,,Caroline Islands
+1159,Oceania,WPacificSea,Sea,sea,,,,,Micronesian Sea
+1160,Oceania,WPacificSea,Sea,sea,,,,,Marshall Islands
+1161,Oceania,SWPacificSea,Sea,sea,,,,,Gilbert Islands
+1162,Oceania,SWPacificSea,Sea,sea,,,,,Fiji Islands
+1163,Oceania,SWPacificSea,Sea,sea,,,,,Samoan Sea
+1164,Oceania,SWPacificSea,Sea,sea,,,,,Samoa Islands
+1165,Oceania,SEPacificSea,Sea,sea,,,,,Society Islands
+1166,Oceania,SEPacificSea,Sea,sea,,,,,South Pacific Ocean
+1167,Oceania,SEPacificSea,Sea,sea,,,,,South Pacific Ocean
+1168,America,SEPacificSea,Sea,sea,,,,,Coast of Chile,0
+1169,America,SWAtlanticSea,Sea,sea,,,,,Coast of Patagonia,0
+1170,America,SWAtlanticSea,Sea,sea,,,,,Southern Atlantic Ocean
+1171,America,SWAtlanticSea,Sea,sea,,,,,Southern Atlantic Ocean
+1172,America,SWAtlanticSea,Sea,sea,,,,,Southern Atlantic Ocean
+1173,America,SWAtlanticSea,Sea,sea,,,,,Rio de La Plata,0
+1174,America,SWAtlanticSea,Sea,sea,,,,,Southern Atlantic Ocean
+1175,America,WCAtlanticSea,Sea,sea,,,,,Southern Atlantic Ocean
+1176,Africa,SEAtlanticSea,Sea,sea,,,,,Southern Atlantic Ocean
+1177,Africa,SEAtlanticSea,Sea,sea,,,,,Southern Atlantic Ocean
+1178,Africa,SEAtlanticSea,Sea,sea,,,,,St. Helena Island,0
+1179,Oceania,SEPacificSea,Sea,sea,,,,,South Pacific Ocean
+1180,Africa,SEAtlanticSea,Sea,sea,,,,,Southern Atlantic Ocean
+1181,Africa,SEAtlanticSea,Sea,sea,,,,,Rio Muni,0
+1182,Africa,SEAtlanticSea,Sea,sea,,,,,Gulf of Congo,0
+1183,Africa,SEAtlanticSea,Sea,sea,,,,,Coast of Angola,0
+1184,Africa,SWIndianSea,Sea,sea,,,,,Mozambica Channel,0
+1185,Africa,SWIndianSea,Sea,sea,,,,,Rufiji Delta,0
+1186,Africa,SWIndianSea,Sea,sea,,,,,Zanzibar Strait,0
+1187,Africa,SWIndianSea,Sea,sea,,,,,Gulf of Zambeze,0
+1188,Africa,SWIndianSea,Sea,sea,,,,,The Comores,0
+1189,Africa,SWIndianSea,Sea,sea,,,,,Central Indian Ocean
+1190,Africa,SWIndianSea,Sea,sea,,,,,Central Indian Ocean
+1191,Africa,SWIndianSea,Sea,sea,,,,,The Seychelles,0
+1192,Africa,SEIndianSea,Sea,sea,,,,,Central Indian Ocean
+1193,Africa,SWIndianSea,Sea,sea,,,,,Central Indian Ocean
+1194,Africa,SWIndianSea,Sea,sea,,,,,Central Indian Ocean
+1195,Africa,SWIndianSea,Sea,sea,,,,,Central Indian Ocean
+1196,Africa,SWIndianSea,Sea,sea,,,,,Diego Garcia Island
+1197,Africa,SEIndianSea,Sea,sea,,,,,Central Indian Ocean
+1198,Africa,SEIndianSea,Sea,sea,,,,,Central Indian Ocean
+1199,Africa,SEIndianSea,Sea,sea,,,,,Central Indian Ocean
+1200,Africa,SEIndianSea,Sea,sea,,,,,Central Indian Ocean
+1201,Asia,SEIndianSea,Sea,sea,,,,,Central Indian Ocean
+1202,Asia,SEIndianSea,Sea,sea,,,,,Central Indian Ocean
+1203,Asia,SEIndianSea,Sea,sea,,,,,Central Indian Ocean
+1204,Asia,SEIndianSea,Sea,sea,,,,,Central Indian Ocean
+1205,Asia,NEIndianSea,Sea,sea,,,,,Straits of Sunda,0
+1206,Asia,OceaniaSea,Sea,sea,,,,,Coast of Surabaja,0
+1207,Asia,OceaniaSea,Sea,sea,,,,,Coast of Sarawak,0
+1208,Asia,OceaniaSea,Sea,sea,,,,,Java Sea,0
+1209,Asia,OceaniaSea,Sea,sea,,,,,South Timor Sea 2,0
+1210,Asia,OceaniaSea,Sea,sea,,,,,Strait of Makassar,0
+1211,Asia,OceaniaSea,Sea,sea,,,,,Sea of Celebes,0
+1212,Oceania,SEIndianSea,Sea,sea,,,,,North West Cape,0
+1213,Asia,OceaniaSea,Sea,sea,,,,,The Moluccas,0
+1214,Asia,OceaniaSea,Sea,sea,,,,,Java Sea 2,0
+1215,Asia,OceaniaSea,Sea,sea,,,,,Sea of Java,0
+1216,Asia,OceaniaSea,Sea,sea,,,,,Timor Sea,0
+1217,Asia,OceaniaSea,Sea,sea,,,,,Tanimbar Islands,0
+1218,Asia,OceaniaSea,Sea,sea,,,,,Sorong Strait,0
+1219,Oceania,OceaniaSea,Sea,sea,,,,,Straits of Torres,0
+1220,Asia,OceaniaSea,Sea,sea,,,,,New Guinea Coast,0
+1221,Asia,OceaniaSea,Sea,sea,,,,,Sea of Banda,0
+1222,Asia,OceaniaSea,Sea,sea,,,,,Sea of Ternate,0
+1223,Oceania,BarrierReefSea,Sea,sea,,,,,Coast of New Zealand,0
+1224,Oceania,OceaniaSea,Sea,sea,,,,,Biak Bay,0
+1225,Oceania,OceaniaSea,Sea,sea,,,,,Viliaz Strait,0
+1226,Oceania,OceaniaSea,Sea,sea,,,,,Melanesian Sea,0
+1227,Oceania,OceaniaSea,Sea,sea,,,,,Melanesia,0
+1228,Oceania,OceaniaSea,Sea,sea,,,,,Trobriand Islands,0
+1229,Oceania,BarrierReefSea,Sea,sea,,,,,Louisiade Archipelago,0
+1230,Oceania,SWPacificSea,Sea,sea,,,,,Nauru Island
+1231,Oceania,BarrierReefSea,Sea,sea,,,,,The Solomons
+1232,Oceania,SWPacificSea,Sea,sea,,,,,Gilbert Sea
+1233,Oceania,BarrierReefSea,Sea,sea,,,,,South Pacific Ocean
+1234,Oceania,SWPacificSea,Sea,sea,,,,,South Pacific Ocean
+1235,Oceania,SEPacificSea,Sea,sea,,,,,South Pacific Ocean
+1236,Oceania,SEPacificSea,Sea,sea,,,,,South Pacific Ocean
+1237,Oceania,SEPacificSea,Sea,sea,,,,,South Pacific Ocean
+1238,Oceania,SEPacificSea,Sea,sea,,,,,South Pacific Ocean
+1239,America,SEPacificSea,Sea,sea,,,,,Magellan Strait,0
+1240,America,SWAtlanticSea,CapeHornArea,sea,,,,,Cape Horn,0
+1241,America,SWAtlanticSea,Sea,sea,,,,,Patagonian Sea,0
+1242,America,SWAtlanticSea,Sea,sea,,,,,Southern Atlantic Ocean
+1243,America,SWAtlanticSea,Sea,sea,,,,,Falkland Islands,0
+1244,America,SWAtlanticSea,Sea,sea,,,,,New Georgia Island
+1245,America,SWAtlanticSea,Sea,sea,,,,,South Atlantic Ocean
+1246,America,SWAtlanticSea,Sea,sea,,,,,Southern Atlantic Ocean
+1247,Africa,SEAtlanticSea,Sea,sea,,,,,Tristan da Cunha Island
+1248,Africa,SEAtlanticSea,Sea,sea,,,,,Southern Atlantic Ocean
+1249,Africa,SEAtlanticSea,Sea,sea,,,,,Southern Atlantic Ocean
+1250,Africa,SEAtlanticSea,Sea,sea,,,,,Walvis Bay,0
+1251,Africa,SEAtlanticSea,Sea,sea,,,,,Coast of Namibia,0
+1252,Africa,SWIndianSea,GoodHopeArea,sea,,,,,Cape of Good Hope,0
+1253,Africa,SWIndianSea,Sea,sea,,,,,Coast of Natal,0
+1254,Africa,SWIndianSea,Sea,sea,,,,,Southern Indian Ocean
+1255,Africa,SWIndianSea,Sea,sea,,,,,Cape Romain,0
+1256,Africa,SWIndianSea,Sea,sea,,,,,Southern Indian Ocean
+1257,Africa,SWIndianSea,Sea,sea,,,,,Southern Indian Ocean
+1258,Africa,SWIndianSea,Sea,sea,,,,,Southern Indian Ocean
+1259,Africa,SEIndianSea,Sea,sea,,,,,Southern Indian Ocean
+1260,Oceania,SEIndianSea,Sea,sea,,,,,Central Indian Ocean
+1261,Oceania,SEIndianSea,Sea,sea,,,,,Central Indian Ocean
+1262,Oceania,SEIndianSea,Sea,sea,,,,,Central Indian Ocean
+1263,Oceania,SEIndianSea,Sea,sea,,,,,Australian Sea,0
+1264,Oceania,OceaniaSea,Sea,sea,,,,,Australian Sea 2,0
+1265,Oceania,SEIndianSea,Sea,sea,,,,,Western Australian Coast,0
+1266,Oceania,SEIndianSea,Sea,sea,,,,,Shark Bay,0
+1267,Oceania,SEIndianSea,Sea,sea,,,,,Coast of New Holland,0
+1268,Oceania,SEIndianSea,Sea,sea,,,,,Cape Leeuwin,0
+1269,Oceania,SEIndianSea,Sea,sea,,,,,Recherche Archipelago,0
+1270,Oceania,SEIndianSea,Sea,sea,,,,,Great Australian Bight,0
+1271,Oceania,SEIndianSea,Sea,sea,,,,,Kangaroo Island,0
+1272,Oceania,BarrierReefSea,Sea,sea,,,,,Eastern Australia,0
+1273,Oceania,BarrierReefSea,Sea,sea,,,,,Sandy Cape,0
+1274,Oceania,BarrierReefSea,Sea,sea,,,,,Capricorn Channel,0
+1275,Oceania,BarrierReefSea,Sea,sea,,,,,Coral Sea,0
+1276,Oceania,BarrierReefSea,Sea,sea,,,,,Coral Sea 2,0
+1277,Oceania,BarrierReefSea,Sea,sea,,,,,South Coral Sea,0
+1278,Oceania,BarrierReefSea,Sea,sea,,,,,New Caledonian Sea
+1279,Oceania,BarrierReefSea,Sea,sea,,,,,South Coral Sea 2,0
+1280,Oceania,BarrierReefSea,Sea,sea,,,,,Cape Farewell,0
+1281,Oceania,BarrierReefSea,Sea,sea,,,,,South Coral Sea 3,0
+1282,Oceania,BarrierReefSea,Sea,sea,,,,,South Pacific Ocean
+1283,Oceania,SEPacificSea,Sea,sea,,,,,South Pacific Ocean
+1284,Oceania,SEPacificSea,Sea,sea,,,,,South Pacific Ocean
+1285,Oceania,SEPacificSea,Sea,sea,,,,,South Pacific Ocean
+1286,Oceania,SEPacificSea,Sea,sea,,,,,South Pacific Ocean
+1287,Oceania,SEPacificSea,Sea,sea,,,,,South Pacific Ocean
+1288,America,SEPacificSea,Sea,sea,,,,,South Pacific Ocean
+1289,America,SWAtlanticSea,Sea,sea,,,,,Southern Atlantic Ocean
+1290,America,SWAtlanticSea,Sea,sea,,,,,Southern Atlantic Ocean
+1291,America,SWAtlanticSea,Sea,sea,,,,,Southern Atlantic Ocean
+1292,Africa,SEAtlanticSea,Sea,sea,,,,,Southern Atlantic Ocean
+1293,Africa,SEAtlanticSea,Sea,sea,,,,,Southern Atlantic Ocean
+1294,Africa,SEAtlanticSea,Sea,sea,,,,,Cape of Storms
+1295,Africa,SWIndianSea,Sea,sea,,,,,South Indian Ocean
+1296,Africa,SWIndianSea,Sea,sea,,,,,Southern Indian Ocean
+1297,Africa,SWIndianSea,Sea,sea,,,,,Southern Indian Ocean
+1298,Africa,SWIndianSea,Sea,sea,,,,,Southern Indian Ocean
+1299,Africa,SWIndianSea,Sea,sea,,,,,The Roaring Forties
+1300,Africa,SEIndianSea,Sea,sea,,,,,Southern Indian Ocean
+1301,Africa,SEIndianSea,Sea,sea,,,,,Southern Indian Ocean
+1302,Oceania,SEIndianSea,Sea,sea,,,,,Southern Indian Ocean
+1303,Oceania,SEIndianSea,Sea,sea,,,,,Southern Indian Ocean
+1304,Oceania,SEIndianSea,Sea,sea,,,,,Southern Indian Ocean
+1305,Oceania,SEIndianSea,Sea,sea,,,,,Southern Indian Ocean
+1306,Oceania,SEIndianSea,Sea,sea,,,,,Southern Indian Ocean
+1307,Oceania,SEIndianSea,Sea,sea,,,,,Southern Indian Ocean
+1308,Oceania,SEIndianSea,Sea,sea,,,,,Southern Indian Ocean
+1309,Oceania,SEIndianSea,Sea,sea,,,,,Southern Indian Ocean
+1310,Oceania,SEIndianSea,Sea,sea,,,,,Southern Indian Ocean
+1311,Oceania,SEIndianSea,Sea,sea,,,,,Southern Indian Ocean
+1312,Oceania,BarrierReefSea,Sea,sea,,,,,Bass Strait,0
+1313,Oceania,BarrierReefSea,Sea,sea,,,,,Cape Howe,0
+1314,Oceania,BarrierReefSea,Sea,sea,,,,,Tasman Sea,0
+1315,Oceania,BarrierReefSea,Sea,sea,,,,,Tasman Sea 2,0
+1316,Oceania,BarrierReefSea,Sea,sea,,,,,Tasman Sea 3,0
+1317,Oceania,BarrierReefSea,Sea,sea,,,,,Tasman Sea 4,0
+1318,Oceania,BarrierReefSea,Sea,sea,,,,,Cook Strait,0
+1319,Oceania,BarrierReefSea,Sea,sea,,,,,South Pacific Ocean
+1320,Oceania,BarrierReefSea,Sea,sea,,,,,South Pacific Ocean
+1321,Asia,NWPacificSea,Sea,sea,,,,,Northern Pacific Ocean
+1322,Oceania,SEPacificSea,Sea,sea,,,,,South Pacific Ocean
+1323,Africa,SWIndianSea,Sea,sea,,,,,The Mascareignes,0
+1324,Africa,SWIndianSea,Sea,sea,,,,,Coast of Tamatave,0
+1325,Africa,SWIndianSea,Sea,sea,,,,,Diego Suarez Bay,0
+1326,Asia,CaspianSea,Sea,sea,,,,,Northern Caspian Sea,0
+1327,Asia,CaspianSea,Sea,sea,,,,,Southern Caspian Sea,0
+1328,Africa,SWIndianSea,Sea,sea,,,,,Coast of Ciskei,0
+1329,Africa,SEAtlanticSea,Sea,sea,,,,,Table Bay,0
+1330,Africa,SEAtlanticSea,Sea,sea,,,,,Southern Atlantic Ocean
+1331,Europe,NorthSeaSea,Sea,sea,,,,,Saint George's Channel
+1332,Oceania,SEPacificSea,Sea,sea,,,,,Central Pacific Ocean
+1333,Oceania,SEPacificSea,Sea,sea,,,,,South Pacific Ocean
+1334,America,SWAtlanticSea,Sea,sea,,,,,Southern Atlantic Ocean
+1335,America,SWAtlanticSea,Sea,sea,,,,,Bahia Blanca,0
+1336,America,SEPacificSea,Sea,sea,,,,,Easter Island
+1337,Oceania,OceaniaSea,Sea,sea,,,,,Milne Bay,0
+1338,Oceania,OceaniaSea,Sea,sea,,,,,Great Barrier Reef,0
+1339,Oceania,OceaniaSea,Sea,sea,,,,,Papuan Coast,0
+1340,Oceania,OceaniaSea,Sea,sea,,,,,Kolepom Bay,0
+1341,Oceania,OceaniaSea,Sea,sea,,,,,Arafuan Sea,0
+1342,Oceania,OceaniaSea,Sea,sea,,,,,Gulf of Carpentaria,0
+1343,Oceania,OceaniaSea,Sea,sea,,,,,King Sound,0
+1344,Oceania,OceaniaSea,Sea,sea,,,,,South Timor Sea,0
+1345,Asia,OceaniaSea,Sea,sea,,,,,Timor Sea 2,0
+1346,Asia,OceaniaSea,Sea,sea,,,,,Sea of Timor,0
+1347,Asia,OceaniaSea,Sea,sea,,,,,Straits of Lombok,0
+1348,Asia,OceaniaSea,Sea,sea,,,,,Moro Gulf,0
+1349,Asia,OceaniaSea,Sea,sea,,,,,Sea of Palawan,0
+1350,Asia,OceaniaSea,Sea,sea,,,,,Coast of Brunei,0
+1351,Asia,ThaiSea,Sea,sea,,,,,Cam Rah Bay,0
+1352,Asia,OceaniaSea,Sea,sea,,,,,Manilla Bay,0
+1353,Asia,OceaniaSea,Sea,sea,,,,,Karimata Strait,0
+1354,Asia,OceaniaSea,Sea,sea,,,,,Coast of Java,0
+1355,Asia,NEIndianSea,Sea,sea,,,,,Christmas Island,0
+1356,Asia,ThaiSea,Sea,sea,,,,,Mekong Delta 2,0
+1357,Asia,NEIndianSea,Sea,sea,,,,,Nicobar Islands,0
+1358,Asia,NEIndianSea,Sea,sea,,,,,Coast of Ajeh,0
+1359,Asia,SWIndianSea,Sea,sea,,,,,Western Oman Sea,0
+1360,Africa,SWIndianSea,Sea,sea,,,,,Coast of Transkei,0
+1361,Europe,Lake,Lake,sea,,tundra,,,Lake Ladoga,0
+1362,Europe,ScandinaviaSea,Sea,sea,,,,,The Skagerack,0
+1363,Asia,GulfSea,Sea,sea,,,,,Persian Gulf,0
+1364,America,SEPacificSea,Sea,sea,,,,,Atacama Coast,0
+1365,Africa,SEAtlanticSea,Sea,sea,,,,,Ivory Coast,0
+1366,Africa,SEAtlanticSea,Sea,sea,,,,,Southern Atlantic Ocean
+1367,America,SWAtlanticSea,Sea,sea,,,,,Southern Atlantic Ocean
+1368,Africa,NCAtlanticSea,Sea,sea,,,,,Central Atlantic Ocean
+1369,America,Lake,Lake,sea,,,,,Lake Ontario,0
+1370,America,Lake,Lake,sea,,,,,Lake Erie,0
+1371,America,Lake,Lake,sea,,,,,Lake Michigan,0
+1372,America,Lake,Lake,sea,,,,,Lake Superior,0
+1373,America,CaribbeanSea,Sea,sea,,,,,Tampa Bay,0
+1374,America,SEPacificSea,Sea,sea,,,,,South Chilean Coast,0
+1375,America,CaribbeanSea,Sea,sea,,,,,Greater Antillas,0
+1376,America,SWAtlanticSea,Sea,sea,,,,,Southern Atlantic Ocean
+1377,America,SWAtlanticSea,Sea,sea,,,,,Southern Atlantic Ocean
+1378,America,CaribbeanSea,Sea,sea,,,,,Lesser Antillas,0
+1442,TBD,TBD,Lake,sea,,,,,Lake Baikal
+1453,TBD,TBD,Lake,sea,,,,,Lake Tiberiade,0
+1461,TBD,TBD,Lake,sea,,,,,Lake Vettern,0
+1466,Europe,Scandinavia,Denmark,hill,catholic,tundra,nordic,fish,Iceland,0,1,1
+1467,Asia,Siberia,Amur,hill,pagan,tundra,altai,fur,Nagorje,2,1,2
+1468,Asia,Siberia,Amur,hill,pagan,tundra,altai,fur,Khretset,2,1,2
+1469,Europe,Scandinavia,Sweden,forest,catholic,ncontinental,nordic,naval supplies,Gastrikland,0,1,3
+1470,Europe,EasternEurope,Russian North,marsh,orthodox,tundra,ugric,fur,Karelia,0,1,1
+1473,America,NorthAmerica,Oregon,forest,pagan,temperate,miwok,fur,Oregon,5,2,5
+1474,America,NorthAmerica,Oregon,hill,pagan,temperate,miwok,grain,Sierra Nevada,5,1,2
+1475,America,NorthAmerica,California,hill,pagan,temperate,miwok,grain,Tonopah,5,1,2
+1476,America,NorthAmerica,California,hill,pagan,temperate,takic,grain,Inyo,5,1,2
+1477,America,NorthAmerica,Nevada,desert,pagan,desertic,hokan,salt,Utah,5,1,2
+1478,America,NorthAmerica,Nevada,desert,pagan,desertic,hokan,salt,Moab,5,1,1
+1479,America,NorthAmerica,Texas,plains,pagan,temperate,apache,fur,Colorado,5,1,3
+1480,America,NorthAmerica,Texas,plains,pagan,temperate,apache,fur,Llano Estacado,5,2,2
+1481,America,NorthAmerica,Louisiane,plains,pagan,ncontinental,mississippian,fur,Oklahoma,5,1,2
+1482,America,SouthAmerica,Inca,hill,pagan,tropical,quechua,fish,Monta����,5,2,2
+1483,America,SouthAmerica,Inca,hill,pagan,tropical,quechua,copper,Atalaya,5,1,2
+1484,America,SouthAmerica,Inca,hill,pagan,tropical,quechua,iron,Manu,5,1,2
+1485,America,SouthAmerica,La Plata,plains,pagan,temperate,guarani,grain,Pampas del Norte,5,1,8
+1486,America,SouthAmerica,La Plata,plains,pagan,temperate,guarani,grain,Pampas del Sur,5,3,8
+1487,Africa,WestAfrica,Mauritania,desert,pagan,desertic,berber,slaves,Awdaghost,9,3,2
+1488,Africa,WestAfrica,Senegal,plains,pagan,ncontinental,mande,slaves,Walata,9,3,2
+1489,Africa,WestAfrica,Senegal,forest,sunni,tropical,mande,ivory,Jenne,9,5,5
+1490,Africa,WestAfrica,Timbuktu,forest,sunni,tropical,mande,gold,Bambuk,9,5,8
+1491,Africa,WestAfrica,Senegal,forest,sunni,tropical,mande,slaves,Segu,9,4,2
+1492,Africa,WestAfrica,Gold,forest,sunni,tropical,mande,slaves,Niani,9,4,2
+1493,Africa,WestAfrica,Gold,forest,pagan,tropical,ashanti,ivory,Mossi,9,4,2
+1494,Africa,WestAfrica,Timbuktu,plains,sunni,tropical,mande,gold,Bure,9,6,8
+1495,Africa,WestAfrica,Timbuktu,desert,sunni,desertic,mande,chinaware,Timbuktu,9,4,14
+1496,Africa,WestAfrica,Timbuktu,plains,sunni,tropical,songhai,salt,Gao,9,2,4
+1497,Africa,WestAfrica,Timbuktu,plains,sunni,tropical,songhai,grain,Say,9,6,3
+1498,Africa,WestAfrica,Ivory,forest,pagan,tropical,akan,ivory,Begho,9,2,3
+1499,Africa,WestAfrica,Ivory,forest,pagan,tropical,yoruba,slaves,Zaria,9,2,3
+1500,Africa,WestAfrica,Ivory,forest,pagan,tropical,yoruba,grain,Oye,9,4,7
+1501,Africa,WestAfrica,Ivory,plains,pagan,tropical,yoruba,grain,Kano,9,6,3
+1502,Africa,WestAfrica,Ivory,forest,pagan,tropical,yoruba,grain,Nupa,9,2,3
+1503,Africa,WestAfrica,Gabon,forest,pagan,tropical,bakongo,slaves,Teke,9,4,3
+1504,Africa,WestAfrica,Gabon,marsh,pagan,tropical,bakongo,slaves,Ngoyo,9,5,3
+1505,Africa,WestAfrica,Congo,marsh,pagan,tropical,bakongo,slaves,Ndongo,9,5,4
+1506,Africa,WestAfrica,Congo,forest,pagan,tropical,bakongo,chinaware,Congo,9,6,10
+1507,Africa,SouthAfrica,Sofala,plains,pagan,tropical,tsonga,grain,Chibuene,9,4,1
+1508,Africa,SouthAfrica,Sofala,hill,pagan,tropical,shona,fish,Sofala,9,4,4
+1509,Africa,SouthAfrica,Sofala,marsh,pagan,tropical,shona,gold,Zimbabwe,9,6,6
+1510,Africa,SouthAfrica,Sofala,hill,pagan,tropical,shona,iron,Rozwi,9,6,3
+1511,Africa,SouthAfrica,Sofala,hill,pagan,tropical,shona,slaves,Nembire,9,6,3
+1512,Africa,EastAfrica,Tanganyika,plains,pagan,tropical,swahili,iron,Morogoro,9,4,2
+1513,Africa,EastAfrica,Tanganyika,plains,pagan,tropical,swahili,slaves,Arusha,9,4,1
+1514,Africa,EastAfrica,Tanganyika,hill,pagan,tropical,swahili,copper,Galana,9,4,1
+1515,Africa,EastAfrica,Tanganyika,plains,pagan,tropical,swahili,slaves,Tana,9,4,1
+1516,Africa,EastAfrica,Ethiopia,hill,miaphysite,desertic,ethiopian,grain,Welo,5,1,1
+1517,Africa,EastAfrica,Ethiopia,mountain,miaphysite,temperate,ethiopian,chinaware,Shewa,5,6,10
+1518,Africa,EastAfrica,Somalia,desert,sunni,desertic,afar,grain,Arsi,5,1,1
+1519,Africa,EastAfrica,Somalia,desert,sunni,desertic,afar,grain,Harerge,5,1,0
+1520,Asia,India,Punjab,mountain,hindu,tropical,punjabi,cloth,Chandigarh,5,3,1
+1521,Asia,India,Punjab,plains,hindu,scontinental,punjabi,cloth,Panjab,5,4,2
+1522,Asia,India,Punjab,plains,sunni,tropical,rajput,cloth,Bikaner,5,6,2
+1523,Asia,India,Lahore,plains,sunni,tropical,pashtun,grain,Thar,5,3,4
+1524,Asia,CentralAsia,Afghanistan,hill,sunni,tropical,pashtun,grain,Quetta,5,4,3
+1525,Asia,CentralAsia,Afghanistan,hill,sunni,tropical,pashtun,wool,Qandahar,5,5,3
+1526,Asia,CentralAsia,Bahk,hill,sunni,tropical,baluchi,wool,Zahedan,5,3,2
+1527,Asia,CentralAsia,Afghanistan,hill,sunni,scontinental,pashtun,wool,Kabul,5,8,2
+1528,Asia,CentralAsia,Afghanistan,marsh,sunni,temperate,persian,salt,Kushka,5,4,2
+1529,Asia,CentralAsia,Persia,hill,sunni,temperate,persian,wool,Birjand,5,2,3
+1530,Asia,CentralAsia,Persia,hill,sunni,temperate,persian,grain,Khorasan,5,2,4
+1531,Asia,CentralAsia,Afghanistan,plains,sunni,temperate,persian,chinaware,Herat,5,6,5
+1532,Asia,CentralAsia,Kazakhstan,desert,sunni,temperate,persian,salt,Bukhara,5,5,5
+1533,Asia,CentralAsia,Kazakhstan,plains,sunni,temperate,persian,wool,Khiva,5,3,2
+1534,Asia,CentralAsia,Kazakhstan,plains,sunni,desertic,uzbek,salt,Kyzylkum,5,2,1
+1535,Asia,CentralAsia,Kazakhstan,plains,sunni,desertic,uzbek,wool,Karsak,5,4,1
+1536,Asia,Siberia,Omsk,plains,sunni,temperate,kazakh,wool,Nura,5,3,1
+1537,America,NorthAmerica,Greenland,plains,pagan,arctic,nordic,fur,Vestbygden,3,1,1
+1538,America,NorthAmerica,Greenland,plains,pagan,arctic,nordic,fish,Eiriksfjord,3,1,1
+1539,Asia,China,Himalaya,mountain,hindu,arctic,nepali,wool,Nepal,5,1,2
+1540,Asia,China,Himalaya,mountain,buddhist,arctic,tibetan,wool,Gangdise,5,1,1
+1541,Asia,China,Himalaya,mountain,buddhist,arctic,tibetan,wool,Kunlun,5,1,1
+1542,Asia,China,Himalaya,hill,buddhist,arctic,tibetan,wool,Dangla,5,1,1
+1543,Asia,China,Himalaya,mountain,buddhist,arctic,tibetan,wool,Lhasa,5,2,2
+1544,Asia,China,Chengdu,hill,buddhist,tropical,han,wool,Xinjiang,5,1,1
+1545,Asia,China,Chengdu,hill,buddhist,tropical,burmese,iron,Kachin,5,2,2
+1546,Asia,Indochina,Assam,hill,hindu,tropical,burmese,cloth,Assam,5,5,2
+1547,Asia,Indochina,Burma,hill,buddhist,tropical,burmese,grain,Mandalay,5,6,2
+1548,Asia,Indochina,Burma,hill,buddhist,tropical,burmese,gold,Shan,5,3,5
+1549,Asia,Indochina,Burma,hill,buddhist,tropical,burmese,grain,Bago,5,3,6
+1550,Asia,Indochina,Siam,hill,buddhist,tropical,siamese,grain,Lampang,5,2,5
+1551,Asia,Indochina,Siam,forest,buddhist,tropical,siamese,grain,Sarakham,5,2,5
+1552,Asia,Indochina,Annam,hill,buddhist,tropical,siamese,grain,Mekong,5,3,5
+1553,Asia,China,Yunnan,hill,buddhist,tropical,burmese,wool,Yunnan,5,3,9
+1554,Asia,Indochina,Annam,hill,buddhist,tropical,vietnamese,tea,Lao Cai,5,4,6
+1555,Asia,China,Canton,hill,confucian,tropical,zhuang,tea,Wenshan,5,3,8
+1556,Asia,China,Yunnan,hill,confucian,temperate,zhuang,grain,Guizhou,5,4,12
+1557,Asia,China,Chengdu,plains,confucian,tropical,burmese,tea,Sichuan Pendi,5,3,10
+1558,Asia,China,Sha Anxi,hill,confucian,temperate,han,gold,Lanzhou,5,3,4
+1559,Asia,China,Sha Anxi,hill,confucian,temperate,han,salt,Xining,5,4,4
+1560,Asia,China,Sha Anxi,hill,confucian,temperate,han,copper,Ningxia,5,4,4
+1561,Asia,China,Peking,hill,confucian,temperate,han,wool,Hohhot,5,3,2
+1562,Asia,China,Peking,plains,confucian,temperate,han,grain,Shanxi,5,7,10
+1563,Asia,China,Sha Anxi,plains,confucian,temperate,han,naval supplies,Shaanxi,5,10,11
+1564,Asia,China,Peking,hill,confucian,temperate,han,cloth,Henan,5,10,9
+1565,Asia,China,Shanghai,plains,confucian,temperate,han,cloth,Hubei,5,6,15
+1566,Asia,China,Canton,plains,confucian,temperate,zhuang,iron,Hunan,5,4,13
+1567,Asia,China,Shanghai,plains,confucian,temperate,han,tea,Nanchang,5,8,12
+1568,America,NorthAmerica,Bermuda,plains,pagan,tropical,arawak,naval supplies,Bermuda,4,1,2
+1569,America,Caribbean,Cuba,forest,pagan,temperate,arawak,cotton,Bahamas,4,1,2
+1570,Asia,Siberia,Ob,marsh,pagan,tundra,altai,fur,Sadrinsk,5,1,2
+1571,Asia,Siberia,Ob,marsh,pagan,tundra,altai,fur,Jalutorovsk,5,1,2
+1572,Asia,Siberia,Ob,marsh,pagan,tundra,altai,fur,Nefedova,5,1,1
+1573,Asia,Siberia,Ob,marsh,pagan,tundra,altai,naval supplies,Tobolsk,5,1,1
+1574,Asia,Siberia,Ob,plains,pagan,tundra,altai,grain,Demjanskoje,5,1,1
+1575,Asia,Siberia,Ob,marsh,pagan,tundra,permic,salt,Sergino,5,1,1
+1576,Asia,Siberia,Ob,marsh,pagan,tundra,permic,grain,Manskijisk,5,1,1
+1577,Asia,Siberia,Ob,marsh,pagan,tundra,permic,grain,Vakhovska,5,1,1
+1578,Asia,Siberia,Ob,marsh,pagan,tundra,permic,salt,Surgut,5,1,1
+1579,Asia,Siberia,Ob,marsh,pagan,tundra,permic,salt,Pimsk,5,1,1
+1580,Asia,Siberia,Ob,marsh,pagan,tundra,permic,gold,Igrim,5,1,2
+1581,Asia,Siberia,Ob,marsh,pagan,tundra,permic,iron,Berezov,5,1,1
+1582,Asia,Siberia,Ob,plains,pagan,tundra,permic,fur,Kondinsk,5,1,1
+1583,Asia,Siberia,Ob,marsh,pagan,tundra,permic,iron,Obdorsk,5,1,1
+1584,Asia,Siberia,Ob,marsh,pagan,tundra,permic,fur,Saleharo,5,1,1
+1585,Asia,Siberia,Sea,sea,,arctic,,,Obskaja Guba
+1586,Asia,Siberia,Kamchatka,mountain,pagan,arctic,ainu,fish,Kamcatka,7,1,1
+1587,Asia,Siberia,Kamchatka,hill,pagan,arctic,altai,fish,Sredny Hrebet,7,1,1
+1588,Africa,EastAfrica,Ethiopia,hill,miaphysite,temperate,ethiopian,spices,Gonder,5,6,4
+1589,Africa,EastAfrica,Ethiopia,hill,miaphysite,temperate,ethiopian,coffee,Kefa,5,6,3
+1590,Africa,EastAfrica,Ethiopia,hill,miaphysite,desertic,ethiopian,grain,Bale,5,2,2
+1591,Asia,CentralAsia,Afghanistan,hill,sunni,scontinental,persian,wool,Surkhandarya,5,5,2
+1592,Asia,CentralAsia,Kazakhstan,plains,sunni,temperate,persian,chinaware,Samarkand,5,8,7
+1593,Asia,AralSea,Sea,sea,,,,,Aral Sea,0
+1594,Asia,CentralAsia,Kazakhstan,desert,sunni,temperate,uzbek,wool,Uzbek,5,6,4
+1595,Africa,WestAfrica,Mauritania,hill,sunni,temperate,berber,copper,Anti Atlas,7,1,1
+1596,Africa,WestAfrica,Mauritania,desert,sunni,desertic,berber,salt,Mdennan,7,1,1
+1597,Africa,WestAfrica,Mauritania,desert,sunni,desertic,berber,salt,Azaouad,7,1,1
+1598,Asia,CentralAsia,Kazakhstan,desert,sunni,temperate,persian,wool,Tadjikistan,7,3,2
+1599,Asia,CentralAsia,Kazakhstan,desert,sunni,temperate,uzbek,wool,Kirgisistan,7,2,2
+1600,Asia,CentralAsia,Dzungaria,desert,sunni,temperate,uyghur,wool,Tian Shan,7,2,2
+1601,Asia,CentralAsia,Dzungaria,desert,sunni,temperate,uyghur,wool,Dsungaria,7,2,4
+1602,Asia,CentralAsia,Dzungaria,desert,sunni,temperate,uyghur,fish,Bogda Shan,7,3,3
+1603,Asia,CentralAsia,Dzungaria,desert,sunni,temperate,uyghur,wool,Chagatai,7,4,3
+1604,Asia,CentralAsia,Dzungaria,desert,sunni,temperate,uyghur,grain,Urumqi,7,3,3
+1605,Asia,CentralAsia,Dzungaria,desert,sunni,temperate,uyghur,grain,Qaidam Pendi,7,1,3
+1606,Asia,CentralAsia,Dzungaria,desert,sunni,temperate,uyghur,grain,Sichuan,7,1,3
+1607,Asia,CentralAsia,Dzungaria,desert,sunni,temperate,uyghur,grain,Qinghai,7,1,2
+1608,Asia,CentralAsia,Dzungaria,desert,sunni,temperate,uyghur,grain,Qilian Pendi,7,1,3
+1609,Asia,MiddleEast,Anatolia,hill,sunni,ncontinental,turkish,wine,Kastamonu,0,3,4
+1610,Asia,MiddleEast,Anatolia,hill,sunni,ncontinental,turkish,fish,Antalya,0,3,6
+1611,Asia,MiddleEast,Anatolia,hill,sunni,ncontinental,turkish,wool,Taurus,0,3,5
+1612,Europe,HRE,Switzerland,mountain,catholic,ncontinental,swiss,iron,Schwyz,0
+1613,Europe,EMedSea,Sea,sea,,,,,Coast of Rhodes,0
+1700,TBD,TBD,Mongolia,plains,confucian,temperate,han,nothing,_NAME_,3,0,0
+1701,TBD,TBD,Mongolia,plains,confucian,temperate,uyghur,nothing,_NAME_,3,0,0
+1702,TBD,TBD,Nippon,forest,shinto,temperate,japanese,nothing,_NAME_,3,0,0
+1703,TBD,TBD,Mongolia,plains,confucian,temperate,han,nothing,_NAME_,3,0,0
+1704,TBD,TBD,Joseon,plains,buddhist,temperate,korean,nothing,_NAME_,3,0,0
+1705,TBD,TBD,Joseon,plains,buddhist,temperate,korean,nothing,_NAME_,3,0,0
+1706,TBD,TBD,TBD,plains,pagan,tropical,melanesian,nothing,_NAME_,3,0,0
+1707,TBD,TBD,Botany,plains,pagan,temperate,aboriginal,nothing,_NAME_,3,0,0
+1708,TBD,TBD,Papua,plains,pagan,tropical,melanesian,nothing,_NAME_,3,0,0
+1709,TBD,TBD,TBD,plains,pagan,temperate,nothing,nothing,_NAME_,3,0,0
+1710,TBD,TBD,TBD,plains,pagan,temperate,nothing,nothing,_NAME_,3,0,0
+1711,TBD,TBD,Kanguru,plains,pagan,temperate,aboriginal,nothing,_NAME_,3,0,0
+1712,TBD,TBD,Nippon,mountain,shinto,temperate,japanese,nothing,_NAME_,3,0,0
+1713,TBD,TBD,Amazonia,forest,pagan,tropical,aymara,nothing,_NAME_,3,0,0
+1714,TBD,TBD,Madagascar,plains,pagan,temperate,malagasy,nothing,_NAME_,3,0,0
+1715,TBD,TBD,Plaines,forest,pagan,arctic,sioux,nothing,_NAME_,3,0,0
+1716,TBD,TBD,Kansas,plains,pagan,tundra,plains,nothing,_NAME_,3,0,0
+1717,TBD,TBD,Kansas,plains,pagan,tundra,plains,nothing,_NAME_,3,0,0
+1718,TBD,TBD,Louisiane,plains,pagan,ncontinental,plains,nothing,_NAME_,3,0,0
+1719,TBD,TBD,Texas,plains,pagan,ncontinental,plains,nothing,_NAME_,3,0,0
+1720,TBD,TBD,Amazonia,marsh,pagan,tropical,aymara,nothing,_NAME_,3,0,0
+1721,TBD,TBD,Inca,marsh,pagan,tropical,quechua,nothing,_NAME_,3,0,0
+1722,TBD,TBD,Rio,plains,pagan,tropical,tapuia,nothing,_NAME_,3,0,0
+1723,TBD,TBD,Rio,forest,pagan,tropical,tupi,nothing,_NAME_,3,0,0
+1724,TBD,TBD,Bahia,hill,pagan,tropical,tupi,nothing,_NAME_,3,0,0
+1725,TBD,TBD,Bahia,plains,pagan,temperate,tupi,nothing,_NAME_,3,0,0
+1726,TBD,TBD,La Plata,plains,pagan,desertic,wichi,nothing,_NAME_,3,0,0
+1727,TBD,TBD,Sudan,desert,miaphysite,desertic,nubian,nothing,Asyut,3,0,0
+1728,TBD,TBD,Sofala,plains,pagan,temperate,tsonga,nothing,_NAME_,3,0,0
+1729,TBD,TBD,The Cape,plains,pagan,temperate,zulu,nothing,_NAME_,3,0,0
+1730,TBD,TBD,Namibia,plains,pagan,temperate,xhosa,nothing,_NAME_  3,0,0
+1731,TBD,TBD,Timbuktu,desert,sunni,temperate,mande,nothing,Bakunu,3,0,0
+1732,TBD,TBD,Timbuktu,plains,sunni,temperate,mande,nothing,Macin,3,0,0
+1733,TBD,TBD,TBD,plains,catholic,temperate,nordic,nothing,Faroe\nIsland,3,0,0
+1734,TBD,TBD,TBD,plains,pagan,temperate,ainu,nothing,Sakhalin,3,0,0
+1735,TBD,TBD,Oregon,hill,pagan,desertic,miwok,nothing,_NAME_,3,0,0
+1736,TBD,TBD,California,desert,pagan,desertic,takic,nothing,_NAME_,3,0,0
+1737,TBD,TBD,Hudson Bay,forest,pagan,arctic,cree,nothing,Shamattawa,3,0,0
+1738,TBD,TBD,Mauritania,desert,sunni,temperate,mande,nothing,Kaarta,3,0,0
+1739,TBD,TBD,Papua,plains,pagan,tropical,melanesian,nothing,_NAME_,3,0,0
+1740,TBD,TBD,TBD,plains,pagan,tropical,indonesian,nothing,Tanimbar,3,0,0
+1741,TBD,TBD,Burma,plains,pagan,temperate,nothing,nothing,_NAME_,3,0,0
+1742,TBD,TBD,TBD,plains,pagan,temperate,nothing,nothing,Maledives,3,0,0
+1743,TBD,TBD,TBD,plains,pagan,temperate,nothing,nothing,_NAME_,3,0,0
+1744,TBD,TBD,TBD,plains,pagan,temperate,formosan,nothing,_NAME_,3,0,0
+1745,TBD,TBD,TBD,plains,pagan,temperate,ainu,nothing,_NAME_,3,0,0
+1746,TBD,TBD,TBD,plains,pagan,temperate,songhai,nothing,Damagaram,3,0,0
+1747,TBD,TBD,Ivory,plains,pagan,temperate,yoruba,nothing,_NAME_,3,0,0
+1748,TBD,TBD,Ivory,plains,pagan,temperate,yoruba,nothing,_NAME_,3,0,0
+1749,TBD,TBD,TBD,plains,pagan,temperate,malagasy,nothing,_NAME_,3,0,0
+1750,TBD,TBD,TBD,plains,miaphysite,temperate,ethiopian,nothing,_NAME_,3,0,0
+1751,TBD,TBD,Nefud,desert,sunni,desertic,arab,nothing,Najd,3,0,0
+1752,TBD,TBD,Kazakhstan,desert,sunni,temperate,uzbek,nothing,Kypshak,3,0,0
+1753,TBD,TBD,La Plata,plains,pagan,desertic,wichi,nothing,_NAME_,3,0,0
+1754,TBD,TBD,TBD,plains,pagan,temperate,melanesian,nothing,_NAME_,3,0,0
+1755,TBD,TBD,TBD,plains,pagan,temperate,polynesian,nothing,_NAME_,3,0,0
+1756,TBD,TBD,TBD,plains,pagan,temperate,polynesian,nothing,_NAME_,3,0,0
+1757,TBD,TBD,TBD,plains,pagan,temperate,polynesian,nothing,_NAME_,3,0,0
+1758,TBD,TBD,TBD,plains,pagan,temperate,melanesian,nothing,_NAME_,3,0,0
+1759,TBD,TBD,TBD,plains,pagan,temperate,nothing,nothing,_NAME_,3,0,0
+1760,TBD,TBD,TBD,plains,pagan,temperate,nothing,nothing,_NAME_,3,0,0
+1761,TBD,TBD,TBD,plains,pagan,temperate,nothing,nothing,_NAME_,3,0,0
+1762,TBD,TBD,Nippon,forest,pagan,temperate,ainu,nothing,_NAME_,3,0,0
+1763,TBD,TBD,Sahara,plains,pagan,temperate,songhai,nothing,Dendi,3,0,0
+1764,TBD,TBD,Ecuador,plains,pagan,temperate,polynesian,nothing,Galapagos\nIslands,3,0,0
+1765,TBD,TBD,Sahara,desert,sunni,desertic,berber,nothing,Fezzam,3,0,0
+1766,TBD,TBD,Sahara,desert,sunni,desertic,berber,nothing,Kazzam,3,0,0
+1767,TBD,TBD,Cameroon,plains,pagan,temperate,yoruba,nothing,_NAME_,3,0,0
+1768,TBD,TBD,Congo,forest,pagan,temperate,bakongo,nothing,_NAME_,3,0,0
+1769,TBD,TBD,Sahara,plains,pagan,desertic,nothing,nothing,Kanem,3,0,0
+1770,TBD,TBD,TBD,forest,pagan,temperate,nothing,nothing,_NAME_,3,0,0
+1771,TBD,TBD,TBD,plains,pagan,temperate,swahili,nothing,_NAME_,3,0,0
+1772,TBD,TBD,TBD,plains,pagan,temperate,swahili,nothing,_NAME_,3,0,0
+1773,TBD,TBD,TBD,plains,pagan,temperate,nothing,nothing,_NAME_,3,0,0
+1774,TBD,TBD,TBD,plains,pagan,temperate,nothing,nothing,_NAME_,3,0,0
+1775,TBD,TBD,Botany,plains,pagan,temperate,aboriginal,nothing,_NAME_,3,0,0
+1775,TBD,TBD,Botany,plains,pagan,temperate,aboriginal,nothing,_NAME_,3,0,0
+1775,TBD,TBD,Botany,plains,pagan,temperate,aboriginal,nothing,_NAME_,3,0,0
+1776,TBD,TBD,Botany,plains,pagan,temperate,aboriginal,nothing,_NAME_,3,0,0
+1777,TBD,TBD,TBD,plains,pagan,temperate,nothing,nothing,_NAME_,3,0,0
+1778,TBD,TBD,Kanguru,plains,pagan,temperate,aboriginal,nothing,_NAME_,3,0,0
+1779,TBD,TBD,TBD,plains,pagan,temperate,nothing,nothing,_NAME_,3,0,0
+1780,TBD,TBD,Mongolia,plains,pagan,desertic,mongol,nothing,_NAME_,3,0,0
+1781,TBD,TBD,Mongolia,plains,pagan,desertic,mongol,nothing,_NAME_,3,0,0
+1782,TBD,TBD,Mongolia,plains,pagan,temperate,manchu,nothing,_NAME_,3,0,0
+1783,TBD,TBD,Maghreb,desert,sunni,temperate,berber,nothing,_NAME_,3,0,0
+1784,TBD,TBD,Baikal,plains,pagan,tundra,mongol,nothing,Setsen,3,0,0
+1785,TBD,TBD,Manchuria,plains,confucian,temperate,manchu,nothing,_NAME_,3,0,0
+1786,TBD,TBD,Nippon,mountain,shinto,temperate,japanese,nothing,_NAME_,3,0,0
+1787,TBD,TBD,Shanghai,plains,confucian,temperate,han,nothing,_NAME_,3,0,0
+1788,TBD,TBD,TBD,plains,pagan,temperate,nothing,nothing,_NAME_,3,0,0
+1789,TBD,TBD,Omsk,plains,pagan,tundra,uzbek,nothing,Kulunda,3,0,0
+1790,TBD,TBD,Omsk,plains,sunni,temperate,uzbek,nothing,Akmola,3,0,0
+1791,TBD,TBD,Kazakhstan,desert,sunni,temperate,uzbek,nothing,Basmal,3,0,0
+1792,TBD,TBD,Nefud,desert,sunni,desertic,arab,nothing,Hajr,3,0,0
+1793,TBD,TBD,Afghanistan,mountain,sunni,temperate,pashtun,nothing,Badakshan,3,0,0
+1794,TBD,TBD,Sudan,desert,miaphysite,desertic,nubian,nothing,Dotawo,3,0,0
+1795,TBD,TBD,Ob,hill,pagan,tundra,permic,nothing,Vach,3,0,0
+1796,TBD,TBD,Ob,marsh,pagan,tundra,altai,nothing,Irtish,3,0,0
+1797,TBD,TBD,Omsk,hill,pagan,tundra,altai,nothing,Yugan,3,0,0
+1798,TBD,TBD,Steppe,forest,sunni,tundra,tatar,nothing,Perm,3,0,0
+1799,TBD,TBD,Ob,marsh,sunni,tundra,altai,nothing,Sibirsk,3,0,0
+1800,TBD,TBD,Inca,hill,pagan,tropical,wichi,nothing,_NAME_,3,0,0
+1801,TBD,TBD,Paraguay,hill,pagan,tropical,wichi,nothing,_NAME_,3,0,0
+1802,TBD,TBD,Paraguay,hill,pagan,tropical,guarani,nothing,_NAME_,3,0,0
+1803,TBD,TBD,Rio,forest,pagan,tropical,tapuia,nothing,_NAME_,3,0,0
+1804,TBD,TBD,Kamchatka,plains,pagan,arctic,altai,nothing,_NAME_,3,0,0
+1805,TBD,TBD,TBD,plains,pagan,temperate,nothing,nothing,_NAME_,3,0,0
+1806,TBD,TBD,Guiana,marsh,pagan,tropical,arawak,nothing,_NAME_,3,0,0
+1807,TBD,TBD,Nevada,desert,pagan,desertic,takic,nothing,_NAME_,3,0,0
+1808,TBD,TBD,Nevada,desert,pagan,desertic,plains,nothing,_NAME_,3,0,0
+1809,TBD,TBD,Texas,plains,pagan,temperate,plains,nothing,_NAME_,3,0,0
+1810,TBD,TBD,TBD,plains,pagan,ncontinental,plains,nothing,_NAME_,3,0,0
+1811,TBD,TBD,Oregon,forest,pagan,temperate,salishan,nothing,_NAME_,3,0,0
+1812,TBD,TBD,Plaines,forest,pagan,arctic,sioux,nothing,_NAME_,3,0,0
+1813,TBD,TBD,Plaines,forest,pagan,arctic,cree,nothing,_NAME_,3,0,0
+1814,TBD,TBD,Steppe,plains,sunni,tundra,tatar,nothing,Iset,3,0,0
+1815,TBD,TBD,TBD,plains,pagan,temperate,iberian,nothing,Madera Islands,3,0,0
+1816,TBD,TBD,TBD,plains,catholic,temperate,nordic,nothing,Shetlands Island,3,0,0
+1817,TBD,TBD,Kansas,plains,pagan,tundra,plains,nothing,_NAME_,3,0,0
+1818,TBD,TBD,Sahara,plains,miaphysite,desertic,ethiopian,nothing,_NAME_,3,0,0
+1819,TBD,TBD,Sahara,desert,sunni,desertic,berber,nothing,Kel Air,3,0,0
+1820,TBD,TBD,Congo,marsh,pagan,temperate,bakongo,nothing,_NAME_,3,0,0
+1821,TBD,TBD,Sahara,plains,pagan,temperate,nothing,nothing,Wadai,3,0,0
+1822,TBD,TBD,Sahara,desert,sunni,temperate,songhai,nothing,Takedda,3,0,0
+1823,TBD,TBD,Sahara,plains,pagan,desertic,nothing,nothing,Darfur,3,0,0
+1824,TBD,TBD,Mongolia,plains,pagan,desertic,mongol,nothing,_NAME_,3,0,0
+1825,TBD,TBD,Bahia,forest,pagan,tropical,tapuia,nothing,_NAME_,3,0,0
+1826,TBD,TBD,TBD,plains,pagan,temperate,nothing,nothing,_NAME_,3,0,0
+1827,TBD,TBD,TBD,plains,pagan,temperate,nothing,nothing,Thrace 2,3,0,0
+1828,TBD,TBD,TBD,plains,pagan,temperate,nothing,nothing,Tesalia,3,0,0
+1829,TBD,TBD,TBD,plains,pagan,temperate,nothing,nothing,North\nKurdistan,3,0,0
+1830,TBD,TBD,TBD,plains,pagan,temperate,nothing,nothing,_NAME_,3,0,0
+1831,TBD,TBD,TBD,plains,pagan,temperate,nothing,nothing,_NAME_,3,0,0
+1832,TBD,TBD,TBD,plains,pagan,temperate,nothing,nothing,_NAME_,3,0,0
+1833,TBD,TBD,TBD,plains,pagan,temperate,nothing,nothing,_NAME_,3,0,0
+1834,TBD,TBD,TBD,plains,pagan,temperate,nothing,nothing,_NAME_,3,0,0
+1835,TBD,TBD,TBD,plains,pagan,temperate,polynesian,nothing,_NAME_,3,0,0
+1837,TBD,TBD,TBD,plains,pagan,temperate,nothing,nothing,_NAME_,3,0,0
+1838,TBD,TBD,TBD,plains,pagan,temperate,polynesian,nothing,_NAME_,3,0,0
+1840,TBD,TBD,TBD,plains,pagan,temperate,polynesian,nothing,_NAME_,3,0,0
+1841,TBD,TBD,Congo,plains,pagan,temperate,mbundu,nothing,_NAME_,3,0,0
+1842,TBD,TBD,Congo,marsh,pagan,temperate,mbundu,nothing,_NAME_,3,0,0
+1843,TBD,TBD,TBD,plains,pagan,temperate,swahili,nothing,_NAME_,3,0,0
+1844,TBD,TBD,TBD,plains,pagan,temperate,swahili,nothing,_NAME_,3,0,0
+1845,TBD,TBD,TBD,forest,pagan,temperate,nothing,nothing,_NAME_,3,0,0
+2092,TBD,TBD,TBD,sea,,,,,Straits of Lombok 2,0
+2303,America,Lake,Lake,sea,,,,,Lake Huron,0
+2307,TBD,TBD,Sea,sea,,,,,_NAME_,0
+2431,TBD,TBD,TBD,sea,,,,,_NAME_,0

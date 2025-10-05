@@ -1,0 +1,125 @@
+#-----------------------------------------------------------
+#
+#  BOHEMIA
+#
+#-----------------------------------------------------------
+
+tag = "BOH"
+name = "Bohemia"
+ai = "BOH_1419"
+
+# ------------------ BUDGET -------------------
+
+[budget]
+treasury = 100
+inflation = 0
+stability = -1
+government = 'monarchy'
+
+# -------------- SOCIAL
+
+[social]
+religion = "catholic"
+cultures = ["czech", "german"]
+
+# -------------- PROVINCES
+
+[geography]
+knownregions = ["europe"]
+knownprovinces = [732, 477, 478]
+ownedprovinces = [314, 315, 328, 329, 330, 1003, 840]
+controlledprovinces = [314, 315, 328, 329, 330, 1003, 840]
+nationalprovinces = [314, 315, 328, 329, 330]
+
+# --------------- AGENTS
+
+[agents]
+colonists = 0
+merchants = 0.083333
+diplomats = 1
+
+# -------------- RELATIONS
+
+[relation]
+HUN = 175
+LUX = 175
+HAB = 150
+BAY = 150 # marriage with Sophia of Wittelsbach
+POL = 140
+LIT = 130
+MEI = 140
+
+# -------------- CITIES
+
+[[cities]]
+location = 328
+buildings = ["fort_02", "bailiff_1"]
+population = 40
+capital = true
+
+[[cities]]
+location = 329
+buildings = ["fort_01"]
+population = 8
+
+[[cities]]
+location = 330
+buildings = ["fort_01"]
+population = 10
+
+[[cities]]
+location = 315
+buildings = ["fort_02"]
+population = 12
+
+[[cities]]
+location = 314
+buildings = ["fort_02"]
+population = 20
+
+[[cities]]
+location = 327
+buildings = ["fort_01"]
+population = 4
+
+# --------- ARMIES
+
+[[armies]]
+name = "Bohemian Army"
+location = 328
+units.infantry = 15
+units.cavalry = 5
+units.artillery = 0
+
+
+# ------------- TECHNOLOGY
+
+[technology]
+admin = 0
+infra = 1
+trade = 1
+land = 1
+naval = 0
+diplo = 1
+
+
+# ------------------ POLICIES -------------------
+
+[policies]
+governance = 0
+innovation = 2
+nobility = -4
+freedom = 2
+commerce = 3
+expansion = 1
+domain = 1
+conscription = 1
+balance = 2
+honor = 1
+social = 0
+
+# ------------------ IDEAS ------------------
+
+ideas = [
+  'test_idea'
+]

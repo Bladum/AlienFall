@@ -1,0 +1,67 @@
+"""
+XCOM Lore Module: campaign_step.py
+
+Specifies mission generation rules for a specific game month.
+
+Classes:
+    TCampaignStep: Mission generation rules for a game month.
+
+Last updated: 2025-06-14
+"""
+
+import logging
+from typing import Any
+
+class TCampaignStep:
+    """
+    Defines mission generation rules for a specific game month.
+    Specifies how many campaigns/events are generated and their weights for a given month.
+
+    Attributes:
+        month (int): Month number (1-based).
+        qty_min (int): Minimum number of campaigns/events to generate.
+        qty_max (int): Maximum number of campaigns/events to generate.
+        events (int): Total number of events in this month.
+        weights (dict): Arc weights for random selection (faction or event type -> weight).
+    """
+
+    def __init__(self, month: int, data: dict[str, Any]) -> None:
+        """
+        Initialize campaign step rules for a month.
+
+        Args:
+            month (int): Month number (1-based).
+            data (dict[str, Any]): Step data with possible keys:
+                - qty_min (int): Minimum number of campaigns/events.
+                - qty_max (int): Maximum number of campaigns/events.
+                - events (int): Total number of events in this month.
+                - weights (dict[str, int]): Arc weights for random selection.
+        """
+        self.month: int = month
+        self.qty_min: int = data.get('qty_min', 0)
+        self.qty_max: int = data.get('qty_max', 0)
+        self.events: int = data.get('events', 0)
+        # Arc weights for random selection
+        self.weights: dict[str, int] = {}
+        weights = data.get('weights', {})
+        if isinstance(weights, dict):
+            self.weights = weights
+        elif weights:
+            logging.warning(f"Invalid weights type for TCampaignStep month {month}: {type(weights)}. Expected dict.")
+            self.weights = {}
+        # Defensive: ensure all numeric fields are ints
+        try:
+            self.qty_min = int(self.qty_min)
+        except Exception as e:
+            logging.error(f"qty_min conversion error in TCampaignStep month {month}: {e}")
+            self.qty_min = 0
+        try:
+            self.qty_max = int(self.qty_max)
+        except Exception as e:
+            logging.error(f"qty_max conversion error in TCampaignStep month {month}: {e}")
+            self.qty_max = 0
+        try:
+            self.events = int(self.events)
+        except Exception as e:
+            logging.error(f"events conversion error in TCampaignStep month {month}: {e}")
+            self.events = 0

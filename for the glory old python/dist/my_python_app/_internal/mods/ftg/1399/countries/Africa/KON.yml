@@ -1,0 +1,81 @@
+countries:
+  KON:
+    name: Kongo
+    ai: "Kongo_ai"
+
+    treasury: 200
+    inflation: 0
+    stability: 0
+
+    agents:
+      merchants: 0
+      colonists: 0
+      diplomats: 0
+
+    religion: pagan
+    cultures:
+      - bakongo
+
+    diplomacy:
+      relations: {}
+
+    knownregions: []
+    knownprovinces:
+      - 787
+      - 788
+      - 789
+      - 793
+      - 1503
+      - 1504
+      - 1505
+      - 1506
+    ownedprovinces:
+      - 1503
+      - 1504
+      - 1505
+      - 1506
+    controlledprovinces:
+      - 1503
+      - 1504
+      - 1505
+      - 1506
+    nationalprovinces:
+      - 785
+      - 786
+      - 787
+      - 788
+      - 789
+      - 790
+      - 1503
+      - 1504
+      - 1505
+      - 1506
+    claimedprovinces: []
+
+    cities:
+      1506:
+        buildings:
+          fortress: 1
+        population: 18
+        capital: yes
+      1503:
+        buildings:
+          fortress: 1
+        population: 8
+      1504:
+        buildings:
+          fortress: 1
+        population: 10
+      1505:
+        buildings:
+          fortress: 1
+        population: 10
+
+    landunits: []
+
+    technology:
+      admin: 0
+      infra: 0
+      trade: 0
+      land: 0
+      naval: 0

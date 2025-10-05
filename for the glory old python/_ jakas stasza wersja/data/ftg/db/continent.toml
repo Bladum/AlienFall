@@ -1,0 +1,82 @@
+[tbd]
+color = "white"
+
+[africa]
+label = "Africa"
+color = "brown"
+cot_assign_penalty = false
+combat_overrun = false
+badboy_penalty = true
+hre_election = false
+
+modifiers.vp_colonization = 5
+modifiers.population_growth_island = -2
+modifiers.population_growth_inland = -9
+modifiers.population_growth_coastal = -3
+modifiers.army_mercenary = 0
+modifiers.culture_convert = 1.25
+modifiers.isolation_penalty = 0.75
+
+[america]
+label = "America"
+color = "blue"
+cot_assign_penalty = false
+combat_overrun = false
+badboy_penalty = true
+hre_election = false
+
+modifiers.vp_discovery = 50
+modifiers.vp_colonization = 10
+modifiers.population_growth_island = 0
+modifiers.population_growth_inland = 0
+modifiers.population_growth_coastal = 0
+modifiers.culture_convert = 1.0
+modifiers.army_mercenary = 0
+modifiers.isolation_penalty = 1.0
+
+[asia]
+label = "Asia"
+color = "yellow"
+cot_assign_penalty = false
+combat_overrun = false
+badboy_penalty = true
+hre_election = false
+
+modifiers.vp_discovery = 25
+modifiers.population_growth_island = -1
+modifiers.population_growth_inland = -4
+modifiers.population_growth_coastal = -2
+modifiers.culture_convert = 1.5
+modifiers.army_mercenary = 2.5
+modifiers.isolation_penalty = 0.25
+
+[europe]
+label = "Europe"
+color = "red"
+cot_assign_penalty = true
+combat_overrun = true
+badboy_penalty = false
+hre_election = true
+
+modifiers.population_growth_island = 0
+modifiers.population_growth_inland = 0
+modifiers.population_growth_coastal = 0
+modifiers.culture_convert = 0
+modifiers.army_mercenary = 1.0
+modifiers.isolation_penalty = 0.0
+
+[oceania]
+label = "Oceania"
+color = "green"
+cot_assign_penalty = false
+combat_overrun = false
+badboy_penalty = true
+hre_election = false
+
+modifiers.vp_colonization = 5
+modifiers.population_growth_island = 0
+modifiers.population_growth_inland = 0
+modifiers.population_growth_coastal = 0
+modifiers.culture_convert = 0.75
+modifiers.isolation_penalty = 1.0
+modifiers.army_mercenary = 0

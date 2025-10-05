@@ -1,0 +1,136 @@
+#
+# TECHNOLOGY
+#
+
+---
+
+technology:
+  land:
+    name: Land military
+    desc: Land military ...
+    image: "land.png"
+
+    levels:
+      0:
+        name: "Early medieval"
+        cost: 4
+        year: 1250
+        modifiers:
+          mod_army_morale_max: 1.5
+          mod_armies_max: 1.0
+          mod_army_movement: -2
+          mod_army_offense: 1.0
+          mod_army_defense: 1.0
+          mod_army_siege: 1.0
+      1:
+        name: "Early medieval 2"
+        cost: 5
+        year: 1350
+        modifiers:
+          mod_army_morale_max: 1.75
+          mod_armies_max: 1.1
+          mod_army_movement: -1
+          mod_army_offense: 1.25
+          mod_army_defense: 1.25
+          mod_army_siege: 1.25
+      2:
+        name: "Early medieval 2"
+        cost: 6
+        year: 1440
+        modifiers:
+          mod_army_morale_max: 2.0
+          mod_armies_max: 1.2
+          mod_army_movement: 0
+          mod_army_offense: 1.5
+          mod_army_defense: 1.5
+          mod_army_siege: 1.5
+      3:
+        name: "Early medieval 2"
+        cost: 7
+        year: 1510
+        modifiers:
+          mod_army_morale_max: 2.25
+          mod_armies_max: 1.3
+          mod_army_movement: 1
+          mod_army_offense: 1.75
+          mod_army_defense: 1.75
+          mod_army_siege: 1.75
+      4:
+        name: "Early medieval 2"
+        cost: 8
+        year: 1570
+        modifiers:
+          mod_army_morale_max: 2.50
+          mod_armies_max: 1.4
+          mod_army_movement: 2
+          mod_army_offense: 2.0
+          mod_army_defense: 2.0
+          mod_army_siege: 2.0
+      5:
+        name: "Early medieval 2"
+        cost: 9
+        year: 1620
+        modifiers:
+          mod_army_morale_max: 2.75
+          mod_armies_max: 1.5
+          mod_army_movement: 3
+          mod_army_offense: 2.25
+          mod_army_defense: 2.25
+          mod_army_siege: 2.25
+      6:
+        name: "Early medieval 2"
+        cost: 10
+        year: 1660
+        modifiers:
+          mod_army_morale_max: 3.0
+          mod_armies_max: 1.6
+          mod_army_movement: 4
+          mod_army_offense: 2.5
+          mod_army_defense: 2.5
+          mod_army_siege: 2.5
+
+  naval: {}
+
+  trade:
+    name: Trade & Finance
+    desc: Trade & Finance ....
+    levels:
+      0:
+        name: "Early medieval 1"
+        cost: 4
+        year: 1250
+        modifiers:
+          mod_trade_income: 0.3
+          mod_trade_cot_max_usage: 1.0
+          mod_merchants_max: 0.5
+          mod_merchant: 0.1
+          # add explored / colonits here ?
+
+  infra:
+    name: Infrastructure
+    desc: Infrastructure....
+    levels:
+      0:
+        name: "Early medieval 1"
+        cost: 4
+        year: 1250
+        modifiers:
+          mod_production_income: 0.3
+          mod_land_movement_cost: 0.9
+          mod_engineers_max: 1
+          mod_engineer: 0.5
+  admin: {}
+
+#    Level 0 (1250-1350): This period saw significant technological advancements such as the introduction of the mechanical clock, which revolutionized timekeeping. Other notable inventions include the vertical windmill, spectacles, and improved water mills1.
+#    Level 1 (1350-1440): The invention of the printing press by Johannes Gutenberg around 1455 marked a major technological leap, enabling the mass production of books and the spread of knowledge2.
+#    Level 2 (1440-1510): This period witnessed the development of gunpowder weapons and advancements in navigation, such as the caravel, which facilitated exploration and military technology3.
+#    Level 3 (1510-1570): The Scientific Revolution began, with figures like Copernicus publishing his heliocentric theory in 1543, which forever changed astronomy. This period also saw the invention of the pocket watch by Peter Henlein in 151034.
+#    Level 4 (1570-1620): The invention of the telescope by Galileo Galilei in 1609 and the microscope by Zacharias Janssen around 1590 opened new frontiers in science, allowing for detailed observations of the cosmos and microscopic life3.
+#    Level 5 (1620-1660): The development of the steam engine by Thomas Newcomen in 1712 laid the groundwork for the Industrial Revolution. This period also saw the invention of the barometer by Evangelista Torricelli in 164356.
+#    Level 6 (1660-1690): The spread of the Scientific Revolution continued, with Isaac Newton's work on gravity and motion transforming our understanding of the natural world. Newton also invented the reflecting telescope in 16686.
+#    Level 7 (1690-1720): The early stages of the Industrial Revolution saw the rise of mechanized textile production and improvements in iron smelting. This period also saw the invention of the first practical steam engine by Thomas Savery in 16983.
+#    Level 8 (1720-1750): The invention of the spinning jenny by James Hargreaves in 1764 revolutionized the textile industry, leading to increased production and efficiency3.
+#    Level 9 (1750-1780): The development of the steam locomotive by George Stephenson in 1814 revolutionized transportation and trade3.
+#    Level 10 (1780-1810): The invention of the electric telegraph by Samuel Morse in the 1830s transformed communication, allowing for rapid transmission of information over long distances3.
+#    Level 11 (1810-1830): The culmination of the Industrial Revolution saw significant advancements in manufacturing, transportation, and communication, setting the stage for the modern era3.
+#    Level 12 (1830-1850): This period continued to build on the advancements of the Industrial Revolution, with further innovations in various fields3.

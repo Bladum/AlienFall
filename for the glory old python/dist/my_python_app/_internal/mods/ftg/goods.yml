@@ -1,0 +1,308 @@
+#
+# GOODS
+#
+
+---
+
+goods:
+  nothing:
+    color: black
+
+  cloth:
+    base_price: 15
+    color: light_brown
+    min_demand: 0.50
+    max_demand: 1.50
+    barrack: 0.01
+    luxury: 0.01
+    goods: 0.02
+    demand:
+      cotton: 0.01
+    manufactory:
+      type: goods
+      income: yes
+
+  fish:
+    base_price: 10
+    color: light_teal
+    min_demand: 0.25
+    max_demand: 1.25
+    barrack: 0.01
+    shipyard: 0.01
+    luxury: 0.01
+    weapons: 0.01
+    navalequipment: 0.01
+    goods: 0.01
+    manufactory:
+      type: navalequipment
+      income: yes
+
+  fur:
+    base_price: 10
+    color: brown
+    min_demand: 0.75
+    max_demand: 2.00
+    barrack: 0.01
+    cityrights: 0.01
+    courthouse: 0.01
+    shipyard: 0.01
+    luxury: 0.01
+    weapons: 0.01
+    navalequipment: 0.01
+    refinery: 0.01
+    goods: 0.01
+    manufactory:
+      type: weapons
+      income: no
+
+  grain:
+    base_price: 5
+    color: light_yellow
+    land_support: yes
+    min_demand: 0.25
+    max_demand: 1.00
+    barrack: 0.01
+    shipyard: 0.01
+    luxury: 0.01
+    weapons: 0.01
+    navalequipment: 0.01
+    refinery: 0.01
+    goods: 0.01
+    manufactory:
+      type: weapons
+      income: no
+
+  naval_supplies:
+    base_price: 5
+    color: dark_green
+    naval_support: yes
+    min_demand: 0.50
+    max_demand: 1.50
+    shipyard: 0.02
+    navalequipment: 0.02
+    manufactory:
+      type: navalequipment
+      income: yes
+
+  salt:
+    base_price: 15
+    color: white
+    min_demand: 0.25
+    max_demand: 1.25
+    barrack: 0.01
+    shipyard: 0.01
+    luxury: 0.01
+    weapons: 0.01
+    navalequipment: 0.01
+    refinery: 0.01
+    goods: 0.01
+    manufactory:
+      type: weapons
+      income: no
+
+  wine:
+    base_price: 15
+    min_demand: 0.25
+    color: purple
+    max_demand: 1.25
+    barrack: 0.01
+    shipyard: 0.01
+    luxury: 0.01
+    weapons: 0.01
+    navalequipment: 0.01
+    refinery: 0.01
+    goods: 0.01
+    manufactory:
+      type: refinery
+      income: yes
+
+  wool:
+    base_price: 5
+    min_demand: 0.25
+    color: gray
+    max_demand: 1.00
+    barrack: 0.01
+    shipyard: 0.01
+    luxury: 0.01
+    weapons: 0.01
+    navalequipment: 0.01
+    refinery: 0.01
+    goods: 0.01
+    manufactory:
+      type: goods
+      income: no
+
+  copper:
+    base_price: 15
+    color: orange
+    min_demand: 0.50
+    max_demand: 1.50
+    barrack: 0.01
+    shipyard: 0.02
+    weapons: 0.01
+    manufactory:
+      type: weapons
+      income: yes
+
+  gold:
+    base_price: 0
+    color: dark_yellow
+    inflation: yes
+    min_demand: 1.00
+    max_demand: 1.00
+    manufactory:
+      type: luxury
+      income: no
+
+  iron:
+    base_price: 15
+    color: blue
+    min_demand: 0.50
+    max_demand: 1.50
+    barrack: 0.02
+    weapons: 0.01
+    manufactory:
+      type: weapons
+      income: yes
+
+  coffee:
+    base_price: 10
+    color: basic_land
+    slaves_demand: 2
+    min_demand: 0.75
+    max_demand: 2.00
+    barrack: 0.01
+    cityrights: 0.01
+    courthouse: 0.01
+    shipyard: 0.01
+    luxury: 0.01
+    weapons: 0.01
+    navalequipment: 0.01
+    refinery: 0.01
+    goods: 0.01
+    manufactory:
+      type: goods
+      income: no
+
+  cotton:
+    base_price: 10
+    color: light_cyan
+    slaves_demand: 2
+    min_demand: 0.50
+    max_demand: 1.50
+    goods: 0.02
+    manufactory:
+      type: goods
+      income: yes
+
+  sugar:
+    base_price: 15
+    color: light_olive
+    slaves_demand: 3
+    min_demand: 0.75
+    max_demand: 1.50
+    refinery: 0.01
+    manufactory:
+      type: refinery
+      income: yes
+
+  tobacco:
+    base_price: 10
+    color: dark_teal
+    slaves_demand: 2
+    min_demand: 0.75
+    max_demand: 2.00
+    barrack: 0.01
+    cityrights: 0.01
+    courthouse: 0.01
+    shipyard: 0.01
+    luxury: 0.01
+    weapons: 0.01
+    navalequipment: 0.01
+    refinery: 0.01
+    goods: 0.01
+    manufactory:
+      type: goods
+      income: yes
+
+  slaves:
+    base_price: 5
+    color: dark_gray
+    slaves: 0.01
+    min_demand: 0.00
+    max_demand: 3.00
+    manufactory:
+      type: weapons
+      income: no
+
+  ivory:
+    base_price: 10
+    color: light_blue
+    min_demand: 0.75
+    max_demand: 2.00
+    barrack: 0.01
+    cityrights: 0.01
+    courthouse: 0.01
+    shipyard: 0.01
+    luxury: 0.01
+    weapons: 0.01
+    navalequipment: 0.01
+    refinery: 0.01
+    goods: 0.01
+    manufactory:
+      type: weapons
+      income: no
+
+  tea:
+    base_price: 10
+    color: teal
+    min_demand: 0.75
+    max_demand: 2.00
+    barrack: 0.01
+    cityrights: 0.01
+    courthouse: 0.01
+    shipyard: 0.01
+    luxury: 0.01
+    weapons: 0.01
+    navalequipment: 0.01
+    refinery: 0.01
+    goods: 0.01
+    manufactory:
+      type: weapons
+      income: no
+
+  chinaware:
+    base_price: 15
+    color: light_red
+    min_demand: 0.75
+    max_demand: 2.00
+    barrack: 0.01
+    cityrights: 0.01
+    courthouse: 0.01
+    shipyard: 0.01
+    luxury: 0.01
+    weapons: 0.01
+    navalequipment: 0.01
+    refinery: 0.01
+    goods: 0.01
+    manufactory:
+      type: weapons
+      income: no
+
+  spices:
+    base_price: 15
+    color: dark_orange
+    min_demand: 0.75
+    max_demand: 2.00
+    barrack: 0.01
+    cityrights: 0.01
+    courthouse: 0.01
+    shipyard: 0.01
+    luxury: 0.01
+    weapons: 0.01
+    navalequipment: 0.01
+    refinery: 0.01
+    goods: 0.01
+    manufactory:
+      type: weapons
+      income: no

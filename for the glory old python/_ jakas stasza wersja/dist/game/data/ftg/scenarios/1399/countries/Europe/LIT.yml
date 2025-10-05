@@ -1,0 +1,155 @@
+
+countries:
+  LIT:
+    name: Lithuania
+    ai: "POL_1419"
+
+    treasury: 500
+    inflation: 0
+    stability: 2
+
+    religion: catholic
+    cultures:
+      - baltic
+      - ruthenian
+
+    agents:
+        colonists: 0
+        merchants: 1.083333
+
+    diplomacy:
+      relations:
+        POL: 150
+        MAS: 150
+        STE: -200
+        LAT: -100
+
+    knownregions:
+      - Europe
+    
+    knownprovinces:
+      - 732 # Tangiers
+      - 477
+      - 478 # Bosphorus strait
+    
+    ownedprovinces:
+      - 280
+      - 281
+      - 284
+      - 285
+      - 286
+      - 287
+      - 288
+      - 293
+      - 294
+      - 295
+      - 297
+      - 450
+      - 461
+
+    controlledprovinces:
+      - 280
+      - 281
+      - 284
+      - 285
+      - 286
+      - 287
+      - 288
+      - 293
+      - 294
+      - 295
+      - 297
+      - 450
+      - 461
+  
+    nationalprovinces:
+      - 280
+      - 281
+      - 284
+      - 285
+      - 286
+      - 287
+      - 288
+      - 293
+      - 294
+      - 295
+      - 296
+      - 297
+      - 450
+      - 460
+      - 461
+      - 462
+  
+    cities:
+      280:
+        buildings:
+          fortress: 1
+        population: 7
+      281:
+        buildings:
+          fortress: 1
+        population: 7
+      284:
+        buildings:
+          fortress: 1
+        population: 13
+      285:
+        buildings:
+          fortress: 1
+        population: 9
+      286:
+        buildings:
+          fortress: 1
+        population: 7
+      287:
+        buildings:
+          fortress: 1
+        population: 4
+      288:
+        buildings:
+          fortress: 1
+        population: 20
+        capital: yes
+      293:
+        buildings:
+          fortress: 1
+        population: 14
+      294:
+        buildings:
+          fortress: 1
+        population: 6
+      295:
+        buildings:
+          fortress: 1
+        population: 10
+      297:
+        buildings:
+          fortress: 1
+        population: 12
+      450:
+        buildings:
+          fortress: 1
+        population: 2
+      461:
+        buildings:
+          fortress: 1
+        population: 3
+  
+    landunits:
+      - name: "Army of Lithuania"
+        location: 288
+        infantry: 13
+        cavalry: 10
+        artillery: 0
+      - name: "Army of Podolia"
+        location: 450
+        infantry: 10
+        cavalry: 10
+        artillery: 0
+  
+    technology:
+       admin: 0
+       infra: 0
+       trade: 1
+       land: 0
+       naval: 0

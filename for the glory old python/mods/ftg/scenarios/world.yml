@@ -1,0 +1,212 @@
+
+
+scenarios:
+  1399:
+    name: The of Timur
+    start_date: 1399-01
+    end_date: 1850-12
+
+    countries:
+      - POL
+      - BOH
+      - LIT
+      - LAT
+      - HUN
+      - DAN
+      - SWE
+
+    discoveries: {}   # which global discoveries were done, first country to discover will get points
+
+    wars:
+      - start_date: 1399-01
+        end_date: 1401-01
+        attackers:
+          - USA
+        defenders:
+          - ENG
+          - SHA
+        reasons: {}
+        score: 10     # for attacker
+
+    alliances:
+      - type: union
+        end_date: 1700-10
+        countries:
+          - ENG
+          - HAN
+          -
+      - type: vassalization
+        end_date: 1700-10
+        countries:
+          - ENG
+          - HAN
+      - type: militaryalliance
+        end_date: 1700-10
+        countries:
+          - ENG
+          - HAN
+
+    cots:
+      Tago:
+        location: 441
+        name: Lisbon
+        color: green
+        merchants: { POR: 4, GEN: 1, VEN: 1, TOS: 1, ARG: 1, NAV: 1, CAS: 1, GRA: 1 }
+    
+      Mecklemburg:
+        location: 305
+        name: Lübeck
+        color: red
+        merchants: { MEC: 3, SHL: 2, POM: 2, HAN: 1, BAY: 1, HAU: 1, BUR: 1, OLD: 1, BRE: 1, HES: 1, LAT: 1, DAN: 1, NOR: 1, SWE: 1, STT: 1, SAC: 1 }
+    
+      Flandern:
+        location: 380
+        name: Bruges
+        color: light_blue
+        merchants: { BUR: 3, MLO: 2, TOS: 2, MEC: 2, HAU: 1, ENG: 1, FRA: 1, GEN: 1, VEN: 1, KOL: 1, LUX: 1, PFA: 1 }
+    
+      Veneto:
+        location: 370
+        name: Venice
+        color: light_gray
+        merchants: { VEN: 5, MLO: 2, NAP: 2, BAY: 2, PFA: 1, PAP: 1, MOD: 1, BOH: 1, LUX: 1, HUN: 1, SIE: 1, TOS: 1 }
+    
+      Liguria:
+        location: 403
+        name: Genoa
+        color: light_brown
+        merchants: { GEN: 5, MLO: 2, TOS: 2, ARG: 2, SAV: 1, HEL: 1, SIE: 1, MOD: 1 }
+    
+      Lyonnais:
+        location: 408
+        name: Lyons
+        color: dark_yellow
+        merchants: { GEN: 2, VEN: 2, TOS: 2, MLO: 2, BUR: 3, FRA: 3, SAV: 1, ENG: 1, FOI: 1, NAV: 1, ARG: 1 }
+    
+      Livland:
+        location: 282
+        name: Riga
+        color: yellow
+        merchants: { MEC: 3, LIV: 2, LAT: 2, SHL: 2, POM: 1, KOL: 1, HAN: 1, BAY: 1, SWE: 1, DAN: 1 }
+    
+      Kerch:
+        location: 465
+        name: Kerch
+        color: dark_gray
+        merchants: { GEN: 4, VEN: 3, BYZ: 2, MOL: 1 }
+    
+      Novgorod:
+        location: 274
+        name: Novgorod
+        color: light_yellow
+        merchants: { MEC: 3, SHL: 2, POM: 2, NVG: 3, NOR: 1, SWE: 1, MOS: 1, PSK: 1, LIT: 1 }
+    
+      Alexandria:
+        location: 744
+        name: Alexandria
+        color: gray
+        merchants: { VEN: 4, GEN: 3, TOS: 2, NUB: 1, TUN: 1, ATH: 1, MRE: 1, BYZ: 1, CYP: 1 }
+    
+      Aden:
+        location: 500
+        name: Aden
+        color: dark_green
+        merchants: { ADE: 3, ADA: 3, AJU: 2, MRA: 2, HAD: 2, SOC: 1, YEM: 1 }
+    
+      Al Kharam:
+        location: 505
+        name: Al Kharam
+        color: blue
+        merchants: { ADE: 4, GUJ: 4, ORM: 3, HAA: 2, BAS: 2, GHR: 2 }
+    
+      Kerala:
+        location: 569
+        name: Calicut
+        color: light_red
+        merchants: { GUJ: 2, VIJ: 1, CLC: 1 }
+    
+      Kyushu:
+        location: 688
+        name: Fukuoka
+        color: white
+        merchants: { NIP: 4, KOR: 1 }
+    
+      Malacca:
+        location: 677
+        name: Malacca
+        color: dark_brown
+        merchants: { BGL: 4, MLC: 4, ATJ: 2 }
+    
+      Santal:
+        location: 556
+        name: Santal
+        color: red
+        merchants: { BGL: 4, ORI: 2, DLH: 2, BMD: 2, VIJ: 1, MUB: 1 }
+    
+      Gujarat:
+        location: 547
+        name: Gujarat
+        color: light_green
+        merchants: { GUJ: 4, RAJ: 2, BMD: 2, DLH: 2, TIM: 1, SIN: 1, VIJ: 1 }
+    
+      Zacatecas:
+        location: 27
+        name: Zacatecas
+        color: light_orange
+        merchants: { AZT: 4, ZAP: 3 }
+    
+      Cuzco:
+        location: 169
+        name: Cuzco
+        color: brown
+        merchants: { INC: 4, CHM: 3 }
+    
+      Timbuktu:
+        location: 1495
+        name: Timbuktu
+        color: dark_blue
+        merchants: { MAL: 4 }
+    
+      Shanghai:
+        location: 653
+        name: Shanghai
+        color: dark_red
+        merchants: { CHI: 5, NIP: 3, KOR: 2 }
+    
+      Guangdong:
+        location: 659
+        name: Guangdong
+        color: dark_orange
+        merchants: { CHI: 5, NIP: 2, KOR: 1 }
+    
+      Azerbaijan:
+        location: 487
+        name: Azerbaijan
+        color: green
+        merchants: { VEN: 3, GEN: 2, TIM: 1, BYZ: 1, CYP: 1 }
+    
+      Samarkand:
+        location: 1592
+        name: Samarkand
+        color: red
+        merchants: { TIM: 4 }
+    
+      Rufiji:
+        location: 766
+        name: Rufiji
+        color: green
+        merchants: { KIL: 4 }
+
+    events:
+      history: { } # list of events that were already triggered and will be not done
+
+    provinces:
+      415:
+        income: 4
+        religion: catholic
+        culture: iberian
+        looted: yes
+        building:
+          shipyard: yes
+
+

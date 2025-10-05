@@ -1,0 +1,170 @@
+#-----------------------------------------------------------
+#
+#  GAME PERIODS, SAME LIKE TECHNOLOGY LEVELS
+#
+#-----------------------------------------------------------
+
+#
+#   Pre-FTG Medieval periods
+#
+
+[0]
+start = 1200-01-01
+end = 1279-12-01
+years = 80
+remark = "Pre FTG"
+label = "High Medieval Era"
+description = "Age of crusades, feudalism, and the rise of universities. The Mongol Empire expands across Asia."
+modifiers = {}
+
+[1]
+start = 1280-01-01
+end = 1359-12-01
+years = 80
+remark = "Pre FTG"
+label = "Late Medieval Crisis"
+description = "Period of the Great Famine, Black Death pandemic, and the beginning of the Hundred Years' War."
+modifiers = {}
+
+[2]
+start = 1360-01-01
+end = 1419-12-01
+years = 60
+remark = "Pre FTG"
+label = "Medieval Transition"
+description = "The end of medieval period with the rise of early Renaissance in Italy and ongoing Hundred Years' War."
+modifiers = {}
+
+#
+#   FTG periods
+#
+
+[3]
+start = 1420-01-01
+end = 1479-12-01
+years = 60
+remark = "FTG"
+label = "Early Renaissance"
+description = "Fall of Constantinople, Gutenberg's printing press, and the early European exploration age."
+modifiers = {}
+
+[4]
+start = 1480-01-01
+end = 1529-12-01
+years = 50
+remark = "FTG"
+label = "Age of Discovery"
+description = "Columbus reaches Americas, Magellan circumnavigates the globe, and the beginning of Protestant Reformation."
+modifiers = {}
+
+[5]
+start = 1530-01-01
+end = 1579-12-01
+years = 50
+remark = "FTG"
+label = "Reformation Era"
+description = "Religious wars in Europe, Spanish conquests in the Americas, and the rise of the Ottoman Empire."
+modifiers = {}
+
+[6]
+start = 1580-01-01
+end = 1619-12-01
+years = 40
+remark = "FTG"
+label = "Late Renaissance"
+description = "Shakespeare's plays, Galileo's discoveries, and the founding of early American colonies."
+modifiers = {}
+
+[7]
+start = 1620-01-01
+end = 1659-12-01
+years = 40
+remark = "FTG"
+label = "Early Baroque Age"
+description = "Thirty Years' War, Scientific Revolution begins, and colonization accelerates in the Americas."
+modifiers = {}
+
+[8]
+start = 1660-01-01
+end = 1699-12-01
+years = 40
+remark = "FTG"
+label = "High Baroque Period"
+description = "Age of absolutism with Louis XIV, Newton's scientific achievements, and Ottoman Empire's peak."
+modifiers = {}
+
+[9]
+start = 1700-01-01
+end = 1729-12-01
+years = 30
+remark = "FTG"
+label = "Early Enlightenment"
+description = "War of Spanish Succession, Peter the Great modernizes Russia, and early scientific academies flourish."
+modifiers = {}
+
+[10]
+start = 1730-01-01
+end = 1759-12-01
+years = 30
+remark = "FTG"
+label = "Enlightenment Era"
+description = "War of Austrian Succession, Seven Years' War begins, and Enlightenment philosophy spreads across Europe."
+modifiers = {}
+
+[11]
+start = 1760-01-01
+end = 1789-12-01
+years = 30
+remark = "FTG"
+label = "Age of Revolution"
+description = "American Revolution, early Industrial Revolution in Britain, and the eve of the French Revolution."
+modifiers = {}
+
+[12]
+start = 1790-01-01
+end = 1819-12-01
+years = 30
+remark = "FTG"
+label = "Napoleonic Era"
+description = "French Revolution aftermath, Napoleonic Wars, and the Congress of Vienna reshaping Europe."
+modifiers = {}
+
+#
+#   Post FTG periods
+#
+
+[13]
+start = 1820-01-01
+end = 1849-12-01
+years = 30
+remark = "Post FTG"
+label = "Industrial Revolution"
+description = "Steam power transforms transportation, Latin American independence movements, and Romanticism in arts."
+modifiers = {}
+
+[14]
+start = 1850-01-01
+end = 1874-12-01
+years = 25
+remark = "Post FTG"
+label = "Age of Nationalism"
+description = "American Civil War, German and Italian unifications, and rapid industrialization spreads beyond Britain."
+modifiers = {}
+
+[15]
+start = 1875-01-01
+end = 1899-12-01
+years = 25
+remark = "Post FTG"
+label = "Late Imperial Era"
+description = "Scramble for Africa, rapid technological innovation, and the rise of global colonial empires."
+modifiers = {}
+
+[16]
+start = 1900-01-01
+end = 1920-12-01
+years = 20
+remark = "Post FTG"
+label = "Early Modern Age"
+description = "World War I, Russian Revolution, automobiles and aircraft transform transportation, and the dawn of radio communication."
+modifiers = {}

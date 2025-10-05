@@ -1,0 +1,240 @@
+"""
+TWorld: Represents the world map as a 2D array of WorldTiles. Supports multiple worlds in the game.
+
+Classes:
+    TWorld: Main class for world map management.
+
+Last standardized: 2025-06-30
+"""
+
+from typing import TYPE_CHECKING, List, Dict, Optional, Any
+from pathlib import Path
+if TYPE_CHECKING:
+    from globe.world_tile import TWorldTile
+    from economy.ttransfer import TTransfer
+    from location.city import TCity
+    from lore.faction import TFaction
+    from pytmx import TiledTileLayer
+
+class TWorld:
+    """
+    Represents a map of the world as a 2D array of WorldTiles.
+    Supports multiple worlds in the game.
+
+    Attributes:
+        pid (str): World identifier.
+        name (str): Name of the world.
+        description (str): Description of the world.
+        size (List[int]): [width, height] of the world.
+        map_file (Optional[str]): Path to the map file.
+        countries (bool): Whether countries are present.
+        bases (bool): Whether bases are present.
+        factions (bool): Whether factions are present.
+        regions (bool): Whether regions are present.
+        tech_start (List[str]): Starting technologies.
+        transfer_list (List[TTransfer]): Global transfer list.
+        tiles (List[List[TWorldTile]]): 2D array of world tiles.
+        cities (List[TCity]): List of city objects.
+        factions_list (List[TFaction]): List of factions.
+        diplomacy (Dict[str, int]): Diplomacy/relations mapping.
+    """
+    def __init__(self, pid: str, data: Dict[str, Any]) -> None:
+        self.pid: str = pid
+        self.name: str = data.get('name', pid)
+        self.description: str = data.get('description', '')
+        self.size: List[int] = data.get('size', [0, 0])
+        self.map_file: Optional[str] = data.get('map_file', None)
+        self.countries: bool = data.get('countries', False)
+        self.bases: bool = data.get('bases', False)
+        self.factions: bool = data.get('factions', False)
+        self.regions: bool = data.get('regions', False)
+        self.tech_start: List[str] = data.get('tech_start', [])
+        self.transfer_list: List['TTransfer'] = []
+        self.tiles: List[List['TWorldTile']] = []
+        self.cities: List['TCity'] = []
+        self.factions_list: List['TFaction'] = []
+        self.diplomacy: Dict[str, int] = {}
+
+    def get_day_night_map(self, day_of_month: int) -> List[List[bool]]:
+        """
+        Returns a 2D array (size: [height][width]) with True for day, False for night for each tile.
+        The day/night band moves westward, completing a full cycle in 30 days.
+        """
+        width = self.size[0] if self.size and self.size[0] else 240
+        height = self.size[1] if self.size and self.size[1] else 120
+        day_night_map: List[List[bool]] = [[False for _ in range(width)] for _ in range(height)]
+        sun_center = (3 * (day_of_month - 1)) % width
+        for y in range(height):
+            for x in range(width):
+                dist = (x - sun_center) % width
+                if dist > width // 2:
+                    dist = width - dist
+                day_night_map[y][x] = dist <= 22
+        return day_night_map
+
+    def render_tile_map_to_text(self, out_path: str) -> None:
+        """
+        Render the entire world tile map to a text file, with IDs for each layer: biomes, then countries, then regions.
+        Each layer is output as a grid of IDs, one layer after another, separated by headers.
+        Adds a city map layer: 'X' for city, '_' for no city.
+        """
+        with open(out_path, 'w', encoding='utf-8') as f:
+            width = self.size[0]
+            height = self.size[1]
+            # Biomes
+            f.write('BIOMES\n')
+            for y in range(height):
+                row = [f"{self.tiles[y][x].biome.biome_id:3d}" if self.tiles[y][x].biome else '  0' for x in range(width)]
+                f.write(' '.join(row) + '\n')
+            f.write('\n')
+            # Countries
+            f.write('COUNTRIES\n')
+            for y in range(height):
+                row = [f"{self.tiles[y][x].country.pid:3d}" if self.tiles[y][x].country else '  0' for x in range(width)]
+                f.write(' '.join(row) + '\n')
+            f.write('\n')
+            # Regions
+            f.write('REGIONS\n')
+            for y in range(height):
+                row = [f"{self.tiles[y][x].region.pid:3d}" if self.tiles[y][x].region else '  0' for x in range(width)]
+                f.write(' '.join(row) + '\n')
+            f.write('\n')
+            # Cities
+            f.write('CITIES\n')
+            city_positions = set((city.position.x, city.position.y) for city in self.cities)
+            for y in range(height):
+                row = [('X' if (x, y) in city_positions else '_') for x in range(width)]
+                f.write(' '.join(row) + '\n')
+
+    def render_world_layers_to_png(self, output_path: str) -> None:
+        """
+        Renders all world layers (biome, region, country, city) to a PNG file in the correct stacking order.
+        Uses the tileset from game.mod.tileset_manager.
+        """
+        from engine.game import TGame
+        game = TGame()
+        from PIL import Image
+        width, height = self.size
+        tile_size = 16
+        img = Image.new('RGBA', (width * tile_size, height * tile_size))
+        tileset_manager = game.mod.tileset_manager
+        for y in range(height):
+            for x in range(width):
+                tile = self.tiles[y][x]
+                # Biome layer
+                if tile.biome:
+                    gid = tile.biome.biome_id
+                    tile_img, mask = tileset_manager.all_tiles.get(f'biomes_{gid:03d}', (None, None))
+                    if tile_img is not None:
+                        img.paste(tile_img, (x * tile_size, y * tile_size), mask)
+                # Region layer
+                if tile.region:
+                    gid = tile.region.pid
+                    tile_img, mask = tileset_manager.all_tiles.get(f'regions_{gid:03d}', (None, None))
+                    if tile_img is not None:
+                        img.paste(tile_img, (x * tile_size, y * tile_size), mask)
+                # Country layer
+                if tile.country:
+                    gid = tile.country.pid
+                    tile_img, mask = tileset_manager.all_tiles.get(f'countries_{gid:03d}', (None, None))
+                    if tile_img is not None:
+                        img.paste(tile_img, (x * tile_size, y * tile_size), mask)
+        for city in self.cities:
+            x, y = city.position.x, city.position.y
+            gid = 9
+            tile_img, mask = tileset_manager.all_tiles.get(f'locations_{gid:03d}', (None, None))
+            if tile_img is not None:
+                img.paste(tile_img, (x * tile_size, y * tile_size), mask)
+        img.save(output_path)
+
+    @classmethod
+    def from_tmx(cls, tmx_path: str) -> 'TWorld':
+        """
+        Load a world TMX file and create a TWorld instance with all tiles, using GID mapping for biomes, countries, and regions.
+        Also loads city objects from a layer named 'city' and assigns them to the world.
+        """
+        import pytmx
+        from globe.world_tile import TWorldTile
+        tmx_path = Path(tmx_path)
+        tmx = pytmx.TiledMap(str(tmx_path))
+        width, height = tmx.width, tmx.height
+        from engine.game import TGame
+        game = TGame()
+        used_tilesets = {
+            (tileset.name,
+             tileset.firstgid,
+             tileset.firstgid + tileset.tilecount - 1,
+             tileset.tilecount)
+            for tileset in tmx.tilesets
+        }
+        def process_layer(layer: Optional['TiledTileLayer']) -> Optional[List[List[int]]]:
+            if layer is None:
+                return None
+            data: List[List[int]] = [[0 for _ in range(width)] for _ in range(height)]
+            div_factor = 1.0 / 18
+            for x, y, image in layer.tiles():
+                ix, iy, _, __ = image[1]
+                dx = (ix - 1) * div_factor
+                dy = (iy - 1) * div_factor
+                dn = dy * 10 + dx + 1
+                data[y][x] = int(dn)
+            return data
+        layers = {l.name: l for l in tmx.visible_layers if l.name in ('biome', 'country', 'region')}
+        biome_layer: Optional['TiledTileLayer'] = layers.get('biome')
+        country_layer: Optional['TiledTileLayer'] = layers.get('country')
+        region_layer: Optional['TiledTileLayer'] = layers.get('region')
+        biome_layer_data = process_layer(biome_layer)
+        country_layer_data = process_layer(country_layer)
+        region_layer_data = process_layer(region_layer)
+        world = cls(pid="Earth", data={"size": [width, height]})
+        world.tiles = [[TWorldTile(x, y) for x in range(width)] for y in range(height)]
+        world.used_tilesets = used_tilesets
+        for y in range(height):
+            for x in range(width):
+                biome_gid = biome_layer_data[y][x] if biome_layer_data else 0
+                country_gid = country_layer_data[y][x] if country_layer_data else 0
+                region_gid = region_layer_data[y][x] if region_layer_data else 0
+                tile = TWorldTile(x, y, None, None, None, None)
+                tile.biome = biome_gid
+                tile.country = country_gid
+                tile.region = region_gid
+                world.tiles[y][x] = tile
+        countries_dict = game.mod.countries
+        regions_dict = game.mod.regions
+        biomes_dict = game.mod.biomes
+        for country in countries_dict.values():
+            country.calculate_owned_tiles(world.tiles)
+        for y in range(height):
+            for x in range(width):
+                tile = world.tiles[y][x]
+                if tile.region and tile.region.pid in regions_dict.keys():
+                    regions_dict[tile.region.pid].tiles.append(tile)
+        region_neighbors = {region.pid: set() for region in regions_dict.values()}
+        region_ids = list(regions_dict.keys())
+        for i, id1 in enumerate(region_ids):
+            for id2 in region_ids[i+1:]:
+                common = set(regions_dict[id1].tiles).intersection(regions_dict[id2].tiles)
+                if len(common) >= 2:
+                    region_neighbors[id1].add(id2)
+                    region_neighbors[id2].add(id1)
+        for region in regions_dict.values():
+            region.calculate_region_tiles(world.tiles, width, height, region_neighbors)
+        world.cities.clear()
+        city_layer = None
+        for layer in tmx.layers:
+            if layer.name == 'city' :
+                city_layer = layer
+                break
+        if city_layer:
+            for obj in city_layer:
+                city_id = obj.name
+                if not city_id:
+                    continue
+                city_obj = game.mod.cities.get(city_id)
+                if not city_obj:
+                    continue
+                tile_x = int(obj.x // 16)
+                tile_y = int(obj.y // 16)
+                city_obj.position = TWorldTile(tile_x, tile_y)
+                world.cities.append(city_obj)
+        return world

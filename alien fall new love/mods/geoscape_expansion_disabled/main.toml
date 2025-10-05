@@ -1,0 +1,36 @@
+# Geoscape Expansion Mod
+# Adds new worlds, missions, and enhanced geoscape content
+
+[mod]
+id = "geoscape_expansion"
+name = "Geoscape Expansion"
+version = "1.0.0"
+author = "Alien Fall Team"
+description = "Expands the geoscape with new worlds, advanced missions, and enhanced strategic gameplay."
+
+[dependencies]
+# No dependencies for this example mod
+
+[content]
+# New worlds to add
+worlds = ["data/geoscape_expansion/worlds.toml"]
+
+# New provinces to add
+provinces = ["data/geoscape_expansion/provinces.toml"]
+
+# New regions to add
+regions = ["data/geoscape_expansion/regions.toml"]
+
+# New missions to add
+missions = ["data/geoscape_expansion/missions.toml"]
+
+# New portals to add
+portals = ["data/geoscape_expansion/portals.toml"]
+
+# New craft operations to add
+craft_operations = ["data/geoscape_expansion/craft_operations.toml"]
+
+[hooks]
+# Mod hooks would be defined here for advanced functionality
+# on_world_load = "geoscape_expansion.hooks.on_world_load"
+# on_mission_spawn = "geoscape_expansion.hooks.on_mission_spawn"

@@ -1,0 +1,231 @@
+#-----------------------------------------------------------
+#
+#  COUNTRY DOMESTIC POLICY
+#
+#-----------------------------------------------------------
+
+# each is in range from -5 to 5 with default of zero
+# each cost advisors to change
+# each take some time to implement, cannot change again
+# each takes a stab hit when changed
+# each cost gold to change
+
+[governance]
+label = "Centralization vs. Decentralization"
+min = -5
+max = 5
+build_time = 60
+advisor_cost = 3
+gold_cost = 100
+stab_hit = 1
+modifiers.-5 = {  }
+modifiers.-4 = {  }
+modifiers.-3 = {  }
+modifiers.-2 = {  }
+modifiers.-1 = {  }
+modifiers.0 =  {  }
+modifiers.1 =  {  }
+modifiers.2 =  {  }
+modifiers.3 =  {  }
+modifiers.4 =  {  }
+modifiers.5 =  {  }
+
+[innovation]
+label = "Innovation vs. Tradition"
+min = -5
+max = 5
+build_time = 60     # months after which slider is blocked
+advisor_cost = 3    # agent type use to manage
+gold_cost = 100     # can be zero
+stab_hit = 1        # drop in stab when use
+modifiers.-5 = { tech_cost = 0.7 }
+modifiers.-4 = { tech_cost = 0.75 }
+modifiers.-3 = { tech_cost = 0.8 }
+modifiers.-2 = { tech_cost = 0.85 }
+modifiers.-1 = { tech_cost = 0.9 }
+modifiers.0 =  { tech_cost = 1.0 }
+modifiers.1 =  { tech_cost = 1.05 }
+modifiers.2 =  { tech_cost = 1.1 }
+modifiers.3 =  { tech_cost = 1.15 }
+modifiers.4 =  { tech_cost = 1.2 }
+modifiers.5 =  { tech_cost = 1.25 }
+
+[nobility]
+label = "Aristocracy vs. Plutocracy"
+min = -5
+max = 5
+build_time = 60
+advisor_cost = 3
+gold_cost = 100
+stab_hit = 1
+modifiers.-5 = {  }
+modifiers.-4 = {  }
+modifiers.-3 = {  }
+modifiers.-2 = {  }
+modifiers.-1 = {  }
+modifiers.0 =  {  }
+modifiers.1 =  {  }
+modifiers.2 =  {  }
+modifiers.3 =  {  }
+modifiers.4 =  {  }
+modifiers.5 =  {  }
+
+[freedom]
+label = "Serfdom vs. Free Subjects"
+min = -5
+max = 5
+build_time = 60
+advisor_cost = 3
+gold_cost = 100
+stab_hit = 1
+modifiers.-5 = {  }
+modifiers.-4 = {  }
+modifiers.-3 = {  }
+modifiers.-2 = {  }
+modifiers.-1 = {  }
+modifiers.0 =  {  }
+modifiers.1 =  {  }
+modifiers.2 =  {  }
+modifiers.3 =  {  }
+modifiers.4 =  {  }
+modifiers.5 =  {  }
+
+[commerce]
+label = " Mercantilism vs. Free Trade"
+min = -5
+max = 5
+build_time = 60
+advisor_cost = 3
+gold_cost = 100
+stab_hit = 1
+modifiers.-5 = {  }
+modifiers.-4 = {  }
+modifiers.-3 = {  }
+modifiers.-2 = {  }
+modifiers.-1 = {  }
+modifiers.0 =  {  }
+modifiers.1 =  {  }
+modifiers.2 =  {  }
+modifiers.3 =  {  }
+modifiers.4 =  {  }
+modifiers.5 =  {  }
+
+[expansion]
+label = "Offensive vs. Defensive"
+min = -5
+max = 5
+build_time = 60
+advisor_cost = 3
+gold_cost = 100
+stab_hit = 1
+modifiers.-5 = {  }
+modifiers.-4 = {  }
+modifiers.-3 = {  }
+modifiers.-2 = {  }
+modifiers.-1 = {  }
+modifiers.0 =  {  }
+modifiers.1 =  {  }
+modifiers.2 =  {  }
+modifiers.3 =  {  }
+modifiers.4 =  {  }
+modifiers.5 =  {  }
+
+[domain]
+label = "Land vs. Naval"
+min = -5
+max = 5
+build_time = 60
+advisor_cost = 3
+gold_cost = 100
+stab_hit = 1
+modifiers.-5 = {  }
+modifiers.-4 = {  }
+modifiers.-3 = {  }
+modifiers.-2 = {  }
+modifiers.-1 = {  }
+modifiers.0 =  {  }
+modifiers.1 =  {  }
+modifiers.2 =  {  }
+modifiers.3 =  {  }
+modifiers.4 =  {  }
+modifiers.5 =  {  }
+
+[conscription]
+label = "Quantity vs. Quality"
+min = -5
+max = 5
+build_time = 60
+advisor_cost = 3
+gold_cost = 100
+stab_hit = 1
+modifiers.-5 = {  }
+modifiers.-4 = {  }
+modifiers.-3 = {  }
+modifiers.-2 = {  }
+modifiers.-1 = {  }
+modifiers.0 =  {  }
+modifiers.1 =  {  }
+modifiers.2 =  {  }
+modifiers.3 =  {  }
+modifiers.4 =  {  }
+modifiers.5 =  {  }
+
+[balance]
+label = "Economy vs. Military"
+min = -5
+max = 5
+build_time = 60
+advisor_cost = 3
+gold_cost = 100
+stab_hit = 1
+modifiers.-5 = {  }
+modifiers.-4 = {  }
+modifiers.-3 = {  }
+modifiers.-2 = {  }
+modifiers.-1 = {  }
+modifiers.0 =  {  }
+modifiers.1 =  {  }
+modifiers.2 =  {  }
+modifiers.3 =  {  }
+modifiers.4 =  {  }
+modifiers.5 =  {  }
+
+[honor]
+label = "Lawful Diplomacy vs. Cunning Espionage"
+min = -5
+max = 5
+build_time = 60
+advisor_cost = 3
+gold_cost = 100
+stab_hit = 1
+modifiers.-5 = {  }
+modifiers.-4 = {  }
+modifiers.-3 = {  }
+modifiers.-2 = {  }
+modifiers.-1 = {  }
+modifiers.0 =  {  }
+modifiers.1 =  {  }
+modifiers.2 =  {  }
+modifiers.3 =  {  }
+modifiers.4 =  {  }
+modifiers.5 =  {  }
+
+[social]
+label = "Social Welfare vs. Production Efficiency"
+min = -5
+max = 5
+build_time = 60
+advisor_cost = 3
+gold_cost = 100
+stab_hit = 1
+modifiers.-5 = {  }
+modifiers.-4 = {  }
+modifiers.-3 = {  }
+modifiers.-2 = {  }
+modifiers.-1 = {  }
+modifiers.0 =  {  }
+modifiers.1 =  {  }
+modifiers.2 =  {  }
+modifiers.3 =  {  }
+modifiers.4 =  {  }
+modifiers.5 =  {  }

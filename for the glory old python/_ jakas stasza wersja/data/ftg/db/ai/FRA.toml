@@ -1,0 +1,40 @@
+#
+#   AGENTS PRIOS
+#
+
+# Country identifier
+country_id = "FRA"
+name = "France"
+
+#
+#   GEOGRAPHY PRIOS
+#
+
+[geography.area]
+Area1 = 1.2
+Area2 = 0.8
+
+[geography.region]
+Region1 = 1.5
+Region2 = 0.9
+
+[geography.continent]
+Continent1 = 2.0
+Continent2 = 1.0
+
+#
+#   AGENT TRAITS
+#
+
+# Agent trait overrides for this AI only
+[agents.agent_diplo_relation]
+priority = 2.0
+traits = { diplomacy_skill = 85, trustworthiness = 70 }
+
+[agents.agent_war]
+priority = 1.5
+trigger = "quarterly"  # Override default trigger timing
+traits = { aggression = 90 } # overdide default
+
+[agents.agent_battle_land]
+intelligence = 100  # Override default intelligence

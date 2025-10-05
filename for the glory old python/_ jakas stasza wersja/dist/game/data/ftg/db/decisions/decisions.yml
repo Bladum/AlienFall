@@ -1,0 +1,15 @@
+#
+# DECISIONS
+#
+
+---
+
+decisions:
+  10000:
+    name: Random decision
+    desc: This is random event description
+    country: POL
+    start: 1440-10-01
+    end: 1480-10-10
+    triggers: []
+    effects: []

@@ -1,0 +1,55 @@
+# English Localization for Example Mod
+# This file contains English translations for mod-specific content
+
+[[languages]]
+code = "en"
+name = "English"
+native_name = "English"
+fallback = ""
+
+[localization]
+default_language = "en"
+text_direction = "ltr"
+font_fallbacks = ["ui_font", "fallback_font"]
+
+# UI Strings - Custom mod UI elements
+[localization.ui_strings]
+example_mod_title = "Example Mod"
+example_mod_description = "Demonstrates modding capabilities"
+custom_button = "Custom Action"
+mod_settings = "Mod Settings"
+
+# Game Terms - Custom content names
+[localization.game_terms]
+example_soldier = "Example Soldier"
+heavy_trooper = "Heavy Trooper"
+rifle = "Assault Rifle"
+heavy_rifle = "Heavy Rifle"
+pistol = "Pistol"
+sniper_rifle = "Sniper Rifle"
+shotgun = "Shotgun"
+basic_armor = "Basic Armor"
+heavy_armor = "Heavy Armor"
+light_armor = "Light Armor"
+power_armor = "Power Armor"
+stealth_armor = "Stealth Armor"
+rifle_ammo = "Rifle Ammunition"
+heavy_rifle_ammo = "Heavy Rifle Ammunition"
+pistol_ammo = "Pistol Ammunition"
+sniper_ammo = "Sniper Rifle Ammunition"
+shotgun_shells = "Shotgun Shells"
+medkit = "Medkit"
+grenade = "Grenade"
+
+# Status Messages
+[localization.status_messages]
+mod_loaded = "Example Mod loaded successfully"
+custom_event_triggered = "Custom mod event triggered"
+
+# Tooltip Text
+[localization.tooltip_text]
+rifle_damage = "Deals {damage} kinetic damage at medium range"
+soldier_health = "Health: {current}/{max}"
+heavy_trooper_description = "Armored infantry unit with high damage output"
+power_armor_description = "Advanced powered armor with superior protection"
+stealth_armor_description = "Light armor optimized for stealth operations"

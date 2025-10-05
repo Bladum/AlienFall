@@ -1,0 +1,14 @@
+#-----------------------------------------------------------
+#
+#  TACTICAL BATTLE TERRAIN CODES
+#
+#-----------------------------------------------------------
+
+p = "plains"
+h = "hill"
+m = "mountain"
+w = "sea"
+o = "ocean"
+f = "forest"
+s = "marsh"
+d = "desert"

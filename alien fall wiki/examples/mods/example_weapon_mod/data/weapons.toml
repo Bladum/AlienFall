@@ -1,0 +1,193 @@
+# Thunder Cannon Weapon Definition
+# Complete weapon data for the example mod
+
+[[weapon]]
+id = "thunder_cannon"
+name = "Thunder Cannon"
+description = "Experimental heavy weapon firing explosive rounds. High damage with area effect but lower accuracy than standard weapons."
+
+# Classification
+category = "primary"
+type = "heavy"
+tier = 3
+
+# Core stats
+[weapon.stats]
+damage_min = 60
+damage_max = 90
+accuracy = 70                # Lower than standard tier 3 (85%)
+critical_chance = 10
+critical_multiplier = 2.0
+range_optimal = 10
+range_maximum = 16
+
+# Action costs
+[weapon.action_costs]
+fire = 5                     # High AP cost balances power
+reload = 3
+equip = 2                    # Heavy weapon
+melee = 3
+
+# Ammo
+[weapon.ammo]
+magazine_size = 4            # Low capacity, frequent reloads
+ammo_type = "explosive_shell"
+infinite_ammo = false
+reload_sound = "sfx/reload_heavy.ogg"
+
+# Special properties (the unique selling point!)
+[weapon.properties]
+armor_piercing = 10
+penetration = false
+two_handed = true
+silenced = false
+explosive = true             # Key feature: area damage
+explosion_radius = 2         # 2-tile blast radius
+explosion_damage_falloff = 0.5  # 50% damage at edge
+
+# Environmental effects
+[weapon.environmental]
+affected_by_weather = true   # Rain reduces accuracy
+affected_by_smoke = true
+affected_by_darkness = true
+friendly_fire = true         # Area damage can hit allies!
+destroys_cover = true        # Blasts destroy terrain
+
+# Status effects
+[[weapon.status_effects]]
+effect = "burning"
+chance = 0.4                 # 40% chance to set enemies on fire
+duration = 2
+damage_per_turn = 5
+
+[[weapon.status_effects]]
+effect = "suppressed"
+chance = 0.6                 # 60% chance to suppress (fear of explosions)
+duration = 1
+accuracy_penalty = 20
+
+# Manufacturing
+[weapon.manufacturing]
+craftable = true
+research_required = "heavy_weapons_advanced"  # Late-game unlock
+cost_credits = 12000         # Expensive
+cost_materials = [
+    { item = "alien_alloys", quantity = 15 },
+    { item = "elerium", quantity = 8 },
+    { item = "explosive_compounds", quantity = 10 }
+]
+manufacturing_hours = 60
+workshop_tier = 2
+
+# Market availability
+[weapon.market]
+available_in_stores = false
+black_market_available = true
+black_market_price = 30000
+sell_price = 15000
+stock_refresh_weight = 1     # Rare in black market
+
+# Requirements
+[weapon.requirements]
+min_strength = 0
+min_rank = "sergeant"        # Requires experienced soldier
+classes_allowed = ["heavy", "assault"]  # Only these classes
+classes_forbidden = []
+
+# Visual (placeholders - actual assets would go in assets/ folder)
+[weapon.presentation]
+sprite = "assets/weapons/thunder_cannon.png"
+icon = "assets/icons/thunder_cannon.png"
+fire_animation = "heavy_explosion"
+muzzle_flash = "explosion_flash"
+impact_effect = "large_explosion"
+sound_fire = "sfx/thunder_cannon_fire.ogg"
+sound_impact = "sfx/explosion_large.ogg"
+tracer_color = { r = 255, g = 128, b = 0 }  # Orange explosive
+
+# AI behavior
+[weapon.ai_behavior]
+preferred_range = 8
+aggression_bonus = 0.3       # AI loves explosives
+target_priority = [
+    { target_type = "grouped", priority = 0.95 },    # Prioritize groups (AoE)
+    { target_type = "in_cover", priority = 0.9 },    # Destroy cover
+    { target_type = "armored", priority = 0.7 }
+]
+
+# Upgrade slots
+[[weapon.upgrades]]
+slot = "stabilizer"
+compatible_upgrades = ["gyro_stabilizer", "recoil_compensator"]
+effect_description = "Improves accuracy"
+
+[[weapon.upgrades]]
+slot = "ammo"
+compatible_upgrades = ["armor_piercing_shells", "incendiary_shells"]
+effect_description = "Changes damage type and effects"
+
+# Fire modes
+[[weapon.fire_modes]]
+id = "standard"
+name = "Standard Shot"
+ap_cost = 5
+damage_multiplier = 1.0
+accuracy_modifier = 0
+explosion_radius = 2
+description = "Standard explosive round"
+
+[[weapon.fire_modes]]
+id = "overload"
+name = "Overloaded Shot"
+ap_cost = 7
+damage_multiplier = 1.5
+accuracy_modifier = -15
+explosion_radius = 3
+ammo_cost = 2                # Uses 2 rounds
+cooldown = 3
+description = "Massive explosion with reduced accuracy"
+
+# Balance metadata
+[weapon.balance]
+power_level = 88
+expected_unlock_month = 6
+player_power_jump = 15
+cost_effectiveness = 0.6     # Expensive but powerful
+
+# Modding support
+[weapon.modding]
+mod_id = "example_weapon_mod"
+author = "AlienFall Team"
+version = "1.0.0"
+override_priority = 100
+tags = ["explosive", "aoe", "heavy", "late_game"]
+
+[weapon.modding.balance_notes]
+note = """
+The Thunder Cannon is designed as a high-risk, high-reward weapon.
+
+Strengths:
+- Highest base damage in tier 3 (60-90 vs 50-75)
+- Area damage hits multiple enemies
+- Destroys cover
+- Suppresses enemies
+- High armor piercing
+
+Weaknesses:
+- Lower accuracy (70% vs 85%)
+- High AP cost (5 vs 3)
+- Low magazine (4 rounds)
+- Friendly fire risk
+- Expensive to craft
+
+Best used by:
+- Heavy class soldiers (high strength)
+- Against grouped enemies
+- When cover destruction is valuable
+- Late-game when resources are abundant
+
+Counterplay (for AI using it):
+- Spread out units
+- Use smoke for accuracy penalty
+- Prioritize killing the carrier
+"""

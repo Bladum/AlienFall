@@ -1,0 +1,69 @@
+[
+    {
+        "id": "plasma_pistol",
+        "name": "Plasma Pistol",
+        "type": "weapon",
+        "subtype": "pistol",
+        "weight": 8,
+        "damage": {
+            "base": 30,
+            "type": "plasma",
+            "armor_pierce": 0.1
+        },
+        "weapon_modes": [
+            {
+                "id": "single",
+                "tu_cost": 12,
+                "accuracy": 75,
+                "damage": {
+                    "base": 30,
+                    "type": "plasma"
+                }
+            },
+            {
+                "id": "aimed",
+                "tu_cost": 24,
+                "accuracy": 95,
+                "damage": {
+                    "base": 30,
+                    "type": "plasma"
+                }
+            }
+        ],
+        "research_required": ["alien_technology"],
+        "manufacturing_cost": {
+            "alloys": 2,
+            "energy": 5
+        },
+        "description": "An alien plasma weapon that fires bolts of superheated gas."
+    },
+    {
+        "id": "kevlar_armor",
+        "name": "Kevlar Armor",
+        "type": "armor",
+        "subtype": "light",
+        "weight": 15,
+        "armor_rating": {
+            "front": 25,
+            "side": 20,
+            "rear": 15,
+            "under": 10
+        },
+        "research_required": ["advanced_materials"],
+        "manufacturing_cost": {
+            "kevlar": 5,
+            "alloys": 1
+        },
+        "description": "Lightweight body armor made from synthetic fibers."
+    },
+    {
+        "id": "medkit",
+        "name": "Medkit",
+        "type": "utility",
+        "subtype": "medical",
+        "weight": 5,
+        "charges": 3,
+        "special_properties": ["healing"],
+        "description": "A medical kit containing bandages, painkillers, and stimulants."
+    }
+]

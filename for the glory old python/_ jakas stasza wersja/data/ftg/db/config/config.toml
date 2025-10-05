@@ -1,0 +1,32 @@
+[pen_size]
+road_land = 1
+road_sea = 1
+road_coast = 1
+border_land = 3
+border_coastal = 5
+border_sea = 3
+border_country = 5
+river = 9
+road_max_size = 32
+
+[font_size]
+land = 11
+sea = 15
+debug = 15
+
+[map_size]
+rect_size = 20
+width = 1200
+height = 500
+
+[z_value]
+map_tile = 0
+sea_border = 1
+coast_border = 2
+river = 3
+province_border = 4
+country_border = 5
+road = 7
+province_name = 8
+city = 9
+army = 10

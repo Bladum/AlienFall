@@ -1,0 +1,59 @@
+# Craft Expansion Mod - Elite Progression Levels
+# Adds advanced veterancy levels beyond the base game
+
+[[craft_level]]
+id = 8
+name = "Legendary"
+experience_required = 5000
+
+[craft_level.bonuses]
+speed = 0.25
+armor = 0.25
+accuracy = 0.20
+damage = 0.20
+fuel_efficiency = 0.15
+maintenance_reduction = 0.30
+
+[craft_level.unlocks]
+specialization = true
+elite_modifications = true
+command_capability = true
+
+[[craft_level]]
+id = 9
+name = "Mythical"
+experience_required = 7500
+
+[craft_level.bonuses]
+speed = 0.35
+armor = 0.35
+accuracy = 0.30
+damage = 0.30
+fuel_efficiency = 0.25
+maintenance_reduction = 0.40
+
+[craft_level.unlocks]
+specialization = true
+elite_modifications = true
+command_capability = true
+legendary_status = true
+
+[[craft_level]]
+id = 10
+name = "Transcendent"
+experience_required = 10000
+
+[craft_level.bonuses]
+speed = 0.50
+armor = 0.50
+accuracy = 0.40
+damage = 0.40
+fuel_efficiency = 0.35
+maintenance_reduction = 0.50
+
+[craft_level.unlocks]
+specialization = true
+elite_modifications = true
+command_capability = true
+legendary_status = true
+transcendent_abilities = true

@@ -1,0 +1,1 @@
+here put all single icons and images standalone

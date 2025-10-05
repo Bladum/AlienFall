@@ -1,0 +1,161 @@
+#-----------------------------------------------------------
+#
+#  LITHUANIA
+#
+#-----------------------------------------------------------
+
+tag = "LIT"
+name = "Lithuania"
+ai = "POL_1419"
+
+# ------------------ BUDGET -------------------
+
+[budget]
+treasury = 500
+inflation = 0
+stability = 2
+government = 'monarchy'
+
+# ------------------ SOCIAL -------------------
+
+[social]
+religion = "catholic"
+cultures = ["baltic", "ruthenian"]
+
+# ------------------ PROVINCES -------------------
+
+[geography]
+knownregions = ["europe"]
+knownprovinces = [732, 477, 478]
+ownedprovinces = [280, 281, 284, 285, 286, 287, 288, 293, 294, 295, 297, 267, 461, 879, 449, 462]
+controlledprovinces = [280, 281, 284, 285, 286, 287, 288, 293, 294, 295, 297, 267, 461, 879, 449, 462]
+nationalprovinces = [280, 281, 284, 285, 286, 287, 288, 293, 294, 295, 296, 297, 450, 460, 461, 462]
+
+# ------------------ AGENTS -------------------
+
+[agents]
+merchants = 1.083333
+colonists = 0
+
+# ------------------ DIPLOMACY -------------------
+
+[relations]
+POL = 150
+MAS = 150
+STE = -200
+LAT = -100
+
+# ------------------ CITIES -------------------
+
+[[cities]]
+location = 288
+buildings = ["fortress"]
+population = 20
+capital = true
+
+[[cities]]
+location = 280
+buildings = ["fortress"]
+population = 7
+
+[[cities]]
+location = 281
+buildings = ["fortress"]
+population = 7
+
+[[cities]]
+location = 284
+buildings = ["fortress"]
+population = 13
+
+[[cities]]
+location = 285
+buildings = ["fortress"]
+population = 9
+
+[[cities]]
+location = 286
+buildings = ["fortress"]
+population = 7
+
+[[cities]]
+location = 287
+buildings = ["fortress"]
+population = 4
+
+[[cities]]
+location = 293
+buildings = ["fortress"]
+population = 14
+
+[[cities]]
+location = 294
+buildings = ["fortress"]
+population = 6
+
+[[cities]]
+location = 295
+buildings = ["fortress"]
+population = 10
+
+[[cities]]
+location = 297
+buildings = ["fortress"]
+population = 12
+
+[[cities]]
+location = 450
+buildings = ["fortress"]
+population = 2
+
+[[cities]]
+location = 461
+buildings = ["fortress"]
+population = 3
+
+# ------------------ ARMY & NAVY -------------------
+
+[[armies]]
+name = "Army of Lithuania"
+location = 288
+units.infantry = 13
+units.cavalry = 10
+units.artillery = 0
+
+[[armies]]
+name = "Army of Podolia"
+location = 450
+units.infantry = 10
+units.cavalry = 10
+units.artillery = 0
+
+# ------------------ TECHNOLOGY -------------------
+
+[technologies]
+admin = 0
+infra = 0
+trade = 1
+land = 0
+naval = 0
+diplo = 0
+
+# ------------------ POLICIES -------------------
+
+[policies]
+governance = 0
+innovation = 2
+nobility = -4
+freedom = 2
+commerce = 3
+expansion = 1
+domain = 1
+conscription = 1
+balance = 2
+honor = 1
+social = 0
+
+# ------------------ IDEAS ------------------
+
+ideas = [
+  'test_idea'
+]

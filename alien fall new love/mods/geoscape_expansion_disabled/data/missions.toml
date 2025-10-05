@@ -1,0 +1,162 @@
+# Geoscape Expansion - New Missions
+# Adds advanced and exotic mission types
+
+[atmospheric_research]
+id = "atmospheric_research"
+name = "Atmospheric Research Mission"
+description = "Study unusual atmospheric phenomena that may indicate alien technology or biological agents."
+type = "research"
+difficulty = "medium"
+duration_hours = 12
+reward_credits = 18000
+reward_xp = 350
+province_tags = ["atmospheric", "research", "extreme_weather"]
+alien_activity_min = 0.3
+spawn_weight = 0.7
+max_instances = 3
+objectives = ["deploy_sensors", "analyze_atmosphere", "collect_samples", "avoid_contamination"]
+tags = ["research", "atmospheric", "scientific", "environmental"]
+
+[cryovolcanic_eruption]
+id = "cryovolcanic_eruption"
+name = "Cryovolcanic Eruption"
+description = "A cryovolcano has erupted, releasing water and organic compounds. Investigate the phenomenon."
+type = "investigation"
+difficulty = "hard"
+duration_hours = 16
+reward_credits = 28000
+reward_xp = 550
+province_tags = ["cryovolcanic", "icy", "geological"]
+alien_activity_min = 0.5
+spawn_weight = 0.5
+max_instances = 2
+objectives = ["approach_eruption", "deploy_instruments", "analyze_composition", "document_event"]
+tags = ["cryovolcanic", "geological", "scientific", "extreme"]
+
+[methane_storm]
+id = "methane_storm"
+name = "Methane Storm Encounter"
+description = "Violent methane storms are interfering with operations. Navigate through the storm to reach objectives."
+type = "navigation"
+difficulty = "extreme"
+duration_hours = 8
+reward_credits = 15000
+reward_xp = 300
+province_tags = ["stormy", "methane", "hazardous"]
+alien_activity_min = 0.2
+spawn_weight = 0.8
+max_instances = 4
+objectives = ["navigate_storm", "maintain_course", "protect_craft", "reach_destination"]
+tags = ["methane", "storm", "navigation", "hazardous"]
+
+[alien_ruins]
+id = "alien_ruins"
+name = "Ancient Alien Ruins"
+description = "Discovered ancient alien ruins containing advanced technology and potentially dangerous artifacts."
+type = "exploration"
+difficulty = "hard"
+duration_hours = 20
+reward_credits = 45000
+reward_xp = 900
+province_tags = ["archaeological", "alien_ruins", "remote"]
+alien_activity_min = 0.6
+spawn_weight = 0.4
+max_instances = 1
+objectives = ["locate_ruins", "establish_perimeter", "excavate_artifacts", "defend_site", "decode_technology"]
+tags = ["alien_ruins", "archaeological", "technology", "high_value"]
+
+[biological_incursion]
+id = "biological_incursion"
+name = "Biological Incursion"
+description = "Alien biological entities have infiltrated the local ecosystem. Contain and study the organisms."
+type = "containment"
+difficulty = "extreme"
+duration_hours = 24
+reward_credits = 60000
+reward_xp = 1200
+province_tags = ["biological", "ecosystem", "invasive"]
+alien_activity_min = 0.7
+spawn_weight = 0.3
+max_instances = 1
+objectives = ["establish_quarantine", "identify_species", "contain_spread", "collect_samples", "neutralize_threat"]
+tags = ["biological", "containment", "ecosystem", "extreme_threat"]
+
+[orbital_debris]
+id = "orbital_debris"
+name = "Orbital Debris Field"
+description = "Navigate through hazardous orbital debris to intercept alien satellites or investigate space wreckage."
+type = "orbital"
+difficulty = "hard"
+duration_hours = 10
+reward_credits = 22000
+reward_xp = 450
+province_tags = ["orbital", "space", "debris"]
+alien_activity_min = 0.4
+spawn_weight = 0.6
+max_instances = 2
+objectives = ["navigate_debris", "avoid_collisions", "intercept_target", "collect_intelligence"]
+tags = ["orbital", "space", "debris", "navigation"]
+
+[plasma_storm]
+id = "plasma_storm"
+name = "Plasma Storm"
+description = "Violent plasma storms are creating electromagnetic interference. Brave the storm to complete objectives."
+type = "environmental"
+difficulty = "extreme"
+duration_hours = 6
+reward_credits = 12000
+reward_xp = 250
+province_tags = ["plasma", "storm", "electromagnetic"]
+alien_activity_min = 0.3
+spawn_weight = 0.9
+max_instances = 5
+objectives = ["endure_interference", "maintain_systems", "complete_objective", "return_safely"]
+tags = ["plasma", "storm", "electromagnetic", "environmental"]
+
+[quantum_anomaly]
+id = "quantum_anomaly"
+name = "Quantum Anomaly"
+description = "Strange quantum effects are causing reality distortions. Investigate and stabilize the anomaly."
+type = "quantum"
+difficulty = "extreme"
+duration_hours = 18
+reward_credits = 80000
+reward_xp = 1600
+province_tags = ["quantum", "anomaly", "reality_distortion"]
+alien_activity_min = 0.8
+spawn_weight = 0.2
+max_instances = 1
+objectives = ["analyze_anomaly", "stabilize_field", "extract_energy", "prevent_escalation"]
+tags = ["quantum", "anomaly", "reality", "extreme_threat"]
+
+[exoarchaeology_site]
+id = "exoarchaeology_site"
+name = "Exoarchaeology Site"
+description = "Ancient extraterrestrial archaeological site with preserved alien artifacts and cultural remnants."
+type = "archaeology"
+difficulty = "hard"
+duration_hours = 22
+reward_credits = 55000
+reward_xp = 1100
+province_tags = ["exoarchaeological", "cultural", "preserved"]
+alien_activity_min = 0.5
+spawn_weight = 0.4
+max_instances = 1
+objectives = ["survey_site", "excavate_artifacts", "preserve_context", "document_findings", "defend_site"]
+tags = ["exoarchaeology", "cultural", "artifacts", "preservation"]
+
+[dark_energy_signature]
+id = "dark_energy_signature"
+name = "Dark Energy Signature"
+description = "Detect unusual dark energy readings that may indicate advanced alien propulsion or weapons technology."
+type = "energy"
+difficulty = "medium"
+duration_hours = 14
+reward_credits = 25000
+reward_xp = 500
+province_tags = ["energy", "dark_matter", "advanced_tech"]
+alien_activity_min = 0.4
+spawn_weight = 0.6
+max_instances = 3
+objectives = ["track_signature", "analyze_energy", "locate_source", "assess_threat", "collect_data"]
+tags = ["dark_energy", "advanced_tech", "energy", "analysis"]

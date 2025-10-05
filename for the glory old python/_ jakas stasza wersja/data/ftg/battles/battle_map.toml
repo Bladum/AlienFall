@@ -1,0 +1,23 @@
+#------------------------------------------------------------
+#
+#   FIXED BATTLE MAPS
+#
+#------------------------------------------------------------
+
+grunwald_fields = """
+ppppppppppppppppppppppppp
+ppppppppppppppppppppppppp
+ppppppppppppppppppppppppp
+ppppppppppppppppppppppppp
+ppppppppppppppppppppppppp
+ppppppppppppppppppppppppp
+ppppppppppppppppppppppppp
+ppppppppppppppppppppppppp
+ppppppppppppppppppppppppp
+ppppppppppppppppppppppppp
+ppppppppppppppppppppppppp
+ppppppppppppppppppppppppp
+ppppppppppppppppppppppppp
+ppppppppppppppppppppppppp
+ppppppppppppppppppppppppp
+"""

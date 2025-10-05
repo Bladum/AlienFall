@@ -1,0 +1,38 @@
+#
+# COTS COLORS, its max 33 COTS ON GAME
+#
+
+cots_colors:
+  - light_gray
+  - light_red
+  - light_purple
+  - light_blue
+  - light_cyan
+  - light_teal
+  - light_green
+  - light_yellow
+  - light_olive
+  - light_orange
+  - light_brown
+  - dark_gray
+  - dark_red
+  - dark_purple
+  - dark_blue
+  - dark_cyan
+  - dark_teal
+  - dark_green
+  - dark_yellow
+  - dark_olive
+  - dark_orange
+  - dark_brown
+  - gray
+  - red
+  - purple
+  - blue
+  - cyan
+  - teal
+  - green
+  - yellow
+  - olive
+  - orange
+  - brown

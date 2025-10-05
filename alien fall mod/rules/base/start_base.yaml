@@ -1,0 +1,75 @@
+#
+#   STARTING BASES CONFIGURATION
+#
+# This file defines the initial setup of all potential bases
+# Each base includes its location, facilities, inventory items, units, and crafts
+#
+
+---
+
+# Base configurations - each key is the base name (OMEGA, ALPHA, etc.)
+# This is loaded by the mod system and used by TGame to create initial bases
+
+start_bases:
+  OMEGA:  # Main starting base (first base)
+    position: [ 50, 40 ]
+    facilities:
+      - type: "fac_storage"
+        position: [0, 0]
+      - type: "fac_hq"
+        position: [1, 0]
+      - type: "fac_workshop"
+        position: [0, 2]
+      - type: "fac_small_radar"
+        position: [1, 2]
+
+    items:
+      assault_rifle: 10
+      auto_pistol: 20
+      basic_armor: 10
+      medipack: 5
+      grenade: 15
+      small_shotgun: 5
+      combat_knife: 8
+      flares: 10
+    units:
+      - type: "xcom_soldier"
+        name: "John Smith"
+      - type: "xcom_soldier"
+        name: "Sarah Johnson"
+      - type: "xcom_soldier"
+        name: "Miguel Rodriguez"
+      - type: "xcom_soldier"
+        name: "Emma Wilson"
+      - type: "xcom_soldier"
+        name: "Hiroshi Tanaka"
+      - type: "xcom_soldier"
+        name: "Olga Petrov"
+      - type: "xcom_soldier"
+        name: "Kwame Nkrumah"
+      - type: "xcom_soldier"
+        name: "Fatima Al-Farsi"
+      - type: "xcom_soldier"
+        name: "Chen Wei"
+      - type: "xcom_soldier"
+        name: "Lucas Da Silva"
+    crafts:
+      - type: "craft_car"
+        name: "Interceptor-1"
+        crew: 1
+
+  ALPHA:  # Second base (not built initially, but defined for future expansion)
+    position: [ 40, 50 ]
+    facilities: []  # Empty initially
+    items: {}       # Empty initially
+    units: []       # Empty initially
+    crafts: []      # Empty initially
+
+  BETA:   # Third base (not built initially, but defined for future expansion)
+    position: [ 20, 30 ]
+    facilities: []  # Empty initially
+    items: {}       # Empty initially
+    units: []       # Empty initially
+    crafts: []      # Empty initially
+
+  # Additional bases can be defined here following the same pattern
