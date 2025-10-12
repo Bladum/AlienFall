@@ -1,3 +1,21 @@
+--- Map Editor Module
+--- Interactive hex grid map editor with tile palette and save/load functionality.
+---
+--- Allows creating and editing mapblock TOML files with a visual interface.
+--- Features tile painting, terrain selection, and map validation.
+---
+--- @class MapEditor
+--- @field mapData table Current map data being edited
+--- @field selectedTileType string Currently selected terrain type
+--- @field tilePalette table Available terrain tiles
+--- @field brushSize number Size of the painting brush
+--- @field showGrid boolean Whether to display grid overlay
+---
+--- @usage
+---   local MapEditor = require("modules.map_editor")
+---   MapEditor:enter()  -- Initialize editor
+---   MapEditor:draw()   -- Render editor interface
+
 -- Map Editor Module
 -- Interactive hex grid map editor with tile palette and save/load functionality
 -- Allows creating and editing mapblock TOML files

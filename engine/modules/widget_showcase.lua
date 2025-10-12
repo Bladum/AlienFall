@@ -1,3 +1,19 @@
+--- Widget Showcase Module
+--- Demonstrates all available widgets in the system.
+---
+--- Provides an interactive gallery of UI components with examples
+--- of their usage, properties, and visual appearance.
+---
+--- @class WidgetShowcase
+--- @field widgets table Array of demo widgets
+--- @field title string Showcase title
+--- @field currentDemo string Currently selected demo
+---
+--- @usage
+---   local WidgetShowcase = require("modules.widget_showcase")
+---   WidgetShowcase:enter()  -- Initialize showcase
+---   WidgetShowcase:draw()   -- Render widget gallery
+
 -- Widget Showcase State
 -- Demonstrates all available widgets in the system
 

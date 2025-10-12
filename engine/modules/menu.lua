@@ -1,3 +1,20 @@
+--- Menu Module
+--- Main menu screen with game options and navigation.
+---
+--- Provides the primary game entry point with options to start new games,
+--- load saved games, access settings, and quit the application.
+---
+--- @class Menu
+--- @field title string Main title text displayed on screen
+--- @field subtitle string Subtitle text below the main title
+--- @field buttons table Array of menu button widgets
+--- @field background any Background image or color
+---
+--- @usage
+---   local Menu = require("modules.menu")
+---   Menu:enter()  -- Initialize menu
+---   Menu:draw()   -- Render menu screen
+
 -- Menu State
 -- Main menu with options to start game, load, settings, and quit
 
@@ -6,17 +23,21 @@ local Widgets = require("widgets.init")
 
 local Menu = {}
 
+--- Initialize the menu state.
+--- Sets up the main menu interface with title, buttons, and navigation options.
+---
+--- @return nil
 function Menu:enter()
     print("[Menu] Entering menu state")
-    
+
     -- Window dimensions
     local windowWidth = love.graphics.getWidth()
     local windowHeight = love.graphics.getHeight()
-    
+
     -- Title
     self.title = "ALIEN FALL"
     self.subtitle = "A Tactical Strategy Game"
-    
+
     -- Create buttons (grid-aligned: 8x2 cells for buttons, positioned at grid coordinates)
     local buttonWidth = 8 * 24   -- 8 grid cells = 192 pixels
     local buttonHeight = 2 * 24  -- 2 grid cells = 48 pixels
@@ -110,10 +131,19 @@ function Menu:enter()
     self.versionLabel:setVerticalAlign("bottom")
 end
 
+--- Clean up the menu state.
+--- Removes all widgets and frees resources when leaving the menu.
+---
+--- @return nil
 function Menu:exit()
     print("[Menu] Exiting menu state")
 end
 
+--- Update the menu state.
+--- Handles button animations and widget updates each frame.
+---
+--- @param dt number Delta time since last update in seconds
+--- @return nil
 function Menu:update(dt)
     -- Update all buttons
     for _, button in ipairs(self.buttons) do
@@ -124,6 +154,10 @@ function Menu:update(dt)
     self.versionLabel:update(dt)
 end
 
+--- Render the menu screen.
+--- Draws the background, title, subtitle, buttons, and UI elements.
+---
+--- @return nil
 function Menu:draw()
     -- Clear background
     love.graphics.clear(0.05, 0.05, 0.1)
@@ -162,6 +196,13 @@ function Menu:draw()
     love.graphics.print("Use mouse to click buttons | ESC to return to menu", 10, windowHeight - 30)
 end
 
+--- Handle keyboard input.
+--- Processes key presses for navigation shortcuts and menu control.
+---
+--- @param key string The key that was pressed
+--- @param scancode string The scancode of the key
+--- @param isrepeat boolean Whether this is a key repeat event
+--- @return nil
 function Menu:keypressed(key, scancode, isrepeat)
     if key == "b" then
         print("[Menu] Switching to battlescape via keypress")
@@ -177,6 +218,15 @@ function Menu:keypressed(key, scancode, isrepeat)
     end
 end
 
+--- Handle mouse button press events.
+--- Forwards mouse events to interactive buttons.
+---
+--- @param x number Mouse X coordinate
+--- @param y number Mouse Y coordinate
+--- @param button number Mouse button number (1=left, 2=right, etc.)
+--- @param istouch boolean Whether this is a touch event
+--- @param presses number Number of presses in sequence
+--- @return boolean|nil True if event was handled, nil otherwise
 function Menu:mousepressed(x, y, button, istouch, presses)
     -- Forward to all buttons
     for _, btn in ipairs(self.buttons) do
@@ -187,6 +237,15 @@ function Menu:mousepressed(x, y, button, istouch, presses)
     return false
 end
 
+--- Handle mouse button release events.
+--- Forwards mouse release events to interactive buttons.
+---
+--- @param x number Mouse X coordinate
+--- @param y number Mouse Y coordinate
+--- @param button number Mouse button number (1=left, 2=right, etc.)
+--- @param istouch boolean Whether this is a touch event
+--- @param presses number Number of presses in sequence
+--- @return boolean False (event not handled by menu)
 function Menu:mousereleased(x, y, button, istouch, presses)
     -- Forward to all buttons
     for _, btn in ipairs(self.buttons) do

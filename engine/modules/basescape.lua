@@ -1,3 +1,22 @@
+--- Basescape Module
+--- Base management interface for XCOM operations.
+---
+--- Provides facilities management, personnel assignment, research tracking,
+--- and manufacturing controls for the XCOM base. Features a grid-based
+--- layout with interactive facilities and resource management.
+---
+--- @class Basescape
+--- @field viewMode string Current view mode ("facilities", "soldiers", "research", "manufacturing")
+--- @field baseData table Base configuration and state data
+--- @field facilities table Array of base facilities
+--- @field selectedFacility table Currently selected facility
+--- @field ui table UI widgets for the interface
+---
+--- @usage
+---   local Basescape = require("modules.basescape")
+---   Basescape:enter()  -- Initialize base interface
+---   Basescape:draw()   -- Render base management screen
+
 -- Basescape State
 -- Base management with facilities, personnel, research, and manufacturing
 
@@ -66,10 +85,18 @@ function Basescape:enter()
     )
 end
 
+--- Clean up the basescape state.
+--- Removes all widgets and frees resources when leaving base management.
+---
+--- @return nil
 function Basescape:exit()
     print("[Basescape] Exiting basescape state")
 end
 
+--- Initialize base data and configuration.
+--- Sets up the XCOM base with default facilities, resources, and personnel.
+---
+--- @return nil
 function Basescape:initBase()
     -- Base resources
     self.base = {
@@ -134,6 +161,11 @@ function Basescape:initBase()
     self.manufacturingQueue = {}
 end
 
+--- Update the basescape state.
+--- Handles button animations and UI updates each frame.
+---
+--- @param dt number Delta time since last update in seconds
+--- @return nil
 function Basescape:update(dt)
     -- Update UI buttons
     self.backButton:update(dt)
@@ -159,6 +191,10 @@ function Basescape:update(dt)
     end
 end
 
+--- Render the basescape interface.
+--- Draws the base management screen with current view mode and UI elements.
+---
+--- @return nil
 function Basescape:draw()
     -- Clear background
     love.graphics.clear(0.05, 0.05, 0.1)

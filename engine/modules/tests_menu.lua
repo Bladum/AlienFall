@@ -1,3 +1,19 @@
+--- Tests Menu Module
+--- Menu for accessing test utilities and development tools.
+---
+--- Provides navigation to various testing interfaces, showcases, and
+--- development utilities for validating game systems.
+---
+--- @class TestsMenu
+--- @field buttons table Array of navigation buttons
+--- @field title string Menu title text
+--- @field subtitle string Subtitle description
+---
+--- @usage
+---   local TestsMenu = require("modules.tests_menu")
+---   TestsMenu:enter()  -- Initialize tests menu
+---   TestsMenu:draw()   -- Render menu interface
+
 -- Tests Menu State
 -- Menu for accessing test utilities and showcases
 
