@@ -78,6 +78,18 @@ Widgets.Autocomplete = require("widgets.autocomplete")
 Widgets.Table = require("widgets.table")
 Widgets.TextArea = require("widgets.textarea")
 
-print("[Widgets] Widget system loader initialized")
+-- Strategy Game Widgets (TASK-006)
+Widgets.UnitCard = require("widgets.unitcard")
+Widgets.ActionBar = require("widgets.actionbar")
+Widgets.ResourceDisplay = require("widgets.resourcedisplay")
+Widgets.MiniMap = require("widgets.minimap")
+Widgets.TurnIndicator = require("widgets.turnindicator")
+Widgets.InventorySlot = require("widgets.inventoryslot")
+Widgets.ResearchTree = require("widgets.researchtree")
+Widgets.NotificationBanner = require("widgets.notificationbanner")
+Widgets.ContextMenu = require("widgets.contextmenu")
+Widgets.RangeIndicator = require("widgets.rangeindicator")
+
+print("[Widgets] Widget system loader initialized - 23 base widgets + 10 strategy widgets")
 
 return Widgets
