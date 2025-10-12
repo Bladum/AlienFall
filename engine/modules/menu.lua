@@ -14,13 +14,13 @@ function Menu:enter()
     local windowHeight = love.graphics.getHeight()
     
     -- Title
-    self.title = "XCOM SIMPLE"
+    self.title = "ALIEN FALL"
     self.subtitle = "A Tactical Strategy Game"
     
-    -- Create buttons (grid-aligned: 12x2 cells for buttons, positioned at grid coordinates)
-    local buttonWidth = 12 * 24  -- 12 grid cells = 288 pixels
+    -- Create buttons (grid-aligned: 8x2 cells for buttons, positioned at grid coordinates)
+    local buttonWidth = 8 * 24   -- 8 grid cells = 192 pixels
     local buttonHeight = 2 * 24  -- 2 grid cells = 48 pixels
-    local buttonX = 14 * 24      -- Center horizontally: (40 - 12) / 2 * 24 = 14 * 24 = 336
+    local buttonX = 16 * 24      -- Center horizontally: (40 - 8) / 2 * 24 = 16 * 24 = 384
     local startY = 13 * 24       -- Center vertically: 360 - 48 = 312, 312/24 = 13
     local spacing = 3 * 24       -- 3 grid cells = 72 pixels
     

@@ -21,6 +21,7 @@ last_updated = "2025-10-12"
 [terrain.road]
 id = "road"
 name = "Road"
+image = "terrain/road.png"
 moveCost = 1
 sightCost = 1
 blocksMovement = false
@@ -32,6 +33,7 @@ description = "Paved road that allows quick movement"
 [terrain.floor]
 id = "floor"
 name = "Floor"
+image = "terrain/floor.png"
 moveCost = 2
 sightCost = 1
 blocksMovement = false
@@ -76,6 +78,7 @@ description = "Solid wall that blocks movement and sight"
 [terrain.wood_wall]
 id = "wood_wall"
 name = "Wood Wall"
+image = "terrain/wood_wall.png"
 moveCost = 0
 sightCost = 1000
 blocksMovement = true
@@ -87,6 +90,7 @@ description = "Wooden wall that blocks movement and sight"
 [terrain.low_wall]
 id = "low_wall"
 name = "Low Wall"
+image = "terrain/low_wall.png"
 moveCost = 0
 sightCost = 2
 blocksMovement = true
@@ -98,6 +102,7 @@ description = "Low wall that blocks movement but not sight"
 [terrain.window]
 id = "window"
 name = "Window"
+image = "terrain/window.png"
 moveCost = 0
 sightCost = 1
 blocksMovement = true
@@ -109,6 +114,7 @@ description = "Window that allows sight but blocks movement"
 [terrain.door]
 id = "door"
 name = "Door"
+image = "terrain/door.png"
 moveCost = 2
 sightCost = 1
 blocksMovement = false
@@ -120,6 +126,7 @@ description = "Door that can be opened/closed"
 [terrain.bushes]
 id = "bushes"
 name = "Bushes"
+image = "terrain/bushes.png"
 moveCost = 2
 sightCost = 5
 blocksMovement = false
@@ -131,6 +138,7 @@ description = "Dense bushes that reduce visibility"
 [terrain.trees]
 id = "trees"
 name = "Trees"
+image = "terrain/trees.png"
 moveCost = 4
 sightCost = 1000
 blocksMovement = false
@@ -142,6 +150,7 @@ description = "Trees that block sight but allow movement"
 [terrain.tree]
 id = "tree"
 name = "Tree"
+image = "terrain/tree.png"
 moveCost = 99
 sightCost = 3
 blocksMovement = false
@@ -153,6 +162,7 @@ description = "Single tree, very hard to move through but allows partial sight"
 [terrain.water]
 id = "water"
 name = "Water"
+image = "terrain/water.png"
 moveCost = 8
 sightCost = 2
 blocksMovement = false
@@ -164,6 +174,7 @@ description = "Water that slows movement significantly"
 [terrain.pit]
 id = "pit"
 name = "Pit"
+image = "terrain/pit.png"
 moveCost = 0
 sightCost = 3
 blocksMovement = true
@@ -175,6 +186,7 @@ description = "Deep pit that blocks movement"
 [terrain.smoke]
 id = "smoke"
 name = "Smoke"
+image = "terrain/smoke.png"
 moveCost = 2
 sightCost = 3
 blocksMovement = false
@@ -186,6 +198,7 @@ description = "Smoke that reduces visibility"
 [terrain.fire]
 id = "fire"
 name = "Fire"
+image = "terrain/fire.png"
 moveCost = 2
 sightCost = 2
 blocksMovement = false

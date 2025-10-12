@@ -2,7 +2,7 @@
 -- Implements hex-based line of sight for visibility calculations
 
 local DataLoader = require("systems.data_loader")
-local HexMath = require("systems.battle.utils.hex_math")
+local HexMath = require("battle.utils.hex_math")
 
 local LOS = {}
 LOS.__index = LOS

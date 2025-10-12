@@ -1,4 +1,4 @@
--- XCOM Simple - Main Entry Point
+-- Alien Fall - Main Entry Point
 -- A simplified turn-based strategy game inspired by UFO: Enemy Unknown
 
 -- Load mod manager FIRST (required for all content loading)
@@ -11,12 +11,12 @@ local StateManager = require("systems.state_manager")
 print("[Main] Loading Menu...")
 local Menu = require("modules.menu")
 print("[Main] Loading Geoscape...")
-local Geoscape = require("modules.geoscape")
+local Geoscape = require("modules.geoscape.init")
 
 print("[Main] Loading Battlescape...")
 local Battlescape
 local success, err = pcall(function()
-    Battlescape = require("modules.battlescape")
+    Battlescape = require("modules.battlescape.init")
 end)
 if not success then
     print("[ERROR] Failed to load Battlescape: " .. tostring(err))
@@ -52,7 +52,7 @@ local Viewport = require("utils.viewport")
 -- Game initialization
 function love.load()
     print("===========================================")
-    print("XCOM Simple - Starting Up")
+    print("Alien Fall - Starting Up")
     print("Love2D Version: " .. love.getVersion())
     print("===========================================")
     
@@ -75,7 +75,19 @@ function love.load()
     love.graphics.setFont(love.graphics.newFont(14))
     
     -- Set window properties
-    love.window.setTitle("XCOM Simple")
+    love.window.setTitle("Alien Fall")
+    
+    -- Set window icon (icon must be ImageData format)
+    local success, icon = pcall(function()
+        return love.image.newImageData("icon.png")
+    end)
+    
+    if success and icon then
+        love.window.setIcon(icon)
+        print("[Main] Window icon set successfully")
+    else
+        print("[Main] Warning: Could not load icon.png")
+    end
     
     -- Initialize widgets system
     Widgets.init()

@@ -93,7 +93,7 @@ function TestsMenu:enter()
     table.insert(self.buttons, button5)
     
     -- Toggle Map Generation button
-    local MapGenerator = require("systems.battle.map_generator")
+    local MapGenerator = require("battle.map_generator")
     local currentMethod = MapGenerator.getMethod()
     local button6 = Widgets.Button.new(
         buttonX,

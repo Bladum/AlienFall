@@ -1,12 +1,40 @@
--- Data Loader
--- Loads game data from TOML files through the ModManager
+--- Data Loader
+--- Loads game data from TOML files through the ModManager.
+---
+--- This module provides access to all game configuration data including
+--- terrain types, weapons, armours, and unit classes. Data is loaded from
+--- TOML files in the active mod's content directory and wrapped with
+--- utility functions for easy access.
+---
+--- Example usage:
+---   local DataLoader = require("systems.data_loader")
+---   DataLoader.load()
+---   local weapon = DataLoader.weapons.get("rifle")
+---   local terrain = DataLoader.terrainTypes.get("grass")
+---
+--- Loaded Data Tables:
+---   - terrainTypes: Terrain definitions (grass, wall, door, etc.)
+---   - weapons: Weapon definitions with stats and damage
+---   - armours: Armour definitions with protection values
+---   - unitClasses: Unit class definitions (soldier, alien, etc.)
 
 local TOML = require("libs.toml")
 local ModManager = require("systems.mod_manager")
 
+--- @class DataLoader
+--- @field terrainTypes table Terrain type definitions and utility functions
+--- @field weapons table Weapon definitions and utility functions
+--- @field armours table Armour definitions and utility functions
+--- @field unitClasses table Unit class definitions and utility functions
 local DataLoader = {}
 
--- Load all game data from TOML files
+--- Load all game data from TOML files.
+---
+--- Calls individual loader functions for terrain, weapons, armours, and
+--- unit classes. Should be called once during game initialization.
+--- Returns true on success.
+---
+--- @return boolean True if all data loaded successfully
 function DataLoader.load()
     DataLoader.terrainTypes = DataLoader.loadTerrainTypes()
     DataLoader.weapons = DataLoader.loadWeapons()
@@ -17,7 +45,19 @@ function DataLoader.load()
     return true
 end
 
--- Load terrain types from TOML
+--- Load terrain type definitions from TOML file.
+---
+--- Loads terrain data from mods/*/content/rules/battle/terrain.toml.
+--- Returns table with terrain data and utility functions:
+---   - get(id): Get terrain by ID
+---   - getAllIds(): Get array of all terrain IDs
+---   - getByProperty(prop, val): Find terrains matching property
+---   - blocksMovement(id): Check if terrain blocks movement
+---   - blocksSight(id): Check if terrain blocks line of sight
+---   - getMoveCost(id): Get movement cost (default 2)
+---   - getSightCost(id): Get sight cost (default 1)
+---
+--- @return table Terrain types table with utility functions
 function DataLoader.loadTerrainTypes()
     local path = ModManager.getContentPath("rules", "battle/terrain.toml")
     if not path then
@@ -84,7 +124,16 @@ function DataLoader.loadTerrainTypes()
     return terrainTypes
 end
 
--- Load weapons from TOML
+--- Load weapon definitions from TOML file.
+---
+--- Loads weapon data from mods/*/content/rules/item/weapons.toml.
+--- Returns table with weapon data and utility functions:
+---   - get(id): Get weapon by ID
+---   - getAllIds(): Get array of all weapon IDs
+---   - getByType(type): Find weapons of specific type
+---   - getForClass(classId): Get available weapons for unit class
+---
+--- @return table Weapons table with utility functions
 function DataLoader.loadWeapons()
     local path = ModManager.getContentPath("rules", "item/weapons.toml")
     if not path then
@@ -135,7 +184,16 @@ function DataLoader.loadWeapons()
     return weapons
 end
 
--- Load armours from TOML
+--- Load armour definitions from TOML file.
+---
+--- Loads armour data from mods/*/content/rules/item/armours.toml.
+--- Returns table with armour data and utility functions:
+---   - get(id): Get armour by ID
+---   - getAllIds(): Get array of all armour IDs
+---   - getByType(type): Find armours of specific type
+---   - getForClass(classId): Get available armours for unit class
+---
+--- @return table Armours table with utility functions
 function DataLoader.loadArmours()
     local path = ModManager.getContentPath("rules", "item/armours.toml")
     if not path then
@@ -186,7 +244,15 @@ function DataLoader.loadArmours()
     return armours
 end
 
--- Load unit classes from TOML
+--- Load unit class definitions from TOML file.
+---
+--- Loads unit class data from mods/*/content/rules/unit/classes.toml.
+--- Returns table with unit class data and utility functions:
+---   - get(id): Get unit class by ID
+---   - getAllIds(): Get array of all class IDs
+---   - getBySide(side): Get classes for side ("human", "alien", "civilian")
+---
+--- @return table Unit classes table with utility functions
 function DataLoader.loadUnitClasses()
     local path = ModManager.getContentPath("rules", "unit/classes.toml")
     if not path then

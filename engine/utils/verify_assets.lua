@@ -82,13 +82,13 @@ function AssetVerifier.verifyUnitAssets()
     end
     
     local data = TOML.load(path)
-    if not data or not data.unit_class then
+    if not data or not data.classes then
         print("[AssetVerifier] ERROR: Could not load unit class data")
         return false
     end
     
     -- Check each unit class
-    for unitId, unitData in pairs(data.unit_class) do
+    for unitId, unitData in pairs(data.classes) do
         print(string.format("[AssetVerifier] Checking unit: %s", unitId))
         
         local imagePath = unitData.image or ("units/" .. unitId .. ".png")

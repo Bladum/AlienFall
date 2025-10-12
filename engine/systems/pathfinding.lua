@@ -1,7 +1,7 @@
 -- Pathfinding System
 -- A* pathfinding algorithm for unit movement
 
-local HexMath = require("systems.battle.utils.hex_math")
+local HexMath = require("battle.utils.hex_math")
 
 local Pathfinding = {}
 Pathfinding.__index = Pathfinding

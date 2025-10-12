@@ -6,7 +6,7 @@ local StateManager = require("systems.state_manager")
 local Widgets = require("widgets.init")
 local DataLoader = require("systems.data_loader")
 local ModManager = require("systems.mod_manager")
-local MapBlock = require("systems.battle.map_block")
+local MapBlock = require("battle.map_block")
 
 local MapEditor = {}
 

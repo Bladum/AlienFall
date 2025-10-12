@@ -1,13 +1,13 @@
 -- Love2D Configuration File
--- XCOM Simple - Configuration for Love2D 12.0
+-- Alien Fall - Configuration for Love2D 12.0
 
 function love.conf(t)
-    t.identity = "xcom_simple"              -- Save directory name
+    t.identity = "alien_fall"               -- Save directory name
     t.version = "12.0"                      -- Love2D version
     t.console = true                        -- Enable console (useful for debugging on Windows)
     
-    t.window.title = "XCOM Simple"         -- Window title
-    t.window.icon = nil                     -- Window icon (set to path if you have one)
+    t.window.title = "Alien Fall"          -- Window title
+    t.window.icon = "icon.png"              -- Window icon
     t.window.width = 960                    -- Window width (40 grid columns × 24px)
     t.window.height = 720                   -- Window height (30 grid rows × 24px)
     t.window.borderless = false             -- Window has borders
@@ -17,7 +17,7 @@ function love.conf(t)
     t.window.fullscreen = false             -- Always windowed
     -- No borderless, no fullscreen, no resizing
     t.window.vsync = 1                      -- Enable vertical sync
-    t.window.msaa = 4                       -- Multisample anti-aliasing (4x)
+    t.window.msaa = 2                       -- Multisample anti-aliasing (4x)
     t.window.alwaysOnTop = true             -- Keep window on top of others
     t.window.x = 100                        -- Window x position
     t.window.y = 100                        -- Window y position

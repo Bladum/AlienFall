@@ -10,33 +10,33 @@ local ActionSystem = require("systems.action_system")
 local Pathfinding = require("systems.pathfinding")
 local LOS = require("systems.los_optimized")  -- OPTIMIZED VERSION
 local Assets = require("systems.assets")
-local AnimationSystem = require("systems.battle.animation_system")
+local AnimationSystem = require("battle.animation_system")
 
 -- Battle components
-local Battlefield = require("systems.battle.battlefield")
-local Camera = require("systems.battle.camera")
-local UnitSelection = require("systems.battle.unit_selection")
-local BattlefieldRenderer = require("systems.battle.renderer")
-local TurnManager = require("systems.battle.turn_manager")
+local Battlefield = require("battle.battlefield")
+local Camera = require("battle.camera")
+local UnitSelection = require("battle.unit_selection")
+local BattlefieldRenderer = require("battle.renderer")
+local TurnManager = require("battle.turn_manager")
 
 -- Fire and Smoke systems
-local FireSystem = require("systems.battle.fire_system")
-local SmokeSystem = require("systems.battle.smoke_system")
+local FireSystem = require("battle.fire_system")
+local SmokeSystem = require("battle.smoke_system")
 
 -- MapBlock system
-local MapBlock = require("systems.battle.map_block")
-local GridMap = require("systems.battle.grid_map")
+local MapBlock = require("battle.map_block")
+local GridMap = require("battle.grid_map")
 
 -- Map generation system
-local MapGenerator = require("systems.battle.map_generator")
+local MapGenerator = require("battle.map_generator")
 
 -- New ECS Battle System
-local HexSystem = require("systems.battle.systems.hex_system")
-local MovementSystem = require("systems.battle.systems.movement_system")
-local VisionSystem = require("systems.battle.systems.vision_system")
-local UnitEntity = require("systems.battle.entities.unit_entity")
-local HexMath = require("systems.battle.utils.hex_math")
-local Debug = require("systems.battle.utils.debug")
+local HexSystem = require("battle.systems.hex_system")
+local MovementSystem = require("battle.systems.movement_system")
+local VisionSystem = require("battle.systems.vision_system")
+local UnitEntity = require("battle.entities.unit_entity")
+local HexMath = require("battle.utils.hex_math")
+local Debug = require("battle.utils.debug")
 
 -- Load viewport system
 local Viewport = require("utils.viewport")
@@ -818,11 +818,45 @@ function Battlescape:drawInformation()
         table.insert(infoLines, "=== SELECTED UNIT ===")
         local unit = self.selection.selectedUnit
         table.insert(infoLines, "Unit: " .. unit.name)
-        table.insert(infoLines, string.format("HP: %d/%d", unit.health, unit.maxHealth))
+        
+        -- Health and Energy
+        local healthPercent = math.floor((unit.health / unit.maxHealth) * 100)
+        table.insert(infoLines, string.format("HP: %d/%d (%d%%)", unit.health, unit.maxHealth, healthPercent))
+        
+        if unit.energy and unit.maxEnergy then
+            local energyPercent = math.floor((unit.energy / unit.maxEnergy) * 100)
+            table.insert(infoLines, string.format("Energy: %d/%d (%d%%)", unit.energy, unit.maxEnergy, energyPercent))
+        end
+        
+        -- Action Points
         table.insert(infoLines, string.format("AP: %d/%d", unit.actionPointsLeft, unit.actionPoints))
         table.insert(infoLines, string.format("MP: %d/%d", unit.movementPointsLeft, unit.movementPoints))
+        
+        -- Combat Stats
+        if unit.stats then
+            if unit.stats.aim then
+                table.insert(infoLines, string.format("Accuracy: %d", unit.stats.aim))
+            end
+            if unit.stats.armour then
+                table.insert(infoLines, string.format("Armor: %d", unit.stats.armour))
+            end
+            if unit.stats.strength then
+                table.insert(infoLines, string.format("Strength: %d", unit.stats.strength))
+            end
+            if unit.stats.react then
+                table.insert(infoLines, string.format("Reactions: %d", unit.stats.react))
+            end
+        end
+        
+        -- Position and Facing
         table.insert(infoLines, string.format("Pos: (%d, %d)", unit.x, unit.y))
-        table.insert(infoLines, string.format("Facing: %d", unit.facing or 0))
+        table.insert(infoLines, string.format("Facing: %d°", unit.facing or 0))
+        
+        -- Weapon Info
+        if unit.weapon1 then
+            table.insert(infoLines, "Weapon: " .. unit.weapon1)
+        end
+        
         table.insert(infoLines, "")  -- Extra spacing
     end
     
@@ -892,7 +926,8 @@ function Battlescape:drawMinimapFrame()
 end
 
 function Battlescape:drawFogOfWar(team)
-    -- Draw FOW overlay
+    -- Draw FOW overlay (respects Debug.showFOW flag)
+    if not Debug.showFOW then return end
     if not team or not team.visibility then return end
     
     for y = 1, MAP_HEIGHT do
@@ -1022,7 +1057,7 @@ function Battlescape:keypressed(key, scancode, isrepeat)
     
     -- F5: Save map to PNG
     if key == "f5" then
-        local MapSaver = require("systems.battle.map_saver")
+        local MapSaver = require("battle.map_saver")
         local timestamp = os.date("%Y%m%d_%H%M%S")
         local filename = "battlefield_" .. timestamp .. ".png"
         local success, filepath = MapSaver.saveMapToPNG(self.battlefield, filename)

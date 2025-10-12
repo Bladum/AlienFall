@@ -18,6 +18,7 @@ last_updated = "2025-10-12"
 [classes.soldier]
 id = "soldier"
 name = "Soldier"
+image = "units/soldier.png"
 defaultWeapon1 = "rifle"
 defaultWeapon2 = ""
 defaultArmour = "light_armour"
@@ -42,6 +43,7 @@ size = 1
 [classes.heavy]
 id = "heavy"
 name = "Heavy"
+image = "units/heavy.png"
 defaultWeapon1 = "heavy_cannon"
 defaultWeapon2 = ""
 defaultArmour = "heavy_armour"
@@ -66,6 +68,7 @@ size = 1
 [classes.sniper]
 id = "sniper"
 name = "Sniper"
+image = "units/sniper.png"
 defaultWeapon1 = "sniper_rifle"
 defaultWeapon2 = "pistol"
 defaultArmour = "light_armour"
@@ -90,6 +93,7 @@ size = 1
 [classes.scout]
 id = "scout"
 name = "Scout"
+image = "units/scout.png"
 defaultWeapon1 = "smg"
 defaultWeapon2 = "pistol"
 defaultArmour = ""
@@ -114,6 +118,7 @@ size = 1
 [classes.medic]
 id = "medic"
 name = "Medic"
+image = "units/medic.png"
 defaultWeapon1 = "pistol"
 defaultWeapon2 = "medkit"
 defaultArmour = "light_armour"
@@ -138,6 +143,7 @@ size = 1
 [classes.engineer]
 id = "engineer"
 name = "Engineer"
+image = "units/engineer.png"
 defaultWeapon1 = "shotgun"
 defaultWeapon2 = "grenade"
 defaultArmour = "light_armour"
@@ -162,6 +168,7 @@ size = 1
 [classes.sectoid]
 id = "sectoid"
 name = "Sectoid"
+image = "units/sectoid.png"
 defaultWeapon1 = "plasma_pistol"
 defaultWeapon2 = ""
 defaultArmour = ""
@@ -186,6 +193,7 @@ size = 1
 [classes.muton]
 id = "muton"
 name = "Muton"
+image = "units/muton.png"
 defaultWeapon1 = "plasma_rifle"
 defaultWeapon2 = ""
 defaultArmour = ""
@@ -210,6 +218,7 @@ size = 1
 [classes.chryssalid]
 id = "chryssalid"
 name = "Chryssalid"
+image = "units/chryssalid.png"
 defaultWeapon1 = "claws"
 defaultWeapon2 = ""
 defaultArmour = ""
@@ -234,6 +243,7 @@ size = 1
 [classes.tank]
 id = "tank"
 name = "Tank"
+image = "units/tank.png"
 defaultWeapon1 = "tank_cannon"
 defaultWeapon2 = ""
 defaultArmour = "tank_armour"
@@ -258,6 +268,7 @@ size = 2
 [classes.civilian]
 id = "civilian"
 name = "Civilian"
+image = "units/civilian.png"
 defaultWeapon1 = ""
 defaultWeapon2 = ""
 defaultArmour = ""

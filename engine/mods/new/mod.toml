@@ -1,11 +1,11 @@
-# XCOM Simple Mod Configuration
+# Alien Fall Mod Configuration
 
 [mod]
 id = "xcom_simple"
-name = "XCOM Simple"
+name = "Alien Fall"
 version = "0.1.0"
-author = "XCOM Simple Team"
-description = "Core content for XCOM Simple - a turn-based tactical strategy game inspired by X-COM"
+author = "Alien Fall Team"
+description = "Core content for Alien Fall - a turn-based tactical strategy game inspired by X-COM"
 type = "content"
 dependencies = []
 

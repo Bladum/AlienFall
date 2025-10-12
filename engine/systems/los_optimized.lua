@@ -2,7 +2,7 @@
 -- Implements shadow casting and caching for 10x performance improvement
 -- Based on analysis in TASK-PERFORMANCE-ANALYSIS.md
 
-local HexMath = require("systems.battle.utils.hex_math")
+local HexMath = require("battle.utils.hex_math")
 
 local LOSOptimized = {}
 LOSOptimized.__index = LOSOptimized

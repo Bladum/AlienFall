@@ -1,7 +1,7 @@
 -- Action System
 -- Manages Action Points (AP) and Movement Points (MP) for units
 
-local HexMath = require("systems.battle.utils.hex_math")
+local HexMath = require("battle.utils.hex_math")
 
 local ActionSystem = {}
 ActionSystem.__index = ActionSystem

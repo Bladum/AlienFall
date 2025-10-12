@@ -73,7 +73,7 @@ end
 function Basescape:initBase()
     -- Base resources
     self.base = {
-        name = "X-COM Base Alpha",
+        name = "Alien Fall Base Alpha",
         funds = 1000000,
         monthlyIncome = 500000,
         monthlyExpenses = 150000

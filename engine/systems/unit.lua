@@ -1,12 +1,61 @@
--- Unit System
--- Manages unit entities, stats, and equipment
+--- Unit System
+--- Manages unit entities, stats, equipment, and combat state.
+---
+--- This module provides the Unit class representing characters in combat.
+--- Units have stats loaded from TOML definitions, equipment that modifies
+--- stats, and combat state including health, energy, and action points.
+---
+--- Example usage:
+---   local Unit = require("systems.unit")
+---   local soldier = Unit.new("soldier", "player", 5, 10)
+---   soldier:takeDamage(20)
+---   print(soldier.health)
 
 local DataLoader = require("systems.data_loader")
 
+--- Unit entity representing a character in combat.
+---
+--- Units have stats, equipment, position, and combat state.
+--- They can move, attack, and use items during tactical battles.
+---
+--- @class Unit
+--- @field id number Unique identifier (set by battlefield)
+--- @field classId string Unit class ("soldier", "alien", etc.)
+--- @field name string Display name
+--- @field x number Grid X position
+--- @field y number Grid Y position
+--- @field health number Current hit points
+--- @field maxHealth number Maximum hit points
+--- @field energy number Current energy points
+--- @field maxEnergy number Maximum energy points
+--- @field team string Team identifier
+--- @field stats table Current stats (base + equipment modifiers)
+--- @field baseStats table Base stats from class definition
+--- @field weapon1 string|nil Primary weapon ID
+--- @field weapon2 string|nil Secondary weapon ID
+--- @field armour string|nil Armor ID
+--- @field statusEffects table Active status effects
+--- @field facing number Direction unit is facing (0-7)
+--- @field killed boolean Whether unit is dead
+--- @field unconscious boolean Whether unit is unconscious
+--- @field sprite table|nil Unit sprite image (Love2D Image object)
 local Unit = {}
 Unit.__index = Unit
 
--- Create a new unit
+--- Create a new Unit instance.
+---
+--- Initializes a unit with the given class and position.
+--- Loads stats from DataLoader and applies equipment modifiers.
+--- Returns nil if the class definition is not found.
+---
+--- @param classId string Unit class identifier (e.g., "soldier", "alien")
+--- @param team string Team identifier
+--- @param x number Grid X position (default: 1)
+--- @param y number Grid Y position (default: 1)
+--- @return Unit|nil New unit instance or nil if class not found
+--- @usage
+---   local unit = Unit.new("soldier", "player", 5, 10)
+---   if unit then print(unit.name) end
 function Unit.new(classId, team, x, y)
     local self = setmetatable({}, Unit)
 
@@ -68,7 +117,13 @@ function Unit.new(classId, team, x, y)
     return self
 end
 
--- Update current stats based on base stats + equipment
+--- Update current stats based on base stats plus equipment modifiers.
+---
+--- Recalculates stats from baseStats, then applies weapon and armour
+--- modifiers. Enforces minimum values for speed, health, sight, sense.
+--- Should be called after changing equipment.
+---
+--- @return nil
 function Unit:updateStats()
     -- Start with base stats
     for stat, value in pairs(self.baseStats) do
@@ -122,31 +177,60 @@ function Unit:updateStats()
     self.stats.sense = math.max(0, self.stats.sense)
 end
 
--- Calculate movement points from action points
+--- Calculate total movement points from remaining action points.
+---
+--- Movement points = actionPointsLeft × speed stat.
+--- Used to determine how far a unit can move in their remaining turn.
+---
+--- @return number Total movement points available
 function Unit:calculateMP()
     return self.actionPointsLeft * self.stats.speed
 end
 
--- Spend movement points (updates action points)
+--- Spend movement points and update action points accordingly.
+---
+--- Reduces movementPoints by amount, then recalculates actionPointsLeft
+--- based on speed. Use this when moving on the map.
+---
+--- @param amount number Movement points to spend
+--- @return nil
 function Unit:spendMP(amount)
     self.movementPoints = math.max(0, self.movementPoints - amount)
     self.actionPointsLeft = math.floor(self.movementPoints / self.stats.speed)
 end
 
--- Spend action points directly (updates movement points)
+--- Spend action points directly and update movement points.
+---
+--- Reduces actionPointsLeft by amount, then recalculates movementPoints
+--- based on speed. Use this for actions like shooting or using items.
+---
+--- @param amount number Action points to spend
+--- @return nil
 function Unit:spendAP(amount)
     self.actionPointsLeft = math.max(0, self.actionPointsLeft - amount)
     self.movementPoints = self:calculateMP()
 end
 
--- Reset unit for new turn
+--- Reset unit resources at start of turn.
+---
+--- Sets actionPointsLeft to 4, recalculates movementPoints,
+--- and clears hasActed flag. Called by turn manager.
+---
+--- @return nil
 function Unit:resetForTurn()
     self.actionPointsLeft = 4
     self.movementPoints = self:calculateMP()
     self.hasActed = false
 end
 
--- Check if unit occupies a specific tile
+--- Check if unit occupies a specific tile.
+---
+--- Handles multi-tile units (size > 1). A unit occupies all tiles
+--- from (x, y) to (x + size-1, y + size-1).
+---
+--- @param x number Tile X coordinate
+--- @param y number Tile Y coordinate
+--- @return boolean True if unit occupies this tile
 function Unit:occupiesTile(x, y)
     for oy = 0, self.stats.size - 1 do
         for ox = 0, self.stats.size - 1 do
@@ -158,7 +242,12 @@ function Unit:occupiesTile(x, y)
     return false
 end
 
--- Get all tiles occupied by this unit
+--- Get list of all tiles occupied by this unit.
+---
+--- Returns array of {x, y} tables for each tile the unit occupies.
+--- Useful for pathfinding and collision detection.
+---
+--- @return table Array of {x=number, y=number} tables
 function Unit:getOccupiedTiles()
     local tiles = {}
     for oy = 0, self.stats.size - 1 do
@@ -169,7 +258,15 @@ function Unit:getOccupiedTiles()
     return tiles
 end
 
--- Move unit to new position
+--- Move unit to new position on the map.
+---
+--- Updates x, y coordinates and animation position. Marks unit visibility
+--- as dirty to trigger LOS recalculation. Does not check for obstacles
+--- or spend action points - caller must validate move first.
+---
+--- @param x number New grid X position
+--- @param y number New grid Y position
+--- @return nil
 function Unit:moveTo(x, y)
     self.x = x
     self.y = y
@@ -180,7 +277,14 @@ function Unit:moveTo(x, y)
     self.visibilityDirty = true
 end
 
--- Take damage
+--- Apply damage to unit, accounting for armour.
+---
+--- Calculates actual damage as max(0, amount - armour stat).
+--- Reduces health and sets alive=false if health reaches 0.
+--- Prints damage messages to console for debugging.
+---
+--- @param amount number Raw damage before armour reduction
+--- @return number Actual damage dealt after armour
 function Unit:takeDamage(amount)
     local actualDamage = math.max(0, amount - self.stats.armour)
     self.health = math.max(0, self.health - actualDamage)
@@ -195,13 +299,24 @@ function Unit:takeDamage(amount)
     return actualDamage
 end
 
--- Heal unit
+--- Restore hit points to unit.
+---
+--- Increases health by amount, capped at maxHealth.
+--- Prints heal message to console for debugging.
+---
+--- @param amount number Hit points to restore
+--- @return nil
 function Unit:heal(amount)
     self.health = math.min(self.maxHealth, self.health + amount)
     print(string.format("[Unit] %s healed %d HP", self.name, amount))
 end
 
--- Generate a name for the unit
+--- Generate display name for unit based on class and team.
+---
+--- Uses class definition name from DataLoader. Adds team indicator
+--- for non-standard teams. Called during construction.
+---
+--- @return string Generated display name
 function Unit:generateName()
     local classDef = DataLoader.unitClasses.get(self.classId)
     if not classDef then return "Unknown" end
@@ -218,20 +333,33 @@ function Unit:generateName()
     end
 end
 
--- Get weapon info
+--- Get primary weapon definition from DataLoader.
+---
+--- @return table|nil Weapon data table or nil if no weapon equipped
 function Unit:getWeapon1()
     return self.weapon1 and DataLoader.weapons.get(self.weapon1)
 end
 
+--- Get secondary weapon definition from DataLoader.
+---
+--- @return table|nil Weapon data table or nil if no weapon equipped
 function Unit:getWeapon2()
     return self.weapon2 and DataLoader.weapons.get(self.weapon2)
 end
 
+--- Get armour definition from DataLoader.
+---
+--- @return table|nil Armour data table or nil if no armour equipped
 function Unit:getArmour()
     return self.armour and DataLoader.armours.get(self.armour)
 end
 
--- Debug info
+--- Generate debug information string for unit.
+---
+--- Returns multi-line string with position, facing, health, AP, MP,
+--- all stats, and equipped items. Useful for debugging and dev tools.
+---
+--- @return string Multi-line debug info string
 function Unit:getDebugInfo()
     local info = string.format("Unit: %s (%s)\n", self.name, self.classId)
     info = info .. string.format("Position: (%d, %d), Facing: %d\n", self.x, self.y, self.facing)
@@ -253,15 +381,32 @@ function Unit:getDebugInfo()
     return info
 end
 
--- Rotation methods
+--- Rotate unit facing 45 degrees counter-clockwise.
+---
+--- Decrements facing value (0-7) and wraps around using modulo.
+---
+--- @return nil
 function Unit:rotateLeft()
     self.facing = (self.facing - 1) % 8
 end
 
+--- Rotate unit facing 45 degrees clockwise.
+---
+--- Increments facing value (0-7) and wraps around using modulo.
+---
+--- @return nil
 function Unit:rotateRight()
     self.facing = (self.facing + 1) % 8
 end
 
+--- Set unit facing to specific direction.
+---
+--- Accepts either numeric direction (0-7) or string direction name
+--- ("NORTH", "SOUTH", etc.). Returns true on success, false if
+--- invalid direction string.
+---
+--- @param direction number|string Direction value 0-7 or name
+--- @return boolean True if direction was set successfully
 function Unit:setFacing(direction)
     if type(direction) == "number" and direction >= 0 and direction <= 7 then
         self.facing = direction
@@ -277,6 +422,13 @@ function Unit:setFacing(direction)
     return true
 end
 
+--- Get facing direction as string name.
+---
+--- Returns direction name from Unit.DIRECTIONS constant table
+--- ("NORTH", "NORTHEAST", etc.). Returns "UNKNOWN" if facing
+--- value is invalid.
+---
+--- @return string Direction name
 function Unit:getFacingName()
     for name, value in pairs(Unit.DIRECTIONS) do
         if value == self.facing then
@@ -285,5 +437,23 @@ function Unit:getFacingName()
     end
     return "UNKNOWN"
 end
+
+
+--- Direction constants mapping names to numeric values (0-7).
+--- Used for unit facing in 8-direction movement system.
+---
+--- Directions:
+---   0 = NORTH, 1 = NORTHEAST, 2 = EAST, 3 = SOUTHEAST,
+---   4 = SOUTH, 5 = SOUTHWEST, 6 = WEST, 7 = NORTHWEST
+Unit.DIRECTIONS = {
+    NORTH = 0,
+    NORTHEAST = 1,
+    EAST = 2,
+    SOUTHEAST = 3,
+    SOUTH = 4,
+    SOUTHWEST = 5,
+    WEST = 6,
+    NORTHWEST = 7
+}
 
 return Unit
