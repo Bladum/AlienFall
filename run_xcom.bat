@@ -1,0 +1,3 @@
+echo Starting XCOM Simple...
+"C:\Program Files\LOVE\lovec.exe" "engine"
+echo Game exited.

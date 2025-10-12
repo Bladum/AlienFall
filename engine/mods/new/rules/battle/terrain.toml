@@ -1,0 +1,195 @@
+# Terrain Type Definitions
+# Defines different terrain types and their properties for battlescape
+
+[metadata]
+version = "1.0"
+description = "Terrain types for XCOM Simple battlescape"
+author = "AI Assistant"
+last_updated = "2025-10-12"
+
+# Terrain structure:
+# id: Unique identifier
+# name: Display name
+# moveCost: MP cost to enter tile (0 = impassable)
+# sightCost: LOS cost to pass through (1000 = blocks sight)
+# blocksMovement: Whether units can move through
+# blocksSight: Whether blocks line of sight
+# cover: Cover percentage provided (0-100)
+# flammability: How easily terrain catches fire (0.0 = fireproof, 1.0 = highly flammable)
+# description: Human-readable description
+
+[terrain.road]
+id = "road"
+name = "Road"
+moveCost = 1
+sightCost = 1
+blocksMovement = false
+blocksSight = false
+cover = 0
+flammability = 0.0
+description = "Paved road that allows quick movement"
+
+[terrain.floor]
+id = "floor"
+name = "Floor"
+moveCost = 2
+sightCost = 1
+blocksMovement = false
+blocksSight = false
+cover = 0
+flammability = 0.2
+description = "Normal floor tile"
+
+[terrain.rough]
+id = "rough"
+name = "Rough Terrain"
+moveCost = 4
+sightCost = 1
+blocksMovement = false
+blocksSight = false
+cover = 25
+flammability = 0.4
+description = "Difficult terrain that slows movement"
+
+[terrain.slope]
+id = "slope"
+name = "Slope"
+moveCost = 6
+sightCost = 1
+blocksMovement = false
+blocksSight = false
+cover = 50
+flammability = 0.3
+description = "Elevated terrain, harder to climb"
+
+[terrain.wall]
+id = "wall"
+name = "Wall"
+moveCost = 0
+sightCost = 1000
+blocksMovement = true
+blocksSight = true
+cover = 100
+flammability = 0.0
+description = "Solid wall that blocks movement and sight"
+
+[terrain.wood_wall]
+id = "wood_wall"
+name = "Wood Wall"
+moveCost = 0
+sightCost = 1000
+blocksMovement = true
+blocksSight = true
+cover = 100
+flammability = 0.8
+description = "Wooden wall that blocks movement and sight"
+
+[terrain.low_wall]
+id = "low_wall"
+name = "Low Wall"
+moveCost = 0
+sightCost = 2
+blocksMovement = true
+blocksSight = false
+cover = 75
+flammability = 0.1
+description = "Low wall that blocks movement but not sight"
+
+[terrain.window]
+id = "window"
+name = "Window"
+moveCost = 0
+sightCost = 1
+blocksMovement = true
+blocksSight = false
+cover = 25
+flammability = 0.3
+description = "Window that allows sight but blocks movement"
+
+[terrain.door]
+id = "door"
+name = "Door"
+moveCost = 2
+sightCost = 1
+blocksMovement = false
+blocksSight = false
+cover = 0
+flammability = 0.7
+description = "Door that can be opened/closed"
+
+[terrain.bushes]
+id = "bushes"
+name = "Bushes"
+moveCost = 2
+sightCost = 5
+blocksMovement = false
+blocksSight = false
+cover = 50
+flammability = 0.9
+description = "Dense bushes that reduce visibility"
+
+[terrain.trees]
+id = "trees"
+name = "Trees"
+moveCost = 4
+sightCost = 1000
+blocksMovement = false
+blocksSight = true
+cover = 75
+flammability = 0.6
+description = "Trees that block sight but allow movement"
+
+[terrain.tree]
+id = "tree"
+name = "Tree"
+moveCost = 99
+sightCost = 3
+blocksMovement = false
+blocksSight = false
+cover = 60
+flammability = 0.6
+description = "Single tree, very hard to move through but allows partial sight"
+
+[terrain.water]
+id = "water"
+name = "Water"
+moveCost = 8
+sightCost = 2
+blocksMovement = false
+blocksSight = false
+cover = 0
+flammability = 0.0
+description = "Water that slows movement significantly"
+
+[terrain.pit]
+id = "pit"
+name = "Pit"
+moveCost = 0
+sightCost = 3
+blocksMovement = true
+blocksSight = false
+cover = 100
+flammability = 0.0
+description = "Deep pit that blocks movement"
+
+[terrain.smoke]
+id = "smoke"
+name = "Smoke"
+moveCost = 2
+sightCost = 3
+blocksMovement = false
+blocksSight = false
+cover = 30
+flammability = 0.0
+description = "Smoke that reduces visibility"
+
+[terrain.fire]
+id = "fire"
+name = "Fire"
+moveCost = 2
+sightCost = 2
+blocksMovement = false
+blocksSight = false
+cover = 0
+flammability = 0.0
+description = "Fire that damages units and spreads"

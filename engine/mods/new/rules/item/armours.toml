@@ -1,0 +1,80 @@
+# Armour Definitions
+# Defines armour that units can equip
+
+[metadata]
+version = "1.0"
+description = "Armour definitions for XCOM Simple"
+author = "AI Assistant"
+last_updated = "2025-10-12"
+
+# Armour structure:
+# id: Unique identifier
+# name: Display name
+# type: "light", "medium", "heavy", "power", "vehicle"
+# armourValue: Damage reduction
+# weight: Weight for carrying capacity
+# mobilityPenalty: Speed reduction when equipped
+# statMods: Other stat modifications (as table)
+
+[armours.light_armour]
+id = "light_armour"
+name = "Light Armour"
+type = "light"
+armourValue = 1
+weight = 2
+mobilityPenalty = 0
+statMods = {}
+
+[armours.medium_armour]
+id = "medium_armour"
+name = "Medium Armour"
+type = "medium"
+armourValue = 2
+weight = 4
+mobilityPenalty = 1
+statMods = {}
+
+[armours.heavy_armour]
+id = "heavy_armour"
+name = "Heavy Armour"
+type = "heavy"
+armourValue = 3
+weight = 6
+mobilityPenalty = 2
+statMods = {}
+
+[armours.power_armour]
+id = "power_armour"
+name = "Power Armour"
+type = "power"
+armourValue = 4
+weight = 8
+mobilityPenalty = 0
+statMods = {strength = 2}
+
+[armours.tank_armour]
+id = "tank_armour"
+name = "Tank Armour"
+type = "vehicle"
+armourValue = 8
+weight = 0
+mobilityPenalty = 0
+statMods = {}
+
+[armours.alien_carapace]
+id = "alien_carapace"
+name = "Alien Carapace"
+type = "medium"
+armourValue = 2
+weight = 0
+mobilityPenalty = 0
+statMods = {}
+
+[armours.chryssalid_exoskeleton]
+id = "chryssalid_exoskeleton"
+name = "Chryssalid Exoskeleton"
+type = "heavy"
+armourValue = 3
+weight = 0
+mobilityPenalty = 0
+statMods = {speed = 1}

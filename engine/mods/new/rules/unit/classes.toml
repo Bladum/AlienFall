@@ -1,0 +1,280 @@
+# Unit Class Definitions
+# Defines base stats and properties for different unit types
+
+[metadata]
+version = "1.0"
+description = "Unit class definitions for XCOM Simple"
+author = "AI Assistant"
+last_updated = "2025-10-12"
+
+# Unit class structure:
+# id: Unique identifier
+# name: Display name
+# baseStats: Base stat values (modified by equipment)
+# defaultWeapon1: Default primary weapon ID
+# defaultWeapon2: Default secondary weapon ID (can be null)
+# defaultArmour: Default armour ID (can be null)
+
+[classes.soldier]
+id = "soldier"
+name = "Soldier"
+defaultWeapon1 = "rifle"
+defaultWeapon2 = ""
+defaultArmour = "light_armour"
+
+[classes.soldier.baseStats]
+strength = 8
+health = 10
+energy = 10
+armour = 0
+aim = 8
+react = 7
+speed = 6
+will = 8
+morale = 10
+sanity = 10
+psi = 2
+sight = 20
+sense = 3
+cover = 0
+size = 1
+
+[classes.heavy]
+id = "heavy"
+name = "Heavy"
+defaultWeapon1 = "heavy_cannon"
+defaultWeapon2 = ""
+defaultArmour = "heavy_armour"
+
+[classes.heavy.baseStats]
+strength = 12
+health = 15
+energy = 8
+armour = 2
+aim = 6
+react = 5
+speed = 4
+will = 9
+morale = 12
+sanity = 12
+psi = 1
+sight = 18
+sense = 2
+cover = 0
+size = 1
+
+[classes.sniper]
+id = "sniper"
+name = "Sniper"
+defaultWeapon1 = "sniper_rifle"
+defaultWeapon2 = "pistol"
+defaultArmour = "light_armour"
+
+[classes.sniper.baseStats]
+strength = 6
+health = 8
+energy = 12
+armour = 0
+aim = 12
+react = 8
+speed = 7
+will = 7
+morale = 8
+sanity = 8
+psi = 3
+sight = 30
+sense = 4
+cover = 0
+size = 1
+
+[classes.scout]
+id = "scout"
+name = "Scout"
+defaultWeapon1 = "smg"
+defaultWeapon2 = "pistol"
+defaultArmour = ""
+
+[classes.scout.baseStats]
+strength = 5
+health = 7
+energy = 15
+armour = 0
+aim = 7
+react = 9
+speed = 9
+will = 6
+morale = 9
+sanity = 9
+psi = 4
+sight = 25
+sense = 5
+cover = 0
+size = 1
+
+[classes.medic]
+id = "medic"
+name = "Medic"
+defaultWeapon1 = "pistol"
+defaultWeapon2 = "medkit"
+defaultArmour = "light_armour"
+
+[classes.medic.baseStats]
+strength = 6
+health = 9
+energy = 14
+armour = 0
+aim = 7
+react = 6
+speed = 7
+will = 10
+morale = 11
+sanity = 11
+psi = 5
+sight = 20
+sense = 3
+cover = 0
+size = 1
+
+[classes.engineer]
+id = "engineer"
+name = "Engineer"
+defaultWeapon1 = "shotgun"
+defaultWeapon2 = "grenade"
+defaultArmour = "light_armour"
+
+[classes.engineer.baseStats]
+strength = 7
+health = 9
+energy = 13
+armour = 1
+aim = 6
+react = 7
+speed = 6
+will = 8
+morale = 9
+sanity = 10
+psi = 2
+sight = 18
+sense = 3
+cover = 0
+size = 1
+
+[classes.sectoid]
+id = "sectoid"
+name = "Sectoid"
+defaultWeapon1 = "plasma_pistol"
+defaultWeapon2 = ""
+defaultArmour = ""
+
+[classes.sectoid.baseStats]
+strength = 4
+health = 6
+energy = 20
+armour = 0
+aim = 5
+react = 6
+speed = 5
+will = 4
+morale = 6
+sanity = 4
+psi = 8
+sight = 16
+sense = 4
+cover = 0
+size = 1
+
+[classes.muton]
+id = "muton"
+name = "Muton"
+defaultWeapon1 = "plasma_rifle"
+defaultWeapon2 = ""
+defaultArmour = ""
+
+[classes.muton.baseStats]
+strength = 10
+health = 12
+energy = 8
+armour = 1
+aim = 7
+react = 8
+speed = 5
+will = 6
+morale = 8
+sanity = 6
+psi = 1
+sight = 18
+sense = 3
+cover = 0
+size = 1
+
+[classes.chryssalid]
+id = "chryssalid"
+name = "Chryssalid"
+defaultWeapon1 = "claws"
+defaultWeapon2 = ""
+defaultArmour = ""
+
+[classes.chryssalid.baseStats]
+strength = 12
+health = 14
+energy = 10
+armour = 2
+aim = 6
+react = 10
+speed = 8
+will = 5
+morale = 7
+sanity = 3
+psi = 0
+sight = 15
+sense = 6
+cover = 0
+size = 1
+
+[classes.tank]
+id = "tank"
+name = "Tank"
+defaultWeapon1 = "tank_cannon"
+defaultWeapon2 = ""
+defaultArmour = "tank_armour"
+
+[classes.tank.baseStats]
+strength = 15
+health = 25
+energy = 5
+armour = 8
+aim = 8
+react = 4
+speed = 3
+will = 12
+morale = 15
+sanity = 15
+psi = 0
+sight = 22
+sense = 2
+cover = 0
+size = 2
+
+[classes.civilian]
+id = "civilian"
+name = "Civilian"
+defaultWeapon1 = ""
+defaultWeapon2 = ""
+defaultArmour = ""
+
+[classes.civilian.baseStats]
+strength = 3
+health = 5
+energy = 8
+armour = 0
+aim = 2
+react = 3
+speed = 5
+will = 4
+morale = 5
+sanity = 6
+psi = 1
+sight = 12
+sense = 2
+cover = 0
+size = 1

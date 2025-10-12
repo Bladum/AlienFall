@@ -1,0 +1,120 @@
+# Rural Farm MapBlock
+# Farmland with fields and barn
+
+[metadata]
+id = "rural_farm_01"
+name = "Farm Fields"
+description = "Agricultural area with barn and cultivated fields"
+width = 15
+height = 15
+biome = "rural"
+difficulty = 1
+author = "System"
+tags = "rural, farm, barn, fields, easy"
+
+[tiles]
+# Barn structure
+"2_10" = "wood_wall"
+"2_11" = "wood_wall"
+"2_12" = "wood_wall"
+"2_13" = "wood_wall"
+"3_10" = "wood_wall"
+"3_13" = "wood_wall"
+"4_10" = "wood_wall"
+"4_13" = "wood_wall"
+"5_10" = "wood_wall"
+"5_11" = "door"
+"5_12" = "wood_wall"
+"5_13" = "wood_wall"
+
+# Barn interior
+"3_11" = "floor"
+"3_12" = "floor"
+"4_11" = "floor"
+"4_12" = "floor"
+
+# Barn fence
+"1_9" = "fence"
+"1_10" = "fence"
+"1_11" = "fence"
+"1_12" = "fence"
+"1_13" = "fence"
+"1_14" = "fence"
+"2_9" = "fence"
+"2_14" = "fence"
+"3_9" = "fence"
+"3_14" = "fence"
+"4_9" = "fence"
+"4_14" = "fence"
+"5_9" = "fence"
+"5_14" = "fence"
+"6_9" = "fence"
+"6_10" = "fence"
+"6_11" = "fence"
+"6_12" = "fence"
+"6_13" = "fence"
+"6_14" = "fence"
+
+# Crop field 1 (represented by bushes)
+"8_2" = "bushes"
+"8_3" = "bushes"
+"8_4" = "bushes"
+"9_2" = "bushes"
+"9_3" = "bushes"
+"9_4" = "bushes"
+"10_2" = "bushes"
+"10_3" = "bushes"
+"10_4" = "bushes"
+
+# Crop field 2
+"8_6" = "bushes"
+"8_7" = "bushes"
+"8_8" = "bushes"
+"9_6" = "bushes"
+"9_7" = "bushes"
+"9_8" = "bushes"
+"10_6" = "bushes"
+"10_7" = "bushes"
+"10_8" = "bushes"
+
+# Crop field 3
+"12_2" = "bushes"
+"12_3" = "bushes"
+"12_4" = "bushes"
+"12_5" = "bushes"
+"12_6" = "bushes"
+"12_7" = "bushes"
+"12_8" = "bushes"
+"13_2" = "bushes"
+"13_3" = "bushes"
+"13_4" = "bushes"
+"13_5" = "bushes"
+"13_6" = "bushes"
+"13_7" = "bushes"
+"13_8" = "bushes"
+
+# Dirt paths between fields
+"7_2" = "mud"
+"7_3" = "mud"
+"7_4" = "mud"
+"7_5" = "mud"
+"7_6" = "mud"
+"7_7" = "mud"
+"7_8" = "mud"
+"11_2" = "mud"
+"11_3" = "mud"
+"11_4" = "mud"
+"11_5" = "mud"
+"11_6" = "mud"
+"11_7" = "mud"
+"11_8" = "mud"
+
+# Trees
+"1_1" = "tree"
+"1_5" = "tree"
+"14_1" = "tree"
+"14_8" = "tree"
+
+# Scattered bushes
+"3_3" = "bushes"
+"5_5" = "bushes"

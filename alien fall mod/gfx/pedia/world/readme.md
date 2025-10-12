@@ -1,1 +1,0 @@
-add images for pedia related to world map like regions, biomes, countries, type of worlds

@@ -1,1 +1,0 @@
-add images for pedia related to sites, which are static locations on world map

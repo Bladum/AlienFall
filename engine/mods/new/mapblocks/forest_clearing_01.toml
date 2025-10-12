@@ -1,0 +1,73 @@
+# Forest Clearing MapBlock
+# Open area surrounded by forest
+
+[metadata]
+id = "forest_clearing_01"
+name = "Forest Clearing"
+description = "Open grassy area with trees on the edges"
+width = 15
+height = 15
+biome = "forest"
+difficulty = 1
+author = "System"
+tags = "forest, clearing, open, easy"
+
+[tiles]
+# Tree line (top)
+"0_1" = "tree"
+"0_4" = "tree"
+"0_7" = "tree"
+"0_10" = "tree"
+"0_13" = "tree"
+"1_2" = "tree"
+"1_5" = "tree"
+"1_8" = "tree"
+"1_11" = "tree"
+
+# Tree line (left)
+"2_0" = "tree"
+"4_0" = "tree"
+"6_0" = "tree"
+"8_0" = "tree"
+"10_0" = "tree"
+"12_0" = "tree"
+"3_1" = "tree"
+"5_1" = "tree"
+"7_1" = "tree"
+"9_1" = "tree"
+"11_1" = "tree"
+
+# Tree line (right)
+"2_14" = "tree"
+"4_14" = "tree"
+"6_14" = "tree"
+"8_14" = "tree"
+"10_14" = "tree"
+"12_14" = "tree"
+"3_13" = "tree"
+"5_13" = "tree"
+"7_13" = "tree"
+"9_13" = "tree"
+"11_13" = "tree"
+
+# Tree line (bottom)
+"14_1" = "tree"
+"14_4" = "tree"
+"14_7" = "tree"
+"14_10" = "tree"
+"14_13" = "tree"
+"13_2" = "tree"
+"13_5" = "tree"
+"13_8" = "tree"
+"13_11" = "tree"
+
+# Scattered bushes in clearing
+"4_4" = "bushes"
+"4_10" = "bushes"
+"7_7" = "bushes"
+"10_4" = "bushes"
+"10_10" = "bushes"
+
+# Single tree in clearing
+"7_3" = "tree"
+"7_11" = "tree"

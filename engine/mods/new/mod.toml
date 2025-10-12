@@ -1,0 +1,29 @@
+# XCOM Simple Mod Configuration
+
+[mod]
+id = "xcom_simple"
+name = "XCOM Simple"
+version = "0.1.0"
+author = "XCOM Simple Team"
+description = "Core content for XCOM Simple - a turn-based tactical strategy game inspired by X-COM"
+type = "content"
+dependencies = []
+
+[paths]
+assets = "assets"
+rules = "rules"
+mapblocks = "mapblocks"
+maps = "maps"
+scripts = "scripts"
+
+[content]
+terrain_types = true
+weapons = true
+armours = true
+unit_classes = true
+mapblocks = true
+assets = true
+
+[settings]
+enabled = true
+load_order = 100

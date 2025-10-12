@@ -1,0 +1,162 @@
+# Weapon Definitions
+# Defines weapons that units can equip
+
+[metadata]
+version = "1.0"
+description = "Weapon definitions for XCOM Simple"
+author = "AI Assistant"
+last_updated = "2025-10-12"
+
+# Weapon structure:
+# id: Unique identifier
+# name: Display name
+# type: "ranged", "melee", "grenade", "special"
+# damage: Base damage
+# range: Maximum range in tiles
+# accuracy: Base accuracy modifier
+# ammo: Ammunition capacity (nil for unlimited)
+# weight: Weight for carrying capacity
+# statMods: Stat modifications when equipped (as table)
+
+[weapons.pistol]
+id = "pistol"
+name = "Pistol"
+type = "ranged"
+damage = 3
+range = 12
+accuracy = 2
+ammo = 12
+weight = 1
+statMods = {}
+
+[weapons.rifle]
+id = "rifle"
+name = "Assault Rifle"
+type = "ranged"
+damage = 4
+range = 20
+accuracy = 1
+ammo = 20
+weight = 3
+statMods = {}
+
+[weapons.smg]
+id = "smg"
+name = "SMG"
+type = "ranged"
+damage = 3
+range = 8
+accuracy = 3
+ammo = 30
+weight = 2
+statMods = {}
+
+[weapons.shotgun]
+id = "shotgun"
+name = "Shotgun"
+type = "ranged"
+damage = 6
+range = 6
+accuracy = 0
+ammo = 6
+weight = 4
+statMods = {}
+
+[weapons.sniper_rifle]
+id = "sniper_rifle"
+name = "Sniper Rifle"
+type = "ranged"
+damage = 8
+range = 35
+accuracy = 4
+ammo = 5
+weight = 5
+statMods = {aim = 2}
+
+[weapons.heavy_cannon]
+id = "heavy_cannon"
+name = "Heavy Cannon"
+type = "ranged"
+damage = 10
+range = 25
+accuracy = -1
+ammo = 8
+weight = 8
+statMods = {}
+
+[weapons.tank_cannon]
+id = "tank_cannon"
+name = "Tank Cannon"
+type = "ranged"
+damage = 15
+range = 30
+accuracy = 0
+ammo = 10
+weight = 0
+statMods = {}
+
+[weapons.knife]
+id = "knife"
+name = "Combat Knife"
+type = "melee"
+damage = 2
+range = 1
+accuracy = 1
+ammo = 0
+weight = 1
+statMods = {}
+
+[weapons.claws]
+id = "claws"
+name = "Alien Claws"
+type = "melee"
+damage = 4
+range = 1
+accuracy = 2
+ammo = 0
+weight = 0
+statMods = {}
+
+[weapons.grenade]
+id = "grenade"
+name = "Grenade"
+type = "grenade"
+damage = 5
+range = 8
+accuracy = -2
+ammo = 1
+weight = 1
+statMods = {}
+
+[weapons.medkit]
+id = "medkit"
+name = "Medkit"
+type = "special"
+damage = 0
+range = 1
+accuracy = 0
+ammo = 3
+weight = 2
+statMods = {}
+
+[weapons.plasma_pistol]
+id = "plasma_pistol"
+name = "Plasma Pistol"
+type = "ranged"
+damage = 4
+range = 14
+accuracy = 2
+ammo = 15
+weight = 2
+statMods = {}
+
+[weapons.plasma_rifle]
+id = "plasma_rifle"
+name = "Plasma Rifle"
+type = "ranged"
+damage = 5
+range = 22
+accuracy = 1
+ammo = 25
+weight = 3
+statMods = {}

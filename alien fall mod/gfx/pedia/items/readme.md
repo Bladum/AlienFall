@@ -1,1 +1,0 @@
-add images for pedia related to items used by crafts and units, like weapons, armours

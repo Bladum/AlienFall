@@ -1,0 +1,120 @@
+# Industrial Yard MapBlock
+# Storage yard with containers and equipment
+
+[metadata]
+id = "industrial_yard_01"
+name = "Storage Yard"
+description = "Open yard with storage containers and scattered equipment"
+width = 15
+height = 15
+biome = "industrial"
+difficulty = 2
+author = "System"
+tags = "industrial, yard, storage, medium"
+
+[tiles]
+# Perimeter fence (top)
+"0_0" = "fence"
+"0_1" = "fence"
+"0_2" = "fence"
+"0_3" = "fence"
+"0_4" = "fence"
+"0_5" = "fence"
+"0_6" = "fence"
+"0_7" = "fence"
+"0_8" = "fence"
+"0_9" = "fence"
+"0_10" = "fence"
+"0_11" = "fence"
+"0_12" = "fence"
+"0_13" = "fence"
+"0_14" = "fence"
+
+# Perimeter fence (bottom)
+"14_0" = "fence"
+"14_1" = "fence"
+"14_2" = "fence"
+"14_3" = "fence"
+"14_4" = "fence"
+"14_5" = "fence"
+"14_6" = "fence"
+"14_7" = "fence"
+"14_8" = "fence"
+"14_9" = "fence"
+"14_10" = "fence"
+"14_11" = "fence"
+"14_12" = "fence"
+"14_13" = "fence"
+"14_14" = "fence"
+
+# Perimeter fence (left)
+"1_0" = "fence"
+"2_0" = "fence"
+"3_0" = "fence"
+"4_0" = "fence"
+"5_0" = "fence"
+"6_0" = "fence"
+"7_0" = "fence"
+"8_0" = "fence"
+"9_0" = "fence"
+"10_0" = "fence"
+"11_0" = "fence"
+"12_0" = "fence"
+"13_0" = "fence"
+
+# Perimeter fence (right)
+"1_14" = "fence"
+"2_14" = "fence"
+"3_14" = "fence"
+"4_14" = "fence"
+"5_14" = "fence"
+"6_14" = "fence"
+"7_14" = "fence"
+"8_14" = "fence"
+"9_14" = "fence"
+"10_14" = "fence"
+"11_14" = "fence"
+"12_14" = "fence"
+"13_14" = "fence"
+
+# Paved area (center)
+"7_7" = "road"
+"7_8" = "road"
+"8_7" = "road"
+"8_8" = "road"
+
+# Container stack 1 (top-left)
+"3_3" = "wood_wall"
+"3_4" = "wood_wall"
+"4_3" = "wood_wall"
+"4_4" = "wood_wall"
+
+# Container stack 2 (top-right)
+"3_10" = "wood_wall"
+"3_11" = "wood_wall"
+"4_10" = "wood_wall"
+"4_11" = "wood_wall"
+
+# Container stack 3 (bottom-left)
+"10_3" = "wood_wall"
+"10_4" = "wood_wall"
+"11_3" = "wood_wall"
+"11_4" = "wood_wall"
+
+# Container stack 4 (bottom-right)
+"10_10" = "wood_wall"
+"10_11" = "wood_wall"
+"11_10" = "wood_wall"
+"11_11" = "wood_wall"
+
+# Small shed
+"6_12" = "wall"
+"6_13" = "wall"
+"7_12" = "wall"
+"7_13" = "wall"
+
+# Metal debris (rock representing scrap)
+"2_7" = "rock"
+"12_7" = "rock"
+"7_2" = "rock"
+"9_12" = "rock"

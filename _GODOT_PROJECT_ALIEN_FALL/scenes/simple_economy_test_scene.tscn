@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://simple_economy_test_scene"]
-
-[ext_resource type="Script" path="res://scripts/tests/simple_economy_test.gd" id="1"]
-
-[node name="SimpleEconomyTest" type="Node"]
-script = ExtResource("1")

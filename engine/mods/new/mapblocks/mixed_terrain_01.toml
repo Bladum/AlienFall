@@ -1,0 +1,86 @@
+# Mixed Terrain MapBlock
+# Diverse terrain with multiple features
+
+[metadata]
+id = "mixed_terrain_01"
+name = "Mixed Terrain"
+description = "Varied terrain with trees, rocks, buildings and open areas"
+width = 15
+height = 15
+biome = "mixed"
+difficulty = 2
+author = "System"
+tags = "mixed, varied, diverse, medium"
+
+[tiles]
+# Small building (top-left)
+"2_2" = "wall"
+"2_3" = "wall"
+"2_4" = "wall"
+"3_2" = "wall"
+"3_4" = "wall"
+"4_2" = "wall"
+"4_3" = "door"
+"4_4" = "wall"
+"3_3" = "floor"
+
+# Tree cluster
+"2_8" = "tree"
+"2_9" = "tree"
+"3_8" = "tree"
+"3_9" = "bushes"
+
+# Rock formation
+"7_2" = "rock"
+"7_3" = "rock"
+"8_2" = "rock"
+"8_3" = "rock"
+"8_4" = "rock"
+
+# Road section
+"11_0" = "road"
+"11_1" = "road"
+"11_2" = "road"
+"11_3" = "road"
+"11_4" = "road"
+"11_5" = "road"
+"11_6" = "road"
+"11_7" = "road"
+"11_8" = "road"
+"11_9" = "road"
+"11_10" = "road"
+"11_11" = "road"
+"11_12" = "road"
+"11_13" = "road"
+"11_14" = "road"
+
+# Water puddle
+"6_11" = "water"
+"6_12" = "water"
+"7_11" = "water"
+"7_12" = "water"
+"5_11" = "mud"
+"5_12" = "mud"
+"6_10" = "mud"
+"6_13" = "mud"
+"7_10" = "mud"
+"7_13" = "mud"
+"8_11" = "mud"
+"8_12" = "mud"
+
+# Wooden fence
+"0_6" = "fence"
+"1_6" = "fence"
+"2_6" = "fence"
+"3_6" = "fence"
+"4_6" = "fence"
+"5_6" = "fence"
+"6_6" = "fence"
+
+# Scattered vegetation
+"1_12" = "bushes"
+"3_13" = "bushes"
+"9_1" = "tree"
+"9_8" = "bushes"
+"13_4" = "tree"
+"13_10" = "bushes"

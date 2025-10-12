@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://test_battlescape"]
-
-[ext_resource type="Script" path="res://scripts/tests/test_battlescape_integration.gd" id="1"]
-
-[node name="TestBattlescapeIntegration" type="Node"]
-script = ExtResource("1")

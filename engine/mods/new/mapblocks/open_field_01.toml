@@ -1,0 +1,25 @@
+# Open Field MapBlock
+# Sparse vegetation, mostly open ground
+
+[metadata]
+id = "open_field_01"
+name = "Open Field"
+description = "Wide open field with scattered bushes"
+width = 15
+height = 15
+biome = "rural"
+difficulty = 1
+author = "System"
+tags = "open, field, rural, easy"
+
+[tiles]
+# Scattered bushes for cover
+"3_4" = "bushes"
+"3_10" = "bushes"
+"7_2" = "bushes"
+"7_12" = "bushes"
+"11_6" = "bushes"
+"11_8" = "bushes"
+"5_7" = "rough"
+"9_9" = "rough"
+# Everything else defaults to "floor"

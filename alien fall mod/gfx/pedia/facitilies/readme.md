@@ -1,1 +1,0 @@
-add images for pedia related to base facilities

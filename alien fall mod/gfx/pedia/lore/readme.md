@@ -1,1 +1,0 @@
-add images for pedia related to core game lore, like quests, dossiers
