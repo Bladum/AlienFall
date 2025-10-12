@@ -179,11 +179,25 @@ function ModManager.init()
     print("[ModManager] Initializing mod system...")
     ModManager.loadMods()
     
-    -- Auto-select first mod as active if available
-    if #ModManager.modOrder > 0 then
+    -- Try to load 'new' (xcom_simple) mod as default
+    local defaultModLoaded = false
+    if ModManager.isModLoaded("xcom_simple") then
+        ModManager.setActiveMod("xcom_simple")
+        defaultModLoaded = true
+        print("[ModManager] Default mod 'xcom_simple' loaded successfully")
+    elseif ModManager.isModLoaded("new") then
+        ModManager.setActiveMod("new")
+        defaultModLoaded = true
+        print("[ModManager] Default mod 'new' loaded successfully")
+    end
+    
+    -- Fallback to first available mod if default not found
+    if not defaultModLoaded and #ModManager.modOrder > 0 then
         ModManager.setActiveMod(ModManager.modOrder[1])
-    else
-        print("[ModManager] WARNING: No mods found!")
+        print(string.format("[ModManager] WARNING: Default mod not found, using '%s'", ModManager.modOrder[1]))
+    elseif not defaultModLoaded then
+        print("[ModManager] ERROR: No mods found!")
+        error("[ModManager] Cannot start game without a mod. Please ensure mods/new/ exists with mod.toml")
     end
     
     print("[ModManager] Mod system initialized")
@@ -205,6 +219,84 @@ end
 ]]
 function ModManager.isModLoaded(modId)
     return ModManager.mods[modId] ~= nil
+end
+
+--[[
+    Get terrain types from active mod
+    Returns: table of terrain type definitions
+]]
+function ModManager.getTerrainTypes()
+    local mod = ModManager.getActiveMod()
+    if not mod then
+        print("[ModManager] ERROR: No active mod set")
+        return {}
+    end
+    
+    -- Try to load from DataLoader first (TOML-based)
+    local DataLoader = require("systems.data_loader")
+    if DataLoader and DataLoader.terrainTypes then
+        return DataLoader.terrainTypes
+    end
+    
+    return {}
+end
+
+--[[
+    Get mapblocks from active mod
+    Returns: table of mapblock definitions
+]]
+function ModManager.getMapblocks()
+    local mod = ModManager.getActiveMod()
+    if not mod then
+        print("[ModManager] ERROR: No active mod set")
+        return {}
+    end
+    
+    local mapblocksPath = ModManager.getContentPath("mapblocks")
+    if not mapblocksPath then
+        return {}
+    end
+    
+    -- Load all mapblock files from directory
+    local mapblocks = {}
+    local items = love.filesystem.getDirectoryItems(mapblocksPath)
+    for _, filename in ipairs(items) do
+        if filename:match("%.toml$") then
+            local filepath = mapblocksPath .. "/" .. filename
+            local TOML = require("libs.toml")
+            local success, mapblock = pcall(TOML.load, filepath)
+            if success and mapblock then
+                mapblock.filename = filename
+                table.insert(mapblocks, mapblock)
+            end
+        end
+    end
+    
+    return mapblocks
+end
+
+--[[
+    Get current active mod data
+    Returns: mod configuration table
+]]
+function ModManager.getCurrentMod()
+    return ModManager.getActiveMod()
+end
+
+--[[
+    Get mod info summary for display
+    Returns: string with mod info
+]]
+function ModManager.getModInfo()
+    local mod = ModManager.getActiveMod()
+    if not mod then
+        return "No active mod"
+    end
+    
+    return string.format("%s v%s by %s", 
+        mod.mod.name, 
+        mod.mod.version, 
+        mod.mod.author or "Unknown")
 end
 
 return ModManager
