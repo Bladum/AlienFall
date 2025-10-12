@@ -4,6 +4,13 @@
 
 local HexMath = require("battle.utils.hex_math")
 
+--- @class FireSystem
+--- Manages fire propagation, damage, and smoke generation in tactical combat.
+--- Fire spreads to adjacent flammable tiles based on terrain properties and random chance.
+--- Damages units standing in fire tiles and produces smoke that affects visibility.
+---
+--- @field activeFires table[] Array of active fire objects with {x, y, duration} fields
+--- @field fireGrid table[][] 2D boolean grid for O(1) fire lookup [y][x] = true
 local FireSystem = {}
 FireSystem.__index = FireSystem
 
@@ -22,6 +29,9 @@ local CONFIG = {
 --- Constructor
 ---
 
+--- Creates a new fire system instance.
+---
+--- @return FireSystem A new FireSystem instance with empty fire tracking
 function FireSystem.new()
     local self = setmetatable({}, FireSystem)
     self.activeFires = {}  -- Array of {x, y, duration}
@@ -33,64 +43,73 @@ end
 --- Fire Management
 ---
 
--- Start fire at position
+--- Starts a fire at the specified position if the tile is flammable and not already burning.
+---
+--- @param battlefield table The battlefield containing the tile
+--- @param x number Tile X coordinate (1-based)
+--- @param y number Tile Y coordinate (1-based)
+--- @return boolean True if fire was started, false otherwise
 function FireSystem:startFire(battlefield, x, y)
     if not battlefield or not battlefield:isValidTile(x, y) then
         return false
     end
-    
+
     local tile = battlefield:getTile(x, y)
     if not tile or not tile.terrain then
         return false
     end
-    
+
     -- Check if tile is flammable
     local flammability = tile.terrain.flammability or 0
     if flammability <= 0 then
-        print(string.format("[FireSystem] Tile (%d, %d) is not flammable (terrain: %s)", 
+        print(string.format("[FireSystem] Tile (%d, %d) is not flammable (terrain: %s)",
             x, y, tile.terrain.id))
         return false
     end
-    
+
     -- Check if already on fire
     if tile.effects and tile.effects.fire then
         return false
     end
-    
+
     -- Initialize effects table if needed
     if not tile.effects then
         tile.effects = {}
     end
-    
+
     -- Start fire
     tile.effects.fire = true
     tile.effects.fireDuration = 0
-    
+
     -- Add to active fires list
     table.insert(self.activeFires, {x = x, y = y, duration = 0})
-    
+
     -- Add to fire grid for O(1) lookup
     if not self.fireGrid[y] then
         self.fireGrid[y] = {}
     end
     self.fireGrid[y][x] = true
-    
+
     print(string.format("[FireSystem] Fire started at (%d, %d)", x, y))
     return true
 end
 
--- Stop fire at position
+--- Stops the fire at the specified position if one exists.
+---
+--- @param battlefield table The battlefield containing the tile
+--- @param x number Tile X coordinate (1-based)
+--- @param y number Tile Y coordinate (1-based)
 function FireSystem:stopFire(battlefield, x, y)
     local tile = battlefield:getTile(x, y)
     if tile and tile.effects and tile.effects.fire then
         tile.effects.fire = false
         tile.effects.fireDuration = nil
-        
+
         -- Remove from grid
         if self.fireGrid[y] then
             self.fireGrid[y][x] = nil
         end
-        
+
         -- Remove from active fires list
         for i = #self.activeFires, 1, -1 do
             local fire = self.activeFires[i]
@@ -99,12 +118,16 @@ function FireSystem:stopFire(battlefield, x, y)
                 break
             end
         end
-        
+
         print(string.format("[FireSystem] Fire extinguished at (%d, %d)", x, y))
     end
 end
 
--- Check if tile has fire
+--- Checks if the specified tile position has an active fire.
+---
+--- @param x number Tile X coordinate (1-based)
+--- @param y number Tile Y coordinate (1-based)
+--- @return boolean True if tile has fire, false otherwise
 function FireSystem:hasFire(x, y)
     return self.fireGrid[y] and self.fireGrid[y][x] == true
 end
@@ -113,28 +136,33 @@ end
 --- Fire Spreading
 ---
 
--- Spread fire to adjacent flammable tiles
+--- Attempts to spread fire from the specified position to adjacent flammable tiles.
+--- Uses hex neighbors and considers terrain flammability in spread probability.
+---
+--- @param battlefield table The battlefield containing the tiles
+--- @param x number Source tile X coordinate (1-based)
+--- @param y number Source tile Y coordinate (1-based)
 function FireSystem:spreadFire(battlefield, x, y)
     local tile = battlefield:getTile(x, y)
     if not tile or not tile.effects or not tile.effects.fire then
         return
     end
-    
+
     -- Get hex neighbors
     local q, r = HexMath.offsetToAxial(x, y)
     local neighbors = HexMath.getNeighbors(q, r)
-    
+
     local spreadCount = 0
     for _, neighbor in ipairs(neighbors) do
         local nx, ny = HexMath.axialToOffset(neighbor.q, neighbor.r)
-        
+
         -- Check if neighbor is valid and not already on fire
         if battlefield:isValidTile(nx, ny) then
             local neighborTile = battlefield:getTile(nx, ny)
-            
+
             if neighborTile and not (neighborTile.effects and neighborTile.effects.fire) then
                 local flammability = neighborTile.terrain.flammability or 0
-                
+
                 -- Roll for spread
                 if flammability > 0 and math.random() < (CONFIG.fireSpreadChance * flammability) then
                     self:startFire(battlefield, nx, ny)
@@ -143,7 +171,7 @@ function FireSystem:spreadFire(battlefield, x, y)
             end
         end
     end
-    
+
     if spreadCount > 0 then
         print(string.format("[FireSystem] Fire at (%d, %d) spread to %d tiles", x, y, spreadCount))
     end
@@ -153,25 +181,31 @@ end
 --- Smoke Production
 ---
 
--- Produce smoke in adjacent empty tiles
+--- Produces smoke in adjacent empty tiles around a fire.
+--- Smoke affects visibility and can spread independently of fire.
+---
+--- @param battlefield table The battlefield containing the tiles
+--- @param x number Fire tile X coordinate (1-based)
+--- @param y number Fire tile Y coordinate (1-based)
+--- @param smokeSystem table The smoke system to add smoke to
 function FireSystem:produceSmoke(battlefield, x, y, smokeSystem)
     if not smokeSystem then return end
-    
+
     local tile = battlefield:getTile(x, y)
     if not tile or not tile.effects or not tile.effects.fire then
         return
     end
-    
+
     -- Get hex neighbors
     local q, r = HexMath.offsetToAxial(x, y)
     local neighbors = HexMath.getNeighbors(q, r)
-    
+
     for _, neighbor in ipairs(neighbors) do
         local nx, ny = HexMath.axialToOffset(neighbor.q, neighbor.r)
-        
+
         if battlefield:isValidTile(nx, ny) then
             local neighborTile = battlefield:getTile(nx, ny)
-            
+
             -- Produce smoke if random chance succeeds
             if neighborTile and math.random() < CONFIG.smokeProductionChance then
                 -- Smoke only on empty tiles (not walls)
@@ -187,28 +221,31 @@ end
 --- Unit Damage
 ---
 
--- Damage units standing in fire
+--- Damages all units standing in fire tiles and kills them if health reaches zero.
+---
+--- @param units table Table of units to check for fire damage
+--- @return number Number of units that took damage
 function FireSystem:damageUnitsInFire(units)
     local damagedCount = 0
-    
+
     for _, unit in pairs(units) do
         if unit and unit.alive and self:hasFire(unit.x, unit.y) then
             unit.health = unit.health - CONFIG.fireDamagePerTurn
-            
+
             if unit.health <= 0 then
                 unit.health = 0
                 unit.alive = false
-                print(string.format("[FireSystem] %s killed by fire at (%d, %d)", 
+                print(string.format("[FireSystem] %s killed by fire at (%d, %d)",
                     unit.name, unit.x, unit.y))
             else
-                print(string.format("[FireSystem] %s took %d fire damage at (%d, %d) (HP: %d/%d)", 
+                print(string.format("[FireSystem] %s took %d fire damage at (%d, %d) (HP: %d/%d)",
                     unit.name, CONFIG.fireDamagePerTurn, unit.x, unit.y, unit.health, unit.maxHealth))
             end
-            
+
             damagedCount = damagedCount + 1
         end
     end
-    
+
     return damagedCount
 end
 
@@ -216,12 +253,17 @@ end
 --- Turn Update
 ---
 
--- Update all fires (spread, produce smoke, damage units)
+--- Updates all fires for a new turn: spreads fire, produces smoke, and damages units.
+--- Should be called once per turn in the battle system.
+---
+--- @param battlefield table The battlefield containing fire tiles
+--- @param units table Table of units that may be affected by fire
+--- @param smokeSystem table|nil Optional smoke system for smoke production
 function FireSystem:update(battlefield, units, smokeSystem)
     local updateStartTime = love and love.timer and love.timer.getTime() or 0
-    
+
     print(string.format("[FireSystem] Update: %d active fires", #self.activeFires))
-    
+
     -- Update fire duration and spread
     local firesToSpread = {}
     for i, fire in ipairs(self.activeFires) do
@@ -230,28 +272,28 @@ function FireSystem:update(battlefield, units, smokeSystem)
             -- Increment duration
             fire.duration = fire.duration + 1
             tile.effects.fireDuration = fire.duration
-            
+
             -- Mark for spreading
             table.insert(firesToSpread, {x = fire.x, y = fire.y})
         end
     end
-    
+
     -- Spread fires (do this after iteration to avoid modifying during iteration)
     for _, fire in ipairs(firesToSpread) do
         self:spreadFire(battlefield, fire.x, fire.y)
-        
+
         -- Produce smoke
         if smokeSystem then
             self:produceSmoke(battlefield, fire.x, fire.y, smokeSystem)
         end
     end
-    
+
     -- Damage units in fire
     local damagedCount = self:damageUnitsInFire(units)
     if damagedCount > 0 then
         print(string.format("[FireSystem] Damaged %d units in fire", damagedCount))
     end
-    
+
     if love and love.timer then
         local updateTime = (love.timer.getTime() - updateStartTime) * 1000
         print(string.format("[FireSystem] Update complete in %.3f ms", updateTime))
@@ -262,10 +304,16 @@ end
 --- Statistics
 ---
 
+--- Gets the current number of active fires.
+---
+--- @return number Number of active fires
 function FireSystem:getFireCount()
     return #self.activeFires
 end
 
+--- Clears all active fires from the battlefield.
+---
+--- @param battlefield table The battlefield to clear fires from
 function FireSystem:clearAllFires(battlefield)
     for i = #self.activeFires, 1, -1 do
         local fire = self.activeFires[i]

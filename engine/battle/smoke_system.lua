@@ -5,6 +5,13 @@
 
 local HexMath = require("battle.utils.hex_math")
 
+--- @class SmokeSystem
+--- Manages smoke propagation, dissipation, and sight penalties in tactical combat.
+--- Smoke spreads to adjacent tiles and naturally dissipates over time.
+--- Higher smoke levels provide greater sight obstruction (+2 per level).
+---
+--- @field activeSmoke table[] Array of active smoke objects with {x, y, level, age} fields
+--- @field smokeGrid table[][] 2D grid for O(1) smoke level lookup [y][x] = level
 local SmokeSystem = {}
 SmokeSystem.__index = SmokeSystem
 

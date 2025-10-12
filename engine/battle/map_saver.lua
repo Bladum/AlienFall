@@ -1,6 +1,10 @@
 -- Map Saver Module
 -- Saves battlefield maps as PNG images (1 pixel = 1 tile)
 
+--- @module MapSaver
+--- Provides functionality to save battlefield maps as PNG images and load them back.
+--- Each pixel represents one tile, with colors mapped to terrain types.
+--- Saves to system TEMP directory to avoid cluttering project files.
 local MapSaver = {}
 
 -- Terrain type to color mapping
@@ -22,25 +26,31 @@ local TERRAIN_COLORS = {
     smoke = {200, 200, 200},      -- Light gray
 }
 
--- Save battlefield to PNG file
+--- Saves a battlefield map as a PNG image file.
+--- Each pixel represents one tile, colored according to terrain type.
+--- Saves to system TEMP directory.
+---
+--- @param battlefield table The battlefield to save (must have width, height, map[y][x] structure)
+--- @param filename string The filename for the PNG file (without path)
+--- @return boolean, string|nil Returns true and filepath on success, false on failure
 function MapSaver.saveMapToPNG(battlefield, filename)
     if not battlefield or not battlefield.map then
         print("[MapSaver] ERROR: Invalid battlefield")
         return false
     end
-    
+
     local width = battlefield.width
     local height = battlefield.height
-    
+
     print(string.format("[MapSaver] Saving %dx%d battlefield to PNG...", width, height))
-    
+
     -- Create image data
     local success, imageData = pcall(love.image.newImageData, width, height)
     if not success then
         print(string.format("[MapSaver] ERROR: Failed to create image data: %s", tostring(imageData)))
         return false
     end
-    
+
     -- Set pixel colors based on terrain
     for y = 1, height do
         for x = 1, width do
@@ -48,34 +58,34 @@ function MapSaver.saveMapToPNG(battlefield, filename)
             if tile then
                 local terrainId = tile.terrain and tile.terrain.id or "floor"
                 local color = TERRAIN_COLORS[terrainId] or {255, 0, 255}  -- Magenta for unknown
-                
+
                 -- Love2D uses 0-1 range, convert from 0-255
                 local pixelSuccess = pcall(function()
                     imageData:setPixel(x - 1, y - 1, color[1]/255, color[2]/255, color[3]/255, 1)
                 end)
-                
+
                 if not pixelSuccess then
                     print(string.format("[MapSaver] WARNING: Failed to set pixel at (%d, %d)", x, y))
                 end
             end
         end
     end
-    
+
     -- Get temp directory
     local tempDir = os.getenv("TEMP") or os.getenv("TMP")
     if not tempDir then
         print("[MapSaver] ERROR: Cannot access TEMP directory")
         return false
     end
-    
+
     local filepath = tempDir .. "\\" .. filename
     print(string.format("[MapSaver] Saving to: %s", filepath))
-    
+
     -- Save to file
     local encodeSuccess, encodeError = pcall(function()
         imageData:encode("png", filepath)
     end)
-    
+
     if encodeSuccess then
         print(string.format("[MapSaver] SUCCESS: Map saved to: %s", filepath))
         return true, filepath
@@ -85,23 +95,27 @@ function MapSaver.saveMapToPNG(battlefield, filename)
     end
 end
 
--- Load map from PNG file
+--- Loads a PNG map file and returns the image data.
+--- Looks for the file in the system TEMP directory.
+---
+--- @param filename string The PNG filename to load (without path)
+--- @return table|nil Map data with width, height, and imageData fields, or nil on error
 function MapSaver.loadMapFromPNG(filename)
     local tempDir = os.getenv("TEMP") or os.getenv("TMP") or "."
     local filepath = tempDir .. "\\" .. filename
-    
+
     local success, imageData = pcall(love.image.newImageData, filepath)
-    
+
     if not success then
         print(string.format("[MapSaver] ERROR: Could not load %s", filepath))
         return nil
     end
-    
+
     local width = imageData:getWidth()
     local height = imageData:getHeight()
-    
+
     print(string.format("[MapSaver] Loaded map: %dx%d", width, height))
-    
+
     -- Return map data structure
     return {
         width = width,
@@ -110,17 +124,23 @@ function MapSaver.loadMapFromPNG(filename)
     }
 end
 
--- Get terrain type from pixel color
+--- Converts an RGB color value back to the closest matching terrain type.
+--- Used when loading maps from PNG files.
+---
+--- @param r number Red component (0-1 range)
+--- @param g number Green component (0-1 range)
+--- @param b number Blue component (0-1 range)
+--- @return string The terrain ID that best matches the color
 function MapSaver.getTerrainFromColor(r, g, b)
     -- Convert 0-1 to 0-255
     local r255 = math.floor(r * 255)
     local g255 = math.floor(g * 255)
     local b255 = math.floor(b * 255)
-    
+
     -- Find closest matching terrain
     local minDist = math.huge
     local bestTerrain = "floor"
-    
+
     for terrainId, color in pairs(TERRAIN_COLORS) do
         local dist = math.abs(r255 - color[1]) + math.abs(g255 - color[2]) + math.abs(b255 - color[3])
         if dist < minDist then
@@ -128,7 +148,7 @@ function MapSaver.getTerrainFromColor(r, g, b)
             bestTerrain = terrainId
         end
     end
-    
+
     return bestTerrain
 end
 

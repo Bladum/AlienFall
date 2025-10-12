@@ -2,6 +2,23 @@
 -- Integration guide for hex battle system
 -- This file shows how to integrate the new ECS hex system with existing battlescape.lua
 
+--- @class BattlescapeIntegration
+--- Integration guide and status for the hex-based battle system.
+--- Provides step-by-step instructions for migrating from the old battlefield system
+--- to the new ECS-based hex grid system with proper vision, movement, and rendering.
+
+--- @field version string Current version of the integration guide
+--- @field status string Current status of the integration
+--- @field systems_ready boolean Whether all required systems are ready for integration
+
+--- @type table
+--- Configuration table containing integration status and metadata
+local integration = {
+    version = "1.0.0",
+    status = "Integration guide complete",
+    systems_ready = true
+}
+
 --[[
 INTEGRATION STEPS:
 
@@ -17,7 +34,7 @@ INTEGRATION STEPS:
    -- Initialize hex system (replaces battlefield)
    self.hexSystem = HexSystem.new(MAP_WIDTH, MAP_HEIGHT, TILE_SIZE)
    Debug.enabled = true  -- Enable debug output
-   
+
 3. In Battlescape:initUnits(), convert units:
    -- Old: local unit = Unit.new("soldier", "player", x, y)
    -- New: local unit = UnitEntity.new({q = x, r = y, teamId = 1, facing = 0, maxHP = 100, maxAP = 10})
@@ -29,7 +46,7 @@ INTEGRATION STEPS:
        print("[Battlescape] FOW toggle:", Debug.showFOW)
        return
    end
-   
+
    if key == "f9" then
        Debug.toggleHexGrid()
        print("[Battlescape] Hex grid toggle:", Debug.showHexGrid)
@@ -41,7 +58,7 @@ INTEGRATION STEPS:
    if Debug.showHexGrid then
        HexSystem.drawHexGrid(self.hexSystem, self.camera)
    end
-   
+
    -- Draw vision cones (optional)
    if Debug.showVisionCones then
        local activeTeam = self.turnManager:getCurrentTeam()
@@ -80,8 +97,4 @@ TESTING:
 
 --]]
 
-return {
-    version = "1.0.0",
-    status = "Integration guide complete",
-    systems_ready = true
-}
+return integration
