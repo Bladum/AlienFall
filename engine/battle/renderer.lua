@@ -203,7 +203,7 @@ function BattlefieldRenderer:drawTileTerrain(tile, screenX, screenY, zoom, brigh
 end
 
 -- Draw units
-function BattlefieldRenderer:drawUnits(units, camera, teamManager, debugViewTeam)
+function BattlefieldRenderer:drawUnits(units, camera, teamManager, debugViewTeam, time)
     for _, unit in pairs(units) do
         if unit.alive then
             -- Check visibility
@@ -211,6 +211,8 @@ function BattlefieldRenderer:drawUnits(units, camera, teamManager, debugViewTeam
             
             if isVisible then
                 self:drawUnit(unit, camera, teamManager)
+                -- Draw indicator for unmoved units
+                self:drawUnmovedUnitIndicator(unit, camera, time)
             end
         end
     end
@@ -315,7 +317,36 @@ function BattlefieldRenderer:drawSelectionHighlight(unit, camera, time)
     love.graphics.setLineWidth(1)  -- Reset line width
 end
 
--- Draw visible tile indicators (yellow dots for tiles visible to selected unit)
+-- Draw visual indicator for units that haven't moved yet
+function BattlefieldRenderer:drawUnmovedUnitIndicator(unit, camera, time)
+    if not unit or unit.actionPointsLeft < 4 then return end
+    
+    -- Use animation position
+    local drawX = unit.animX or unit.x
+    local drawY = unit.animY or unit.y
+    
+    local screenX = ((drawX - 1) * self.tileSize) * camera.zoom + camera.x
+    -- Offset alternate columns to simulate hex grid
+    local offsetY = (math.floor(drawX) % 2 == 0) and (self.tileSize * camera.zoom * 0.5) or 0
+    local screenY = ((drawY - 1) * self.tileSize) * camera.zoom + camera.y + offsetY
+    
+    -- Green circle indicator for unmoved units
+    local centerX = screenX + (self.tileSize * camera.zoom) / 2
+    local centerY = screenY - 8 * camera.zoom  -- Position above unit
+    
+    -- Pulsing green circle
+    local pulse = 0.6 + 0.4 * math.sin((time or 0) * 2)  -- Pulse between 0.6 and 1.0
+    love.graphics.setColor(0, 1, 0, pulse)  -- Green
+    local radius = 4 * camera.zoom
+    love.graphics.circle("fill", centerX, centerY, radius)
+    
+    -- Green border
+    love.graphics.setColor(0, 0.8, 0, 1)
+    love.graphics.setLineWidth(1 * camera.zoom)
+    love.graphics.circle("line", centerX, centerY, radius)
+    love.graphics.setLineWidth(1)  -- Reset line width
+end
+
 function BattlefieldRenderer:drawVisibleTileIndicators(visibleTiles, camera)
     if not visibleTiles or #visibleTiles == 0 then return end
     

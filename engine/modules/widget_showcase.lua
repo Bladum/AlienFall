@@ -42,11 +42,13 @@ function WidgetShowcase:enter()
     -- Column 1: Basic Widgets
     
     -- Button
+    local button = Widgets.Button.new(col1X, startY + rowSpacing * currentRow, 192, 48, "Click Me")
+    button.onClick = function()
+        print("[Showcase] Button clicked!")
+    end
     table.insert(self.widgets, {
         name = "Button",
-        widget = Widgets.Button.new(col1X, startY + rowSpacing * currentRow, 192, 48, "Click Me", function()
-            print("[Showcase] Button clicked!")
-        end)
+        widget = button
     })
     
     -- Label

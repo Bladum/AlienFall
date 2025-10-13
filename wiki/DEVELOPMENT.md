@@ -12,7 +12,7 @@
 
 ```
 c:\Users\tombl\Documents\Projects\
-├── engine/                          -- Main game engine (XCOM Simple)
+├── engine/                          -- Main game engine (Alien Fall)
 │   ├── main.lua                    -- Entry point
 │   ├── conf.lua                    -- Love2D configuration
 │   ├── systems/                    -- Core game systems
@@ -34,6 +34,7 @@ c:\Users\tombl\Documents\Projects\
 │   └── DONE/                       -- Completed tasks
 ├── .vscode/                        -- VS Code settings
 │   └── tasks.json                  -- Build/run tasks
+├── icon.png                        -- Game icon
 └── run_xcom.bat                   -- Quick launch script
 ```
 
@@ -56,7 +57,7 @@ lovec "engine"
 ### Method 3: Using VS Code Task
 1. Press `Ctrl+Shift+P`
 2. Type "Run Task"
-3. Select "Run XCOM Simple Game"
+3. Select "Run Alien Fall Game"
 
 **Note:** All methods automatically enable the Love2D console for debugging output.
 

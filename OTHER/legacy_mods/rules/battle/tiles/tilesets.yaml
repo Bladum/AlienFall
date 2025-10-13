@@ -1,0 +1,146 @@
+# filepath: c:\Users\TomaszBłądkowski\Videos\MOJE\XCOM\mods\xcom\rules3\battle\tiles\tilesets.yaml
+#
+#   TILESETS
+#
+
+tilesets:
+  #
+  #   crafts
+  #
+  xcraft:
+    name: "XCOM Craft"
+    file: "xcraft"
+
+  ufo:
+    name: "Alien ufo"
+    file: "ufo"
+
+  #
+  #   base
+  #
+  xbase:
+    name: "XCOM Base"
+    file: "xbase"
+
+  abase:
+    name: "Alien base"
+    file: "abase"
+
+  mibbase:
+    name: "Man in Black base"
+    file: "mibbase"
+
+  redbase:
+    name: "Red Dawn base"
+    file: "redbase"
+
+  cultbase:
+    name: "Cultist base"
+    file: "cultbase"
+
+  lotusbase:
+    name: "Lotus base"
+    file: "lotusbase"
+
+  #
+  #   biomes
+  #
+  farmland:
+    name: "Farmland"
+    file: "farmland"
+
+  polar:
+    name: "Polar"
+    file: "polar"
+
+  desert:
+    name: "Desert"
+    file: "desert"
+
+  mountain:
+    name: "Mountain"
+    file: "mountains"
+
+  mountain_snow:
+    name: "Mountain Snow"
+    file: "mountain_snow"
+
+  forest:
+    name: "Forest"
+    file: "forest"
+
+  forest_snow:
+    name: "Forest snow - tajga"
+    file: "forest_snow"
+
+  jungle:
+    name: "Jungle"
+    file: "jungle"
+
+  #
+  #   special biomes
+  #
+  piramids:
+    name: "Desert piramids"
+    file: "piramids"
+
+  undeground:
+    name: "Underground"
+    file: "underground"
+
+  #
+  #   special tilesets
+  #
+  island:           # map surounded by water
+    name: "Island"
+    file: "island"
+
+  ship_cargo:       # map 8x3
+    name: "Cargo ship"
+    file: "ship_cargo"
+
+  ship_cruise:      # map 8x3
+    name: "Cruise ship"
+    file: "ship_cruise"
+
+  #
+  #   other planets
+  #
+  mars:
+    name: "Mars"
+    file: "mars"
+
+  moon:
+    name: "Moon"
+    file: "moon"
+
+  #
+  #   human cities
+  #
+  urban_house:
+    name: "Urban house"
+    file: "urban_house"
+
+  urban_commercial:
+    name: "Urban commercial"
+    file: "urban_commercial"
+
+  urban_port:
+    name: "Urban port"
+    file: "urban_port"
+
+  urban_industrial:
+    name: "Urban industrial"
+    file: "urban_industrial"
+
+  urban_village:
+    name: "Urban village"
+    file: "urban_village"
+
+  urban_hotel:
+    name: "Urban hotel"
+    file: "urban_hotel"
+
+  urban_slums:
+    name: "Urban slums"
+    file: "urban_slums"

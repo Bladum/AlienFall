@@ -94,10 +94,9 @@ function BattleTile:isVisible(teamId)
     return self:getFOW(teamId) == "visible"
 end
 
--- Check if tile is explored by a team
-function BattleTile:isExplored(teamId)
-    local state = self:getFOW(teamId)
-    return state == "explored" or state == "visible"
+-- Check if tile is hidden from a team
+function BattleTile:isHidden(teamId)
+    return self:getFOW(teamId) == "hidden"
 end
 
 -- Add object to tile

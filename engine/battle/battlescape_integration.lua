@@ -7,10 +7,6 @@
 --- Provides step-by-step instructions for migrating from the old battlefield system
 --- to the new ECS-based hex grid system with proper vision, movement, and rendering.
 
---- @field version string Current version of the integration guide
---- @field status string Current status of the integration
---- @field systems_ready boolean Whether all required systems are ready for integration
-
 --- @type table
 --- Configuration table containing integration status and metadata
 local integration = {

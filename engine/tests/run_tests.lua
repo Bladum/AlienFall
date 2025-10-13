@@ -6,7 +6,7 @@ print("BATTLE SYSTEMS TEST RUNNER")
 print("===========================================\n")
 
 -- Add engine directory to package path
-package.path = package.path .. ";../?.lua;../?/init.lua"
+package.path = package.path .. ";engine/?.lua;engine/?/init.lua"
 
 -- Run tests
 local TestSuite = require("tests.battle.test_battle_systems")

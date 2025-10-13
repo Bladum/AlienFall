@@ -173,34 +173,6 @@ local function rayIntersectFloor(rayOrigin, rayDir)
 end
 
 -- Check if there's a clear line of sight between two points
-local function hasLineOfSight(startX, startZ, endX, endZ)
-    local dx = endX - startX
-    local dz = endZ - startZ
-    local dist = math.sqrt(dx*dx + dz*dz)
-    
-    if dist < 0.1 then return true end  -- Very close, consider visible
-    
-    -- Check points along the line (skip the start position i=0)
-    local steps = math.ceil(dist * 2)  -- Check every 0.5 units
-    for i = 1, steps do
-        local t = i / steps
-        local checkX = startX + dx * t
-        local checkZ = startZ + dz * t
-        
-        local gridX = math.floor(checkX + 0.5)
-        local gridZ = math.floor(checkZ + 0.5)
-        
-        if gridX >= 1 and gridX <= mazeSize and gridZ >= 1 and gridZ <= mazeSize then
-            local terrain = maze[gridZ][gridX].terrain
-            if not isWalkable(terrain) then
-                return false  -- Wall blocks line of sight
-            end
-        end
-    end
-    
-    return true
-end
-
 -- Find intersection with wall planes
 local function rayIntersectWalls(rayOrigin, rayDir)
     local closestHit = nil
@@ -401,37 +373,6 @@ local function updateMousePicking()
     -- No intersection found
     selectedTile = nil
     selectedEnemy = nil
-end-- Simple enemy unit class
-local function createEnemyUnit(x, y, z)
-    return {
-        x = x,
-        y = y,
-        z = z,
-        gridX = math.floor(x + 0.5),
-        gridY = math.floor(z + 0.5),
-        model = nil,
-        visible = true,
-        scaleX = 1.0,  -- Natural size
-        scaleY = 1.0,  -- Natural size
-        scaleZ = 1.0   -- Natural size
-    }
-end
-
--- Simple player unit class (similar to enemy but controllable)
-local function createPlayerUnit(x, y, z, angle)
-    return {
-        x = x,
-        y = y,
-        z = z,
-        angle = angle or 0,  -- Direction the unit is facing (in radians)
-        gridX = math.floor(x + 0.5),
-        gridY = math.floor(z + 0.5),
-        model = nil,
-        visible = true,
-        scaleX = 1.0,  -- Natural size
-        scaleY = 1.0,  -- Natural size
-        scaleZ = 1.0   -- Natural size
-    }
 end
 
 -- Calculate sprite direction for billboarding (like LeadHaul)
@@ -935,13 +876,15 @@ end
 
 function rebuildModels()
     -- Update sky texture based on day/night
-    love.graphics.setCanvas(skyCanvas)
-    love.graphics.clear(1.0, 1.0, 1.0, 1.0)  -- White texture for vertex color tinting
-    love.graphics.setColor(1, 1, 1, 1)
-    love.graphics.setCanvas()
-    skyTexture = love.graphics.newImage(love.graphics.readbackTexture(skyCanvas))
-    skyTexture:setFilter("nearest", "nearest")
-    skyTexture:setWrap("repeat", "repeat")
+    if skyCanvas then
+        love.graphics.setCanvas(skyCanvas)
+        love.graphics.clear(1.0, 1.0, 1.0, 1.0)  -- White texture for vertex color tinting
+        love.graphics.setColor(1, 1, 1, 1)
+        love.graphics.setCanvas()
+        skyTexture = love.graphics.newImage(love.graphics.readbackTexture(skyCanvas))
+        skyTexture:setFilter("nearest", "nearest")
+        skyTexture:setWrap("repeat", "repeat")
+    end
     
     -- Create separate wall models for each terrain type
     local wallVerticesByType = {}

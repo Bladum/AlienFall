@@ -458,8 +458,8 @@ function MapEditor:textinput(text)
 end
 
 function MapEditor:keypressed(key, scancode, isrepeat)
-    if self.leftPanel then self.leftPanel:keypressed(key, scancode, isrepeat) end
-    if self.rightPanel then self.rightPanel:keypressed(key, scancode, isrepeat) end
+    if self.leftPanel then self.leftPanel:keypressed(key) end
+    if self.rightPanel then self.rightPanel:keypressed(key) end
     
     -- Undo/Redo
     if love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl") then

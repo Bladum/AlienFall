@@ -55,6 +55,11 @@ function TurnManager:initialize(units)
     self.currentTeamIndex = 1
     self.turnNumber = 1
 
+    print(string.format("[TurnManager] Found %d active teams", #self.activeTeams))
+    for i, team in ipairs(self.activeTeams) do
+        print(string.format("[TurnManager] Active team %d: %s", i, team.name))
+    end
+
     if #self.activeTeams > 0 then
         self.currentTeam = self.activeTeams[1]
         print(string.format("[TurnManager] Initialized with %d teams, starting with %s",
@@ -87,6 +92,13 @@ function TurnManager:startTeamTurn(units)
         local unit = units[unitId]
         if unit and unit.alive then
             self.actionSystem:resetUnit(unit)
+            
+            -- Regenerate energy
+            unit:regenerateEnergy()
+            
+            -- Reduce weapon cooldowns
+            unit:reduceWeaponCooldowns()
+            
             resetCount = resetCount + 1
         end
     end

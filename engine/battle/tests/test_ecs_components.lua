@@ -13,7 +13,7 @@ local Health = require("components.health")
 local TeamComponent = require("components.team")
 
 -- Load utilities
-local HexMath = require("utils.hex_math")
+local HexMath = require("battle.utils.hex_math")
 
 print("[Test] Loading ECS Components Test Suite")
 print("========================================")

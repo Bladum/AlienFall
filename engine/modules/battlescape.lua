@@ -62,7 +62,7 @@ function Battlescape:enter()
     local stepStartTime = startTime
     
     -- Initialize core systems
-    self.actionSystem = ActionSystem.new()
+    self.actionSystem = ActionSystem.new(self.losSystem, self.animationSystem)
     self.pathfinding = Pathfinding.new()
     self.teamManager = Team.Manager.new()
     self.losSystem = LOS.new()
@@ -150,7 +150,7 @@ function Battlescape:enter()
     MAP_HEIGHT = self.battlefield.height
     
     self.camera = Camera.new(0, 0)
-    self.selection = UnitSelection.new(self.actionSystem, self.pathfinding, self.battlefield, self.turnManager, self.animationSystem, function() self:updateVisibility() end)
+    self.selection = UnitSelection.new(self.actionSystem, self.pathfinding, self.battlefield, self.turnManager, self.animationSystem, function() self:updateVisibility() end, function(unit) self:onUnitSelectionChanged(unit) end)
     self.renderer = BattlefieldRenderer.new(TILE_SIZE)
     
     print(string.format("[PROFILE] Battle components init: %.3f ms", (love.timer.getTime() - stepStartTime) * 1000))
@@ -208,7 +208,8 @@ function Battlescape:enter()
     self:initUI()
     
     print(string.format("[PROFILE] UI init: %.3f ms", (love.timer.getTime() - stepStartTime) * 1000))
-    
+    stepStartTime = love.timer.getTime()
+
     -- Day/night
     self.isNight = false
     
@@ -220,112 +221,6 @@ function Battlescape:exit()
     print("[Battlescape] Exiting battlescape state")
 end
 
-function Battlescape:initUI()
-    -- GUI positioned on LEFT side of screen
-    local guiX = 0
-    local margin = 2  -- Small margin between frames
-
-    -- SECTION 1: Minimap (Top)
-    self.minimapFrame = Widgets.FrameBox.new(guiX, 0, 240, 240, "")
-    self.minimapClickable = true
-    self.minimapContentX = guiX + 0
-    self.minimapContentY = 0
-    self.minimapContentWidth = 240
-    self.minimapContentHeight = 240
-
-    -- SECTION 2: Info Frame (Middle) - Now with scrollable content
-    self.infoFrame = Widgets.FrameBox.new(guiX, SECTION_HEIGHT, 240, SECTION_HEIGHT, "Info")
-    
-    -- Create scrollable text area for info content
-    self.infoScrollBox = Widgets.ScrollBox.new(guiX + 4, SECTION_HEIGHT + 24, 232, SECTION_HEIGHT - 28)
-    self.infoFrame:addChild(self.infoScrollBox)
-
-    -- SECTION 3: Actions Frame (Bottom) - Redesigned as 4x4 button grid
-    self.actionsFrame = Widgets.FrameBox.new(guiX, SECTION_HEIGHT * 2, 240, SECTION_HEIGHT, "Actions")
-    
-    -- Clear existing action buttons
-    self.actionButtons = {}
-    
-    -- Button layout: 4 columns x 4 rows = 16 buttons total
-    local buttonWidth = 56  -- (240 - 8*2 - 4*2) / 4 = 56
-    local buttonHeight = 48
-    local startX = guiX + 8
-    local startY = SECTION_HEIGHT * 2 + 24
-    local colSpacing = 2
-    local rowSpacing = 2
-    
-    -- Row 1: Unit Inventory (WEAPON LEFT | WEAPON RIGHT | ARMOUR | SKILL)
-    local inventoryButtons = {
-        {label = "W.L", action = "weapon_left"},
-        {label = "W.R", action = "weapon_right"}, 
-        {label = "ARM", action = "armour"},
-        {label = "SKILL", action = "skill"}
-    }
-    
-    for col = 1, 4 do
-        local btnData = inventoryButtons[col]
-        local x = startX + (col - 1) * (buttonWidth + colSpacing)
-        local y = startY
-        local btn = Widgets.Button.new(x, y, buttonWidth, buttonHeight, btnData.label)
-        btn.onClick = function() self:performInventoryAction(btnData.action) end
-        table.insert(self.actionButtons, btn)
-        self.actionsFrame:addChild(btn)
-    end
-    
-    -- Row 2: Unit Actions (REST | OVERWATCH | COVER | AIM)
-    local actionButtons = {
-        {label = "REST", action = "rest"},
-        {label = "OVER", action = "overwatch"},
-        {label = "COVER", action = "cover"},
-        {label = "AIM", action = "aim"}
-    }
-    
-    for col = 1, 4 do
-        local btnData = actionButtons[col]
-        local x = startX + (col - 1) * (buttonWidth + colSpacing)
-        local y = startY + buttonHeight + rowSpacing
-        local btn = Widgets.Button.new(x, y, buttonWidth, buttonHeight, btnData.label)
-        btn.onClick = function() self:performUnitAction(btnData.action) end
-        table.insert(self.actionButtons, btn)
-        self.actionsFrame:addChild(btn)
-    end
-    
-    -- Row 3: Unit Movement Mode (WALK | SNEAK | RUN | FLY)
-    local movementButtons = {
-        {label = "WALK", action = "walk"},
-        {label = "SNEAK", action = "sneak"},
-        {label = "RUN", action = "run"},
-        {label = "FLY", action = "fly"}
-    }
-    
-    for col = 1, 4 do
-        local btnData = movementButtons[col]
-        local x = startX + (col - 1) * (buttonWidth + colSpacing)
-        local y = startY + 2 * (buttonHeight + rowSpacing)
-        local btn = Widgets.Button.new(x, y, buttonWidth, buttonHeight, btnData.label)
-        btn.onClick = function() self:performMovementAction(btnData.action) end
-        table.insert(self.actionButtons, btn)
-        self.actionsFrame:addChild(btn)
-    end
-    
-    -- Row 4: Map Actions (NEXT UNIT | MAP ZOOM ON OFF | MENU | END TURN)
-    local mapButtons = {
-        {label = "NEXT", action = "next_unit"},
-        {label = "ZOOM", action = "toggle_zoom"},
-        {label = "MENU", action = "menu"},
-        {label = "END", action = "end_turn"}
-    }
-    
-    for col = 1, 4 do
-        local btnData = mapButtons[col]
-        local x = startX + (col - 1) * (buttonWidth + colSpacing)
-        local y = startY + 3 * (buttonHeight + rowSpacing)
-        local btn = Widgets.Button.new(x, y, buttonWidth, buttonHeight, btnData.label)
-        btn.onClick = function() self:performMapAction(btnData.action) end
-        table.insert(self.actionButtons, btn)
-        self.actionsFrame:addChild(btn)
-    end
-end
 function Battlescape:initTeams()
     -- Create 6 teams with colors
     local teams = {
@@ -347,6 +242,75 @@ function Battlescape:initTeams()
     self.teamManager:initializeVisibility(MAP_WIDTH, MAP_HEIGHT)
 
     print("[Battlescape] Initialized 6 teams with color system")
+end
+
+function Battlescape:initUI()
+    -- GUI positioned on LEFT side of screen
+    local guiX = 0
+    local margin = 2  -- Small margin between frames
+
+    -- SECTION 1: Minimap (Top)
+    self.minimapFrame = Widgets.FrameBox.new(guiX, 0, 240, 240, "")
+    self.minimapClickable = true
+    self.minimapContentX = guiX + 0
+    self.minimapContentY = 0
+    self.minimapContentWidth = 240
+    self.minimapContentHeight = 240
+
+    -- SECTION 2: Info Frame (Middle) - Unit Info Panel
+    self.infoFrame = Widgets.FrameBox.new(guiX, SECTION_HEIGHT, 240, SECTION_HEIGHT, "Unit Info")
+    
+    -- Create unit info panel widget
+    local UnitInfoPanel = require("widgets.display.unit_info_panel")
+    self.unitInfoPanel = UnitInfoPanel:new({
+        x = guiX + 4,
+        y = SECTION_HEIGHT + 24,
+        width = 232,
+        height = SECTION_HEIGHT - 28
+    })
+    self.infoFrame:addChild(self.unitInfoPanel)
+
+    -- SECTION 3: Actions Panel - New ActionPanel with radio button group
+    self.actionsFrame = Widgets.FrameBox.new(guiX, SECTION_HEIGHT * 2, 240, SECTION_HEIGHT, "Actions")
+
+    -- Create new ActionPanel with 8 actions in 2 rows
+    local actionPanelX = guiX + 8  -- Small margin
+    local actionPanelY = SECTION_HEIGHT * 2 + 8
+    local actionPanelWidth = 240 - 16  -- Account for margins
+    local actionPanelHeight = SECTION_HEIGHT - 16
+
+    self.actionPanel = Widgets.ActionPanel.new(actionPanelX, actionPanelY, actionPanelWidth, actionPanelHeight)
+
+    -- Set up action selection callback
+    self.actionPanel.onActionSelected = function(actionId)
+        self:onActionSelected(actionId)
+    end
+
+    -- Add action panel to actions frame
+    self.actionsFrame:addChild(self.actionPanel)
+
+    -- Keep old action buttons for backward compatibility (will be removed later)
+    self.actionButtons = {}
+
+    -- Create notification panel in bottom-right corner
+    self.notificationPanel = Widgets.NotificationPanel.new(960 - 192, 720 - 168, 192, 168)
+    self.notificationPanel.onCenterCamera = function(x, y) self:moveCameraTo(x, y) end
+
+    -- Connect notification panel to action system
+    self.actionSystem:setNotificationPanel(self.notificationPanel)
+end
+function Battlescape:onUnitSelectionChanged(unit)
+    -- Update unit info panel
+    self:updateUnitInfoPanel(unit)
+
+    -- Update action panel availability
+    if self.actionPanel then
+        self.actionPanel:setUnit(unit)
+    end
+
+    -- Clear selected action when unit changes
+    self.selectedAction = nil
+    self:updateCursorForAction(nil)
 end
 
 function Battlescape:initUnits()
@@ -451,6 +415,12 @@ function Battlescape:centerCameraOnFirstUnit()
                 firstUnit.name, firstUnit.x, firstUnit.y))
         end
     end
+end
+
+-- Move camera to center on specific coordinates
+function Battlescape:moveCameraTo(x, y)
+    self.camera:centerOn(x, y, TILE_SIZE, 360, 360)
+    print(string.format("[Battlescape] Moved camera to center on (%d, %d)", x, y))
 end
 
 function Battlescape:updateVisibility()
@@ -595,6 +565,11 @@ function Battlescape:update(dt)
     -- Update animation system
     self.animationSystem:update(dt)
     
+    -- Update notification panel
+    if self.notificationPanel then
+        self.notificationPanel:update(dt)
+    end
+    
     -- Camera has no update method, just position tracking
 end
 
@@ -687,6 +662,11 @@ function Battlescape:drawGUI()
     -- Draw actions frame
     self.actionsFrame:draw()
     -- Buttons are drawn by frame's children
+
+    -- Draw notification panel
+    if self.notificationPanel then
+        self.notificationPanel:draw()
+    end
 end
 
 function Battlescape:drawMinimap()
@@ -999,6 +979,22 @@ function Battlescape:drawUnits()
         end
     end
     
+    -- Draw unmoved unit indicators
+    for _, unit in pairs(self.units) do
+        if unit and unit.alive then
+            -- Check if unit's tile is visible to active team
+            local tileVisible = false
+            if activeTeam then
+                local visibility = activeTeam:getVisibility(unit.x, unit.y)
+                tileVisible = (visibility == "visible")
+            end
+            
+            if tileVisible then
+                self.renderer:drawUnmovedUnitIndicator(unit, self.camera, love.timer.getTime())
+            end
+        end
+    end
+    
     love.graphics.setColor(1, 1, 1, 1)
 end
 
@@ -1158,7 +1154,7 @@ function Battlescape:mousepressed(x, y, button, istouch, presses)
     end
     
     -- Middle mouse button: start dragging map
-    if button == 2 then
+    if button == 3 then
         self.isDraggingMap = true
         self.dragStartX = x
         self.dragStartY = y
@@ -1168,9 +1164,27 @@ function Battlescape:mousepressed(x, y, button, istouch, presses)
         return
     end
     
-    -- Right mouse button: rotate selected unit
-    if button == 3 and self.selection.selectedUnit then
-        self:handleUnitRotation(x, y)
+    -- Right mouse button: execute selected action or rotate unit
+    if button == 2 then
+        if self.selectedAction then
+            -- Execute selected action on battlefield
+            local tileX, tileY = Viewport.screenToTile(x, y, self.camera, TILE_SIZE)
+
+            -- Adjust for hex offset
+            if tileX % 2 == 0 then
+                local bfX, bfY = Viewport.screenToBattlefield(x, y)
+                local worldY = (bfY - self.camera.y) / self.camera.zoom
+                tileY = math.floor((worldY - (TILE_SIZE * 0.5)) / TILE_SIZE) + 1
+            end
+
+            -- Validate tile coordinates
+            if tileX >= 1 and tileX <= MAP_WIDTH and tileY >= 1 and tileY <= MAP_HEIGHT then
+                self:executeActionOnTile(self.selectedAction, tileX, tileY)
+            end
+        elseif self.selection.selectedUnit then
+            -- No action selected, rotate unit (legacy behavior)
+            self:handleUnitRotation(x, y)
+        end
         return
     end
     
@@ -1184,6 +1198,11 @@ function Battlescape:mousepressed(x, y, button, istouch, presses)
     -- Check GUI button clicks
     if x < GUI_WIDTH then
         self.actionsFrame:mousepressed(x, y, button)
+        return
+    end
+    
+    -- Check notification panel clicks
+    if self.notificationPanel and self.notificationPanel:mousepressed(x, y, button) then
         return
     end
     
@@ -1266,7 +1285,7 @@ end
 
 function Battlescape:mousereleased(x, y, button, istouch, presses)
     -- Middle mouse button: stop dragging map
-    if button == 2 then
+    if button == 3 then
         self.isDraggingMap = false
         print("[Battlescape] Middle mouse drag ended")
         return
@@ -1508,7 +1527,7 @@ function Battlescape:selectNextUnit()
         end
     end
     
-    -- Find next living unit
+    -- Find next living unit that hasn't moved yet (has full AP)
     local nextIndex = currentIndex + 1
     if nextIndex > #activeTeam.units then
         nextIndex = 1
@@ -1517,10 +1536,27 @@ function Battlescape:selectNextUnit()
     for i = 1, #activeTeam.units do
         local unitId = activeTeam.units[nextIndex]
         local unit = self.units[unitId]
+        if unit and unit.alive and unit.actionPointsLeft == 4 then  -- Only select units that haven't moved
+            self.selection:selectUnit(unit, self.battlefield)
+            self.camera:centerOn(unit.x, unit.y, TILE_SIZE, 360, 360)
+            print(string.format("[Battlescape] Selected next unmoved unit: %s", unit.name))
+            return
+        end
+        nextIndex = nextIndex + 1
+        if nextIndex > #activeTeam.units then
+            nextIndex = 1
+        end
+    end
+    
+    -- If no unmoved units found, select any living unit (fallback)
+    print("[Battlescape] No unmoved units found, selecting any living unit")
+    for i = 1, #activeTeam.units do
+        local unitId = activeTeam.units[nextIndex]
+        local unit = self.units[unitId]
         if unit and unit.alive then
             self.selection:selectUnit(unit, self.battlefield)
             self.camera:centerOn(unit.x, unit.y, TILE_SIZE, 360, 360)
-            print(string.format("[Battlescape] Selected next unit: %s", unit.name))
+            print(string.format("[Battlescape] Selected fallback unit: %s", unit.name))
             return
         end
         nextIndex = nextIndex + 1
@@ -1533,6 +1569,173 @@ end
 function Battlescape:toggleMinimapZoom()
     -- Toggle between different zoom levels for minimap
     print("[Battlescape] Toggling minimap zoom")
+end
+
+-- Action Panel Callbacks
+function Battlescape:onActionSelected(actionId)
+    print("[Battlescape] Action selected: " .. actionId)
+
+    -- Update cursor based on selected action
+    self:updateCursorForAction(actionId)
+
+    -- Store selected action for RMB execution
+    self.selectedAction = actionId
+end
+
+function Battlescape:updateCursorForAction(actionId)
+    if not love or not love.mouse then return end
+
+    if actionId == "weapon_left" or actionId == "weapon_right" then
+        -- Targeting cursor for weapons
+        love.mouse.setCursor(love.mouse.getSystemCursor("crosshair"))
+    elseif actionId == "armor" or actionId == "skill" then
+        -- Special cursor for abilities
+        love.mouse.setCursor(love.mouse.getSystemCursor("hand"))
+    elseif actionId == "walk" or actionId == "sneak" or actionId == "run" or actionId == "fly" then
+        -- Movement cursor
+        love.mouse.setCursor(love.mouse.getSystemCursor("sizeall"))
+    else
+        -- Default cursor
+        love.mouse.setCursor()
+    end
+end
+
+-- Handle RMB action execution on battlefield
+function Battlescape:executeActionOnTile(actionId, tileX, tileY)
+    print(string.format("[Battlescape] Executing action '%s' on tile (%d, %d)", actionId, tileX, tileY))
+
+    if actionId == "weapon_left" or actionId == "weapon_right" then
+        -- Use weapon on target tile
+        self:executeWeaponAction(actionId, tileX, tileY)
+    elseif actionId == "armor" then
+        -- Use armor ability on target tile
+        self:executeArmorAction(tileX, tileY)
+    elseif actionId == "skill" then
+        -- Use skill on target tile
+        self:executeSkillAction(tileX, tileY)
+    elseif actionId == "walk" or actionId == "sneak" or actionId == "run" or actionId == "fly" then
+        -- Move to target tile with specified mode
+        self:executeMovementAction(actionId, tileX, tileY)
+    end
+end
+
+function Battlescape:executeWeaponAction(weaponSlot, tileX, tileY)
+    if not self.selection.selectedUnit then
+        print("[Battlescape] No unit selected for weapon action")
+        return
+    end
+
+    local unit = self.selection.selectedUnit
+    local weapon = (weaponSlot == "weapon_left") and unit.weaponLeft or unit.weaponRight
+
+    if not weapon then
+        print(string.format("[Battlescape] Unit %s has no weapon in %s slot", unit.name, weaponSlot))
+        return
+    end
+
+    -- TODO: Implement weapon firing logic
+    print(string.format("[Battlescape] %s firing %s at (%d, %d)", unit.name, weapon.name or weaponSlot, tileX, tileY))
+end
+
+function Battlescape:executeArmorAction(tileX, tileY)
+    if not self.selection.selectedUnit then
+        print("[Battlescape] No unit selected for armor action")
+        return
+    end
+
+    local unit = self.selection.selectedUnit
+
+    if not unit.armor or not unit.armor.ability then
+        print(string.format("[Battlescape] Unit %s has no armor ability", unit.name))
+        return
+    end
+
+    -- TODO: Implement armor ability logic
+    print(string.format("[Battlescape] %s using armor ability at (%d, %d)", unit.name, tileX, tileY))
+end
+
+function Battlescape:executeSkillAction(tileX, tileY)
+    if not self.selection.selectedUnit then
+        print("[Battlescape] No unit selected for skill action")
+        return
+    end
+
+    local unit = self.selection.selectedUnit
+
+    if not unit.skills or #unit.skills == 0 then
+        print(string.format("[Battlescape] Unit %s has no skills", unit.name))
+        return
+    end
+
+    -- TODO: Implement skill usage logic (would need skill selection UI)
+    print(string.format("[Battlescape] %s using skill at (%d, %d)", unit.name, tileX, tileY))
+end
+
+function Battlescape:executeMovementAction(moveMode, tileX, tileY)
+    if not self.selection.selectedUnit then
+        print("[Battlescape] No unit selected for movement")
+        return
+    end
+
+    local unit = self.selection.selectedUnit
+
+    -- Check for keyboard modifiers to override move mode
+    local actualMoveMode = moveMode
+    if love.keyboard then
+        if love.keyboard.isDown("lctrl", "rctrl") then
+            actualMoveMode = "sneak"
+        elseif love.keyboard.isDown("lshift", "rshift") then
+            actualMoveMode = "run"
+        elseif love.keyboard.isDown("lalt", "ralt") then
+            actualMoveMode = "fly"
+        end
+    end
+
+    -- Check if move mode is available for this unit
+    local MoveModeSystem = require("battle.systems.move_mode_system")
+    if not MoveModeSystem.isModeAvailable(unit, actualMoveMode) then
+        print(string.format("[Battlescape] Move mode '%s' not available for unit %s", actualMoveMode, unit.name))
+        return
+    end
+
+    -- Check if unit has enough energy for this move mode
+    local path = self.pathfinding:findPath(unit.x, unit.y, tileX, tileY, self.battlefield)
+    if not path or #path == 0 then
+        print("[Battlescape] No path found to target")
+        return
+    end
+
+    -- Calculate total AP cost for the path
+    local totalAPCost = 0
+    for i = 2, #path do  -- Skip starting position
+        local tile = self.battlefield:getTile(path[i].x, path[i].y)
+        if tile then
+            local baseCost = tile:getMoveCost()
+            local moveCost = MoveModeSystem.calculateMovementCost(baseCost, actualMoveMode)
+            totalAPCost = totalAPCost + moveCost
+        end
+    end
+
+    -- Check energy requirements
+    if not MoveModeSystem.hasEnoughEnergy(unit, totalAPCost, actualMoveMode) then
+        print(string.format("[Battlescape] Unit %s doesn't have enough energy for %s movement (%d AP needed)",
+              unit.name, actualMoveMode, totalAPCost))
+        return
+    end
+
+    -- Execute the movement
+    print(string.format("[Battlescape] Moving %s to (%d, %d) using %s mode (%d AP)",
+          unit.name, tileX, tileY, actualMoveMode, totalAPCost))
+
+    -- Move unit along path with animation
+    self.actionSystem:moveUnitAlongPath(unit, path, self.animationSystem, function()
+        -- Movement completed callback
+        MoveModeSystem.applyEnergyCost(unit, totalAPCost, actualMoveMode)
+        self:updateVisibility()
+        self:updateUnitInfoPanel(unit)
+        print(string.format("[Battlescape] Movement completed - %s now at (%d, %d)",
+              unit.name, unit.x, unit.y))
+    end)
 end
 
 return Battlescape

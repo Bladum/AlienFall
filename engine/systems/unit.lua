@@ -31,16 +31,25 @@ local DataLoader = require("systems.data_loader")
 --- @field team string Team identifier
 --- @field stats table Current stats (base + equipment modifiers)
 --- @field baseStats table Base stats from class definition
---- @field weapon1 string|nil Primary weapon ID
---- @field weapon2 string|nil Secondary weapon ID
+--- @field left_weapon string|nil Left hand weapon ID
+--- @field right_weapon string|nil Right hand weapon ID
 --- @field armour string|nil Armor ID
+--- @field skill string|nil Skill ID
+--- @field energy_regen_rate number Energy regeneration per turn
+--- @field weapon_cooldowns table Weapon cooldown tracking
 --- @field statusEffects table Active status effects
 --- @field facing number Direction unit is facing (0-7)
 --- @field killed boolean Whether unit is dead
 --- @field unconscious boolean Whether unit is unconscious
+--- @field actionPoints number Total action points per turn
+--- @field actionPointsLeft number Remaining action points this turn
+--- @field movementPoints number Total movement points per turn
+--- @field movementPointsLeft number Remaining movement points this turn
 --- @field sprite table|nil Unit sprite image (Love2D Image object)
 local Unit = {}
 Unit.__index = Unit
+
+print(string.format("[Unit] Unit.calculateMP = %s", tostring(Unit.calculateMP)))
 
 --- Create a new Unit instance.
 ---
@@ -57,8 +66,10 @@ Unit.__index = Unit
 ---   local unit = Unit.new("soldier", "player", 5, 10)
 ---   if unit then print(unit.name) end
 function Unit.new(classId, team, x, y)
+    print(string.format("[Unit] Creating unit %s", classId))
     local self = setmetatable({}, Unit)
-
+    print("[Unit] Metatable set")
+    
     -- Basic properties
     self.id = nil  -- Set by battlefield when added
     self.classId = classId
@@ -75,12 +86,16 @@ function Unit.new(classId, team, x, y)
     -- Performance optimization: dirty flag for visibility recalculation
     self.visibilityDirty = true  -- Needs LOS recalculation
 
+    -- Facing direction (0-7, starting north)
+    self.facing = 0
+
     -- Load class definition from DataLoader
     local classDef = DataLoader.unitClasses.get(classId)
     if not classDef then
         print("[ERROR] Unit class not found: " .. classId)
         return nil
     end
+    print("[Unit] Class definition loaded")
 
     -- Initialize stats from class
     self.baseStats = {}
@@ -89,9 +104,16 @@ function Unit.new(classId, team, x, y)
     end
 
     -- Equipment
-    self.weapon1 = classDef.defaultWeapon1
-    self.weapon2 = classDef.defaultWeapon2
+    self.left_weapon = classDef.defaultWeapon1
+    self.right_weapon = classDef.defaultWeapon2
     self.armour = classDef.defaultArmour
+    self.skill = nil  -- No default skill
+    
+    -- Energy system
+    self.energy_regen_rate = 5  -- Energy per turn
+    
+    -- Weapon cooldown tracking
+    self.weapon_cooldowns = {}
 
     -- Current stats (base + equipment modifiers)
     self.stats = {}
@@ -131,20 +153,36 @@ function Unit:updateStats()
     end
 
     -- Apply weapon modifiers
-    if self.weapon1 then
-        local weapon = DataLoader.weapons.get(self.weapon1)
+    if self.left_weapon then
+        local weapon = DataLoader.weapons.get(self.left_weapon)
+        print(string.format("[Unit] weapon1 %s found: %s", self.left_weapon, weapon ~= nil))
+        if weapon then
+            print(string.format("[Unit] weapon statMods: %s", tostring(weapon.statMods)))
+        end
         if weapon and weapon.statMods then
-            for stat, mod in pairs(weapon.statMods) do
-                self.stats[stat] = (self.stats[stat] or 0) + mod
+            if type(weapon.statMods) == "table" then
+                for stat, mod in pairs(weapon.statMods) do
+                    self.stats[stat] = (self.stats[stat] or 0) + mod
+                end
+            elseif type(weapon.statMods) == "string" and weapon.statMods == "{}" then
+                -- Empty statMods, skip
+            else
+                print(string.format("[Unit] WARNING: Unexpected statMods type %s for weapon %s", type(weapon.statMods), self.left_weapon))
             end
         end
     end
 
-    if self.weapon2 then
-        local weapon = DataLoader.weapons.get(self.weapon2)
+    if self.right_weapon then
+        local weapon = DataLoader.weapons.get(self.right_weapon)
         if weapon and weapon.statMods then
-            for stat, mod in pairs(weapon.statMods) do
-                self.stats[stat] = (self.stats[stat] or 0) + mod
+            if type(weapon.statMods) == "table" then
+                for stat, mod in pairs(weapon.statMods) do
+                    self.stats[stat] = (self.stats[stat] or 0) + mod
+                end
+            elseif type(weapon.statMods) == "string" and weapon.statMods == "{}" then
+                -- Empty statMods, skip
+            else
+                print(string.format("[Unit] WARNING: Unexpected statMods type %s for weapon %s", type(weapon.statMods), self.right_weapon))
             end
         end
     end
@@ -163,9 +201,31 @@ function Unit:updateStats()
 
             -- Other stat mods
             if armour.statMods then
-                for stat, mod in pairs(armour.statMods) do
+                if type(armour.statMods) == "table" then
+                    for stat, mod in pairs(armour.statMods) do
+                        self.stats[stat] = (self.stats[stat] or 0) + mod
+                    end
+                elseif type(armour.statMods) == "string" and armour.statMods == "{}" then
+                    -- Empty statMods, skip
+                else
+                    print(string.format("[Unit] WARNING: Unexpected armour statMods type %s for armour %s", type(armour.statMods), self.armour))
+                end
+            end
+        end
+    end
+
+    -- Apply skill modifiers
+    if self.skill then
+        local skill = DataLoader.skills.get(self.skill)
+        if skill and skill.statMods then
+            if type(skill.statMods) == "table" then
+                for stat, mod in pairs(skill.statMods) do
                     self.stats[stat] = (self.stats[stat] or 0) + mod
                 end
+            elseif type(skill.statMods) == "string" and skill.statMods == "{}" then
+                -- Empty statMods, skip
+            else
+                print(string.format("[Unit] WARNING: Unexpected skill statMods type %s for skill %s", type(skill.statMods), self.skill))
             end
         end
     end
@@ -175,6 +235,9 @@ function Unit:updateStats()
     self.stats.health = math.max(1, self.stats.health)
     self.stats.sight = math.max(1, self.stats.sight)
     self.stats.sense = math.max(0, self.stats.sense)
+
+    print(string.format("[Unit] Unit creation completed for %s", classId))
+    return self
 end
 
 --- Calculate total movement points from remaining action points.
@@ -184,6 +247,7 @@ end
 ---
 --- @return number Total movement points available
 function Unit:calculateMP()
+    print(string.format("[Unit] calculateMP called on unit with speed %s", tostring(self.stats.speed)))
     return self.actionPointsLeft * self.stats.speed
 end
 
@@ -333,18 +397,18 @@ function Unit:generateName()
     end
 end
 
---- Get primary weapon definition from DataLoader.
+--- Get left weapon definition from DataLoader.
 ---
 --- @return table|nil Weapon data table or nil if no weapon equipped
-function Unit:getWeapon1()
-    return self.weapon1 and DataLoader.weapons.get(self.weapon1)
+function Unit:getLeftWeapon()
+    return self.left_weapon and DataLoader.weapons.get(self.left_weapon)
 end
 
---- Get secondary weapon definition from DataLoader.
+--- Get right weapon definition from DataLoader.
 ---
 --- @return table|nil Weapon data table or nil if no weapon equipped
-function Unit:getWeapon2()
-    return self.weapon2 and DataLoader.weapons.get(self.weapon2)
+function Unit:getRightWeapon()
+    return self.right_weapon and DataLoader.weapons.get(self.right_weapon)
 end
 
 --- Get armour definition from DataLoader.
@@ -374,9 +438,10 @@ function Unit:getDebugInfo()
     end
 
     info = info .. "Equipment:\n"
-    if self.weapon1 then info = info .. string.format("  Primary: %s\n", DataLoader.weapons.get(self.weapon1).name) end
-    if self.weapon2 then info = info .. string.format("  Secondary: %s\n", DataLoader.weapons.get(self.weapon2).name) end
+    if self.left_weapon then info = info .. string.format("  Left: %s\n", DataLoader.weapons.get(self.left_weapon).name) end
+    if self.right_weapon then info = info .. string.format("  Right: %s\n", DataLoader.weapons.get(self.right_weapon).name) end
     if self.armour then info = info .. string.format("  Armour: %s\n", DataLoader.armours.get(self.armour).name) end
+    if self.skill then info = info .. string.format("  Skill: %s\n", self.skill) end
 
     return info
 end
@@ -436,6 +501,127 @@ function Unit:getFacingName()
         end
     end
     return "UNKNOWN"
+end
+
+--- Regenerate energy at the start of turn.
+---
+--- Adds energy_regen_rate to current energy, capped at max_energy.
+---
+--- @return nil
+function Unit:regenerateEnergy()
+    self.energy = math.min(self.maxEnergy, self.energy + self.energy_regen_rate)
+    print(string.format("[Unit] Regenerated %d energy for %s, now at %d/%d", 
+        self.energy_regen_rate, self.name, self.energy, self.maxEnergy))
+end
+
+--- Consume energy for weapon use.
+---
+--- Reduces energy by amount. Returns true if successful, false if insufficient energy.
+---
+--- @param amount number Energy to consume
+--- @return boolean True if energy was consumed, false if insufficient
+function Unit:consumeEnergy(amount)
+    if self.energy >= amount then
+        self.energy = self.energy - amount
+        print(string.format("[Unit] Consumed %d energy for %s, remaining %d/%d", 
+            amount, self.name, self.energy, self.maxEnergy))
+        return true
+    else
+        print(string.format("[Unit] Insufficient energy for %s: need %d, have %d", 
+            self.name, amount, self.energy))
+        return false
+    end
+end
+
+--- Check if weapon is on cooldown.
+---
+--- @param weaponId string Weapon identifier
+--- @return boolean True if weapon is on cooldown
+function Unit:isWeaponOnCooldown(weaponId)
+    return (self.weapon_cooldowns[weaponId] or 0) > 0
+end
+
+--- Set weapon cooldown.
+---
+--- @param weaponId string Weapon identifier
+--- @param turns number Number of turns to cooldown (0 = no cooldown)
+--- @return nil
+function Unit:setWeaponCooldown(weaponId, turns)
+    self.weapon_cooldowns[weaponId] = turns
+    if turns > 0 then
+        print(string.format("[Unit] Set cooldown for %s on %s: %d turns", 
+            weaponId, self.name, turns))
+    end
+end
+
+--- Reduce all weapon cooldowns by 1 turn.
+---
+--- Called at the end of each turn. Cooldowns cannot go below 0.
+---
+--- @return nil
+function Unit:reduceWeaponCooldowns()
+    for weaponId, cooldown in pairs(self.weapon_cooldowns) do
+        if cooldown > 0 then
+            self.weapon_cooldowns[weaponId] = cooldown - 1
+            print(string.format("[Unit] Reduced cooldown for %s on %s: %d turns remaining", 
+                weaponId, self.name, self.weapon_cooldowns[weaponId]))
+        end
+    end
+end
+
+--- Get weapon AP cost.
+---
+--- Returns weapon's AP cost or default of 1 if not specified.
+---
+--- @param weaponId string Weapon identifier
+--- @return number AP cost to use weapon
+function Unit:getWeaponApCost(weaponId)
+    local WeaponSystem = require("systems.weapon_system")
+    return WeaponSystem.getApCost(weaponId)
+end
+
+--- Get weapon EP cost.
+---
+--- Returns weapon's EP cost or default of 1 if not specified.
+---
+--- @param weaponId string Weapon identifier
+--- @return number EP cost to use weapon
+function Unit:getWeaponEpCost(weaponId)
+    local WeaponSystem = require("systems.weapon_system")
+    return WeaponSystem.getEpCost(weaponId)
+end
+
+--- Get weapon range.
+---
+--- Returns weapon's range or 0 if not specified.
+---
+--- @param weaponId string Weapon identifier
+--- @return number Weapon range in tiles
+function Unit:getWeaponRange(weaponId)
+    local WeaponSystem = require("systems.weapon_system")
+    return WeaponSystem.getMaxRange(weaponId)
+end
+
+--- Get weapon base accuracy.
+---
+--- Returns weapon's base accuracy or 0 if not specified.
+---
+--- @param weaponId string Weapon identifier
+--- @return number Base accuracy percentage (0-100)
+function Unit:getWeaponBaseAccuracy(weaponId)
+    local WeaponSystem = require("systems.weapon_system")
+    return WeaponSystem.getBaseAccuracy(weaponId)
+end
+
+--- Get weapon cooldown.
+---
+--- Returns weapon's cooldown in turns or 0 if not specified.
+---
+--- @param weaponId string Weapon identifier
+--- @return number Cooldown in turns
+function Unit:getWeaponCooldown(weaponId)
+    local WeaponSystem = require("systems.weapon_system")
+    return WeaponSystem.getCooldown(weaponId)
 end
 
 

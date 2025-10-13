@@ -2,26 +2,159 @@
   "$schema": "https://raw.githubusercontent.com/sumneko/vscode-lua/master/setting/schema.json",
   "diagnostics": {
     "globals": [
-      "love"
+      "love",
+      "bit",
+      "jit",
+      "ffi"
     ],
     "disable": [
-      "lowercase-global"
-    ]
+      "lowercase-global",
+      "undefined-global",
+      "unused-local",
+      "unused-function",
+      "unused-vararg",
+      "redefined-local",
+      "param-type-mismatch",
+      "unknown-cast-variable",
+      "cast-local-type",
+      "cast-type-mismatch",
+      "duplicate-set-field",
+      "missing-fields",
+      "missing-return",
+      "missing-parameter",
+      "redundant-parameter",
+      "redundant-return",
+      "redundant-value",
+      "return-type-mismatch",
+      "assign-type-mismatch",
+      "invisible",
+      "need-check-nil",
+      "deprecated",
+      "cast-type-mismatch"
+    ],
+    "severity": {
+      "unused-local": "Warning",
+      "unused-function": "Warning",
+      "undefined-global": "Information"
+    }
   },
   "runtime": {
     "version": "LuaJIT",
+    "path": [
+      "?.lua",
+      "?/init.lua",
+      "lua/?.lua",
+      "lua/?/init.lua"
+    ],
+    "pathStrict": false,
     "special": {
-      "love.filesystem.load": "loadfile"
+      "import": "require"
     }
   },
   "workspace": {
     "library": [
-      "${3rd}/love2d/library"
+      "${3rd}/love2d/library",
+      "./engine",
+      "./mods",
+      "./libs",
+      "./data",
+      "./love_definitions"
     ],
-    "checkThirdParty": false
+    "checkThirdParty": false,
+    "preloadFileSize": 1000,
+    "maxPreload": 5000,
+    "ignoreDir": [
+      ".git",
+      ".vscode",
+      "node_modules",
+      "build",
+      "dist",
+      "OTHER",
+      "tests",
+      "assets"
+    ],
+    "ignoreSubmodules": true,
+    "useGitIgnore": true
   },
   "completion": {
     "callSnippet": "Both",
-    "keywordSnippet": "Both"
+    "keywordSnippet": "Both",
+    "displayContext": 10,
+    "showParams": true,
+    "workspaceWord": true,
+    "showWord": "Fallback",
+    "autoRequire": true,
+    "requireSeparator": "."
+  },
+  "hover": {
+    "enable": true,
+    "viewString": true,
+    "viewStringMax": 1000,
+    "viewNumber": true,
+    "previewFields": 50,
+    "enumsLimit": 5
+  },
+  "signatureHelp": {
+    "enable": true
+  },
+  "typeFormat": {
+    "config": {
+      "format_line": "false",
+      "auto_complete_end": "false",
+      "auto_complete_table_sep": ","
+    }
+  },
+  "format": {
+    "enable": true,
+    "defaultConfig": {
+      "indent_style": "space",
+      "indent_size": "4",
+      "continuation_indent_size": "4",
+      "max_line_length": "120",
+      "quote_style": "double",
+      "call_arg_parentheses": "keep",
+      "trailing_table_separator": "smart",
+      "table_separator_style": "comma",
+      "align_call_args": "false",
+      "align_function_params": "false",
+      "align_continuous_assign_statement": "false",
+      "align_continuous_rect_table_field": "false",
+      "align_if_branch": "false",
+      "align_array_table": "false"
+    }
+  },
+  "hint": {
+    "enable": true,
+    "setType": true,
+    "paramType": true,
+    "paramName": "All",
+    "await": false
+  },
+  "Lua": {
+    "diagnostics": {
+      "globals": [
+        "love",
+        "bit",
+        "jit",
+        "ffi"
+      ],
+      "disable": [
+        "lowercase-global",
+        "undefined-global"
+      ]
+    },
+    "runtime": {
+      "version": "LuaJIT",
+      "path": [
+        "?.lua",
+        "?/init.lua"
+      ]
+    },
+    "workspace": {
+      "library": [
+        "${3rd}/love2d/library"
+      ],
+      "checkThirdParty": false
+    }
   }
 }

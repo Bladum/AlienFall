@@ -17,6 +17,7 @@
 --- @field turnManager table Reference to TurnManager
 --- @field animationSystem table Reference to AnimationSystem
 --- @field onVisibilityUpdate function Callback for visibility updates
+--- @field onUnitSelected function Callback when unit selection changes (unit or nil)
 --- @field selectedUnit table|nil Currently selected unit
 --- @field showMovementRange boolean Whether to show movement range overlay
 --- @field movementRange table Array of reachable tiles
@@ -34,8 +35,9 @@ UnitSelection.__index = UnitSelection
 --- @param turnManager table TurnManager instance
 --- @param animationSystem table AnimationSystem instance
 --- @param onVisibilityUpdate function Callback for visibility updates
+--- @param onUnitSelected function Callback when unit selection changes (unit or nil)
 --- @return table New UnitSelection instance
-function UnitSelection.new(actionSystem, pathfinding, battlefield, turnManager, animationSystem, onVisibilityUpdate)
+function UnitSelection.new(actionSystem, pathfinding, battlefield, turnManager, animationSystem, onVisibilityUpdate, onUnitSelected)
     local self = setmetatable({}, UnitSelection)
 
     self.actionSystem = actionSystem
@@ -44,6 +46,7 @@ function UnitSelection.new(actionSystem, pathfinding, battlefield, turnManager, 
     self.turnManager = turnManager
     self.animationSystem = animationSystem
     self.onVisibilityUpdate = onVisibilityUpdate
+    self.onUnitSelected = onUnitSelected
 
     self.selectedUnit = nil
     self.showMovementRange = false
@@ -76,6 +79,12 @@ function UnitSelection:selectUnit(unit, battlefield)
     self.movementPath = nil
 
     print(string.format("[UnitSelection] Selected: %s", unit.name))
+    
+    -- Notify callback if provided
+    if self.onUnitSelected then
+        self.onUnitSelected(unit)
+    end
+    
     return true
 end
 
@@ -91,6 +100,11 @@ function UnitSelection:clearSelection()
     self.movementPath = nil
     self.visibleTiles = {}
     print("[UnitSelection] Cleared selection")
+    
+    -- Notify callback if provided
+    if self.onUnitSelected then
+        self.onUnitSelected(nil)
+    end
 end
 
 --- Update hovered tile and path preview.

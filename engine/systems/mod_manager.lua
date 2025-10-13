@@ -47,6 +47,16 @@ function ModManager.scanMods()
     local items = love.filesystem.getDirectoryItems(modsPath)
     print(string.format("[ModManager] Scanning %d items in mods directory", #items))
     
+    -- If no mods found in "mods", try "engine/mods" (for testing from project root)
+    if #items == 0 then
+        modsPath = "engine/mods"
+        items = love.filesystem.getDirectoryItems(modsPath)
+        print(string.format("[ModManager] Retrying with %d items in engine/mods directory", #items))
+        for i, item in ipairs(items) do
+            print(string.format("[ModManager] Found item: %s", item))
+        end
+    end
+    
     for _, folder in ipairs(items) do
         local modPath = modsPath .. "/" .. folder
         local info = love.filesystem.getInfo(modPath)

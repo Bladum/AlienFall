@@ -6,13 +6,12 @@ local DataLoader = require("systems.data_loader")
 local Battlefield = require("battle.battlefield")
 local BattleTile = require("systems.battle_tile")
 
---- @module MapGenerator
 --- Provides unified map generation for tactical battlescape.
 --- Supports both procedural generation using cellular automata and
 --- mapblock-based generation using pre-designed terrain templates.
 --- Configurable through data/mapgen_config.lua with fallback defaults.
 ---
---- @field config table Configuration table with generation parameters
+--- Configuration is loaded from data/mapgen_config.lua with fallback defaults.
 local MapGenerator = {}
 
 -- Load configuration

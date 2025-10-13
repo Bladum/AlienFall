@@ -39,6 +39,7 @@ function DataLoader.load()
     DataLoader.terrainTypes = DataLoader.loadTerrainTypes()
     DataLoader.weapons = DataLoader.loadWeapons()
     DataLoader.armours = DataLoader.loadArmours()
+    DataLoader.skills = DataLoader.loadSkills()
     DataLoader.unitClasses = DataLoader.loadUnitClasses()
 
     print("[DataLoader] Loaded all game data from TOML files")
@@ -242,6 +243,66 @@ function DataLoader.loadArmours()
 
     print(string.format("[DataLoader] Loaded %d armours", #armours.getAllIds()))
     return armours
+end
+
+--- Load skill definitions from TOML file.
+---
+--- Loads skill data from mods/*/content/rules/item/skills.toml.
+--- Returns table with skill data and utility functions:
+---   - get(id): Get skill by ID
+---   - getAllIds(): Get array of all skill IDs
+---   - getByType(type): Find skills of specific type
+---   - getForClass(classId): Get available skills for unit class
+---
+--- @return table Skills table with utility functions
+function DataLoader.loadSkills()
+    local path = ModManager.getContentPath("rules", "item/skills.toml")
+    if not path then
+        print("[DataLoader] ERROR: Could not get skills path from mod")
+        return {}
+    end
+    
+    local data = TOML.load(path)
+    if not data then
+        print("[DataLoader] ERROR: Failed to load skills")
+        return {}
+    end
+
+    -- Convert TOML structure to Lua table with functions
+    local skills = {
+        skills = data.skills or {}
+    }
+
+    -- Add utility functions
+    function skills.get(skillId)
+        return skills.skills[skillId]
+    end
+
+    function skills.getAllIds()
+        local ids = {}
+        for id, _ in pairs(skills.skills) do
+            table.insert(ids, id)
+        end
+        return ids
+    end
+
+    function skills.getByType(skillType)
+        local result = {}
+        for id, skill in pairs(skills.skills) do
+            if skill.type == skillType then
+                table.insert(result, id)
+            end
+        end
+        return result
+    end
+
+    function skills.getForClass(classId)
+        -- This could be expanded with class-specific skill restrictions
+        return skills.getAllIds()
+    end
+
+    print(string.format("[DataLoader] Loaded %d skills", #skills.getAllIds()))
+    return skills
 end
 
 --- Load unit class definitions from TOML file.

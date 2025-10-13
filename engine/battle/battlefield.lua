@@ -288,6 +288,19 @@ function Battlefield:getTile(x, y)
     return nil
 end
 
+--- Sets a tile at the specified coordinates.
+---
+--- @param x number X coordinate (1-based)
+--- @param y number Y coordinate (1-based)
+--- @param tile table The tile to place at the coordinates
+function Battlefield:setTile(x, y, tile)
+    if x >= 1 and x <= self.width and y >= 1 and y <= self.height then
+        self.map[y][x] = tile
+        return true
+    end
+    return false
+end
+
 --- Checks if the given coordinates are within the map bounds.
 ---
 --- @param x number X coordinate (1-based)
@@ -425,10 +438,7 @@ end
 --- @param y2 number Second point Y coordinate (1-based)
 --- @return number Hex distance between the points
 function Battlefield:getManhattanDistance(x1, y1, x2, y2)
-    local HexMath = require("utils.hex_math")
-    local q1, r1 = HexMath.offsetToAxial(x1, y1)
-    local q2, r2 = HexMath.offsetToAxial(x2, y2)
-    return HexMath.distance(q1, r1, q2, r2)
+    return math.abs(x1 - x2) + math.abs(y1 - y2)
 end
 
 --- Calculates the Euclidean distance between two points (kept for compatibility).

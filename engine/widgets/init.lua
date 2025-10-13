@@ -56,12 +56,14 @@ end
 -- Buttons (from buttons/ folder)
 Widgets.Button = require("widgets.buttons.button")
 Widgets.ImageButton = require("widgets.buttons.imagebutton")
+Widgets.ActionButton = require("widgets.buttons.action_button")
 
 -- Display widgets (from display/ folder)
 Widgets.Label = require("widgets.display.label")
 Widgets.ProgressBar = require("widgets.display.progressbar")
 Widgets.HealthBar = require("widgets.display.healthbar")
 Widgets.Tooltip = require("widgets.display.tooltip")
+Widgets.ActionPanel = require("widgets.display.action_panel")
 
 -- Containers (from containers/ folder)
 Widgets.Panel = require("widgets.containers.panel")
@@ -70,6 +72,7 @@ Widgets.ScrollBox = require("widgets.containers.scrollbox")
 Widgets.FrameBox = require("widgets.containers.framebox")
 Widgets.Dialog = require("widgets.containers.dialog")
 Widgets.Window = require("widgets.containers.window")
+Widgets.NotificationPanel = require("widgets.containers.notification_panel")
 
 -- Input widgets (from input/ folder)
 Widgets.TextInput = require("widgets.input.textinput")
@@ -98,6 +101,6 @@ Widgets.ResearchTree = require("widgets.advanced.researchtree")
 Widgets.NotificationBanner = require("widgets.advanced.notificationbanner")
 Widgets.RangeIndicator = require("widgets.advanced.rangeindicator")
 
-print("[Widgets] Widget system loader initialized - 33 widgets organized in 7 categories")
+print("[Widgets] Widget system loader initialized - 35 widgets organized in 7 categories")
 
 return Widgets

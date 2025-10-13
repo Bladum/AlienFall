@@ -1,4 +1,4 @@
-# XCOM Simple - Quick Reference Card
+# Alien Fall - Quick Reference Card
 ## Battlescape Controls & Features
 
 ### 🎮 Mouse Controls
@@ -122,6 +122,7 @@
 
 ---
 
-**Version:** 1.0 (2025-10-12)
-**For:** XCOM Simple / AlienFall
+**Version:** 1.0 (2025-10-12)  
+**For:** Alien Fall  
 **Engine:** Love2D 12.0+
+

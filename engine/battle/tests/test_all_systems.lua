@@ -6,12 +6,12 @@
 package.path = package.path .. ";../?.lua;../../?.lua;../../../?.lua"
 
 -- Load all modules
-local HexMath = require("utils.hex_math")
-local Debug = require("utils.debug")
-local HexSystem = require("systems.hex_system")
-local MovementSystem = require("systems.movement_system")
-local VisionSystem = require("systems.vision_system")
-local UnitEntity = require("entities.unit_entity")
+local HexMath = require("battle.utils.hex_math")
+local Debug = require("battle.utils.debug")
+local HexSystem = require("battle.systems.hex_system")
+local MovementSystem = require("battle.systems.movement_system")
+local VisionSystem = require("battle.systems.vision_system")
+local UnitEntity = require("battle.entities.unit_entity")
 
 print("=" ..string.rep("=", 60))
 print("COMPREHENSIVE BATTLE SYSTEM TEST SUITE")

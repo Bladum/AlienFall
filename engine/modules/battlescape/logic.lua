@@ -151,9 +151,6 @@ function BattlescapeLogic:enter(battlescape)
     -- Initialize camera
     battlescape.camera = Camera.new(battlescape.battlefield.width * TILE_SIZE / 2, battlescape.battlefield.height * TILE_SIZE / 2)
     
-    -- Initialize unit selection
-    battlescape.unitSelection = UnitSelection.new()
-    
     -- Initialize battlefield renderer
     battlescape.battlefieldRenderer = BattlefieldRenderer.new(TILE_SIZE)
     
@@ -176,11 +173,11 @@ function BattlescapeLogic:initTeams(battlescape)
     battlescape.teams = {}
     
     -- Player team (blue)
-    local playerTeam = Team.new("Player", {0.2, 0.4, 0.8}, 1)
+    local playerTeam = Team.new("player", "Player", Team.SIDES.PLAYER)
     table.insert(battlescape.teams, playerTeam)
     
     -- AI team (red)
-    local aiTeam = Team.new("Aliens", {0.8, 0.2, 0.2}, 2)
+    local aiTeam = Team.new("aliens", "Aliens", Team.SIDES.ENEMY)
     table.insert(battlescape.teams, aiTeam)
     
     -- Register teams with team manager

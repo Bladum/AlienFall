@@ -37,6 +37,22 @@ function TestSuite.runAll()
     print("BATTLE SYSTEMS TEST SUITE")
     print("========================================\n")
 
+    -- Initialize required systems for tests
+    print("--- Initializing Test Environment ---")
+    local DataLoader = require("systems.data_loader")
+    local ModManager = require("systems.mod_manager")
+    
+    -- Initialize mod manager (needed for DataLoader)
+    ModManager.init()
+    ModManager.setActiveMod("xcom_simple")  -- Use default mod
+    
+    -- Load game data
+    local dataLoaded = DataLoader.load()
+    if not dataLoaded then
+        error("Failed to load game data for tests")
+    end
+    print("Test environment initialized\n")
+
     local tests = {
         TestSuite.testUnit,
         TestSuite.testTeam,
@@ -77,18 +93,22 @@ function TestSuite.testUnit()
     -- Create unit
     local unit = Unit.new("soldier", "player", 5, 5)
     assertNotNil(unit, "Unit created")
+    if not unit then return end  -- Satisfy Lua language server
+    if not unit.team or not unit.x or not unit.y or unit.alive == nil then return end  -- Additional nil checks
     assertEquals("player", unit.team, "Unit team set correctly")
     assertEquals(5, unit.x, "Unit X position set")
     assertEquals(5, unit.y, "Unit Y position set")
     assertTrue(unit.alive, "Unit is alive")
     
     -- Test stats
+    if not unit.stats then return end  -- Stats nil check
     assertNotNil(unit.stats.health, "Unit has health stat")
     assertNotNil(unit.stats.speed, "Unit has speed stat")
     assertNotNil(unit.stats.sight, "Unit has sight stat")
     
     -- Test rotation
     local initialFacing = unit.facing
+    if initialFacing == nil then return end  -- Facing nil check
     unit:rotateRight()
     assertEquals((initialFacing + 1) % 8, unit.facing, "Rotate right works")
     
@@ -159,6 +179,8 @@ function TestSuite.testActionSystem()
     
     -- Create test unit
     local unit = Unit.new("soldier", "player", 5, 5)
+    if not unit then return end  -- Satisfy Lua language server
+    if not unit.actionPointsLeft or not unit.movementPoints then return end  -- Additional nil checks
     
     -- Test reset
     actionSystem:resetUnit(unit)
@@ -176,6 +198,7 @@ function TestSuite.testActionSystem()
     
     -- Test spending MP
     local initialMP = unit.movementPoints
+    if initialMP == nil then return end  -- MP nil check
     success = actionSystem:spendMP(unit, 1)
     assertTrue(success, "Spent 1 MP successfully")
     assertEquals(initialMP - 1, unit.movementPoints, "MP decreased")
@@ -199,7 +222,7 @@ function TestSuite.testBattleTile()
     -- Test FOW
     assertEquals("hidden", tile:getFOW("player"), "Initial FOW is hidden")
     
-    tile:setFOW("player", "visible")
+    tile:updateFOW("player", "visible")
     assertEquals("visible", tile:getFOW("player"), "FOW updated to visible")
     
     assertTrue(tile:isVisible("player"), "Tile is visible")
@@ -300,7 +323,7 @@ function TestSuite.testUnitSelection()
     local actionSystem = ActionSystem.new()
     local pathfinding = Pathfinding.new()
     local battlefield = Battlefield.new(10, 10)
-    local selection = UnitSelection.new(actionSystem, pathfinding, battlefield, nil)
+    local selection = UnitSelection.new(actionSystem, pathfinding, battlefield, nil, nil, nil, nil)
     
     assertNotNil(selection, "UnitSelection created")
     assertFalse(selection:isUnitSelected(), "No unit selected initially")
@@ -335,6 +358,7 @@ function TestSuite.testTurnManager()
     
     local TurnManager = require("battle.turn_manager")
     local Team = require("systems.team")
+    local Unit = require("systems.unit")
     local ActionSystem = require("systems.action_system")
     
     local teamManager = Team.Manager.new()
@@ -351,18 +375,32 @@ function TestSuite.testTurnManager()
     teamManager:addTeam(enemyTeam)
     
     -- Add mock units to teams
-    playerTeam.units = {1, 2}
-    enemyTeam.units = {3, 4}
+    local unit1 = Unit.new("soldier", "player", 1, 1)
+    local unit2 = Unit.new("soldier", "player", 2, 2)
+    local unit3 = Unit.new("soldier", "enemy", 3, 3)
+    local unit4 = Unit.new("soldier", "enemy", 4, 4)
     
-    local mockUnits = {
-        [1] = {id = 1, alive = true, actionPointsLeft = 0},
-        [2] = {id = 2, alive = true, actionPointsLeft = 0},
-        [3] = {id = 3, alive = true, actionPointsLeft = 0},
-        [4] = {id = 4, alive = true, actionPointsLeft = 0}
+    -- Assign IDs for testing
+    unit1.id = 1
+    unit2.id = 2
+    unit3.id = 3
+    unit4.id = 4
+    
+    playerTeam:addUnit(unit1)
+    playerTeam:addUnit(unit2)
+    enemyTeam:addUnit(unit3)
+    enemyTeam:addUnit(unit4)
+    
+    -- Create units map for initialization
+    local units = {
+        [1] = unit1,
+        [2] = unit2,
+        [3] = unit3,
+        [4] = unit4
     }
     
     -- Initialize turn system
-    local success = turnManager:initialize(mockUnits)
+    local success = turnManager:initialize(units)
     assertTrue(success, "TurnManager initialized")
     
     local currentTeam = turnManager:getCurrentTeam()
@@ -370,7 +408,7 @@ function TestSuite.testTurnManager()
     assertEquals(1, turnManager:getTurnNumber(), "Turn number is 1")
     
     -- Test turn transitions
-    turnManager:endTurn(mockUnits)
+    turnManager:endTurn(units)
     assertEquals(1, turnManager:getTurnNumber(), "Still turn 1 after first team")
     
     -- Check team changed

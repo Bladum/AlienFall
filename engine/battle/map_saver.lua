@@ -1,7 +1,6 @@
 -- Map Saver Module
 -- Saves battlefield maps as PNG images (1 pixel = 1 tile)
 
---- @module MapSaver
 --- Provides functionality to save battlefield maps as PNG images and load them back.
 --- Each pixel represents one tile, with colors mapped to terrain types.
 --- Saves to system TEMP directory to avoid cluttering project files.

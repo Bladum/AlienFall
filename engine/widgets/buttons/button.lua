@@ -72,6 +72,10 @@ function Button:draw()
     end
     
     local font = Theme.getFont(self.font)
+    if not font then
+        print("[ERROR] Button: No font available for '" .. tostring(self.font) .. "'")
+        return
+    end
     local textWidth = font:getWidth(self.text)
     local textHeight = font:getHeight()
     local textX = self.x + (self.width - textWidth) / 2

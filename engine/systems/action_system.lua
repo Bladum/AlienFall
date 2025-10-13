@@ -17,9 +17,17 @@ ActionSystem.MOVEMENT_COSTS = {
 }
 
 -- Create action system
-function ActionSystem.new()
+function ActionSystem.new(losSystem, animationSystem)
     local self = setmetatable({}, ActionSystem)
+    self.losSystem = losSystem
+    self.animationSystem = animationSystem
+    self.notificationPanel = nil
     return self
+end
+
+-- Set notification panel reference
+function ActionSystem:setNotificationPanel(notificationPanel)
+    self.notificationPanel = notificationPanel
 end
 
 -- Reset unit for new turn
@@ -162,18 +170,25 @@ function ActionSystem:moveUnitAlongPath(unit, path, battlefield, animationSystem
     -- Use animation system for per-tile movement
     if animationSystem then
         -- Start path-based movement animation
+        local movementInterrupted = false
         animationSystem:startPathMovement(unit, path, 
             function(unit, tileX, tileY) 
                 -- Called when unit reaches each tile
-                self:updateUnitPosition(unit, tileX, tileY, battlefield)
-                -- Note: Visibility update removed - only update when movement completes
+                local continueMovement = self:updateUnitPosition(unit, tileX, tileY, battlefield)
+                if not continueMovement then
+                    movementInterrupted = true
+                end
             end,
             function()
-                -- Animation complete callback
-                self:completeUnitMovement(unit, path[#path].x, path[#path].y, battlefield)
-                -- Update visibility after movement completes
-                if onVisibilityUpdate then
-                    onVisibilityUpdate()
+                -- Animation complete callback - only run if movement wasn't interrupted
+                if not movementInterrupted then
+                    self:completeUnitMovement(unit, path[#path].x, path[#path].y, battlefield)
+                    -- Update visibility after movement completes
+                    if onVisibilityUpdate then
+                        onVisibilityUpdate()
+                    end
+                else
+                    print(string.format("[ActionSystem] Movement completion skipped for %s - was interrupted", unit.name))
                 end
             end
         )
@@ -225,8 +240,25 @@ function ActionSystem:updateUnitPosition(unit, tileX, tileY, battlefield)
     unit.animX = tileX
     unit.animY = tileY
     
+    -- Check for enemy spotting during movement
+    if self.losSystem then
+        local spottedEnemies = self:checkForEnemySpotting(unit, battlefield)
+        if #spottedEnemies > 0 then
+            -- Interrupt movement animation
+            if self.animationSystem then
+                self.animationSystem:clear()
+                print(string.format("[ActionSystem] Movement interrupted for %s - enemies spotted!", unit.name))
+            end
+            
+            -- Trigger enemy spotted notification
+            self:onEnemiesSpotted(unit, spottedEnemies, battlefield)
+            return false  -- Movement interrupted
+        end
+    end
+    
     print(string.format("[ActionSystem] %s position updated to (%d,%d) during movement",
           unit.name, tileX, tileY))
+    return true  -- Movement continues
 end
 
 -- Attempt rotation
@@ -393,6 +425,69 @@ function ActionSystem:getDebugInfo()
         info = info .. string.format("  %s: %s\n", name, tostring(cost))
     end
     return info
+end
+
+-- Check for enemy units that can be seen from the unit's current position
+function ActionSystem:checkForEnemySpotting(unit, battlefield)
+    local spottedEnemies = {}
+    
+    -- Get all units on the battlefield
+    for _, tile in ipairs(battlefield.tiles) do
+        if tile.unit and tile.unit.teamId ~= unit.teamId then
+            -- Check if this enemy unit can be seen by the moving unit
+            if self.losSystem:canSeeUnit(unit, tile.unit, battlefield) then
+                table.insert(spottedEnemies, tile.unit)
+                print(string.format("[ActionSystem] %s spotted enemy %s at (%d,%d)",
+                      unit.name, tile.unit.name, tile.unit.x, tile.unit.y))
+            end
+        end
+    end
+    
+    return spottedEnemies
+end
+
+-- Handle enemy spotting notification and interruption
+function ActionSystem:onEnemiesSpotted(unit, spottedEnemies, battlefield)
+    print(string.format("[ActionSystem] %s spotted %d enemy unit(s) during movement!",
+          unit.name, #spottedEnemies))
+    
+    -- For now, just log the spotted enemies
+    -- TODO: Integrate with notification system when implemented
+    for i, enemy in ipairs(spottedEnemies) do
+        print(string.format("  [%d] %s (team %s) at (%d,%d)",
+              i, enemy.name, enemy.teamId, enemy.x, enemy.y))
+        
+        -- Add notification to panel if available
+        if self.notificationPanel then
+            self.notificationPanel:addNotification(
+                "enemy_spotted",
+                string.format("Enemy %s spotted!", enemy.name),
+                {x = enemy.x, y = enemy.y}
+            )
+        end
+    end
+end
+
+-- Add notification for ally unit taking damage
+function ActionSystem:addAllyWoundedNotification(unit, damage, battlefield)
+    if self.notificationPanel then
+        self.notificationPanel:addNotification(
+            "ally_wounded",
+            string.format("Ally %s wounded! (-%d HP)", unit.name, damage),
+            {x = unit.x, y = unit.y}
+        )
+    end
+end
+
+-- Add notification for enemy unit in firing range
+function ActionSystem:addEnemyInRangeNotification(unit, enemy, battlefield)
+    if self.notificationPanel then
+        self.notificationPanel:addNotification(
+            "enemy_in_range",
+            string.format("Enemy %s in range!", enemy.name),
+            {x = enemy.x, y = enemy.y}
+        )
+    end
 end
 
 return ActionSystem
