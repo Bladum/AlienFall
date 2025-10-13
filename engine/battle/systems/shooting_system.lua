@@ -5,6 +5,7 @@
 local RangeSystem = require("battle.systems.range_system")
 local AccuracySystem = require("battle.systems.accuracy_system")
 local WeaponSystem = require("battlescape.combat.weapon_system")
+local WeaponModes = require("battlescape.combat.weapon_modes")
 
 local ShootingSystem = {}
 
@@ -12,8 +13,9 @@ local ShootingSystem = {}
 -- @param shooter table: Shooter unit
 -- @param target table: Target unit
 -- @param weaponId string: Weapon to use (optional, uses unit's primary weapon if not specified)
+-- @param mode string: Firing mode to use (SNAP, AIM, LONG, AUTO, HEAVY, FINESSE) - optional, defaults to AIM
 -- @return table: Shoot result with success, hit, damage, accuracy info
-function ShootingSystem.shoot(shooter, target, weaponId)
+function ShootingSystem.shoot(shooter, target, weaponId, mode)
     if not shooter or not target then
         return {
             success = false,
@@ -30,6 +32,20 @@ function ShootingSystem.shoot(shooter, target, weaponId)
         return {
             success = false,
             error = "No weapon equipped",
+            hit = false,
+            damage = 0,
+            accuracy = 0
+        }
+    end
+
+    -- Default to AIM mode if not specified
+    mode = mode or WeaponModes.MODES.AIM
+
+    -- Validate mode availability for this weapon
+    if not WeaponSystem.isModeAvailable(weaponId, mode) then
+        return {
+            success = false,
+            error = string.format("Weapon '%s' cannot use mode '%s'", weaponId, mode),
             hit = false,
             damage = 0,
             accuracy = 0
@@ -54,12 +70,29 @@ function ShootingSystem.shoot(shooter, target, weaponId)
     )
 
     -- Get weapon properties
-    local maxRange = WeaponSystem.getMaxRange(weaponId)
-    local baseAccuracy = WeaponSystem.getBaseAccuracy(weaponId)
-    local damage = WeaponSystem.getDamage(weaponId)
+    local weapon = {
+        id = weaponId,
+        maxRange = WeaponSystem.getMaxRange(weaponId),
+        baseAccuracy = WeaponSystem.getBaseAccuracy(weaponId),
+        damage = WeaponSystem.getDamage(weaponId),
+        ammo = WeaponSystem.getAmmo(weaponId) or 999,  -- Assume unlimited if not specified
+        critChance = WeaponSystem.getCritChance(weaponId) or 5  -- Default 5% crit
+    }
+    
+    -- Apply weapon mode modifiers
+    local modifiedWeapon, apCost, epCost, errorMsg = WeaponModes.applyMode(weapon, mode, shooter)
+    if not modifiedWeapon then
+        return {
+            success = false,
+            error = errorMsg or "Cannot use this mode",
+            hit = false,
+            damage = 0,
+            accuracy = 0
+        }
+    end
 
     -- Check if in range
-    if not RangeSystem.isInRange(distance, maxRange) then
+    if not RangeSystem.isInRange(distance, modifiedWeapon.maxRange) then
         return {
             success = false,
             error = "Target out of range",
@@ -67,12 +100,12 @@ function ShootingSystem.shoot(shooter, target, weaponId)
             damage = 0,
             accuracy = 0,
             distance = distance,
-            maxRange = maxRange
+            maxRange = modifiedWeapon.maxRange
         }
     end
 
     -- Calculate effective accuracy
-    local effectiveAccuracy = AccuracySystem.calculateEffectiveAccuracy(distance, maxRange, baseAccuracy)
+    local effectiveAccuracy = AccuracySystem.calculateEffectiveAccuracy(distance, modifiedWeapon.maxRange, modifiedWeapon.baseAccuracy)
     if not effectiveAccuracy then
         return {
             success = false,
@@ -83,26 +116,40 @@ function ShootingSystem.shoot(shooter, target, weaponId)
         }
     end
 
-    -- Determine hit (simple random roll for now)
-    local roll = math.random(1, 100)
-    local hit = roll <= effectiveAccuracy
-
-    local resultDamage = 0
-    if hit then
-        resultDamage = damage  -- Could add damage variance later
+    -- AUTO mode fires multiple bullets
+    local bulletCount = mode == WeaponModes.MODES.AUTO and 5 or 1
+    local hits = 0
+    local totalDamage = 0
+    local rolls = {}
+    
+    for i = 1, bulletCount do
+        -- Determine hit (simple random roll)
+        local roll = math.random(1, 100)
+        table.insert(rolls, roll)
+        
+        if roll <= effectiveAccuracy then
+            hits = hits + 1
+            totalDamage = totalDamage + modifiedWeapon.damage
+        end
     end
 
     return {
         success = true,
-        hit = hit,
-        damage = resultDamage,
+        hit = hits > 0,
+        hits = hits,
+        bulletCount = bulletCount,
+        damage = totalDamage,
         accuracy = effectiveAccuracy,
-        roll = roll,
+        rolls = rolls,
         distance = distance,
-        maxRange = maxRange,
+        maxRange = modifiedWeapon.maxRange,
         weaponId = weaponId,
-        rangeZone = RangeSystem.getRangeZone(distance, maxRange),
-        accuracyZone = AccuracySystem.getAccuracyZoneDescription(distance, maxRange)
+        mode = mode,
+        apCost = apCost,
+        epCost = epCost,
+        critChance = modifiedWeapon.critChance,
+        rangeZone = RangeSystem.getRangeZone(distance, modifiedWeapon.maxRange),
+        accuracyZone = AccuracySystem.getAccuracyZoneDescription(distance, modifiedWeapon.maxRange)
     }
 end
 
@@ -111,8 +158,9 @@ end
 -- @param shooter table: Shooter unit
 -- @param target table: Target unit
 -- @param weaponId string: Weapon to use (optional)
+-- @param mode string: Firing mode (optional, defaults to AIM)
 -- @return table: Shooting info with accuracy, range, etc.
-function ShootingSystem.getShootingInfo(shooter, target, weaponId)
+function ShootingSystem.getShootingInfo(shooter, target, weaponId, mode)
     if not shooter or not target then
         return {
             canShoot = false,
@@ -135,6 +183,9 @@ function ShootingSystem.getShootingInfo(shooter, target, weaponId)
         }
     end
 
+    -- Default to AIM mode
+    mode = mode or WeaponModes.MODES.AIM
+
     -- Check if weapon is ranged
     if not WeaponSystem.isRanged(weaponId) then
         return {
@@ -152,28 +203,51 @@ function ShootingSystem.getShootingInfo(shooter, target, weaponId)
         {x = target.x, y = target.y}
     )
 
-    -- Get weapon properties
-    local maxRange = WeaponSystem.getMaxRange(weaponId)
-    local baseAccuracy = WeaponSystem.getBaseAccuracy(weaponId)
+    -- Get weapon properties and apply mode
+    local weapon = {
+        id = weaponId,
+        maxRange = WeaponSystem.getMaxRange(weaponId),
+        baseAccuracy = WeaponSystem.getBaseAccuracy(weaponId),
+        damage = WeaponSystem.getDamage(weaponId),
+        ammo = WeaponSystem.getAmmo(weaponId) or 999,
+        critChance = WeaponSystem.getCritChance(weaponId) or 5
+    }
+    
+    local modifiedWeapon, apCost, epCost = WeaponModes.applyMode(weapon, mode, shooter)
+    if not modifiedWeapon then
+        return {
+            canShoot = false,
+            error = "Cannot use this mode",
+            accuracy = 0,
+            distance = 0,
+            maxRange = 0
+        }
+    end
 
     -- Check if in range
-    local canShoot = RangeSystem.isInRange(distance, maxRange)
+    local canShoot = RangeSystem.isInRange(distance, modifiedWeapon.maxRange)
 
     -- Calculate effective accuracy
     local effectiveAccuracy = nil
     if canShoot then
-        effectiveAccuracy = AccuracySystem.calculateEffectiveAccuracy(distance, maxRange, baseAccuracy)
+        effectiveAccuracy = AccuracySystem.calculateEffectiveAccuracy(distance, modifiedWeapon.maxRange, modifiedWeapon.baseAccuracy)
     end
 
     return {
         canShoot = canShoot,
         accuracy = effectiveAccuracy or 0,
         distance = distance,
-        maxRange = maxRange,
+        maxRange = modifiedWeapon.maxRange,
         weaponId = weaponId,
-        rangeZone = RangeSystem.getRangeZone(distance, maxRange),
-        accuracyZone = AccuracySystem.getAccuracyZoneDescription(distance, maxRange),
-        accuracyColor = AccuracySystem.getAccuracyZoneColor(distance, maxRange)
+        mode = mode,
+        apCost = apCost,
+        epCost = epCost,
+        critChance = modifiedWeapon.critChance,
+        damage = modifiedWeapon.damage,
+        bulletCount = mode == WeaponModes.MODES.AUTO and 5 or 1,
+        rangeZone = RangeSystem.getRangeZone(distance, modifiedWeapon.maxRange),
+        accuracyZone = AccuracySystem.getAccuracyZoneDescription(distance, modifiedWeapon.maxRange),
+        accuracyColor = AccuracySystem.getAccuracyZoneColor(distance, modifiedWeapon.maxRange)
     }
 end
 

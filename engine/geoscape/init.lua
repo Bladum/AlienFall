@@ -7,10 +7,10 @@ local Widgets = require("widgets.init")
 local Geoscape = {}
 
 -- Load submodules
-local GeoscapeLogic = require("modules.geoscape.logic")
-local GeoscapeRender = require("modules.geoscape.render")
-local GeoscapeInput = require("modules.geoscape.input")
-local GeoscapeData = require("modules.geoscape.data")
+local GeoscapeLogic = require("geoscape.logic.world_state")
+local GeoscapeRender = require("geoscape.ui.render")
+local GeoscapeInput = require("geoscape.ui.input")
+local GeoscapeData = require("geoscape.logic.data")
 
 -- Inherit functions from submodules
 for k, v in pairs(GeoscapeLogic) do Geoscape[k] = v end

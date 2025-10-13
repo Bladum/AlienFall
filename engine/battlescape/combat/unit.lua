@@ -129,6 +129,21 @@ function Unit.new(classId, team, x, y)
     self.maxHealth = self.stats.health
     self.energy = self.stats.energy
     self.maxEnergy = self.stats.energy
+    
+    -- Psi energy system
+    -- Psi energy is used for psionic abilities and regenerates 5 points per turn
+    -- Based on psi skill: units with psi skill > 0 get psi energy pool
+    local psiSkill = self.stats.psi or 0
+    if psiSkill > 0 then
+        self.psiEnergy = 100  -- Start at full psi energy
+        self.maxPsiEnergy = 100  -- Standard max for all psionic units
+        print(string.format("[Unit] %s initialized with psi energy: %d (psi skill: %d)", 
+            self.name or "Unknown", self.maxPsiEnergy, psiSkill))
+    else
+        self.psiEnergy = 0
+        self.maxPsiEnergy = 0
+    end
+    self.psiEnergyRegen = 5  -- Regeneration per turn
 
     -- Status effects
     self.statusEffects = {}

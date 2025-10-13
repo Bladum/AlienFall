@@ -1,0 +1,206 @@
+-- Projectile System
+-- Manages all active projectiles in the battlescape
+-- Handles creation, update, collision detection, and impact resolution
+
+local Projectile = require("battlescape.entities.projectile")
+local Trajectory = require("battlescape.map.trajectory")
+
+local ProjectileSystem = {}
+ProjectileSystem.__index = ProjectileSystem
+
+--- Create a new projectile system instance
+-- @param battlefield table Reference to battlefield for collision queries
+-- @return table New ProjectileSystem instance
+function ProjectileSystem.new(battlefield)
+    print("[ProjectileSystem] Initializing projectile system")
+    
+    local self = setmetatable({}, ProjectileSystem)
+    
+    self.battlefield = battlefield
+    self.activeProjectiles = {}  -- Array of active projectiles
+    self.pendingImpacts = {}     -- Impacts waiting to be processed
+    
+    return self
+end
+
+--- Create and launch a projectile
+-- @param options table Projectile configuration
+-- @return table Created projectile entity
+function ProjectileSystem:createProjectile(options)
+    local projectile = Projectile.new(options)
+    table.insert(self.activeProjectiles, projectile)
+    
+    print("[ProjectileSystem] Created projectile: " .. projectile:getDebugInfo())
+    
+    return projectile
+end
+
+--- Create projectile from weapon fire
+-- @param weapon table Weapon data
+-- @param shooterUnit table Unit firing the weapon
+-- @param startX number Starting X position
+-- @param startY number Starting Y position
+-- @param targetX number Target X position
+-- @param targetY number Target Y position
+-- @return table Created projectile
+function ProjectileSystem:createProjectileFromWeapon(weapon, shooterUnit, startX, startY, targetX, targetY)
+    -- Default weapon properties if not specified
+    local velocity = weapon.projectileVelocity or 500
+    local trajectoryType = weapon.trajectoryType or "straight"
+    local arcHeight = weapon.arcHeight or 3.0
+    
+    -- Damage properties
+    local damageType = weapon.areaOfEffect and "area" or "point"
+    local power = weapon.power or 10
+    local dropoff = weapon.dropoff or 2
+    local damageClass = weapon.damageClass or "kinetic"
+    
+    -- Damage distribution ratios
+    local stunRatio = weapon.stunRatio or 0.25
+    local healthRatio = weapon.healthRatio or 0.75
+    local moraleRatio = weapon.moraleRatio or 0.0
+    local energyRatio = weapon.energyRatio or 0.0
+    
+    local options = {
+        startX = startX,
+        startY = startY,
+        targetX = targetX,
+        targetY = targetY,
+        velocity = velocity,
+        trajectoryType = trajectoryType,
+        arcHeight = arcHeight,
+        damageType = damageType,
+        power = power,
+        dropoff = dropoff,
+        damageClass = damageClass,
+        stunRatio = stunRatio,
+        healthRatio = healthRatio,
+        moraleRatio = moraleRatio,
+        energyRatio = energyRatio,
+        shooterUnit = shooterUnit,
+        weaponId = weapon.id,
+        sprite = weapon.projectileSprite,
+        color = weapon.projectileColor or {255, 255, 0},
+        size = weapon.projectileSize or 3
+    }
+    
+    return self:createProjectile(options)
+end
+
+--- Update all active projectiles
+-- @param dt number Delta time in seconds
+function ProjectileSystem:update(dt)
+    local i = 1
+    while i <= #self.activeProjectiles do
+        local projectile = self.activeProjectiles[i]
+        
+        -- Update projectile
+        local stillActive = projectile:update(dt)
+        
+        if not stillActive then
+            -- Projectile reached target or impacted
+            self:handleImpact(projectile)
+            
+            -- Remove from active list
+            table.remove(self.activeProjectiles, i)
+        else
+            -- Check for collision with terrain or units
+            if self:checkCollision(projectile) then
+                -- Collision detected, mark impact and remove
+                table.remove(self.activeProjectiles, i)
+            else
+                i = i + 1
+            end
+        end
+    end
+end
+
+--- Check for collision with terrain or units
+-- @param projectile table Projectile to check
+-- @return boolean True if collision detected
+function ProjectileSystem:checkCollision(projectile)
+    local tileX = projectile.x
+    local tileY = projectile.y
+    
+    -- Check for terrain collision (walls, obstacles)
+    if self.battlefield then
+        local tile = self.battlefield:getTile(tileX, tileY)
+        if tile and tile.blocksMovement then
+            print("[ProjectileSystem] Projectile hit terrain at (" .. tileX .. "," .. tileY .. ")")
+            projectile:markImpact(nil, tileX, tileY)
+            self:handleImpact(projectile)
+            return true
+        end
+        
+        -- Check for unit collision (if not targeting that exact tile)
+        if tileX ~= projectile.targetX or tileY ~= projectile.targetY then
+            local unit = self.battlefield:getUnitAt(tileX, tileY)
+            if unit then
+                print("[ProjectileSystem] Projectile hit unit at (" .. tileX .. "," .. tileY .. ")")
+                projectile:markImpact(unit, tileX, tileY)
+                self:handleImpact(projectile)
+                return true
+            end
+        end
+    end
+    
+    return false
+end
+
+--- Handle projectile impact (damage, explosions, effects)
+-- @param projectile table Impacted projectile
+function ProjectileSystem:handleImpact(projectile)
+    print("[ProjectileSystem] Processing impact at (" .. (projectile.impactX or projectile.x) .. 
+          "," .. (projectile.impactY or projectile.y) .. ")")
+    
+    -- Queue impact for processing (will be handled by damage system)
+    table.insert(self.pendingImpacts, {
+        projectile = projectile,
+        x = projectile.impactX or projectile.x,
+        y = projectile.impactY or projectile.y,
+        timestamp = love.timer.getTime()
+    })
+    
+    -- TODO: Integrate with damage system
+    -- TODO: Integrate with explosion system for area damage
+    -- TODO: Create impact visual effects
+end
+
+--- Get all pending impacts for processing
+-- @return table Array of pending impact data
+function ProjectileSystem:getPendingImpacts()
+    return self.pendingImpacts
+end
+
+--- Clear processed impacts
+function ProjectileSystem:clearPendingImpacts()
+    self.pendingImpacts = {}
+end
+
+--- Get all active projectiles for rendering
+-- @return table Array of active projectiles
+function ProjectileSystem:getActiveProjectiles()
+    return self.activeProjectiles
+end
+
+--- Clear all projectiles (for cleanup or reset)
+function ProjectileSystem:clear()
+    print("[ProjectileSystem] Clearing all projectiles")
+    self.activeProjectiles = {}
+    self.pendingImpacts = {}
+end
+
+--- Get projectile count for debugging
+-- @return number Number of active projectiles
+function ProjectileSystem:getProjectileCount()
+    return #self.activeProjectiles
+end
+
+--- Debug info
+-- @return string Debug information
+function ProjectileSystem:getDebugInfo()
+    return string.format("ProjectileSystem: %d active, %d pending impacts",
+        #self.activeProjectiles, #self.pendingImpacts)
+end
+
+return ProjectileSystem

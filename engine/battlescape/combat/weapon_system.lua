@@ -250,4 +250,113 @@ function WeaponSystem.calculateAccuracy(unit, weaponId, targetX, targetY)
     return math.floor(finalAccuracy + 0.5) -- Round to nearest integer
 end
 
+--- Get weapon critical hit chance bonus.
+---
+--- Returns the weapon's base critical hit chance bonus percentage.
+--- This is added to the base 5% crit + unit class bonus.
+---
+--- @param weaponId string Weapon identifier
+--- @return number Critical hit chance bonus percentage (0-20+)
+function WeaponSystem.getCritChance(weaponId)
+    local weapon = WeaponSystem.getWeapon(weaponId)
+    if not weapon then
+        print(string.format("[ERROR] WeaponSystem.getCritChance: Weapon '%s' not found", weaponId or "nil"))
+        return 5  -- Default 5% crit
+    end
+
+    return weapon.critChance or 5
+end
+
+--- Get weapon damage type (for armor resistance).
+---
+--- Returns the damage type used for armor penetration calculations.
+--- Examples: kinetic, explosive, laser, plasma, acid, fire, etc.
+---
+--- @param weaponId string Weapon identifier
+--- @return string Damage type identifier
+function WeaponSystem.getDamageType(weaponId)
+    local weapon = WeaponSystem.getWeapon(weaponId)
+    if not weapon then
+        print(string.format("[ERROR] WeaponSystem.getDamageType: Weapon '%s' not found", weaponId or "nil"))
+        return "kinetic"  -- Default kinetic damage
+    end
+
+    return weapon.damageType or "kinetic"
+end
+
+--- Get weapon damage model (for stat distribution).
+---
+--- Returns how damage is distributed to unit stats after armor calculation.
+--- Options: hurt (75% HP + 25% stun), stun (100% stun), morale (100% morale), energy (80% EP + 20% stun)
+---
+--- @param weaponId string Weapon identifier
+--- @return string Damage model identifier
+function WeaponSystem.getDamageModel(weaponId)
+    local weapon = WeaponSystem.getWeapon(weaponId)
+    if not weapon then
+        print(string.format("[ERROR] WeaponSystem.getDamageModel: Weapon '%s' not found", weaponId or "nil"))
+        return "hurt"  -- Default hurt model (lethal damage)
+    end
+
+    return weapon.damageModel or "hurt"
+end
+
+--- Get weapon ammo capacity.
+---
+--- Returns maximum ammo capacity for the weapon.
+--- Returns nil for unlimited ammo weapons.
+---
+--- @param weaponId string Weapon identifier
+--- @return number|nil Ammo capacity or nil for unlimited
+function WeaponSystem.getAmmo(weaponId)
+    local weapon = WeaponSystem.getWeapon(weaponId)
+    if not weapon then
+        return nil
+    end
+
+    return weapon.ammo
+end
+
+--- Get weapon available firing modes.
+---
+--- Returns array of available firing modes for this weapon.
+--- Modes: SNAP (quick), AIM (careful), LONG (sniper), AUTO (spray), HEAVY (power), FINESSE (precision)
+--- If no modes defined, returns ["SNAP", "AIM"] as default.
+---
+--- @param weaponId string Weapon identifier
+--- @return table Array of mode strings
+function WeaponSystem.getAvailableModes(weaponId)
+    local weapon = WeaponSystem.getWeapon(weaponId)
+    if not weapon then
+        print(string.format("[ERROR] WeaponSystem.getAvailableModes: Weapon '%s' not found", weaponId or "nil"))
+        return {"SNAP", "AIM"}  -- Default modes
+    end
+
+    return weapon.availableModes or {"SNAP", "AIM"}
+end
+
+--- Check if weapon supports a specific firing mode.
+---
+--- Returns true if the weapon can use the specified mode.
+--- Used by UI to gray out unavailable modes and by shooting system to validate.
+---
+--- @param weaponId string Weapon identifier
+--- @param mode string Mode to check (SNAP, AIM, LONG, AUTO, HEAVY, FINESSE)
+--- @return boolean True if mode is available
+function WeaponSystem.isModeAvailable(weaponId, mode)
+    if not weaponId or not mode then
+        return false
+    end
+
+    local availableModes = WeaponSystem.getAvailableModes(weaponId)
+    
+    for _, availableMode in ipairs(availableModes) do
+        if availableMode == mode then
+            return true
+        end
+    end
+
+    return false
+end
+
 return WeaponSystem
