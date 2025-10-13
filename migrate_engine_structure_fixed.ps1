@@ -1,22 +1,5 @@
 # ============================================================================
-# Engine Folder Restructure Migration Script
-# ============================================================================
-# 
-# This script automates the reorganization of the engine/ folder structure.
-# It creates new folders and moves files according to TASK-ENGINE-RESTRUCTURE.
-#
-# IMPORTANT: This script will modify your project structure!
-# - Creates a backup branch before starting
-# - Run from project root: c:\Users\tombl\Documents\Projects\
-# - Requires git to be available
-#
-# Usage:
-#   .\migrate_engine_structure.ps1
-#
-# Options:
-#   -DryRun : Show what would be done without making changes
-#   -SkipBackup : Skip creating backup branch (NOT RECOMMENDED)
-#
+# Engine Folder Restructure Migration Script (FIXED VERSION)
 # ============================================================================
 
 param(
@@ -35,10 +18,10 @@ function Write-Warning { Write-Host $args -ForegroundColor Yellow }
 function Write-Error { param($msg) Write-Host $msg -ForegroundColor Red }
 
 # ============================================================================
-# Phase 0: Pre-flight Checks
+# Pre-flight Checks
 # ============================================================================
 
-Write-Info "`n============================================"
+Write-Info "============================================"
 Write-Info "Engine Restructure Migration Script"
 Write-Info "============================================`n"
 
@@ -56,24 +39,10 @@ if (-not (Test-Path $engineRoot)) {
 Write-Info "Project root: $projectRoot"
 Write-Info "Engine root: $engineRoot`n"
 
-# Check git status
-Push-Location $projectRoot
-try {
-    $gitStatus = git status --porcelain
-    if ($gitStatus) {
-        Write-Warning "Warning: You have uncommitted changes."
-        Write-Warning "It's recommended to commit or stash changes before restructuring.`n"
-        $continue = Read-Host "Continue anyway? (y/N)"
-        if ($continue -ne 'y' -and $continue -ne 'Y') {
-            Write-Info "Aborting."
-            exit 0
-        }
-    }
-} finally {
-    Pop-Location
-}
+# ============================================================================
+# Create Backup Branch
+# ============================================================================
 
-# Create backup branch
 if (-not $SkipBackup -and -not $DryRun) {
     Write-Info "Creating backup branch..."
     Push-Location $projectRoot
@@ -85,10 +54,10 @@ if (-not $SkipBackup -and -not $DryRun) {
     } catch {
         Write-Error "Failed to create backup branch: $_"
         exit 1
-    } finally {
+    }
+    finally {
         Pop-Location
     }
-}
 }
 
 # ============================================================================
@@ -108,73 +77,21 @@ function New-DirectoryIfNotExists {
 }
 
 function Move-FileWithLogging {
-    param(
-        [string]$source,
-        [string]$destination
-    )
-    
+    param([string]$source, [string]$destination)
+
     if (-not (Test-Path $source)) {
         Write-Warning "  Source not found: $source"
         return $false
     }
-    
+
     $destDir = Split-Path $destination -Parent
     New-DirectoryIfNotExists $destDir | Out-Null
-    
+
     if (-not $DryRun) {
         Move-Item -Path $source -Destination $destination -Force
     }
-    
-    Write-Info "  Moved: $(Split-Path $source -Leaf) → $destination"
-    return $true
-}
 
-function Copy-FileWithLogging {
-    param(
-        [string]$source,
-        [string]$destination
-    )
-    
-    if (-not (Test-Path $source)) {
-        Write-Warning "  Source not found: $source"
-        return $false
-    }
-    
-    $destDir = Split-Path $destination -Parent
-    New-DirectoryIfNotExists $destDir | Out-Null
-    
-    if (-not $DryRun) {
-        Copy-Item -Path $source -Destination $destination -Force
-    }
-    
-    Write-Info "  Copied: $(Split-Path $source -Leaf) → $destination"
-    return $true
-}
-
-function New-ReadmeFile {
-    param(
-        [string]$path,
-        [string]$title,
-        [string]$description
-    )
-    
-    $readmePath = Join-Path $path "README.md"
-    if (Test-Path $readmePath) {
-        return $false
-    }
-    
-    $content = @"
-# $title
-
-$description
-
-"@
-    
-    if (-not $DryRun) {
-        Set-Content -Path $readmePath -Value $content -Encoding UTF8
-    }
-    
-    Write-Info "  Created README: $readmePath"
+    Write-Info "  Moved: $(Split-Path $source -Leaf) -> $destination"
     return $true
 }
 
@@ -186,72 +103,53 @@ Write-Info "`n============================================"
 Write-Info "Phase 1: Creating New Folder Structure"
 Write-Info "============================================`n"
 
-$newFolders = @(
-    # Core folders
-    @{Path="engine/core"; Desc="Essential systems used by all game modes"},
-    @{Path="engine/shared"; Desc="Systems shared between multiple modes"},
-    
-    # Battlescape structure
-    @{Path="engine/battlescape"; Desc="Tactical combat system"},
-    @{Path="engine/battlescape/ui"; Desc="Battlescape UI layer (input, render, HUD)"},
-    @{Path="engine/battlescape/logic"; Desc="Battlescape game logic"},
-    @{Path="engine/battlescape/systems"; Desc="Battlescape ECS systems"},
-    @{Path="engine/battlescape/components"; Desc="Battlescape ECS components"},
-    @{Path="engine/battlescape/entities"; Desc="Battlescape entity factories"},
-    @{Path="engine/battlescape/map"; Desc="Map generation and management"},
-    @{Path="engine/battlescape/effects"; Desc="Visual and gameplay effects"},
-    @{Path="engine/battlescape/rendering"; Desc="Rendering systems"},
-    @{Path="engine/battlescape/combat"; Desc="Combat mechanics"},
-    @{Path="engine/battlescape/utils"; Desc="Battlescape utilities"},
-    @{Path="engine/battlescape/tests"; Desc="Battlescape tests"},
-    
-    # Geoscape structure
-    @{Path="engine/geoscape"; Desc="Strategic map system"},
-    @{Path="engine/geoscape/ui"; Desc="Geoscape UI layer"},
-    @{Path="engine/geoscape/logic"; Desc="Geoscape game logic"},
-    @{Path="engine/geoscape/systems"; Desc="Geoscape-specific systems"},
-    @{Path="engine/geoscape/tests"; Desc="Geoscape tests"},
-    
-    # Basescape structure
-    @{Path="engine/basescape"; Desc="Base management system"},
-    @{Path="engine/basescape/ui"; Desc="Basescape UI layer"},
-    @{Path="engine/basescape/logic"; Desc="Basescape game logic"},
-    @{Path="engine/basescape/systems"; Desc="Basescape-specific systems"},
-    @{Path="engine/basescape/tests"; Desc="Basescape tests"},
-    
-    # Interception structure
-    @{Path="engine/interception"; Desc="Craft interception system"},
-    @{Path="engine/interception/ui"; Desc="Interception UI layer"},
-    @{Path="engine/interception/logic"; Desc="Interception game logic"},
-    @{Path="engine/interception/systems"; Desc="Interception-specific systems"},
-    @{Path="engine/interception/tests"; Desc="Interception tests"},
-    
-    # Menu and tools
-    @{Path="engine/menu"; Desc="Menu screens"},
-    @{Path="engine/tools"; Desc="Development tools"},
-    @{Path="engine/tools/map_editor"; Desc="Map editor tool"},
-    @{Path="engine/tools/validators"; Desc="Validation tools"},
-    
-    # Scripts and tests
-    @{Path="engine/scripts"; Desc="Utility scripts"},
-    @{Path="engine/tests"; Desc="Unified test suite"},
-    @{Path="engine/tests/core"; Desc="Core system tests"},
-    @{Path="engine/tests/battlescape"; Desc="Battlescape tests"},
-    @{Path="engine/tests/integration"; Desc="Integration tests"},
-    @{Path="engine/tests/performance"; Desc="Performance tests"},
-    @{Path="engine/tests/systems"; Desc="Specific system tests"}
+$folders = @(
+    "engine/core",
+    "engine/shared",
+    "engine/battlescape",
+    "engine/battlescape/ui",
+    "engine/battlescape/logic",
+    "engine/battlescape/systems",
+    "engine/battlescape/components",
+    "engine/battlescape/entities",
+    "engine/battlescape/map",
+    "engine/battlescape/effects",
+    "engine/battlescape/rendering",
+    "engine/battlescape/combat",
+    "engine/battlescape/utils",
+    "engine/battlescape/tests",
+    "engine/geoscape",
+    "engine/geoscape/ui",
+    "engine/geoscape/logic",
+    "engine/geoscape/systems",
+    "engine/geoscape/tests",
+    "engine/basescape",
+    "engine/basescape/ui",
+    "engine/basescape/logic",
+    "engine/basescape/systems",
+    "engine/basescape/tests",
+    "engine/interception",
+    "engine/interception/ui",
+    "engine/interception/logic",
+    "engine/interception/systems",
+    "engine/interception/tests",
+    "engine/menu",
+    "engine/tools",
+    "engine/tools/map_editor",
+    "engine/tools/validators",
+    "engine/scripts",
+    "engine/tests",
+    "engine/tests/core",
+    "engine/tests/battlescape",
+    "engine/tests/integration",
+    "engine/tests/performance",
+    "engine/tests/systems"
 )
 
 $created = 0
-foreach ($folder in $newFolders) {
-    $fullPath = Join-Path $projectRoot $folder.Path
-    if (New-DirectoryIfNotExists $fullPath) {
-        $created++
-        # Create README for main folders
-        if ($folder.Path -notlike "*/*/*/*") {
-            New-ReadmeFile $fullPath $folder.Path $folder.Desc | Out-Null
-        }
-    }
+foreach ($folder in $folders) {
+    $fullPath = Join-Path $projectRoot $folder
+    if (New-DirectoryIfNotExists $fullPath) { $created++ }
 }
 
 Write-Success "`n✓ Phase 1 Complete: Created $created new folders`n"
@@ -271,7 +169,6 @@ $coreMoves = @(
     @{From="engine/systems/mod_manager.lua"; To="engine/core/mod_manager.lua"}
 )
 
-Write-Info "Moving to core/..."
 $moved = 0
 foreach ($move in $coreMoves) {
     $source = Join-Path $projectRoot $move.From
@@ -296,7 +193,6 @@ $sharedMoves = @(
     @{From="engine/systems/ui.lua"; To="engine/shared/ui.lua"}
 )
 
-Write-Info "Moving to shared/..."
 $moved = 0
 foreach ($move in $sharedMoves) {
     $source = Join-Path $projectRoot $move.From
@@ -316,7 +212,7 @@ Write-Info "============================================`n"
 
 # UI layer
 Write-Info "Moving battlescape UI layer..."
-$battlescapeUIMoves = @(
+$uiMoves = @(
     @{From="engine/modules/battlescape/input.lua"; To="engine/battlescape/ui/input.lua"},
     @{From="engine/modules/battlescape/render.lua"; To="engine/battlescape/ui/render.lua"},
     @{From="engine/modules/battlescape/ui.lua"; To="engine/battlescape/ui/ui.lua"},
@@ -325,7 +221,7 @@ $battlescapeUIMoves = @(
 )
 
 $moved = 0
-foreach ($move in $battlescapeUIMoves) {
+foreach ($move in $uiMoves) {
     $source = Join-Path $projectRoot $move.From
     $dest = Join-Path $projectRoot $move.To
     if (Move-FileWithLogging $source $dest) { $moved++ }
@@ -333,58 +229,22 @@ foreach ($move in $battlescapeUIMoves) {
 
 # Logic layer
 Write-Info "`nMoving battlescape logic..."
-$battlescapeLogicMoves = @(
+$logicMoves = @(
     @{From="engine/battle/battlefield.lua"; To="engine/battlescape/logic/battlefield.lua"},
     @{From="engine/battle/turn_manager.lua"; To="engine/battlescape/logic/turn_manager.lua"},
     @{From="engine/battle/unit_selection.lua"; To="engine/battlescape/logic/unit_selection.lua"},
     @{From="engine/battle/battlescape_integration.lua"; To="engine/battlescape/logic/integration.lua"}
 )
 
-foreach ($move in $battlescapeLogicMoves) {
+foreach ($move in $logicMoves) {
     $source = Join-Path $projectRoot $move.From
     $dest = Join-Path $projectRoot $move.To
     if (Move-FileWithLogging $source $dest) { $moved++ }
 }
 
-# ECS Systems
-Write-Info "`nMoving battlescape ECS systems..."
-$battleSystemsPath = Join-Path $engineRoot "battle/systems"
-if (Test-Path $battleSystemsPath) {
-    $systemFiles = Get-ChildItem -Path $battleSystemsPath -Filter "*.lua"
-    foreach ($file in $systemFiles) {
-        $source = $file.FullName
-        $dest = Join-Path $engineRoot "battlescape/systems/$($file.Name)"
-        if (Move-FileWithLogging $source $dest) { $moved++ }
-    }
-}
-
-# ECS Components
-Write-Info "`nMoving battlescape ECS components..."
-$battleComponentsPath = Join-Path $engineRoot "battle/components"
-if (Test-Path $battleComponentsPath) {
-    $componentFiles = Get-ChildItem -Path $battleComponentsPath -Filter "*.lua"
-    foreach ($file in $componentFiles) {
-        $source = $file.FullName
-        $dest = Join-Path $engineRoot "battlescape/components/$($file.Name)"
-        if (Move-FileWithLogging $source $dest) { $moved++ }
-    }
-}
-
-# ECS Entities
-Write-Info "`nMoving battlescape ECS entities..."
-$battleEntitiesPath = Join-Path $engineRoot "battle/entities"
-if (Test-Path $battleEntitiesPath) {
-    $entityFiles = Get-ChildItem -Path $battleEntitiesPath -Filter "*.lua"
-    foreach ($file in $entityFiles) {
-        $source = $file.FullName
-        $dest = Join-Path $engineRoot "battlescape/entities/$($file.Name)"
-        if (Move-FileWithLogging $source $dest) { $moved++ }
-    }
-}
-
 # Map systems
 Write-Info "`nMoving battlescape map systems..."
-$battlescapeMapMoves = @(
+$mapMoves = @(
     @{From="engine/battle/grid_map.lua"; To="engine/battlescape/map/grid_map.lua"},
     @{From="engine/battle/map_generator.lua"; To="engine/battlescape/map/map_generator.lua"},
     @{From="engine/battle/map_saver.lua"; To="engine/battlescape/map/map_saver.lua"},
@@ -392,7 +252,7 @@ $battlescapeMapMoves = @(
     @{From="engine/battle/mapblock_system.lua"; To="engine/battlescape/map/mapblock_system.lua"}
 )
 
-foreach ($move in $battlescapeMapMoves) {
+foreach ($move in $mapMoves) {
     $source = Join-Path $projectRoot $move.From
     $dest = Join-Path $projectRoot $move.To
     if (Move-FileWithLogging $source $dest) { $moved++ }
@@ -400,13 +260,13 @@ foreach ($move in $battlescapeMapMoves) {
 
 # Effects
 Write-Info "`nMoving battlescape effects..."
-$battlescapeEffectsMoves = @(
+$effectMoves = @(
     @{From="engine/battle/animation_system.lua"; To="engine/battlescape/effects/animation_system.lua"},
     @{From="engine/battle/fire_system.lua"; To="engine/battlescape/effects/fire_system.lua"},
     @{From="engine/battle/smoke_system.lua"; To="engine/battlescape/effects/smoke_system.lua"}
 )
 
-foreach ($move in $battlescapeEffectsMoves) {
+foreach ($move in $effectMoves) {
     $source = Join-Path $projectRoot $move.From
     $dest = Join-Path $projectRoot $move.To
     if (Move-FileWithLogging $source $dest) { $moved++ }
@@ -414,20 +274,20 @@ foreach ($move in $battlescapeEffectsMoves) {
 
 # Rendering
 Write-Info "`nMoving battlescape rendering..."
-$battlescapeRenderMoves = @(
+$renderMoves = @(
     @{From="engine/battle/renderer.lua"; To="engine/battlescape/rendering/renderer.lua"},
     @{From="engine/battle/camera.lua"; To="engine/battlescape/rendering/camera.lua"}
 )
 
-foreach ($move in $battlescapeRenderMoves) {
+foreach ($move in $renderMoves) {
     $source = Join-Path $projectRoot $move.From
     $dest = Join-Path $projectRoot $move.To
     if (Move-FileWithLogging $source $dest) { $moved++ }
 }
 
-# Combat systems (from systems/)
+# Combat systems
 Write-Info "`nMoving combat systems from systems/..."
-$battlescapeCombatMoves = @(
+$combatMoves = @(
     @{From="engine/systems/weapon_system.lua"; To="engine/battlescape/combat/weapon_system.lua"},
     @{From="engine/systems/equipment_system.lua"; To="engine/battlescape/combat/equipment_system.lua"},
     @{From="engine/systems/action_system.lua"; To="engine/battlescape/combat/action_system.lua"},
@@ -437,41 +297,10 @@ $battlescapeCombatMoves = @(
     @{From="engine/systems/battle_tile.lua"; To="engine/battlescape/combat/battle_tile.lua"}
 )
 
-foreach ($move in $battlescapeCombatMoves) {
+foreach ($move in $combatMoves) {
     $source = Join-Path $projectRoot $move.From
     $dest = Join-Path $projectRoot $move.To
     if (Move-FileWithLogging $source $dest) { $moved++ }
-}
-
-# Utilities
-Write-Info "`nMoving battlescape utilities..."
-$battleUtilsPath = Join-Path $engineRoot "battle/utils"
-if (Test-Path $battleUtilsPath) {
-    $utilFiles = Get-ChildItem -Path $battleUtilsPath -Filter "*.lua"
-    foreach ($file in $utilFiles) {
-        $source = $file.FullName
-        $dest = Join-Path $engineRoot "battlescape/utils/$($file.Name)"
-        if (Move-FileWithLogging $source $dest) { $moved++ }
-    }
-}
-
-# Tests
-Write-Info "`nMoving battlescape tests..."
-$battleTestsPath = Join-Path $engineRoot "battle/tests"
-if (Test-Path $battleTestsPath) {
-    $testFiles = Get-ChildItem -Path $battleTestsPath -Filter "*.lua"
-    foreach ($file in $testFiles) {
-        $source = $file.FullName
-        $dest = Join-Path $engineRoot "battlescape/tests/$($file.Name)"
-        if (Move-FileWithLogging $source $dest) { $moved++ }
-    }
-}
-
-# Copy init.lua if exists
-$battleInitPath = Join-Path $engineRoot "battle/init.lua"
-if (Test-Path $battleInitPath) {
-    $dest = Join-Path $engineRoot "battlescape/init_battle.lua"
-    Copy-FileWithLogging $battleInitPath $dest | Out-Null
 }
 
 Write-Success "`n✓ Phase 4 Complete: Moved $moved battlescape files`n"
@@ -652,20 +481,20 @@ if ($DryRun) {
     Write-Info "Run the script without -DryRun to apply changes.`n"
 } else {
     Write-Success "✓ Migration Complete!`n"
-    
+
     Write-Info "Next Steps:"
     Write-Info "1. Update require paths in main.lua and other files"
     Write-Info "2. Run the game with Love2D console: lovec engine"
-    Write-Info "3. Check console for 'module not found' errors"
+    Write-Info "3. Check console for ""module not found"" errors"
     Write-Info "4. Update wiki documentation"
     Write-Info "5. Run tests: love scripts/run_test.lua"
     Write-Info "6. Commit changes to git`n"
-    
+
     Write-Info "Reference documents:"
     Write-Info "- tasks/TODO/ENGINE-RESTRUCTURE-QUICK-REFERENCE.md"
     Write-Info "- tasks/TODO/ENGINE-RESTRUCTURE-VISUAL-COMPARISON.md"
     Write-Info "- tasks/TODO/TASK-ENGINE-RESTRUCTURE.md`n"
-    
+
     if (-not $SkipBackup) {
         Write-Info "Backup branch created: $backupBranch"
         Write-Info "To restore backup: git checkout $backupBranch`n"

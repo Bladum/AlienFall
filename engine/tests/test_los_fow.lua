@@ -11,8 +11,8 @@ function test.run()
     
     -- Test 1: Check if LOS system exists
     print("\n[TEST 1] Checking if LOS system is loaded...")
-    local hasBasicLOS = pcall(function() return require("systems.los_system") end)
-    local hasOptimizedLOS = pcall(function() return require("systems.los_optimized") end)
+    local hasBasicLOS = pcall(function() return require("battlescape.combat.los_system") end)
+    local hasOptimizedLOS = pcall(function() return require("battlescape.combat.los_optimized") end)
     
     if hasOptimizedLOS then
         print("[PASS] Optimized LOS system found")
@@ -25,7 +25,7 @@ function test.run()
     
     -- Test 2: Check if Team visibility system exists
     print("\n[TEST 2] Checking Team visibility system...")
-    local success, Team = pcall(function() return require("systems.team") end)
+    local success, Team = pcall(function() return require("shared.team") end)
     if not success then
         print("[FAIL] Cannot load Team system: " .. tostring(Team))
         return false
@@ -70,7 +70,7 @@ function test.run()
     -- Test 4: Test LOSCache system (if optimized LOS is available)
     if hasOptimizedLOS then
         print("\n[TEST 4] Testing LOSCache system...")
-        local LOSOptimized = require("systems.los_optimized")
+        local LOSOptimized = require("battlescape.combat.los_optimized")
         
         if LOSOptimized.LOSCache then
             print("[PASS] LOSCache system available")

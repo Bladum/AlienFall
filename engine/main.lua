@@ -2,21 +2,21 @@
 -- A simplified turn-based strategy game inspired by UFO: Enemy Unknown
 
 -- Load mod manager FIRST (required for all content loading)
-local ModManager = require("systems.mod_manager")
+local ModManager = require("core.mod_manager")
 
 -- Load state manager
-local StateManager = require("systems.state_manager")
+local StateManager = require("core.state_manager")
 
 -- Load game modules
 print("[Main] Loading Menu...")
-local Menu = require("modules.menu")
+local Menu = require("menu.main_menu")
 print("[Main] Loading Geoscape...")
-local Geoscape = require("modules.geoscape.init")
+local Geoscape = require("geoscape.init")
 
 print("[Main] Loading Battlescape...")
 local Battlescape
 local success, err = pcall(function()
-    Battlescape = require("modules.battlescape.init")
+    Battlescape = require("battlescape.init")
 end)
 if not success then
     print("[ERROR] Failed to load Battlescape: " .. tostring(err))
@@ -26,25 +26,25 @@ else
 end
 
 print("[Main] Loading Basescape...")
-local Basescape = require("modules.basescape")
+local Basescape = require("basescape.init")
 
 print("[Main] Loading Tests Menu...")
-local TestsMenu = require("modules.tests_menu")
+local TestsMenu = require("menu.tests_menu")
 
 print("[Main] Loading Widget Showcase...")
-local WidgetShowcase = require("modules.widget_showcase")
+local WidgetShowcase = require("menu.widget_showcase")
 
 print("[Main] Loading Map Editor...")
-local MapEditor = require("modules.map_editor")
+local MapEditor = require("tools.map_editor.init")
 
 -- Load widgets system
 local Widgets = require("widgets.init")
 
 -- Load asset system
-local Assets = require("systems.assets")
+local Assets = require("core.assets")
 
 -- Load data loader system
-local DataLoader = require("systems.data_loader")
+local DataLoader = require("core.data_loader")
 
 -- Load viewport system for dynamic resolution
 local Viewport = require("utils.viewport")

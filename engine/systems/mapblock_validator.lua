@@ -2,8 +2,8 @@
 -- Validates mapblock TOML files and ensures all tile references are valid
 
 local TOML = require("libs.toml")
-local ModManager = require("systems.mod_manager")
-local DataLoader = require("systems.data_loader")
+local ModManager = require("core.mod_manager")
+local DataLoader = require("core.data_loader")
 
 local MapblockValidator = {}
 

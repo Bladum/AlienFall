@@ -2,33 +2,33 @@
 -- Turn-based tactical combat on 60x60 tile map
 -- Implements: FOW, day/night, teams/sides, TOML terrain, proper GUI
 
-local StateManager = require("systems.state_manager")
+local StateManager = require("core.state_manager")
 local Widgets = require("widgets.init")
-local Unit = require("systems.unit")
-local Team = require("systems.team")
-local ActionSystem = require("systems.action_system")
-local Pathfinding = require("systems.pathfinding")
-local LOS = require("systems.los_optimized")  -- OPTIMIZED VERSION
-local Assets = require("systems.assets")
-local AnimationSystem = require("battle.animation_system")
+local Unit = require("battlescape.combat.unit")
+local Team = require("shared.team")
+local ActionSystem = require("battlescape.combat.action_system")
+local Pathfinding = require("shared.pathfinding")
+local LOS = require("battlescape.combat.los_optimized")  -- OPTIMIZED VERSION
+local Assets = require("core.assets")
+local AnimationSystem = require("battlescape.effects.animation_system")
 
 -- Battle components
-local Battlefield = require("battle.battlefield")
-local Camera = require("battle.camera")
-local UnitSelection = require("battle.unit_selection")
-local BattlefieldRenderer = require("battle.renderer")
-local TurnManager = require("battle.turn_manager")
+local Battlefield = require("battlescape.logic.battlefield")
+local Camera = require("battlescape.rendering.camera")
+local UnitSelection = require("battlescape.logic.unit_selection")
+local BattlefieldRenderer = require("battlescape.rendering.renderer")
+local TurnManager = require("battlescape.logic.turn_manager")
 
 -- Fire and Smoke systems
-local FireSystem = require("battle.fire_system")
-local SmokeSystem = require("battle.smoke_system")
+local FireSystem = require("battlescape.effects.fire_system")
+local SmokeSystem = require("battlescape.effects.smoke_system")
 
 -- MapBlock system
-local MapBlock = require("battle.map_block")
-local GridMap = require("battle.grid_map")
+local MapBlock = require("battlescape.map.map_block")
+local GridMap = require("battlescape.map.grid_map")
 
 -- Map generation system
-local MapGenerator = require("battle.map_generator")
+local MapGenerator = require("battlescape.map.map_generator")
 
 -- New ECS Battle System
 local HexSystem = require("battle.systems.hex_system")
@@ -42,10 +42,10 @@ local Debug = require("battle.utils.debug")
 local Viewport = require("utils.viewport")
 
 -- Load submodules
-local BattlescapeLogic = require("modules.battlescape.logic")
-local BattlescapeRender = require("modules.battlescape.render")
-local BattlescapeInput = require("modules.battlescape.input")
-local BattlescapeUI = require("modules.battlescape.ui")
+local BattlescapeLogic = require("battlescape.ui.logic")
+local BattlescapeRender = require("battlescape.ui.render")
+local BattlescapeInput = require("battlescape.ui.input")
+local BattlescapeUI = require("battlescape.ui.ui")
 
 local Battlescape = {}
 

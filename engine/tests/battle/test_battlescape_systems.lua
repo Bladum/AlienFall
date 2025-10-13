@@ -17,7 +17,7 @@ function BattlescapeTests.testUnitSystem()
     print("║         TESTING UNIT SYSTEM                              ║")
     print("╚═══════════════════════════════════════════════════════════╝")
     
-    local Unit = require("systems.unit")
+    local Unit = require("battlescape.combat.unit")
     
     TestFramework.runTest("Unit - Create unit", function()
         TestFramework.assertNotNil(Unit, "Unit system not loaded")
@@ -40,7 +40,7 @@ function BattlescapeTests.testTeamSystem()
     print("║         TESTING TEAM SYSTEM                              ║")
     print("╚═══════════════════════════════════════════════════════════╝")
     
-    local Team = require("systems.team")
+    local Team = require("shared.team")
     
     TestFramework.runTest("Team - Create team", function()
         TestFramework.assertNotNil(Team, "Team system not loaded")
@@ -63,7 +63,7 @@ function BattlescapeTests.testPathfinding()
     print("║         TESTING PATHFINDING SYSTEM                       ║")
     print("╚═══════════════════════════════════════════════════════════╝")
     
-    local Pathfinding = require("systems.pathfinding")
+    local Pathfinding = require("shared.pathfinding")
     
     TestFramework.runTest("Pathfinding - System loaded", function()
         TestFramework.assertNotNil(Pathfinding, "Pathfinding system not loaded")
@@ -131,7 +131,7 @@ function BattlescapeTests.testLOS()
     print("║         TESTING LINE-OF-SIGHT SYSTEM                     ║")
     print("╚═══════════════════════════════════════════════════════════╝")
     
-    local LOS = require("systems.los_optimized")
+    local LOS = require("battlescape.combat.los_optimized")
     
     TestFramework.runTest("LOS - System loaded", function()
         TestFramework.assertNotNil(LOS, "LOS system not loaded")
@@ -182,7 +182,7 @@ function BattlescapeTests.testBattlefield()
     print("║         TESTING BATTLEFIELD SYSTEM                       ║")
     print("╚═══════════════════════════════════════════════════════════╝")
     
-    local Battlefield = require("battle.battlefield")
+    local Battlefield = require("battlescape.logic.battlefield")
     
     TestFramework.runTest("Battlefield - Create battlefield", function()
         TestFramework.assertNotNil(Battlefield, "Battlefield system not loaded")
@@ -236,8 +236,8 @@ function BattlescapeTests.testActionSystem()
     print("║         TESTING ACTION SYSTEM                            ║")
     print("╚═══════════════════════════════════════════════════════════╝")
     
-    local ActionSystem = require("systems.action_system")
-    local Unit = require("systems.unit")
+    local ActionSystem = require("battlescape.combat.action_system")
+    local Unit = require("battlescape.combat.unit")
     
     TestFramework.runTest("Action System - Create system", function()
         TestFramework.assertNotNil(ActionSystem, "Action System not loaded")
@@ -336,7 +336,7 @@ function BattlescapeTests.testBattleTile()
     print("║         TESTING BATTLE TILE SYSTEM                       ║")
     print("╚═══════════════════════════════════════════════════════════╝")
     
-    local BattleTile = require("systems.battle_tile")
+    local BattleTile = require("battlescape.combat.battle_tile")
     
     TestFramework.runTest("BattleTile - Create tile", function()
         TestFramework.assertNotNil(BattleTile, "BattleTile system not loaded")

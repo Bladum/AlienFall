@@ -3,7 +3,7 @@
 
 local RangeSystem = require("battle.systems.range_system")
 local AccuracySystem = require("battle.systems.accuracy_system")
-local WeaponSystem = require("systems.weapon_system")
+local WeaponSystem = require("battlescape.combat.weapon_system")
 local ShootingSystem = require("battle.systems.shooting_system")
 
 local TestSuite = {}

@@ -3,8 +3,8 @@
 
 print("=== STARTING MAPBLOCK VALIDATION ===")
 
-local ModManager = require("systems.mod_manager")
-local DataLoader = require("systems.data_loader")
+local ModManager = require("core.mod_manager")
+local DataLoader = require("core.data_loader")
 local MapblockValidator = require("systems.mapblock_validator")
 
 print("Starting Mapblock Validation...")

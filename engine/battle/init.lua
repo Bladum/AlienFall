@@ -18,9 +18,9 @@
 ---   - TurnManager: Turn-based gameplay mechanics
 
 return {
-    Battlefield = require("battle.battlefield"),
-    Camera = require("battle.camera"),
-    UnitSelection = require("battle.unit_selection"),
-    Renderer = require("battle.renderer"),
-    TurnManager = require("battle.turn_manager")
+    Battlefield = require("battlescape.logic.battlefield"),
+    Camera = require("battlescape.rendering.camera"),
+    UnitSelection = require("battlescape.logic.unit_selection"),
+    Renderer = require("battlescape.rendering.renderer"),
+    TurnManager = require("battlescape.logic.turn_manager")
 }

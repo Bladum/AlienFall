@@ -2,11 +2,11 @@
 -- Comprehensive benchmarks for battlescape systems
 -- Run with: love engine --test performance
 
-local LOS = require("systems.los_system")
-local Pathfinding = require("systems.pathfinding")
-local Battlefield = require("battle.battlefield")
-local Unit = require("systems.unit")
-local ActionSystem = require("systems.action_system")
+local LOS = require("battlescape.combat.los_system")
+local Pathfinding = require("shared.pathfinding")
+local Battlefield = require("battlescape.logic.battlefield")
+local Unit = require("battlescape.combat.unit")
+local ActionSystem = require("battlescape.combat.action_system")
 
 local PerformanceTests = {}
 

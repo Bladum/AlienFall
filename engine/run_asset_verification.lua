@@ -1,7 +1,7 @@
 -- Asset Verification Runner
 -- Run asset verification and create placeholders
 
-local ModManager = require("systems.mod_manager")
+local ModManager = require("core.mod_manager")
 local AssetVerifier = require("utils.verify_assets")
 
 print("Starting Asset Verification...")

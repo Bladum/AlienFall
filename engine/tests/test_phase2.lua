@@ -1,9 +1,9 @@
 -- Additional Performance Tests for Phase 2
 -- Tests battlefield generation optimization and dirty flag system
 
-local Battlefield = require("battle.battlefield")
-local Unit = require("systems.unit")
-local Team = require("systems.team")
+local Battlefield = require("battlescape.logic.battlefield")
+local Unit = require("battlescape.combat.unit")
+local Team = require("shared.team")
 
 local AdditionalTests = {}
 
@@ -132,7 +132,7 @@ function AdditionalTests.testVisibilityWithDirtyFlags()
     print("============================================================\n")
     
     local battlefield = Battlefield.new(90, 90)
-    local LOSOptimized = require("systems.los_optimized")
+    local LOSOptimized = require("battlescape.combat.los_optimized")
     local losSystem = LOSOptimized.new()
     
     -- Create units
@@ -222,7 +222,7 @@ function AdditionalTests.testCacheWarmup()
     print("============================================================\n")
     
     local battlefield = Battlefield.new(90, 90)
-    local LOSOptimized = require("systems.los_optimized")
+    local LOSOptimized = require("battlescape.combat.los_optimized")
     local losSystem = LOSOptimized.new()
     
     -- Create a unit
@@ -282,7 +282,7 @@ function AdditionalTests.testMemoryEfficiency()
     
     -- Create LOS cache
     print("Creating LOS cache with 1000 entries...")
-    local LOSOptimized = require("systems.los_optimized")
+    local LOSOptimized = require("battlescape.combat.los_optimized")
     local losSystem = LOSOptimized.new()
     
     -- Populate cache

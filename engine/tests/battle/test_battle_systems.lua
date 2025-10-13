@@ -39,8 +39,8 @@ function TestSuite.runAll()
 
     -- Initialize required systems for tests
     print("--- Initializing Test Environment ---")
-    local DataLoader = require("systems.data_loader")
-    local ModManager = require("systems.mod_manager")
+    local DataLoader = require("core.data_loader")
+    local ModManager = require("core.mod_manager")
     
     -- Initialize mod manager (needed for DataLoader)
     ModManager.init()
@@ -88,7 +88,7 @@ end
 function TestSuite.testUnit()
     print("\n--- Testing Unit System ---")
     
-    local Unit = require("systems.unit")
+    local Unit = require("battlescape.combat.unit")
     
     -- Create unit
     local unit = Unit.new("soldier", "player", 5, 5)
@@ -132,7 +132,7 @@ end
 function TestSuite.testTeam()
     print("\n--- Testing Team System ---")
     
-    local Team = require("systems.team")
+    local Team = require("shared.team")
     
     -- Create team
     local team = Team.new("player", "XCOM", Team.SIDES.PLAYER)
@@ -171,8 +171,8 @@ end
 function TestSuite.testActionSystem()
     print("\n--- Testing Action System ---")
     
-    local ActionSystem = require("systems.action_system")
-    local Unit = require("systems.unit")
+    local ActionSystem = require("battlescape.combat.action_system")
+    local Unit = require("battlescape.combat.unit")
     
     local actionSystem = ActionSystem.new()
     assertNotNil(actionSystem, "ActionSystem created")
@@ -210,7 +210,7 @@ end
 function TestSuite.testBattleTile()
     print("\n--- Testing BattleTile ---")
     
-    local BattleTile = require("systems.battle_tile")
+    local BattleTile = require("battlescape.combat.battle_tile")
     
     -- Create tile
     local tile = BattleTile.new("floor", 5, 5)
@@ -239,7 +239,7 @@ end
 function TestSuite.testBattlefield()
     print("\n--- Testing Battlefield ---")
     
-    local Battlefield = require("battle.battlefield")
+    local Battlefield = require("battlescape.logic.battlefield")
     
     -- Create battlefield
     local battlefield = Battlefield.new(10, 10)
@@ -280,7 +280,7 @@ end
 function TestSuite.testCamera()
     print("\n--- Testing Camera ---")
     
-    local Camera = require("battle.camera")
+    local Camera = require("battlescape.rendering.camera")
     
     -- Create camera
     local camera = Camera.new(0, 0)
@@ -314,11 +314,11 @@ end
 function TestSuite.testUnitSelection()
     print("\n--- Testing UnitSelection ---")
     
-    local UnitSelection = require("battle.unit_selection")
-    local ActionSystem = require("systems.action_system")
-    local Pathfinding = require("systems.pathfinding")
-    local Battlefield = require("battle.battlefield")
-    local Unit = require("systems.unit")
+    local UnitSelection = require("battlescape.logic.unit_selection")
+    local ActionSystem = require("battlescape.combat.action_system")
+    local Pathfinding = require("shared.pathfinding")
+    local Battlefield = require("battlescape.logic.battlefield")
+    local Unit = require("battlescape.combat.unit")
     
     local actionSystem = ActionSystem.new()
     local pathfinding = Pathfinding.new()
@@ -356,10 +356,10 @@ end
 function TestSuite.testTurnManager()
     print("\n--- Testing TurnManager ---")
     
-    local TurnManager = require("battle.turn_manager")
-    local Team = require("systems.team")
-    local Unit = require("systems.unit")
-    local ActionSystem = require("systems.action_system")
+    local TurnManager = require("battlescape.logic.turn_manager")
+    local Team = require("shared.team")
+    local Unit = require("battlescape.combat.unit")
+    local ActionSystem = require("battlescape.combat.action_system")
     
     local teamManager = Team.Manager.new()
     local actionSystem = ActionSystem.new()

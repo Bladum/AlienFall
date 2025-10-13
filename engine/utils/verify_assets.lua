@@ -3,7 +3,7 @@
 -- Creates placeholder images for missing assets
 
 local TOML = require("libs.toml")
-local ModManager = require("systems.mod_manager")
+local ModManager = require("core.mod_manager")
 
 local AssetVerifier = {}
 

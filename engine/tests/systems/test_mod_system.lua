@@ -6,7 +6,7 @@
 ]]
 
 local TestFramework = require("widgets.tests.widget_test_framework")
-local ModManager = require("systems.mod_manager")
+local ModManager = require("core.mod_manager")
 local TOML = require("libs.toml")
 
 local ModSystemTests = {}
@@ -145,7 +145,7 @@ function ModSystemTests.testDataLoader()
     print("║         TESTING DATA LOADER                              ║")
     print("╚═══════════════════════════════════════════════════════════╝")
     
-    local DataLoader = require("systems.data_loader")
+    local DataLoader = require("core.data_loader")
     
     TestFramework.runTest("DataLoader - Load TOML file", function()
         TestFramework.assertNotNil(DataLoader, "DataLoader not loaded")
@@ -165,7 +165,7 @@ function ModSystemTests.testAssetSystem()
     print("║         TESTING ASSET SYSTEM                             ║")
     print("╚═══════════════════════════════════════════════════════════╝")
     
-    local Assets = require("systems.assets")
+    local Assets = require("core.assets")
     
     TestFramework.runTest("Assets - Load placeholder", function()
         TestFramework.assertNotNil(Assets, "Assets system not loaded")

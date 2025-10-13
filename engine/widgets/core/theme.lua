@@ -296,7 +296,7 @@ Theme.widgetStyles = {
 ]]
 function Theme.init()
     -- Try to load custom fonts from active mod
-    local ModManager = require("systems.mod_manager")
+    local ModManager = require("core.mod_manager")
     local fontPath = ModManager.getContentPath("assets", "fonts/default.ttf")
     
     local success, font = false, nil
