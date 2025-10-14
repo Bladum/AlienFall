@@ -78,36 +78,7 @@ function BattlescapeUI:initUI(battlescape)
         color = {1, 1, 1, 1}
     })
     
-    -- Create action buttons panel
-    battlescape.ui.actionPanel = Widgets.Panel.new({
-        x = 720,
-        y = 480,
-        width = GUI_WIDTH,
-        height = 240,
-        backgroundColor = {0.3, 0.3, 0.3, 1},
-        borderColor = {0.5, 0.5, 0.5, 1}
-    })
-    
-    -- Action buttons
-    battlescape.ui.actionButtons = {}
-    
-    local buttonY = 490
-    local buttonLabels = {"Move", "Attack", "End Turn", "Toggle Grid"}
-    
-    for i, label in ipairs(buttonLabels) do
-        local button = Widgets.Button.new({
-            x = 730,
-            y = buttonY,
-            width = 200,
-            height = 25,
-            text = label,
-            onClick = function()
-                self:handleActionButton(battlescape, i)
-            end
-        })
-        table.insert(battlescape.ui.actionButtons, button)
-        buttonY = buttonY + 30
-    end
+    -- Action buttons are handled by ActionPanel in battlescape init
     
     -- Create debug panel (initially hidden)
     battlescape.ui.debugPanel = Widgets.Panel.new({
@@ -226,25 +197,8 @@ function BattlescapeUI:drawUI(battlescape)
 end
 
 function BattlescapeUI:handleActionButton(battlescape, buttonIndex)
-    if buttonIndex == 1 then
-        -- Move action
-        print("[UI] Move action selected")
-        -- TODO: Implement move action
-    elseif buttonIndex == 2 then
-        -- Attack action
-        print("[UI] Attack action selected")
-        -- TODO: Implement attack action
-    elseif buttonIndex == 3 then
-        -- End turn
-        if battlescape.turnManager then
-            battlescape.turnManager:endTurn()
-            print("[UI] Turn ended")
-        end
-    elseif buttonIndex == 4 then
-        -- Toggle grid
-        battlescape.battlefieldRenderer:toggleGrid()
-        print("[UI] Grid toggled")
-    end
+    -- This method is deprecated - actions are now handled by ActionPanel
+    print("[UI] Action button " .. buttonIndex .. " clicked (deprecated - use ActionPanel)")
 end
 
 return BattlescapeUI

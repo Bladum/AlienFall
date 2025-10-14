@@ -347,4 +347,63 @@ function MapGenerator.setProceduralParams(width, height, seed)
         tostring(MapGenerator.config.proceduralSeed)))
 end
 
+---
+--- MAPSCRIPT GENERATION (New System)
+---
+
+--- Generate map using MapScript system (recommended for structured layouts).
+--- Uses the new MapScriptExecutor to execute TOML-based Map Scripts with commands.
+---
+--- @param mapScriptId string MapScript ID to execute
+--- @param seed number? Optional seed for reproducibility
+--- @return table|nil Execution context with generated map grid, or nil on failure
+function MapGenerator.generateFromMapScript(mapScriptId, seed)
+    print(string.format("[MapGenerator] Generating map from MapScript: %s", mapScriptId))
+    
+    local MapScriptExecutor = require("battlescape.logic.mapscript_executor")
+    local MapScriptsV2 = require("battlescape.data.mapscripts_v2")
+    
+    -- Load MapScript
+    local script = MapScriptsV2.get(mapScriptId)
+    if not script then
+        print("[MapGenerator] MapScript not found: " .. mapScriptId)
+        return nil
+    end
+    
+    -- Use provided seed or generate random one
+    seed = seed or os.time()
+    print(string.format("[MapGenerator] Using seed: %d", seed))
+    
+    -- Execute MapScript
+    local context = MapScriptExecutor.execute(script, seed)
+    
+    if not context then
+        print("[MapGenerator] MapScript execution failed")
+        return nil
+    end
+    
+    -- Log statistics
+    local stats = MapScriptExecutor.getStats(context)
+    print(string.format("[MapGenerator] Map generated successfully:"))
+    print(string.format("  Size: %dx%d blocks (%dx%d tiles)",
+        context.width, context.height,
+        context.width * 15, context.height * 15))
+    print(string.format("  Fill: %.1f%% (%d empty, %d filled tiles)",
+        stats.fillPercentage, stats.emptyCount, stats.filledCount))
+    
+    -- Log craft and UFO spawn points if present
+    if context.craftSpawn then
+        print(string.format("  Craft spawn: (%d, %d) - %s",
+            context.craftSpawn.x, context.craftSpawn.y, context.craftSpawn.blockId))
+    end
+    if context.ufoObjective then
+        print(string.format("  UFO objective: (%d, %d) - %s",
+            context.ufoObjective.x, context.ufoObjective.y, context.ufoObjective.blockId))
+    end
+    
+    print("[MapGenerator] MapScript generation complete")
+    return context
+end
+
 return MapGenerator
+

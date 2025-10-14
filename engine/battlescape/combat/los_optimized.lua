@@ -380,4 +380,46 @@ function LOSOptimized:setShadowCastingEnabled(enabled)
     CONFIG.use_shadow_casting = enabled
 end
 
+-- Simple line of sight check for grid arrays (used by tests)
+function LOSOptimized.hasLineOfSight(grid, x0, y0, x1, y1)
+    -- Bresenham line algorithm for grid-based LOS
+    local dx = math.abs(x1 - x0)
+    local dy = math.abs(y1 - y0)
+    local sx = x0 < x1 and 1 or -1
+    local sy = y0 < y1 and 1 or -1
+    local err = dx - dy
+    local x, y = x0, y0
+    
+    while true do
+        -- Check bounds
+        if x < 1 or y < 1 or x > #grid[1] or y > #grid then
+            return false
+        end
+        
+        -- Check if current position blocks LOS
+        if x ~= x0 or y ~= y0 then
+            local tile = grid[y] and grid[y][x]
+            if tile and tile.blocksLOS then
+                return false
+            end
+        end
+        
+        -- Check if we've reached the target
+        if x == x1 and y == y1 then
+            return true
+        end
+        
+        -- Bresenham step
+        local e2 = 2 * err
+        if e2 > -dy then
+            err = err - dy
+            x = x + sx
+        end
+        if e2 < dx then
+            err = err + dx
+            y = y + sy
+        end
+    end
+end
+
 return LOSOptimized

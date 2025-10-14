@@ -1,0 +1,42 @@
+# UFO Crash Site - Small Scout
+# UFO crashed in rural area with surrounding terrain
+
+[metadata]
+id = "ufo_crash_scout"
+name = "UFO Crash Site - Scout Ship"
+description = "Small scout UFO crashed in farmland with debris field"
+mapSize = [7, 7]
+
+# Command 1: Add player craft (at map edge)
+[[commands]]
+type = "addCraft"
+groups = [1, 2]  # Urban or farmland spawn
+freqs = [5, 10]
+craftType = "skyranger"
+chance = 100
+
+# Command 2: Add UFO in center
+[[commands]]
+type = "addUFO"
+groups = [10]  # UFO group
+freqs = [10]
+ufoType = "scout"
+chance = 100
+
+# Command 3: Add rural terrain around UFO
+[[commands]]
+type = "addBlock"
+groups = [2]  # Farmland blocks
+freqs = [10]
+size = [1, 1]
+amount = 15
+chance = 100
+
+# Command 4: Fill remaining with grass/trees
+[[commands]]
+type = "fillArea"
+groups = [2]  # Farmland
+freqs = [10]
+size = [1, 1]
+maxAttempts = 100
+chance = 100

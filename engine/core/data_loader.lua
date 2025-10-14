@@ -361,4 +361,45 @@ function DataLoader.loadUnitClasses()
     return unitClasses
 end
 
+--- Load and parse a TOML file.
+---
+--- @param filepath string Path to the TOML file
+--- @return table|nil Parsed TOML data or nil on error
+function DataLoader.loadTOML(filepath)
+    if not filepath then
+        print("[DataLoader] ERROR: No filepath provided to loadTOML")
+        return nil
+    end
+    
+    local success, data = pcall(TOML.load, filepath)
+    if not success then
+        print(string.format("[DataLoader] ERROR: Failed to load TOML file '%s': %s", filepath, tostring(data)))
+        return nil
+    end
+    
+    return data
+end
+
+--- Validate TOML parsing result.
+---
+--- @param data table|nil The parsed TOML data
+--- @param expectedKeys table|nil Array of expected top-level keys
+--- @return boolean True if valid
+function DataLoader.validateTOML(data, expectedKeys)
+    if not data then
+        return false
+    end
+    
+    if expectedKeys then
+        for _, key in ipairs(expectedKeys) do
+            if not data[key] then
+                print(string.format("[DataLoader] ERROR: Missing expected key '%s' in TOML data", key))
+                return false
+            end
+        end
+    end
+    
+    return true
+end
+
 return DataLoader

@@ -248,7 +248,7 @@ function Pathfinding.findPath(battlefield, startX, startY, goalX, goalY, terrain
         nodesExplored = nodesExplored + 1
         
         -- Check if we reached the goal
-        if current.x == goalX and current.y == goalY then
+        if current and current.x == goalX and current.y == goalY then
             pathFound = true
             
             -- Reconstruct path
@@ -262,7 +262,7 @@ function Pathfinding.findPath(battlefield, startX, startY, goalX, goalY, terrain
             local endTime = love.timer.getTime()
             local duration = (endTime - startTime) * 1000  -- Convert to ms
             
-            print("[Pathfinding] Path found! Length=" .. #path .. ", Cost=" .. current.g .. 
+            print("[Pathfinding] Path found! Length=" .. #path .. ", Cost=" .. (current.g or 0) .. 
                   ", Nodes explored=" .. nodesExplored .. ", Time=" .. 
                   string.format("%.2fms", duration))
             
@@ -270,13 +270,14 @@ function Pathfinding.findPath(battlefield, startX, startY, goalX, goalY, terrain
         end
         
         -- Mark as closed
-        closedSet[current.x .. "," .. current.y] = true
-        
-        -- Check all neighbors
-        local neighbors = Pathfinding.getHexNeighbors(current.x, current.y)
-        for _, neighbor in ipairs(neighbors) do
-            local nx, ny = neighbor.x, neighbor.y
-            local neighborKey = nx .. "," .. ny
+        if current and current.x and current.y then
+            closedSet[current.x .. "," .. current.y] = true
+            
+            -- Check all neighbors
+            local neighbors = Pathfinding.getHexNeighbors(current.x, current.y)
+            for _, neighbor in ipairs(neighbors) do
+                local nx, ny = neighbor.x, neighbor.y
+                local neighborKey = nx .. "," .. ny
             
             -- Skip if already closed or not walkable
             if not closedSet[neighborKey] and Pathfinding.isWalkable(battlefield, nx, ny, false) then
@@ -308,6 +309,7 @@ function Pathfinding.findPath(battlefield, startX, startY, goalX, goalY, terrain
             end
             
             ::continue::
+        end
         end
     end
     

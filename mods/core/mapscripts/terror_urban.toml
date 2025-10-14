@@ -1,0 +1,42 @@
+# Terror Site - Urban Night Attack
+# City under alien attack with UFO and urban destruction
+
+[metadata]
+id = "terror_urban"
+name = "Terror Site - Urban"
+description = "Alien terror attack in city center"
+mapSize = [7, 7]
+
+# Command 1: Add player craft
+[[commands]]
+type = "addCraft"
+groups = [1]
+freqs = [10]
+craftType = "skyranger"
+chance = 100
+
+# Command 2: Add UFO (terror ship in city)
+[[commands]]
+type = "addUFO"
+groups = [10]
+freqs = [10]
+ufoType = "scout"
+chance = 100
+
+# Command 3: Add urban blocks
+[[commands]]
+type = "addBlock"
+groups = [1]
+freqs = [10]
+size = [1, 1]
+amount = 20
+chance = 100
+
+# Command 4: Fill remaining
+[[commands]]
+type = "fillArea"
+groups = [1]
+freqs = [10]
+size = [1, 1]
+maxAttempts = 100
+chance = 100

@@ -1,0 +1,16 @@
+[mod]
+id = "core"
+name = "Core Game Data"
+version = "1.0.0"
+description = "Core game data and assets"
+
+[settings]
+enabled = true
+load_order = 1
+
+[paths]
+assets = "assets"
+rules = "rules"
+mapblocks = "mapblocks"
+mapscripts = "mapscripts"
+tilesets = "tilesets"

@@ -135,7 +135,7 @@ function ActionButton:draw()
     local availableWidth = self.width
 
     if self.icon then
-        -- TODO: Implement icon drawing when icon system is available
+        -- Icon drawing not yet implemented - waiting for icon system
         -- For now, just adjust text positioning
         textX = textX + 4
         availableWidth = availableWidth - 8

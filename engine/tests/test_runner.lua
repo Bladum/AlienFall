@@ -4,7 +4,7 @@
 
 local PerformanceTests = require("tests.test_performance")
 local WidgetTests = require("widgets.tests.test_all_widgets")
-local ModSystemTests = require("tests.test_mod_system")
+local ModSystemTests = require("tests.systems.test_mod_system")
 local BattlescapeTests = require("tests.battle.test_battlescape_systems")
 
 local TestRunner = {}

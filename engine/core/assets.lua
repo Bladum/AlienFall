@@ -106,4 +106,25 @@ function Assets.count()
     return count
 end
 
+-- Get placeholder image for missing assets
+function Assets.getPlaceholder()
+    -- Create a simple colored rectangle as placeholder
+    if not Assets.placeholder then
+        local placeholderData = love.image.newImageData(24, 24)
+        -- Fill with a magenta color to indicate missing asset
+        for y = 0, 23 do
+            for x = 0, 23 do
+                placeholderData:setPixel(x, y, 1, 0, 1, 1) -- Magenta
+            end
+        end
+        Assets.placeholder = love.graphics.newImage(placeholderData)
+    end
+    return Assets.placeholder
+end
+
+-- Verify asset exists
+function Assets.exists(folder, name)
+    return Assets.images[folder] and Assets.images[folder][name] ~= nil
+end
+
 return Assets

@@ -1,0 +1,147 @@
+# City Tileset - Urban Terrain
+# Buildings, roads, sidewalks, and urban structures
+
+[tileset]
+id = "city"
+name = "Urban Cityscape"
+description = "City streets and buildings"
+
+# Brick Wall - Destructible with damage states
+[[maptile]]
+key = "WALL_BRICK"
+name = "Brick Wall"
+image = "wall_brick_damage.png"
+passable = false
+blocksLOS = true
+cover = "full"
+destructible = true
+health = 100
+multiTileMode = "damage_states"
+damageStates = 3
+# Note: damageThresholds would be parsed as: [[{minHealth=67, maxHealth=100, frame=0}, ...]]
+
+# Concrete Wall - Strong
+[[maptile]]
+key = "WALL_CONCRETE"
+name = "Concrete Wall"
+image = "wall_concrete.png"
+passable = false
+blocksLOS = true
+cover = "full"
+destructible = true
+health = 150
+
+# Glass Window - Weak, blocks LOS
+[[maptile]]
+key = "WINDOW_GLASS"
+name = "Glass Window"
+image = "window_glass.png"
+passable = false
+blocksLOS = true
+cover = "light"
+destructible = true
+health = 20
+
+# Door - Wooden
+[[maptile]]
+key = "DOOR_WOOD"
+name = "Wooden Door"
+image = "door_wood.png"
+passable = true
+blocksLOS = false
+cover = "none"
+destructible = true
+health = 30
+
+# Floor - Indoor
+[[maptile]]
+key = "FLOOR_WOOD"
+name = "Wooden Floor"
+image = "floor_wood.png"
+passable = true
+blocksLOS = false
+cover = "none"
+
+[[maptile]]
+key = "FLOOR_TILE"
+name = "Tiled Floor"
+image = "floor_tile.png"
+passable = true
+blocksLOS = false
+cover = "none"
+
+[[maptile]]
+key = "FLOOR_CONCRETE"
+name = "Concrete Floor"
+image = "floor_concrete.png"
+passable = true
+blocksLOS = false
+cover = "none"
+
+# Road - Asphalt with autotile support
+[[maptile]]
+key = "ROAD_ASPHALT"
+name = "Asphalt Road"
+image = "road_asphalt.png"
+passable = true
+blocksLOS = false
+cover = "none"
+
+# Sidewalk
+[[maptile]]
+key = "SIDEWALK"
+name = "Sidewalk"
+image = "sidewalk.png"
+passable = true
+blocksLOS = false
+cover = "none"
+
+# Street Light - Elevated
+[[maptile]]
+key = "STREETLIGHT"
+name = "Street Light"
+image = "streetlight.png"
+passable = true
+blocksLOS = false
+cover = "none"
+height = 12
+
+# Fire Hydrant
+[[maptile]]
+key = "FIRE_HYDRANT"
+name = "Fire Hydrant"
+image = "fire_hydrant.png"
+passable = false
+blocksLOS = false
+cover = "light"
+destructible = true
+health = 40
+
+# Dumpster
+[[maptile]]
+key = "DUMPSTER"
+name = "Dumpster"
+image = "dumpster.png"
+passable = false
+blocksLOS = true
+cover = "heavy"
+
+# Mailbox
+[[maptile]]
+key = "MAILBOX"
+name = "Mailbox"
+image = "mailbox.png"
+passable = false
+blocksLOS = false
+cover = "light"
+destructible = true
+health = 20
+
+# Bench
+[[maptile]]
+key = "BENCH"
+name = "Park Bench"
+image = "bench.png"
+passable = false
+blocksLOS = false
+cover = "light"

@@ -1,0 +1,142 @@
+# Weapons Tileset - Military Equipment
+# Weapon racks, ammo crates, and military props
+
+[tileset]
+id = "weapons"
+name = "Weapons and Equipment"
+description = "Military equipment and weapon storage"
+
+# Ammo Crate
+[[maptile]]
+key = "CRATE_AMMO"
+name = "Ammunition Crate"
+image = "crate_ammo.png"
+passable = false
+blocksLOS = false
+cover = "heavy"
+destructible = true
+health = 30
+
+# Weapon Crate
+[[maptile]]
+key = "CRATE_WEAPON"
+name = "Weapon Crate"
+image = "crate_weapon.png"
+passable = false
+blocksLOS = false
+cover = "heavy"
+destructible = true
+health = 35
+
+# Weapon Rack
+[[maptile]]
+key = "WEAPON_RACK"
+name = "Weapon Rack"
+image = "weapon_rack.png"
+passable = false
+blocksLOS = true
+cover = "light"
+destructible = true
+health = 25
+
+# Locker
+[[maptile]]
+key = "LOCKER"
+name = "Equipment Locker"
+image = "locker.png"
+passable = false
+blocksLOS = true
+cover = "heavy"
+destructible = true
+health = 50
+
+# Sandbags
+[[maptile]]
+key = "SANDBAGS"
+name = "Sandbag Barrier"
+image = "sandbags.png"
+passable = false
+blocksLOS = false
+cover = "heavy"
+
+# Barricade - Wooden
+[[maptile]]
+key = "BARRICADE_WOOD"
+name = "Wooden Barricade"
+image = "barricade_wood.png"
+passable = false
+blocksLOS = false
+cover = "heavy"
+destructible = true
+health = 40
+flammable = true
+
+# Barricade - Metal
+[[maptile]]
+key = "BARRICADE_METAL"
+name = "Metal Barricade"
+image = "barricade_metal.png"
+passable = false
+blocksLOS = false
+cover = "full"
+destructible = true
+health = 80
+
+# Barrel - Explosive
+[[maptile]]
+key = "BARREL_EXPLOSIVE"
+name = "Explosive Barrel"
+image = "barrel_explosive.png"
+passable = false
+blocksLOS = false
+cover = "light"
+destructible = true
+health = 15
+flammable = true
+
+# Barrel - Oil
+[[maptile]]
+key = "BARREL_OIL"
+name = "Oil Barrel"
+image = "barrel_oil.png"
+passable = false
+blocksLOS = false
+cover = "light"
+destructible = true
+health = 20
+flammable = true
+
+# Generator
+[[maptile]]
+key = "GENERATOR"
+name = "Generator"
+image = "generator.png"
+passable = false
+blocksLOS = true
+cover = "heavy"
+destructible = true
+health = 60
+
+# Radar Dish
+[[maptile]]
+key = "RADAR_DISH"
+name = "Radar Dish"
+image = "radar_dish.png"
+passable = false
+blocksLOS = false
+cover = "none"
+destructible = true
+health = 40
+
+# Tent
+[[maptile]]
+key = "TENT"
+name = "Military Tent"
+image = "tent.png"
+passable = true
+blocksLOS = true
+cover = "light"
+flammable = true
+multiTileMode = "occupy"
+cellWidth = 2
+cellHeight = 2

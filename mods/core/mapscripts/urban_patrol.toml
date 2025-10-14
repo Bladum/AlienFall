@@ -1,0 +1,53 @@
+# Urban Mission - City Patrol
+# 7x7 map with urban buildings and streets
+
+[metadata]
+id = "urban_patrol"
+name = "Urban Patrol Mission"
+description = "City streets with buildings, parked cars, and street furniture"
+mapSize = [7, 7]
+
+# Command 1: Add player craft (at map edge)
+[[commands]]
+type = "addCraft"
+groups = [1]  # Urban spawn blocks
+freqs = [10]
+craftType = "skyranger"
+chance = 100
+
+# Command 2: Add main street (horizontal)
+[[commands]]
+type = "addLine"
+groups = [1]  # Urban blocks
+freqs = [10]
+direction = "horizontal"
+rect = [0, 3, 7, 1]  # Middle horizontal line
+chance = 100
+
+# Command 3: Add cross street (vertical)
+[[commands]]
+type = "addLine"
+groups = [1]
+freqs = [10]
+direction = "vertical"
+rect = [3, 0, 1, 7]  # Middle vertical line
+chance = 100
+
+# Command 4: Add buildings in quadrants
+[[commands]]
+type = "addBlock"
+groups = [1]  # Urban buildings
+freqs = [10]
+size = [1, 1]
+amount = 12
+rect = [0, 0, 7, 7]
+chance = 100
+
+# Command 5: Fill remaining space with small blocks
+[[commands]]
+type = "fillArea"
+groups = [1, 2]  # Urban + farmland
+freqs = [15, 5]
+size = [1, 1]
+maxAttempts = 100
+chance = 100

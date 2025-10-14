@@ -91,6 +91,7 @@ function ActionBar:draw()
             local textColor = action.enabled and self.textColor or self.disabledTextColor
             Theme.setColor(textColor)
             local font = Theme.getFont("small")
+            ---@cast font love.Font
             local text = action.name:sub(1, 3):upper()
             local textX = buttonX + (self.buttonSize - font:getWidth(text)) / 2
             local textY = buttonY + (self.buttonSize - font:getHeight()) / 2
@@ -108,6 +109,7 @@ function ActionBar:draw()
             Theme.setColor(self.textColor)
             local costText = tostring(action.cost)
             local font = Theme.getFont("small")
+            ---@cast font love.Font
             local textX = buttonX + self.buttonSize - font:getWidth(costText) - 2
             local textY = buttonY + self.buttonSize - font:getHeight() - 2
             love.graphics.print(costText, textX, textY)

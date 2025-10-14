@@ -56,23 +56,74 @@ AlienFall runs on any platform supported by Love2D:
 ### What are the main game layers?
 AlienFall has three interconnected layers:
 
-**Geoscape**: Strategic world map where you:
-- Track and intercept UFOs
-- Manage funding from world governments
-- Deploy troops to missions
-- Monitor global alien activity
+**Geoscape (Strategic Layer)**: World map management where you:
+- View an 80×40 hex grid world map representing Earth
+- Track craft movement between provinces (strategic locations)
+- Monitor day/night cycle moving across the world
+- Manage calendar system (1 turn = 1 day, 360 days/year)
+- Deploy crafts to provinces for missions and interceptions
+- Monitor country relations and funding
+- Plan operational ranges based on craft fuel and speed
+- Build bases in strategic provinces
 
-**Basescape**: Base management where you:
-- Construct facilities (labs, workshops, hangars)
-- Research new technologies
-- Manufacture weapons and equipment
+**Basescape (Base Management)**: Base operations where you:
+- Construct facilities in a 5×5 grid (labs, workshops, hangars)
+- Research new technologies with scientists
+- Manufacture weapons and equipment with engineers
 - Manage personnel and resources
+- Store items and vehicles
+- Provide services (power, fuel, maintenance)
 
-**Battlescape**: Tactical combat where you:
-- Control individual soldiers in turn-based combat
+**Battlescape (Tactical Combat)**: Turn-based combat where you:
+- Control individual soldiers on procedurally generated maps
 - Use cover, positioning, and tactics
-- Complete mission objectives
-- Recover alien technology
+- Complete mission objectives (kill, capture, rescue, defend)
+- Recover alien technology and salvage
+- Progress unit skills and experience
+
+### How does the Geoscape work?
+The Geoscape strategic layer features:
+
+**Hex Grid World**: 80×40 hex tiles, each representing ~500km
+- Axial coordinate system (q, r) for precise positioning
+- Provinces are strategic nodes on the hex grid
+- Connections between provinces form a travel network
+
+**Calendar System**: Turn-based time progression
+- 1 turn = 1 day
+- 6 days per week
+- 30 days per month (5 weeks)
+- 360 days per year (12 months, 4 quarters)
+- Events scheduled by turn number
+
+**Day/Night Cycle**: Visual overlay moving across world
+- Moves 4 tiles per day (20-day full cycle)
+- 50% day coverage, 50% night coverage
+- Affects mission visibility and difficulty
+- Smooth transition zones between day and night
+
+**Province System**: Strategic locations with properties
+- Each province has a biome, country, region
+- Max 4 crafts per province
+- Can contain player bases
+- Missions spawn in provinces
+- Connected to neighbors for travel
+
+**Craft Travel**: Fuel-based movement between provinces
+- Crafts move along province connections
+- Travel cost = fuel consumption × distance
+- Operational range shown as reachable provinces
+- A* pathfinding finds optimal routes
+- Crafts auto-return to base after missions
+
+**Controls**:
+- Mouse drag: Pan camera
+- Mouse wheel: Zoom in/out
+- Click: Select province
+- Space: Advance one day
+- G: Toggle hex grid
+- N: Toggle day/night overlay
+- L: Toggle province labels
 
 ### How does the combat system work?
 Battlescape combat uses:
@@ -610,6 +661,61 @@ Critical chance is based on attacker skill, weapon type, and sometimes flanking 
 - Smoke persists longer than fire (gradual dissipation)
 - Heavy smoke spreads independently of fire
 - Combined effects create complex environmental hazards
+
+### How does mission detection work?
+**Mission Detection System:**
+AlienFall features a dynamic mission detection system where alien missions spawn weekly but remain hidden until discovered by player radar systems. This creates strategic tension between expanding radar coverage and responding to threats.
+
+**Mission Types:**
+- **Alien Sites** (50%): Land-based installations, 14 days duration, orange icons
+- **UFO Missions** (35%): Air or landed craft, 7 days duration, red icons  
+- **Alien Bases** (15%): Underground/underwater facilities, 30 days duration, purple icons
+
+**Cover Mechanics:**
+- Missions spawn with **cover value** (0-100) that hides them from detection
+- Cover **regenerates daily** at mission-specific rates:
+  - Sites: +5 per day
+  - Flying UFOs: +3 per day (easier to detect)
+  - Alien bases: +10 per day (well-hidden)
+- Cover must be reduced to **0** for mission detection
+
+**Radar Detection:**
+- **Base Facilities**: Provide radar coverage
+  - Small Radar: 20 power, 5 province range
+  - Large Radar: 50 power, 10 province range  
+  - Hyperwave Radar: 100 power, 20 province range
+- **Craft Equipment**: Mobile radar scanning
+  - Basic Radar: 10 power, 3 province range
+  - Advanced Radar: 25 power, 7 province range
+- **Detection Formula**: `cover_reduction = radar_power × (1 - distance/max_range)`
+- **Multiple Scanners**: Combine coverage for better detection
+
+**Gameplay Flow:**
+1. **Weekly Spawning**: 2-4 missions spawn every Monday with full cover
+2. **Daily Scanning**: All bases/crafts scan for missions each turn
+3. **Cover Reduction**: Radar power reduces mission cover over time
+4. **Detection**: Mission appears on Geoscape when cover reaches 0
+5. **Expiration**: Missions disappear after duration if not intercepted
+6. **Strategic Choice**: Balance radar investment vs interception capability
+
+**Strategic Implications:**
+- **Early Game**: Limited radar means missions stay hidden longer
+- **Mid Game**: Build radar networks to detect threats proactively
+- **Late Game**: Hyperwave coverage reveals most missions quickly
+- **Mobile Assets**: Use craft radar for gap coverage
+- **Risk/Reward**: Hidden missions may expire, but detected ones demand response
+
+**Visual Indicators:**
+- **Hidden Missions**: Not visible (cover > 0)
+- **Detected Missions**: Colored icons on Geoscape map
+- **Newly Detected**: Blinking icons for 2 days
+- **Mission Tooltips**: Hover for details (type, difficulty, days active)
+- **UI Stats**: Campaign info shows active/detected mission counts
+
+**Difficulty Scaling:**
+- Mission difficulty increases every 4 weeks (+1 level)
+- Higher difficulty = stronger missions with more cover regeneration
+- Strategic depth: early detection vs late-game power scaling
 
 ## Technical Questions
 

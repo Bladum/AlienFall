@@ -46,10 +46,11 @@ local DataLoader = require("core.data_loader")
 --- @field movementPoints number Total movement points per turn
 --- @field movementPointsLeft number Remaining movement points this turn
 --- @field sprite table|nil Unit sprite image (Love2D Image object)
+--- @field psiEnergy number Current psi energy points (for psionic abilities)
+--- @field maxPsiEnergy number Maximum psi energy points
+--- @field psiEnergyRegen number Psi energy regeneration per turn
 local Unit = {}
 Unit.__index = Unit
-
-print(string.format("[Unit] Unit.calculateMP = %s", tostring(Unit.calculateMP)))
 
 --- Create a new Unit instance.
 ---

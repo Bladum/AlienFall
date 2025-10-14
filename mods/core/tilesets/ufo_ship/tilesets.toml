@@ -1,0 +1,134 @@
+# UFO Ship Tileset - Alien Structures
+# Alien ship components and technology
+
+[tileset]
+id = "ufo_ship"
+name = "UFO Interior"
+description = "Alien ship structures and technology"
+
+# Alien Wall - Hull
+[[maptile]]
+key = "WALL_ALIEN"
+name = "Alien Hull"
+image = "wall_alien.png"
+passable = false
+blocksLOS = true
+cover = "full"
+destructible = true
+health = 150
+
+# Alien Door - Automated
+[[maptile]]
+key = "DOOR_ALIEN"
+name = "Alien Door"
+image = "door_alien.png"
+passable = true
+blocksLOS = false
+cover = "none"
+destructible = true
+health = 100
+
+# Alien Floor
+[[maptile]]
+key = "FLOOR_ALIEN"
+name = "Alien Floor"
+image = "floor_alien.png"
+passable = true
+blocksLOS = false
+cover = "none"
+
+# Alien Console
+[[maptile]]
+key = "CONSOLE_ALIEN"
+name = "Alien Console"
+image = "console_alien.png"
+passable = false
+blocksLOS = false
+cover = "heavy"
+destructible = true
+health = 60
+
+# Alien Equipment
+[[maptile]]
+key = "EQUIPMENT_ALIEN"
+name = "Alien Equipment"
+image = "equipment_alien.png"
+passable = false
+blocksLOS = true
+cover = "heavy"
+destructible = true
+health = 70
+
+# Alien Power Source
+[[maptile]]
+key = "POWER_SOURCE"
+name = "Alien Power Source"
+image = "power_source.png"
+passable = false
+blocksLOS = false
+cover = "heavy"
+destructible = true
+health = 100
+
+# Alien Tank
+[[maptile]]
+key = "TANK_ALIEN"
+name = "Alien Storage Tank"
+image = "tank_alien.png"
+passable = false
+blocksLOS = true
+cover = "full"
+destructible = true
+health = 120
+multiTileMode = "occupy"
+cellWidth = 2
+cellHeight = 2
+
+# Navigation Computer
+[[maptile]]
+key = "NAV_COMPUTER"
+name = "Navigation Computer"
+image = "nav_computer.png"
+passable = false
+blocksLOS = true
+cover = "heavy"
+destructible = true
+health = 80
+
+# Alien Egg/Pod
+[[maptile]]
+key = "POD_ALIEN"
+name = "Alien Pod"
+image = "pod_alien.png"
+passable = false
+blocksLOS = false
+cover = "light"
+destructible = true
+health = 40
+
+# Debris - Metal
+[[maptile]]
+key = "DEBRIS_METAL"
+name = "Metal Debris"
+image = "debris_metal.png"
+passable = true
+blocksLOS = false
+cover = "light"
+
+# Scorch Mark
+[[maptile]]
+key = "GROUND_SCORCHED"
+name = "Scorched Ground"
+image = "ground_scorched.png"
+passable = true
+blocksLOS = false
+cover = "none"
+
+# Fire - Small
+[[maptile]]
+key = "FIRE_SMALL"
+name = "Small Fire"
+image = "fire_small.png"
+passable = true
+blocksLOS = false
+cover = "none"

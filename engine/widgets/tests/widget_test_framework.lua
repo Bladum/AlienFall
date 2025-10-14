@@ -88,7 +88,7 @@ end
     Validate grid alignment for a widget
 ]]
 function WidgetTestFramework.validateGridAlignment(widget, widgetName)
-    local Grid = require("widgets.grid")
+    local Grid = require("widgets.core.grid")
     
     WidgetTestFramework.runTest(widgetName .. " - Grid X alignment", function()
         WidgetTestFramework.assert(widget.x % Grid.CELL_SIZE == 0, 

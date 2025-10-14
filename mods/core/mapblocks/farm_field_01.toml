@@ -1,0 +1,90 @@
+# Farmland with Trees - 15x15
+# Open field with scattered trees and fence
+
+[metadata]
+id = "farm_field_01"
+name = "Farm Field with Trees"
+description = "Open grassy field with pine trees and wooden fence perimeter"
+width = 15
+height = 15
+group = 2
+tags = "farmland, rural, trees, nature"
+author = "XCOM Simple Team"
+difficulty = 1
+
+[tiles]
+# Wooden fence perimeter (top)
+"0_0" = "FENCE_WOOD"
+"1_0" = "FENCE_WOOD"
+"2_0" = "FENCE_WOOD"
+"3_0" = "FENCE_WOOD"
+"4_0" = "FENCE_WOOD"
+"5_0" = "FENCE_WOOD"
+"6_0" = "FENCE_WOOD"
+"7_0" = "FENCE_WOOD"
+"8_0" = "FENCE_WOOD"
+"9_0" = "FENCE_WOOD"
+"10_0" = "FENCE_WOOD"
+"11_0" = "FENCE_WOOD"
+"12_0" = "FENCE_WOOD"
+"13_0" = "FENCE_WOOD"
+"14_0" = "FENCE_WOOD"
+
+# Fence sides
+"0_1" = "FENCE_WOOD"
+"14_1" = "FENCE_WOOD"
+"0_2" = "FENCE_WOOD"
+"14_2" = "FENCE_WOOD"
+"0_3" = "FENCE_WOOD"
+"14_3" = "FENCE_WOOD"
+"0_4" = "FENCE_WOOD"
+"14_4" = "FENCE_WOOD"
+"0_5" = "FENCE_WOOD"
+"14_5" = "FENCE_WOOD"
+"0_6" = "FENCE_WOOD"
+"14_6" = "FENCE_WOOD"
+"0_7" = "FENCE_WOOD"
+"14_7" = "FENCE_WOOD"
+"0_8" = "FENCE_WOOD"
+"14_8" = "FENCE_WOOD"
+"0_9" = "FENCE_WOOD"
+"14_9" = "FENCE_WOOD"
+"0_10" = "FENCE_WOOD"
+"14_10" = "FENCE_WOOD"
+"0_11" = "FENCE_WOOD"
+"14_11" = "FENCE_WOOD"
+"0_12" = "FENCE_WOOD"
+"14_12" = "FENCE_WOOD"
+"0_13" = "FENCE_WOOD"
+"14_13" = "FENCE_WOOD"
+
+# Fence bottom
+"0_14" = "FENCE_WOOD"
+"1_14" = "FENCE_WOOD"
+"2_14" = "FENCE_WOOD"
+"3_14" = "FENCE_WOOD"
+"4_14" = "FENCE_WOOD"
+"5_14" = "FENCE_WOOD"
+"6_14" = "FENCE_WOOD"
+"7_14" = "FENCE_WOOD"
+"8_14" = "FENCE_WOOD"
+"9_14" = "FENCE_WOOD"
+"10_14" = "FENCE_WOOD"
+"11_14" = "FENCE_WOOD"
+"12_14" = "FENCE_WOOD"
+"13_14" = "FENCE_WOOD"
+"14_14" = "FENCE_WOOD"
+
+# Scattered trees
+"3_3" = "TREE_PINE"
+"8_4" = "TREE_PINE"
+"11_6" = "TREE_PINE"
+"5_8" = "TREE_PINE"
+"9_10" = "TREE_PINE"
+"4_12" = "TREE_PINE"
+
+# Hay bale
+"7_7" = "HAY_BALE"
+
+# Well
+"10_9" = "WELL"

@@ -2,11 +2,11 @@
 -- Runs from engine/ directory
 
 print("\n===========================================")
-print("BATTLE SYSTEMS TEST RUNNER")
+print("BATTLESCAPE SYSTEMS TEST RUNNER")
 print("===========================================\n")
 
 -- Run tests
-local TestSuite = require("tests.battle.test_battle_systems")
+local TestSuite = require("tests.battle.test_battlescape_systems")
 
 local success, result = pcall(function()
     return TestSuite.runAll()

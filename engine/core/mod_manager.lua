@@ -23,13 +23,40 @@ local TOML = require("libs.toml")
 --- @field mods table All loaded mods (modId -> mod)
 --- @field activeMod table|nil Currently active mod
 --- @field modOrder table Load order of mods (array)
---- @field contentCache table Cached content from mods
-local ModManager = {
-    mods = {},              -- All loaded mods
-    activeMod = nil,        -- Currently active mod
-    modOrder = {},          -- Load order of mods
-    contentCache = {}       -- Cached content from mods
-}
+--- Initialize the mod system.
+---
+--- Loads all available mods and sets the active mod.
+--- Should be called once during game initialization.
+---
+--- @return nil
+function ModManager.init()
+    print("[ModManager] Initializing mod system...")
+    
+    -- Load all mods
+    ModManager.loadMods()
+    
+    -- Try to load 'core' mod as default
+    local defaultModLoaded = false
+    if ModManager.isModLoaded("core") then
+        ModManager.setActiveMod("core")
+        defaultModLoaded = true
+        print("[ModManager] Default mod 'core' loaded successfully")
+    elseif ModManager.isModLoaded("xcom_simple") then
+        ModManager.setActiveMod("xcom_simple")
+        defaultModLoaded = true
+        print("[ModManager] Default mod 'xcom_simple' loaded successfully")
+    elseif ModManager.isModLoaded("new") then
+        ModManager.setActiveMod("new")
+        defaultModLoaded = true
+        print("[ModManager] Default mod 'new' loaded successfully")
+    end
+    
+    if not defaultModLoaded then
+        print("[ModManager] WARNING: No default mod could be loaded")
+    end
+    
+    print("[ModManager] Mod system initialized")
+end
 
 --- Scan mods directory and discover all available mods.
 ---
@@ -47,14 +74,11 @@ function ModManager.scanMods()
     local items = love.filesystem.getDirectoryItems(modsPath)
     print(string.format("[ModManager] Scanning %d items in mods directory", #items))
     
-    -- If no mods found in "mods", try "engine/mods" (for testing from project root)
+    -- If no mods found in "mods", try "../mods" (for running from engine directory)
     if #items == 0 then
-        modsPath = "engine/mods"
+        modsPath = "../mods"
         items = love.filesystem.getDirectoryItems(modsPath)
-        print(string.format("[ModManager] Retrying with %d items in engine/mods directory", #items))
-        for i, item in ipairs(items) do
-            print(string.format("[ModManager] Found item: %s", item))
-        end
+        print(string.format("[ModManager] Retrying with %d items in ../mods directory", #items))
     end
     
     for _, folder in ipairs(items) do
@@ -216,9 +240,13 @@ function ModManager.init()
     print("[ModManager] Initializing mod system...")
     ModManager.loadMods()
     
-    -- Try to load 'new' (xcom_simple) mod as default
+    -- Try to load 'core' mod as default
     local defaultModLoaded = false
-    if ModManager.isModLoaded("xcom_simple") then
+    if ModManager.isModLoaded("core") then
+        ModManager.setActiveMod("core")
+        defaultModLoaded = true
+        print("[ModManager] Default mod 'core' loaded successfully")
+    elseif ModManager.isModLoaded("xcom_simple") then
         ModManager.setActiveMod("xcom_simple")
         defaultModLoaded = true
         print("[ModManager] Default mod 'xcom_simple' loaded successfully")
@@ -310,6 +338,24 @@ function ModManager.getMapblocks()
     end
     
     return mapblocks
+end
+
+--[[
+    Load a specific mod by ID (alias for loadMods for compatibility)
+    @param modId string The mod ID to load
+    @return boolean success
+]]
+function ModManager.loadMod(modId)
+    -- For now, just call loadMods which loads all mods
+    -- In the future, this could be enhanced to load specific mods
+    ModManager.loadMods()
+    
+    -- Try to set the requested mod as active if it was loaded
+    if ModManager.isModLoaded(modId) then
+        return ModManager.setActiveMod(modId)
+    end
+    
+    return false
 end
 
 --[[

@@ -1175,3 +1175,636 @@ function love.mousepressed(x, y, button)
     end
 end
 ```
+
+---
+
+## Geoscape System (Strategic Layer)
+
+### Overview
+
+The Geoscape is the strategic world management system featuring:
+- **Hex Grid**: 80×40 world map using axial coordinates
+- **Province Graph**: Node-based strategic locations with pathfinding
+- **Calendar System**: Turn-based time (1 turn = 1 day, 360 days/year)
+- **Day/Night Cycle**: Visual overlay moving 4 tiles per day
+- **Craft Travel**: Fuel-based travel system with operational range
+- **World Rendering**: Camera controls, zoom, pan, and province visualization
+
+### HexGrid (`geoscape/systems/hex_grid.lua`)
+
+Provides hex coordinate system and utilities for 80×40 world map.
+
+#### Key Functions
+
+**`HexGrid.new(width, height, hexSize)`**
+- Creates a new hex grid system
+- **Parameters:**
+  - `width` (number): Grid width in tiles (default 80)
+  - `height` (number): Grid height in tiles (default 40)
+  - `hexSize` (number): Hex radius in pixels (default 12)
+- **Returns:** HexGrid instance
+
+**`HexGrid.distance(q1, r1, q2, r2)`**
+- Calculate distance between two hexes
+- **Parameters:** Axial coordinates (q, r) for both hexes
+- **Returns:** (number) Distance in hex tiles
+- **Example:**
+```lua
+local dist = HexGrid.distance(0, 0, 5, 3)  -- Returns 8
+```
+
+**`HexGrid.neighbors(q, r)`**
+- Get all 6 adjacent hexes
+- **Returns:** Array of `{q, r}` coordinate pairs
+
+**`HexGrid:toPixel(q, r)`**
+- Convert hex coordinates to pixel position (center of hex)
+- **Returns:** `x, y` (numbers) Pixel coordinates
+
+**`HexGrid:toHex(x, y)`**
+- Convert pixel position to hex coordinates
+- **Returns:** `q, r` (numbers) Hex coordinates (rounded)
+
+**`HexGrid.ring(q, r, radius)`**
+- Get all hexes in a ring at exact distance
+- **Returns:** Array of `{q, r}` coordinate pairs
+
+**`HexGrid.area(q, r, radius)`**
+- Get all hexes within radius (inclusive)
+- **Returns:** Array of `{q, r}` coordinate pairs
+
+### Calendar (`geoscape/systems/calendar.lua`)
+
+Turn-based time management system.
+
+#### Structure
+
+- **1 turn** = 1 day
+- **6 days** = 1 week
+- **30 days** = 1 month (5 weeks)
+- **90 days** = 1 quarter (3 months)
+- **360 days** = 1 year (4 quarters)
+
+#### Key Functions
+
+**`Calendar.new(startYear, startMonth, startDay)`**
+- Create calendar at specified date
+- **Returns:** Calendar instance
+
+**`calendar:advanceTurn()`**
+- Advance time by one day
+- Processes scheduled events
+- **Returns:** self (for chaining)
+
+**`calendar:getFullDate()`**
+- Get formatted date string
+- **Returns:** "Monday, March 15, Year 1, Q1"
+
+**`calendar:scheduleEvent(daysFromNow, callback, data)`**
+- Schedule an event for future turn
+- **Parameters:**
+  - `daysFromNow` (number): Days in future
+  - `callback` (function): Function to call
+  - `data` (table): Optional data for callback
+
+### Province (`geoscape/logic/province.lua`)
+
+Strategic location on world map (node in province graph).
+
+#### Structure
+
+```lua
+Province = {
+    id = "p1",
+    name = "Central Europe",
+    q = 40, r = 20,           -- Hex position
+    biomeId = "temperate_forest",
+    regionId = "europe",
+    countryId = "germany",
+    isLand = true,
+    connections = {},         -- Adjacent provinces
+    economy = {population, gdp, wealth},
+    playerBase = nil,         -- Base object or nil
+    crafts = {},              -- List of craft IDs (max 4)
+    missions = {},            -- Active missions
+    detected = false,         -- Player discovered?
+    radarCoverage = false     -- Under radar?
+}
+```
+
+#### Key Functions
+
+**`Province.new(data)`**
+- Create new province
+- **Returns:** Province instance
+
+**`province:addConnection(provinceId, cost)`**
+- Add connection to another province
+- **Parameters:**
+  - `provinceId` (string): ID of connected province
+  - `cost` (number): Travel cost (default 1)
+
+**`province:addCraft(craftId)`**
+- Add craft to this province (max 4)
+- **Returns:** (boolean) Success
+
+**`province:hasMissions()`**
+- Check if province has active missions
+- **Returns:** (boolean)
+
+### ProvinceGraph (`geoscape/logic/province_graph.lua`)
+
+Manages province network and pathfinding.
+
+#### Key Functions
+
+**`ProvinceGraph.new()`**
+- Create empty province graph
+- **Returns:** ProvinceGraph instance
+
+**`graph:addProvince(province)`**
+- Add province to graph
+
+**`graph:addConnection(provinceId1, provinceId2, cost)`**
+- Add bidirectional connection between provinces
+
+**`graph:findPath(fromId, toId)`**
+- Find path using A* algorithm
+- **Returns:** 
+  - `path` (table): Array of province IDs, or nil
+  - `cost` (number): Total travel cost, or nil
+- **Example:**
+```lua
+local path, cost = graph:findPath("p1", "p5")
+if path then
+    print("Path length:", #path, "Cost:", cost)
+end
+```
+
+**`graph:getRange(fromId, maxCost)`**
+- Get all provinces within range
+- **Returns:** Map of `provinceId -> {cost, path}`
+- **Example:**
+```lua
+local reachable = graph:getRange("p1", 10)
+for id, data in pairs(reachable) do
+    print(id, "cost:", data.cost)
+end
+```
+
+### World (`geoscape/logic/world.lua`)
+
+Planetary body with hex grid, provinces, and calendar.
+
+#### Key Functions
+
+**`World.new(data)`**
+- Create new world
+- **Parameters:**
+  - `data.width` (number): Hex width (default 80)
+  - `data.height` (number): Hex height (default 40)
+  - `data.scale` (number): km per tile (default 500)
+  - `data.dayNightSpeed` (number): Tiles per day (default 4)
+- **Returns:** World instance
+
+**`world:addProvince(province)`**
+- Add province to world and update tile data
+
+**`world:advanceDay()`**
+- Advance calendar and day/night cycle by one day
+
+**`world:getLightLevel(q, r)`**
+- Get light level at hex (0.0 = night, 1.0 = day)
+- **Returns:** (number) Light level
+
+**`world:getProvinceAtHex(q, r)`**
+- Get province at hex coordinates
+- **Returns:** Province object or nil
+
+### Craft (`geoscape/logic/craft.lua`)
+
+Player craft for travel and missions.
+
+#### Structure
+
+```lua
+Craft = {
+    id = "craft1",
+    name = "Skyranger-1",
+    type = "interceptor",
+    provinceId = "p1",        -- Current location
+    baseId = "base1",         -- Home base
+    speed = 1,                -- Provinces per day
+    range = 10,               -- Max travel distance
+    fuelCapacity = 100,
+    currentFuel = 100,
+    fuelConsumption = 1,      -- Per province
+    soldiers = {},
+    items = {}
+}
+```
+
+#### Key Functions
+
+**`Craft.new(data)`**
+- Create new craft
+
+**`craft:deploy(path)`**
+- Deploy craft along path
+- **Parameters:** `path` (table): Array of province IDs
+- **Returns:** (boolean) Success
+
+**`craft:getOperationalRange(provinceGraph)`**
+- Get all provinces within fuel range
+- **Returns:** Map of reachable provinces
+
+**`craft:canReach(provinceGraph, targetProvinceId)`**
+- Check if craft can reach target
+- **Returns:**
+  - `canReach` (boolean)
+  - `fuelRequired` (number)
+
+### DayNightCycle (`geoscape/systems/daynight_cycle.lua`)
+
+Visual day/night overlay moving across world.
+
+#### Key Functions
+
+**`DayNightCycle.new(worldWidth, speed, coverage)`**
+- Create day/night cycle
+- **Parameters:**
+  - `worldWidth` (number): World width in tiles
+  - `speed` (number): Tiles per day (default 4)
+  - `coverage` (number): Day coverage 0-1 (default 0.5)
+
+**`cycle:advanceDay()`**
+- Advance cycle by one day
+
+**`cycle:isDay(q, hexWidth)`**
+- Check if hex is in daylight
+- **Returns:**
+  - `isDay` (boolean)
+  - `lightLevel` (number): 0.0 to 1.0
+
+**`DayNightCycle.getDarknessColor(lightLevel)`**
+- Get RGBA color for night overlay
+- **Returns:** `r, g, b, a` (numbers)
+
+### GeoscapeRenderer (`geoscape/rendering/world_renderer.lua`)
+
+Renders hex world map with camera controls.
+
+#### Key Functions
+
+**`GeoscapeRenderer.new(world)`**
+- Create renderer for world
+
+**`renderer:setCameraPosition(x, y)`**
+- Set camera world position
+
+**`renderer:setCameraZoom(zoom)`**
+- Set camera zoom (0.3 to 3.0)
+
+**`renderer:panCamera(dx, dy)`**
+- Pan camera by delta
+
+**`renderer:screenToWorld(screenX, screenY)`**
+- Convert screen to world coordinates
+- **Returns:** `worldX, worldY` (numbers)
+
+**`renderer:update(dt)`**
+- Update renderer (hover detection)
+
+**`renderer:draw()`**
+- Draw world, provinces, day/night, UI
+
+#### Controls
+
+- **Mouse Drag**: Pan camera
+- **Mouse Wheel**: Zoom in/out
+- **Click**: Select province
+- **G**: Toggle grid
+- **N**: Toggle day/night
+- **L**: Toggle labels
+
+### Usage Example
+
+```lua
+local World = require("geoscape.logic.world")
+local Province = require("geoscape.logic.province")
+local GeoscapeRenderer = require("geoscape.rendering.world_renderer")
+
+-- Create world
+local world = World.new({
+    width = 80,
+    height = 40,
+    scale = 500
+})
+
+-- Create provinces
+local p1 = Province.new({
+    id = "p1",
+    name = "Central Plains",
+    q = 40, r = 20,
+    biomeId = "plains",
+    color = {r = 0.4, g = 0.7, b = 0.4}
+})
+world:addProvince(p1)
+
+-- Create renderer
+local renderer = GeoscapeRenderer.new(world)
+
+-- In love.update
+function love.update(dt)
+    renderer:update(dt)
+end
+
+-- In love.draw
+function love.draw()
+    renderer:draw()
+end
+
+-- Advance time
+world:advanceDay()  -- Next day
+print(world:getDate())  -- "March 15, Year 1"
+```
+
+### Mission (`geoscape/logic/mission.lua`)
+
+Represents a mission on the Geoscape with cover mechanics for detection.
+
+#### Mission Types
+
+- **"site"**: Alien site (land-based, 14 days, orange icon)
+- **"ufo"**: UFO (air/land, 7 days, red icon)
+- **"base"**: Alien base (underground/underwater, 30 days, purple icon)
+
+#### Mission States
+
+- **"hidden"**: Not yet detected (cover > 0)
+- **"detected"**: Detected by radar (cover <= 0, visible on map)
+- **"active"**: Player has engaged/intercepted
+- **"completed"**: Player successfully completed
+- **"expired"**: Mission expired without player action
+
+#### Cover Mechanics
+
+Missions spawn with **cover value** (0-100). Cover regenerates daily and must be reduced to 0 for detection.
+
+- **Cover Reduction**: `cover = cover - radarPower`
+- **Daily Regeneration**: `cover = min(coverMax, cover + coverRegen)`
+- **Detection**: When `cover <= 0`, mission becomes visible
+
+#### Key Functions
+
+**`Mission:new(config)`**
+- Create new mission instance
+- **Parameters:**
+  - `config.type` (string): Mission type ("site", "ufo", "base")
+  - `config.faction` (string): Controlling faction
+  - `config.difficulty` (number): Mission difficulty (1+)
+  - `config.power` (number): Mission strength
+  - `config.coverValue` (number): Initial cover (default 100)
+  - `config.coverRegen` (number): Daily cover regeneration
+  - `config.duration` (number): Days until expiration
+- **Returns:** Mission instance
+
+**`mission:update(daysPassed)`**
+- Update mission state for elapsed days
+- Regenerates cover if hidden, expires if duration exceeded
+
+**`mission:reduceCover(radarPower)`**
+- Reduce mission cover by radar scanning
+- **Parameters:** `radarPower` (number): Scanning power
+- Automatically detects mission when cover reaches 0
+
+**`mission:getIcon()`**
+- Get appropriate icon name for rendering
+- **Returns:** (string) Icon type ("ufo_air", "ufo_landed", "alien_site", etc.)
+
+**`mission:getInfo()`**
+- Get mission display information
+- **Returns:** (table) Info with type, name, difficulty, power, state, etc.
+
+#### Example
+
+```lua
+local Mission = require("geoscape.logic.mission")
+
+-- Create alien site mission
+local mission = Mission:new({
+    type = "site",
+    faction = "aliens",
+    difficulty = 2,
+    power = 150,
+    coverValue = 100,
+    coverRegen = 5,
+    duration = 14
+})
+
+-- Daily update
+mission:update(1)  -- Cover regenerates to 105
+
+-- Radar scan
+mission:reduceCover(50)  -- Cover reduced to 55
+mission:reduceCover(60)  -- Cover reduced to 0, mission detected!
+
+print(mission.state)  -- "detected"
+print(mission:getIcon())  -- "alien_site"
+```
+
+### CampaignManager (`geoscape/systems/campaign_manager.lua`)
+
+Manages the core campaign game loop: time progression, mission generation, and mission lifecycle.
+
+#### Time System
+
+- **1 turn = 1 day**
+- **1 week = 7 days** (Monday = day 1, 8, 15, ...)
+- **1 month = 30 days**
+- **1 year = 365 days**
+
+#### Mission Generation
+
+- **Weekly Schedule**: Missions spawn every Monday (`day % 7 == 0`)
+- **Mission Count**: 2-4 missions per week (configurable)
+- **Mission Types**: 50% sites, 35% UFOs, 15% bases
+- **Difficulty Scaling**: Increases every 4 weeks (+1 difficulty)
+
+#### Key Functions
+
+**`CampaignManager:init()`**
+- Initialize campaign with starting conditions
+- Sets day 1, creates empty mission lists
+
+**`campaignManager:advanceDay()`**
+- Advance game time by one day
+- Updates all missions, generates weekly missions, cleans up expired
+- **Returns:** (table) Events that occurred
+
+**`campaignManager:generateWeeklyMissions()`**
+- Generate 2-4 missions for current week
+- Called automatically on Mondays
+
+**`campaignManager:getDetectedMissions()`**
+- Get missions visible on Geoscape map
+- **Returns:** (table) Array of detected mission objects
+
+**`campaignManager:getActiveMissions()`**
+- Get all active missions (hidden + detected + engaged)
+- **Returns:** (table) Array of active mission objects
+
+**`campaignManager:getStatistics()`**
+- Get campaign statistics
+- **Returns:** (table) Stats with day, week, mission counts, etc.
+
+#### Example
+
+```lua
+local CampaignManager = require("geoscape.systems.campaign_manager")
+
+-- Initialize campaign
+CampaignManager:init()
+
+-- Advance time
+CampaignManager:advanceDay()  -- Day 2
+CampaignManager:advanceDay()  -- Day 3
+-- ... advance to Day 8 (Monday)
+CampaignManager:advanceDay()  -- Generates weekly missions
+
+-- Check for detected missions
+local detected = CampaignManager:getDetectedMissions()
+for _, mission in ipairs(detected) do
+    print("Detected:", mission.name, mission.type)
+end
+
+-- Get campaign stats
+local stats = CampaignManager:getStatistics()
+print(string.format("Day %d, %d active missions",
+    stats.currentDay, stats.activeMissions))
+```
+
+### DetectionManager (`geoscape/systems/detection_manager.lua`)
+
+Handles radar scanning for mission detection from bases and crafts.
+
+#### Radar System
+
+- **Base Radar**: Facilities provide power (20-100) and range (5-20 provinces)
+- **Craft Radar**: Equipment provides power (10-25) and range (3-7 provinces)
+- **Cover Reduction**: `reduction = radarPower × (1 - distance/maxRange)`
+- **Detection**: Mission becomes visible when `cover <= 0`
+
+#### Key Functions
+
+**`DetectionManager:init()`**
+- Initialize detection system
+
+**`detectionManager:performDailyScans(campaignManager)`**
+- Scan for missions from all bases and crafts
+- **Parameters:** `campaignManager` (CampaignManager): Active campaign
+- **Returns:** (table) Scan results with detections
+
+**`detectionManager:getBaseRadarPower(base)`**
+- Calculate total radar power from base facilities
+- **Returns:** (number) Total power
+
+**`detectionManager:getBaseRadarRange(base)`**
+- Get maximum radar range from base facilities
+- **Returns:** (number) Max range in provinces
+
+**`detectionManager:calculateCoverReduction(radarPower, distance, maxRange)`**
+- Calculate cover reduction based on distance falloff
+- **Returns:** (number) Cover reduction amount
+
+#### Radar Facilities
+
+| Facility | Power | Range | Cost |
+|----------|-------|-------|------|
+| Radar Small | 20 | 5 | Low |
+| Radar Large | 50 | 10 | Medium |
+| Radar Hyperwave | 100 | 20 | High |
+
+#### Example
+
+```lua
+local DetectionManager = require("geoscape.systems.detection_manager")
+local CampaignManager = require("geoscape.systems.campaign_manager")
+
+-- Initialize systems
+DetectionManager:init()
+CampaignManager:init()
+
+-- Mock base with radar
+local base = {
+    facilities = {
+        {type = "radar_small"},
+        {type = "radar_large"}
+    }
+}
+
+-- Calculate radar capabilities
+local power = DetectionManager:getBaseRadarPower(base)  -- 70
+local range = DetectionManager:getBaseRadarRange(base)  -- 10
+
+-- Perform daily scans
+local results = DetectionManager:performDailyScans(CampaignManager)
+print(string.format("Scans: %d, Detections: %d",
+    results.scansPerformed, #results.newDetections))
+```
+
+### Mission Detection Integration
+
+#### Geoscape Integration
+
+```lua
+-- In geoscape/init.lua
+local CampaignManager = require("geoscape.systems.campaign_manager")
+local DetectionManager = require("geoscape.systems.detection_manager")
+
+function Geoscape:enter()
+    CampaignManager:init()
+    DetectionManager:init()
+    -- ... other initialization
+end
+
+function advanceDay()
+    CampaignManager:advanceDay()
+    DetectionManager:performDailyScans(CampaignManager)
+end
+```
+
+#### Mission Rendering
+
+```lua
+-- In world_renderer.lua
+function GeoscapeRenderer:drawMissions()
+    local detectedMissions = self.campaignManager:getDetectedMissions()
+    
+    for _, mission in ipairs(detectedMissions) do
+        self:drawMissionIcon(mission)
+    end
+end
+
+function GeoscapeRenderer:drawMissionIcon(mission)
+    local iconType = mission:getIcon()
+    self:drawMissionIconGraphic(iconType, mission.position.x, mission.position.y, mission)
+end
+```
+
+#### Gameplay Flow
+
+1. **Day 1**: Campaign starts, no missions
+2. **Monday (Day 8)**: 2-4 missions spawn with cover=100
+3. **Daily**: Radar scans reduce mission cover
+4. **Detection**: When cover=0, mission appears on map
+5. **Expiration**: Missions expire after duration if not intercepted
+6. **Repeat**: New missions spawn every Monday
+
+#### Performance
+
+- **Mission Generation**: O(1) - constant time
+- **Radar Scanning**: O(m × s) where m=missions, s=scanners
+- **Typical Performance**: <5ms for 10 missions, 5 scanners
+- **Memory**: ~1KB per mission
+

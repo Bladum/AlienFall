@@ -1,0 +1,35 @@
+# Base Defense - XCOM Base Under Attack
+# Defend your base from alien invasion
+
+[metadata]
+id = "base_defense"
+name = "Base Defense Mission"
+description = "Aliens are attacking your base!"
+mapSize = [6, 6]
+
+# Command 1: Add base blocks (group 0 = base blocks)
+[[commands]]
+type = "addBlock"
+groups = [0]
+freqs = [10]
+size = [1, 1]
+amount = 15
+chance = 100
+
+# Command 2: Add UFO entry point
+[[commands]]
+type = "addUFO"
+groups = [10]
+freqs = [10]
+ufoType = "scout"
+rect = [0, 0, 2, 2]  # Top-left corner
+chance = 100
+
+# Command 3: Fill with base facilities
+[[commands]]
+type = "fillArea"
+groups = [0, 1]  # Base + urban (base facilities)
+freqs = [15, 5]
+size = [1, 1]
+maxAttempts = 80
+chance = 100

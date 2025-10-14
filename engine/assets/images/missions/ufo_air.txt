@@ -1,0 +1,5 @@
+-- UFO Air Mission Icon
+-- Placeholder: Red triangle pointing up with wings
+-- Size: 32x32 pixels
+-- Color: Red (#FF0000)
+-- Description: Flying UFO icon for air-based missions

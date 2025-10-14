@@ -1,0 +1,167 @@
+# Furnitures Tileset - Indoor Props
+# Furniture and interior objects
+
+[tileset]
+id = "furnitures"
+name = "Indoor Furniture"
+description = "Common indoor furniture and props"
+
+# Chair - Wooden
+[[maptile]]
+key = "CHAIR_WOOD"
+name = "Wooden Chair"
+image = "chair_wood.png"
+passable = true
+blocksLOS = false
+cover = "light"
+destructible = true
+health = 15
+
+# Chair - Office
+[[maptile]]
+key = "CHAIR_OFFICE"
+name = "Office Chair"
+image = "chair_office.png"
+passable = true
+blocksLOS = false
+cover = "light"
+destructible = true
+health = 20
+
+# Table - Small (single cell)
+[[maptile]]
+key = "TABLE_SMALL"
+name = "Small Table"
+image = "table_small.png"
+passable = false
+blocksLOS = false
+cover = "light"
+destructible = true
+health = 25
+
+# Table - Large (2x2 multi-cell)
+[[maptile]]
+key = "TABLE_LARGE"
+name = "Large Table"
+image = "table_large.png"
+passable = false
+blocksLOS = false
+cover = "light"
+destructible = true
+health = 40
+multiTileMode = "occupy"
+cellWidth = 2
+cellHeight = 2
+
+# Desk
+[[maptile]]
+key = "DESK"
+name = "Office Desk"
+image = "desk.png"
+passable = false
+blocksLOS = false
+cover = "heavy"
+destructible = true
+health = 35
+
+# Shelf
+[[maptile]]
+key = "SHELF"
+name = "Storage Shelf"
+image = "shelf.png"
+passable = false
+blocksLOS = true
+cover = "full"
+destructible = true
+health = 30
+
+# Cabinet
+[[maptile]]
+key = "CABINET"
+name = "Filing Cabinet"
+image = "cabinet.png"
+passable = false
+blocksLOS = true
+cover = "heavy"
+destructible = true
+health = 40
+
+# Bed
+[[maptile]]
+key = "BED"
+name = "Bed"
+image = "bed.png"
+passable = false
+blocksLOS = false
+cover = "light"
+multiTileMode = "occupy"
+cellWidth = 2
+cellHeight = 1
+
+# Sofa
+[[maptile]]
+key = "SOFA"
+name = "Sofa"
+image = "sofa.png"
+passable = false
+blocksLOS = false
+cover = "heavy"
+multiTileMode = "occupy"
+cellWidth = 2
+cellHeight = 1
+
+# TV - Fragile
+[[maptile]]
+key = "TV"
+name = "Television"
+image = "tv.png"
+passable = false
+blocksLOS = false
+cover = "light"
+destructible = true
+health = 10
+
+# Computer
+[[maptile]]
+key = "COMPUTER"
+name = "Computer"
+image = "computer.png"
+passable = false
+blocksLOS = false
+cover = "light"
+destructible = true
+health = 10
+
+# Plant - Potted
+[[maptile]]
+key = "PLANT_POT"
+name = "Potted Plant"
+image = "plant_pot.png"
+passable = false
+blocksLOS = false
+cover = "none"
+destructible = true
+health = 5
+
+# Lamp
+[[maptile]]
+key = "LAMP"
+name = "Floor Lamp"
+image = "lamp.png"
+passable = false
+blocksLOS = false
+cover = "none"
+destructible = true
+health = 5
+
+# Bookshelf
+[[maptile]]
+key = "BOOKSHELF"
+name = "Bookshelf"
+image = "bookshelf.png"
+passable = false
+blocksLOS = true
+cover = "full"
+flammable = true
+destructible = true
+health = 35

@@ -10,13 +10,17 @@ ProjectileSystem.__index = ProjectileSystem
 
 --- Create a new projectile system instance
 -- @param battlefield table Reference to battlefield for collision queries
+-- @param damageSystem table Damage system instance
+-- @param explosionSystem table Explosion system instance
 -- @return table New ProjectileSystem instance
-function ProjectileSystem.new(battlefield)
+function ProjectileSystem.new(battlefield, damageSystem, explosionSystem)
     print("[ProjectileSystem] Initializing projectile system")
     
     local self = setmetatable({}, ProjectileSystem)
     
     self.battlefield = battlefield
+    self.damageSystem = damageSystem
+    self.explosionSystem = explosionSystem
     self.activeProjectiles = {}  -- Array of active projectiles
     self.pendingImpacts = {}     -- Impacts waiting to be processed
     
@@ -153,17 +157,38 @@ function ProjectileSystem:handleImpact(projectile)
     print("[ProjectileSystem] Processing impact at (" .. (projectile.impactX or projectile.x) .. 
           "," .. (projectile.impactY or projectile.y) .. ")")
     
-    -- Queue impact for processing (will be handled by damage system)
+    local impactX = projectile.impactX or projectile.x
+    local impactY = projectile.impactY or projectile.y
+    
+    -- Check if this is area damage (explosion)
+    if projectile.damageType == "area" and self.explosionSystem then
+        -- Create explosion for area damage
+        self.explosionSystem:createExplosion(
+            impactX, 
+            impactY, 
+            projectile.power, 
+            projectile.dropoff, 
+            projectile.damageClass, 
+            true,  -- create fire
+            true   -- create smoke
+        )
+    else
+        -- Point damage - apply directly to target unit if hit
+        if projectile.targetUnit and self.damageSystem then
+            local damageResult = self.damageSystem:resolveDamage(projectile, projectile.targetUnit)
+            print("[ProjectileSystem] Applied point damage: " .. damageResult.healthDamage .. " HP")
+        end
+    end
+    
+    -- Impact visual effects are handled by the battlescape rendering system
+    
+    -- Queue impact for any additional processing if needed
     table.insert(self.pendingImpacts, {
         projectile = projectile,
-        x = projectile.impactX or projectile.x,
-        y = projectile.impactY or projectile.y,
+        x = impactX,
+        y = impactY,
         timestamp = love.timer.getTime()
     })
-    
-    -- TODO: Integrate with damage system
-    -- TODO: Integrate with explosion system for area damage
-    -- TODO: Create impact visual effects
 end
 
 --- Get all pending impacts for processing

@@ -1,0 +1,137 @@
+# Farmland Tileset - Rural Terrain
+# Trees, fences, crops, and farm structures
+
+[tileset]
+id = "farmland"
+name = "Rural Farmland"
+description = "Farm structures and natural features"
+
+# Pine Tree - With damage states
+[[maptile]]
+key = "TREE_PINE"
+name = "Pine Tree"
+image = "tree_pine.png"
+passable = true
+blocksLOS = true
+cover = "heavy"
+destructible = true
+health = 80
+flammable = true
+
+# Oak Tree
+[[maptile]]
+key = "TREE_OAK"
+name = "Oak Tree"
+image = "tree_oak.png"
+passable = true
+blocksLOS = true
+cover = "heavy"
+destructible = true
+health = 100
+flammable = true
+
+# Bushes
+[[maptile]]
+key = "BUSHES"
+name = "Bushes"
+image = "bushes.png"
+passable = true
+blocksLOS = false
+cover = "light"
+flammable = true
+
+# Wooden Fence
+[[maptile]]
+key = "FENCE_WOOD"
+name = "Wooden Fence"
+image = "fence_wood.png"
+passable = false
+blocksLOS = false
+cover = "light"
+destructible = true
+health = 20
+flammable = true
+
+# Stone Fence
+[[maptile]]
+key = "FENCE_STONE"
+name = "Stone Fence"
+image = "fence_stone.png"
+passable = false
+blocksLOS = false
+cover = "heavy"
+destructible = true
+health = 60
+
+# Hay Bale
+[[maptile]]
+key = "HAY_BALE"
+name = "Hay Bale"
+image = "hay_bale.png"
+passable = false
+blocksLOS = false
+cover = "light"
+flammable = true
+
+# Barn Wall - Wood
+[[maptile]]
+key = "BARN_WALL"
+name = "Barn Wall"
+image = "barn_wall.png"
+passable = false
+blocksLOS = true
+cover = "full"
+destructible = true
+health = 60
+flammable = true
+
+# Barn Door
+[[maptile]]
+key = "BARN_DOOR"
+name = "Barn Door"
+image = "barn_door.png"
+passable = true
+blocksLOS = false
+cover = "none"
+destructible = true
+health = 40
+flammable = true
+
+# Crop Field
+[[maptile]]
+key = "CROPS"
+name = "Crop Field"
+image = "crops.png"
+passable = true
+blocksLOS = false
+cover = "light"
+
+# Well
+[[maptile]]
+key = "WELL"
+name = "Water Well"
+image = "well.png"
+passable = false
+blocksLOS = false
+cover = "heavy"
+
+# Trough
+[[maptile]]
+key = "TROUGH"
+name = "Animal Trough"
+image = "trough.png"
+passable = false
+blocksLOS = false
+cover = "light"
+
+# Scarecrow
+[[maptile]]
+key = "SCARECROW"
+name = "Scarecrow"
+image = "scarecrow.png"
+passable = false
+blocksLOS = false
+cover = "none"
+destructible = true
+health = 10
+flammable = true

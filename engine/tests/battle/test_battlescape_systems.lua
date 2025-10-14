@@ -25,7 +25,7 @@ function BattlescapeTests.testUnitSystem()
     end)
     
     TestFramework.runTest("Unit - Unit properties", function()
-        local unit = Unit.new("Soldier", 1, 10, 10)
+        local unit = Unit.new("soldier", 1, 10, 10)
         TestFramework.assertNotNil(unit, "Failed to create unit")
         TestFramework.assertEqual(unit.name, "Soldier", "Unit name incorrect")
         TestFramework.assertEqual(unit.team, 1, "Unit team incorrect")

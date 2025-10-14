@@ -1,0 +1,81 @@
+# Common Tileset - Basic Terrain Tiles
+# These are the most basic tiles used across all environments
+
+[tileset]
+id = "_common"
+name = "Common Terrain"
+description = "Basic terrain tiles used universally"
+
+# Grass - Open ground
+[[maptile]]
+key = "GRASS"
+name = "Grass"
+image = "grass.png"
+passable = true
+blocksLOS = false
+cover = "none"
+
+# Dirt - Open ground
+[[maptile]]
+key = "DIRT"
+name = "Dirt"
+image = "dirt.png"
+passable = true
+blocksLOS = false
+cover = "none"
+
+# Water - Impassable liquid
+[[maptile]]
+key = "WATER"
+name = "Water"
+image = "water.png"
+passable = false
+blocksLOS = false
+cover = "none"
+
+# Rock - Impassable obstruction
+[[maptile]]
+key = "ROCK"
+name = "Rock"
+image = "rock.png"
+passable = false
+blocksLOS = true
+cover = "full"
+destructible = true
+health = 80
+
+# Sand - Open ground
+[[maptile]]
+key = "SAND"
+name = "Sand"
+image = "sand.png"
+passable = true
+blocksLOS = false
+cover = "none"
+
+# Snow - Open ground
+[[maptile]]
+key = "SNOW"
+name = "Snow"
+image = "snow.png"
+passable = true
+blocksLOS = false
+cover = "none"
+
+# Mud - Difficult terrain
+[[maptile]]
+key = "MUD"
+name = "Mud"
+image = "mud.png"
+passable = true
+blocksLOS = false
+cover = "none"
+
+# Ice - Slippery ground
+[[maptile]]
+key = "ICE"
+name = "Ice"
+image = "ice.png"
+passable = true
+blocksLOS = false
+cover = "none"

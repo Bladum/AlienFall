@@ -1,0 +1,41 @@
+# Forest Patrol - Dense Woods
+# Dense forest with scattered clearings
+
+[metadata]
+id = "forest_patrol"
+name = "Forest Patrol Mission"
+description = "Dense forest with trees, clearings, and natural terrain"
+mapSize = [7, 7]
+
+# Command 1: Add player craft in clearing
+[[commands]]
+type = "addCraft"
+groups = [2]  # Farmland/rural spawn
+freqs = [10]
+craftType = "skyranger"
+chance = 100
+
+# Command 2: Fill map with forest blocks
+[[commands]]
+type = "fillArea"
+groups = [2]  # Farmland (includes trees)
+freqs = [10]
+size = [1, 1]
+maxAttempts = 150
+chance = 100
+
+# Command 3: Create some clearings (30% chance)
+[[commands]]
+type = "removeBlock"
+rect = [2, 2, 1, 1]
+chance = 30
+
+[[commands]]
+type = "removeBlock"
+rect = [4, 4, 1, 1]
+chance = 30
+
+[[commands]]
+type = "removeBlock"
+rect = [1, 5, 1, 1]
+chance = 30

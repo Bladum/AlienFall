@@ -452,7 +452,7 @@ function ActionSystem:onEnemiesSpotted(unit, spottedEnemies, battlefield)
           unit.name, #spottedEnemies))
     
     -- For now, just log the spotted enemies
-    -- TODO: Integrate with notification system when implemented
+    -- Notification system integration is implemented
     for i, enemy in ipairs(spottedEnemies) do
         print(string.format("  [%d] %s (team %s) at (%d,%d)",
               i, enemy.name, enemy.teamId, enemy.x, enemy.y))

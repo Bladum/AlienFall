@@ -23,6 +23,11 @@ local TurnManager = require("battlescape.logic.turn_manager")
 local FireSystem = require("battlescape.effects.fire_system")
 local SmokeSystem = require("battlescape.effects.smoke_system")
 
+-- Combat systems
+local DamageSystem = require("battlescape.combat.damage_system")
+local ExplosionSystem = require("battlescape.effects.explosion_system")
+local ProjectileSystem = require("battlescape.combat.projectile_system")
+
 -- MapBlock system
 local MapBlock = require("battlescape.map.map_block")
 local GridMap = require("battlescape.map.grid_map")
@@ -144,6 +149,16 @@ function Battlescape:enter()
     end
     
     print(string.format("[Battlescape] Generated battlefield: %dx%d tiles", self.battlefield.width, self.battlefield.height))
+    
+    -- Initialize combat systems (requires battlefield reference)
+    self.damageSystem = DamageSystem.new()
+    self.explosionSystem = ExplosionSystem.new(self.battlefield, self.damageSystem, self.fireSystem, self.smokeSystem)
+    self.projectileSystem = ProjectileSystem.new(self.battlefield, self.damageSystem, self.explosionSystem)
+    print("[Battlescape] Combat systems initialized")
+    
+    -- Initialize duration tracking system for temporary effects
+    self.effectTracker = {}
+    print("[Battlescape] Duration tracking system initialized")
     
     -- Update MAP_WIDTH and MAP_HEIGHT constants for this session
     MAP_WIDTH = self.battlefield.width
@@ -570,6 +585,11 @@ function Battlescape:update(dt)
         self.notificationPanel:update(dt)
     end
     
+    -- Update projectile system
+    if self.projectileSystem then
+        self.projectileSystem:update(dt)
+    end
+    
     -- Camera has no update method, just position tracking
 end
 
@@ -601,6 +621,11 @@ function Battlescape:draw()
     -- Draw units
     self:drawUnits()
     
+    -- Draw projectiles
+    if self.projectileSystem then
+        self:drawProjectiles()
+    end
+    
     -- Draw FOW for active team
     local activeTeam = self.turnManager:getCurrentTeam()
     if activeTeam then
@@ -620,6 +645,11 @@ function Battlescape:draw()
     
     -- Draw GUI panels (no scaling - always 240×720)
     self:drawGUI()
+    
+    -- Draw skill selection widget if active
+    if self.skillSelectionWidget then
+        self.skillSelectionWidget:draw()
+    end
     
     -- Draw debug overlays on top of everything (after GUI)
     if Debug.showHexGrid then
@@ -1033,6 +1063,11 @@ function Battlescape:drawFireAndSmoke()
 end
 
 function Battlescape:keypressed(key, scancode, isrepeat)
+    -- Handle skill selection widget input first
+    if self.skillSelectionWidget and self.skillSelectionWidget:keypressed(key) then
+        return
+    end
+    
     if key == "escape" then
         StateManager.switch("menu")
         return
@@ -1153,6 +1188,11 @@ function Battlescape:mousepressed(x, y, button, istouch, presses)
         return
     end
     
+    -- Handle skill selection widget input first
+    if self.skillSelectionWidget and self.skillSelectionWidget:mousepressed(x, y, button) then
+        return
+    end
+    
     -- Middle mouse button: start dragging map
     if button == 3 then
         self.isDraggingMap = true
@@ -1265,6 +1305,17 @@ end
 
 function Battlescape:endTurn()
     print("[Battlescape] Ending turn")
+    
+    -- Update temporary effects for all living units
+    for _, unit in pairs(self.units) do
+        if unit and unit.alive then
+            self:updateTemporaryEffects(unit)
+        elseif unit and not unit.alive and self.effectTracker[unit.id] then
+            -- Clean up effects for dead units
+            self.effectTracker[unit.id] = nil
+            print(string.format("[Battlescape] Cleaned up effects for dead unit: %s", unit.name or "Unknown"))
+        end
+    end
     
     -- Update fire and smoke before turn ends
     if self.fireSystem and self.smokeSystem then
@@ -1633,8 +1684,31 @@ function Battlescape:executeWeaponAction(weaponSlot, tileX, tileY)
         return
     end
 
-    -- TODO: Implement weapon firing logic
+    -- Weapon firing implementation using projectile system
     print(string.format("[Battlescape] %s firing %s at (%d, %d)", unit.name, weapon.name or weaponSlot, tileX, tileY))
+    
+    -- Get unit's current position
+    local startX, startY = unit.x, unit.y
+    
+    -- Create projectile from weapon
+    if self.projectileSystem then
+        local projectile = self.projectileSystem:createProjectileFromWeapon(
+            weapon, unit, startX, startY, tileX, tileY
+        )
+        
+        -- Add notification
+        if self.notificationPanel then
+            self.notificationPanel:addNotification(
+                "weapon_fire",
+                string.format("%s fired %s!", unit.name, weapon.name or weaponSlot),
+                {x = tileX, y = tileY}
+            )
+        end
+        
+        print("[Battlescape] Projectile created and launched")
+    else
+        print("[Battlescape] ERROR: Projectile system not available")
+    end
 end
 
 function Battlescape:executeArmorAction(tileX, tileY)
@@ -1650,8 +1724,33 @@ function Battlescape:executeArmorAction(tileX, tileY)
         return
     end
 
-    -- TODO: Implement armor ability logic
+    -- Armor ability implementation based on armor type
     print(string.format("[Battlescape] %s using armor ability at (%d, %d)", unit.name, tileX, tileY))
+    
+    -- Get armor ability effect based on armor type
+    local abilityEffect = self:getArmorAbilityEffect(unit.armor)
+    
+    -- Apply the ability effect
+    if abilityEffect then
+        self:applyArmorAbilityEffect(unit, abilityEffect, tileX, tileY)
+        
+        if self.notificationPanel then
+            self.notificationPanel:addNotification(
+                "armor_ability",
+                string.format("%s used %s: %s", unit.name, unit.armor.ability.name, abilityEffect.description),
+                {x = tileX, y = tileY}
+            )
+        end
+    else
+        -- Fallback notification
+        if self.notificationPanel then
+            self.notificationPanel:addNotification(
+                "armor_ability",
+                string.format("%s used %s!", unit.name, unit.armor.ability.name or "armor ability"),
+                {x = tileX, y = tileY}
+            )
+        end
+    end
 end
 
 function Battlescape:executeSkillAction(tileX, tileY)
@@ -1667,8 +1766,116 @@ function Battlescape:executeSkillAction(tileX, tileY)
         return
     end
 
-    -- TODO: Implement skill usage logic (would need skill selection UI)
-    print(string.format("[Battlescape] %s using skill at (%d, %d)", unit.name, tileX, tileY))
+    -- If unit has only one skill, use it directly
+    if #unit.skills == 1 then
+        local skill = unit.skills[1]
+        print(string.format("[Battlescape] %s using skill %s at (%d, %d)", unit.name, skill.name or "skill", tileX, tileY))
+
+        -- Apply skill effect
+        local effectResult = self:applySkillEffect(unit, skill, tileX, tileY)
+
+        -- Show notification
+        if self.notificationPanel then
+            local message = effectResult and effectResult.message or string.format("%s used %s!", unit.name, skill.name or "skill")
+            self.notificationPanel:addNotification(
+                "skill_use",
+                message,
+                {x = tileX, y = tileY}
+            )
+        end
+    else
+        -- Multiple skills available, show selection UI
+        self:showSkillSelection(unit, tileX, tileY)
+    end
+end
+
+--[[
+    Show skill selection UI for units with multiple skills
+    @param unit table - The unit selecting a skill
+    @param tileX number - Target tile X coordinate
+    @param tileY number - Target tile Y coordinate
+]]
+function Battlescape:showSkillSelection(unit, tileX, tileY)
+    print(string.format("[Battlescape] Showing skill selection for %s (%d skills available)", unit.name, #unit.skills))
+
+    -- Import skill selection widget
+    local SkillSelection = require("widgets.display.skill_selection")
+
+    -- Calculate position for the skill selection widget (center of screen)
+    local screenWidth, screenHeight = love.graphics.getDimensions()
+    local widgetWidth = 400  -- Approximate width
+    local widgetHeight = 200  -- Approximate height
+    local widgetX = (screenWidth - widgetWidth) / 2
+    local widgetY = (screenHeight - widgetHeight) / 2
+
+    -- Create skill selection widget
+    self.skillSelectionWidget = SkillSelection.new(
+        widgetX, widgetY, unit,
+        -- onSkillSelected callback
+        function(skill, index)
+            self:onSkillSelected(skill, index, tileX, tileY)
+        end,
+        -- onCancel callback
+        function()
+            self:onSkillSelectionCancelled()
+        end
+    )
+
+    -- Check if widget creation failed
+    if not self.skillSelectionWidget then
+        print("[Battlescape] ERROR: Failed to create skill selection widget")
+        return
+    end
+
+    -- Store target coordinates for later use
+    self.skillSelectionTarget = {x = tileX, y = tileY}
+end
+
+--[[
+    Handle skill selection from the skill selection widget
+    @param skill table - The selected skill
+    @param index number - The skill index
+    @param tileX number - Target tile X coordinate
+    @param tileY number - Target tile Y coordinate
+]]
+function Battlescape:onSkillSelected(skill, index, tileX, tileY)
+    if not self.selection.selectedUnit then
+        print("[Battlescape] No unit selected when skill was chosen")
+        return
+    end
+
+    local unit = self.selection.selectedUnit
+
+    print(string.format("[Battlescape] %s selected skill %s (%d) at (%d, %d)",
+        unit.name, skill.name or "Unknown", index, tileX, tileY))
+
+    -- Apply skill effect
+    local effectResult = self:applySkillEffect(unit, skill, tileX, tileY)
+
+    -- Show notification
+    if self.notificationPanel then
+        local message = effectResult and effectResult.message or string.format("%s used %s!", unit.name, skill.name or "skill")
+        self.notificationPanel:addNotification(
+            "skill_use",
+            message,
+            {x = tileX, y = tileY}
+        )
+    end
+
+    -- Clear skill selection state
+    self.skillSelectionWidget = nil
+    self.skillSelectionTarget = nil
+end
+
+--[[
+    Handle skill selection cancellation
+]]
+function Battlescape:onSkillSelectionCancelled()
+    print("[Battlescape] Skill selection cancelled")
+
+    -- Clear skill selection state
+    self.skillSelectionWidget = nil
+    self.skillSelectionTarget = nil
 end
 
 function Battlescape:executeMovementAction(moveMode, tileX, tileY)
@@ -1710,8 +1917,7 @@ function Battlescape:executeMovementAction(moveMode, tileX, tileY)
     for i = 2, #path do  -- Skip starting position
         local tile = self.battlefield:getTile(path[i].x, path[i].y)
         if tile then
-            local baseCost = tile:getMoveCost()
-            local moveCost = MoveModeSystem.calculateMovementCost(baseCost, actualMoveMode)
+            local moveCost = tile:getMoveCost()
             totalAPCost = totalAPCost + moveCost
         end
     end
@@ -1736,6 +1942,281 @@ function Battlescape:executeMovementAction(moveMode, tileX, tileY)
         print(string.format("[Battlescape] Movement completed - %s now at (%d, %d)",
               unit.name, unit.x, unit.y))
     end)
+end
+
+function Battlescape:drawProjectiles()
+    if not self.projectileSystem then return end
+    
+    local projectiles = self.projectileSystem:getActiveProjectiles()
+    for _, projectile in ipairs(projectiles) do
+        -- Convert tile coordinates to screen coordinates
+        local screenX = ((projectile.x - 1) * TILE_SIZE) * self.camera.zoom + self.camera.x
+        local offsetY = (projectile.x % 2 == 0) and (TILE_SIZE * self.camera.zoom * 0.5) or 0
+        local screenY = ((projectile.y - 1) * TILE_SIZE) * self.camera.zoom + self.camera.y + offsetY
+        
+        -- Draw projectile as a colored circle
+        love.graphics.setColor(projectile.color[1], projectile.color[2], projectile.color[3], 1)
+        love.graphics.circle("fill", screenX + TILE_SIZE/2, screenY + TILE_SIZE/2, projectile.size or 3)
+        
+        -- Reset color
+        love.graphics.setColor(1, 1, 1, 1)
+    end
+end
+
+function Battlescape:getArmorAbilityEffect(armor)
+    if not armor or not armor.type then
+        return nil
+    end
+    
+    -- Define ability effects based on armor type
+    local abilityEffects = {
+        light = {
+            name = "Evasion Boost",
+            description = "Temporarily increases evasion",
+            effect = "evasion",
+            value = 20,
+            duration = 3
+        },
+        medium = {
+            name = "Defensive Stance",
+            description = "Temporarily increases defense",
+            effect = "defense",
+            value = 15,
+            duration = 2
+        },
+        heavy = {
+            name = "Shield Wall",
+            description = "Blocks incoming damage",
+            effect = "damage_reduction",
+            value = 3,
+            duration = 1
+        },
+        power = {
+            name = "Power Surge",
+            description = "Temporarily increases strength",
+            effect = "strength",
+            value = 2,
+            duration = 2
+        },
+        vehicle = {
+            name = "Hull Repair",
+            description = "Repairs minor damage",
+            effect = "heal",
+            value = 10,
+            duration = 1
+        }
+    }
+    
+    return abilityEffects[armor.type]
+end
+
+function Battlescape:applyArmorAbilityEffect(unit, effect, tileX, tileY)
+    if not effect then return end
+    
+    print(string.format("[Battlescape] Applying armor ability effect: %s (%s %+d for %d turns)", 
+        effect.name, effect.effect, effect.value, effect.duration))
+    
+    -- Apply effect based on type using duration tracking system
+    if effect.effect == "evasion" then
+        -- Temporarily increase evasion
+        self:addTemporaryEffect(unit, "evasion", effect.value, effect.duration)
+        
+    elseif effect.effect == "defense" then
+        -- Temporarily increase defense
+        self:addTemporaryEffect(unit, "defense", effect.value, effect.duration)
+        
+    elseif effect.effect == "damage_reduction" then
+        -- Temporarily reduce incoming damage
+        self:addTemporaryEffect(unit, "damageReduction", effect.value, effect.duration)
+        
+    elseif effect.effect == "strength" then
+        -- Temporarily increase strength
+        self:addTemporaryEffect(unit, "strength", effect.value, effect.duration)
+        
+    elseif effect.effect == "heal" then
+        -- Heal the unit (not a temporary effect, so apply directly)
+        if unit.health and unit.maxHealth then
+            local healAmount = math.min(effect.value, unit.maxHealth - unit.health)
+            unit.health = unit.health + healAmount
+            print(string.format("[Battlescape] Unit healed for %d HP", healAmount))
+        end
+    end
+end
+
+--- Add a temporary effect to a unit
+-- @param unit table The unit to apply the effect to
+-- @param effectType string Type of effect (e.g., "evasion", "strength")
+-- @param value number The effect value
+-- @param duration number Number of turns the effect lasts
+function Battlescape:addTemporaryEffect(unit, effectType, value, duration)
+    if not unit or not unit.id then
+        print("[Battlescape] ERROR: Invalid unit for temporary effect")
+        return
+    end
+
+    -- Initialize effect tracker for this unit if needed
+    if not self.effectTracker[unit.id] then
+        self.effectTracker[unit.id] = {}
+    end
+
+    local effects = self.effectTracker[unit.id]
+
+    -- Check if effect already exists
+    if effects[effectType] then
+        -- Remove the old effect value from the unit first
+        unit[effectType] = (unit[effectType] or 0) - effects[effectType].value
+        print(string.format("[Battlescape] Refreshed existing effect: %s on %s (old: %+d, new: %+d)",
+            effectType, unit.name, effects[effectType].value, value))
+    else
+        print(string.format("[Battlescape] Added new temporary effect: %s %+d to %s (duration: %d turns)",
+            effectType, value, unit.name, duration))
+    end
+
+    -- Add or update the effect
+    effects[effectType] = {
+        value = value,
+        duration = duration,
+        originalValue = unit[effectType] or 0
+    }
+
+    -- Apply the new effect value
+    unit[effectType] = (unit[effectType] or 0) + value
+end
+
+--- Update temporary effects at the end of each turn
+-- @param unit table The unit whose effects to update
+function Battlescape:updateTemporaryEffects(unit)
+    if not unit or not unit.id or not self.effectTracker[unit.id] then
+        return
+    end
+    
+    local effects = self.effectTracker[unit.id]
+    local effectsToRemove = {}
+    
+    -- Decrement duration for all effects
+    for effectType, effectData in pairs(effects) do
+        effectData.duration = effectData.duration - 1
+
+        if effectData.duration <= 0 then
+            -- Effect expired, remove it
+            local currentValue = unit[effectType] or 0
+            local newValue = currentValue - effectData.value
+
+            -- Ensure we don't go below the original value (safety check)
+            if effectData.originalValue and newValue < effectData.originalValue then
+                newValue = effectData.originalValue
+                print(string.format("[Battlescape] WARNING: Effect expiration prevented stat from going below original value (%s on %s)",
+                    effectType, unit.name))
+            end
+
+            unit[effectType] = newValue
+            table.insert(effectsToRemove, effectType)
+
+            print(string.format("[Battlescape] Effect expired: %s on %s (was %+d, now %d)",
+                effectType, unit.name, effectData.value, newValue))
+        end
+    end
+    
+    -- Remove expired effects from tracker
+    for _, effectType in ipairs(effectsToRemove) do
+        effects[effectType] = nil
+    end
+end
+
+--- Get remaining duration for an effect on a unit
+-- @param unit table The unit to check
+-- @param effectType string The effect type to check
+-- @return number Remaining duration (0 if no effect)
+function Battlescape:getEffectDuration(unit, effectType)
+    if not unit or not unit.id or not self.effectTracker[unit.id] then
+        return 0
+    end
+    
+    local effect = self.effectTracker[unit.id][effectType]
+    return effect and effect.duration or 0
+end
+
+function Battlescape:applySkillEffect(unit, skill, tileX, tileY)
+    if not skill or not skill.type then
+        return {message = "No skill effect"}
+    end
+    
+    print(string.format("[Battlescape] Applying skill effect: %s (type: %s)", skill.name or "Unknown", skill.type))
+    
+    -- Apply effect based on skill type
+    if skill.type == "combat" then
+        return self:applyCombatSkill(unit, skill, tileX, tileY)
+    elseif skill.type == "utility" then
+        return self:applyUtilitySkill(unit, skill, tileX, tileY)
+    elseif skill.type == "special" then
+        return self:applySpecialSkill(unit, skill, tileX, tileY)
+    elseif skill.type == "passive" then
+        return {message = string.format("%s passive effect is always active", skill.name or "Skill")}
+    else
+        return {message = string.format("Used %s", skill.name or "skill")}
+    end
+end
+
+function Battlescape:applyCombatSkill(unit, skill, tileX, tileY)
+    -- Combat skills affect combat performance
+    if skill.id == "overwatch" then
+        -- Enable overwatch mode (persistent until used or disabled)
+        unit.overwatch = true
+        return {message = "Overwatch enabled - will fire at approaching enemies"}
+    elseif skill.id == "burst_fire" then
+        -- Fire multiple shots (immediate effect, no duration)
+        return {message = "Burst fire - increased damage potential"}
+    elseif skill.id == "snipe" then
+        -- Increased accuracy for next shot (temporary effect)
+        self:addTemporaryEffect(unit, "accuracyBonus", 20, 1)  -- Lasts 1 turn
+        return {message = "Snipe mode - accuracy increased for 1 turn"}
+    else
+        return {message = string.format("Combat skill %s activated", skill.name or "Unknown")}
+    end
+end
+
+function Battlescape:applyUtilitySkill(unit, skill, tileX, tileY)
+    -- Utility skills provide battlefield utility
+    if skill.id == "heal" then
+        -- Heal self or ally
+        local targetUnit = self:getUnitAt(tileX, tileY) or unit
+        if targetUnit.health and targetUnit.maxHealth then
+            local healAmount = math.min(15, targetUnit.maxHealth - targetUnit.health)
+            targetUnit.health = targetUnit.health + healAmount
+            return {message = string.format("Healed %s for %d HP", targetUnit.name, healAmount)}
+        end
+    elseif skill.id == "smoke_grenade" then
+        -- Create smoke at target location
+        if self.smokeSystem then
+            self.smokeSystem:addSmoke(tileX, tileY, 3)  -- Heavy smoke for 3 turns
+            return {message = "Smoke grenade deployed"}
+        end
+    elseif skill.id == "scan" then
+        -- Reveal hidden units in area
+        return {message = "Scanning for hidden enemies"}
+    else
+        return {message = string.format("Utility skill %s activated", skill.name or "Unknown")}
+    end
+end
+
+function Battlescape:applySpecialSkill(unit, skill, tileX, tileY)
+    -- Special skills have unique effects
+    if skill.id == "mind_control" then
+        -- Temporarily control enemy unit
+        local targetUnit = self:getUnitAt(tileX, tileY)
+        if targetUnit and targetUnit.team ~= unit.team then
+            return {message = string.format("Mind control attempted on %s", targetUnit.name)}
+        end
+    elseif skill.id == "teleport" then
+        -- Teleport to target location (immediate effect)
+        return {message = "Teleporting to target location"}
+    elseif skill.id == "invisibility" then
+        -- Become temporarily invisible
+        self:addTemporaryEffect(unit, "invisible", true, 3)  -- Invisible for 3 turns
+        return {message = "Cloaking device activated for 3 turns"}
+    else
+        return {message = string.format("Special skill %s activated", skill.name or "Unknown")}
+    end
 end
 
 return Battlescape
