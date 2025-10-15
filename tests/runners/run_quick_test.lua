@@ -1,0 +1,23 @@
+package.path = package.path .. ";engine/?.lua;engine/?/init.lua"; local TestRunner = require("tests.test_runner"); TestRunner.runAllTests()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

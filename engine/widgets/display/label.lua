@@ -1,3 +1,52 @@
+---Label Widget - Text Display with Word Wrapping
+---
+---A text display widget with word wrapping support. Used for displaying single or multi-line
+---text with alignment options. Grid-aligned for consistent positioning.
+---
+---Features:
+---  - Single or multi-line text
+---  - Text alignment (left, center, right)
+---  - Word wrapping
+---  - Grid-aligned positioning (24×24 pixels)
+---  - Font customization
+---  - Color customization
+---
+---Alignment Options:
+---  - left: Text aligned to left edge
+---  - center: Text centered horizontally
+---  - right: Text aligned to right edge
+---  - justify: Text stretched to fill width (future)
+---
+---Word Wrapping:
+---  - Automatic line breaks at word boundaries
+---  - Respects widget width
+---  - No text overflow outside bounds
+---
+---Key Exports:
+---  - Label.new(x, y, width, height, text): Creates label
+---  - setText(text): Updates displayed text
+---  - setAlignment(align): Sets text alignment ("left", "center", "right")
+---  - setFont(font): Sets custom font
+---  - setColor(r, g, b, a): Sets text color
+---  - draw(): Renders label
+---
+---Dependencies:
+---  - widgets.core.base: BaseWidget inheritance
+---  - widgets.core.theme: Font and color theme
+---
+---@module widgets.display.label
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local Label = require("widgets.display.label")
+---  local label = Label.new(0, 0, 240, 48, "Hello World")
+---  label:setAlignment("center")
+---  label:draw()
+---
+---@see widgets.input.textinput For editable text
+
 --[[
     Label Widget
     
@@ -137,3 +186,25 @@ end
 print("[Label] Label widget loaded")
 
 return Label
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

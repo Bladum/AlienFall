@@ -1,3 +1,56 @@
+---ProgressBar Widget - Horizontal Progress Indicator
+---
+---A horizontal progress bar for displaying completion percentage (0.0 to 1.0).
+---Features animated fill and customizable colors. Grid-aligned for consistent positioning.
+---
+---Features:
+---  - 0.0 to 1.0 value range (0% to 100%)
+---  - Animated fill (smooth transition)
+---  - Customizable colors (fill, background, border)
+---  - Grid-aligned positioning (24×24 pixels)
+---  - Optional percentage text display
+---  - Theme-based styling
+---
+---Visual States:
+---  - Empty: 0% filled
+---  - Partial: 1-99% filled
+---  - Full: 100% filled
+---  - Animated: Smooth fill animation
+---
+---Use Cases:
+---  - Loading screens
+---  - Download progress
+---  - Research progress
+---  - Manufacturing progress
+---  - Experience bars
+---
+---Key Exports:
+---  - ProgressBar.new(x, y, width, height): Creates progress bar
+---  - setValue(value): Sets progress (0.0 to 1.0)
+---  - getValue(): Returns current progress
+---  - setColors(fillColor, bgColor): Sets custom colors
+---  - setShowPercentage(show): Toggles percentage text
+---  - draw(): Renders progress bar
+---  - update(dt): Updates animation
+---
+---Dependencies:
+---  - widgets.core.base: BaseWidget inheritance
+---  - widgets.core.theme: Color theme
+---
+---@module widgets.display.progressbar
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local ProgressBar = require("widgets.display.progressbar")
+---  local bar = ProgressBar.new(0, 0, 240, 24)
+---  bar:setValue(0.75)  -- 75%
+---  bar:setShowPercentage(true)
+---  bar:draw()
+---
+---@see widgets.display.healthbar For health-specific bars
+
 --[[
     ProgressBar Widget
     
@@ -107,3 +160,25 @@ function ProgressBar:setFillColor(r, g, b, a)
 end
 
 return ProgressBar
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

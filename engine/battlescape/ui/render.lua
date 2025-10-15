@@ -1,3 +1,59 @@
+---Battlescape Render Module - Drawing Operations
+---
+---Handles all rendering operations for the tactical battlescape including terrain, units,
+---effects, UI overlays, and debug visualization. Coordinates between hex renderer, unit
+---renderer, effect system, and UI renderer for complete scene composition.
+---
+---Rendering Layers (back to front):
+---  - Terrain Layer: Ground tiles, walls, obstacles
+---  - Shadow Layer: Fog of war and line of sight shadows
+---  - Effect Layer: Fire, smoke, explosions
+---  - Unit Layer: Soldiers, aliens, civilians
+---  - UI Layer: HUD, cursors, overlays
+---  - Debug Layer: Grid, pathfinding, LOS rays
+---
+---Render Constants:
+---  - TILE_SIZE: 24 pixels per hex tile
+---  - MAP_WIDTH: 90 tiles horizontal
+---  - MAP_HEIGHT: 90 tiles vertical
+---  - GUI_WIDTH: 240 pixels (10 tiles × 24px)
+---  - GUI_HEIGHT: 720 pixels (30 tiles × 24px)
+---  - SECTION_HEIGHT: 240 pixels (10 tiles × 24px)
+---
+---Optimization Techniques:
+---  - Viewport culling: Only render visible tiles
+---  - Batch rendering: Group similar draw calls
+---  - Sprite caching: Reuse common sprites
+---  - Layer compositing: Pre-render static layers
+---
+---Key Exports:
+---  - draw(battlescape): Main render function
+---  - drawTerrain(map, viewport): Render terrain layer
+---  - drawUnits(units, viewport): Render all units
+---  - drawEffects(effects, viewport): Render effects
+---  - drawUI(ui): Render UI overlays
+---  - setDebugMode(enabled): Toggle debug visualization
+---
+---Integration:
+---  - Uses hex_renderer for terrain
+---  - Uses unit system for unit sprites
+---  - Uses effect system for animations
+---  - Coordinates with UI for overlays
+---
+---@module battlescape.ui.render
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local BattlescapeRender = require("battlescape.ui.render")
+---  function love.draw()
+---      BattlescapeRender:draw(battlescape)
+---  end
+---
+---@see battlescape.rendering.hex_renderer For terrain rendering
+---@see battlescape.effects For effect rendering
+
 -- Battlescape Render Module
 -- Handles all drawing operations for the battlescape
 
@@ -142,3 +198,24 @@ function BattlescapeRender:drawDebugInfo(battlescape)
 end
 
 return BattlescapeRender
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

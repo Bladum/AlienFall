@@ -1,3 +1,57 @@
+---ListBox Widget - Scrollable Selection List
+---
+---A scrollable list of selectable items. Used for displaying and selecting from lists
+---of options. Grid-aligned for consistent positioning.
+---
+---Features:
+---  - Item selection (single or multi-select)
+---  - Vertical scrolling
+---  - onSelect event callback
+---  - Grid-aligned positioning (24×24 pixels)
+---  - Keyboard navigation (arrow keys)
+---  - Search/filter support
+---
+---Selection Modes:
+---  - Single: Only one item selected at a time
+---  - Multi: Multiple items can be selected (Ctrl+Click)
+---  - None: No selection allowed (display only)
+---
+---Keyboard Navigation:
+---  - Up/Down arrows: Move selection
+---  - Home/End: First/last item
+---  - Page Up/Down: Scroll by page
+---  - Enter: Confirm selection
+---  - Type to search: Filter items by text
+---
+---Key Exports:
+---  - ListBox.new(x, y, width, height): Creates listbox
+---  - setItems(items): Sets list data
+---  - addItem(item): Adds single item
+---  - removeItem(index): Removes item
+---  - getSelectedItem(): Returns selected item
+---  - setSelectionMode(mode): Sets selection behavior
+---  - setCallback(func): Sets onSelect handler
+---  - draw(): Renders listbox
+---  - mousepressed(x, y, button): Click handling
+---
+---Dependencies:
+---  - widgets.core.base: BaseWidget inheritance
+---  - widgets.core.theme: Color and font theme
+---
+---@module widgets.navigation.listbox
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local ListBox = require("widgets.navigation.listbox")
+---  local list = ListBox.new(0, 0, 240, 480)
+---  list:setItems({"Option 1", "Option 2", "Option 3"})
+---  list:setCallback(function(item) print("Selected:", item) end)
+---  list:draw()
+---
+---@see widgets.navigation.dropdown For dropdown menus
+
 --[[
     ListBox Widget
     
@@ -197,3 +251,25 @@ function ListBox:getSelectedIndex()
 end
 
 return ListBox
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

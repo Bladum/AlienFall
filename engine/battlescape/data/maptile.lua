@@ -1,3 +1,62 @@
+---MapTile - Single Hex Tile Definition
+---
+---Represents a single hex cell tile with KEY-based identification. Defines visual
+---appearance, passability, line of sight blocking, cover level, and tactical properties.
+---Core data structure for all battlefield tiles.
+---
+---Features:
+---  - KEY-based unique identification (UPPER_SNAKE_CASE)
+---  - Visual properties (image, height)
+---  - Passability and LOS blocking
+---  - Cover levels (none/light/heavy/full)
+---  - Destructibility and health
+---  - Flammability for fire system
+---
+---Tile Properties:
+---  - key: Unique identifier (e.g., "WALL_BRICK_01")
+---  - name: Display name (e.g., "Brick Wall")
+---  - tileset: Parent tileset folder name
+---  - image: PNG filename relative to tileset
+---  - passable: Can units walk through? (boolean)
+---  - blocksLOS: Blocks line of sight? (boolean)
+---  - cover: Cover level ("none", "light", "heavy", "full")
+---  - height: Vertical offset in pixels (for stacking)
+---  - destructible: Can be destroyed? (boolean)
+---  - health: Hit points if destructible
+---  - flammable: Can catch fire? (boolean)
+---
+---Cover Levels:
+---  - "none": No protection (0%)
+---  - "light": 25% hit penalty to attacker
+---  - "heavy": 40% hit penalty to attacker
+---  - "full": 60% hit penalty to attacker
+---
+---Key Exports:
+---  - MapTile.new(params): Creates new MapTile
+---  - MapTile.validate(tile): Validates tile data
+---  - MapTile.clone(tile): Deep copy of tile
+---  - MapTile.serialize(tile): Converts to saveable format
+---
+---Dependencies:
+---  - None (pure data structure)
+---
+---@module battlescape.data.maptile
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local MapTile = require("battlescape.data.maptile")
+---  local wall = MapTile.new({
+---      key = "WALL_BRICK_01",
+---      name = "Brick Wall",
+---      passable = false,
+---      blocksLOS = true,
+---      cover = "full"
+---  })
+---
+---@see battlescape.data.tilesets For tileset management
+
 -- Map Tile Definition
 -- Represents a single hex cell tile with KEY-based identification
 
@@ -254,3 +313,25 @@ function MapTile:__tostring()
 end
 
 return MapTile
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

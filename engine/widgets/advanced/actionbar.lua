@@ -1,3 +1,60 @@
+---ActionBar Widget - Horizontal Action Button Bar
+---
+---A horizontal bar containing multiple action buttons with cooldowns and hotkeys.
+---Common in RPGs and strategy games for quick access to unit abilities and actions.
+---Grid-aligned for consistent positioning.
+---
+---Features:
+---  - Multiple action buttons in horizontal row
+---  - Cooldown indicators (circular overlay)
+---  - Hotkey labels (1-9, 0, -, =)
+---  - Action point cost display
+---  - Grid-aligned positioning (24×24 pixels)
+---  - Disabled state for unavailable actions
+---
+---Button Layout:
+---  - Button size: Configurable (typically 48×48 or 72×72)
+---  - Spacing: Grid-aligned gaps between buttons
+---  - Hotkey: Displayed in corner of each button
+---  - AP cost: Action points required
+---
+---Action Structure:
+---  - Icon: Visual representation
+---  - Label: Action name
+---  - Hotkey: Keyboard shortcut
+---  - Callback: Function to execute
+---  - AP Cost: Action points required
+---  - Enabled: Can be used
+---
+---Key Exports:
+---  - ActionBar.new(x, y, buttonCount): Creates action bar
+---  - setAction(index, action): Assigns action to slot
+---  - getAction(index): Returns action at slot
+---  - clearAction(index): Removes action from slot
+---  - setButtonSize(size): Sets button dimensions
+---  - draw(): Renders action bar with buttons
+---  - keypressed(key): Hotkey activation
+---  - mousepressed(x, y, button): Click handling
+---
+---Dependencies:
+---  - widgets.core.base: BaseWidget inheritance
+---  - widgets.core.theme: Color and font theme
+---  - widgets.buttons.imagebutton: Action buttons
+---
+---@module widgets.advanced.actionbar
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local ActionBar = require("widgets.advanced.actionbar")
+---  local bar = ActionBar.new(0, 600, 10)
+---  bar:setAction(1, {icon = moveIcon, callback = moveFunc, hotkey = "1"})
+---  bar:setAction(2, {icon = shootIcon, callback = shootFunc, hotkey = "2"})
+---  bar:draw()
+---
+---@see widgets.display.action_panel For vertical action layout
+
 --[[
     ActionBar Widget
     
@@ -191,3 +248,25 @@ function ActionBar:setActionEnabled(index, enabled)
 end
 
 return ActionBar
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

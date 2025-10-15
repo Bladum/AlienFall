@@ -1,3 +1,58 @@
+---TextArea Widget - Multi-Line Text Input Field
+---
+---A multi-line text input field with scrolling support. Used for entering longer text
+---like messages, notes, or descriptions. Grid-aligned for consistent positioning.
+---
+---Features:
+---  - Multiple lines of text
+---  - Vertical scrolling
+---  - Text selection (drag to select)
+---  - Copy/paste support (Ctrl+C, Ctrl+V)
+---  - Grid-aligned positioning (24×24 pixels)
+---  - Line number display (optional)
+---
+---Keyboard Shortcuts:
+---  - Ctrl+A: Select all
+---  - Ctrl+C: Copy selection
+---  - Ctrl+V: Paste from clipboard
+---  - Ctrl+X: Cut selection
+---  - Enter: New line
+---  - Backspace/Delete: Remove characters
+---  - Arrow keys: Navigate text
+---
+---Scrolling:
+---  - Mouse wheel: Scroll up/down
+---  - Arrow keys: Auto-scroll to cursor
+---  - Page Up/Down: Scroll by page
+---
+---Key Exports:
+---  - TextArea.new(x, y, width, height): Creates text area
+---  - setText(text): Sets content
+---  - getText(): Returns content
+---  - setPlaceholder(text): Sets placeholder text
+---  - setLineNumbers(show): Toggles line numbers
+---  - draw(): Renders text area
+---  - keypressed(key): Keyboard input
+---  - textinput(char): Character input
+---  - wheelmoved(x, y): Scroll handling
+---
+---Dependencies:
+---  - widgets.core.base: BaseWidget inheritance
+---  - widgets.core.theme: Color and font theme
+---
+---@module widgets.input.textarea
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local TextArea = require("widgets.input.textarea")
+---  local area = TextArea.new(0, 0, 480, 240)
+---  area:setPlaceholder("Enter description...")
+---  area:draw()
+---
+---@see widgets.input.textinput For single-line input
+
 --[[
     TextArea Widget
     
@@ -214,3 +269,25 @@ function TextArea:getText()
 end
 
 return TextArea
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

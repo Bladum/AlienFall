@@ -1,5 +1,49 @@
--- Geoscape Data Module
--- Contains province data and initialization
+---Geoscape Data Module - Province Definitions and Initialization
+---
+---Contains province data definitions and initialization logic for the world map.
+---Defines 80+ provinces covering Earth (North America, Europe, Asia, Africa, South America,
+---Oceania, Antarctica) with populations, connections, funding, and satisfaction values.
+---
+---Data Structure:
+---  - provinces: Array of province definitions
+---  - Each province: {id, name, x, y, connections, population, satisfaction, funding, hasBase}
+---  - connections: Array of adjacent province IDs for graph
+---
+---World Map Coverage:
+---  - North America: 15 provinces (Alaska to Mexico)
+---  - Europe: 20 provinces (UK to Russia)
+---  - Asia: 25 provinces (Middle East to Japan)
+---  - Africa: 15 provinces (Egypt to South Africa)
+---  - South America: 10 provinces (Brazil to Argentina)
+---  - Oceania: 5 provinces (Australia, New Zealand, Pacific)
+---  - Antarctica: 2 provinces (research stations)
+---
+---Economic Balance:
+---  - High population provinces: Higher funding (e.g., Tokyo, New York)
+---  - Low population provinces: Lower funding (e.g., Greenland, Antarctica)
+---  - Starting satisfaction: 75-90 (varies by region)
+---
+---Key Exports:
+---  - GeoscapeData:initProvinces(): Initializes province array
+---  - self.provinces: Province data array
+---
+---Dependencies:
+---  - geoscape.geography.province: Province entity constructor
+---
+---@module geoscape.logic.data
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local GeoscapeData = require("geoscape.logic.data")
+---  GeoscapeData:initProvinces()
+---  for _, province in ipairs(GeoscapeData.provinces) do
+---    print(province.name)
+---  end
+---
+---@see geoscape.geography.province For province entity
+---@see geoscape.world.world_state For initialization
 
 local GeoscapeData = {}
 
@@ -141,3 +185,24 @@ function GeoscapeData:formatNumber(num)
 end
 
 return GeoscapeData
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

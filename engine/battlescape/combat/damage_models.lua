@@ -1,3 +1,46 @@
+---DamageModels - Combat Damage Distribution System
+---
+---Defines how damage is distributed across unit statistics after armor penetration.
+---Models determine damage effects (stun, health, morale, energy) rather than damage
+---types (kinetic, laser, plasma). Used by damage calculation system.
+---
+---Damage Models:
+---  - STUN: Temporary damage causing unconsciousness, recovers over time
+---  - HURT: Permanent health damage reducing maximum HP
+---  - MORALE: Psychological damage causing panic or berserk states
+---  - ENERGY: Stamina drain affecting movement and actions
+---
+---Features:
+---  - Stat distribution percentages for each model
+---  - Armor penetration modifiers
+---  - Critical hit multipliers
+---  - Model-specific recovery mechanics
+---  - Integration with unit stat system
+---
+---Key Exports:
+---  - MODELS: Enumeration of available damage models
+---  - DEFINITIONS: Detailed model configurations
+---  - applyDamage(unit, damage, model, armorPen): Apply damage using model
+---  - getModelStats(model): Get distribution stats for model
+---  - calculateEffectiveDamage(baseDamage, model, armor): Calculate final damage
+---
+---Dependencies:
+---  - Unit stat system for damage application
+---  - Armor system for penetration calculations
+---
+---@module battlescape.combat.damage_models
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local DamageModels = require("battlescape.combat.damage_models")
+---  local damage = DamageModels.applyDamage(unit, 50, "stun", 0.8)
+---  -- Applies 50 damage with 80% armor penetration using stun model
+---
+---@see battlescape.combat.damage_types For damage type definitions
+---@see battlescape.combat.unit For unit stat management
+
 -- Damage Models System
 -- Defines how damage is distributed to unit stats after armor calculation
 -- Models determine the effect type, not the damage type (kinetic vs laser)
@@ -236,3 +279,25 @@ end
 ]]
 
 return DamageModels
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,3 +1,57 @@
+---BattlescapeIntegration - Hex Battle System Integration Guide
+---
+---Integration guide and status tracking for migrating from the old battlefield
+---system to the new ECS-based hex grid system. Provides step-by-step instructions
+---for proper vision, movement, and rendering integration.
+---
+---Integration Components:
+---  - ECS hex battle system migration
+---  - Vision and line-of-sight integration
+---  - Movement and pathfinding updates
+---  - Rendering pipeline modifications
+---  - UI and input system updates
+---
+---Migration Steps:
+---  1. Replace battlefield.lua with ECS battle system
+---  2. Update vision calculations for hex grid
+---  3. Modify movement system for hex coordinates
+---  4. Update rendering for hex-based positioning
+---  5. Integrate new UI components
+---
+---Features:
+---  - Step-by-step migration checklist
+---  - System readiness verification
+---  - Integration status tracking
+---  - Compatibility layer for gradual migration
+---  - Testing and validation procedures
+---
+---Key Exports:
+---  - version: Integration guide version
+---  - status: Current integration status
+---  - systems_ready: Boolean indicating system readiness
+---  - checkSystemStatus(): Verify system integration status
+---  - getMigrationSteps(): Get detailed migration checklist
+---
+---Dependencies:
+---  - ECS battle system components
+---  - Hex grid mathematics
+---  - Vision and LOS systems
+---
+---@module battlescape.logic.integration
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local integration = require("battlescape.logic.integration")
+---  print("Integration status:", integration.status)
+---  if integration.systems_ready then
+---      -- Proceed with migration
+---  end
+---
+---@see battlescape.battle_ecs For new ECS battle system
+---@see battlescape.battlefield For legacy battlefield system
+
 -- battlescape_integration.lua
 -- Integration guide for hex battle system
 -- This file shows how to integrate the new ECS hex system with existing battlescape.lua
@@ -19,12 +73,12 @@ local integration = {
 INTEGRATION STEPS:
 
 1. Add requires at top of battlescape.lua:
-   local HexSystem = require("battle.systems.hex_system")
-   local MovementSystem = require("battle.systems.movement_system")
-   local VisionSystem = require("battle.systems.vision_system")
-   local UnitEntity = require("battle.entities.unit_entity")
-   local HexMath = require("battle.utils.hex_math")
-   local Debug = require("battle.utils.debug")
+   local HexSystem = require("battlescape.battle_ecs.hex_system")
+   local MovementSystem = require("battlescape.battle_ecs.movement_system")
+   local VisionSystem = require("battlescape.battle_ecs.vision_system")
+   local UnitEntity = require("battlescape.battle_ecs.unit_entity")
+   local HexMath = require("battlescape.battle_ecs.hex_math")
+   local Debug = require("battlescape.battle_ecs.debug")
 
 2. In Battlescape:enter(), add:
    -- Initialize hex system (replaces battlefield)
@@ -94,3 +148,25 @@ TESTING:
 --]]
 
 return integration
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

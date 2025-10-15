@@ -1,38 +1,66 @@
+---@diagnostic disable: undefined-global
+---@diagnostic disable: undefined-field
+---@diagnostic disable: duplicate-doc-field
+---@diagnostic disable: luadoc-miss-module-name
+---MapEditor - Visual Map Block Creation and Editing Tool
+---
+---Interactive visual editor for creating and modifying 15×15 map blocks used in procedural
+---map generation. Features paint/erase tools, tileset selection, undo/redo, and TOML export.
+---Part of map editor enhancement (Phase 5).
+---
+---Features:
+---  - Visual tile painting and erasing
+---  - Tileset browser integration
+---  - Undo/redo system with history tracking
+---  - Zoom and pan camera controls
+---  - Metadata editing (ID, name, group, tags, difficulty)
+---  - TOML export for map block definitions
+---  - Grid overlay and coordinate display
+---  - Real-time preview of edited blocks
+---
+---Key Exports:
+---  - new(width, height): Create new map editor instance
+---  - loadFromTOML(filepath): Load existing map block from TOML file
+---  - saveToTOML(filepath): Export current block to TOML file
+---  - setTile(x, y, tileKey): Set tile at coordinates
+---  - getTile(x, y): Get tile key at coordinates
+---  - undo(): Undo last action
+---  - redo(): Redo undone action
+---  - update(dt): Update editor state
+---  - draw(): Render editor interface
+---  - mousepressed(x, y, button): Handle mouse input
+---  - keypressed(key): Handle keyboard shortcuts
+---
+---Dependencies:
+---  - require("widgets"): UI widget library
+---  - require("battlescape.data.tilesets"): Tileset definitions
+---  - require("battlescape.maps.mapblock_loader_v2"): Map block I/O
+---
+---@module battlescape.ui.map_editor
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local MapEditor = require("battlescape.ui.map_editor")
+---  local editor = MapEditor.new(15, 15)
+---  editor:loadFromTOML("maps/forest_01.toml")
+---  -- Edit tiles interactively
+---  editor:saveToTOML("maps/custom_block.toml")
+---
+---@see battlescape.ui.tileset_browser For tileset selection interface
+---@see battlescape.maps.mapblock_loader_v2 For TOML map block format
+
 -- Map Editor - Visual Map Block Editor
 -- Phase 5: Map Editor Enhancement
 -- Allows visual editing of Map Blocks with paint/erase tools
 
-local Widgets = require("widgets")
+local Widgets = require("widgets.init")
 local Tilesets = require("battlescape.data.tilesets")
-local MapBlockLoader = require("battlescape.map.mapblock_loader_v2")
+local MapBlockLoader = require("battlescape.maps.mapblock_loader_v2")
 
 local MapEditor = {}
 MapEditor.__index = MapEditor
-
----@class MapEditor
----@field width number Editor width in tiles
----@field height number Editor height in tiles
----@field grid table Map grid {[x_y] = MAP_TILE_KEY}
----@field metadata table Block metadata {id, name, group, tags, author, difficulty}
----@field selectedTileset string? Currently selected tileset
----@field selectedTile string? Currently selected Map Tile KEY
----@field tool string Current tool ("paint" or "erase")
----@field currentTool string Current tool ("paint" or "erase")
----@field camera table Camera offset {x, y}
----@field zoom number Zoom level
----@field history table[] Undo/redo stack
----@field historyIndex number Current position in history
----@field isDirty boolean Has unsaved changes
----@field dirty boolean Has unsaved changes (alias)
----@field getStats fun(self): table Get editor statistics
----@field undo fun(self) Undo last action
----@field redo fun(self) Redo last undone action
----@field new_blank fun(self) Create new blank map
----@field setTool fun(self, tool: string) Set current tool
----@field paintTile fun(self, x: number, y: number) Paint tile at position
----@field eraseTile fun(self, x: number, y: number) Erase tile at position
----@field selectTileset fun(self, tilesetId: string) Select tileset
----@field selectTile fun(self, tileKey: string) Select tile
 
 ---Create a new Map Editor
 ---@param width number Block width in tiles (15, 30, 45, etc.)
@@ -258,6 +286,44 @@ function MapEditor:setMetadata(field, value)
     end
 end
 
+---Create new blank map
+---@param width number New width in tiles
+---@param height number New height in tiles
+function MapEditor:new_blank(width, height)
+    self.width = width or 15
+    self.height = height or 15
+    self.grid = {}
+    self.metadata = {
+        id = "",
+        name = "New Map Block",
+        group = 0,
+        tags = "custom",
+        author = "Map Editor",
+        difficulty = 1
+    }
+    self.selectedTileset = nil
+    self.selectedTile = nil
+    self.currentTool = "paint"
+    self.tool = "paint"
+    self.camera = {x = 0, y = 0}
+    self.zoom = 1
+    self.history = {}
+    self.historyIndex = 0
+    self.dirty = false
+    self.isDirty = false
+    
+    -- Initialize empty grid
+    for y = 0, self.height - 1 do
+        for x = 0, self.width - 1 do
+            local key = string.format("%d_%d", x, y)
+            self.grid[key] = "EMPTY"
+        end
+    end
+    
+    self:saveHistory()
+    print(string.format("[MapEditor] New blank map: %dx%d", self.width, self.height))
+end
+
 ---Load Map Block from file
 ---@param filepath string Path to TOML file
 ---@return boolean success
@@ -350,259 +416,6 @@ function MapEditor:save(filepath)
     self.isDirty = false
     print(string.format("[MapEditor] Saved: %s", filepath))
     return true
-end
-
----Get statistics
----@return table stats {totalTiles, filledTiles, emptyTiles, fillPercentage, uniqueTiles}
-function MapEditor:getStats()
-    local totalTiles = self.width * self.height
-    local filledTiles = 0
-    local uniqueTiles = {}
-    
-    for key, tileKey in pairs(self.grid) do
-        if tileKey and tileKey ~= "EMPTY" then
-            filledTiles = filledTiles + 1
-            uniqueTiles[tileKey] = true
-        end
-    end
-    
-    local uniqueCount = 0
-    for _ in pairs(uniqueTiles) do
-        uniqueCount = uniqueCount + 1
-    end
-    
-    return {
-        totalTiles = totalTiles,
-        filledTiles = filledTiles,
-        emptyTiles = totalTiles - filledTiles,
-        fillPercentage = (filledTiles / totalTiles) * 100,
-        uniqueTiles = uniqueCount
-    }
-end
-
----New blank block
----@param width number? Optional new width (defaults to current)
----@param height number? Optional new height (defaults to current)
-function MapEditor:new_blank(width, height)
-    -- Update dimensions if provided
-    if width then self.width = width end
-    if height then self.height = height end
-    
-    -- Clear grid and initialize
-    self.grid = {}
-    for y = 0, self.height - 1 do
-        for x = 0, self.width - 1 do
-            local key = string.format("%d_%d", x, y)
-            self.grid[key] = "EMPTY"
-        end
-    end
-    
-    -- Reset metadata
-    self.metadata = {
-        id = "",
-        name = "",
-        group = 0,
-        tags = "",
-        author = "",
-        difficulty = 1
-    }
-    
-    self.dirty = false
-    self.history = {}
-    self.historyIndex = 0
-    self:saveHistory()
-    
-    print("[MapEditor] New blank block created")
-end
-
----Get metadata field
----@param field string Metadata field name
----@return any
-function MapEditor:getMetadata(field)
-    return self.metadata[field]
-end
-
----Get editor statistics
----@return table stats {totalTiles, filledTiles, fillPercentage, uniqueTiles}
-function MapEditor:getStats()
-    local totalTiles = self.width * self.height
-    local filledTiles = 0
-    local uniqueTiles = {}
-    
-    for y = 0, self.height - 1 do
-        for x = 0, self.width - 1 do
-            local tile = self:getTile(x, y)
-            if tile and tile ~= "EMPTY" then
-                filledTiles = filledTiles + 1
-                uniqueTiles[tile] = true
-            end
-        end
-    end
-    
-    return {
-        totalTiles = totalTiles,
-        filledTiles = filledTiles,
-        fillPercentage = (filledTiles / totalTiles) * 100,
-        uniqueTiles = #uniqueTiles
-    }
-end
-
----Undo last action
-function MapEditor:undo()
-    if self.historyIndex > 0 then
-        self.historyIndex = self.historyIndex - 1
-        self:restoreFromHistory()
-    end
-end
-
----Redo last undone action
-function MapEditor:redo()
-    if self.historyIndex < #self.history then
-        self.historyIndex = self.historyIndex + 1
-        self:restoreFromHistory()
-    end
-end
-
----Create new blank block
----@param width number? Block width (default 15)
----@param height number? Block height (default 15)
-function MapEditor:new_blank(width, height)
-    width = width or 15
-    height = height or 15
-    
-    -- Clear current data
-    self.width = width
-    self.height = height
-    self.grid = {}
-    self.metadata = {
-        id = "new_block",
-        name = "New Map Block",
-        group = 0,
-        tags = "custom",
-        author = "Unknown",
-        difficulty = 1
-    }
-    
-    -- Initialize empty grid
-    for y = 0, self.height - 1 do
-        for x = 0, self.width - 1 do
-            local key = string.format("%d_%d", x, y)
-            self.grid[key] = "EMPTY"
-        end
-    end
-    
-    self.dirty = false
-    self.history = {}
-    self.historyIndex = 0
-    self:saveHistory()
-    
-    print("[MapEditor] New blank block created")
-end
-
----Set current tool
----@param tool string "paint" or "erase"
-function MapEditor:setTool(tool)
-    if tool == "paint" or tool == "erase" then
-        self.tool = tool
-    end
-end
-
----Paint tile at position
----@param x number Tile X coordinate
----@param y number Tile Y coordinate
-function MapEditor:paintTile(x, y)
-    if self.selectedTile then
-        self:setTile(x, y, self.selectedTile)
-        self:saveHistory()
-    end
-end
-
----Erase tile at position
----@param x number Tile X coordinate
----@param y number Tile Y coordinate
-function MapEditor:eraseTile(x, y)
-    self:setTile(x, y, "EMPTY")
-    self:saveHistory()
-end
-
----Select tileset
----@param tilesetId string Tileset identifier
-function MapEditor:selectTileset(tilesetId)
-    self.selectedTileset = tilesetId
-    self.selectedTile = nil
-end
-
----Select tile
----@param tileKey string Map Tile KEY
-function MapEditor:selectTile(tileKey)
-    self.selectedTile = tileKey
-end
-
----Get editor statistics
----@return table stats {totalTiles, filledTiles, fillPercentage, uniqueTiles}
-function MapEditor:getStats()
-    local totalTiles = self.width * self.height
-    local filledTiles = 0
-    local uniqueTiles = {}
-    
-    for y = 1, self.height do
-        for x = 1, self.width do
-            local key = self:getTile(x, y)
-            if key and key ~= "EMPTY" then
-                filledTiles = filledTiles + 1
-                uniqueTiles[key] = true
-            end
-        end
-    end
-    
-    return {
-        totalTiles = totalTiles,
-        filledTiles = filledTiles,
-        fillPercentage = (filledTiles / totalTiles) * 100,
-        uniqueTiles = #uniqueTiles
-    }
-end
-
----Undo last action
-function MapEditor:undo()
-    if self.historyIndex > 1 then
-        self.historyIndex = self.historyIndex - 1
-        self.grid = self:deepCopy(self.history[self.historyIndex])
-        self.isDirty = true
-    end
-end
-
----Redo last undone action
-function MapEditor:redo()
-    if self.historyIndex < #self.history then
-        self.historyIndex = self.historyIndex + 1
-        self.grid = self:deepCopy(self.history[self.historyIndex])
-        self.isDirty = true
-    end
-end
-
----Create new blank map
-function MapEditor:new_blank()
-    self.grid = {}
-    self.metadata = {
-        id = "new_block",
-        name = "New Map Block",
-        group = 0,
-        tags = "custom",
-        author = "Unknown",
-        difficulty = 1
-    }
-    self.history = {{}}
-    self.historyIndex = 1
-    self.isDirty = false
-end
-
----Set current tool
----@param tool string Tool name ("paint" or "erase")
-function MapEditor:setTool(tool)
-    if tool == "paint" or tool == "erase" then
-        self.tool = tool
-    end
 end
 
 return MapEditor

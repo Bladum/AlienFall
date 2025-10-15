@@ -1,3 +1,52 @@
+---DamageTypes - Weapon Damage Types and Armor Resistance System
+---
+---Defines all damage types in the game and their interactions with armor.
+---Each damage type has specific armor penetration characteristics and resistance
+---calculations. Used by combat system for damage mitigation and weapon balancing.
+---
+---Damage Types:
+---  - KINETIC: Bullets, shells, conventional weapons
+---  - EXPLOSIVE: Grenades, rockets, bombs (area damage)
+---  - LASER: Energy weapons with high penetration
+---  - PLASMA: Advanced energy weapons
+---  - MELEE: Close combat weapons
+---  - BIO: Biological and chemical weapons
+---  - ACID: Corrosive weapons
+---  - STUN: Non-lethal incapacitation
+---  - FIRE: Incendiary and burning damage
+---  - PSI: Psionic and mental attacks
+---
+---Features:
+---  - Armor resistance values per damage type
+---  - Penetration calculations
+---  - Damage type effectiveness modifiers
+---  - Armor degradation mechanics
+---  - Integration with damage models
+---
+---Key Exports:
+---  - TYPES: Enumeration of all damage types
+---  - getResistance(armorType, damageType): Get resistance value
+---  - calculatePenetration(damage, resistance): Calculate armor penetration
+---  - getEffectiveDamage(baseDamage, damageType, armorType): Calculate final damage
+---  - isPiercing(damageType): Check if damage type ignores some armor
+---
+---Dependencies:
+---  - Armor system for resistance definitions
+---  - Weapon system for damage type assignment
+---
+---@module battlescape.combat.damage_types
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local DamageTypes = require("battlescape.combat.damage_types")
+---  local resistance = DamageTypes.getResistance("kevlar", "kinetic")
+---  local damage = DamageTypes.getEffectiveDamage(50, "laser", "kevlar")
+---
+---@see battlescape.combat.damage_models For damage effect distribution
+---@see battlescape.combat.weapon_system For weapon damage types
+
 -- Damage Types and Resistance System
 -- Defines all damage types and armor resistance calculations
 
@@ -123,3 +172,25 @@ function DamageTypes.createDefaultResistances()
 end
 
 return DamageTypes
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

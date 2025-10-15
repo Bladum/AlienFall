@@ -1,3 +1,51 @@
+---MockData Generator - Test Data Generator
+---
+---Generates mock data for testing widgets and UI components. Provides consistent
+---test data including items, units, stats, and strings. Useful for development
+---and testing without real data sources.
+---
+---Features:
+---  - Random item generation
+---  - Mock unit data with stats
+---  - Lorem ipsum text generation
+---  - Consistent random seed
+---  - Configurable data counts
+---  - Realistic test values
+---
+---Data Types:
+---  - Items: Names for lists/tables
+---  - Units: Mock soldiers with stats (HP, AP, etc.)
+---  - Stats: Health, armor, accuracy values
+---  - Text: Lorem ipsum paragraphs
+---  - Numbers: Ranges of numeric values
+---
+---Key Exports:
+---  - MockData.generateItems(count): Creates item name list
+---  - MockData.generateUnits(count): Creates mock unit list
+---  - MockData.generateStats(): Creates stat values
+---  - MockData.generateText(paragraphs): Creates lorem ipsum text
+---  - MockData.randomInt(min, max): Random integer
+---  - MockData.randomFloat(min, max): Random float
+---  - MockData.setSeed(seed): Sets random seed for consistency
+---
+---Dependencies:
+---  - None (standalone module)
+---
+---@module widgets.core.mock_data
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local MockData = require("widgets.core.mock_data")
+---  local items = MockData.generateItems(10)
+---  local units = MockData.generateUnits(5)
+---  local stats = MockData.generateStats()
+---  -- Use in widget testing
+---  listbox:setItems(items)
+---
+---@see widgets.init For widget system
+
 --[[
     Mock Data Generator
     
@@ -217,3 +265,25 @@ end
 print("[MockData] Mock data generator loaded")
 
 return MockData
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

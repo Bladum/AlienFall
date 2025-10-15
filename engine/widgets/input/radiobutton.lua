@@ -1,3 +1,56 @@
+---RadioButton Widget - Mutually Exclusive Option Selector
+---
+---A radio button for mutually exclusive options in a group. Only one radio button
+---in a group can be selected at a time. Grid-aligned for consistent positioning.
+---
+---Features:
+---  - Selected/unselected states (filled/empty circle)
+---  - Radio button groups (by group name)
+---  - onChange event callback
+---  - Grid-aligned positioning (24×24 pixels)
+---  - Label text beside button
+---  - Keyboard support (Space to select)
+---
+---Radio Button Group Behavior:
+---  - All buttons with same groupName form a group
+---  - Selecting one button deselects others in group
+---  - Only one button selected per group
+---  - Group managed automatically by groupName property
+---
+---Visual States:
+---  - Unselected: Empty circle
+---  - Selected: Filled circle
+---  - Hover: Lighter border
+---  - Disabled: Grayed out
+---
+---Key Exports:
+---  - RadioButton.new(x, y, width, height, label, groupName): Creates radio button
+---  - setSelected(selected): Sets selection state
+---  - isSelected(): Returns current state
+---  - setGroup(groupName): Assigns to radio group
+---  - setLabel(label): Updates label text
+---  - setCallback(func): Sets onChange handler
+---  - draw(): Renders radio button
+---  - mousepressed(x, y, button): Click handling
+---
+---Dependencies:
+---  - widgets.core.base: BaseWidget inheritance
+---  - widgets.core.theme: Color and font theme
+---
+---@module widgets.input.radiobutton
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local RadioButton = require("widgets.input.radiobutton")
+---  local rb1 = RadioButton.new(0, 0, 192, 24, "Easy", "difficulty")
+---  local rb2 = RadioButton.new(0, 24, 192, 24, "Medium", "difficulty")
+---  local rb3 = RadioButton.new(0, 48, 192, 24, "Hard", "difficulty")
+---  rb1:draw()
+---
+---@see widgets.input.checkbox For independent checkboxes
+
 --[[
     RadioButton Widget
     
@@ -133,3 +186,25 @@ function RadioButton:isSelected()
 end
 
 return RadioButton
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,3 +1,48 @@
+---ImageButton Widget - Clickable Image Button
+---
+---A button widget that displays an image instead of text. Used for icon-based UI elements
+---like toolbars, action bars, and inventory slots. Grid-aligned for consistent positioning.
+---
+---Features:
+---  - Image rendering (Love2D Image objects)
+---  - Hover state highlighting
+---  - Click event callbacks
+---  - Grid-aligned positioning (24×24 pixels)
+---  - Image scaling and centering
+---  - Optional tooltip on hover
+---
+---Visual States:
+---  - Normal: Default image display
+---  - Hover: Lighter tint or border highlight
+---  - Pressed: Darker tint while mouse button held
+---  - Disabled: Grayed out, no interaction
+---
+---Key Exports:
+---  - ImageButton.new(x, y, width, height, imagePath): Creates image button
+---  - setImage(imagePath): Changes button image
+---  - setCallback(func): Sets click handler
+---  - setTooltip(text): Sets hover tooltip
+---  - draw(): Renders button
+---  - mousepressed(x, y, button): Click handling
+---
+---Dependencies:
+---  - widgets.core.base: BaseWidget inheritance
+---  - widgets.core.theme: Color theme
+---  - love.graphics: Image loading and rendering
+---
+---@module widgets.buttons.imagebutton
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local ImageButton = require("widgets.buttons.imagebutton")
+---  local btn = ImageButton.new(0, 0, 48, 48, "assets/icons/menu.png")
+---  btn:setCallback(function() print("Menu clicked!") end)
+---  btn:draw()
+---
+---@see widgets.buttons.button For text buttons
+
 --[[
     ImageButton Widget
     
@@ -126,3 +171,25 @@ function ImageButton:setImage(image)
 end
 
 return ImageButton
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,3 +1,51 @@
+---ExplosionSystem - Area-of-Effect Damage and Visual Effects
+---
+---Handles explosive damage propagation with power falloff, obstacle absorption,
+---chain reactions, and visual ring animations. Creates fire and smoke effects
+---at explosion sites. Core system for grenades, rockets, and explosive weapons.
+---
+---Explosion Mechanics:
+---  - Power propagation with distance-based falloff
+---  - Obstacle absorption reducing blast radius
+---  - Chain explosions from volatile objects
+---  - Ring-based visual animation (expanding circles)
+---  - Fire and smoke effect generation
+---
+---Features:
+---  - Configurable blast radius and power curves
+---  - Terrain-based damage absorption
+---  - Unit damage calculation with cover modifiers
+---  - Visual ring animation with timing control
+---  - Integration with fire and smoke systems
+---  - Performance optimization for large explosions
+---
+---Key Exports:
+---  - new(battlefield, damageSystem, fireSystem, smokeSystem): Create explosion system
+---  - createExplosion(centerX, centerY, power, damageType, source): Trigger explosion
+---  - calculateBlastRadius(power, obstacles): Calculate effective radius
+---  - propagatePower(centerX, centerY, power, maxDistance): Calculate power falloff
+---  - createRingAnimation(centerX, centerY, maxRadius): Create visual ring effect
+---  - update(dt): Update active explosions and animations
+---
+---Dependencies:
+---  - require("battlescape.combat.damage_system"): Damage calculation
+---  - require("battlescape.effects.fire_system"): Fire effect creation
+---  - require("battlescape.effects.smoke_system"): Smoke effect creation
+---
+---@module battlescape.effects.explosion_system
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local ExplosionSystem = require("battlescape.effects.explosion_system")
+---  local explosions = ExplosionSystem.new(battlefield, damageSystem)
+---  explosions:createExplosion(10, 10, 100, "explosive", unit)
+---
+---@see battlescape.combat.damage_system For damage calculations
+---@see battlescape.effects.fire_system For fire effects
+---@see battlescape.effects.smoke_system For smoke effects
+
 -- Explosion System
 -- Handles area-of-effect damage with power propagation, obstacle absorption,
 -- chain explosions, fire/smoke creation, and ring animation
@@ -342,3 +390,25 @@ function ExplosionSystem:getDebugInfo()
 end
 
 return ExplosionSystem
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

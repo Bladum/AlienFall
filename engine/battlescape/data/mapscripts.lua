@@ -1,3 +1,62 @@
+---MapScripts - Structured Map Layout System (Legacy)
+---
+---Defines how MapBlocks are arranged to create complete maps. Legacy system using
+---Lua-based definitions. MapScripts specify block placements, spawn zones, and
+---requirements. Being replaced by MapScriptsV2 (TOML-based) system.
+---
+---Features:
+---  - Map layout definitions
+---  - MapBlock placement rules
+---  - Team spawn zone definitions
+---  - Biome and difficulty requirements
+---  - Registry for all MapScripts
+---
+---MapScript Properties:
+---  - id: Unique identifier
+---  - name: Display name
+---  - description: Lore text
+---  - size: {width, height} in MapBlocks
+---  - blocks: Array of {x, y, tags, required}
+---  - requirements: {minDifficulty, maxDifficulty, biomes}
+---  - spawnZones: {team, x, y, radius}
+---
+---Block Placement:
+---  - x, y: Grid position (in MapBlocks, not tiles)
+---  - tags: Array of required tags
+---  - required: Boolean (must place or fail)
+---
+---Spawn Zones:
+---  - team: Team ID (1=player, 2+=AI)
+---  - x, y: Center position (in tiles)
+---  - radius: Spawn radius (in tiles)
+---
+---Key Exports:
+---  - MapScripts.register(script): Adds MapScript to registry
+---  - MapScripts.get(id): Returns MapScript by ID
+---  - MapScripts.getAll(): Returns all MapScripts
+---  - MapScripts.getForBiome(biome): Returns biome-compatible scripts
+---  - MapScripts.getForDifficulty(difficulty): Returns difficulty-appropriate scripts
+---
+---Dependencies:
+---  - None (pure data registry)
+---
+---@module battlescape.data.mapscripts
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local MapScripts = require("battlescape.data.mapscripts")
+---  MapScripts.register({
+---      id = "urban_crash",
+---      name = "Urban Crash Site",
+---      size = {width = 4, height = 4},
+---      blocks = {{x=0, y=0, tags={"urban"}, required=true}}
+---  })
+---
+---@see battlescape.data.mapscripts_v2 For new TOML system
+---@see battlescape.mapscripts.mapscript_executor For execution
+
 -- MapScript System - Structured Map Layouts
 -- Defines how MapBlocks are arranged to create complete maps
 
@@ -1067,3 +1126,25 @@ MapScripts.register({
 print(string.format("[MapScripts] Registered %d MapScripts", #MapScripts.getAllIds()))
 
 return MapScripts
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

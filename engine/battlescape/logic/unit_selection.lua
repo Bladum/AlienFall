@@ -288,3 +288,25 @@ function UnitSelection:moveSelectedUnit(targetX, targetY, battlefield, onVisibil
 end
 
 return UnitSelection
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

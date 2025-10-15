@@ -1,3 +1,55 @@
+---Widget Demo Application - Standalone Widget Showcase
+---
+---A standalone Love2D application that showcases all 23+ widgets in the AlienFall
+---widget system. Displays each widget with interactive examples and grid overlay
+---for development. Used for testing, documentation, and demonstration purposes.
+---
+---Features:
+---  - Showcase all 23+ widgets
+---  - Interactive widget examples
+---  - Grid overlay (F9 toggle)
+---  - Live testing environment
+---  - Visual widget catalog
+---  - Grid-aligned positioning (24×24 pixels)
+---
+---Showcased Widgets:
+---  - Buttons: Button, ImageButton, ActionButton
+---  - Display: Label, ProgressBar, HealthBar, Tooltip
+---  - Input: TextInput, TextArea, Checkbox, RadioButton
+---  - Navigation: ListBox, Dropdown, TabWidget, Table
+---  - Containers: Panel, Window, Dialog, ScrollBox
+---  - Advanced: UnitCard, Minimap, Spinner, ResearchTree
+---  - Combat: WeaponModeSelector
+---
+---Controls:
+---  - F9: Toggle grid overlay
+---  - F12: Toggle fullscreen
+---  - Mouse: Interact with widgets
+---  - Keyboard: Widget-specific shortcuts
+---
+---Key Exports:
+---  - love.load(): Initializes demo widgets
+---  - love.update(dt): Updates widget system
+---  - love.draw(): Renders all widgets
+---  - love.mousepressed/released: Mouse interaction
+---  - love.keypressed: Keyboard input
+---
+---Dependencies:
+---  - widgets.init: Widget system loader
+---  - Love2D 12.0+: Game framework
+---
+---@module widgets.demo.main
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  -- Run with: lovec "engine/widgets/demo"
+---  -- Or execute: run_demo.bat
+---  -- Press F9 to toggle grid overlay
+---
+---@see widgets.init For widget system
+
 -- Widget System Demo Application
 -- Showcases all 23 widgets
 
@@ -167,7 +219,7 @@ function drawWidgetsInLayers()
     -- Summary
     widgets.Theme.setFont("small")
     widgets.Theme.setColor("success")
-    love.graphics.print("✓ All 23 widgets loaded and interactive!", 24, startY)
+    love.graphics.print("? All 23 widgets loaded and interactive!", 24, startY)
     
     -- Draw widgets in z-index order
     for _, widgetInfo in ipairs(widgetList) do
@@ -366,3 +418,24 @@ function toggleFullscreen()
         print("[Demo] Leaving fullscreen mode - Scale reset to 1.0")
     end
 end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

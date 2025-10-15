@@ -1,3 +1,56 @@
+---ActionButton Widget - Specialized Radio Button for Action Panels
+---
+---A specialized button for action panels with radio button behavior. Only one button
+---in a group can be selected at a time. Used for action selection in tactical combat
+---(move, shoot, reload, etc.). Grid-aligned for consistent positioning.
+---
+---Features:
+---  - Radio button group support (only one selected at a time)
+---  - Selected state highlighting
+---  - Icon + text display
+---  - Tooltip on hover
+---  - Enabled/disabled states
+---  - Grid-aligned positioning (24×24 pixels)
+---  - Keyboard shortcut support
+---
+---Radio Button Behavior:
+---  - Clicking selects button and deselects others in group
+---  - Visual indication of selected state
+---  - Group managed by parent container
+---  - Only one action active at a time
+---
+---Visual States:
+---  - Normal: Default appearance
+---  - Selected: Highlighted (blue border/background)
+---  - Hover: Lighter tint when mouse over
+---  - Disabled: Grayed out, cannot select
+---
+---Key Exports:
+---  - ActionButton.new(x, y, width, height, icon, text): Creates action button
+---  - setSelected(selected): Sets selection state
+---  - setGroup(groupName): Assigns to radio group
+---  - setCallback(func): Sets click handler
+---  - setTooltip(text): Sets hover tooltip
+---  - draw(): Renders button
+---
+---Dependencies:
+---  - widgets.core.base: BaseWidget inheritance
+---  - widgets.core.theme: Color and font theme
+---
+---@module widgets.buttons.action_button
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local ActionButton = require("widgets.buttons.action_button")
+---  local moveBtn = ActionButton.new(0, 0, 96, 48, "move_icon.png", "Move")
+---  moveBtn:setGroup("actions")
+---  moveBtn:setCallback(function() activateMoveMode() end)
+---  moveBtn:draw()
+---
+---@see widgets.display.action_panel For action panel container
+
 --[[
     Action Button Widget
 
@@ -270,3 +323,24 @@ end
 print("[ActionButton] Action button widget loaded")
 
 return ActionButton
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

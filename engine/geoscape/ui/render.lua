@@ -1,5 +1,35 @@
--- Geoscape Render Module
--- Contains rendering and drawing logic
+---Geoscape Render Module - Legacy Rendering System
+---
+---Contains legacy rendering and drawing logic for geoscape. Renders province connections,
+---province fills, labels, and applies camera transformations. This module is deprecated
+---in favor of the new world_renderer.lua system.
+---
+---Rendering Steps:
+---  1. Clear background to dark blue
+---  2. Apply camera transformations (zoom, translate)
+---  3. Draw province connection lines
+---  4. Draw province fills (circles)
+---  5. Draw province labels
+---  6. Highlight selected province
+---  7. Reset camera transformations
+---
+---Key Exports:
+---  - GeoscapeRender:draw(): Main rendering function
+---
+---Dependencies:
+---  - love.graphics: Love2D drawing functions
+---
+---@module geoscape.ui.render
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---@deprecated Use geoscape.world.world_renderer instead
+---
+---@usage
+---  local GeoscapeRender = require("geoscape.ui.render")
+---  GeoscapeRender:draw()
+---
+---@see geoscape.world.world_renderer For new rendering system
 
 local GeoscapeRender = {}
 
@@ -113,3 +143,24 @@ function GeoscapeRender:draw()
 end
 
 return GeoscapeRender
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,3 +1,51 @@
+---Tilesets - Tileset Loader and Registry
+---
+---Manages tilesets and Map Tiles with KEY-based lookups. Loads tile definitions from
+---tileset folders, builds tile index, and provides fast tile lookup by KEY. Central
+---registry for all visual tile assets used in map rendering.
+---
+---Features:
+---  - Tileset loading from folders
+---  - Map Tile registration by KEY
+---  - Tile index for O(1) lookup
+---  - Metadata caching
+---  - Duplicate KEY detection
+---  - Lazy loading support
+---
+---Tileset Structure:
+---  tilesets/tilesetId/
+---  ├── tileset.toml          -- Metadata
+---  ├── TILE_KEY_001.png      -- Tile images (KEY-named)
+---  ├── TILE_KEY_002.png
+---  └── ...
+---
+---Registry Data:
+---  - registry[tilesetId]: Tileset data with tiles array
+---  - tileIndex[KEY]: Fast tile lookup by KEY
+---  - loaded[tilesetId]: Load state tracking
+---
+---Key Exports:
+---  - Tilesets.load(tilesetId, path): Loads tileset from folder
+---  - Tilesets.getTile(key): Returns MapTile by KEY
+---  - Tilesets.getTileset(id): Returns tileset data
+---  - Tilesets.getAllTiles(): Returns all registered tiles
+---  - Tilesets.unload(id): Unloads tileset from memory
+---
+---Dependencies:
+---  - battlescape.data.maptile: MapTile definition
+---
+---@module battlescape.data.tilesets
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local Tilesets = require("battlescape.data.tilesets")
+---  Tilesets.load("urban", "assets/tilesets/urban")
+---  local tile = Tilesets.getTile("WALL_BRICK_01")
+---
+---@see battlescape.data.maptile For tile definition
+
 -- Tileset System - Loader and Registry
 -- Manages tilesets and Map Tiles with KEY-based lookups
 
@@ -290,3 +338,25 @@ function Tilesets.clear()
 end
 
 return Tilesets
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

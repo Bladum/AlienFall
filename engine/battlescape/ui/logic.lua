@@ -1,41 +1,97 @@
+---Battlescape Logic Module - Game Logic & State Management
+---
+---Contains core game logic and state management for tactical combat. Handles turn processing,
+---unit AI, action resolution, combat calculations, and game state transitions. Central brain
+---coordinating all battlescape systems.
+---
+---Core Responsibilities:
+---  - Turn management (player, enemy, civilian phases)
+---  - Unit action processing and validation
+---  - Combat resolution (shooting, melee, damage)
+---  - AI decision making and execution
+---  - State transitions (idle, moving, shooting, dead)
+---  - Event triggering and handling
+---
+---State Management:
+---  - Player Turn: Process player unit actions
+---  - Enemy Turn: Execute AI for enemy units
+---  - Civilian Turn: Process civilian behavior
+---  - Animation Phase: Wait for animations to complete
+---  - Resolution Phase: Apply combat results
+---
+---Key Systems Integrated:
+---  - ActionSystem: Validates and executes actions
+---  - Pathfinding: Calculates unit movement paths
+---  - LOS (optimized): Line of sight calculations
+---  - AnimationSystem: Coordinates visual feedback
+---  - Battlefield: Manages map and objectives
+---
+---Key Exports:
+---  - update(dt): Main logic update loop
+---  - processTurn(): Advance to next turn phase
+---  - executeAction(unit, action): Process unit action
+---  - checkVictoryConditions(): Evaluate mission outcome
+---  - handleUnitDeath(unit): Process unit casualties
+---  - advanceToNextUnit(): Select next active unit
+---
+---Integration:
+---  - Coordinates with all battlescape systems
+---  - Routes events to UI for display
+---  - Manages state for renderer
+---  - Triggers sound effects and animations
+---
+---@module battlescape.ui.logic
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local BattlescapeLogic = require("battlescape.ui.logic")
+---  function love.update(dt)
+---      BattlescapeLogic.update(dt)
+---  end
+---
+---@see battlescape.combat.action_system For action execution
+---@see battlescape.combat.los_optimized For LOS calculations
+
 -- Battlescape Logic Module
 -- Contains game logic and state management
 
 local StateManager = require("core.state_manager")
 local Widgets = require("widgets.init")
 local Unit = require("battlescape.combat.unit")
-local Team = require("shared.team")
+local Team = require("core.team")
 local ActionSystem = require("battlescape.combat.action_system")
-local Pathfinding = require("shared.pathfinding")
+local Pathfinding = require("ai.pathfinding.tactical_pathfinding")
 local LOS = require("battlescape.combat.los_optimized")  -- OPTIMIZED VERSION
 local Assets = require("core.assets")
 local AnimationSystem = require("battlescape.effects.animation_system")
 
 -- Battle components
-local Battlefield = require("battlescape.logic.battlefield")
+local Battlefield = require("battlescape.battlefield.battlefield")
 local Camera = require("battlescape.rendering.camera")
 local UnitSelection = require("battlescape.logic.unit_selection")
 local BattlefieldRenderer = require("battlescape.rendering.renderer")
-local TurnManager = require("battlescape.logic.turn_manager")
+local TurnManager = require("battlescape.battlefield.turn_manager")
 
 -- Fire and Smoke systems
 local FireSystem = require("battlescape.effects.fire_system")
 local SmokeSystem = require("battlescape.effects.smoke_system")
 
 -- MapBlock system
-local MapBlock = require("battlescape.map.map_block")
-local GridMap = require("battlescape.map.grid_map")
+local MapBlock = require("battlescape.maps.map_block")
+local GridMap = require("battlescape.maps.grid_map")
 
 -- Map generation system
-local MapGenerator = require("battlescape.map.map_generator")
+local MapGenerator = require("battlescape.maps.map_generator")
 
 -- New ECS Battle System
-local HexSystem = require("battle.systems.hex_system")
-local MovementSystem = require("battle.systems.movement_system")
-local VisionSystem = require("battle.systems.vision_system")
-local UnitEntity = require("battle.entities.unit_entity")
-local HexMath = require("battle.utils.hex_math")
-local Debug = require("battle.utils.debug")
+local HexSystem = require("battlescape.battle_ecs.hex_system")
+local MovementSystem = require("battlescape.battle_ecs.movement_system")
+local VisionSystem = require("battlescape.battle_ecs.vision_system")
+local UnitEntity = require("battlescape.battle_ecs.unit_entity")
+local HexMath = require("battlescape.battle_ecs.hex_math")
+local Debug = require("battlescape.battle_ecs.debug")
 
 -- Load viewport system
 local Viewport = require("utils.viewport")
@@ -46,9 +102,9 @@ local BattlescapeLogic = {}
 local TILE_SIZE = 24
 local MAP_WIDTH = 90
 local MAP_HEIGHT = 90
-local GUI_WIDTH = 240  -- 10 tiles × 24px
-local GUI_HEIGHT = 720  -- 30 tiles × 24px
-local SECTION_HEIGHT = 240  -- 10 tiles × 24px
+local GUI_WIDTH = 240  -- 10 tiles � 24px
+local GUI_HEIGHT = 720  -- 30 tiles � 24px
+local SECTION_HEIGHT = 240  -- 10 tiles � 24px
 
 -- Day/Night
 BattlescapeLogic.isNight = false
@@ -94,7 +150,7 @@ function BattlescapeLogic:enter(battlescape)
     -- Generate based on method
     if generationMethod == "mapblock" then
         -- Load all MapBlock templates from active mod
-        local ModManager = require("core.mod_manager")
+        local ModManager = require("mods.mod_manager")
         local mapblocksPath = ModManager.getContentPath("mapblocks")
         if not mapblocksPath then
             print("[Battlescape] ERROR: Could not get mapblocks path from mod")
@@ -243,3 +299,24 @@ function BattlescapeLogic:toggleDayNight(battlescape)
 end
 
 return BattlescapeLogic
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

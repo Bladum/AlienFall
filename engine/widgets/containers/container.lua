@@ -1,3 +1,62 @@
+---Container Widget - Generic Child Widget Container
+---
+---A generic container that manages child widgets. Provides layout, event propagation,
+---and child widget lifecycle management. Base class for complex layouts. Includes
+---automatic layout options and clipping support. Grid-aligned for consistent positioning.
+---
+---Features:
+---  - Child widget management (add, remove, clear)
+---  - Automatic layout options (horizontal, vertical, grid)
+---  - Event propagation to children
+---  - Grid-aligned positioning (24×24 pixels)
+---  - Child z-order control
+---  - Clipping to bounds support
+---
+---Layout Modes:
+---  - None: Manual child positioning
+---  - Horizontal: Arrange children left-to-right
+---  - Vertical: Arrange children top-to-bottom
+---  - Grid: Arrange children in rows/columns
+---  - Flow: Wrap children like text
+---
+---Event Propagation:
+---  - Children receive events first (front to back)
+---  - Event consumed if child handles it
+---  - Container handles if no child handles
+---
+---Key Exports:
+---  - Container.new(x, y, width, height): Creates container
+---  - addChild(widget): Adds child widget
+---  - removeChild(widget): Removes child widget
+---  - clearChildren(): Removes all children
+---  - setLayout(mode): Sets layout mode
+---  - updateLayout(): Recalculates child positions
+---  - draw(): Renders container and children
+---  - update(dt): Updates container and children
+---  - mousepressed(x, y, button): Propagates to children
+---  - keypressed(key): Propagates to children
+---
+---Dependencies:
+---  - widgets.core.base: BaseWidget inheritance
+---  - widgets.core.theme: Color and font theme
+---
+---@module widgets.containers.container
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local Container = require("widgets.containers.container")
+---  local container = Container.new(0, 0, 480, 360)
+---  container:setLayout("vertical")
+---  container:addChild(button1)
+---  container:addChild(button2)
+---  container:updateLayout()
+---  container:draw()
+---
+---@see widgets.containers.panel For background panels
+---@see widgets.containers.scrollbox For scrollable containers
+
 --[[
     Container Widget
     
@@ -151,3 +210,25 @@ function Container:mousemoved(x, y, dx, dy, istouch)
 end
 
 return Container
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,3 +1,57 @@
+---WeaponSystem - Weapon Definition Loader and Manager
+---
+---Manages weapon definitions and properties. Loads weapon data from TOML files
+---in mod directories and provides weapon information lookups. Central registry
+---for all weapon statistics, properties, and behaviors.
+---
+---Features:
+---  - TOML-based weapon loading
+---  - Weapon definition caching
+---  - Mod content integration
+---  - Weapon property lookups
+---  - Validation and error checking
+---
+---Weapon Properties (from TOML):
+---  - id: Unique identifier
+---  - name: Display name
+---  - damage: Base damage value
+---  - accuracy: Base accuracy (0.0-1.0)
+---  - range: Maximum range in tiles
+---  - apCost: Action point cost to fire
+---  - ammoCapacity: Magazine size
+---  - modes: Available firing modes (snap, aim, auto, etc.)
+---  - damageType: Damage type (kinetic, explosive, energy, etc.)
+---
+---Loading Process:
+---  1. Scan mod directories for weapons/*.toml
+---  2. Parse TOML files
+---  3. Validate weapon definitions
+---  4. Cache in weaponCache
+---  5. Return weapon data on request
+---
+---Key Exports:
+---  - WeaponSystem.loadWeapons(): Loads all weapons from mods
+---  - WeaponSystem.getWeapon(id): Returns weapon definition
+---  - WeaponSystem.getAllWeapons(): Returns all weapons
+---  - WeaponSystem.validateWeapon(weapon): Validates weapon data
+---  - WeaponSystem.clearCache(): Clears cached weapons
+---
+---Dependencies:
+---  - core.data_loader: TOML file loading
+---
+---@module battlescape.combat.weapon_system
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local WeaponSystem = require("battlescape.combat.weapon_system")
+---  WeaponSystem.loadWeapons()
+---  local rifle = WeaponSystem.getWeapon("assault_rifle")
+---
+---@see battlescape.combat.weapon_modes For firing modes
+---@see battlescape.combat.damage_types For damage types
+
 -- weapon_system.lua
 -- Weapon system for managing weapon definitions and properties
 -- Loads weapon data from TOML files and provides weapon information
@@ -360,3 +414,24 @@ function WeaponSystem.isModeAvailable(weaponId, mode)
 end
 
 return WeaponSystem
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

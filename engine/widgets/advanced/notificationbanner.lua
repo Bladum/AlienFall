@@ -1,3 +1,57 @@
+---NotificationBanner Widget - Temporary Message Display
+---
+---A banner that displays temporary notifications/messages that auto-dismiss after
+---a duration. Supports multiple types (info, warning, error, success) with color-coded
+---styling and icon support. Grid-aligned for consistent positioning.
+---
+---Features:
+---  - Multiple notification types (info, warning, error, success)
+---  - Auto-fade after duration
+---  - Icon support per type
+---  - Queue system for multiple notifications
+---  - Slide-in animation
+---  - Grid-aligned positioning (24×24 pixels)
+---
+---Notification Types:
+---  - Info: Blue, info icon
+---  - Warning: Yellow, warning icon
+---  - Error: Red, X icon
+---  - Success: Green, checkmark icon
+---
+---Animation Phases:
+---  - Slide-in: Banner enters from top
+---  - Display: Shows for duration
+---  - Fade-out: Banner fades away
+---  - Queue: Next notification if any
+---
+---Key Exports:
+---  - NotificationBanner.new(x, y, width, height): Creates banner
+---  - show(message, type, duration): Displays notification
+---  - queue(message, type, duration): Adds to queue
+---  - hide(): Dismisses current notification
+---  - update(dt): Updates animation and timer
+---  - draw(): Renders banner
+---  - setPosition(x, y): Updates banner position
+---  - clearQueue(): Removes all queued notifications
+---
+---Dependencies:
+---  - widgets.core.base: BaseWidget inheritance
+---  - widgets.core.theme: Color and font theme
+---
+---@module widgets.advanced.notificationbanner
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local NotificationBanner = require("widgets.advanced.notificationbanner")
+---  local banner = NotificationBanner.new(0, 0, 480, 72)
+---  banner:show("Mission complete!", "success", 3)
+---  banner:update(dt)
+---  banner:draw()
+---
+---@see widgets.display.tooltip For hover tooltips
+
 --[[
     NotificationBanner Widget
     
@@ -120,3 +174,25 @@ function NotificationBanner:hide()
 end
 
 return NotificationBanner
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

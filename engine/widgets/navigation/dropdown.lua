@@ -1,3 +1,56 @@
+---Dropdown Widget - Collapsible Selection Menu
+---
+---A dropdown selection menu that expands/collapses to show options. Used for selecting
+---from a list of choices in limited space. Grid-aligned for consistent positioning.
+---
+---Features:
+---  - Selectable options
+---  - Expand/collapse animation
+---  - onChange event callback
+---  - Grid-aligned positioning (24×24 pixels)
+---  - Keyboard navigation (arrow keys)
+---  - Auto-close on selection
+---
+---Visual States:
+---  - Collapsed: Shows selected item only
+---  - Expanded: Shows all options in dropdown
+---  - Hover: Highlight option under mouse
+---  - Selected: Checkmark or highlight on current selection
+---
+---Interaction:
+---  - Click to expand/collapse
+---  - Click option to select
+---  - Arrow keys to navigate when expanded
+---  - ESC to close without selection
+---  - Click outside to close
+---
+---Key Exports:
+---  - Dropdown.new(x, y, width, height): Creates dropdown
+---  - setOptions(options): Sets option list
+---  - getSelectedOption(): Returns selected option
+---  - setSelectedIndex(index): Sets selection by index
+---  - setCallback(func): Sets onChange handler
+---  - draw(): Renders dropdown
+---  - mousepressed(x, y, button): Click handling
+---
+---Dependencies:
+---  - widgets.core.base: BaseWidget inheritance
+---  - widgets.core.theme: Color and font theme
+---
+---@module widgets.navigation.dropdown
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local Dropdown = require("widgets.navigation.dropdown")
+---  local dd = Dropdown.new(0, 0, 192, 24)
+---  dd:setOptions({"Easy", "Medium", "Hard"})
+---  dd:setCallback(function(option) print("Difficulty:", option) end)
+---  dd:draw()
+---
+---@see widgets.navigation.listbox For non-collapsible lists
+
 --[[
     Dropdown Widget
     
@@ -178,3 +231,25 @@ function Dropdown:getSelected()
 end
 
 return Dropdown
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

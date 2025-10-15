@@ -1,7 +1,65 @@
+---ActionSystem - Action and Movement Point Management
+---
+---Manages Action Points (AP) and Movement Points (MP) for units in tactical combat.
+---Handles point allocation, spending, restoration, and validation. Core system for
+---turn-based tactical gameplay in the battlescape layer.
+---
+---Features:
+---  - Fixed AP per turn (4 AP per unit)
+---  - Movement point (MP) tracking and spending
+---  - Movement cost calculation by terrain type
+---  - AP/MP validation before actions
+---  - Point restoration at turn end
+---  - Cost modifiers (encumbrance, injury)
+---
+---Action Points (AP):
+---  - Fixed allocation: 4 AP per unit per turn
+---  - Used for: Shooting, reloading, crouching, using items
+---  - Cannot be carried over between turns
+---
+---Movement Points (MP):
+---  - Dynamic allocation: Based on unit stats
+---  - Used for: Walking, running, turning
+---  - Terrain-dependent costs
+---  - Cannot be carried over between turns
+---
+---Movement Costs (MP):
+---  - Normal terrain: 2 MP per tile
+---  - Rough terrain: 4 MP per tile
+---  - Slope/elevation: 6 MP per tile
+---
+---Key Exports:
+---  - ActionSystem.new(losSystem, animationSystem): Creates action system
+---  - spendAP(unit, amount): Deducts AP from unit
+---  - spendMP(unit, amount): Deducts MP from unit
+---  - canAfford(unit, ap, mp): Validates if unit has enough points
+---  - restorePoints(unit): Restores AP/MP at turn start
+---  - getMovementCost(fromHex, toHex, map): Calculates MP cost for move
+---  - hasEnoughAP(unit, amount): Checks AP availability
+---  - hasEnoughMP(unit, amount): Checks MP availability
+---
+---Dependencies:
+---  - battlescape.battle_ecs.hex_math: Hex coordinate math
+---
+---@module battlescape.combat.action_system
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local ActionSystem = require("battlescape.combat.action_system")
+---  local actionSys = ActionSystem.new(losSystem, animationSystem)
+---  if actionSys:canAfford(unit, 2, 4) then
+---    actionSys:spendAP(unit, 2)
+---    actionSys:spendMP(unit, 4)
+---  end
+---
+---@see battlescape.combat.combat_3d For combat logic
+
 -- Action System
 -- Manages Action Points (AP) and Movement Points (MP) for units
 
-local HexMath = require("battle.utils.hex_math")
+local HexMath = require("battlescape.battle_ecs.hex_math")
 
 local ActionSystem = {}
 ActionSystem.__index = ActionSystem
@@ -491,3 +549,24 @@ function ActionSystem:addEnemyInRangeNotification(unit, enemy, battlefield)
 end
 
 return ActionSystem
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

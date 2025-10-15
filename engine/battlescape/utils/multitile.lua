@@ -1,3 +1,57 @@
+---MultiTile Utility - Multi-Tile Mode Handler
+---
+---Handles all multi-tile modes for map tiles including variants, animations, autotiles,
+---multi-cell objects, and damage states. Provides unified interface for complex tile
+---behaviors and visual variations.
+---
+---Features:
+---  - Tile variants (random visual variations)
+---  - Tile animations (animated tiles like water)
+---  - Autotiling (context-aware borders and corners)
+---  - Multi-cell objects (objects spanning multiple tiles)
+---  - Damage states (visual damage progression)
+---  - Mode validation and detection
+---
+---Multi-Tile Modes:
+---  - Variants: Random visual variations (e.g., 4 grass sprites)
+---  - Animation: Frame-based animation (e.g., water flowing)
+---  - Autotile: Context-aware tiling (e.g., wall corners)
+---  - Multi-cell: Objects spanning multiple tiles (e.g., tanks)
+---  - Damage: Progressive damage states (e.g., wall destruction)
+---
+---Mode Properties:
+---  - multiTileMode: Mode type identifier
+---  - frameCount: Number of frames/variants
+---  - frameDelay: Animation speed
+---  - tileWidth/Height: Size for multi-cell
+---  - damageStages: Number of damage levels
+---
+---Key Exports:
+---  - MultiTile.isMultiTile(tile): Checks if tile is multi-tile
+---  - MultiTile.getMode(tile): Returns mode type
+---  - MultiTile.getCurrentFrame(tile): Gets current frame/variant
+---  - MultiTile.updateAnimation(tile, dt): Updates animated tiles
+---  - MultiTile.getAutotileIndex(tile, neighbors): Calculates autotile index
+---  - MultiTile.setDamageState(tile, stage): Sets damage level
+---  - MultiTile.isMultiCell(tile): Checks if spans multiple tiles
+---
+---Dependencies:
+---  - None (standalone utility)
+---
+---@module battlescape.utils.multitile
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local MultiTile = require("battlescape.utils.multitile")
+---  if MultiTile.isMultiTile(tile) then
+---    local frame = MultiTile.getCurrentFrame(tile)
+---    MultiTile.updateAnimation(tile, dt)
+---  end
+---
+---@see battlescape.combat.battle_tile For tile structure
+
 -- Multi-Tile Utility
 -- Handles all multi-tile modes: variants, animations, autotiles, multi-cell, damage states
 
@@ -381,3 +435,25 @@ function MultiTile.getExpectedPNGDimensions(tile)
 end
 
 return MultiTile
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

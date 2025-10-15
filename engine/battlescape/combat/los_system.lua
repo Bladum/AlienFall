@@ -1,8 +1,62 @@
+---LOSSystem - Line of Sight Calculation
+---
+---Implements hex-based line of sight for visibility calculations in tactical combat.
+---Calculates which tiles and units are visible from a given position, accounting for
+---obstacles, terrain, smoke, and darkness. Core system for fog of war.
+---
+---Features:
+---  - Hex-based line of sight calculation
+---  - Obstacle detection (walls, objects)
+---  - Sight cost accumulation (smoke, darkness)
+---  - Range-based visibility falloff
+---  - Unit visibility determination
+---  - Fog of war integration
+---
+---LOS Calculation:
+---  1. Convert hex coordinates to axial system
+---  2. Generate line points between source and target
+---  3. Check each point for obstacles
+---  4. Accumulate sight costs (smoke, terrain)
+---  5. Compare total cost to unit sight range
+---  6. Return visibility result
+---
+---Sight Cost Factors:
+---  - Walls: Block LOS completely
+---  - Smoke: +2 per level (max 6)
+---  - Darkness: +1 per tile
+---  - Distance: Natural falloff
+---
+---Key Exports:
+---  - LOS.new(): Creates LOS system
+---  - calculateLine(x0, y0, x1, y1, maxDistance): Gets line points
+---  - hasLineOfSight(fromX, fromY, toX, toY, map, unit): Checks visibility
+---  - getVisibleTiles(x, y, range, map): Returns all visible tiles
+---  - isBlocked(x, y, map): Checks if tile blocks LOS
+---  - calculateSightCost(x, y, map): Returns tile sight cost
+---
+---Dependencies:
+---  - core.data_loader: Terrain definitions
+---  - battlescape.battle_ecs.hex_math: Hex coordinate math
+---
+---@module battlescape.combat.los_system
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local LOS = require("battlescape.combat.los_system")
+---  local los = LOS.new()
+---  if los:hasLineOfSight(unitX, unitY, targetX, targetY, map, unit) then
+---    -- Target is visible, can shoot
+---  end
+---
+---@see battlescape.combat.los_optimized For optimized LOS
+
 -- Line of Sight System
 -- Implements hex-based line of sight for visibility calculations
 
 local DataLoader = require("core.data_loader")
-local HexMath = require("battle.utils.hex_math")
+local HexMath = require("battlescape.battle_ecs.hex_math")
 
 local LOS = {}
 LOS.__index = LOS
@@ -223,3 +277,24 @@ function LOS:calculateVisibilityForUnit(unit, battlefield, isDay)
 end
 
 return LOS
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

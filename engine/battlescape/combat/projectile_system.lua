@@ -1,9 +1,66 @@
+---ProjectileSystem - Active Projectile Manager
+---
+---Manages all active projectiles in the battlescape. Handles projectile creation, update
+---loop, collision detection, and impact resolution. Integrates with damage and explosion
+---systems for combat resolution.
+---
+---Features:
+---  - Active projectile tracking
+---  - Projectile creation and lifecycle
+---  - Collision detection (tiles, units, obstacles)
+---  - Impact resolution (damage, explosions)
+---  - Projectile pooling for performance
+---  - Visual effects coordination
+---
+---Projectile Lifecycle:
+---  1. Create: Spawn projectile at shooter position
+---  2. Update: Move projectile along trajectory
+---  3. Collision: Check for hits each frame
+---  4. Impact: Apply damage/effects on hit
+---  5. Destroy: Remove projectile and cleanup
+---
+---Collision Detection:
+---  - Unit collision: Direct hit on enemy unit
+---  - Tile collision: Hit wall or obstacle
+---  - Miss: Projectile reaches max range
+---
+---Key Exports:
+---  - ProjectileSystem.new(battlefield, damageSystem, explosionSystem): Creates system
+---  - createProjectile(options): Spawns new projectile
+---  - update(dt): Updates all active projectiles
+---  - draw(): Renders all projectiles
+---  - removeProjectile(projectile): Destroys specific projectile
+---  - clear(): Removes all projectiles
+---  - getActiveCount(): Returns number of active projectiles
+---
+---Dependencies:
+---  - battlescape.entities.projectile: Projectile entity
+---  - battlescape.maps.trajectory: Trajectory calculation
+---
+---@module battlescape.combat.projectile_system
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local ProjectileSystem = require("battlescape.combat.projectile_system")
+---  local projectiles = ProjectileSystem.new(battlefield, damageSys, explosionSys)
+---  projectiles:createProjectile({
+---    startX = 5, startY = 10,
+---    targetX = 12, targetY = 15,
+---    damage = 25, damageType = "kinetic"
+---  })
+---  projectiles:update(dt)
+---  projectiles:draw()
+---
+---@see battlescape.entities.projectile For projectile entity
+
 -- Projectile System
 -- Manages all active projectiles in the battlescape
 -- Handles creation, update, collision detection, and impact resolution
 
 local Projectile = require("battlescape.entities.projectile")
-local Trajectory = require("battlescape.map.trajectory")
+local Trajectory = require("battlescape.maps.trajectory")
 
 local ProjectileSystem = {}
 ProjectileSystem.__index = ProjectileSystem
@@ -229,3 +286,25 @@ function ProjectileSystem:getDebugInfo()
 end
 
 return ProjectileSystem
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

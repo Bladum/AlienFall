@@ -1,3 +1,57 @@
+---RangeIndicator Widget - Visual Range Display
+---
+---A visual indicator that displays range zones around a unit or point. Shows movement
+---range, weapon range, or effect radius with color-coded zones. Used in tactical combat.
+---Grid-aligned for consistent positioning.
+---
+---Features:
+---  - Multiple range types (movement, weapon, sight)
+---  - Color-coded by type
+---  - Circular or grid-based display
+---  - Grid-aligned positioning (24×24 pixels)
+---  - Transparency for overlapping zones
+---  - Tile-based range calculation
+---
+---Range Types:
+---  - Movement: Where unit can move (blue)
+---  - Weapon: Attack range from position (red)
+---  - Sight: Vision range (green)
+---
+---Display Modes:
+---  - Circle: Simple radius display
+---  - Grid: Hex-grid or square-grid pathfinding range
+---  - Line: Direct line of sight
+---
+---Key Exports:
+---  - RangeIndicator.new(x, y, width, height): Creates indicator
+---  - setRange(type, range): Sets range for type
+---  - setOrigin(x, y): Sets center point
+---  - setMode(mode): Sets display mode
+---  - update(map): Recalculates valid tiles
+---  - draw(): Renders range zones
+---  - isInRange(x, y, type): Checks if position in range
+---  - clear(): Clears all ranges
+---
+---Dependencies:
+---  - widgets.core.base: BaseWidget inheritance
+---  - widgets.core.theme: Color and font theme
+---  - shared.pathfinding: Range calculation
+---
+---@module widgets.advanced.rangeindicator
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local RangeIndicator = require("widgets.advanced.rangeindicator")
+---  local indicator = RangeIndicator.new(0, 0, 800, 600)
+---  indicator:setOrigin(unitX, unitY)
+---  indicator:setRange("movement", 5)
+---  indicator:setRange("weapon", 8)
+---  indicator:draw()
+---
+---@see widgets.advanced.minimap For map overview
+
 --[[
     RangeIndicator Widget
     
@@ -130,3 +184,25 @@ function RangeIndicator:setShowGrid(show)
 end
 
 return RangeIndicator
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

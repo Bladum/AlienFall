@@ -1,3 +1,53 @@
+---Checkbox Widget - Toggleable Checkbox with Label
+---
+---A toggleable checkbox with label text. Used for boolean settings and options.
+---Grid-aligned for consistent positioning.
+---
+---Features:
+---  - Check/uncheck states (boolean)
+---  - onChange event callback
+---  - Grid-aligned positioning (24×24 pixels)
+---  - Label text beside checkbox
+---  - Keyboard support (Space to toggle)
+---  - Theme-based styling
+---
+---Visual States:
+---  - Unchecked: Empty box
+---  - Checked: Box with checkmark
+---  - Hover: Lighter border
+---  - Disabled: Grayed out
+---
+---Interaction:
+---  - Click to toggle
+---  - Space key to toggle (when focused)
+---  - onChange callback fires on state change
+---
+---Key Exports:
+---  - Checkbox.new(x, y, width, height, label): Creates checkbox
+---  - setChecked(checked): Sets check state
+---  - isChecked(): Returns current state
+---  - setLabel(label): Updates label text
+---  - setCallback(func): Sets onChange handler
+---  - draw(): Renders checkbox
+---  - mousepressed(x, y, button): Click handling
+---
+---Dependencies:
+---  - widgets.core.base: BaseWidget inheritance
+---  - widgets.core.theme: Color and font theme
+---
+---@module widgets.input.checkbox
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local Checkbox = require("widgets.input.checkbox")
+---  local cb = Checkbox.new(0, 0, 192, 24, "Enable sound")
+---  cb:setCallback(function(checked) print("Sound:", checked) end)
+---  cb:draw()
+---
+---@see widgets.input.radiobutton For radio button groups
+
 --[[
     Checkbox Widget
     
@@ -133,3 +183,25 @@ function Checkbox:isChecked()
 end
 
 return Checkbox
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

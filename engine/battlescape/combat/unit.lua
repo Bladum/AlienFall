@@ -258,7 +258,7 @@ end
 
 --- Calculate total movement points from remaining action points.
 ---
---- Movement points = actionPointsLeft Ã— speed stat.
+--- Movement points = actionPointsLeft × speed stat.
 --- Used to determine how far a unit can move in their remaining turn.
 ---
 --- @return number Total movement points available
@@ -659,3 +659,25 @@ Unit.DIRECTIONS = {
 }
 
 return Unit
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,7 +1,60 @@
+---Pathfinding - A* Pathfinding for Unit Movement
+---
+---A* pathfinding algorithm for tactical unit movement on hex-based battlescape maps.
+---Calculates optimal paths considering movement costs, obstacles, and TUs. Supports
+---diagonals, multi-level pathing, and dynamic obstacle avoidance.
+---
+---Features:
+---  - A* algorithm implementation
+---  - Hex-based pathfinding
+---  - Movement cost calculation
+---  - Dynamic obstacle handling
+---  - Multi-level support (floors)
+---  - TU-aware path validation
+---  - Path caching and optimization
+---
+---Pathfinding Process:
+---  1. Initialize open/closed lists
+---  2. Add start node to open list
+---  3. Loop: Find lowest F cost node
+---  4. Check if goal reached
+---  5. Generate neighbors
+---  6. Calculate G/H/F costs
+---  7. Add to open list if better
+---  8. Return path when goal found
+---
+---Cost Calculation:
+---  - G cost: Distance from start
+---  - H cost: Heuristic to goal (hex distance)
+---  - F cost: G + H (total estimated cost)
+---  - Movement cost: Terrain-based modifiers
+---
+---Key Exports:
+---  - Pathfinding.new(map): Creates pathfinder
+---  - findPath(startX, startY, endX, endY, unit): Returns path
+---  - getMoveCost(x, y, unit): Returns tile cost
+---  - isWalkable(x, y, unit): Checks if tile passable
+---  - clearCache(): Clears cached paths
+---
+---Dependencies:
+---  - layers.battlescape.battle.utils.hex_math: Hex utilities
+---
+---@module shared.pathfinding
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local Pathfinding = require("shared.pathfinding")
+---  local pf = Pathfinding.new(map)
+---  local path = pf:findPath(unit.x, unit.y, targetX, targetY, unit)
+---
+---@see layers.battlescape.battle.utils.hex_math For hex distance
+
 -- Pathfinding System
 -- A* pathfinding algorithm for unit movement
 
-local HexMath = require("battle.utils.hex_math")
+local HexMath = require("layers.battlescape.battle.utils.hex_math")
 
 local Pathfinding = {}
 Pathfinding.__index = Pathfinding

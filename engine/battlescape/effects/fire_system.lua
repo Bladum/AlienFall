@@ -1,8 +1,56 @@
+---FireSystem - Fire Propagation and Damage Management
+---
+---Manages fire spreading across the battlefield, unit damage from flames, and
+---smoke production. Fire spreads to adjacent flammable tiles based on terrain
+---properties and random chance. Binary fire state (on/off) with duration tracking.
+---
+---Fire Mechanics:
+---  - Terrain-based flammability (wood burns, metal doesn't)
+---  - Adjacent tile spread with probability calculations
+---  - Unit damage when standing in fire tiles
+---  - Smoke generation affecting visibility
+---  - Fire duration with natural burnout
+---
+---Features:
+---  - Probabilistic fire spread based on terrain
+---  - Unit damage calculation and application
+---  - Smoke cloud generation and management
+---  - Fire grid optimization for fast lookups
+---  - Integration with explosion system
+---  - Visual fire effects rendering
+---
+---Key Exports:
+---  - new(): Create new fire system instance
+---  - startFire(x, y, duration): Start fire at tile position
+---  - extinguishFire(x, y): Put out fire at position
+---  - spreadFire(): Process fire propagation each turn
+---  - damageUnitsInFire(): Apply damage to units in fire
+---  - isTileOnFire(x, y): Check if tile has active fire
+---  - update(dt): Update fire durations and effects
+---
+---Dependencies:
+---  - require("battlescape.battle_ecs.hex_math"): Hex coordinate calculations
+---  - Battlefield reference for terrain checking
+---
+---@module battlescape.effects.fire_system
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local FireSystem = require("battlescape.effects.fire_system")
+---  local fire = FireSystem.new()
+---  fire:startFire(10, 10, 5)  -- Burn for 5 turns
+---  fire:spreadFire()  -- Process fire propagation
+---
+---@see battlescape.effects.smoke_system For smoke generation
+---@see battlescape.effects.explosion_system For fire ignition
+
 -- Fire System
 -- Manages fire spreading, unit damage, and smoke production
 -- Fire is binary (on/off), spreads based on terrain flammability
 
-local HexMath = require("battle.utils.hex_math")
+local HexMath = require("battlescape.battle_ecs.hex_math")
 
 --- @class FireSystem
 --- Manages fire propagation, damage, and smoke generation in tactical combat.
@@ -323,3 +371,25 @@ function FireSystem:clearAllFires(battlefield)
 end
 
 return FireSystem
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

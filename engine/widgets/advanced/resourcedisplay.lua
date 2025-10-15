@@ -1,3 +1,55 @@
+---ResourceDisplay Widget - Game Resource Display Panel
+---
+---Displays game resources like money, supplies, research points, and manufacturing capacity.
+---Shows icons and values in a compact horizontal layout with color-coded warnings for low
+---resources. Grid-aligned for consistent UI positioning.
+---
+---Features:
+---  - Multiple resource types (credits, supplies, research, manufacturing)
+---  - Icon + value display
+---  - Color-coded warnings (red for low resources)
+---  - Compact horizontal layout
+---  - Grid-aligned positioning (24×24 pixels)
+---  - Automatic resource updates
+---
+---Resource Types:
+---  - Credits: Money ($)
+---  - Supplies: Materials/Equipment (📦)
+---  - Research: Science points (🔬)
+---  - Manufacturing: Production capacity (🔧)
+---  - Custom: Any resource with icon
+---
+---Visual States:
+---  - Normal: White text
+---  - Low: Yellow warning
+---  - Critical: Red alert
+---  - Disabled: Grayed out
+---
+---Key Exports:
+---  - ResourceDisplay.new(x, y, width, height): Creates resource display
+---  - setResource(resourceType, value, max): Updates resource value
+---  - setWarningThreshold(resourceType, threshold): Sets warning percentage
+---  - draw(): Renders resource display
+---  - update(dt): Updates animations
+---
+---Dependencies:
+---  - widgets.core.base: BaseWidget inheritance
+---  - widgets.core.theme: Color and font theme
+---
+---@module widgets.advanced.resourcedisplay
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local ResourceDisplay = require("widgets.advanced.resourcedisplay")
+---  local display = ResourceDisplay.new(0, 0, 480, 48)
+---  display:setResource("credits", 50000, 100000)
+---  display:setResource("supplies", 200, 500)
+---  display:draw()
+---
+---@see widgets.display.stat_bar For single stat display
+
 --[[
     ResourceDisplay Widget
     
@@ -134,3 +186,25 @@ function ResourceDisplay:clearResources()
 end
 
 return ResourceDisplay
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

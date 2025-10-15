@@ -1,3 +1,70 @@
+---BaseWidget Class - Foundation for All Widgets
+---
+---Base class that all widgets inherit from. Provides grid snapping, event handling,
+---enabled/disabled states, visibility, and common properties. Core of the widget system.
+---
+---Core Features:
+---  - Grid snapping (24×24 pixels, automatic)
+---  - Position and size management
+---  - Enabled/disabled state
+---  - Visible/hidden state
+---  - Event handling (mouse, keyboard)
+---  - Parent-child relationships
+---  - Z-order management
+---
+---Grid System Integration:
+---  - All positions snap to 24×24 grid automatically
+---  - All sizes snap to multiples of 24
+---  - Grid helpers: snapToGrid(), snapSize()
+---  - Grid coordinates: gridX, gridY
+---
+---Event System:
+---  - mousepressed(x, y, button): Mouse click
+---  - mousereleased(x, y, button): Mouse release
+---  - mousemoved(x, y, dx, dy): Mouse movement
+---  - wheelmoved(x, y): Scroll wheel
+---  - keypressed(key, scancode, isrepeat): Keyboard input
+---  - textinput(text): Character input
+---
+---Common Properties:
+---  - x, y: Position (pixels, grid-aligned)
+---  - width, height: Size (pixels, grid-aligned)
+---  - enabled: Can be interacted with
+---  - visible: Is rendered
+---  - parent: Parent widget (for hierarchy)
+---  - children: Array of child widgets
+---
+---Key Exports:
+---  - BaseWidget.new(x, y, width, height): Creates widget
+---  - setPosition(x, y): Moves widget (snaps to grid)
+---  - setSize(width, height): Resizes widget (snaps to grid)
+---  - setEnabled(enabled): Enables/disables widget
+---  - setVisible(visible): Shows/hides widget
+---  - addChild(widget): Adds child widget
+---  - draw(): Renders widget (override in subclasses)
+---  - update(dt): Updates widget (override in subclasses)
+---
+---Dependencies:
+---  - widgets.core.grid: Grid system and snapping
+---  - widgets.core.theme: Theme system
+---
+---@module widgets.core.base
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local BaseWidget = require("widgets.core.base")
+---  local MyWidget = setmetatable({}, {__index = BaseWidget})
+---  function MyWidget.new(x, y, width, height)
+---    local self = BaseWidget.new(x, y, width, height)
+---    setmetatable(self, MyWidget)
+---    return self
+---  end
+---
+---@see widgets.core.grid For grid system
+---@see widgets.core.theme For theming
+
 --[[
     Base Widget Class
     
@@ -343,3 +410,25 @@ end
 print("[BaseWidget] Base widget class loaded")
 
 return BaseWidget
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

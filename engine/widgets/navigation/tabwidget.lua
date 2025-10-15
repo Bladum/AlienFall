@@ -1,3 +1,56 @@
+---TabWidget - Multi-Page Tabbed Container
+---
+---A tabbed container widget with multiple pages. Users can switch between tabs to
+---view different content areas. Grid-aligned for consistent positioning.
+---
+---Features:
+---  - Multiple tabs with labels
+---  - Tab switching (click or keyboard)
+---  - Content area per tab
+---  - Grid-aligned positioning (24×24 pixels)
+---  - Active tab highlighting
+---  - Tab close buttons (optional)
+---
+---Tab Layout:
+---  - Tab bar: Horizontal row of tab buttons
+---  - Content area: Active tab's content
+---  - Scrollable tabs: When too many tabs to fit
+---
+---Keyboard Navigation:
+---  - Tab/Shift+Tab: Next/Previous tab
+---  - Ctrl+1-9: Jump to tab by number
+---  - Ctrl+W: Close active tab (if closeable)
+---
+---Key Exports:
+---  - TabWidget.new(x, y, width, height): Creates tab widget
+---  - addTab(label, content): Adds new tab with content
+---  - removeTab(index): Removes tab by index
+---  - setActiveTab(index): Switches to specific tab
+---  - getActiveTab(): Returns current tab index
+---  - setTabCloseable(index, closeable): Enables close button
+---  - draw(): Renders tab bar and content
+---  - keypressed(key): Keyboard tab switching
+---  - mousepressed(x, y, button): Tab click handling
+---
+---Dependencies:
+---  - widgets.core.base: BaseWidget inheritance
+---  - widgets.core.theme: Color and font theme
+---
+---@module widgets.navigation.tabwidget
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local TabWidget = require("widgets.navigation.tabwidget")
+---  local tabs = TabWidget.new(0, 0, 480, 360)
+---  tabs:addTab("Units", unitsPanel)
+---  tabs:addTab("Equipment", equipmentPanel)
+---  tabs:addTab("Research", researchPanel)
+---  tabs:draw()
+---
+---@see widgets.containers.window For window containers
+
 --[[
     TabWidget
     
@@ -165,3 +218,25 @@ function TabWidget:setActiveTab(index)
 end
 
 return TabWidget
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

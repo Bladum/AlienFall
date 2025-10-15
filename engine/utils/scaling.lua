@@ -1,5 +1,38 @@
--- Scaling utilities for responsive UI
--- Handles scaling between base resolution (960x720) and current window size
+---Scaling Utilities for Responsive UI
+---
+---Handles UI scaling calculations for responsive interface design. Computes scale
+---factors between base resolution (960×720) and current window size. Maintains
+---aspect ratio and grid alignment while supporting dynamic window resizing.
+---
+---Base Resolution:
+---  - Width: 960 pixels (40 columns × 24px)
+---  - Height: 720 pixels (30 rows × 24px)
+---  - GUI Width: 240 pixels (10 columns × 24px)
+---  - Tile Size: 24 pixels per grid cell
+---
+---Key Exports:
+---  - Scaling.update(): Recalculates scale factors for current window
+---  - Scaling.scaleX: Horizontal scale factor
+---  - Scaling.scaleY: Vertical scale factor
+---  - Scaling.scaleMin: Minimum scale (maintains aspect ratio)
+---  - Scaling.scale(value): Scales value by scaleMin
+---
+---Dependencies:
+---  - love.window: Window dimensions
+---
+---@module utils.scaling
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local Scaling = require("utils.scaling")
+---  Scaling.update()  -- Call on window resize
+---  local scaledSize = Scaling.scale(100)  -- Scale a value
+---  love.graphics.scale(Scaling.scaleMin, Scaling.scaleMin)
+---
+---@see utils.viewport For viewport calculations
+---@see main For window resize handling
 
 local Scaling = {}
 
@@ -59,3 +92,24 @@ function Scaling.getTileSize()
 end
 
 return Scaling
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

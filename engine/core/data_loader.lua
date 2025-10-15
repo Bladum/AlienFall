@@ -18,8 +18,8 @@
 ---   - armours: Armour definitions with protection values
 ---   - unitClasses: Unit class definitions (soldier, alien, etc.)
 
-local TOML = require("libs.toml")
-local ModManager = require("core.mod_manager")
+local TOML = require("utils.toml")
+local ModManager = require("mods.mod_manager")
 
 --- @class DataLoader
 --- @field terrainTypes table Terrain type definitions and utility functions
@@ -403,3 +403,24 @@ function DataLoader.validateTOML(data, expectedKeys)
 end
 
 return DataLoader
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

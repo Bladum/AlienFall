@@ -1,3 +1,58 @@
+---Battlescape UI Module - UI Initialization & Management
+---
+---Handles initialization and lifecycle management for all battlescape UI components. Manages
+---widget creation, layout, event handling, and coordination between different UI panels. Central
+---coordinator for combat HUD, action menus, target selection, and other tactical UI elements.
+---
+---Features:
+---  - UI component initialization and setup
+---  - Widget lifecycle management (create, update, destroy)
+---  - Layout management for 24×24 grid system
+---  - Event routing between UI components
+---  - Theme and style coordination
+---  - State synchronization with game logic
+---
+---UI Components Managed:
+---  - Combat HUD (unit info, AP, weapons)
+---  - Action Menu (context-sensitive actions)
+---  - Target Selection UI (crosshair, hit chance)
+---  - Squad Roster (team member quick select)
+---  - Minimap (tactical overview)
+---  - Combat Log (event feed)
+---  - Objective Tracker (mission goals)
+---
+---Layout Constants (24×24 Grid):
+---  - GUI_WIDTH: 240 pixels (10 grid cells)
+---  - GUI_HEIGHT: 720 pixels (30 grid cells)
+---  - SECTION_HEIGHT: 240 pixels (10 grid cells per section)
+---  - All panels snap to grid for consistency
+---
+---Key Exports:
+---  - initUI(battlescape): Initialize all UI components
+---  - updateUI(dt): Update all UI elements
+---  - drawUI(): Render all UI panels
+---  - cleanupUI(): Dispose UI resources
+---  - handleInput(event): Route input events to UI
+---
+---Integration:
+---  - Uses widgets library for UI components
+---  - Connects to battlescape state for data
+---  - Routes to combat_hud, action_menu, etc.
+---
+---@module battlescape.ui.ui
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local BattlescapeUI = require("battlescape.ui.ui")
+---  BattlescapeUI:initUI(battlescape)
+---  -- In love.draw:
+---  BattlescapeUI:drawUI()
+---
+---@see widgets For UI component library
+---@see battlescape.ui.combat_hud For main HUD
+
 -- Battlescape UI Module
 -- Handles UI initialization and management
 
@@ -202,3 +257,24 @@ function BattlescapeUI:handleActionButton(battlescape, buttonIndex)
 end
 
 return BattlescapeUI
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,9 +1,50 @@
--- Asset Verification System
--- Scans TOML files for entity definitions and checks for corresponding images
--- Creates placeholder images for missing assets
+---Asset Verification System
+---
+---Scans game data files (TOML) for entity definitions and verifies that
+---corresponding asset files (images, sounds) exist. Reports missing assets,
+---creates placeholder images for development, and validates asset integrity.
+---Essential tool for content validation and debugging.
+---
+---Verification Checks:
+---  - Terrain types have tile images
+---  - Units have sprite images
+---  - Weapons have icon images
+---  - Items have inventory images
+---  - Sounds exist for actions
+---
+---Key Exports:
+---  - AssetVerifier.verifyTerrainAssets(): Checks terrain images
+---  - AssetVerifier.verifyUnitAssets(): Checks unit sprites
+---  - AssetVerifier.verifyWeaponAssets(): Checks weapon icons
+---  - AssetVerifier.verifyAll(): Runs all verification checks
+---  - AssetVerifier.createPlaceholders(): Generates missing images
+---  - AssetVerifier.printReport(): Displays verification results
+---  - AssetVerifier.results: Verification results table
+---
+---Dependencies:
+---  - utils.toml: TOML file parsing
+---  - mods.mod_manager: Content path resolution
+---  - love.filesystem: File system access
+---  - love.image: Image creation for placeholders
+---
+---@module utils.verify_assets
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local AssetVerifier = require("utils.verify_assets")
+---  AssetVerifier.verifyAll()
+---  AssetVerifier.printReport()
+---  if #AssetVerifier.results.missingAssets > 0 then
+---    AssetVerifier.createPlaceholders()
+---  end
+---
+---@see core.assets For asset loading
+---@see scenes.tests_menu For running verification from menu
 
-local TOML = require("libs.toml")
-local ModManager = require("core.mod_manager")
+local TOML = require("utils.toml")
+local ModManager = require("mods.mod_manager")
 
 local AssetVerifier = {}
 
@@ -273,3 +314,25 @@ function AssetVerifier.run(createPlaceholders)
 end
 
 return AssetVerifier
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

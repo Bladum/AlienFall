@@ -1,3 +1,47 @@
+---Button Widget - Clickable Text Button
+---
+---A clickable button widget with text label, hover states, and click event handling.
+---Foundation widget for UI interactions. Grid-aligned for consistent positioning.
+---
+---Features:
+---  - Click event callbacks
+---  - Hover state highlighting (lighter background)
+---  - Enabled/disabled states
+---  - Grid-aligned positioning (24×24 pixels)
+---  - Theme-based styling
+---  - Text centering
+---
+---Visual States:
+---  - Normal: Default button appearance
+---  - Hover: Lighter background when mouse over
+---  - Pressed: Darker while mouse button held
+---  - Disabled: Grayed out, no interaction
+---
+---Key Exports:
+---  - Button.new(x, y, width, height, text): Creates button
+---  - setText(text): Updates button label
+---  - setCallback(func): Sets click handler
+---  - draw(): Renders button
+---  - mousepressed(x, y, button): Click handling
+---  - mousemoved(x, y): Hover detection
+---
+---Dependencies:
+---  - widgets.core.base: BaseWidget inheritance
+---  - widgets.core.theme: Color and font theme
+---
+---@module widgets.buttons.button
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local Button = require("widgets.buttons.button")
+---  local btn = Button.new(0, 0, 96, 48, "Click Me")
+---  btn:setCallback(function() print("Clicked!") end)
+---  btn:draw()
+---
+---@see widgets.buttons.imagebutton For image buttons
+
 --[[
     Button Widget
     
@@ -140,3 +184,25 @@ end
 print("[Button] Button widget loaded")
 
 return Button
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

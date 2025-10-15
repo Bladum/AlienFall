@@ -1,3 +1,64 @@
+---Widget System Loader - UI Framework Entry Point
+---
+---Main entry point for the widget system. Loads all core components (Grid, Theme, BaseWidget),
+---widget categories (buttons, containers, display, input, navigation, advanced, combat), and
+---provides unified namespace for all UI components. Supports grid-aligned layout (24×24 pixels),
+---theming, event handling, and widget composition.
+---
+---Widget Categories:
+---  - Core: Grid, Theme, BaseWidget, MockData
+---  - Buttons: Button, ImageButton, IconButton, ToggleButton, RadioButton
+---  - Containers: Panel, Window, Dialog, Frame, ScrollPanel
+---  - Display: Label, ProgressBar, HealthBar, Tooltip, StatBar
+---  - Input: TextInput, TextArea, Checkbox, ComboBox, Autocomplete
+---  - Navigation: ListBox, Dropdown, TabWidget, Table, ContextMenu
+---  - Advanced: UnitCard, ResearchTree, Minimap, InventorySlot, ResourceDisplay
+---  - Combat: ActionPanel, UnitInfoPanel, SkillSelection, TurnIndicator, RangeIndicator
+---
+---Grid System:
+---  - 960×720 resolution (40×30 grid)
+---  - 24×24 pixel cell size
+---  - All widgets snap to grid
+---  - F9: Toggle grid overlay debug
+---
+---Theme System:
+---  - colors: primary, secondary, background, text, success, warning, danger
+---  - fonts: default, title, small
+---  - padding: standard spacing (8px)
+---  - borderWidth: consistent borders (2px)
+---
+---Key Exports:
+---  - Widgets.Grid: Grid system and snapping functions
+---  - Widgets.Theme: Theme colors, fonts, spacing
+---  - Widgets.BaseWidget: Base class for all widgets
+---  - Widgets.Button, Widgets.Panel, etc.: All widget types
+---  - Widgets.MockData: Mock data generator for testing
+---
+---Dependencies:
+---  - widgets.core.*: Grid, Theme, BaseWidget
+---  - widgets.buttons.*: Button widgets
+---  - widgets.containers.*: Container widgets
+---  - widgets.display.*: Display widgets
+---  - widgets.input.*: Input widgets
+---  - widgets.navigation.*: Navigation widgets
+---  - widgets.advanced.*: Advanced widgets
+---  - widgets.combat.*: Combat widgets
+---  - shared.items.mock_data: Mock data generator
+---
+---@module widgets.init
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local Widgets = require("widgets.init")
+---  local button = Widgets.Button.new(0, 0, 96, 48, "Click Me")
+---  button:draw()
+---  button:mousepressed(x, y, mouseButton)
+---
+---@see widgets.core.base For BaseWidget class
+---@see widgets.core.grid For grid system
+
 --[[
     Widget System Loader
     
@@ -11,7 +72,8 @@ local Widgets = {}
 Widgets.Grid = require("widgets.core.grid")
 Widgets.Theme = require("widgets.core.theme")
 Widgets.BaseWidget = require("widgets.core.base")
-Widgets.MockData = require("widgets.core.mock_data")
+-- Mock data moved to root mock/ folder
+Widgets.MockData = require("shared.items.mock_data")
 
 -- Initialize theme
 Widgets.Theme.init()
@@ -104,3 +166,25 @@ Widgets.RangeIndicator = require("widgets.advanced.rangeindicator")
 print("[Widgets] Widget system loader initialized - 35 widgets organized in 7 categories")
 
 return Widgets
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

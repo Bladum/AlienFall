@@ -1,3 +1,54 @@
+---ScrollBox Widget - Scrollable Container
+---
+---A scrollable container for content that exceeds viewport dimensions. Provides vertical
+---scrolling with scroll bar and mouse wheel support. Grid-aligned for consistent positioning.
+---
+---Features:
+---  - Vertical scrolling
+---  - Scroll bar (draggable)
+---  - Mouse wheel support
+---  - Grid-aligned positioning (24×24 pixels)
+---  - Clipping (content outside viewport hidden)
+---  - Smooth scrolling animation
+---
+---Scroll Behavior:
+---  - Mouse wheel: Scroll up/down
+---  - Drag scroll bar: Direct position control
+---  - Click scroll track: Jump to position
+---  - Arrow keys: Scroll up/down (when focused)
+---
+---Content Management:
+---  - addChild(widget): Adds widget to scrollable content
+---  - removeChild(widget): Removes widget
+---  - scrollTo(y): Scrolls to specific Y position
+---  - scrollToBottom(): Jumps to bottom
+---
+---Key Exports:
+---  - ScrollBox.new(x, y, width, height): Creates scrollbox
+---  - addChild(widget): Adds content widget
+---  - setContentHeight(height): Sets scrollable height
+---  - draw(): Renders scrollbox with clipping
+---  - wheelmoved(x, y): Scroll wheel handling
+---
+---Dependencies:
+---  - widgets.core.base: BaseWidget inheritance
+---  - widgets.core.theme: Color theme
+---  - love.graphics: Scissor clipping
+---
+---@module widgets.containers.scrollbox
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local ScrollBox = require("widgets.containers.scrollbox")
+---  local scroll = ScrollBox.new(0, 0, 240, 480)
+---  scroll:setContentHeight(1200)  -- 1200px tall content
+---  scroll:addChild(someWidget)
+---  scroll:draw()
+---
+---@see widgets.navigation.listbox For scrollable lists
+
 --[[
     ScrollBox Widget
     
@@ -112,3 +163,25 @@ function ScrollBox:setContentHeight(height)
 end
 
 return ScrollBox
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

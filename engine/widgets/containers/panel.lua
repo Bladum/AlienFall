@@ -1,3 +1,47 @@
+---Panel Widget - Simple Background Container
+---
+---A simple rectangular background panel for grouping widgets. Provides colored background
+---and optional border. Can contain child widgets. Grid-aligned for consistent positioning.
+---
+---Features:
+---  - Colored background
+---  - Optional border
+---  - Can contain child widgets
+---  - Grid-aligned positioning (24×24 pixels)
+---  - Theme-based styling
+---  - Z-order layering
+---
+---Use Cases:
+---  - Background for widget groups
+---  - Visual separation of UI sections
+---  - Sidebar containers
+---  - Info panels
+---  - Dialog backgrounds
+---
+---Key Exports:
+---  - Panel.new(x, y, width, height): Creates panel
+---  - setBackgroundColor(r, g, b, a): Sets fill color
+---  - setBorderColor(r, g, b, a): Sets border color
+---  - addChild(widget): Adds child widget
+---  - draw(): Renders panel and children
+---
+---Dependencies:
+---  - widgets.core.base: BaseWidget inheritance
+---  - widgets.core.theme: Color theme
+---
+---@module widgets.containers.panel
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local Panel = require("widgets.containers.panel")
+---  local panel = Panel.new(0, 0, 240, 240)
+---  panel:setBackgroundColor(0.1, 0.1, 0.1, 0.9)
+---  panel:draw()
+---
+---@see widgets.containers.window For draggable windows
+
 --[[
     Panel Widget
     
@@ -86,3 +130,25 @@ end
 print("[Panel] Panel widget loaded")
 
 return Panel
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

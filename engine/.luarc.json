@@ -58,7 +58,7 @@
       "./mods",
       "./libs",
       "./data",
-      "./love_definitions"
+      "./utils/love_definitions"
     ],
     "checkThirdParty": false,
     "preloadFileSize": 1000,

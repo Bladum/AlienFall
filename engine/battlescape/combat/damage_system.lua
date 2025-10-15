@@ -1,3 +1,66 @@
+---DamageSystem - Combat Damage Resolution
+---
+---Calculates damage from weapon power, applies armor resistance and value, distributes
+---damage to health/stun/morale/energy pools, handles wounds and status effects. Core
+---combat resolution system integrating weapons, armor, and unit stats.
+---
+---Features:
+---  - Weapon power calculation with random variance
+---  - Armor resistance and value application
+---  - Damage distribution to multiple stat pools
+---  - Critical hit system (5% base chance)
+---  - Wound system with bleeding damage
+---  - Status effect application
+---  - Damage type integration (kinetic, laser, plasma, etc.)
+---  - Damage model support (hurt, stun, morale, energy)
+---
+---Damage Resolution Flow:
+---  1. Calculate weapon power (base + random variance)
+---  2. Apply armor resistance (damage type vs armor type)
+---  3. Subtract armor value (remaining damage)
+---  4. Check for critical hit (extra damage)
+---  5. Distribute to stat pools (health, stun, morale, energy)
+---  6. Apply wounds if health damage
+---  7. Check for unconsciousness/death
+---
+---Critical Hits:
+---  - Base 5% chance (modifiable by weapon/unit)
+---  - Doubles damage
+---  - Guaranteed wound
+---
+---Wound System:
+---  - Wounds from health damage
+---  - Bleeding: 1 HP per turn
+---  - Can be fatal if not treated
+---
+---Key Exports:
+---  - DamageSystem.new(moraleSystem): Creates damage system
+---  - resolveDamage(attacker, target, weapon, options): Resolves full attack
+---  - calculateDamage(weapon, armor): Calculates raw damage
+---  - applyDamage(target, damage, damageType, damageModel): Applies to stats
+---  - applyWound(unit, severity): Adds wound
+---  - updateWounds(unit): Processes bleeding
+---  - rollCriticalHit(chance): Checks for critical
+---
+---Dependencies:
+---  - battlescape.combat.damage_types: Damage type definitions
+---  - battlescape.combat.damage_models: Distribution models
+---  - battlescape.combat.morale_system: Morale effects
+---
+---@module battlescape.combat.damage_system
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local DamageSystem = require("battlescape.combat.damage_system")
+---  local damageSys = DamageSystem.new(moraleSystem)
+---  local result = damageSys:resolveDamage(attacker, target, weapon)
+---  print("Damage dealt:", result.totalDamage)
+---
+---@see battlescape.combat.damage_types For damage type definitions
+---@see battlescape.combat.damage_models For distribution models
+
 -- Damage Resolution System
 -- Calculates damage from weapon power, applies armor resistance and value,
 -- distributes to health/stun/morale/energy pools, handles wounds and effects
@@ -418,3 +481,25 @@ function DamageSystem:clearDamageLog()
 end
 
 return DamageSystem
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

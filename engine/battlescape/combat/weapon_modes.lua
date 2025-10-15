@@ -1,3 +1,82 @@
+---WeaponModes - Firing Mode System
+---
+---Defines firing modes that modify weapon behavior: SNAP, AIM, LONG, AUTO, HEAVY, FINESSE.
+---All weapons have base stats and a list of available modes. Modes apply common modifiers
+---for accuracy, AP cost, and damage. Different from X-COM's weapon-specific modes.
+---
+---Features:
+---  - 6 standard firing modes
+---  - Mode-specific modifiers (AP, accuracy, damage, range)
+---  - Per-weapon mode availability
+---  - Mode validation
+---  - Modifier calculations
+---
+---Firing Modes:
+---  - SNAP: Quick shot
+---    * Low AP cost (×0.5)
+---    * Low accuracy (×0.7)
+---    * Normal damage
+---    * Best for close range
+---
+---  - AIM: Aimed shot
+---    * Medium AP cost (×1.0)
+---    * High accuracy (×1.2)
+---    * Normal damage
+---    * Standard attack
+---
+---  - LONG: Long range shot
+---    * High AP cost (×1.5)
+---    * Extended range (+50%)
+---    * Normal accuracy
+---    * For distant targets
+---
+---  - AUTO: Automatic burst
+---    * Very high AP cost (×2.0)
+---    * Multiple bullets (3-5)
+---    * Low accuracy per shot (×0.5)
+---    * High total damage
+---
+---  - HEAVY: Heavy attack
+---    * Very high AP cost (×2.5)
+---    * High damage (×1.5)
+---    * Normal accuracy
+---    * For armored targets
+---
+---  - FINESSE: Precise attack
+---    * Medium AP cost (×1.0)
+---    * Bonus accuracy (×1.5)
+---    * Low damage (×0.7)
+---    * For critical shots
+---
+---Mode Modifiers:
+---  - apCostMultiplier: AP cost modifier
+---  - accuracyMultiplier: Accuracy modifier
+---  - damageMultiplier: Damage modifier
+---  - rangeMultiplier: Range modifier
+---  - bulletCount: Number of bullets fired
+---
+---Key Exports:
+---  - WeaponModes.MODES: Table of mode IDs
+---  - WeaponModes.getModeData(modeId): Returns mode modifiers
+---  - WeaponModes.calculateAP(weapon, mode): Returns AP cost
+---  - WeaponModes.calculateAccuracy(weapon, mode): Returns accuracy
+---  - WeaponModes.isAvailable(weapon, mode): Returns true if weapon has mode
+---
+---Dependencies:
+---  - None (pure data/logic)
+---
+---@module battlescape.combat.weapon_modes
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local WeaponModes = require("battlescape.combat.weapon_modes")
+---  local modeData = WeaponModes.getModeData(WeaponModes.MODES.SNAP)
+---  local apCost = weapon.apCost * modeData.apCostMultiplier
+---
+---@see battlescape.combat.weapon_system For weapon definitions
+
 -- Weapon Modes System
 -- Defines firing modes that modify weapon behavior: SNAP, AIM, LONG, AUTO, HEAVY, FINESSE
 -- All weapons have base stats and a list of available modes
@@ -163,12 +242,23 @@ WeaponModes.DEFINITIONS = {
 --- Apply weapon mode modifiers to base weapon stats
 -- @param baseStats table Base weapon statistics
 -- @param modeName string Mode name to apply
--- @return table Modified stats
-function WeaponModes.applyMode(baseStats, modeName)
+-- @param shooter table|nil Shooter unit (optional)
+-- @return table|nil modifiedWeapon Modified weapon stats
+-- @return number|nil apCost Action point cost
+-- @return number|nil epCost Energy point cost
+-- @return string|nil errorMsg Error message if cannot apply
+function WeaponModes.applyMode(baseStats, modeName, shooter)
+    if not baseStats then
+        return nil, nil, nil, "No weapon stats provided"
+    end
+    
+    if not modeName then
+        return nil, nil, nil, "No mode specified"
+    end
+    
     local mode = WeaponModes.DEFINITIONS[modeName]
     if not mode then
-        print("[WeaponModes] Invalid mode: " .. tostring(modeName))
-        return baseStats
+        return nil, nil, nil, "Invalid mode: " .. tostring(modeName)
     end
     
     local modifiers = mode.modifiers
@@ -195,7 +285,7 @@ function WeaponModes.applyMode(baseStats, modeName)
           ", Damage=" .. modified.damage .. ", Accuracy=" .. modified.accuracy .. 
           ", Bullets=" .. modified.bulletsPerShot)
     
-    return modified
+    return modified, modified.apCost, modified.epCost, nil
 end
 
 --- Check if unit can use a weapon mode
@@ -216,21 +306,24 @@ function WeaponModes.canUseMode(unit, weapon, modeName, targetDistance)
     end
     
     -- Apply mode modifiers
-    local modifiedStats = WeaponModes.applyMode(weapon, modeName)
+    local modifiedStats, apCost, epCost, errorMsg = WeaponModes.applyMode(weapon, modeName)
+    if not modifiedStats then
+        return false, errorMsg or "Cannot apply mode"
+    end
     
     -- Check AP requirement
-    if unit.actionPoints and unit.actionPoints < modifiedStats.apCost then
-        return false, "Not enough AP (" .. modifiedStats.apCost .. " required)"
+    if unit.actionPoints and unit.actionPoints < (modifiedStats.apCost or 0) then
+        return false, "Not enough AP (" .. (modifiedStats.apCost or 0) .. " required)"
     end
     
     -- Check EP requirement
-    if unit.energyPoints and unit.energyPoints < modifiedStats.epCost then
-        return false, "Not enough energy (" .. modifiedStats.epCost .. " required)"
+    if unit.energyPoints and unit.energyPoints < (modifiedStats.epCost or 0) then
+        return false, "Not enough energy (" .. (modifiedStats.epCost or 0) .. " required)"
     end
     
     -- Check ammo requirement
     if mode.requirements.requiresAmmo then
-        local ammoNeeded = modifiedStats.bulletsPerShot
+        local ammoNeeded = modifiedStats.bulletsPerShot or 1
         if mode.requirements.minAmmo then
             ammoNeeded = mode.requirements.minAmmo
         end
@@ -246,8 +339,8 @@ function WeaponModes.canUseMode(unit, weapon, modeName, targetDistance)
             return false, "Target too close (min " .. mode.requirements.minRange .. " tiles)"
         end
         
-        if targetDistance > modifiedStats.range then
-            return false, "Target out of range (max " .. modifiedStats.range .. " tiles)"
+        if targetDistance > (modifiedStats.range or 0) then
+            return false, "Target out of range (max " .. (modifiedStats.range or 0) .. " tiles)"
         end
     end
     
@@ -327,3 +420,25 @@ end
 ]]
 
 return WeaponModes
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

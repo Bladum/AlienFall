@@ -1,3 +1,67 @@
+---NotificationPanel Widget - Tactical Event Notification Display
+---
+---A specialized panel for displaying tactical notifications during gameplay. Manages
+---a queue of notifications with different types (enemy spotted, ally wounded, etc.).
+---Displays numbered buttons for each notification with click-to-acknowledge behavior.
+---Grid-aligned in bottom-right corner.
+---
+---Features:
+---  - Queue of notifications with different event types
+---  - Numbered buttons for each notification (1, 2, 3...)
+---  - Click to acknowledge and center camera on location
+---  - Auto-dismiss after timeout
+---  - Grid-aligned positioning (bottom-right corner)
+---  - Color-coded by notification type
+---
+---Notification Types:
+---  - Enemy Spotted: Red, enemy icon
+---  - Ally Wounded: Yellow, medical icon
+---  - Civilian Threatened: Orange, civilian icon
+---  - Mission Update: Blue, info icon
+---  - Item Found: Green, loot icon
+---
+---Notification Structure:
+---  - Type: Event category
+---  - Message: Description text
+---  - Location: Map coordinates (for camera centering)
+---  - Timestamp: When created
+---  - Timeout: Auto-dismiss duration
+---
+---Interaction:
+---  - Click numbered button: Acknowledge and center camera
+---  - Auto-dismiss: After timeout expires
+---  - Queue: Shows up to N notifications at once
+---
+---Key Exports:
+---  - NotificationPanel.new(x, y, width, height): Creates notification panel
+---  - addNotification(type, message, location): Adds notification to queue
+---  - removeNotification(index): Removes specific notification
+---  - clear(): Removes all notifications
+---  - update(dt): Updates timers and auto-dismiss
+---  - draw(): Renders notification buttons
+---  - mousepressed(x, y, button): Notification click handling
+---  - setMaxNotifications(max): Sets queue size limit
+---
+---Dependencies:
+---  - widgets.core.base: BaseWidget inheritance
+---  - widgets.core.theme: Color and font theme
+---  - widgets.buttons.button: Notification buttons
+---
+---@module widgets.containers.notification_panel
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local NotificationPanel = require("widgets.containers.notification_panel")
+---  local panel = NotificationPanel.new(720, 600, 240, 120)
+---  panel:addNotification("ENEMY_SPOTTED", "Enemy soldier!", {x=10, y=5})
+---  panel:addNotification("ALLY_WOUNDED", "Medic needed!", {x=8, y=12})
+---  panel:update(dt)
+---  panel:draw()
+---
+---@see widgets.advanced.notificationbanner For temporary messages
+
 --[[
     Notification Panel Widget
 
@@ -283,3 +347,24 @@ end
 print("[NotificationPanel] Notification panel widget loaded")
 
 return NotificationPanel
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

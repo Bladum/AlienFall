@@ -1,3 +1,53 @@
+---Window Widget - Draggable Window Container
+---
+---A draggable window container with title bar, close button, and resizable content area.
+---Used for dialogs, popups, and floating panels. Grid-aligned for consistent positioning.
+---
+---Features:
+---  - Title bar with drag support
+---  - Close button (optional)
+---  - Resizable content area
+---  - Grid-aligned positioning (24×24 pixels)
+---  - Z-order management (bring to front on click)
+---  - Modal mode (blocks interaction with other windows)
+---
+---Window Structure:
+---  - Title bar: 24px height, contains title text and close button
+---  - Content area: Resizable, contains child widgets
+---  - Border: Visual frame around window
+---
+---Drag Behavior:
+---  - Click and drag title bar to move window
+---  - Window snaps to grid (24×24 pixels)
+---  - Cannot drag outside viewport bounds
+---  - Bring to front on click
+---
+---Key Exports:
+---  - Window.new(x, y, width, height, title): Creates window
+---  - setTitle(title): Updates title text
+---  - setModal(modal): Sets modal mode
+---  - addChild(widget): Adds widget to content area
+---  - close(): Closes window (triggers onClose callback)
+---  - draw(): Renders window and children
+---  - mousepressed(x, y, button): Drag handling
+---
+---Dependencies:
+---  - widgets.core.base: BaseWidget inheritance
+---  - widgets.core.theme: Color and font theme
+---
+---@module widgets.containers.window
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local Window = require("widgets.containers.window")
+---  local win = Window.new(120, 120, 480, 360, "Settings")
+---  win:addChild(someWidget)
+---  win:draw()
+---
+---@see widgets.containers.dialog For modal dialogs
+
 --[[
     Window Widget
     
@@ -182,3 +232,25 @@ function Window:addChild(child)
 end
 
 return Window
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

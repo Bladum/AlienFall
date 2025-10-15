@@ -1,5 +1,42 @@
--- Viewport System for Dynamic Resolution with Fixed GUI
--- Manages separate coordinate systems for GUI and battlefield areas
+---Viewport System for Dynamic Resolution
+---
+---Manages viewport calculations for dynamic window resolution while maintaining
+---fixed GUI sizing. Separates coordinate systems for GUI (always 240×720) and
+---battlefield (scales with window). Handles fullscreen, window resizing, and
+---proper coordinate translation between screen and game space.
+---
+---Resolution System:
+---  - GUI: Fixed 240×720 pixels (10×30 grid cells at 24px)
+---  - Battlefield: Dynamic, fills remaining window space
+---  - Base Resolution: 960×720 (40×30 grid)
+---  - Grid System: 24×24 pixels per cell
+---  - Minimum: 960×720 (ensures GUI fits)
+---
+---Key Exports:
+---  - Viewport.getBattlefieldViewport(): Returns battlefield dimensions
+---  - Viewport.getGUIViewport(): Returns GUI panel dimensions
+---  - Viewport.screenToWorld(x, y): Converts screen to world coords
+---  - Viewport.worldToScreen(x, y): Converts world to screen coords
+---  - Viewport.getScale(): Returns current scale factor
+---  - Viewport.printInfo(): Displays viewport information
+---
+---Dependencies:
+---  - love.window: Window dimensions and properties
+---  - love.graphics: Rendering transformations
+---
+---@module utils.viewport
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local Viewport = require("utils.viewport")
+---  local bfX, bfY, bfW, bfH = Viewport.getBattlefieldViewport()
+---  local worldX, worldY = Viewport.screenToWorld(mouseX, mouseY)
+---  Viewport.printInfo()  -- Debug viewport state
+---
+---@see main For window resize handling
+---@see battlescape.rendering.camera For battlefield camera
 
 local Viewport = {}
 
@@ -193,3 +230,25 @@ function Viewport.printInfo()
 end
 
 return Viewport
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

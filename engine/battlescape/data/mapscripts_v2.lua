@@ -1,3 +1,62 @@
+---MapScriptsV2 - OpenXCOM-Style MapScript Loader
+---
+---Loads and manages MapScripts from TOML files. MapScripts define procedural map
+---generation using OpenXCOM-style commands (addBlock, fillArea, digTunnel, etc.).
+---This is the v2 loader supporting the new TOML-based format.
+---
+---Features:
+---  - TOML-based MapScript loading
+---  - Command parsing and validation
+---  - Label system for conditional commands
+---  - MapScript registry
+---  - File path tracking
+---  - Error reporting
+---
+---MapScript Structure (TOML):
+---  ```toml
+---  [mapscript]
+---  id = "urban_crash"
+---  name = "Urban Crash Site"
+---  mapSize = {width = 4, height = 4}
+---  
+---  [[commands]]
+---  command = "addBlock"
+---  tags = ["urban", "building"]
+---  ```
+---
+---Supported Commands:
+---  - addBlock: Place single MapBlock
+---  - addLine: Place line of MapBlocks
+---  - fillArea: Fill area with blocks
+---  - digTunnel: Create connecting tunnels
+---  - addCraft: Place player craft
+---  - addUFO: Place UFO wreckage
+---  - checkBlock: Validate placement
+---  - removeBlocks: Clear specific group
+---
+---Key Exports:
+---  - MapScriptsV2.load(filePath): Loads MapScript from TOML
+---  - MapScriptsV2.get(id): Returns MapScript by ID
+---  - MapScriptsV2.getAll(): Returns all loaded MapScripts
+---  - MapScriptsV2.validate(script): Validates script syntax
+---  - MapScriptsV2.unload(id): Removes MapScript from registry
+---
+---Dependencies:
+---  - None (uses TOML parser from utils)
+---
+---@module battlescape.data.mapscripts_v2
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local MapScriptsV2 = require("battlescape.data.mapscripts_v2")
+---  MapScriptsV2.load("mods/core/content/mapscripts/urban_crash.toml")
+---  local script = MapScriptsV2.get("urban_crash")
+---
+---@see battlescape.mapscripts.mapscript_executor For execution
+---@see battlescape.data.mapscripts For legacy system
+
 -- Map Script Loader v2 - OpenXCOM-style Map Script System
 -- Loads and manages Map Scripts from TOML files
 
@@ -29,7 +88,7 @@ local function parseTOML(filepath)
     file:close()
     
     -- Try using TOML library
-    local hasToml, toml = pcall(require, "libs.toml")
+    local hasToml, toml = pcall(require, "utils.libs.toml")
     if hasToml then
         local success, result = pcall(toml.parse, content)
         if success then
@@ -197,3 +256,25 @@ function MapScriptsV2.clear()
 end
 
 return MapScriptsV2
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

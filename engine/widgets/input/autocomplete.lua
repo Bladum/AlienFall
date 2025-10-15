@@ -1,3 +1,60 @@
+---Autocomplete Widget - Text Input with Suggestions
+---
+---A text input widget with auto-complete suggestions dropdown. Shows matching options
+---as user types, with keyboard navigation for selection. Grid-aligned for consistent
+---positioning.
+---
+---Features:
+---  - Suggestion dropdown while typing
+---  - Keyboard navigation (arrow keys)
+---  - Customizable suggestion source
+---  - Grid-aligned positioning (24×24 pixels)
+---  - Fuzzy matching support
+---  - Max suggestions limit
+---
+---Suggestion Matching:
+---  - Exact prefix: "cat" matches "category", "catalog"
+---  - Case-insensitive: "CAT" matches "category"
+---  - Fuzzy: "ctg" matches "category" (optional)
+---  - Custom filter function support
+---
+---Keyboard Navigation:
+---  - Type: Filters suggestions
+---  - Arrow Down: Highlights first suggestion
+---  - Arrow Up/Down: Navigate suggestions
+---  - Enter: Select highlighted suggestion
+---  - ESC: Close suggestions
+---  - Tab: Auto-complete with first suggestion
+---
+---Key Exports:
+---  - Autocomplete.new(x, y, width, height): Creates autocomplete
+---  - setSuggestions(suggestions): Sets suggestion list
+---  - setSuggestionFunction(func): Sets custom suggestion provider
+---  - setMaxSuggestions(max): Limits displayed suggestions
+---  - setFuzzyMatch(enabled): Enables fuzzy matching
+---  - setText(text): Sets current text
+---  - getText(): Returns current text
+---  - draw(): Renders autocomplete and suggestions
+---  - keypressed(key): Keyboard navigation
+---  - textinput(char): Character input with filtering
+---
+---Dependencies:
+---  - widgets.core.base: BaseWidget inheritance
+---  - widgets.core.theme: Color and font theme
+---
+---@module widgets.input.autocomplete
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local Autocomplete = require("widgets.input.autocomplete")
+---  local auto = Autocomplete.new(0, 0, 240, 24)
+---  auto:setSuggestions({"apple", "apricot", "banana", "cherry"})
+---  auto:draw()
+---
+---@see widgets.input.combobox For combo text/dropdown
+
 --[[
     Autocomplete Widget
     
@@ -230,3 +287,25 @@ function Autocomplete:setSuggestions(suggestions)
 end
 
 return Autocomplete
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

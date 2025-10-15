@@ -1,3 +1,72 @@
+---WeaponModeSelector Widget - Firing Mode Selection
+---
+---Displays 6 firing modes for the current weapon with AP/EP costs and accuracy modifiers.
+---Shows which modes are available for the selected weapon and allows mode selection.
+---Used in tactical combat for weapon configuration. Grid-aligned for consistent positioning.
+---
+---Features:
+---  - 6 firing mode buttons (SNAP, AIM, LONG, AUTO, HEAVY, FINESSE)
+---  - AP cost display per mode
+---  - EP (energy points) cost display per mode
+---  - Accuracy modifier display
+---  - Grid-aligned positioning (24×24 pixels)
+---  - Keyboard shortcuts (1-6 keys)
+---  - Mode unavailable indicator (grayed out per weapon)
+---  - Highlight currently selected mode
+---
+---Firing Modes:
+---  - SNAP: Quick shot (low AP, low accuracy)
+---  - AIM: Aimed shot (high AP, high accuracy)
+---  - LONG: Long-range shot (very high AP, very high accuracy)
+---  - AUTO: Full-auto burst (high AP, low accuracy)
+---  - HEAVY: Heavy weapon mode (very high AP, moderate accuracy)
+---  - FINESSE: Precision shot (moderate AP, high accuracy)
+---
+---Layout:
+---  - 2 rows × 3 columns of mode buttons
+---  - Each button shows: Mode Name, AP/EP costs, Accuracy modifier
+---  - 24px grid alignment for all elements
+---
+---Mode Properties:
+---  - Name: Mode name
+---  - AP Cost: Action points required
+---  - EP Cost: Energy points required
+---  - Accuracy: Hit chance modifier (±%)
+---  - Available: Can be used with current weapon
+---
+---Key Exports:
+---  - WeaponModeSelector.new(x, y, width, height): Creates selector
+---  - setModes(modes): Sets available firing modes
+---  - setCurrentAP(ap): Updates available AP
+---  - setCurrentEP(ep): Updates available EP
+---  - getSelectedMode(): Returns selected mode
+---  - setSelectedMode(mode): Selects specific mode
+---  - draw(): Renders mode selector
+---  - mousepressed(x, y, button): Mode selection
+---  - keypressed(key): Keyboard shortcuts (1-6)
+---
+---Dependencies:
+---  - widgets.core.base: BaseWidget inheritance
+---  - widgets.core.theme: Color and font theme
+---
+---@module widgets.combat.weapon_mode_selector
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local WeaponModeSelector = require("widgets.combat.weapon_mode_selector")
+---  local selector = WeaponModeSelector.new(0, 0, 288, 192)
+---  selector:setModes({
+---    {name="SNAP", ap=2, ep=0, accuracy=-10, available=true},
+---    {name="AIM", ap=4, ep=0, accuracy=+10, available=true},
+---    {name="AUTO", ap=6, ep=0, accuracy=-20, available=true}
+---  })
+---  selector:setCurrentAP(8)
+---  selector:draw()
+---
+---@see widgets.display.action_panel For action buttons
+
 --[[
     Weapon Mode Selector Widget
     
@@ -42,9 +111,9 @@ local MODE_INFO = {
     @return table - New weapon mode selector instance
 ]]
 function WeaponModeSelector.new(x, y, weaponId)
-    -- Calculate size: 3 columns × 2 rows of mode buttons
-    -- Each button: 192×96 pixels (8×4 grid cells)
-    -- Total: 576×192 pixels (24×8 grid cells)
+    -- Calculate size: 3 columns � 2 rows of mode buttons
+    -- Each button: 192�96 pixels (8�4 grid cells)
+    -- Total: 576�192 pixels (24�8 grid cells)
     local width = 576  -- 24 grid cells wide
     local height = 192  -- 8 grid cells tall
     
@@ -56,7 +125,7 @@ function WeaponModeSelector.new(x, y, weaponId)
     self.availableModes = {}
     self.onModeSelect = nil  -- Callback: function(mode)
     
-    -- Mode button dimensions (8×4 grid cells each)
+    -- Mode button dimensions (8�4 grid cells each)
     self.buttonWidth = 192  -- 8 grid cells
     self.buttonHeight = 96  -- 4 grid cells
     self.buttonSpacing = 0  -- No spacing for compact layout
@@ -166,7 +235,7 @@ function WeaponModeSelector:draw()
     love.graphics.setLineWidth(2)
     love.graphics.rectangle("line", self.x, self.y, self.width, self.height)
     
-    -- Draw mode buttons in 2×3 grid
+    -- Draw mode buttons in 2�3 grid
     local row = 0
     local col = 0
     
@@ -304,3 +373,25 @@ function WeaponModeSelector:keypressed(key)
 end
 
 return WeaponModeSelector
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

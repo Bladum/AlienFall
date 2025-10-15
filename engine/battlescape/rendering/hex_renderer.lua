@@ -1,3 +1,45 @@
+---HexRenderer - Hexagonal Grid Tile Rendering System
+---
+---Renders map tiles on a hexagonal grid with proper 6-directional adjacency and
+---coordinate conversion. Handles flat-top hex layout with odd-column offset for
+---tactical battlescape visualization. Part of hex grid integration (Phase 6).
+---
+---Features:
+---  - Flat-top hexagonal grid layout
+---  - Odd-column offset for proper hex packing
+---  - Coordinate conversion (pixel ↔ hex)
+---  - 6-directional neighbor calculation
+---  - Multi-tile rendering support
+---  - Grid overlay for debugging
+---  - Integration with tileset system
+---
+---Key Exports:
+---  - new(tileSize): Create new hex renderer instance
+---  - hexToPixel(hexX, hexY): Convert hex coordinates to pixels
+---  - pixelToHex(pixelX, pixelY): Convert pixel coordinates to hex
+---  - getHexNeighbors(hexX, hexY): Get 6 neighboring hex coordinates
+---  - drawTile(hexX, hexY, tileKey, tileset): Render tile at hex position
+---  - drawGrid(camera, width, height): Draw hex grid overlay
+---  - setTileSize(size): Change tile size (affects hex dimensions)
+---
+---Dependencies:
+---  - require("battlescape.data.tilesets"): Tileset definitions and textures
+---  - require("battlescape.utils.multitile"): Multi-tile rendering utilities
+---
+---@module battlescape.rendering.hex_renderer
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local HexRenderer = require("battlescape.rendering.hex_renderer")
+---  local renderer = HexRenderer.new(24)
+---  local pixelX, pixelY = renderer:hexToPixel(5, 3)
+---  renderer:drawTile(5, 3, "wall", tileset)
+---
+---@see battlescape.rendering.renderer For main battlefield renderer
+---@see battlescape.data.tilesets For tile definitions
+
 -- Hex Renderer Enhancement
 -- Phase 6: Hex Grid Integration with Map Tile System
 -- Renders Map Tiles correctly on hex grid with 6-directional adjacency
@@ -314,3 +356,25 @@ function HexRenderer:renderMultiCellTile(tileKey, hexX, hexY, zoom, brightness)
 end
 
 return HexRenderer
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,6 +1,48 @@
--- Day/Night Cycle System for Geoscape
--- Visual day/night overlay that moves across the world map
--- Speed: 4 tiles per day, Coverage: 50% day / 50% night
+---Day/Night Cycle System - Visual Time-of-Day Overlay
+---
+---Visual day/night overlay that moves across the world map to show time zones.
+---Purely cosmetic feature that adds atmosphere without affecting gameplay mechanics.
+---The cycle moves at 4 tiles per day, covering 50% of the world in daylight at any time.
+---
+---System Properties:
+---  - worldWidth: Total width of world in hex tiles (default 80)
+---  - speed: Tiles per day the cycle moves (default 4)
+---  - coverage: Percentage of world in daylight (default 0.5)
+---  - offset: Current position of day/night terminator
+---
+---Visual Effect:
+---  - Day zone: Bright (normal colors)
+---  - Night zone: Dark overlay (darkened colors)
+---  - Terminator: Smooth gradient transition
+---  - Movement: Cycles left-to-right continuously
+---
+---Performance:
+---  - Shader-based rendering (GPU accelerated)
+---  - No gameplay impact (visual only)
+---  - Updates once per day (not real-time)
+---
+---Key Exports:
+---  - DayNightCycle.new(worldWidth, speed, coverage): Creates cycle system
+---  - advanceDay(): Moves cycle forward by one day
+---  - getTimeAtHex(q, r): Returns time (0.0-1.0) at hex position
+---  - isDaylight(q, r): Returns true if hex is in daylight
+---  - render(drawFunc): Applies day/night overlay to rendering
+---
+---Dependencies:
+---  - geoscape.systems.hex_grid: For hex coordinate calculations
+---
+---@module geoscape.systems.daynight_cycle
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local DayNightCycle = require("geoscape.systems.daynight_cycle")
+---  local cycle = DayNightCycle.new(80, 4, 0.5)  -- 80 tiles wide, 4 tiles/day, 50% coverage
+---  cycle:advanceDay()
+---  local isDaylight = cycle:isDaylight(hexQ, hexR)
+---
+---@see geoscape.world.world For world entity integration
 
 local DayNightCycle = {}
 DayNightCycle.__index = DayNightCycle
@@ -154,3 +196,25 @@ function DayNightCycle.getTimeOfDay(lightLevel)
 end
 
 return DayNightCycle
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,6 +1,50 @@
--- Hex Grid System for Geoscape
--- Implements axial coordinate system with cube coordinate conversion
--- Provides pathfinding, distance calculation, and coordinate conversions
+---Hex Grid System - Axial Coordinate System for Geoscape
+---
+---Implements flat-top hexagon grid with axial coordinates (q, r) and cube coordinate
+---conversion for calculations. Provides pathfinding (A*), distance calculations, neighbor
+---lookups, and coordinate transformations. Foundation for geoscape spatial logic.
+---
+---Coordinate Systems:
+---  - Axial: {q, r} - Storage format (2 values)
+---  - Cube: {x, y, z} - Calculation format (x + y + z = 0 constraint)
+---  - Pixel: {x, y} - Screen space conversion
+---
+---Hexagon Orientation:
+---  - Flat-top hexagons (⬡ not ⬢)
+---  - East direction: q+1, r+0
+---  - Six neighbors per hex
+---
+---Key Operations:
+---  - distance(a, b): Manhattan distance between hexes
+---  - neighbors(hex): Returns 6 adjacent hexes
+---  - hexToPixel(q, r): Converts hex to screen coordinates
+---  - pixelToHex(x, y): Converts screen to hex coordinates
+---  - pathfind(start, goal, isWalkable): A* pathfinding
+---  - line(start, end): Bresenham hex line
+---
+---Key Exports:
+---  - HexGrid.new(hexSize): Creates hex grid system
+---  - distance(hexA, hexB): Returns hex distance
+---  - neighbors(hex): Returns array of 6 neighbors
+---  - pathfind(start, goal, isWalkable): Returns hex path array
+---  - hexToPixel(q, r): Returns {x, y} pixel position
+---  - pixelToHex(x, y): Returns {q, r} hex coordinates
+---
+---Dependencies: None (pure math library)
+---
+---@module geoscape.systems.hex_grid
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local HexGrid = require("geoscape.systems.hex_grid")
+---  local grid = HexGrid.new(32)  -- 32 pixel hex size
+---  local dist = grid:distance({q=0, r=0}, {q=5, r=3})
+---  local path = grid:pathfind(start, goal, isWalkableFunc)
+---
+---@see geoscape.geography.province_graph For province pathfinding
+---@see geoscape.world.world For world entity integration
 
 local HexGrid = {}
 HexGrid.__index = HexGrid
@@ -284,3 +328,25 @@ function HexGrid:getCorners(q, r)
 end
 
 return HexGrid
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,3 +1,63 @@
+---Table Widget - Data Table with Rows and Columns
+---
+---A data table widget with rows, columns, headers, and sorting. Displays tabular data
+---with optional row selection and column sorting. Grid-aligned for consistent positioning.
+---
+---Features:
+---  - Column headers with labels
+---  - Row selection (single or multi)
+---  - Sorting by column (optional, click header)
+---  - Grid-aligned positioning (24×24 pixels)
+---  - Scrolling for large datasets
+---  - Cell rendering customization
+---
+---Table Structure:
+---  - Headers: Column names, clickable for sorting
+---  - Rows: Data rows, selectable
+---  - Cells: Individual data values
+---  - Scroll bar: Vertical scrolling when needed
+---
+---Sorting:
+---  - Click column header to sort
+---  - First click: Ascending
+---  - Second click: Descending
+---  - Third click: Original order
+---  - Sort indicator: Arrow in header
+---
+---Key Exports:
+---  - Table.new(x, y, width, height): Creates table
+---  - setColumns(columns): Sets column definitions [{name, width}, ...]
+---  - setRows(rows): Sets row data
+---  - addRow(row): Adds single row
+---  - removeRow(index): Removes row
+---  - getSelectedRow(): Returns selected row
+---  - setSortable(column, sortable): Enables column sorting
+---  - setSelectionMode(mode): Sets selection behavior
+---  - draw(): Renders table
+---  - mousepressed(x, y, button): Click handling
+---
+---Dependencies:
+---  - widgets.core.base: BaseWidget inheritance
+---  - widgets.core.theme: Color and font theme
+---
+---@module widgets.navigation.table
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local Table = require("widgets.navigation.table")
+---  local table = Table.new(0, 0, 480, 360)
+---  table:setColumns({
+---    {name="Name", width=200},
+---    {name="HP", width=100},
+---    {name="Level", width=100}
+---  })
+---  table:setRows(unitData)
+---  table:draw()
+---
+---@see widgets.navigation.listbox For simple lists
+
 --[[
     Table Widget
     
@@ -186,3 +246,25 @@ function Table:getSelectedRow()
 end
 
 return Table
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

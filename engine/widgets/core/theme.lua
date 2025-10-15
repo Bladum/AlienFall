@@ -1,3 +1,55 @@
+---Theme System - Centralized Widget Styling
+---
+---Centralized styling system for all widgets. Defines colors, fonts, spacing, and
+---visual properties in one location. ALL widgets use theme values instead of hardcoding.
+---
+---Theme Categories:
+---  - Colors: Primary, secondary, background, text, success, warning, danger
+---  - Fonts: Default, title, small
+---  - Spacing: Padding, margins, border widths
+---  - Sizes: Button heights, input heights, icon sizes
+---
+---Color System:
+---  - RGBA format: {r, g, b, a} (0-1 range)
+---  - Named colors: primary, secondary, success, warning, danger
+---  - State colors: hover, pressed, disabled
+---  - UI element colors: background, border, text
+---
+---Font System:
+---  - default: 16px, body text
+---  - title: 24px, headers
+---  - small: 12px, captions
+---  - Custom fonts loaded via Theme.loadFont()
+---
+---Spacing System:
+---  - padding: 8px standard padding
+---  - margin: 4px standard margin
+---  - borderWidth: 2px standard border
+---  - gap: 4px spacing between elements
+---
+---Key Exports:
+---  - Theme.colors: Color palette
+---  - Theme.fonts: Font definitions
+---  - Theme.padding: Standard padding value
+---  - Theme.borderWidth: Standard border width
+---  - Theme.loadFont(path, size): Loads custom font
+---  - Theme.setColor(name, r, g, b, a): Updates color
+---
+---Dependencies: None (pure data module)
+---
+---@module widgets.core.theme
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local Theme = require("widgets.core.theme")
+---  love.graphics.setColor(Theme.colors.primary.r, Theme.colors.primary.g,
+---                         Theme.colors.primary.b, Theme.colors.primary.a)
+---  love.graphics.setFont(Theme.fonts.default)
+---
+---@see widgets.core.base For widget implementation
+
 --[[
     Theme System for Widget Styling
     
@@ -296,7 +348,7 @@ Theme.widgetStyles = {
 ]]
 function Theme.init()
     -- Try to load custom fonts from active mod
-    local ModManager = require("core.mod_manager")
+    local ModManager = require("mods.mod_manager")
     local fontPath = ModManager.getContentPath("assets", "fonts/default.ttf")
     
     local success, font = false, nil
@@ -475,3 +527,25 @@ end
 print("[Theme] Theme system loaded")
 
 return Theme
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

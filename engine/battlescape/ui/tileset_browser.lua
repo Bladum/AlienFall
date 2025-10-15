@@ -1,18 +1,52 @@
+---TilesetBrowser - Tileset Selection Widget for Map Editor
+---
+---Scrollable list widget for browsing and selecting tilesets in the map editor.
+---Displays tileset previews, names, and allows selection for painting operations.
+---Part of map editor enhancement (Phase 5).
+---
+---Features:
+---  - Scrollable tileset list with previews
+---  - Visual tileset selection interface
+---  - Integration with tileset data system
+---  - Callback system for selection events
+---  - Mouse wheel scrolling support
+---  - Keyboard navigation
+---
+---Key Exports:
+---  - new(x, y, width, height): Create new tileset browser widget
+---  - setTilesets(tilesets): Set the list of available tilesets
+---  - handleClick(mouseX, mouseY, button): Handle mouse selection
+---  - handleScroll(dy): Handle mouse wheel scrolling
+---  - draw(): Render the tileset browser
+---  - getSelectedTileset(): Get currently selected tileset
+---
+---Dependencies:
+---  - require("widgets.core.base"): Base widget class
+---  - require("widgets.core.theme"): UI theming system
+---  - require("battlescape.data.tilesets"): Tileset definitions
+---
+---@module battlescape.ui.tileset_browser
+---@diagnostic disable: undefined-global
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local TilesetBrowser = require("battlescape.ui.tileset_browser")
+---  local browser = TilesetBrowser.new(10, 10, 200, 300)
+---  browser:setTilesets(tilesetList)
+---  browser.onSelect = function(tilesetId) print("Selected:", tilesetId) end
+---
+---@see battlescape.ui.map_editor For main map editor interface
+---@see battlescape.data.tilesets For tileset data structures
+
 -- Tileset Browser Widget
 -- Phase 5: Map Editor Enhancement
 -- Browse and select tilesets for map editing
 
 local BaseWidget = require("widgets.core.base")
 local Theme = require("widgets.core.theme")
-local Widgets = require("widgets")
-
----@class TilesetBrowser
----@field tilesets table Array of tileset objects
----@field selectedIndex number? Currently selected tileset index
----@field scrollOffset number Vertical scroll position
----@field onTilesetSelected function? Callback when tileset is selected
----@field isPointInside fun(self, x: number, y: number): boolean Check if point is inside widget
----@field handleScroll fun(self, delta: number) Handle scroll wheel input
+local Widgets = require("widgets.init")
 
 local TilesetBrowser = setmetatable({}, {__index = BaseWidget})
 TilesetBrowser.__index = TilesetBrowser
@@ -23,8 +57,8 @@ TilesetBrowser.__index = TilesetBrowser
 ---@param width number Width (will snap to grid)
 ---@param height number Height (will snap to grid)
 ---@param tilesets table Array of tileset objects
----@return TilesetBrowser
-function TilesetBrowser.new(x, y, width, height, tilesets)
+---@return table
+TilesetBrowser.new = function(x, y, width, height, tilesets)
     local self = BaseWidget.new(x, y, width, height)
     setmetatable(self, TilesetBrowser)
     
@@ -150,13 +184,26 @@ function TilesetBrowser:isPointInside(x, y)
     return self:containsPoint(x, y)
 end
 
----Handle scroll wheel input
----@param delta number Scroll delta (positive = scroll up, negative = scroll down)
-function TilesetBrowser:handleScroll(delta)
-    self.scrollOffset = self.scrollOffset - delta * 20 -- 20 pixels per scroll step
-    -- Clamp scroll offset
-    local maxScroll = math.max(0, #self.tilesets * self.itemHeight - self.height)
-    self.scrollOffset = math.max(0, math.min(self.scrollOffset, maxScroll))
-end
-
 return TilesetBrowser
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

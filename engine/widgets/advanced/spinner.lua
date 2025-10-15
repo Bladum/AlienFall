@@ -1,3 +1,54 @@
+---Spinner Widget - Numeric Up/Down Control
+---
+---Numeric input widget with increment/decrement buttons. Allows users to adjust numeric
+---values within a specified range using buttons or direct text input. Grid-aligned for
+---consistent UI positioning.
+---
+---Features:
+---  - Numeric value input (integer or decimal)
+---  - Up/Down arrow buttons
+---  - Min/Max value constraints
+---  - Step size (increment amount)
+---  - Keyboard input support
+---  - Mouse wheel support
+---  - Grid-aligned positioning (24×24 pixels)
+---
+---Input Methods:
+---  - Click up/down buttons
+---  - Keyboard arrow keys
+---  - Mouse wheel scroll
+---  - Direct text entry
+---  - Page Up/Down for larger steps
+---
+---Key Exports:
+---  - Spinner.new(x, y, width, height): Creates spinner widget
+---  - setValue(value): Sets current value
+---  - getValue(): Returns current value
+---  - setRange(min, max): Sets value constraints
+---  - setStep(step): Sets increment amount
+---  - draw(): Renders spinner
+---  - mousepressed(x, y, button): Button click handling
+---  - wheelmoved(x, y): Scroll handling
+---
+---Dependencies:
+---  - widgets.core.base: BaseWidget inheritance
+---  - widgets.core.theme: Color and font theme
+---
+---@module widgets.advanced.spinner
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local Spinner = require("widgets.advanced.spinner")
+---  local spinner = Spinner.new(0, 0, 96, 48)
+---  spinner:setRange(0, 100)
+---  spinner:setStep(5)
+---  spinner:setValue(50)
+---  spinner:draw()
+---
+---@see widgets.input.textinput For text input
+
 --[[
     Spinner Widget - Numeric up/down spinner
 ]]
@@ -66,3 +117,25 @@ end
 
 print("[Spinner] Spinner widget loaded")
 return Spinner
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

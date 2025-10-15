@@ -1,3 +1,59 @@
+---ResearchTree Widget - Technology Tree Visualization
+---
+---Displays research/tech tree with node-based structure and dependencies. Shows research
+---status (locked, available, researching, completed), dependency lines, and allows clicking
+---to select research. Supports zoom and pan for large tech trees. Grid-aligned positioning.
+---
+---Features:
+---  - Node-based tree structure
+---  - Research status indicators (locked, available, researching, completed)
+---  - Dependency lines connecting nodes
+---  - Click to select research project
+---  - Zoom and pan controls
+---  - Grid-aligned positioning (24×24 pixels)
+---  - Tooltip with research details
+---
+---Research States:
+---  - Locked: Prerequisites not met (red)
+---  - Available: Can start researching (yellow)
+---  - Researching: In progress (blue, progress bar)
+---  - Completed: Finished (green)
+---  - Disabled: Blocked by game state (gray)
+---
+---Tree Layout:
+---  - Horizontal tiers (left to right progression)
+---  - Vertical branches (multiple paths)
+---  - Dependency arrows
+---  - Auto-layout algorithm
+---
+---Key Exports:
+---  - ResearchTree.new(x, y, width, height): Creates research tree
+---  - setData(treeData): Loads tech tree structure
+---  - setResearchStatus(nodeId, status, progress): Updates node state
+---  - selectNode(nodeId): Selects research project
+---  - zoom(factor): Adjusts zoom level
+---  - pan(dx, dy): Moves viewport
+---  - draw(): Renders tech tree
+---  - mousepressed(x, y, button): Node selection
+---
+---Dependencies:
+---  - widgets.core.base: BaseWidget inheritance
+---  - widgets.core.theme: Color and font theme
+---
+---@module widgets.advanced.researchtree
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local ResearchTree = require("widgets.advanced.researchtree")
+---  local tree = ResearchTree.new(0, 0, 960, 720)
+---  tree:setData(techTreeData)
+---  tree:setResearchStatus("laser_weapons", "available")
+---  tree:draw()
+---
+---@see economy.research For research system
+
 --[[
     ResearchTree Widget
     
@@ -184,3 +240,25 @@ function ResearchTree:setOffset(x, y)
 end
 
 return ResearchTree
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

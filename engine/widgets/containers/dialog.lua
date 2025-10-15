@@ -1,3 +1,53 @@
+---Dialog Widget - Modal Dialog Box
+---
+---A modal dialog box for important messages or confirmations. Blocks interaction with
+---underlying UI until dismissed. Grid-aligned for consistent positioning.
+---
+---Features:
+---  - Modal overlay (darkens background, blocks clicks)
+---  - Title and message text
+---  - Buttons (OK, Cancel, Yes/No, etc.)
+---  - Grid-aligned positioning (24×24 pixels)
+---  - Auto-centering on screen
+---  - Keyboard shortcuts (Enter for OK, ESC for Cancel)
+---
+---Dialog Types:
+---  - Info: Single OK button
+---  - Confirm: OK and Cancel buttons
+---  - YesNo: Yes and No buttons
+---  - Custom: User-defined button layout
+---
+---Modal Behavior:
+---  - Semi-transparent overlay blocks underlying UI
+---  - Dialog centered on screen
+---  - ESC key closes dialog
+---  - Click outside dialog area closes it (optional)
+---
+---Key Exports:
+---  - Dialog.new(title, message, buttons): Creates dialog
+---  - show(): Displays dialog
+---  - hide(): Dismisses dialog
+---  - setCallback(buttonId, func): Sets button callback
+---  - draw(): Renders overlay and dialog
+---
+---Dependencies:
+---  - widgets.core.base: BaseWidget inheritance
+---  - widgets.core.theme: Color and font theme
+---  - widgets.buttons.button: Dialog buttons
+---
+---@module widgets.containers.dialog
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local Dialog = require("widgets.containers.dialog")
+---  local dialog = Dialog.new("Confirm", "Delete this item?", {"Yes", "No"})
+---  dialog:setCallback("Yes", function() deleteItem() end)
+---  dialog:show()
+---
+---@see widgets.containers.window For non-modal windows
+
 --[[
     Dialog Widget
     
@@ -165,3 +215,25 @@ function Dialog:close()
 end
 
 return Dialog
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

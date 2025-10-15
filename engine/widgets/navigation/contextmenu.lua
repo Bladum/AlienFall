@@ -1,3 +1,64 @@
+---ContextMenu Widget - Right-Click Context Menu
+---
+---Displays a context menu with actions near cursor position. Supports nested submenus,
+---keyboard shortcuts, disabled items, and separators. Auto-closes on click outside.
+---Grid-aligned for consistent positioning.
+---
+---Features:
+---  - Dynamic position (appears near cursor)
+---  - Nested submenus (→ indicator)
+---  - Keyboard shortcuts display (e.g., "Ctrl+C")
+---  - Disabled menu items (grayed out)
+---  - Separators (horizontal lines)
+---  - Auto-close on click outside
+---  - Grid-aligned positioning (24×24 pixels)
+---
+---Menu Item Structure:
+---  - Label: Menu item text
+---  - Callback: Function to execute
+---  - Shortcut: Keyboard shortcut display
+---  - Enabled: Can be clicked
+---  - Submenu: Nested menu items
+---  - Separator: Visual divider (no action)
+---
+---Interaction:
+---  - Click item: Execute callback and close
+---  - Hover item with submenu: Show submenu
+---  - Click outside: Close menu
+---  - ESC key: Close menu
+---  - Disabled items: No interaction
+---
+---Key Exports:
+---  - ContextMenu.new(items): Creates context menu
+---  - show(x, y): Displays menu at position
+---  - hide(): Closes menu
+---  - addItem(item): Adds menu item
+---  - addSeparator(): Adds divider line
+---  - setItems(items): Replaces all items
+---  - draw(): Renders menu and submenus
+---  - mousepressed(x, y, button): Click handling
+---
+---Dependencies:
+---  - widgets.core.base: BaseWidget inheritance
+---  - widgets.core.theme: Color and font theme
+---
+---@module widgets.navigation.contextmenu
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local ContextMenu = require("widgets.navigation.contextmenu")
+---  local menu = ContextMenu.new({
+---    {label = "Copy", shortcut = "Ctrl+C", callback = copyFunc},
+---    {label = "Paste", shortcut = "Ctrl+V", callback = pasteFunc},
+---    {separator = true},
+---    {label = "Delete", callback = deleteFunc}
+---  })
+---  menu:show(mouseX, mouseY)
+---
+---@see widgets.navigation.dropdown For dropdown menus
+
 --[[
     ContextMenu Widget
     
@@ -188,3 +249,25 @@ function ContextMenu:hide()
 end
 
 return ContextMenu
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,3 +1,50 @@
+---BattlescapeInput - Battlescape Input Handler
+---
+---Handles all user input for the battlescape including keyboard, mouse, and touch controls.
+---Manages unit selection, movement, actions, camera control, and UI interaction. Central
+---input processing for tactical combat.
+---
+---Features:
+---  - Keyboard input (WASD, hotkeys, ESC)
+---  - Mouse input (click, drag, scroll)
+---  - Unit selection and commands
+---  - Camera pan and zoom
+---  - Action shortcuts (F for shoot, R for reload, etc.)
+---  - Menu navigation (ESC for pause/return)
+---
+---Input Mapping:
+---  - ESC: Return to geoscape
+---  - WASD: Camera pan
+---  - Mouse click: Select unit/tile
+---  - Mouse drag: Camera pan
+---  - Mouse scroll: Zoom in/out
+---  - F: Fire weapon
+---  - R: Reload
+---  - Space: End turn
+---
+---Key Exports:
+---  - BattlescapeInput.keypressed(battlescape, key): Keyboard handler
+---  - BattlescapeInput.mousepressed(battlescape, x, y, button): Mouse click
+---  - BattlescapeInput.mousereleased(battlescape, x, y, button): Mouse release
+---  - BattlescapeInput.mousemoved(battlescape, x, y, dx, dy): Mouse move
+---  - BattlescapeInput.wheelmoved(battlescape, x, y): Mouse wheel
+---
+---Dependencies:
+---  - core.state_manager: State switching
+---
+---@module battlescape.ui.input
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local BattlescapeInput = require("battlescape.ui.input")
+---  function love.keypressed(key)
+---    BattlescapeInput.keypressed(battlescape, key)
+---  end
+---
+---@see battlescape.ui.combat_hud For HUD interaction
+
 -- Battlescape Input Module
 -- Handles all user input for the battlescape
 
@@ -246,3 +293,24 @@ function BattlescapeInput:cycleUnitSelection(battlescape)
 end
 
 return BattlescapeInput
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

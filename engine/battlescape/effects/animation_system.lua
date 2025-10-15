@@ -1,3 +1,50 @@
+---AnimationSystem - Unit Movement and Rotation Animation Manager
+---
+---Handles smooth animations for unit movement, rotation, and state transitions in
+---tactical combat. Provides path-based movement animations with configurable timing,
+---rotation transitions, and completion callbacks for game state synchronization.
+---
+---Animation Types:
+---  - Path-based movement: Smooth tile-to-tile movement along calculated paths
+---  - Rotation transitions: Gradual facing direction changes
+---  - State animations: Idle, walking, running, combat stances
+---  - Completion callbacks: Trigger events when animations finish
+---
+---Features:
+---  - Configurable movement timing (60ms per tile default)
+---  - Smooth interpolation between positions
+---  - Animation queue management for sequential movements
+---  - Rotation smoothing to prevent jerky turns
+---  - Performance optimization for multiple simultaneous animations
+---  - Integration with unit state system
+---
+---Key Exports:
+---  - new(): Create new animation system instance
+---  - addMovement(unit, path, onComplete): Add movement animation
+---  - addRotation(unit, targetAngle, onComplete): Add rotation animation
+---  - update(dt): Update all active animations
+---  - clearAnimations(unit): Clear animations for specific unit
+---  - isAnimating(unit): Check if unit is currently animating
+---  - getAnimationProgress(unit): Get current animation progress
+---
+---Dependencies:
+---  - Unit system for position and rotation state
+---  - Pathfinding system for movement paths
+---
+---@module battlescape.effects.animation_system
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local AnimationSystem = require("battlescape.effects.animation_system")
+---  local animSystem = AnimationSystem.new()
+---  animSystem:addMovement(unit, path, function() print("Movement complete") end)
+---  animSystem:update(dt)
+---
+---@see battlescape.combat.unit For unit state management
+---@see ai.pathfinding.tactical_pathfinding For path generation
+
 -- Animation System
 -- Handles unit movement and rotation animations
 
@@ -210,3 +257,25 @@ function AnimationSystem:clear()
 end
 
 return AnimationSystem
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

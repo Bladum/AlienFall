@@ -1,3 +1,59 @@
+---Detection Manager - Radar Scanning and Mission Detection
+---
+---Manages radar scanning from bases and crafts to detect hidden missions (UFOs, sites, bases).
+---Performs daily radar scans, calculates radar effectiveness based on distance, and reduces
+---mission cover values. When cover reaches zero, missions become visible to the player.
+---
+---Core Responsibilities:
+---  - Perform daily radar scans from all player bases
+---  - Perform daily radar scans from all player crafts
+---  - Calculate radar power and range from facilities/equipment
+---  - Reduce mission cover based on radar effectiveness
+---  - Track detection events and notify player
+---
+---Radar Mechanics:
+---  - Each base/craft has radar power and range
+---  - Radar effectiveness decreases with distance
+---  - Cover reduction = radar power × distance effectiveness
+---  - Mission detected when cover ≤ 0
+---  - Multiple radars can scan same mission (cumulative)
+---
+---Radar Sources:
+---  - Base Radar Facilities: Long-range stationary detection
+---  - Craft Equipment: Mobile short-range detection
+---  - Advanced Radar: Increased power and range
+---
+---Detection Formula:
+---  effectiveness = max(0, 1 - (distance / radarRange))
+---  coverReduction = radarPower × effectiveness
+---  newCover = max(0, oldCover - coverReduction)
+---
+---Key Exports:
+---  - DetectionManager.new(): Creates detection manager instance
+---  - performDailyScans(): Scans all missions from all radar sources
+---  - scanFromBase(baseId): Radar scan from specific base
+---  - scanFromCraft(craftId): Radar scan from specific craft
+---  - getRadarCoverage(baseId): Returns radar range visualization
+---
+---Dependencies:
+---  - lore.missions.mission_system: Mission data and cover values
+---  - basescape.facilities: Base radar facilities
+---  - geoscape.crafts: Craft radar equipment
+---  - geoscape.geography.province: Distance calculations
+---
+---@module geoscape.systems.detection_manager
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local DetectionManager = require("geoscape.systems.detection_manager")
+---  local detector = DetectionManager.new()
+---  detector:performDailyScans()  -- Reduce cover on all missions
+---
+---@see lore.missions For mission system
+---@see basescape.facilities For base radar
+
 --[[
     Detection Manager
     Manages radar scanning from bases and crafts to detect hidden missions.
@@ -431,3 +487,25 @@ function DetectionManager:drawRadarCoverage(bases, crafts)
 end
 
 return DetectionManager
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

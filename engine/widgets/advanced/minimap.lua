@@ -1,3 +1,61 @@
+---MiniMap Widget - Tactical Map Overview
+---
+---Displays a miniature overview of the tactical map with unit markers, fog of war,
+---and click-to-center functionality. Grid-aligned for consistent positioning.
+---
+---Features:
+---  - Scaled-down map view
+---  - Unit markers (friendly, enemy, neutral)
+---  - Fog of war overlay
+---  - Click to center main view
+---  - Grid-aligned positioning (24×24 pixels)
+---  - Current viewport indicator
+---
+---Map Rendering:
+---  - Terrain: Simplified color-coded tiles
+---  - Units: Color-coded dots or icons
+---  - Fog: Dark overlay for unexplored areas
+---  - Viewport: Rectangle showing main camera view
+---
+---Unit Markers:
+---  - Friendly: Blue/Green dots
+---  - Enemy: Red dots
+---  - Neutral: Yellow dots
+---  - Selected: Highlighted outline
+---
+---Interaction:
+---  - Click on minimap: Centers main view at clicked position
+---  - Hover: Shows coordinates tooltip
+---  - Drag: Pans main view (optional)
+---
+---Key Exports:
+---  - MiniMap.new(x, y, width, height): Creates minimap
+---  - setMapData(mapData): Sets terrain data
+---  - addUnit(unit, x, y): Adds unit marker
+---  - removeUnit(unitId): Removes unit marker
+---  - setFogOfWar(fogData): Updates fog overlay
+---  - setViewport(x, y, width, height): Updates viewport indicator
+---  - draw(): Renders minimap
+---  - mousepressed(x, y, button): Click-to-center handling
+---
+---Dependencies:
+---  - widgets.core.base: BaseWidget inheritance
+---  - widgets.core.theme: Color theme
+---
+---@module widgets.advanced.minimap
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local MiniMap = require("widgets.advanced.minimap")
+---  local minimap = MiniMap.new(720, 0, 240, 240)
+---  minimap:setMapData(battlefieldMap)
+---  minimap:addUnit(soldier, 10, 15)
+---  minimap:draw()
+---
+---@see battlescape.ui For battlescape integration
+
 --[[
     MiniMap Widget
     
@@ -128,3 +186,25 @@ function MiniMap:setMapSize(width, height)
 end
 
 return MiniMap
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

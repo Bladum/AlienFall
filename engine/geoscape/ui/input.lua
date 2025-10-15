@@ -1,5 +1,33 @@
--- Geoscape Input Module
--- Contains input handling logic
+---Geoscape Input Module - Keyboard and Mouse Input Handling
+---
+---Contains input handling logic for geoscape layer. Manages keyboard shortcuts,
+---camera controls, and game state transitions. Part of legacy geoscape system.
+---
+---Key Bindings:
+---  - ESC: Return to main menu
+---  - SPACE: Pause/Resume game
+---  - R: Reset camera to default position
+---  - Arrow Keys: Pan camera (handled elsewhere)
+---  - Mouse Wheel: Zoom in/out (handled elsewhere)
+---
+---Key Exports:
+---  - GeoscapeInput:keypressed(key, scancode, isrepeat): Keyboard input handler
+---
+---Dependencies:
+---  - core.state_manager: State transitions
+---
+---@module geoscape.ui.input
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local GeoscapeInput = require("geoscape.ui.input")
+---  function love.keypressed(key, scancode, isrepeat)
+---    GeoscapeInput:keypressed(key, scancode, isrepeat)
+---  end
+---
+---@see geoscape.world.world_state For game state
 
 local StateManager = require("core.state_manager")
 
@@ -52,3 +80,24 @@ function GeoscapeInput:wheelmoved(x, y)
 end
 
 return GeoscapeInput
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -201,3 +201,24 @@ function EquipmentSystem.getSkillEffectValue(unit, effectName)
 end
 
 return EquipmentSystem
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

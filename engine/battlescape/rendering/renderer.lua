@@ -521,3 +521,25 @@ function BattlefieldRenderer:drawSelection(selection, camera, animationSystem, l
 end
 
 return BattlefieldRenderer
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

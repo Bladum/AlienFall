@@ -1,3 +1,60 @@
+---Projectile Entity - In-Flight Weapon Projectile
+---
+---Represents a projectile in flight from a weapon attack. Used for bullets, lasers,
+---grenades, thrown items, and other ranged attacks. Handles trajectory, animation,
+---collision detection, and impact effects.
+---
+---Features:
+---  - Smooth animation from start to end position
+---  - Trajectory calculation
+---  - Collision detection with obstacles and units
+---  - Impact effects (damage, explosion, smoke)
+---  - Visual representation (sprite, trail, particle effects)
+---  - Multiple projectile types (ballistic, beam, arc, thrown)
+---
+---Projectile Types:
+---  - Ballistic: Straight-line bullets (rifles, pistols)
+---  - Beam: Instant laser/plasma beams
+---  - Arc: Parabolic grenades and thrown items
+---  - Guided: Tracking missiles
+---
+---Projectile Properties:
+---  - Position: Current grid coordinates and animated position
+---  - Velocity: Speed and direction
+---  - Damage: Weapon damage and type
+---  - Range: Maximum travel distance
+---  - Visual: Sprite, color, trail effects
+---
+---Key Exports:
+---  - Projectile.new(options): Creates new projectile
+---  - update(dt): Updates position and checks collisions
+---  - draw(): Renders projectile visual
+---  - hasReachedTarget(): Checks if arrived at destination
+---  - getPosition(): Returns current position
+---  - destroy(): Removes projectile and triggers impact
+---
+---Dependencies:
+---  - None (standalone entity)
+---
+---@module battlescape.entities.projectile
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local Projectile = require("battlescape.entities.projectile")
+---  local bullet = Projectile.new({
+---    startX = 5, startY = 10,
+---    targetX = 12, targetY = 15,
+---    speed = 20,
+---    damage = 25,
+---    damageType = "kinetic"
+---  })
+---  bullet:update(dt)
+---  bullet:draw()
+---
+---@see battlescape.combat.projectile_system For projectile management
+
 -- Projectile Entity
 -- Represents a projectile in flight from a weapon attack
 -- Used for bullets, lasers, grenades, thrown items, etc.
@@ -145,3 +202,25 @@ function Projectile:getDebugInfo()
 end
 
 return Projectile
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,3 +1,63 @@
+---MoraleSystem - Unit Morale and Panic
+---
+---Handles morale loss, bravery checks, panic, and berserk states for units in tactical
+---combat. Morale affects unit behavior and can cause panic (flee) or berserk (attack
+---anything) states. Critical for realistic tactical combat simulation.
+---
+---Features:
+---  - Morale tracking per unit
+---  - Bravery checks against panic/berserk
+---  - Panic state (flee behavior)
+---  - Berserk state (attack anything)
+---  - Morale recovery over time
+---  - Morale loss triggers (damage, casualties, fear)
+---
+---Morale States:
+---  - Normal: Full control (morale > 40)
+---  - Panicked: Flee behavior (morale < 40, failed bravery check)
+---  - Berserk: Attack anything (morale < 20, failed bravery check)
+---  - Unconscious: No action (morale <= 0)
+---
+---Morale Thresholds:
+---  - Panic threshold: 40 morale
+---  - Berserk threshold: 20 morale
+---  - Unconscious: 0 morale
+---
+---Morale Loss Triggers:
+---  - Taking damage
+---  - Seeing ally wounded/killed
+---  - Seeing enemy (fear factor)
+---  - Low health
+---  - Mission failure
+---
+---Key Exports:
+---  - MoraleSystem.new(): Creates morale system
+---  - checkMorale(unit): Performs bravery check
+---  - applyMoraleLoss(unit, amount, source): Reduces morale
+---  - applyMoraleGain(unit, amount): Restores morale
+---  - getMoraleState(unit): Returns current state
+---  - isPanicked(unit): Checks panic state
+---  - isBerserk(unit): Checks berserk state
+---  - updateMorale(unit, dt): Processes morale recovery
+---
+---Dependencies:
+---  - None (standalone system)
+---
+---@module battlescape.combat.morale_system
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local MoraleSystem = require("battlescape.combat.morale_system")
+---  local moraleSys = MoraleSystem.new()
+---  moraleSys:applyMoraleLoss(unit, 15, "ally_killed")
+---  if moraleSys:isPanicked(unit) then
+---    -- Unit panics and flees
+---  end
+---
+---@see battlescape.combat.damage_system For morale damage
+
 -- Morale System
 -- Handles morale loss, bravery checks, panic, and berserk states
 
@@ -211,3 +271,25 @@ function MoraleSystem:getStateColor(state)
 end
 
 return MoraleSystem
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

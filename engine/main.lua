@@ -1,22 +1,77 @@
--- Alien Fall - Main Entry Point
--- A simplified turn-based strategy game inspired by UFO: Enemy Unknown
+-- luacheck: ignore
+---@diagnostic disable = undefined-global
+---@diagnostic disable = inject-field
+---@diagnostic disable = param-type-mismatch
+---@diagnostic disable = assign-type-mismatch
+---@diagnostic disable = duplicate-set-field
+---Alien Fall - Main Entry Point
+---
+---Main game initialization and Love2D callback routing for Alien Fall, a turn-based
+---strategy game inspired by UFO: Enemy Unknown (X-COM). This module loads all game
+---systems, registers game states, and routes Love2D callbacks to the active state.
+---
+---Key Exports:
+---  - love.load(): Initializes engine, loads assets, registers states
+---  - love.update(dt): Updates active game state every frame
+---  - love.draw(): Renders active state and debug overlays
+---  - love.keypressed(): Routes keyboard input (Esc=quit, F9=grid, F12=fullscreen)
+---  - love.mousepressed/released/moved(): Routes mouse input to active state
+---  - love.wheelmoved(): Routes mouse wheel input to active state
+---  - love.resize(): Handles window resizing and viewport recalculation
+---  - love.errorhandler(): Custom error screen with stack trace
+---
+---Game States:
+---  - menu: Main menu and navigation
+---  - geoscape: Strategic world map (missions, UFO tracking)
+---  - battlescape: Tactical combat (turn-based squad combat)
+---  - basescape: Base management (facilities, research, manufacturing)
+---  - tests_menu: Unit and integration test runner
+---  - widget_showcase: UI component demonstration
+---  - map_editor: Tactical map creation tool
+---
+---Dependencies:
+---  - mods.mod_manager: Content loading and mod system (loaded FIRST)
+---  - core.state_manager: Game state/screen management
+---  - core.assets: Graphics, audio, and data asset loading
+---  - core.data_loader: TOML configuration file loading
+---  - widgets.init: UI widget system with 24×24 grid
+---  - utils.viewport: Dynamic resolution and fullscreen support
+---  - scenes.*: All game screen implementations
+---
+---@module main
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  -- Run game with Love2D console enabled:
+---  lovec engine
+---  
+---  -- Global hotkeys:
+---  -- Escape: Quit game
+---  -- F9: Toggle grid overlay
+---  -- F12: Toggle fullscreen
+---
+---@see core.state_manager For state management system
+---@see widgets.init For UI widget framework
+---@see mods.mod_manager For content loading
 
 -- Load mod manager FIRST (required for all content loading)
-local ModManager = require("core.mod_manager")
+local ModManager = require("mods.mod_manager")
 
 -- Load state manager
 local StateManager = require("core.state_manager")
 
 -- Load game modules
 print("[Main] Loading Menu...")
-local Menu = require("menu.main_menu")
+local Menu = require("scenes.main_menu")
 print("[Main] Loading Geoscape...")
-local Geoscape = require("geoscape.init")
+local Geoscape = require("scenes.geoscape_screen")
 
 print("[Main] Loading Battlescape...")
 local Battlescape
 local success, err = pcall(function()
-    Battlescape = require("battlescape.init")
+    Battlescape = require("scenes.battlescape_screen")
 end)
 if not success then
     print("[ERROR] Failed to load Battlescape: " .. tostring(err))
@@ -26,16 +81,16 @@ else
 end
 
 print("[Main] Loading Basescape...")
-local Basescape = require("basescape.init")
+local Basescape = require("scenes.basescape_screen")
 
 print("[Main] Loading Tests Menu...")
-local TestsMenu = require("menu.tests_menu")
+local TestsMenu = require("scenes.tests_menu")
 
 print("[Main] Loading Widget Showcase...")
-local WidgetShowcase = require("menu.widget_showcase")
+local WidgetShowcase = require("scenes.widget_showcase")
 
 print("[Main] Loading Map Editor...")
-local MapEditor = require("tools.map_editor.init")
+local MapEditor = require("battlescape.ui.map_editor")
 
 -- Load widgets system
 local Widgets = require("widgets.init")
@@ -61,7 +116,7 @@ function love.load()
         fullscreen = false,
         borderless = false,
         resizable = true,  -- Enable dynamic resolution
-        minwidth = 960,    -- Minimum 960×720 for GUI to fit
+        minwidth = 960,    -- Minimum 960�720 for GUI to fit
         minheight = 720,
         vsync = 1,
         msaa = 4
@@ -154,7 +209,7 @@ function love.keypressed(key, scancode, isrepeat)
     if key == "f12" then
         local isFullscreen = love.window.getFullscreen()
         if isFullscreen then
-            -- Switch to windowed mode (960×720)
+            -- Switch to windowed mode (960�720)
             love.window.setMode(960, 720, {
                 fullscreen = false,
                 borderless = false,
@@ -164,7 +219,7 @@ function love.keypressed(key, scancode, isrepeat)
                 vsync = 1,
                 msaa = 4
             })
-            print("[Main] Switched to windowed mode (960×720)")
+            print("[Main] Switched to windowed mode (960�720)")
         else
             -- Switch to fullscreen mode (native desktop resolution)
             local desktopWidth, desktopHeight = love.window.getDesktopDimensions()
@@ -174,7 +229,7 @@ function love.keypressed(key, scancode, isrepeat)
                 vsync = 1,
                 msaa = 4
             })
-            print(string.format("[Main] Switched to fullscreen (%d×%d)", desktopWidth, desktopHeight))
+            print(string.format("[Main] Switched to fullscreen (%d�%d)", desktopWidth, desktopHeight))
         end
         Viewport.printInfo()
     end
@@ -207,7 +262,7 @@ end
 
 -- Window resize handler
 function love.resize(w, h)
-    print(string.format("[Main] Window resized to %d×%d", w, h))
+    print(string.format("[Main] Window resized to %d�%d", w, h))
     Viewport.printInfo()
 end
 
@@ -272,3 +327,25 @@ function love.errorhandler(msg)
         love.timer.sleep(0.1)
     end
 end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

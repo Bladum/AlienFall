@@ -1,5 +1,12 @@
 {
-  "$schema": "https://raw.githubusercontent.com/sumneko/vscode-lua/master/setting/schema.json",
+  "runtime": {
+    "version": "LuaJIT",
+    "path": [
+      "?.lua",
+      "?/init.lua",
+      "?/?.lua"
+    ]
+  },
   "diagnostics": {
     "globals": [
       "love",
@@ -8,115 +15,22 @@
       "ffi"
     ],
     "disable": [
-      "unused-local",
+      "lowercase-global",
+      "undefined-global",
       "param-type-mismatch",
-      "duplicate-set-field",
-      "redundant-parameter",
       "assign-type-mismatch",
       "luadoc-miss-module-name",
-      "undefined-doc-param",
-      "different-requires"
-    ],
-    "severity": {
-      "unused-local": "Warning",
-      "unused-function": "Warning",
-      "undefined-global": "Information"
-    }
-  },
-  "runtime": {
-    "version": "LuaJIT",
-    "path": [
-      "?.lua",
-      "?/init.lua",
-      "lua/?.lua",
-      "lua/?/init.lua"
-    ],
-    "pathStrict": false,
-    "special": {
-      "import": "require"
-    },
-    "nonstandardSymbol": []
+      "duplicate-set-field",
+      "duplicate-doc-field",
+      "undefined-field"
+    ]
   },
   "workspace": {
     "library": [
       "${3rd}/love2d/library",
       "./engine",
-      "./mods",
-      "./libs",
-      "./data",
-      "./love_definitions"
+      "./engine/utils/love.lua"
     ],
-    "checkThirdParty": false,
-    "preloadFileSize": 1000,
-    "maxPreload": 5000,
-    "ignoreDir": [
-      ".git",
-      ".vscode",
-      "node_modules",
-      "build",
-      "dist",
-      "OTHER",
-      "tests",
-      "assets",
-      "wiki",
-      "tasks",
-      ".github"
-    ],
-    "ignoreSubmodules": true,
-    "useGitIgnore": true
-  },
-  "completion": {
-    "callSnippet": "Both",
-    "keywordSnippet": "Both",
-    "displayContext": 10,
-    "showParams": true,
-    "workspaceWord": true,
-    "showWord": "Fallback",
-    "autoRequire": true,
-    "requireSeparator": "."
-  },
-  "hover": {
-    "enable": true,
-    "viewString": true,
-    "viewStringMax": 1000,
-    "viewNumber": true,
-    "previewFields": 50,
-    "enumsLimit": 5
-  },
-  "signatureHelp": {
-    "enable": true
-  },
-  "typeFormat": {
-    "config": {
-      "format_line": "false",
-      "auto_complete_end": "false",
-      "auto_complete_table_sep": ","
-    }
-  },
-  "format": {
-    "enable": true,
-    "defaultConfig": {
-      "indent_style": "space",
-      "indent_size": "4",
-      "continuation_indent_size": "4",
-      "max_line_length": "120",
-      "quote_style": "double",
-      "call_arg_parentheses": "keep",
-      "trailing_table_separator": "smart",
-      "table_separator_style": "comma",
-      "align_call_args": "false",
-      "align_function_params": "false",
-      "align_continuous_assign_statement": "false",
-      "align_continuous_rect_table_field": "false",
-      "align_if_branch": "false",
-      "align_array_table": "false"
-    }
-  },
-  "hint": {
-    "enable": true,
-    "setType": true,
-    "paramType": true,
-    "paramName": "All",
-    "await": false
+    "checkThirdParty": false
   }
 }

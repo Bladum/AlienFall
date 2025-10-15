@@ -1,3 +1,62 @@
+---SkillSelection Widget - Multi-Skill Popup Selector
+---
+---A popup widget that allows players to select which skill to use when a unit has multiple
+---skills available. Displays skill icons, descriptions, costs, and allows selection via
+---mouse or keyboard. Grid-aligned for consistent positioning.
+---
+---Features:
+---  - Grid-aligned layout (24×24 pixels)
+---  - Skill icons and descriptions
+---  - AP/EP cost display
+---  - Keyboard navigation (arrow keys, numbers)
+---  - Click to select skill
+---  - ESC to cancel
+---  - Auto-centering on screen
+---
+---Skill Display:
+---  - Icon: Skill visual representation
+---  - Name: Skill display name
+---  - Description: Short effect description
+---  - Cost: AP and/or EP required
+---  - Availability: Grayed if insufficient resources
+---
+---Interaction:
+---  - Click skill: Selects and closes popup
+---  - Arrow keys: Navigate skills
+---  - Number keys: Quick select (1-9)
+---  - Enter: Confirm selection
+---  - ESC: Cancel selection
+---
+---Key Exports:
+---  - SkillSelection.new(x, y, width, height): Creates skill selector
+---  - setSkills(skills): Sets available skill list
+---  - setUnit(unit): Sets unit for resource checking
+---  - show(): Displays popup
+---  - hide(): Closes popup
+---  - getSelectedSkill(): Returns selected skill
+---  - draw(): Renders skill selector
+---  - keypressed(key): Keyboard navigation
+---  - mousepressed(x, y, button): Click handling
+---
+---Dependencies:
+---  - widgets.core.base: BaseWidget inheritance
+---  - widgets.core.theme: Color and font theme
+---  - widgets: Widget system utilities
+---
+---@module widgets.display.skill_selection
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local SkillSelection = require("widgets.display.skill_selection")
+---  local selector = SkillSelection.new(240, 180, 480, 360)
+---  selector:setSkills(unitSkills)
+---  selector:setUnit(currentUnit)
+---  selector:show()
+---
+---@see widgets.display.action_panel For action selection
+
 --[[
     Skill Selection Widget
 
@@ -11,7 +70,7 @@
 
 local BaseWidget = require("widgets.core.base")
 local Theme = require("widgets.core.theme")
-local Widgets = require("widgets")
+local Widgets = require("widgets.init")
 
 local SkillSelection = setmetatable({}, {__index = BaseWidget})
 SkillSelection.__index = SkillSelection
@@ -247,3 +306,24 @@ function SkillSelection:mousepressed(x, y, button)
 end
 
 return SkillSelection
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

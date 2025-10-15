@@ -1,3 +1,62 @@
+---ComboBox Widget - Editable Dropdown Combo
+---
+---A combination of text input and dropdown menu. Allows users to either type text
+---directly or select from a predefined list of options. Grid-aligned for consistent
+---positioning.
+---
+---Features:
+---  - Editable text input
+---  - Dropdown selection menu
+---  - Auto-complete suggestions
+---  - Grid-aligned positioning (24×24 pixels)
+---  - Keyboard navigation
+---  - Custom and predefined options
+---
+---Interaction Modes:
+---  - Type: Enter text directly
+---  - Select: Choose from dropdown
+---  - Auto-complete: Suggestions while typing
+---  - Mixed: Combine typing and selection
+---
+---Keyboard Support:
+---  - Type text: Character input
+---  - Arrow Down: Open dropdown
+---  - Arrow Up/Down: Navigate dropdown (when open)
+---  - Enter: Select highlighted option
+---  - ESC: Close dropdown
+---  - Tab: Auto-complete current suggestion
+---
+---Key Exports:
+---  - ComboBox.new(x, y, width, height): Creates combobox
+---  - setOptions(options): Sets dropdown options
+---  - setText(text): Sets current text
+---  - getText(): Returns current text
+---  - setAutoComplete(enabled): Enables suggestion system
+---  - setCallback(func): Sets onChange handler
+---  - draw(): Renders combobox
+---  - keypressed(key): Keyboard input
+---  - textinput(char): Character input
+---  - mousepressed(x, y, button): Click handling
+---
+---Dependencies:
+---  - widgets.core.base: BaseWidget inheritance
+---  - widgets.core.theme: Color and font theme
+---
+---@module widgets.input.combobox
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local ComboBox = require("widgets.input.combobox")
+---  local combo = ComboBox.new(0, 0, 240, 24)
+---  combo:setOptions({"Option 1", "Option 2", "Option 3"})
+---  combo:setAutoComplete(true)
+---  combo:draw()
+---
+---@see widgets.input.textinput For plain text input
+---@see widgets.navigation.dropdown For dropdown only
+
 --[[
     ComboBox Widget
     
@@ -187,3 +246,25 @@ function ComboBox:keypressed(key)
 end
 
 return ComboBox
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

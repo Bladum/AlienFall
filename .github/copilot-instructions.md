@@ -9,7 +9,7 @@ AlienFall (also known as XCOM Simple) is an open-source, turn-based strategy gam
 
 - **Love2D**: 2D game framework (version 12.0+) for graphics, audio, input, and window management.
 - **Lua**: Programming language (version 5.1+), focusing on clean, modular code.
-- **Widgets Library**: Custom UI framework in `widgets/`.
+- **Widgets Library**: Custom UI framework in `engine/ui/widgets/`.
 - **VS Code**: Primary IDE with GitHub Copilot.
 - **Git**: Version control with branches and PRs.
 
@@ -165,24 +165,53 @@ c:\Users\tombl\Documents\Projects\
 ├── engine/                          -- Main game engine (XCOM Simple)
 │   ├── main.lua                    -- Entry point (love.load, love.update, love.draw)
 │   ├── conf.lua                    -- Love2D configuration (console, window, modules)
-│   ├── systems/                    -- Core game systems
-│   │   ├── state_manager.lua      -- State/screen management
-│   │   └── ui.lua                 -- UI widgets (buttons, labels, panels)
-│   ├── modules/                    -- Game states/screens
-│   │   ├── menu.lua               -- Main menu
-│   │   ├── geoscape.lua           -- Strategic layer
-│   │   ├── battlescape.lua        -- Tactical combat
-│   │   └── basescape.lua          -- Base management
+│   ├── layers/                     -- Game layers (separated by concern)
+│   │   ├── geoscape/               -- Strategic layer (world map, missions)
+│   │   ├── basescape/              -- Base management layer
+│   │   ├── battlescape/            -- 3D tactical combat layer
+│   │   ├── interception/           -- Craft interception layer
+│   │   └── battle/                 -- ECS battle system layer
+│   ├── ui/                         -- UI framework
+│   │   └── widgets/                -- Widget library (buttons, panels, etc.)
+│   ├── core/                       -- Core engine systems
+│   │   ├── state_manager.lua       -- State/screen management
+│   │   ├── mod_manager.lua         -- Mod loading system
+│   │   └── assets.lua              -- Asset management
+│   ├── shared/                     -- Shared game logic
+│   │   ├── combat/                 -- Combat mechanics
+│   │   ├── units/                  -- Unit definitions
+│   │   └── pathfinding.lua         -- Pathfinding utilities
+│   ├── systems/                    -- Cross-layer systems
+│   │   ├── calendar.lua            -- Game calendar
+│   │   └── economy.lua             -- Economic systems
 │   ├── utils/                      -- Utility functions
 │   ├── data/                       -- Game data (JSON/Lua)
+│   ├── menu/                       -- Menu screens
 │   └── assets/                     -- Images, sounds, fonts
+├── tests/                          -- All test files (consolidated)
+│   ├── runners/                    -- Test runner scripts
+│   ├── unit/                       -- Unit tests
+│   ├── integration/                -- Integration tests
+│   ├── performance/                -- Performance tests
+│   ├── battle/                     -- Battle system tests
+│   ├── battlescape/                -- Battlescape tests
+│   └── README.md                   -- Test documentation
+├── mock/                           -- Mock data for testing
+│   ├── units.lua                   -- Mock unit data
+│   ├── items.lua                   -- Mock item data
+│   ├── missions.lua                -- Mock mission data
+│   └── maps.lua                    -- Mock map data
+├── tools/                          -- Standalone development tools
+│   ├── map_editor/                 -- Visual map editor
+│   └── asset_verification/         -- Asset validation tool
+├── mods/                           -- Mod content
+│   ├── core/                       -- Core mod data
+│   └── new/                        -- Additional mods
 ├── wiki/                           -- Documentation
 │   ├── API.md                      -- API reference (READ THIS for API info)
 │   ├── FAQ.md                      -- Common questions (READ THIS for game info)
 │   ├── DEVELOPMENT.md              -- Dev guide (READ THIS for workflow)
-│   └── wiki/                       -- Additional wiki pages
-├── mods/                           -- Mod content
-│   └── core/                       -- Core mod data
+│   └── PROJECT_STRUCTURE.md        -- Detailed project navigation
 ├── tasks/                          -- Task management
 │   ├── tasks.md                    -- Task tracking (UPDATE THIS)
 │   ├── TASK_TEMPLATE.md           -- Template for tasks (USE THIS)
@@ -196,17 +225,25 @@ c:\Users\tombl\Documents\Projects\
 **Core Game Files:**
 - `engine/main.lua` - Game entry point
 - `engine/conf.lua` - Love2D configuration
-- `engine/systems/state_manager.lua` - State management
-- `engine/systems/ui.lua` - UI widgets
+- `engine/core/state_manager.lua` - State management
+- `engine/ui/widgets/init.lua` - UI widgets system
 
 **Documentation:**
 - `wiki/API.md` - Full API documentation
 - `wiki/FAQ.md` - Game mechanics and FAQ
 - `wiki/DEVELOPMENT.md` - Development workflow
+- `wiki/PROJECT_STRUCTURE.md` - Detailed project navigation
 
 **Task Management:**
 - `tasks/tasks.md` - Central task tracking
 - `tasks/TASK_TEMPLATE.md` - Template for new tasks
+
+**Testing:**
+- `tests/README.md` - How to run tests
+- `mock/README.md` - Mock data usage guide
+
+**Tools:**
+- `tools/README.md` - Overview of development tools
 
 ---
 
@@ -284,12 +321,12 @@ local gridCol, gridRow = widgets.pixelsToGrid(pixelX, pixelY)
    - ✅ `love.graphics.setColor(theme.colors.primary.r, theme.colors.primary.g, theme.colors.primary.b)`
 
 5. **Document widget API:**
-   - Create `engine/widgets/docs/widgetname.md`
+   - Create `engine/ui/widgets/docs/widgetname.md`
    - Include constructor parameters, methods, properties, events
    - Add usage examples
 
 6. **Write test cases:**
-   - Create `engine/widgets/tests/test_widgetname.lua`
+   - Create `engine/ui/widgets/tests/test_widgetname.lua`
    - Test grid snapping, input handling, theme application
    - Verify enabled/disabled states
 
@@ -302,7 +339,7 @@ local gridCol, gridRow = widgets.pixelsToGrid(pixelX, pixelY)
 ### Widget Architecture
 
 ```
-engine/widgets/
+engine/ui/widgets/
 ├── init.lua              -- Widget system loader
 ├── base.lua              -- BaseWidget class (grid snapping, events, theme)
 ├── theme.lua             -- Theme system (colors, fonts, spacing)
@@ -351,14 +388,20 @@ Widget at grid (5, 3) with size (4, 2):
 
 ## Code Organization
 
-- **Modules**: Use `require()` as `folder.module` (e.g., `widgets.button`).
+- **Modules**: Use `require()` as `folder.module` (e.g., `layers.geoscape.systems.world_map`, `ui.widgets.button`).
 - **File Structure**:
   - `main.lua`: Entry point.
-  - `widgets/`: UI components.
+  - `layers/`: Game layers (geoscape, basescape, battlescape, interception, battle).
+  - `ui/widgets/`: UI components.
+  - `core/`: Core engine systems.
+  - `shared/`: Shared game logic.
+  - `systems/`: Cross-layer systems.
   - `assets/`: Images, sounds, fonts.
-  - `scripts/`: Game logic.
-  - `tests/`: Unit/integration tests.
-- **Architecture**: State machine for screens, table-based entities, component architecture.
+  - `tests/`: Unit/integration tests (at project root).
+  - `mock/`: Mock data for testing (at project root).
+  - `tools/`: Standalone development tools (at project root).
+  - `mods/`: Mod content (at project root).
+- **Architecture**: Layer-based separation, state machine for screens, ECS battle system, table-based entities, component architecture.
 
 ## Game Development Patterns
 
@@ -415,10 +458,13 @@ Widget at grid (5, 3) with size (4, 2):
   - `wiki/API.md` - API documentation
   - `wiki/FAQ.md` - Game mechanics and FAQ
   - `wiki/DEVELOPMENT.md` - Development workflow
+  - `wiki/PROJECT_STRUCTURE.md` - Detailed project navigation
   - `wiki/wiki/` - Additional documentation
 - Source Code: `engine/` folder for game code
-- Mods: `mods/` folder for custom content
-- Tests: `tests/` folder for unit/integration tests
+- Mods: `mods/` folder for custom content (at project root)
+- Tests: `tests/` folder for unit/integration tests (at project root)
+- Mock Data: `mock/` folder for test data generators (at project root)
+- Tools: `tools/` folder for standalone development tools (at project root)
 - Tasks: `tasks/` folder for task management
   - `tasks/tasks.md` - Task tracking
   - `tasks/TASK_TEMPLATE.md` - Template for new tasks

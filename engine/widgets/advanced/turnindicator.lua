@@ -1,3 +1,56 @@
+---TurnIndicator Widget - Turn Counter and Team Display
+---
+---Displays current turn number and whose turn it is (player/AI, team/faction).
+---Shows turn counter, team indicator, time remaining (optional), and turn phase.
+---Grid-aligned for consistent UI positioning.
+---
+---Features:
+---  - Turn counter (e.g., "Turn 5")
+---  - Team/faction indicator (e.g., "Player Team")
+---  - Time remaining display (optional, for timed turns)
+---  - Turn phase display (movement, action, reaction, end)
+---  - Grid-aligned positioning (24×24 pixels)
+---  - Color-coded team indicators
+---
+---Display Modes:
+---  - Simple: Turn number only
+---  - Full: Turn + team + phase
+---  - Timed: Turn + team + time remaining
+---  - Detailed: All information
+---
+---Visual States:
+---  - Player Turn: Highlighted (green/blue)
+---  - AI Turn: Dimmed (gray)
+---  - Time Warning: Yellow (< 30s remaining)
+---  - Time Critical: Red (< 10s remaining)
+---
+---Key Exports:
+---  - TurnIndicator.new(x, y, width, height): Creates turn indicator
+---  - setTurn(turnNumber): Updates turn counter
+---  - setTeam(teamName, color): Sets current team
+---  - setPhase(phaseName): Sets turn phase
+---  - setTimeRemaining(seconds): Sets time limit
+---  - draw(): Renders turn indicator
+---
+---Dependencies:
+---  - widgets.core.base: BaseWidget inheritance
+---  - widgets.core.theme: Color and font theme
+---
+---@module widgets.advanced.turnindicator
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local TurnIndicator = require("widgets.advanced.turnindicator")
+---  local indicator = TurnIndicator.new(0, 0, 192, 48)
+---  indicator:setTurn(5)
+---  indicator:setTeam("Player", {0, 128, 255})
+---  indicator:setPhase("Movement")
+---  indicator:draw()
+---
+---@see widgets.display.label For text display
+
 --[[
     TurnIndicator Widget
     
@@ -112,3 +165,25 @@ function TurnIndicator:advanceTurn()
 end
 
 return TurnIndicator
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

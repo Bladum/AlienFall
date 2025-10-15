@@ -206,3 +206,24 @@ function UnitInfoPanel:wrapText(text, maxWidth)
 end
 
 return UnitInfoPanel
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,3 +1,57 @@
+---UnitCard Widget - Tactical Unit Information Card
+---
+---Displays comprehensive unit information in a card format for tactical games. Shows
+---portrait, name, rank, health, stats, action points, and equipment. Grid-aligned positioning.
+---
+---Features:
+---  - Unit portrait/icon
+---  - Name and rank display
+---  - Health bar with current/max HP
+---  - Stats display (strength, agility, etc.)
+---  - Action points indicator
+---  - Equipment slots (weapons, armor)
+---  - Grid-aligned positioning (24×24 pixels)
+---  - Status effects display
+---
+---Card Layout:
+---  - Header: Portrait + Name + Rank
+---  - Body: Health bar + Stats
+---  - Footer: Action points + Equipment
+---  - Compact or expanded modes
+---
+---Stats Displayed:
+---  - Health: Current/Max HP
+---  - Action Points: Available actions
+---  - Strength, Agility, Intelligence
+---  - Armor, Dodge, Accuracy
+---  - Custom stats per game
+---
+---Key Exports:
+---  - UnitCard.new(x, y, width, height): Creates unit card
+---  - setUnit(unitData): Updates card with unit info
+---  - setCompact(compact): Toggles compact mode
+---  - setSelectable(selectable): Enables selection
+---  - draw(): Renders unit card
+---  - mousepressed(x, y, button): Selection handling
+---
+---Dependencies:
+---  - widgets.core.base: BaseWidget inheritance
+---  - widgets.core.theme: Color and font theme
+---  - widgets.display.healthbar: Health display
+---
+---@module widgets.advanced.unitcard
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local UnitCard = require("widgets.advanced.unitcard")
+---  local card = UnitCard.new(0, 0, 192, 240)
+---  card:setUnit({name = "Soldier", health = 80, maxHealth = 100})
+---  card:draw()
+---
+---@see widgets.display.unit_info_panel For in-game unit display
+
 --[[
     UnitCard Widget
     
@@ -238,3 +292,25 @@ function UnitCard:setActionPoints(ap)
 end
 
 return UnitCard
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

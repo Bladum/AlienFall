@@ -1,3 +1,60 @@
+---BattleTile - Enhanced Tactical Combat Tile
+---
+---Enhanced tile structure for tactical combat. Extends basic map tiles with combat-specific
+---properties including cover values, sight costs, fire/smoke states, unit occupancy, and
+---destructible objects. Core building block of tactical battlescape maps.
+---
+---Features:
+---  - Terrain properties from DataLoader
+---  - Cover values (low, high) for tactical positioning
+---  - Sight cost modifiers for fog of war
+---  - Fire and smoke tracking
+---  - Unit occupancy tracking
+---  - Destructible objects and props
+---  - Movement cost calculation
+---
+---Tile Properties:
+---  - Terrain: Base terrain type (floor, wall, door, etc.)
+---  - Cover: Protection values (low/high cover)
+---  - Sight: Visibility penalty for LOS calculations
+---  - Fire: Is tile on fire
+---  - Smoke: Smoke level (0-3)
+---  - Unit: Unit occupying tile (if any)
+---  - Object: Destructible object (if any)
+---
+---Cover Values:
+---  - No cover: 0% protection
+---  - Low cover: 25-50% protection (sandbags, low walls)
+---  - High cover: 75-100% protection (thick walls, vehicles)
+---
+---Key Exports:
+---  - BattleTile.new(terrainId, x, y): Creates battle tile
+---  - getCover(): Returns cover values
+---  - getSightCost(): Returns visibility penalty
+---  - getMovementCost(): Returns movement cost
+---  - setFire(onFire): Sets fire state
+---  - setSmoke(level): Sets smoke level
+---  - setUnit(unit): Assigns unit to tile
+---  - hasUnit(): Checks if occupied
+---  - isPassable(): Checks if can be entered
+---
+---Dependencies:
+---  - core.data_loader: Terrain type definitions
+---  - core.assets: Tile sprites
+---
+---@module battlescape.combat.battle_tile
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local BattleTile = require("battlescape.combat.battle_tile")
+---  local tile = BattleTile.new("floor", 5, 10)
+---  local cover = tile:getCover()
+---  tile:setUnit(soldier)
+---
+---@see battlescape.maps.grid_map For tile grid management
+
 -- Battle Tile System
 -- Enhanced tile structure for tactical combat
 
@@ -276,3 +333,24 @@ function BattleTile.fromLegacy(legacyTile, x, y)
 end
 
 return BattleTile
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,10 +1,51 @@
+---TilePalette - Individual Tile Selection Widget for Map Editor
+---
+---Grid-based widget displaying all tiles from a selected tileset, allowing individual
+---tile selection for painting operations in the map editor. Shows tile previews with
+---scrolling and selection feedback. Part of map editor enhancement (Phase 5).
+---
+---Features:
+---  - Grid layout of tiles from selected tileset
+---  - Visual tile selection with highlighting
+---  - Scrollable interface for large tilesets
+---  - Tile preview images and tooltips
+---  - Integration with tileset data system
+---  - Callback system for tile selection events
+---
+---Key Exports:
+---  - new(x, y, width, height): Create new tile palette widget
+---  - setTileset(tilesetId): Set tileset to display tiles from
+---  - handleClick(mouseX, mouseY, button): Handle tile selection
+---  - handleScroll(dy): Handle mouse wheel scrolling
+---  - draw(): Render the tile palette grid
+---  - getSelectedTile(): Get currently selected tile data
+---
+---Dependencies:
+---  - require("widgets.core.base"): Base widget class
+---  - require("widgets.core.theme"): UI theming system
+---  - require("battlescape.data.tilesets"): Tileset definitions and textures
+---
+---@module battlescape.ui.tile_palette
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local TilePalette = require("battlescape.ui.tile_palette")
+---  local palette = TilePalette.new(220, 10, 200, 300)
+---  palette:setTileset("forest_tileset")
+---  palette.onSelect = function(tileKey) print("Selected tile:", tileKey) end
+---
+---@see battlescape.ui.map_editor For main map editor interface
+---@see battlescape.ui.tileset_browser For tileset selection
+
 -- Tile Palette Widget
 -- Phase 5: Map Editor Enhancement
 -- Display and select individual Map Tiles from a tileset
 
 local BaseWidget = require("widgets.core.base")
 local Theme = require("widgets.core.theme")
-local Widgets = require("widgets")
+local Widgets = require("widgets.init")
 local Tilesets = require("battlescape.data.tilesets")
 
 ---@class TilePalette
@@ -211,14 +252,26 @@ function TilePalette:isPointInside(x, y)
     return self:containsPoint(x, y)
 end
 
----Handle scroll wheel input
----@param delta number Scroll delta (positive = scroll up, negative = scroll down)
-function TilePalette:handleScroll(delta)
-    self.scrollOffset = self.scrollOffset - delta * 20 -- 20 pixels per scroll step
-    -- Clamp scroll offset
-    local rows = math.ceil(#self.tiles / self.tilesPerRow)
-    local maxScroll = math.max(0, rows * (self.tileSize + 8) - self.height)
-    self.scrollOffset = math.max(0, math.min(self.scrollOffset, maxScroll))
-end
-
 return TilePalette
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

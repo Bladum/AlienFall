@@ -1,3 +1,42 @@
+---Widget Demo Configuration - Love2D Configuration File
+---
+---Love2D configuration for the standalone widget demo application. Configures
+---window settings, enabled modules, and Love2D framework options. This demo
+---showcases all 23+ widgets in a standalone application separate from the main game.
+---
+---Configuration Settings:
+---  - Window: 1200×900 resolution
+---  - Console: Enabled for debugging
+---  - Grid: 24×24 pixel grid system
+---  - MSAA: Disabled (pixel art)
+---  - VSync: Enabled
+---
+---Purpose:
+---  - Standalone widget testing environment
+---  - Visual showcase of all widgets
+---  - Development and debugging tool
+---  - Demonstration for documentation
+---
+---Key Configuration:
+---  - t.console = true: Enables debug console
+---  - t.window.width/height: Sets window size
+---  - nearest filter: Pixel-perfect rendering
+---  - All modules enabled: Full Love2D functionality
+---
+---Dependencies:
+---  - Love2D 12.0+: Game framework
+---
+---@module widgets.demo.conf
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  -- Run with: lovec "engine/widgets/demo"
+---  -- Or execute: run_demo.bat
+---
+---@see widgets.demo.main For demo application code
+
 -- Widget Demo Configuration
 function love.conf(t)
     t.title = "Widget System Demo - AlienFall"
@@ -33,3 +72,25 @@ function love.conf(t)
     t.modules.window = true
     t.modules.thread = false
 end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

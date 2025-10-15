@@ -1,3 +1,56 @@
+---Grid System - 24×24 Pixel Grid Alignment
+---
+---Provides grid-based positioning and snapping for widgets. ALL widgets MUST align
+---to the 24×24 pixel grid for consistent UI layout.
+---
+---Grid Specification:
+---  - Resolution: 960×720 pixels
+---  - Grid Size: 24×24 pixels per cell
+---  - Columns: 40 (960 / 24)
+---  - Rows: 30 (720 / 24)
+---  - Total Cells: 1200 (40 × 30)
+---
+---Grid Coordinates:
+---  - (0, 0): Top-left corner (pixel 0, 0)
+---  - (39, 29): Bottom-right corner (pixel 936, 696)
+---  - Column 5, Row 3: Pixel position (120, 72)
+---
+---Snapping Functions:
+---  - snapToGrid(x, y): Snaps pixel position to nearest grid cell
+---  - snapSize(width, height): Rounds size to multiple of 24
+---  - gridToPixels(col, row): Converts grid coordinates to pixels
+---  - pixelsToGrid(x, y): Converts pixels to grid coordinates
+---
+---Debug Features:
+---  - F9: Toggle grid overlay (shows all grid lines)
+---  - Grid overlay: Green lines, red crosshairs at mouse
+---  - Grid coordinates displayed in corner
+---
+---Key Exports:
+---  - Grid.CELL_SIZE: 24 (grid cell size in pixels)
+---  - Grid.COLS: 40 (number of columns)
+---  - Grid.ROWS: 30 (number of rows)
+---  - Grid.snapToGrid(x, y): Returns grid-aligned x, y
+---  - Grid.snapSize(width, height): Returns grid-aligned dimensions
+---  - Grid.gridToPixels(col, row): Returns pixel position
+---  - Grid.pixelsToGrid(x, y): Returns grid coordinates
+---  - Grid.drawGrid(): Renders debug grid overlay
+---
+---Dependencies: None (pure math library)
+---
+---@module widgets.core.grid
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local Grid = require("widgets.core.grid")
+---  local x, y = Grid.snapToGrid(123, 456)  -- Returns (120, 456)
+---  local w, h = Grid.snapSize(97, 50)  -- Returns (96, 48)
+---  Grid.drawGrid()  -- Draw debug overlay (F9 to toggle)
+---
+---@see widgets.core.base For widget implementation
+
 --[[
     Grid System
     
@@ -177,3 +230,25 @@ end
 print("[Grid] Grid system loaded - " .. Grid.COLS .. "×" .. Grid.ROWS .. " cells (" .. Grid.WIDTH .. "×" .. Grid.HEIGHT .. " pixels)")
 
 return Grid
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,3 +1,58 @@
+---ActionPanel Widget - Tactical Action Button Container
+---
+---Container for action buttons organized as a radio button group. Manages 8 action
+---buttons in 2 rows (weapons/armor/skill in row 1, move modes in row 2). Used for
+---unit action selection in tactical combat. Grid-aligned for consistent positioning.
+---
+---Features:
+---  - Radio button group behavior (only one action selected at a time)
+---  - LMB selection, RMB execution of actions
+---  - Action availability checking (grays out unavailable)
+---  - Grid-aligned layout (24×24 pixels)
+---  - Hotkey support (1-8 keys)
+---  - Action cost display (AP, EP)
+---
+---Button Layout (2 rows × 4 columns):
+---  Row 1: [Weapon] [Armor] [Skill] [Item]
+---  Row 2: [Walk] [Run] [Crouch] [Overwatch]
+---
+---Action Types:
+---  - Weapon: Primary weapon attack
+---  - Armor: Use armor ability (shield, cloak, etc.)
+---  - Skill: Unit special ability
+---  - Item: Use inventory item
+---  - Walk: Normal movement
+---  - Run: Fast movement (costs more AP)
+---  - Crouch: Defensive stance
+---  - Overwatch: Reaction fire mode
+---
+---Key Exports:
+---  - ActionPanel.new(x, y, width, height): Creates action panel
+---  - setUnit(unit): Updates available actions for unit
+---  - setSelectedAction(actionId): Selects specific action
+---  - getSelectedAction(): Returns current selection
+---  - setActionAvailable(actionId, available): Enables/disables action
+---  - draw(): Renders panel with buttons
+---  - mousepressed(x, y, button): Click handling (LMB select, RMB execute)
+---
+---Dependencies:
+---  - widgets.core.base: BaseWidget inheritance
+---  - widgets.buttons.action_button: Action button widgets
+---  - widgets.core.theme: Color and font theme
+---
+---@module widgets.display.action_panel
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local ActionPanel = require("widgets.display.action_panel")
+---  local panel = ActionPanel.new(0, 480, 960, 240)
+---  panel:setUnit(selectedUnit)
+---  panel:draw()
+---
+---@see widgets.buttons.action_button For individual action buttons
+
 --[[
     Action Panel Widget
 
@@ -317,3 +372,24 @@ end
 print("[ActionPanel] Action panel widget loaded")
 
 return ActionPanel
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

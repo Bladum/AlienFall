@@ -1,3 +1,68 @@
+---PsionicsSystem - Psionic Abilities System
+---
+---Comprehensive psionic abilities system with 11+ psychic powers. Includes damage,
+---terrain manipulation, mind control, buffs/debuffs, environmental effects, and more.
+---Psionics use Psi Points (PP) instead of AP and require psionic skill checks.
+---
+---Features:
+---  - 11+ distinct psionic abilities
+---  - Psi Point (PP) system
+---  - Psionic skill checks
+---  - Mental resistance (Will stat)
+---  - Terrain manipulation (lift, teleport)
+---  - Mind control and panic
+---  - Buff/debuff effects
+---  - Environmental effects (fog, fire)
+---
+---Psionic Abilities:
+---  - Psi Damage: Mental attack (stun, hurt, morale, energy)
+---  - Psi Critical: Force critical wound
+---  - Mind Control: Take control of enemy unit
+---  - Panic: Cause panic/morale break
+---  - Lift Object: Telekinesis (move objects/terrain)
+---  - Teleport Unit: Move ally instantly
+---  - Create Fog: Generate obscuring mist
+---  - Ignite: Start fire on tile
+---  - Psi Buff: Boost ally stats
+---  - Psi Debuff: Weaken enemy
+---  - Psi Heal: Restore HP remotely
+---
+---Psionic System:
+---  - PP (Psi Points): Energy for psionic abilities
+---  - Psi Skill: Accuracy/power of abilities
+---  - Will: Mental resistance to psionics
+---  - Range: Distance limit for powers
+---  - LOS: Requires line of sight (most abilities)
+---
+---Skill Check:
+---  - Attack roll: Psi Skill × random(0.7-1.3)
+---  - Defense roll: Will × random(0.7-1.3)
+---  - Success if Attack > Defense
+---
+---Key Exports:
+---  - PsionicsSystem.ABILITIES: Table of ability IDs
+---  - PsionicsSystem.usePower(user, target, ability): Executes psionic attack
+---  - PsionicsSystem.checkSkill(user, target): Returns true if successful
+---  - PsionicsSystem.hasPP(unit, cost): Returns true if enough PP
+---  - PsionicsSystem.getAbilityData(abilityId): Returns ability definition
+---
+---Dependencies:
+---  - battlescape.combat.damage_models: For damage calculation
+---
+---@module battlescape.combat.psionics_system
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local PsionicsSystem = require("battlescape.combat.psionics_system")
+---  local result = PsionicsSystem.usePower(psiUnit, enemy, "psi_damage")
+---  if result.success then
+---      print("Psionic attack hit for " .. result.damage .. " damage!")
+---  end
+---
+---@see battlescape.combat.damage_models For damage calculation
+
 -- Psionics System
 -- Comprehensive psionic abilities system with 11+ abilities
 -- Includes damage, terrain manipulation, mind control, buffs/debuffs, environmental effects
@@ -1060,3 +1125,25 @@ function PsionicsSystem:getAvailableAbilities(unit)
 end
 
 return PsionicsSystem
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

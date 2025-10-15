@@ -1,3 +1,67 @@
+---TextInput Widget - Single-Line Text Entry Field
+---
+---Single-line text input field with cursor positioning, text selection, and copy/paste support.
+---Grid-aligned for consistent UI positioning. Handles keyboard input, mouse selection, and
+---text editing operations.
+---
+---Features:
+---  - Single-line text entry and editing
+---  - Cursor positioning with mouse click
+---  - Text selection with mouse drag
+---  - Copy/paste clipboard support (Ctrl+C, Ctrl+V)
+---  - Undo/Redo support (Ctrl+Z, Ctrl+Y)
+---  - Character limit constraint
+---  - Input validation (regex pattern)
+---  - Grid-aligned positioning (24×24 pixels)
+---
+---Keyboard Shortcuts:
+---  - Ctrl+A: Select all
+---  - Ctrl+C: Copy selection
+---  - Ctrl+V: Paste from clipboard
+---  - Ctrl+X: Cut selection
+---  - Ctrl+Z: Undo
+---  - Ctrl+Y: Redo
+---  - Home/End: Move to start/end
+---  - Left/Right: Move cursor
+---  - Backspace/Delete: Remove characters
+---
+---Visual States:
+---  - Normal: White background
+---  - Focused: Blue border highlight
+---  - Disabled: Grayed out
+---  - Error: Red border (invalid input)
+---
+---Key Exports:
+---  - TextInput.new(x, y, width, height): Creates text input
+---  - setText(text): Sets current text
+---  - getText(): Returns current text
+---  - setPlaceholder(text): Sets placeholder text
+---  - setCharacterLimit(limit): Sets max length
+---  - setValidator(pattern): Sets regex validation
+---  - draw(): Renders text input
+---  - keypressed(key): Keyboard input handling
+---  - textinput(char): Character input handling
+---  - mousepressed(x, y, button): Click handling
+---
+---Dependencies:
+---  - widgets.core.base: BaseWidget inheritance
+---  - widgets.core.theme: Color and font theme
+---
+---@module widgets.input.textinput
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local TextInput = require("widgets.input.textinput")
+---  local input = TextInput.new(0, 0, 288, 48)
+---  input:setPlaceholder("Enter name...")
+---  input:setCharacterLimit(20)
+---  input:draw()
+---  local name = input:getText()
+---
+---@see widgets.input.textarea For multi-line input
+
 --[[
     TextInput Widget
     
@@ -257,3 +321,25 @@ end
 print("[TextInput] TextInput widget loaded")
 
 return TextInput
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

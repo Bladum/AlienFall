@@ -1,3 +1,57 @@
+---Terrains - Terrain System for Map Generation
+---
+---Defines terrain types with MapBlock associations and MapScript references. Each
+---terrain specifies which MapBlocks can be used and which MapScripts are compatible.
+---Links biomes (geoscape) to map generation (battlescape).
+---
+---Features:
+---  - Terrain type definitions
+---  - MapBlock tag filtering
+---  - MapScript selection weights
+---  - Difficulty ranges
+---  - Biome-to-terrain mapping
+---
+---Terrain Properties:
+---  - id: Unique identifier (e.g., "urban_residential")
+---  - name: Display name (e.g., "Urban Residential")
+---  - description: Lore/flavor text
+---  - mapBlockTags: Array of tags for block filtering
+---  - mapScripts: Array of {id, weight} for script selection
+---  - difficulty: {min, max} difficulty range (1-10)
+---
+---MapBlock Tag System:
+---  - Tags filter which blocks are valid for terrain
+---  - Example: "urban", "industrial", "park", "building"
+---  - Multiple tags = AND logic (block must have all)
+---
+---MapScript Weights:
+---  - Higher weight = more likely to be selected
+---  - Typical range: 1-10
+---  - Weight 0 = disabled
+---
+---Key Exports:
+---  - Terrains.register(terrain): Adds terrain to registry
+---  - Terrains.get(id): Returns terrain definition
+---  - Terrains.getAll(): Returns all terrains
+---  - Terrains.getMapBlocks(terrainId): Returns valid MapBlocks
+---  - Terrains.selectMapScript(terrainId): Returns random MapScript
+---
+---Dependencies:
+---  - None (pure data registry)
+---
+---@module battlescape.data.terrains
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local Terrains = require("battlescape.data.terrains")
+---  local terrain = Terrains.get("urban_residential")
+---  local blocks = Terrains.getMapBlocks("urban_residential")
+---
+---@see battlescape.data.mapscripts For MapScript system
+---@see battlescape.maps.mapblock_system For MapBlock system
+
 -- Terrain System for Map Generation
 -- Defines terrain types with MapBlock associations and MapScript references
 
@@ -381,3 +435,25 @@ Terrains.register({
 print(string.format("[Terrains] Registered %d terrains", #Terrains.getAllIds()))
 
 return Terrains
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

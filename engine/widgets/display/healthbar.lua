@@ -1,3 +1,54 @@
+---HealthBar Widget - Specialized Health Display
+---
+---A specialized progress bar for displaying unit health/HP. Color changes dynamically
+---based on health level (green → yellow → red). Grid-aligned for consistent positioning.
+---
+---Features:
+---  - Current/max health display (e.g., "50/100 HP")
+---  - Color changes based on health level
+---  - Optional label text
+---  - Grid-aligned positioning (24×24 pixels)
+---  - Smooth health change animation
+---  - Damage flash effect
+---
+---Color Thresholds:
+---  - Green: 75-100% health (healthy)
+---  - Yellow: 40-74% health (injured)
+---  - Red: 1-39% health (critical)
+---  - Gray: 0% health (dead)
+---
+---Visual Effects:
+---  - Smooth health drain animation
+---  - Red flash on damage taken
+---  - Optional health regeneration effect
+---
+---Key Exports:
+---  - HealthBar.new(x, y, width, height): Creates health bar
+---  - setHealth(current, max): Updates health values
+---  - takeDamage(amount): Reduces health with flash effect
+---  - heal(amount): Increases health
+---  - setLabel(text): Sets optional label
+---  - draw(): Renders health bar
+---  - update(dt): Updates animations
+---
+---Dependencies:
+---  - widgets.core.base: BaseWidget inheritance
+---  - widgets.core.theme: Color theme
+---
+---@module widgets.display.healthbar
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  local HealthBar = require("widgets.display.healthbar")
+---  local bar = HealthBar.new(0, 0, 192, 24)
+---  bar:setHealth(75, 100)  -- 75 current, 100 max
+---  bar:setLabel("HP")
+---  bar:draw()
+---
+---@see widgets.display.progressbar For generic progress bars
+
 --[[
     HealthBar Widget
     
@@ -131,3 +182,25 @@ function HealthBar:getMaxHealth()
 end
 
 return HealthBar
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

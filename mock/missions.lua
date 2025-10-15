@@ -1,0 +1,196 @@
+-- Mock Mission Data
+-- Provides test data for mission and campaign tests
+
+local MockMissions = {}
+
+--- Get a mock mission
+-- @param type string Mission type (default: "SITE")
+-- @return table Mock mission data
+function MockMissions.getMission(type)
+    type = type or "SITE"
+    
+    local missions = {
+        SITE = {
+            id = math.random(1000, 9999),
+            name = "Terror Site",
+            type = "SITE",
+            difficulty = "MEDIUM",
+            biome = "URBAN",
+            size = "MEDIUM",
+            objectives = {
+                {type = "PRIMARY", description = "Eliminate all hostiles", complete = false},
+                {type = "SECONDARY", description = "Rescue civilians", complete = false}
+            },
+            enemies = 8,
+            civilians = 12,
+            turnLimit = 30,
+            rewards = {
+                money = 5000,
+                intel = 50,
+                items = {"Alien Corpse", "Plasma Weapon"}
+            }
+        },
+        UFO = {
+            id = math.random(1000, 9999),
+            name = "UFO Landing",
+            type = "UFO",
+            difficulty = "HARD",
+            biome = "FOREST",
+            size = "LARGE",
+            objectives = {
+                {type = "PRIMARY", description = "Investigate UFO", complete = false},
+                {type = "PRIMARY", description = "Eliminate crew", complete = false}
+            },
+            enemies = 12,
+            turnLimit = 40,
+            rewards = {
+                money = 8000,
+                intel = 100,
+                items = {"UFO Navigation", "Alien Alloys", "Power Source"}
+            }
+        },
+        BASE = {
+            id = math.random(1000, 9999),
+            name = "Alien Base Assault",
+            type = "BASE",
+            difficulty = "EXTREME",
+            biome = "INDUSTRIAL",
+            size = "HUGE",
+            objectives = {
+                {type = "PRIMARY", description = "Destroy alien base", complete = false},
+                {type = "PRIMARY", description = "Eliminate commander", complete = false},
+                {type = "SECONDARY", description = "Recover artifacts", complete = false}
+            },
+            enemies = 20,
+            turnLimit = 60,
+            rewards = {
+                money = 15000,
+                intel = 200,
+                items = {"Alien Commander Corpse", "Base Components", "Research Data"}
+            }
+        }
+    }
+    
+    return missions[type] or missions.SITE
+end
+
+--- Generate multiple random missions
+-- @param count number Number of missions
+-- @return table Array of missions
+function MockMissions.generateMissions(count)
+    count = count or 3
+    local missions = {}
+    local types = {"SITE", "UFO", "BASE"}
+    
+    for i = 1, count do
+        local type = types[math.random(1, #types)]
+        table.insert(missions, MockMissions.getMission(type))
+    end
+    
+    return missions
+end
+
+--- Get a mock campaign
+-- @return table Mock campaign data
+function MockMissions.getCampaign()
+    return {
+        id = 1,
+        name = "First Contact",
+        faction = "ALIENS",
+        phase = 1,
+        progress = 0,
+        missionsCompleted = 0,
+        missionsTotal = 10,
+        active = true,
+        description = "Initial alien invasion wave"
+    }
+end
+
+--- Get mission objectives by type
+-- @param missionType string Mission type
+-- @return table Array of objectives
+function MockMissions.getObjectives(missionType)
+    missionType = missionType or "SITE"
+    
+    local objectives = {
+        SITE = {
+            {id = 1, type = "PRIMARY", description = "Eliminate all hostiles", status = "ACTIVE"},
+            {id = 2, type = "SECONDARY", description = "Rescue civilians", status = "ACTIVE"}
+        },
+        UFO = {
+            {id = 1, type = "PRIMARY", description = "Investigate UFO", status = "ACTIVE"},
+            {id = 2, type = "PRIMARY", description = "Recover technology", status = "ACTIVE"}
+        },
+        BASE = {
+            {id = 1, type = "PRIMARY", description = "Destroy alien base", status = "ACTIVE"},
+            {id = 2, type = "SECONDARY", description = "Capture commander alive", status = "ACTIVE"}
+        },
+        TIMED = {
+            {id = 1, type = "PRIMARY", description = "Defuse bomb", status = "ACTIVE", timeLimit = 15},
+            {id = 2, type = "SECONDARY", description = "Evacuate area", status = "PENDING"}
+        },
+        ESCORT = {
+            {id = 1, type = "PRIMARY", description = "Protect VIP", status = "ACTIVE"},
+            {id = 2, type = "PRIMARY", description = "Reach extraction", status = "PENDING"}
+        }
+    }
+    
+    return objectives[missionType] or objectives.SITE
+end
+
+--- Get mission briefing data
+-- @param missionType string Mission type
+-- @return table Briefing data
+function MockMissions.getBriefing(missionType)
+    missionType = missionType or "SITE"
+    
+    return {
+        title = "Mission Briefing",
+        mission = MockMissions.getMission(missionType),
+        objectives = MockMissions.getObjectives(missionType),
+        enemyIntel = {
+            faction = "ALIENS",
+            threatLevel = "HIGH",
+            estimatedForces = "8-12 hostiles",
+            knownTypes = {"Sectoid", "Muton"}
+        },
+        mapInfo = {
+            biome = "URBAN",
+            terrain = "City streets and buildings",
+            size = "Medium (5x5 blocks)"
+        },
+        rewards = {
+            money = 5000,
+            intel = 50,
+            relations = {country = "USA", amount = 10}
+        },
+        penalties = {
+            death = "Loss of soldier, -20 relations",
+            failure = "-50 relations, funding cuts"
+        }
+    }
+end
+
+return MockMissions
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

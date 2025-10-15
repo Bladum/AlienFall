@@ -1,5 +1,35 @@
--- Love2D Configuration File
--- Alien Fall - Configuration for Love2D 12.0
+---Love2D Configuration Module
+---
+---Configures the Love2D engine for Alien Fall. Sets window properties, grid system,
+---enabled modules, and performance settings. This file is loaded by Love2D before
+---main.lua and configures the engine's behavior.
+---
+---Key Configuration:
+---  - Resolution: 960×720 pixels (40×30 grid at 24px per cell)
+---  - Grid System: All UI elements snap to 24×24 pixel grid
+---  - Console: Enabled for debug output on Windows
+---  - Resizable: Yes, with 960×720 minimum for UI compatibility
+---  - MSAA: 2x anti-aliasing for smooth rendering
+---  - VSync: Enabled to prevent screen tearing
+---
+---Key Exports:
+---  - love.conf(t): Configures Love2D engine settings
+---
+---Dependencies:
+---  - None (loaded before main.lua by Love2D)
+---
+---@module conf
+---@author AlienFall Development Team
+---@copyright 2025 AlienFall Project
+---@license Open Source
+---
+---@usage
+---  -- This file is automatically loaded by Love2D
+---  -- No manual invocation required
+---
+---@see main For game initialization after configuration
+---@see utils.viewport For dynamic resolution handling
+---@see widgets.core.grid For grid system implementation
 
 function love.conf(t)
     t.identity = "alien_fall"               -- Save directory name
@@ -39,3 +69,25 @@ function love.conf(t)
     t.modules.window = true                 -- Enable window
     t.modules.thread = true                 -- Enable threading
 end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
