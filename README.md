@@ -4,9 +4,9 @@ AlienFall is a turn-based strategy game with tactical combat and sandbox/simulat
 Players manage a covert organization from its humble beginnings as a startup to its evolution into a multiplanetary military power. 
 The game is open-ended with no fixed victory conditions.
 
-[Join our Discord](https://discord.gg/7wGAUDUd)
+[Join our Discord](https://discord.gg/)
 
-![banner](https://github.com/user-attachments/assets/c604e0ce-8e6d-42a4-89c4-6aca1c16a2fa)
+<img width="1536" height="1024" alt="image" src="https://github.com/user-attachments/assets/0663bafd-a56d-40b3-a937-f748159204a3" />
 
 ## TL;DR
 
