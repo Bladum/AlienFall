@@ -3,7 +3,7 @@
 -- Run with: love engine --test performance
 
 local LOS = require("battlescape.combat.los_system")
-local Pathfinding = require("shared.pathfinding")
+local Pathfinding = require("core.pathfinding")
 local Battlefield = require("battlescape.logic.battlefield")
 local Unit = require("battlescape.combat.unit")
 local ActionSystem = require("battlescape.combat.action_system")

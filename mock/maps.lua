@@ -98,6 +98,86 @@ function MockMaps.getLandingZones(count)
     return zones
 end
 
+--- Validate mock map configuration
+-- @param config table Map configuration to validate
+-- @return boolean isValid True if valid
+-- @return string? error Error message if invalid
+function MockMaps.validateMapConfig(config)
+    if not config then
+        return false, "Map config is nil"
+    end
+    
+    if not config.size then
+        return false, "Map config missing size"
+    end
+    
+    if not config.dimensions then
+        return false, "Map config missing dimensions"
+    end
+    
+    if not config.dimensions.width or not config.dimensions.height then
+        return false, "Map config dimensions missing width/height"
+    end
+    
+    if config.dimensions.width <= 0 or config.dimensions.height <= 0 then
+        return false, "Map dimensions must be positive"
+    end
+    
+    if config.landingZones and config.landingZones < 0 then
+        return false, "Landing zones cannot be negative"
+    end
+    
+    return true, nil
+end
+
+--- Validate mock mapblock
+-- @param mapblock table Mapblock to validate
+-- @return boolean isValid True if valid
+-- @return string? error Error message if invalid
+function MockMaps.validateMapBlock(mapblock)
+    if not mapblock then
+        return false, "Mapblock is nil"
+    end
+    
+    if not mapblock.id then
+        return false, "Mapblock missing id"
+    end
+    
+    if not mapblock.width or not mapblock.height then
+        return false, "Mapblock missing width/height"
+    end
+    
+    if mapblock.width <= 0 or mapblock.height <= 0 then
+        return false, "Mapblock dimensions must be positive"
+    end
+    
+    if not mapblock.layers or mapblock.layers <= 0 then
+        return false, "Mapblock must have positive layers"
+    end
+    
+    return true, nil
+end
+
+--- Generate realistic map configurations with validation
+-- @param count number Number of configs to generate
+-- @return table Array of validated map configs
+function MockMaps.generateValidatedConfigs(count)
+    count = count or 5
+    
+    local configs = {}
+    for i = 1, count do
+        local config = MockMaps.getMapConfig()
+        local isValid, error = MockMaps.validateMapConfig(config)
+        if isValid then
+            table.insert(configs, config)
+        else
+            print("[MockMaps] Generated invalid config: " .. error)
+        end
+    end
+    
+    return configs
+end
+
 --- Get mock tileset data
 -- @param biome string Biome type
 -- @return table Mock tileset

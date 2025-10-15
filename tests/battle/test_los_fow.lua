@@ -25,7 +25,7 @@ function test.run()
     
     -- Test 2: Check if Team visibility system exists
     print("\n[TEST 2] Checking Team visibility system...")
-    local success, Team = pcall(function() return require("shared.team") end)
+    local success, Team = pcall(function() return require("core.team") end)
     if not success then
         print("[FAIL] Cannot load Team system: " .. tostring(Team))
         return false

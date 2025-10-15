@@ -171,6 +171,115 @@ function MockMissions.getBriefing(missionType)
     }
 end
 
+--- Validate mock mission
+-- @param mission table Mission to validate
+-- @return boolean isValid True if valid
+-- @return string? error Error message if invalid
+function MockMissions.validateMission(mission)
+    if not mission then
+        return false, "Mission is nil"
+    end
+    
+    if not mission.id then
+        return false, "Mission missing id"
+    end
+    
+    if not mission.type then
+        return false, "Mission missing type"
+    end
+    
+    if not mission.name then
+        return false, "Mission missing name"
+    end
+    
+    if not mission.difficulty then
+        return false, "Mission missing difficulty"
+    end
+    
+    if not mission.biome then
+        return false, "Mission missing biome"
+    end
+    
+    if not mission.size then
+        return false, "Mission missing size"
+    end
+    
+    if mission.difficulty ~= "EASY" and mission.difficulty ~= "MEDIUM" and mission.difficulty ~= "HARD" then
+        return false, "Invalid difficulty level"
+    end
+    
+    if mission.enemies and mission.enemies < 0 then
+        return false, "Enemies cannot be negative"
+    end
+    
+    if mission.turnLimit and mission.turnLimit <= 0 then
+        return false, "Turn limit must be positive"
+    end
+    
+    return true, nil
+end
+
+--- Generate validated missions
+-- @param count number Number of missions to generate
+-- @param type string Mission type filter
+-- @return table Array of validated missions
+function MockMissions.generateValidatedMissions(count, type)
+    count = count or 5
+    
+    local missions = {}
+    for i = 1, count do
+        local mission = MockMissions.getMission(type)
+        local isValid, error = MockMissions.validateMission(mission)
+        if isValid then
+            table.insert(missions, mission)
+        else
+            print("[MockMissions] Generated invalid mission: " .. error)
+        end
+    end
+    
+    return missions
+end
+
+--- Get mission objectives templates
+-- @return table Array of objective templates
+function MockMissions.getObjectiveTemplates()
+    return {
+        PRIMARY = {
+            {type = "PRIMARY", description = "Eliminate all hostiles", complete = false},
+            {type = "PRIMARY", description = "Investigate UFO", complete = false},
+            {type = "PRIMARY", description = "Rescue civilians", complete = false},
+            {type = "PRIMARY", description = "Destroy target", complete = false}
+        },
+        SECONDARY = {
+            {type = "SECONDARY", description = "Minimize civilian casualties", complete = false},
+            {type = "SECONDARY", description = "Recover alien technology", complete = false},
+            {type = "SECONDARY", description = "Extract survivors", complete = false}
+        }
+    }
+end
+
+--- Generate mission rewards based on difficulty
+-- @param difficulty string Mission difficulty
+-- @return table Reward structure
+function MockMissions.generateRewards(difficulty)
+    difficulty = difficulty or "MEDIUM"
+    
+    local rewardMultipliers = {
+        EASY = 0.7,
+        MEDIUM = 1.0,
+        HARD = 1.5
+    }
+    
+    local multiplier = rewardMultipliers[difficulty] or 1.0
+    
+    return {
+        money = math.floor(5000 * multiplier),
+        intel = math.floor(50 * multiplier),
+        items = {"Alien Corpse", "Plasma Weapon"},
+        research = math.random() > 0.5 and "Alien Materials" or nil
+    }
+end
+
 return MockMissions
 
 

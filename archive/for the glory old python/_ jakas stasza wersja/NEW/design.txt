@@ -1,9 +1,0 @@
-game in python using pyside6
-main window is 640x480 with assumption is splited into tiles
-each tile is 32x32 so entire window is 20x15 tiles
-
-main view
-    top panel is 15x1 and will contain button to menu and resource information
-    left panel is 6x14 below top panel and will contain unit / minimap etc
-     remaining part is map panel and will be 14x14
-

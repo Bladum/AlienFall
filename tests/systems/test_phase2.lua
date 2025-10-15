@@ -3,7 +3,7 @@
 
 local Battlefield = require("battlescape.logic.battlefield")
 local Unit = require("battlescape.combat.unit")
-local Team = require("shared.team")
+local Team = require("core.team")
 
 local AdditionalTests = {}
 
@@ -320,8 +320,8 @@ end
 -- Run all additional tests
 function AdditionalTests.runAll()
     print("\n")
-    print("-==========================================================¬")
-    print("¦         PHASE 2 ADDITIONAL PERFORMANCE TESTS             ¦")
+    print("-==========================================================ï¿½")
+    print("ï¿½         PHASE 2 ADDITIONAL PERFORMANCE TESTS             ï¿½")
     print("L==========================================================-")
     print()
     print("Running additional performance tests for Phase 2 optimizations...")

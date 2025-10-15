@@ -73,7 +73,7 @@ Widgets.Grid = require("widgets.core.grid")
 Widgets.Theme = require("widgets.core.theme")
 Widgets.BaseWidget = require("widgets.core.base")
 -- Mock data moved to root mock/ folder
-Widgets.MockData = require("shared.items.mock_data")
+Widgets.MockData = require("core.items.mock_data")
 
 -- Initialize theme
 Widgets.Theme.init()

@@ -13,8 +13,8 @@ local BattlescapeTests = {}
     Test Unit System
 ]]
 function BattlescapeTests.testUnitSystem()
-    print("\n-===========================================================¬")
-    print("¦         TESTING UNIT SYSTEM                              ¦")
+    print("\n-===========================================================ï¿½")
+    print("ï¿½         TESTING UNIT SYSTEM                              ï¿½")
     print("L===========================================================-")
     
     local Unit = require("battlescape.combat.unit")
@@ -36,11 +36,11 @@ end
     Test Team System
 ]]
 function BattlescapeTests.testTeamSystem()
-    print("\n-===========================================================¬")
-    print("¦         TESTING TEAM SYSTEM                              ¦")
+    print("\n-===========================================================ï¿½")
+    print("ï¿½         TESTING TEAM SYSTEM                              ï¿½")
     print("L===========================================================-")
     
-    local Team = require("shared.team")
+    local Team = require("core.team")
     
     TestFramework.runTest("Team - Create team", function()
         TestFramework.assertNotNil(Team, "Team system not loaded")
@@ -59,11 +59,11 @@ end
     Test Pathfinding System
 ]]
 function BattlescapeTests.testPathfinding()
-    print("\n-===========================================================¬")
-    print("¦         TESTING PATHFINDING SYSTEM                       ¦")
+    print("\n-===========================================================ï¿½")
+    print("ï¿½         TESTING PATHFINDING SYSTEM                       ï¿½")
     print("L===========================================================-")
     
-    local Pathfinding = require("shared.pathfinding")
+    local Pathfinding = require("core.pathfinding")
     
     TestFramework.runTest("Pathfinding - System loaded", function()
         TestFramework.assertNotNil(Pathfinding, "Pathfinding system not loaded")
@@ -127,8 +127,8 @@ end
     Test LOS System
 ]]
 function BattlescapeTests.testLOS()
-    print("\n-===========================================================¬")
-    print("¦         TESTING LINE-OF-SIGHT SYSTEM                     ¦")
+    print("\n-===========================================================ï¿½")
+    print("ï¿½         TESTING LINE-OF-SIGHT SYSTEM                     ï¿½")
     print("L===========================================================-")
     
     local LOS = require("battlescape.combat.los_optimized")
@@ -178,8 +178,8 @@ end
     Test Battlefield System
 ]]
 function BattlescapeTests.testBattlefield()
-    print("\n-===========================================================¬")
-    print("¦         TESTING BATTLEFIELD SYSTEM                       ¦")
+    print("\n-===========================================================ï¿½")
+    print("ï¿½         TESTING BATTLEFIELD SYSTEM                       ï¿½")
     print("L===========================================================-")
     
     local Battlefield = require("battlescape.logic.battlefield")
@@ -210,8 +210,8 @@ end
     Test Coordinate Conversion
 ]]
 function BattlescapeTests.testCoordinateConversion()
-    print("\n-===========================================================¬")
-    print("¦         TESTING COORDINATE CONVERSION                    ¦")
+    print("\n-===========================================================ï¿½")
+    print("ï¿½         TESTING COORDINATE CONVERSION                    ï¿½")
     print("L===========================================================-")
     
     -- Test pixel to grid conversion
@@ -232,8 +232,8 @@ end
     Test Action System
 ]]
 function BattlescapeTests.testActionSystem()
-    print("\n-===========================================================¬")
-    print("¦         TESTING ACTION SYSTEM                            ¦")
+    print("\n-===========================================================ï¿½")
+    print("ï¿½         TESTING ACTION SYSTEM                            ï¿½")
     print("L===========================================================-")
     
     local ActionSystem = require("battlescape.combat.action_system")
@@ -332,8 +332,8 @@ end
     Test Battle Tile System
 ]]
 function BattlescapeTests.testBattleTile()
-    print("\n-===========================================================¬")
-    print("¦         TESTING BATTLE TILE SYSTEM                       ¦")
+    print("\n-===========================================================ï¿½")
+    print("ï¿½         TESTING BATTLE TILE SYSTEM                       ï¿½")
     print("L===========================================================-")
     
     local BattleTile = require("battlescape.combat.battle_tile")
@@ -356,8 +356,8 @@ end
 ]]
 function BattlescapeTests.runAll()
     print("\n\n")
-    print("-===========================================================¬")
-    print("¦         BATTLESCAPE SYSTEM TEST SUITE                    ¦")
+    print("-===========================================================ï¿½")
+    print("ï¿½         BATTLESCAPE SYSTEM TEST SUITE                    ï¿½")
     print("L===========================================================-")
     
     TestFramework.reset()

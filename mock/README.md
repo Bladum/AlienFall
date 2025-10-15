@@ -6,33 +6,98 @@ Mock data generators for testing XCOM Simple systems.
 
 This folder contains reusable mock data generators for all test suites. Instead of creating test data inline in each test file, use these centralized mock generators for consistency and maintainability.
 
+## Files Overview
+
+### Combat & Units
+- **units.lua** (8 generators) - Soldiers, enemies, squads, civilians
+- **items.lua** (10 generators) - Weapons, armor, equipment
+
+### Base Management
+- **facilities.lua** (6 generators) - Bases, facilities, construction
+- **economy.lua** (9 generators) - Finances, research, manufacturing
+
+### Strategic Layer
+- **geoscape.lua** (10 generators) - World, provinces, UFOs, missions
+
+### Tactical Combat ⭐ NEW
+- **battlescape.lua** (10+ generators) - Battlefields, combat entities, actions
+
+### Maps & Missions
+- **missions.lua** - Mission definitions and objectives
+- **maps.lua** - Map data and tile generation
+
 ## Files
 
-### `mock_data.lua`
-Original widget mock data generator (moved from `engine/widgets/core/`).
-- Generates mock data for UI widget testing
-- List items, grid items, form fields, etc.
-
-### `units.lua`
+### `units.lua` ✨ NEW
 Mock unit/soldier data for combat and roster tests.
-- `getSoldier(name, class)` - Individual soldier
-- `generateSquad(count)` - Full squad
-- `getEnemy(type)` - Enemy unit
+- `getSoldier(name, class)` - Individual soldier with stats
+- `generateSquad(count)` - Full squad (default 6 soldiers)
+- `getEnemy(type)` - Enemy unit (SECTOID, MUTON, FLOATER, etc.)
 - `generateEnemyGroup(count, types)` - Enemy squad
-- `getWoundedSoldier(woundLevel)` - Wounded unit
-- `getVeteran()` - High-stat veteran
+- `getWoundedSoldier(woundLevel)` - Wounded unit (LIGHT/MODERATE/SEVERE)
+- `getVeteran()` - High-stat veteran soldier
+- `getUnitWithStats(stats)` - Custom stats unit
+- `getCivilian(name)` - Civilian unit
 
-### `items.lua`
+### `items.lua` ✨ NEW
 Mock equipment and inventory data.
-- `getWeapon(type)` - Weapons (PISTOL, RIFLE, SNIPER, etc.)
-- `getArmor(type)` - Armor types
-- `getGrenade(type)` - Grenades (FRAG, SMOKE, INCENDIARY)
-- `getMedkit()` - Medical kit
+- `getWeapon(type)` - Weapons (PISTOL, RIFLE, SNIPER, SHOTGUN, HEAVY, SWORD)
+- `getArmor(type)` - Armor types (KEVLAR, CARAPACE, TITAN, GHOST)
+- `getGrenade(type)` - Grenades (FRAG, SMOKE, INCENDIARY, ALIEN, GAS)
+- `getMedkit()` - Medical kit with charges
+- `getScanner()` - Motion scanner
 - `generateLoadout(class)` - Class-specific loadout
 - `generateInventory(count)` - Random items
+- `getAmmo(weaponType)` - Ammunition
+
+### `facilities.lua` ✨ NEW
+Mock facility and base management data.
+- `getBase(baseName)` - Base configuration with grid
+- `getFacility(type, x, y)` - Facility by type (ACCESS_LIFT, LIVING_QUARTERS, etc.)
+- `getConstructionOrder(type, x, y, days)` - Under-construction facility
+- `getStarterBase()` - Basic starter base with essential facilities
+- `getFullBase()` - Complete base with all facility types
+- `getDamagedFacility(type, percent)` - Damaged facility
+
+### `economy.lua` ✨ NEW
+Mock economic systems, research, and manufacturing data.
+- `getFinances(balance)` - Finance data with income/expenses
+- `getResearchProject(type)` - Research project with progress
+- `getResearchQueue()` - Active research queue
+- `getManufacturingProject(itemType)` - Manufacturing project
+- `getManufacturingQueue()` - Active manufacturing queue
+- `getMaterials()` - Material inventory (alloys, elerium, etc.)
+- `getMarketItem(itemType)` - Marketplace item
+- `getFundingReport()` - Monthly funding from countries
+- `getSalaries()` - Salary information by rank
+
+### `geoscape.lua` ✨ NEW
+Mock geoscape, world, and strategic layer data.
+- `getProvince(name)` - Province with hex tiles
+- `getCountry(name)` - Country data (USA, UK, Germany, Japan, Russia)
+- `getWorld(size)` - World grid with provinces and countries
+- `getUFO(type)` - UFO (SCOUT, FIGHTER, HARVESTER, BATTLESHIP)
+- `getCraft(type)` - Player craft (INTERCEPTOR, SKYRANGER, FIRESTORM)
+- `getSiteMission()` - Alien abduction mission
+- `getUFOMission(isLanding)` - UFO crash/landing mission
+- `getTerrorMission()` - Terror mission
+- `getAllMissions()` - All mission types
+
+### `battlescape.lua` ⭐ NEW
+Mock tactical combat and battlefield data.
+- `getBattlefield(width, height, terrain)` - Battlefield map with spawn zones
+- `getCombatEntities(count, team)` - Combat-ready units with full stats
+- `getLineOfSight(from, to, blocked)` - LOS calculation data
+- `getCombatTurn(turnNumber, activeTeam)` - Turn management data
+- `getFireAction(shooter, target, mode)` - Weapon fire action
+- `getGrenadeAction(thrower, targetPos)` - Grenade throw action
+- `getMovementAction(entity, path)` - Movement action
+- `getFogOfWar(width, height, revealed)` - Fog of war grid
+- `getCoverData(position, coverType, direction)` - Cover protection
+- `getCombatScenario(scenario)` - Complete scenarios (balanced, outnumbered, ambush)
 
 ### `missions.lua`
-Mock mission and campaign data.
+Mock mission and campaign data (existing).
 - `getMission(type)` - Missions (SITE, UFO, BASE)
 - `generateMissions(count)` - Multiple missions
 - `getCampaign()` - Campaign data
@@ -40,7 +105,7 @@ Mock mission and campaign data.
 - `getBriefing(missionType)` - Complete briefing data
 
 ### `maps.lua`
-Mock map and battlescape data.
+Mock map and battlescape data (existing).
 - `getMapConfig(size, biome)` - Map configuration
 - `getMapBlock()` - MapBlock data
 - `generateTiles(width, height)` - Tile grid

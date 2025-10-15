@@ -48,7 +48,7 @@ local Widgets = require("widgets.init")
 -- New hex-based systems
 local World = require("geoscape.world.world")
 local Province = require("geoscape.geography.province")
-local Craft = require("shared.crafts.craft")
+local Craft = require("core.crafts.craft")
 local GeoscapeRenderer = require("geoscape.world.world_renderer")
 
 -- Mission detection systems

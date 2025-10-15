@@ -5,7 +5,7 @@
 -- Then press Space to see test results
 
 local losOptimized = require("systems.los_optimized")
-local Team = require("systems.team")
+local Team = require("core.team")
 local Debug = require("battlescape.battle.utils.debug")
 
 local testResults = {}
