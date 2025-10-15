@@ -9,7 +9,6 @@ AlienFall (also known as XCOM Simple) is an open-source, turn-based strategy gam
 
 - **Love2D**: 2D game framework (version 12.0+) for graphics, audio, input, and window management.
 - **Lua**: Programming language (version 5.1+), focusing on clean, modular code.
-- **Widgets Library**: Custom UI framework in `engine/ui/widgets/`.
 - **VS Code**: Primary IDE with GitHub Copilot.
 - **Git**: Version control with branches and PRs.
 
@@ -162,62 +161,84 @@ end
 
 ```
 c:\Users\tombl\Documents\Projects\
-├── engine/                          -- Main game engine (XCOM Simple)
+├── .github/                        -- GitHub configuration and AI instructions
+│   └── copilot-instructions.md     -- This system prompt file
+├── run_tests.bat                   -- Test runner script
+├── run_xcom.bat                    -- Game launcher script
+├── engine/                         -- Main game engine (AlienFall/XCOM Simple)
 │   ├── main.lua                    -- Entry point (love.load, love.update, love.draw)
 │   ├── conf.lua                    -- Love2D configuration (console, window, modules)
-│   ├── layers/                     -- Game layers (separated by concern)
-│   │   ├── geoscape/               -- Strategic layer (world map, missions)
-│   │   ├── basescape/              -- Base management layer
-│   │   ├── battlescape/            -- 3D tactical combat layer
-│   │   ├── interception/           -- Craft interception layer
-│   │   └── battle/                 -- ECS battle system layer
-│   ├── ui/                         -- UI framework
-│   │   └── widgets/                -- Widget library (buttons, panels, etc.)
+│   ├── accessibility/              -- Accessibility features
+│   ├── ai/                         -- AI systems (diplomacy, pathfinding, strategic, tactical)
+│   ├── analytics/                  -- Analytics and metrics
+│   ├── assets/                     -- Game assets (data, fonts, images, sounds)
+│   ├── basescape/                  -- Base management layer (base, data, facilities, logic, services)
+│   ├── battlescape/                -- Tactical combat layer (mission_map_generator.lua, ai, battle, etc.)
 │   ├── core/                       -- Core engine systems
-│   │   ├── state_manager.lua       -- State/screen management
-│   │   ├── mod_manager.lua         -- Mod loading system
-│   │   └── assets.lua              -- Asset management
-│   ├── shared/                     -- Shared game logic
-│   │   ├── combat/                 -- Combat mechanics
-│   │   ├── units/                  -- Unit definitions
-│   │   └── pathfinding.lua         -- Pathfinding utilities
-│   ├── systems/                    -- Cross-layer systems
-│   │   ├── calendar.lua            -- Game calendar
-│   │   └── economy.lua             -- Economic systems
+│   ├── economy/                    -- Economic systems
+│   ├── geoscape/                   -- Strategic layer (world map, missions)
+│   ├── interception/               -- Craft interception layer
+│   ├── localization/               -- Localization and internationalization
+│   ├── lore/                       -- Game lore and story content
+│   ├── mods/                       -- Mod support
+│   ├── network/                    -- Networking features
+│   ├── politics/                   -- Political systems
+│   ├── scenes/                     -- Scene management
+│   ├── tutorial/                   -- Tutorial system
+│   ├── ui/                         -- UI framework
 │   ├── utils/                      -- Utility functions
-│   ├── data/                       -- Game data (JSON/Lua)
-│   ├── menu/                       -- Menu screens
-│   └── assets/                     -- Images, sounds, fonts
-├── tests/                          -- All test files (consolidated)
-│   ├── runners/                    -- Test runner scripts
-│   ├── unit/                       -- Unit tests
-│   ├── integration/                -- Integration tests
-│   ├── performance/                -- Performance tests
-│   ├── battle/                     -- Battle system tests
-│   ├── battlescape/                -- Battlescape tests
-│   └── README.md                   -- Test documentation
+│   └── widgets/                    -- Widget library (buttons, panels, etc.)
 ├── mock/                           -- Mock data for testing
-│   ├── units.lua                   -- Mock unit data
-│   ├── items.lua                   -- Mock item data
+│   ├── battlescape.lua             -- Mock battlescape data
+│   ├── economy.lua                 -- Mock economy data
+│   ├── facilities.lua              -- Mock facilities data
+│   ├── geoscape.lua                -- Mock geoscape data
+│   ├── items.lua                   -- Mock items data
+│   ├── maps.lua                    -- Mock maps data
 │   ├── missions.lua                -- Mock mission data
-│   └── maps.lua                    -- Mock map data
-├── tools/                          -- Standalone development tools
-│   ├── map_editor/                 -- Visual map editor
-│   └── asset_verification/         -- Asset validation tool
+│   ├── MOCK_DATA_QUALITY_GUIDE.md -- Mock data quality guidelines
+│   ├── README.md                   -- Mock data documentation
+│   ├── units.lua                   -- Mock units data
+│   └── widgets.lua                 -- Mock widgets data
 ├── mods/                           -- Mod content
+│   ├── README.md                   -- Mod documentation
 │   ├── core/                       -- Core mod data
 │   └── new/                        -- Additional mods
-├── wiki/                           -- Documentation
-│   ├── API.md                      -- API reference (READ THIS for API info)
-│   ├── FAQ.md                      -- Common questions (READ THIS for game info)
-│   ├── DEVELOPMENT.md              -- Dev guide (READ THIS for workflow)
-│   └── PROJECT_STRUCTURE.md        -- Detailed project navigation
 ├── tasks/                          -- Task management
+│   ├── TASK_TEMPLATE.md            -- Template for new tasks (USE THIS)
 │   ├── tasks.md                    -- Task tracking (UPDATE THIS)
-│   ├── TASK_TEMPLATE.md           -- Template for tasks (USE THIS)
-│   ├── TODO/                       -- Active tasks
-│   └── DONE/                       -- Completed tasks
-└── run_xcom.bat                   -- Quick launch script
+│   ├── DONE/                       -- Completed tasks
+│   └── TODO/                       -- Active tasks
+├── tests/                          -- All test files (consolidated)
+│   ├── AI_AGENT_QUICK_REF.md       -- AI agent quick reference
+│   ├── AI_AGENT_TEST_GUIDE.md      -- AI agent testing guide
+│   ├── QUICK_TEST_COMMANDS.md      -- Quick test commands
+│   ├── README.md                   -- Test documentation
+│   ├── TEST_API_FOR_AI.lua         -- Test API for AI
+│   ├── TEST_DEVELOPMENT_GUIDE.md   -- Test development guide
+│   ├── test_mapblock_integration.lua -- Mapblock integration test
+│   ├── battle/                     -- Battle system tests
+│   ├── battlescape/                -- Battlescape tests
+│   ├── geoscape/                   -- Geoscape tests
+│   ├── integration/                -- Integration tests
+│   ├── performance/                -- Performance tests
+│   ├── runners/                    -- Test runner scripts
+│   ├── systems/                    -- System tests
+│   ├── unit/                       -- Unit tests
+│   └── widgets/                    -- Widget tests
+├── tools/                          -- Standalone development tools
+│   ├── README.md                   -- Tools documentation
+│   ├── asset_verification/         -- Asset validation tool
+│   └── map_editor/                 -- Visual map editor
+└── wiki/                           -- Documentation
+    ├── API.md                      -- API reference (READ THIS for API info)
+    ├── FAQ.md                      -- Common questions (READ THIS for game info)
+    ├── DEVELOPMENT.md              -- Development workflow (READ THIS for workflow)
+    ├── PROJECT_STRUCTURE.md        -- Detailed project navigation
+    ├── ...                         -- Additional documentation files
+    ├── internal/                   -- Internal documentation
+    ├── refences/                   -- References (note: typo in folder name)
+    └── wiki/                       -- Additional wiki content
 ```
 
 ### Important Files to Know
@@ -226,7 +247,6 @@ c:\Users\tombl\Documents\Projects\
 - `engine/main.lua` - Game entry point
 - `engine/conf.lua` - Love2D configuration
 - `engine/core/state_manager.lua` - State management
-- `engine/ui/widgets/init.lua` - UI widgets system
 
 **Documentation:**
 - `wiki/API.md` - Full API documentation
@@ -249,188 +269,47 @@ c:\Users\tombl\Documents\Projects\
 
 ## Code Standards and Best Practices
 
+- **Lua Quality**: Write clean, readable, maintainable code. Use meaningful variable/function names. Avoid global variables. Implement proper error handling with `pcall` and `assert`. Follow SOLID principles where applicable in Lua context.
+- **Comments**: Add comments for complex logic, algorithms, and non-obvious code. Use `--` for single-line comments and `--[[ ]]--` for multi-line. Document function purposes, parameters, and return values.
+- **Docstrings**: Use LuaDoc format for module and function documentation. Include descriptions, parameter types, return types, and usage examples.
+- **README Files**: Maintain up-to-date README.md files in all major directories (engine/, tests/, mock/, tools/, mods/, wiki/). Include purpose, usage instructions, dependencies, and contribution guidelines.
+- **File Structure**: Keep proper folder organization. Group related files logically. Use consistent naming conventions (snake_case for files, PascalCase for modules).
+- **Testing**: Keep tests up-to-date with code changes. Write unit tests for new functions, integration tests for systems. Use mock data from `mock/` folder. Run tests regularly and fix failing tests immediately.
 - **Lua Basics**: Use `local` variables, `camelCase` for functions/variables, `UPPER_CASE` for constants, `PascalCase` for modules. Handle errors with `pcall`, optimize performance (reuse objects, use `ipairs`/`pairs`).
 - **Love2D Practices**: Structure around callbacks (`love.load`, `love.update`, `love.draw`). Separate logic/rendering/input. Manage resources in `love.load`/`love.quit`. Use `love.graphics` for drawing, `love.audio` for sound, `love.filesystem` for data.
 - **Style**: 4-space indentation, <100 char lines, meaningful comments.
 
 ---
 
-## MANDATORY: Widget System and Grid Layout
-
-### Grid System Requirements
-
-**ALL UI elements MUST snap to a 24×24 pixel grid.**
-
-- **Resolution:** 960×720 pixels (40 columns × 30 rows)
-- **Grid Cell Size:** 24×24 pixels
-- **Position Rule:** ALL widget X and Y positions MUST be multiples of 24
-- **Size Rule:** ALL widget widths and heights MUST be multiples of 24
-- **No Exceptions:** Even temporary or animated widgets must respect the grid
-
-### Grid Helper Functions
-
-```lua
--- Snap position to grid
-local gridX, gridY = widgets.snapToGrid(rawX, rawY)
-
--- Snap size to grid
-local gridWidth, gridHeight = widgets.snapSize(rawWidth, rawHeight)
-
--- Convert grid coordinates to pixels
-local pixelX, pixelY = widgets.gridToPixels(gridCol, gridRow)
-
--- Convert pixels to grid coordinates
-local gridCol, gridRow = widgets.pixelsToGrid(pixelX, pixelY)
-```
-
-### Debug Tools
-
-- **F9:** Toggle grid overlay
-  - Shows 40×30 green grid lines
-  - Displays red crosshairs at mouse position
-  - Shows grid coordinates in corner
-  - Essential for UI layout work
-
-- **F12:** Toggle fullscreen
-  - Switches between windowed and fullscreen
-  - Maintains proper widget scaling
-  - All widgets remain grid-aligned
-
-### Widget Development Rules
-
-1. **Always use grid snapping:**
-   ```lua
-   self.x, self.y = widgets.snapToGrid(x, y)
-   self.width, self.height = widgets.snapSize(width, height)
-   ```
-
-2. **Inherit from BaseWidget:**
-   ```lua
-   local MyWidget = setmetatable({}, {__index = BaseWidget})
-   ```
-
-3. **Use theme system for ALL styling:**
-   ```lua
-   local color = theme.colors.primary
-   local font = theme.fonts.default
-   local padding = theme.padding
-   ```
-
-4. **Never hardcode visual properties:**
-   - ❌ `love.graphics.setColor(100, 100, 200)`
-   - ✅ `love.graphics.setColor(theme.colors.primary.r, theme.colors.primary.g, theme.colors.primary.b)`
-
-5. **Document widget API:**
-   - Create `engine/ui/widgets/docs/widgetname.md`
-   - Include constructor parameters, methods, properties, events
-   - Add usage examples
-
-6. **Write test cases:**
-   - Create `engine/ui/widgets/tests/test_widgetname.lua`
-   - Test grid snapping, input handling, theme application
-   - Verify enabled/disabled states
-
-7. **Use mock data for testing:**
-   ```lua
-   local mockData = require("widgets.mock_data")
-   local items = mockData.generateItems(10)
-   ```
-
-### Widget Architecture
-
-```
-engine/ui/widgets/
-├── init.lua              -- Widget system loader
-├── base.lua              -- BaseWidget class (grid snapping, events, theme)
-├── theme.lua             -- Theme system (colors, fonts, spacing)
-├── grid.lua              -- Grid system (debug overlay, snapping functions)
-├── mock_data.lua         -- Mock data generator
-├── button.lua            -- Individual widgets...
-├── imagebutton.lua
-├── ...
-├── docs/                 -- Widget documentation
-│   ├── button.md
-│   └── ...
-├── tests/                -- Widget test suite
-│   ├── test_button.lua
-│   └── ...
-└── demo/                 -- Standalone demo app
-    ├── main.lua
-    ├── conf.lua
-    └── run_demo.bat
-```
-
-### Grid Coordinate Examples
-
-```
-Grid Position (0, 0)   → Pixel Position (0, 0)
-Grid Position (1, 1)   → Pixel Position (24, 24)
-Grid Position (10, 5)  → Pixel Position (240, 120)
-Grid Position (39, 29) → Pixel Position (936, 696) -- Bottom-right corner
-
-Widget at grid (5, 3) with size (4, 2):
-  X: 5 × 24 = 120 pixels
-  Y: 3 × 24 = 72 pixels
-  Width: 4 × 24 = 96 pixels
-  Height: 2 × 24 = 48 pixels
-```
-
-### Common Grid Sizes
-
-- **Buttons:** 4×2 grid cells (96×48 pixels)
-- **Labels:** Variable width, 1 cell height (24 pixels)
-- **Panels:** Multiples of 24 pixels
-- **Dialog Windows:** Typically 12×8 to 20×12 grid cells
-- **Text Input:** 6×1 to 12×1 grid cells (144-288 pixels wide)
-- **List Box:** 8×10 grid cells typical (192×240 pixels)
-
----
-
-## Code Organization
-
-- **Modules**: Use `require()` as `folder.module` (e.g., `layers.geoscape.systems.world_map`, `ui.widgets.button`).
-- **File Structure**:
-  - `main.lua`: Entry point.
-  - `layers/`: Game layers (geoscape, basescape, battlescape, interception, battle).
-  - `ui/widgets/`: UI components.
-  - `core/`: Core engine systems.
-  - `shared/`: Shared game logic.
-  - `systems/`: Cross-layer systems.
-  - `assets/`: Images, sounds, fonts.
-  - `tests/`: Unit/integration tests (at project root).
-  - `mock/`: Mock data for testing (at project root).
-  - `tools/`: Standalone development tools (at project root).
-  - `mods/`: Mod content (at project root).
-- **Architecture**: Layer-based separation, state machine for screens, ECS battle system, table-based entities, component architecture.
-
 ## Game Development Patterns
 
 - **Turn-Based Mechanics**: Phases for actions, AI, resolution.
 - **Event System**: Callbacks/observers for events.
 - **Data-Driven**: Configurable data in tables/files.
-- **UI**: Widgets library, 16x16 pixel art upscaled to 32x32.
+- **UI**: 12x12 pixel art upscaled to 24x24.
 - **Balance**: Configurable values.
 
 ## Development Workflow
 
 - **Planning**: Create comprehensive task documents using `tasks/TASK_TEMPLATE.md`. Update `tasks/tasks.md` with all planned work.
-- **Coding**: Modular, testable code with comments. Run with Love2D console enabled for debugging.
-- **Testing**: Run with `lovec "engine"`, check console for errors. Write unit tests.
+- **Coding**: Follow Code Standards and Best Practices. Run with Love2D console enabled for debugging.
+- **Testing**: Run with `lovec "engine"`, check console for errors. Keep tests up-to-date with code changes.
 - **Validation**: Check syntax, performance, standards. Verify no console warnings.
-- **Documentation**: Update `wiki/API.md`, `wiki/FAQ.md`, `wiki/DEVELOPMENT.md`. Maintain comments.
+- **Documentation**: Update `wiki/API.md`, `wiki/FAQ.md`, `wiki/DEVELOPMENT.md` when making changes.
 - **Version Control**: Frequent commits with branches.
 - **Task Management**: Move tasks through TODO → IN_PROGRESS → TESTING → DONE workflow.
+- **Quality Assurance**: Follow Code Standards and Best Practices section above.
 
 ## AI Assistant Guidelines
 
-- **Context**: Reference XCOM mechanics, existing widgets/patterns.
+- **Context**: Reference XCOM mechanics and existing patterns.
 - **Suggestions**: Lua/Love2D compatible, readable, functional.
 - **Focus**: Prevent errors (globals, nil checks), highlight performance, encourage modularity.
-- **Testing/Docs**: Always recommend running with Love2D console. Add comments/docs for complex features.
-- **Best Practices**: Follow standards; check codebase if unsure.
+- **Testing**: Always recommend running with Love2D console. Keep tests up-to-date with code changes.
+- **Best Practices**: Follow standards in Code Standards section above.
 - **Task Management**: Always create task documents before starting work. Update tasks.md throughout.
 - **Temporary Files**: Always use `os.getenv("TEMP")` - never create temp files in project directories.
-- **Documentation**: Update wiki files (API.md, FAQ.md, DEVELOPMENT.md) when making changes.
+- **Documentation**: Update wiki files when making changes.
 
 ## Specific Game Systems
 
@@ -454,23 +333,23 @@ Widget at grid (5, 3) with size (4, 2):
 - Love2D Docs: https://love2d.org/wiki/Main_Page
 - Lua Manual: https://www.lua.org/manual/5.1/
 - UFO API/Wiki: https://www.ufopaedia.org/ (X-COM reference)
-- Project Wiki: `wiki/` folder
-  - `wiki/API.md` - API documentation
+- **Project Structure**: See "Project Structure and Navigation" section above for complete directory layout
+- **Key Documentation** (READ THESE):
+  - `wiki/API.md` - API reference
   - `wiki/FAQ.md` - Game mechanics and FAQ
   - `wiki/DEVELOPMENT.md` - Development workflow
   - `wiki/PROJECT_STRUCTURE.md` - Detailed project navigation
-  - `wiki/wiki/` - Additional documentation
-- Source Code: `engine/` folder for game code
-- Mods: `mods/` folder for custom content (at project root)
-- Tests: `tests/` folder for unit/integration tests (at project root)
-- Mock Data: `mock/` folder for test data generators (at project root)
-- Tools: `tools/` folder for standalone development tools (at project root)
-- Tasks: `tasks/` folder for task management
-  - `tasks/tasks.md` - Task tracking
-  - `tasks/TASK_TEMPLATE.md` - Template for new tasks
-  - `tasks/TODO/` - Active tasks
-  - `tasks/DONE/` - Completed tasks
-- Codebase: Study `engine/` folder for patterns and systems.
+- **Codebase**: Study `engine/` folder for patterns and systems
+
+## What to Remember
+
+**MANDATORY Rules (see detailed sections above):**
+- Always run game with Love2D console enabled (`lovec "engine"`)
+- Create temp files ONLY in `os.getenv("TEMP")` directory
+- ALL UI elements MUST snap to 24×24 pixel grid (40×30 grid = 960×720 resolution)
+- Create task documents before starting work using `tasks/TASK_TEMPLATE.md`
+- Keep tests up-to-date with code changes
+- Follow Code Standards and Best Practices section above
 
 ---
 
