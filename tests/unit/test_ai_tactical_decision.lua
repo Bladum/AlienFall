@@ -23,8 +23,8 @@
 package.path = package.path .. ";../../?.lua;../../engine/?.lua"
 
 local AIDecisionSystem = require("ai.tactical.decision_system")
-local MockUnits = require("mock.units")
-local MockBattlescape = require("mock.battlescape")
+local MockUnits = require("tests.mock.units")
+local MockBattlescape = require("tests.mock.battlescape")
 
 local TestAITacticalDecision = {}
 local testsPassed = 0

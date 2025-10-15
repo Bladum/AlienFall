@@ -22,7 +22,7 @@
 package.path = package.path .. ";../../?.lua;../../engine/?.lua"
 
 local ResearchSystem = require("economy.research.research_system")
-local MockEconomy = require("mock.economy")
+local MockEconomy = require("tests.mock.economy")
 
 local TestResearchSystem = {}
 local testsPassed = 0

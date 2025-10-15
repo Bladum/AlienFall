@@ -24,14 +24,13 @@ tests/
 ├── integration/            # Multi-system workflow tests
 ├── performance/            # Benchmark tests
 ├── runners/                # Test execution scripts
-└── README.md
-
-mock/
-├── units.lua              # Mock unit/soldier data
-├── items.lua              # Mock equipment data
-├── facilities.lua         # Mock base data
-├── economy.lua            # Mock economic data
-├── geoscape.lua           # Mock world/mission data
+├── mock/                   # Mock data (moved from root)
+│   ├── units.lua           # Mock unit/soldier data
+│   ├── items.lua           # Mock equipment data
+│   ├── facilities.lua      # Mock base data
+│   ├── economy.lua         # Mock economic data
+│   ├── geoscape.lua        # Mock world/mission data
+│   └── README.md
 └── README.md
 ```
 
@@ -49,7 +48,7 @@ Create mock data when:
 ### Mock Data Template
 
 ```lua
--- mock/new_system.lua
+-- tests/mock/new_system.lua
 -- Mock data for [System Name]
 
 local MockSystem = {}
@@ -207,7 +206,7 @@ local function setup()
     
     local System1 = require("path.to.system1")
     local System2 = require("path.to.system2")
-    local MockData = require("mock.data")
+    local MockData = require("tests.mock.data")
     
     return System1, System2, MockData
 end
@@ -522,8 +521,8 @@ lovec tests/runners
 
 ```lua
 function CombatTest.testDamageCalculation()
-    local MockUnits = require("mock.units")
-    local MockItems = require("mock.items")
+    local MockUnits = require("tests.mock.units")
+    local MockItems = require("tests.mock.items")
     
     -- Create attacker with weapon
     local attacker = MockUnits.getSoldier("Attacker", "ASSAULT")
@@ -582,7 +581,7 @@ end
 - Unit tests: `tests/unit/test_*.lua`
 - Integration tests: `tests/integration/test_*_integration.lua`
 - Performance tests: `tests/performance/test_*_performance.lua`
-- Mock data: `mock/*.lua`
+- Mock data: `tests/mock/*.lua`
 
 ### Test Runner Commands
 ```bash

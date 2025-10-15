@@ -490,7 +490,7 @@ run_tests.bat
 ## 📖 Additional Resources
 
 - **Test API Reference**: `tests/TEST_API_FOR_AI.lua`
-- **Mock Data Quality**: `mock/MOCK_DATA_QUALITY_GUIDE.md`
+- **Mock Data Quality**: `tests/mock/MOCK_DATA_QUALITY_GUIDE.md`
 - **Test Development**: `tests/TEST_DEVELOPMENT_GUIDE.md`
 - **Coverage Report**: `COMPLETE_TEST_COVERAGE_REPORT.md`
 - **Quick Reference**: `tests/AI_AGENT_QUICK_REF.md`
@@ -522,5 +522,5 @@ When in doubt:
 5. Document what you're testing
 
 **Test file locations**: All in `tests/` folder (never in `engine/`)  
-**Mock data**: All in `mock/` folder  
+**Mock data**: All in `tests/mock/` folder  
 **Documentation**: Keep `tests/README.md` updated

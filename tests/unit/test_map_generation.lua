@@ -24,8 +24,8 @@ package.path = package.path .. ";../../?.lua;../../engine/?.lua"
 
 local MissionMapGenerator = require("battlescape.mission_map_generator")
 local MapGenerationPipeline = require("battlescape.maps.map_generation_pipeline")
-local MockMaps = require("mock.maps")
-local MockMissions = require("mock.missions")
+local MockMaps = require("tests.mock.maps")
+local MockMissions = require("tests.mock.missions")
 
 local TestMapGeneration = {}
 local testsPassed = 0

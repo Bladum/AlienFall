@@ -250,19 +250,19 @@ return TestSuite
 
 ## Mock Data
 
-Mock data for tests is located in the `mock/` folder at project root:
+Mock data for tests is located in the `tests/mock/` folder:
 
 ```lua
-local MockUnits = require("mock.units")
+local MockUnits = require("tests.mock.units")
 local testUnit = MockUnits.getSoldier("Test", "ASSAULT")
 ```
 
-See `mock/README.md` for more information.
+See `tests/mock/README.md` for more information.
 
 ## Best Practices
 
 1. **Run from project root** - Tests expect to access engine code
-2. **Use mock data** - Don't create test data inline, use mock/ folder
+2. **Use mock data** - Don't create test data inline, use tests/mock/ folder
 3. **Clean up** - Tests should not leave files or modify game state
 4. **Fast execution** - Tests should run quickly (< 5 seconds each)
 5. **Clear output** - Print clear pass/fail messages

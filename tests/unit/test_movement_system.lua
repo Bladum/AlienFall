@@ -6,8 +6,8 @@ if not love then
     love = {}
 end
 
-local MockUnits = require("mock.units")
-local MockBattlescape = require("mock.battlescape")
+local MockUnits = require("tests.mock.units")
+local MockBattlescape = require("tests.mock.battlescape")
 
 local TestMovementSystem = {}
 local testsPassed = 0

@@ -295,7 +295,7 @@ lovec tools/map_editor
 - **`wiki/MAP_EDITOR_GUIDE.md`** - Map editing guide
 - **`wiki/TILESET_SYSTEM.md`** - Tileset format documentation
 - **`tests/`** - Test runners and unit tests
-- **`mock/`** - Mock data for testing
+- **`tests/mock/`** - Mock data for testing
 
 ---
 

@@ -188,18 +188,6 @@ c:\Users\tombl\Documents\Projects\
 │   ├── ui/                         -- UI framework
 │   ├── utils/                      -- Utility functions
 │   └── widgets/                    -- Widget library (buttons, panels, etc.)
-├── mock/                           -- Mock data for testing
-│   ├── battlescape.lua             -- Mock battlescape data
-│   ├── economy.lua                 -- Mock economy data
-│   ├── facilities.lua              -- Mock facilities data
-│   ├── geoscape.lua                -- Mock geoscape data
-│   ├── items.lua                   -- Mock items data
-│   ├── maps.lua                    -- Mock maps data
-│   ├── missions.lua                -- Mock mission data
-│   ├── MOCK_DATA_QUALITY_GUIDE.md -- Mock data quality guidelines
-│   ├── README.md                   -- Mock data documentation
-│   ├── units.lua                   -- Mock units data
-│   └── widgets.lua                 -- Mock widgets data
 ├── mods/                           -- Mod content
 │   ├── README.md                   -- Mod documentation
 │   ├── core/                       -- Core mod data
@@ -218,6 +206,26 @@ c:\Users\tombl\Documents\Projects\
 │   ├── TEST_DEVELOPMENT_GUIDE.md   -- Test development guide
 │   ├── test_mapblock_integration.lua -- Mapblock integration test
 │   ├── battle/                     -- Battle system tests
+│   ├── battlescape/                -- Battlescape tests
+│   ├── geoscape/                   -- Geoscape tests
+│   ├── integration/                -- Integration tests
+│   ├── performance/                -- Performance tests
+│   ├── runners/                    -- Test runner scripts
+│   ├── systems/                    -- System tests
+│   ├── unit/                       -- Unit tests
+│   ├── widgets/                    -- Widget tests
+│   └── mock/                       -- Mock data for testing
+│       ├── battlescape.lua         -- Mock battlescape data
+│       ├── economy.lua             -- Mock economy data
+│       ├── facilities.lua          -- Mock facilities data
+│       ├── geoscape.lua            -- Mock geoscape data
+│       ├── items.lua               -- Mock items data
+│       ├── maps.lua                -- Mock maps data
+│       ├── missions.lua            -- Mock mission data
+│       ├── MOCK_DATA_QUALITY_GUIDE.md -- Mock data quality guidelines
+│       ├── README.md               -- Mock data documentation
+│       ├── units.lua               -- Mock units data
+│       └── widgets.lua             -- Mock widgets data
 │   ├── battlescape/                -- Battlescape tests
 │   ├── geoscape/                   -- Geoscape tests
 │   ├── integration/                -- Integration tests
@@ -260,7 +268,7 @@ c:\Users\tombl\Documents\Projects\
 
 **Testing:**
 - `tests/README.md` - How to run tests
-- `mock/README.md` - Mock data usage guide
+- `tests/mock/README.md` - Mock data usage guide
 
 **Tools:**
 - `tools/README.md` - Overview of development tools
@@ -272,9 +280,9 @@ c:\Users\tombl\Documents\Projects\
 - **Lua Quality**: Write clean, readable, maintainable code. Use meaningful variable/function names. Avoid global variables. Implement proper error handling with `pcall` and `assert`. Follow SOLID principles where applicable in Lua context.
 - **Comments**: Add comments for complex logic, algorithms, and non-obvious code. Use `--` for single-line comments and `--[[ ]]--` for multi-line. Document function purposes, parameters, and return values.
 - **Docstrings**: Use LuaDoc format for module and function documentation. Include descriptions, parameter types, return types, and usage examples.
-- **README Files**: Maintain up-to-date README.md files in all major directories (engine/, tests/, mock/, tools/, mods/, wiki/). Include purpose, usage instructions, dependencies, and contribution guidelines.
+- **README Files**: Maintain up-to-date README.md files in all major directories (engine/, tests/, tests/mock/, tools/, mods/, wiki/). Include purpose, usage instructions, dependencies, and contribution guidelines.
 - **File Structure**: Keep proper folder organization. Group related files logically. Use consistent naming conventions (snake_case for files, PascalCase for modules).
-- **Testing**: Keep tests up-to-date with code changes. Write unit tests for new functions, integration tests for systems. Use mock data from `mock/` folder. Run tests regularly and fix failing tests immediately.
+- **Testing**: Keep tests up-to-date with code changes. Write unit tests for new functions, integration tests for systems. Use mock data from `tests/mock/` folder. Run tests regularly and fix failing tests immediately.
 - **Lua Basics**: Use `local` variables, `camelCase` for functions/variables, `UPPER_CASE` for constants, `PascalCase` for modules. Handle errors with `pcall`, optimize performance (reuse objects, use `ipairs`/`pairs`).
 - **Love2D Practices**: Structure around callbacks (`love.load`, `love.update`, `love.draw`). Separate logic/rendering/input. Manage resources in `love.load`/`love.quit`. Use `love.graphics` for drawing, `love.audio` for sound, `love.filesystem` for data.
 - **Style**: 4-space indentation, <100 char lines, meaningful comments.

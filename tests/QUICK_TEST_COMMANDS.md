@@ -145,7 +145,7 @@ Failed tests:
 - **tests/AI_AGENT_QUICK_REF.md** - Quick reference card
 - **tests/TEST_API_FOR_AI.lua** - Complete API reference
 - **tests/TEST_DEVELOPMENT_GUIDE.md** - How to write tests
-- **mock/README.md** - Mock data API
+- **tests/mock/README.md** - Mock data API
 - **COMPLETE_TEST_COVERAGE_REPORT.md** - Full coverage report
 - **TEST_EXTENSION_SUMMARY.md** - Recent additions summary
 
@@ -179,7 +179,7 @@ When asked to run tests:
 
 When asked about mock data:
 
-1. **Check mock/README.md** for available generators
+1. **Check tests/mock/README.md** for available generators
 2. **Use appropriate mock file** (units, items, facilities, economy, geoscape, battlescape)
 3. **Call generator functions** with desired parameters
 

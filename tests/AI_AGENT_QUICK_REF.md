@@ -125,7 +125,7 @@ tests/
 - **Coverage Report:** `TEST_COVERAGE_REPORT.md`
 - **Development Guide:** `tests/TEST_DEVELOPMENT_GUIDE.md`
 - **Test README:** `tests/README.md`
-- **Mock Data README:** `mock/README.md`
+- **Mock Data README:** `tests/mock/README.md`
 
 ## ⚡ Quick Commands
 
@@ -169,7 +169,7 @@ Total: 10, Passed: 9 (90%), Failed: 1 (10%)
 3. **TEST_SUITE_SUMMARY.md** - Detailed test documentation
 4. **TEST_DEVELOPMENT_GUIDE.md** - Writing new tests
 5. **tests/README.md** - Test system overview
-6. **mock/README.md** - Mock data API
+6. **tests/mock/README.md** - Mock data API
 
 ## 🤖 AI Agent Protocol
 
@@ -186,7 +186,7 @@ Total: 10, Passed: 9 (90%), Failed: 1 (10%)
 
 ### When asked to write tests:
 1. Check TEST_DEVELOPMENT_GUIDE.md for templates
-2. Use mock data from `mock/` directory
+2. Use mock data from `tests/mock/` directory
 3. Follow naming convention: `test_[system_name].lua`
 4. Add to selective runner registry
 

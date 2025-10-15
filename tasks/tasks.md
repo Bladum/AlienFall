@@ -2,13 +2,220 @@
 
 This file tracks all tasks for the Alien Fall project.
 
-**Last Updated:** October 14, 2025
+**Last Updated:** October 15, 2025
+
+**🎊 PHASE 3c WIKI ELIMINATION COMPLETE!**
+- ✅ Tier 1: 12/12 game design files (100%)
+- ✅ Tier 2: 8/8 development guides (100%)
+- ✅ Tier 3: 6/6 system documentation (100%)
+- ✅ Tier 4: MIGRATION_GUIDE archived
+- ✅ 10 implementation tasks created in tasks/DONE/
+- **Total extracted:** 21,000+ lines to permanent docs/
+
+**✨ DOCUMENTATION CLEANUP COMPLETE** - Wiki redundancy analysis finished. 11 redundant files removed, docs/ structure finalized.
 
 **🎉 EPIC UPDATE: 65 tasks completed! Batches 1-8: Combat, Strategic, Basescape, 3D Battlescape, Economy, Mission Generation, + 40 Advanced Systems (Batches 5-8: Advanced Combat + Mission Flow).**
 
 **🏗️ NEW: Engine Restructure Plan Created** - Comprehensive feature-focused reorganization plan (25-38 hours estimated)
 
+**📚 NEW: Phase 2 Documentation Migration COMPLETED** - Comprehensive docs/ structure created with 25+ design documents migrated from wiki/
+
 ---
+
+## 📋 Quick Navigation
+
+- **[Master Implementation Plan](TODO/MASTER-IMPLEMENTATION-PLAN.md)** - Complete 8-phase roadmap (16-17 weeks)
+- **[Task Organization Reference](TODO/TASK-ORGANIZATION-QUICK-REFERENCE.md)** - Task breakdown by category
+- **[Task Flow Visual Diagram](TODO/TASK-FLOW-VISUAL-DIAGRAM.md)** - Dependency graphs and timelines
+
+### Task Categories (NEW!)
+- **[01-BATTLESCAPE](TODO/01-BATTLESCAPE/)** - 10 tasks (tactical combat, 3D rendering, map generation)
+- **[02-GEOSCAPE](TODO/02-GEOSCAPE/)** - 7 tasks + 9 docs (strategic world management)
+- **[03-BASESCAPE](TODO/03-BASESCAPE/)** - 4 tasks (base building, research, manufacturing)
+- **[04-INTERCEPTION](TODO/04-INTERCEPTION/)** - 1 task (craft combat)
+- **[05-ECONOMY](TODO/05-ECONOMY/)** - 3 tasks (marketplace, black market, reputation)
+- **[06-DOCUMENTATION](TODO/06-DOCUMENTATION/)** - 7 reference docs
+
+**Total:** 25 actionable tasks, ~1,115 hours estimated
+
+---
+
+# Alien Fall - Task Tracking
+
+## Task Status Overview
+
+This file tracks all development tasks for the Alien Fall project.
+
+### Task States
+- **TODO**: Planned and documented, not started
+- **IN_PROGRESS**: Currently being worked on
+- **TESTING**: Implementation complete, testing in progress
+- **DONE**: Completed and verified
+
+---
+
+## Active High Priority Tasks
+
+### 🆕 TASK-LORE-001: Implement Campaign Phase Content (TODO)
+**Priority:** CRITICAL | **Created:** January XX, 2026 | **Status:** TODO | **Completed:** N/A
+**Description:** Implement complete 4-phase campaign system (Shadow/Sky/Deep/Dimensional Wars, 1996-2004). Create TOML content files defining all phase progression, 18 timeline milestones, missions, and transitions. Enhance phase_manager.lua.
+**Files:** mods/core/campaigns/phase0-3.toml (4 files), campaign_timeline.toml, engine/lore/campaign/phase_manager.lua, docs/campaign/
+**Time:** 40 hours
+**Source:** engine/lore/lore_ideas.md sections 2-3 (campaign phases + timeline)
+**Impact:** Completes strategic layer backbone - systems exist but have NO content
+
+### 🆕 TASK-LORE-002: Implement Faction Definitions (TODO)
+**Priority:** CRITICAL | **Created:** January XX, 2026 | **Status:** TODO | **Completed:** N/A
+**Description:** Implement complete faction definitions for 15+ factions (Sectoids, Mutons, Ethereals, Cult, BlackOps, Aquatic, Dimensional). Create TOML content files with unit rosters, tech trees, campaigns, and characteristics.
+**Files:** mods/core/factions/*.toml (15+ files), engine/lore/factions/faction_system.lua enhancements, docs/lore/factions/
+**Time:** 30 hours
+**Source:** engine/lore/lore_ideas.md sections 4-9 (all factions)
+**Impact:** Faction system has code but NO content - this fills the gap
+
+### 🆕 TASK-LORE-003: Implement Technology Catalog (TODO)
+**Priority:** CRITICAL | **Created:** January XX, 2026 | **Status:** TODO | **Completed:** N/A
+**Description:** Implement complete technology catalog covering 4 phases with weapon/armor/vehicle progression (Ballistic→Laser→Plasma→Gauss→Sonic→Particle Beam). Create TOML content files, research trees, manufacturing requirements.
+**Files:** mods/core/technology/phase0-3_tech.toml (4 files), research_tree.toml, docs/lore/technology_catalog.md
+**Time:** 25 hours
+**Source:** engine/lore/lore_ideas.md sections 10-11 (tech catalog + vehicles)
+**Impact:** Enables complete tech progression from 1996-2004
+
+### 🆕 TASK-LORE-004: Implement Narrative Hooks System (TODO)
+**Priority:** HIGH | **Created:** January XX, 2026 | **Status:** TODO | **Completed:** N/A
+**Description:** Implement dynamic storytelling through research discoveries, alien interrogations, and diplomatic events. Create Lua system and TOML content with 50+ narrative triggers.
+**Files:** engine/lore/narrative_hooks.lua, mods/core/lore/narrative_events*.toml (4 files), engine/ui/narrative_popup.lua, docs/lore/narrative_hooks.md
+**Time:** 20 hours
+**Source:** engine/lore/lore_ideas.md section 15 (narrative hooks)
+**Impact:** Adds immersive storytelling layer to reveal lore through gameplay
+
+### 🆕 TASK-AI-001: Implement Alien Director (Strategic AI) (TODO)
+**Priority:** HIGH | **Created:** January XX, 2026 | **Status:** TODO | **Completed:** N/A
+**Description:** Implement AI "Dungeon Master" that manages campaign pressure, adaptive difficulty, faction coordination, UFO activity, and dynamic events. Creates responsive alien opposition.
+**Files:** engine/ai/strategic/alien_director.lua, threat_manager.lua, faction_coordinator.lua, mods/core/ai/alien_director_config.toml, docs/ai/
+**Time:** 30 hours
+**Source:** wiki archive summaries 01-02 (strategic AI), lore_ideas.md (threat progression)
+**Impact:** Critical for replayability and challenge - orchestrates all alien activity
+
+### ✅ TASK-DOCS-001: Phase 2 Documentation Migration (COMPLETED)
+**Priority:** High | **Created:** October 14, 2025 | **Status:** COMPLETED | **Completed:** October 15, 2025
+**Description:** Migrate 25+ design documents from wiki/ to engine-mirroring docs/ structure
+**Files:** `docs/` structure created, 25+ documents migrated
+**Time:** 8 hours
+
+### ✅ TASK-DOCS-004: Phase 4 Integration & Linking (COMPLETED)
+**Priority:** High | **Created:** October 15, 2025 | **Status:** COMPLETED | **Completed:** October 15, 2025
+**Description:** Connect design docs with implementation files and test coverage
+**Files:** All 15 enhanced docs updated with accurate engine/ and tests/ links
+**Time:** 2 hours
+**Summary:** Successfully completed Phase 2 of docs/ folder creation by migrating 25+ design documents from wiki/ content. Created comprehensive engine-mirroring structure with detailed mechanics documentation for all major systems including economy, battlescape, geoscape, progression, content, mods, multiplayer, physics, UI, audio, graphics, testing, and implementation. All documents follow consistent format with implementation references, testing links, and cross-system relationships.
+**Time Estimate:** 12 hours | **Progress:** 100% - Complete docs/ structure with migrated content
+**Files Created:** 25+ design documents in docs/ structure
+**Systems Documented:** Economy (research, funding, manufacturing, marketplace), Battlescape (combat-mechanics, unit-systems, weapons, armors, maps), Geoscape (crafts, missions, world-map), Progression (organization), Content (items), Mods (system), Network (multiplayer), Core (physics, ui, audio, graphics, testing, implementation, concepts), Lore (narrative), Balancing (framework)
+
+### ✅ TASK-DOCS-005: Phase 5 Wiki Cleanup (COMPLETED)
+**Priority:** High | **Created:** October 15, 2025 | **Status:** COMPLETED | **Completed:** October 15, 2025
+**Description:** Reorganize wiki content for developer documentation, remove migrated game design content. Analyzed 93 wiki files across 4 folders, removed 29 duplicates, archived 25 historical summaries, kept 39 essential docs.
+**Files:** wiki/ folder reorganization complete, 29 files removed, 25 archived, 39 kept
+**Time:** 6-7 hours
+**Result:** Clean wiki structure with clear separation (wiki/=dev docs, docs/=game design). Identified 5 new documentation tasks.
+
+### 🆕 TASK-XXX: Document Craft System (TODO)
+**Priority:** High | **Created:** October 15, 2025 | **Status:** TODO | **Completed:** N/A
+**Description:** Create comprehensive documentation for Craft System in docs/content/crafts/ based on engine/core/crafts/craft.lua implementation
+**Files:** docs/content/crafts/README.md (and related files)
+**Time:** 3-4 hours
+**Source:** wiki/wiki/crafts.md (111 lines), engine/core/crafts/craft.lua
+**After Completion:** Remove wiki/wiki/crafts.md
+
+### 🆕 TASK-XXY: Document Facilities System (TODO)
+**Priority:** High | **Created:** October 15, 2025 | **Status:** TODO | **Completed:** N/A
+**Description:** Create comprehensive documentation for Facilities System in docs/content/facilities/ based on engine/basescape/facilities/ implementation
+**Files:** docs/content/facilities/README.md (and related files)
+**Time:** 4-5 hours
+**Source:** wiki/wiki/facilities.md (117 lines), engine/basescape/facilities/
+**After Completion:** Remove wiki/wiki/facilities.md
+
+### 🆕 TASK-XXZ: Document Localization System (TODO)
+**Priority:** Medium | **Created:** October 15, 2025 | **Status:** TODO | **Completed:** N/A
+**Description:** Create comprehensive documentation for Localization System in docs/localization/ based on engine/localization/ implementation
+**Files:** docs/localization/README.md, docs/localization/translation-guide.md
+**Time:** 2-3 hours
+**Source:** wiki/wiki/translation.md, engine/localization/
+**After Completion:** Remove wiki/wiki/translation.md
+
+### 🆕 TASK-XXW: Verify Finance Implementation (TODO)
+**Priority:** Medium | **Created:** October 15, 2025 | **Status:** TODO | **Completed:** N/A
+**Description:** Verify whether Finance System is fully implemented. engine/economy/finance/ has only README.md. Determine if complete, partial, or not implemented.
+**Files:** Investigation task - may create implementation task based on findings
+**Time:** 1-2 hours
+**Action:** Investigate → Create task (if needed) OR Remove wiki/wiki/finance.md (if complete)
+
+### 🆕 TASK-XXV: Verify Organization Implementation (TODO)
+**Priority:** Medium | **Created:** October 15, 2025 | **Status:** TODO | **Completed:** N/A
+**Description:** Verify whether Organization System is fully implemented. engine/politics/organization/ has only README.md. Determine if complete, partial, or not implemented.
+**Files:** Investigation task - may create implementation task based on findings
+**Time:** 1-2 hours
+**Action:** Investigate → Create task (if needed) OR Remove wiki/wiki/organization.md (if complete)
+
+---
+
+### 🔥 TASK-PGS: Implement Procedural Generation Systems (TODO)
+**Priority:** High | **Created:** January XX, 2026 | **Status:** TODO | **Completed:** N/A
+**Description:** Implement comprehensive procedural generation systems for maps, missions, entities, and terrain. Complete mission_map_generator.lua, add terrain generation, entity generation, and make all systems configurable via TOML.
+**Files:** engine/battlescape/ (map_generator, terrain_generator, feature_generator), engine/geoscape/mission_generator.lua, mods/core/generation/*.toml, docs/battlescape/procedural_generation.md
+**Time:** 24 hours (6h map + 5h mission + 4h entity + 3h docs + 4h testing + 2h analysis)
+**Task Document:** [tasks/TODO/TASK-PGS-implement-procedural-generation.md](TODO/TASK-PGS-implement-procedural-generation.md)
+**Source:** wiki/wiki/content.md (procedural generation documentation)
+**After Completion:** Remove wiki/wiki/content.md
+
+### 🔥 TASK-GSD: Implement Game System Designs (TODO)
+**Priority:** High | **Created:** January XX, 2026 | **Status:** TODO | **Completed:** N/A
+**Description:** Implement core game systems: faction system with lore arcs, organizational progression (4-5 levels), automation systems, and difficulty scaling (Easy/Normal/Hard/Ironman). All systems configurable via TOML.
+**Files:** engine/geoscape/ (faction_system, organization, progression_manager), engine/core/ (automation_system, difficulty_manager), mods/core/ (factions/, progression/, automation/, difficulty/), docs/progression/, docs/core/
+**Time:** 31 hours (6h faction + 5h progression + 7h automation + 5h difficulty + 4h docs + 4h testing)
+**Task Document:** [tasks/TODO/TASK-GSD-implement-game-system-designs.md](TODO/TASK-GSD-implement-game-system-designs.md)
+**Source:** wiki/wiki/design.md (game system designs)
+**After Completion:** Remove wiki/wiki/design.md
+
+### 🆕 TASK-VDG: Create Visual Diagrams for Documentation (TODO)
+**Priority:** Medium | **Created:** January XX, 2026 | **Status:** TODO | **Completed:** N/A
+**Description:** Create comprehensive visual diagrams for all major game systems using Mermaid.js, ASCII art, and image files. Cover game structure, content generation, combat, base management, economy, AI, UI/UX, technical architecture, and development workflow.
+**Files:** docs/diagrams/ (game_structure.md, combat_flow.md, ai_decision_trees.md, etc.)
+**Time:** 25 hours (3h+3h+4h+3h+2h+3h+2h+3h+2h = 25h for all diagram categories)
+**Task Document:** [tasks/TODO/TASK-VDG-create-visual-diagrams.md](TODO/TASK-VDG-create-visual-diagrams.md)
+**Source:** wiki/wiki/diagrams.md (diagram placeholder list)
+**After Completion:** Remove wiki/wiki/diagrams.md
+
+### 🆕 TASK-EMC: Convert Examples to Mod Content (TODO)
+**Priority:** Medium | **Created:** January XX, 2026 | **Status:** TODO | **Completed:** N/A
+**Description:** Convert concrete examples (unit stats, craft specs, items, facilities, factions, missions) from wiki/wiki/examples.md into TOML mod content files in mods/core/examples/. Create modding documentation with usage instructions.
+**Files:** mods/core/examples/ (units/, crafts/, items/, facilities/, factions/, missions/, research/, manufacturing/, weapons/), docs/modding/examples.md
+**Time:** 14.5 hours (1h setup + 2h units + 1.5h crafts + 2h items + 2.5h facilities/factions/missions + 1.5h research/manufacturing + 2h docs + 1.5h testing + 0.5h cleanup)
+**Task Document:** [tasks/TODO/TASK-EMC-convert-examples-to-mod-content.md](TODO/TASK-EMC-convert-examples-to-mod-content.md)
+**Source:** wiki/wiki/examples.md (example data)
+**After Completion:** Remove wiki/wiki/examples.md
+
+### 🔥 TASK-CLS: Implement Campaign and Lore Systems (TODO)
+**Priority:** High | **Created:** January XX, 2026 | **Status:** TODO | **Completed:** N/A
+**Description:** Implement comprehensive campaign system with 4 phases (Shadow War → Sky War → Deep War → Dimensional War), faction lore with backstories, technology catalog, narrative hooks, threat progression, mission templates, and materials/artifacts system.
+**Files:** engine/geoscape/ (campaign_manager, phase_manager, threat_manager, encounter_generator), engine/lore/ (lore_manager, faction_lore, narrative_hooks), engine/economy/salvage_system.lua, mods/core/ (campaign/, lore/, technology/, missions/), docs/campaign/, docs/lore/
+**Time:** 40 hours (5h phase + 6h faction + 5h tech + 4h narrative + 4h threat + 5h encounters + 3h materials + 4h docs + 4h testing)
+**Task Document:** [tasks/TODO/TASK-CLS-implement-campaign-lore-systems.md](TODO/TASK-CLS-implement-campaign-lore-systems.md)
+**Source:** wiki/wiki/ideas.md (campaign structure, factions, lore)
+**After Completion:** Remove wiki/wiki/ideas.md
+
+### 🆕 TASK-MRT: Migrate Roadmap to Tasks System (TODO)
+**Priority:** Low | **Created:** January XX, 2026 | **Status:** TODO | **Completed:** N/A
+**Description:** Migrate content from wiki/wiki/roadmap.md (phase overview, task dependencies, success criteria, risk mitigation, timeline milestones) into tasks/tasks.md system, then remove roadmap.md from wiki.
+**Files:** tasks/tasks.md (add Project Milestones, Dependencies, Success Criteria, Risk Mitigation sections)
+**Time:** 2.75 hours (0.5h analysis + 1h integration + 0.5h verification + 0.5h link updates + 0.25h removal + 0.25h docs)
+**Task Document:** [tasks/TODO/TASK-MRT-migrate-roadmap-to-tasks.md](TODO/TASK-MRT-migrate-roadmap-to-tasks.md)
+**Source:** wiki/wiki/roadmap.md
+**After Completion:** Remove wiki/wiki/roadmap.md
+
+---
+
+### ✅ TASK-001: Project Structure Simplification (COMPLETED)
 
 ## 📋 Quick Navigation
 

@@ -119,7 +119,7 @@ Project Structure:
     -- ========================================================================
     mock_data = {
         units = {
-            file = "mock/units.lua",
+            file = "tests/mock/units.lua",
             functions = {
                 "getSoldier(name, class)        -- Single soldier",
                 "generateSquad(count)           -- Full squad (default 6)",
@@ -131,7 +131,7 @@ Project Structure:
                 "getCivilian(name)              -- Civilian"
             },
             example = [[
-                local MockUnits = require("mock.units")
+                local MockUnits = require("tests.mock.units")
                 local soldier = MockUnits.getSoldier("John", "ASSAULT")
                 local squad = MockUnits.generateSquad(6)
                 local enemy = MockUnits.getEnemy("SECTOID")
@@ -144,7 +144,7 @@ Project Structure:
         },
         
         items = {
-            file = "mock/items.lua",
+            file = "tests/mock/items.lua",
             functions = {
                 "getWeapon(type)               -- Weapon by type",
                 "getArmor(type)                -- Armor by type",
@@ -156,7 +156,7 @@ Project Structure:
                 "getAmmo(weaponType)           -- Ammunition"
             },
             example = [[
-                local MockItems = require("mock.items")
+                local MockItems = require("tests.mock.items")
                 local rifle = MockItems.getWeapon("RIFLE")
                 local armor = MockItems.getArmor("KEVLAR")
                 local loadout = MockItems.generateLoadout("ASSAULT")
@@ -169,7 +169,7 @@ Project Structure:
         },
         
         facilities = {
-            file = "mock/facilities.lua",
+            file = "tests/mock/facilities.lua",
             functions = {
                 "getBase(name)                 -- Base configuration",
                 "getFacility(type, x, y)       -- Single facility",
@@ -179,7 +179,7 @@ Project Structure:
                 "getDamagedFacility(type, %)   -- Damaged facility"
             },
             example = [[
-                local MockFacilities = require("mock.facilities")
+                local MockFacilities = require("tests.mock.facilities")
                 local base = MockFacilities.getStarterBase()
                 local lab = MockFacilities.getFacility("LABORATORY", 3, 3)
             ]],
@@ -190,7 +190,7 @@ Project Structure:
         },
         
         economy = {
-            file = "mock/economy.lua",
+            file = "tests/mock/economy.lua",
             functions = {
                 "getFinances(balance)          -- Finance data",
                 "getResearchProject(type)      -- Research project",
@@ -203,14 +203,14 @@ Project Structure:
                 "getSalaries()                 -- Salary info"
             },
             example = [[
-                local MockEconomy = require("mock.economy")
+                local MockEconomy = require("tests.mock.economy")
                 local finances = MockEconomy.getFinances()
                 local research = MockEconomy.getResearchProject("LASER_WEAPONS")
             ]]
         },
         
         geoscape = {
-            file = "mock/geoscape.lua",
+            file = "tests/mock/geoscape.lua",
             functions = {
                 "getProvince(name)             -- Province data",
                 "getCountry(name)              -- Country data",
@@ -223,7 +223,7 @@ Project Structure:
                 "getAllMissions()              -- All mission types"
             },
             example = [[
-                local MockGeoscape = require("mock.geoscape")
+                local MockGeoscape = require("tests.mock.geoscape")
                 local world = MockGeoscape.getWorld({width = 80, height = 60})
                 local ufo = MockGeoscape.getUFO("SCOUT")
                 local mission = MockGeoscape.getSiteMission()
@@ -323,7 +323,7 @@ Add to TestRegistry.categories:
             "Always include assert messages",
             "Print success messages",
             "Handle errors with pcall",
-            "Use mock data from mock/ directory",
+            "Use mock data from tests/mock/ directory",
             "Keep tests fast and independent"
         }
     },
@@ -407,7 +407,7 @@ ERROR DETAILS
         ["tests/integration/"] = "Integration tests for workflows",
         ["tests/performance/"] = "Performance benchmarks",
         ["tests/runners/"] = "Test execution scripts",
-        ["mock/"] = "Centralized mock data generators",
+        ["tests/mock/"] = "Centralized mock data generators",
         ["TEST_SUITE_SUMMARY.md"] = "Detailed test documentation",
         ["TEST_COVERAGE_REPORT.md"] = "Visual coverage report",
         ["TEST_DEVELOPMENT_GUIDE.md"] = "Guide for writing tests",
