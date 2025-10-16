@@ -2,7 +2,14 @@
 
 This file tracks all tasks for the Alien Fall project.
 
-**Last Updated:** October 15, 2025
+**Last Updated:** October 16, 2025
+
+**🎊 NEW: DOCS-ENGINE-MODS ALIGNMENT ANALYSIS COMPLETE!**
+- ✅ Comprehensive alignment analysis created (42% current alignment identified)
+- ✅ 8 critical gaps identified and documented
+- ✅ 8 implementation tasks created (TASK-ALIGNMENT-001 through 008)
+- ✅ 105-145 hour improvement plan established
+- **Target:** 85%+ alignment across all three blocks (docs, engine, mods)
 
 **🎊 PHASE 3c WIKI ELIMINATION COMPLETE!**
 - ✅ Tier 1: 12/12 game design files (100%)
@@ -55,6 +62,38 @@ This file tracks all development tasks for the Alien Fall project.
 ---
 
 ## Active High Priority Tasks
+
+### 🆕 TASK-ALIGNMENT-001: Create Comprehensive Mod Content Structure (TODO)
+**Priority:** CRITICAL | **Created:** October 16, 2025 | **Status:** TODO | **Completed:** N/A
+**Description:** Create complete mod content directory structure with TOML template files for all game systems (units, weapons, facilities, missions, campaigns, factions, technology, narrative, geoscape, economy).
+**Files:** mods/core/rules/*, mods/core/campaigns/*, mods/core/factions/*, mods/core/technology/*, etc.
+**Time:** 35 hours
+**Impact:** ⭐⭐⭐ CRITICAL - Establishes foundation for content configuration, enables playable game
+**Dependencies:** None (foundation task)
+
+### 🆕 TASK-ALIGNMENT-002: Implement Missing DataLoader Functions (TODO)
+**Priority:** CRITICAL | **Created:** October 16, 2025 | **Status:** TODO | **Completed:** N/A
+**Description:** Extend engine/core/data_loader.lua to load all content types from mod TOML files. Add 8+ new loader functions for facilities, missions, campaigns, factions, tech tree, narrative events, geoscape, economy.
+**Files:** engine/core/data_loader.lua
+**Time:** 26 hours
+**Impact:** ⭐⭐⭐ CRITICAL - Enables game to load comprehensive content from mods
+**Dependencies:** TASK-ALIGNMENT-001 (needs TOML files to load)
+
+### 🆕 TASK-ALIGNMENT-003: Define TOML Schemas and Documentation (TODO)
+**Priority:** HIGH | **Created:** October 16, 2025 | **Status:** TODO | **Completed:** N/A
+**Description:** Create comprehensive documentation for all TOML file schemas. Define required/optional fields, data types, valid values, provide examples. Enable modders to create valid content.
+**Files:** docs/mods/toml_schemas/*.md (12+ files)
+**Time:** 28 hours
+**Impact:** ⭐⭐ HIGH - Enables community content creation, prevents content errors
+**Dependencies:** TASK-ALIGNMENT-001, TASK-ALIGNMENT-002
+
+### 🆕 TASK-ALIGNMENT-004: Audit and Fix DOCS-ENGINE Cross-References (TODO)
+**Priority:** HIGH | **Created:** October 16, 2025 | **Status:** TODO | **Completed:** N/A
+**Description:** Audit all implementation links in docs/, verify accuracy, update broken links, add bidirectional references from engine code back to design docs, create automated validation.
+**Files:** docs/**/*.md, engine/**/*.lua, tools/validate_docs_alignment.lua
+**Time:** 30 hours
+**Impact:** ⭐⭐ HIGH - Prevents design/code drift, improves navigation
+**Dependencies:** None (can run in parallel)
 
 ### 🆕 TASK-LORE-001: Implement Campaign Phase Content (TODO)
 **Priority:** CRITICAL | **Created:** January XX, 2026 | **Status:** TODO | **Completed:** N/A
