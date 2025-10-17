@@ -1,0 +1,111 @@
+# Narrative Hooks: Mission Events
+# Triggered by mission outcomes (success/failure)
+
+[[narrative_event]]
+id = "mission_success_major"
+title = "Major Victory: Breakthrough Achieved"
+trigger_type = "mission_success"
+trigger_id = "UFO_large"
+description = "Destroying a large UFO provides strategic advantage"
+lore_entry = """
+Against overwhelming odds, our forces destroyed one of the largest alien vessels we've encountered. This isn't a minor skirmish—this is a turning point.
+
+Military analysis confirms: the UFO was a command and control vessel. Its destruction disrupts alien coordination in the entire region. Civilian casualties drop by 40% in the following weeks.
+
+The successful operation proves X-COM's value. Funding increases. New technology is prioritized. Morale among military forces reaches new highs.
+
+Our soldiers return as heroes. Media coverage celebrates their victory. Nations that questioned X-COM's effectiveness now demand greater investment.
+
+Strategic assessment: We can hurt them. We can win. With continued success, total victory is possible.
+"""
+unlocks = ["momentum_gain", "confidence_restored"]
+encyclopedia_category = "military_victory"
+priority = 80
+
+[[narrative_event]]
+id = "mission_failure_city_lost"
+title = "Catastrophic Failure: City Falls"
+trigger_type = "mission_failure"
+trigger_id = "terror_mission"
+description = "Failure to prevent alien takeover of major city"
+lore_entry = """
+Our forces were supposed to prevent the alien assault on the city. We failed.
+
+The aliens established complete control over a metropolitan area of 5 million people. The city is now under alien occupation. Humanity has lost territory on its own planet.
+
+The failure triggers international crisis. Some nations accuse X-COM of inadequacy. Others demand withdrawal of alien forces through nuclear weapons. The geopolitical situation destabilizes.
+
+Most disturbing: intelligence suggests the aliens have established a permanent operation center in the city. They're consolidating their foothold. Without immediate military response, the occupation becomes entrenched.
+
+Military leadership demands new strategy. Conventional warfare is no longer sufficient. We need breakthrough weapons and tactics. Funds are redirected to desperate research programs.
+
+But underlying the military response is a darker realization: humanity is losing.
+"""
+unlocks = ["existential_threat", "nuclear_option_considered"]
+encyclopedia_category = "military_failure"
+priority = 85
+
+[[narrative_event]]
+id = "mission_alien_base_destroyed"
+title = "Alien Base Destroyed: Significant Strategic Victory"
+trigger_type = "mission_success"
+trigger_id = "alien_base"
+description = "X-COM successfully infiltrates and destroys an alien base"
+lore_entry = """
+For the first time, X-COM forces launched an assault deep into alien territory. We destroyed one of their primary operations centers.
+
+The recovery of alien technology from the base is extraordinary. Scientists analyze completely new alien equipment. Advanced research projects that were blocked are now possible.
+
+More importantly: the successful base assault proves we can take the war to the aliens rather than just defending. Strategic initiative shifts to X-COM.
+
+But the aliens respond with escalation. The following week, five new alien bases are discovered on Earth. The battle for control of our planet intensifies.
+
+It's becoming clear: this won't end with negotiation or gradual military advantage. One side will dominate the other. Coexistence is impossible. Only victory or extinction remain.
+"""
+unlocks = ["alien_infrastructure_vulnerability", "escalation_warning"]
+encyclopedia_category = "turning_point"
+priority = 90
+
+[[narrative_event]]
+id = "mission_crash_site_psionic_discovery"
+title = "Crash Site Analysis: Psionic Weaponry Discovered"
+trigger_type = "mission_success"
+trigger_id = "crash_site"
+description = "Analysis of crashed UFO reveals alien psionic technology"
+lore_entry = """
+Examination of a recently crashed UFO reveals a disturbing truth: the aliens possess weaponized psionic technology. Psychic implants. Neural enhancement systems. Devices that amplify mental powers to lethal effectiveness.
+
+Several of our soldiers who were exposed to the devices report strange symptoms: hearing voices, sudden paranoia, difficulty with basic cognitive tasks.
+
+Research suggests prolonged exposure to alien psionic devices causes psychological degradation. Military command immediately quarantines exposed personnel and initiates neural scanning protocols.
+
+Scientists theorize: if aliens can weaponize psionics, human military personnel are far more vulnerable than assumed. Every soldier needs psionic protection or risk mental enslavement.
+
+The discovery accelerates a parallel research program: creating human-compatible psionic implants and shields. If we can master our own psychic potential before the aliens enslaved our minds, we maintain an advantage.
+"""
+unlocks = ["psionic_augmentation_research", "neural_defense_imperative"]
+encyclopedia_category = "technology_discovery"
+priority = 75
+
+[[narrative_event]]
+id = "mission_soldier_hero"
+title = "Soldier's Last Stand: Hero of Humanity"
+trigger_type = "mission_success"
+trigger_id = "last_stand"
+description = "A single soldier makes a sacrifice that turns the tide of battle"
+lore_entry = """
+During a desperate last stand against overwhelming alien forces, one soldier made a choice that saved the lives of hundreds.
+
+Sergeant Chen, knowing the position was lost, activated an experimental prototype weapon that was never meant to be deployed in field conditions. The explosion was catastrophic. Chen died instantly. But in that moment, she destroyed an entire alien command squad that would have slaughtered the remaining human forces.
+
+The remaining X-COM team escaped. The mission was technically a failure—the primary objective wasn't achieved. But humanistically, Chen's sacrifice became a turning point for morale.
+
+Her name is immediately classified as legendary. Military leadership makes her a national hero. Other soldiers see her sacrifice and realize: this war is worth dying for. Some causes transcend individual survival.
+
+Military recruitment skyrockets. Morale units across X-COM report unprecedented dedication. Soldiers volunteer for suicidal missions with conviction that their sacrifice matters.
+
+Chen's sacrifice creates a new culture in X-COM: individual valor combined with collective purpose. We're not just soldiers. We're defenders of humanity's survival.
+"""
+unlocks = ["heroic_sacrifice_immortalized", "soldier_morale_boost"]
+encyclopedia_category = "human_valor"
+priority = 70

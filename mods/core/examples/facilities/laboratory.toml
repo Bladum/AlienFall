@@ -1,0 +1,32 @@
+# Example: Laboratory Facility
+# Research facility enabling technology advancement
+# Template for creating laboratory variants
+
+[[facility]]
+id = "example_laboratory"
+name = "Advanced Laboratory"
+phase = "phase0"
+category = "research"
+build_time = 21
+build_cost = 150000
+health = 100
+armor = 5
+
+[facility.capacities]
+research_projects = 2
+units = 10
+
+[facility.services]
+provides = ["research"]
+requires = ["power"]
+
+maintenance = 10000
+description = "Research laboratory. Enables simultaneous projects. Supports up to 10 scientists."
+
+[facility.adjacency_bonuses]
+storage_warehouse = 0.10
+power_generator = 0.05
+
+[facility.benefits]
+research_speed_bonus = 1.0
+morale_bonus = 0.05

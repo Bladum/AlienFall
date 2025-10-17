@@ -1,0 +1,28 @@
+# Example: Scout Aircraft
+# Medium-speed, medium-capacity reconnaissance aircraft
+# Template for creating scout variants
+
+[[craft]]
+id = "example_scout"
+name = "Avenger Scout"
+type = "scout"
+phase = "phase0"
+speed = 1.5
+range = 25
+fuel_capacity = 120
+crew_capacity = 6
+cargo_slots = 4
+weapons_slots = 2
+health = 100
+armor = 12
+cost_manufacturing = 40000
+description = "Medium scout aircraft. Balanced speed and capacity. Suitable for scouting missions and quick response."
+
+[craft.services]
+provides = ["reconnaissance", "transport"]
+requires = ["fuel", "maintenance"]
+
+[craft.equipment]
+primary_weapon_slot_1 = "weapon_mount_light"
+primary_weapon_slot_2 = "weapon_mount_light"
+sensor_package = "advanced_radar"

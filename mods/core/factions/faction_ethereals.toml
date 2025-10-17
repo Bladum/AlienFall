@@ -1,0 +1,56 @@
+# Faction: Ethereal Syndicate
+# Master species guiding invasion
+
+[faction]
+id = "faction_ethereals"
+name = "Ethereal Syndicate"
+description = "Ancient commanding species orchestrating the alien invasion"
+type = "alien"
+tags = ["alien", "psionic", "leader"]
+active_phases = ["phase1_sky_war", "phase2_deep_war", "phase3_dimensional_war"]
+tech_level = "advanced_plasma"
+
+[characteristics]
+psionic = true
+aquatic = false
+dimensional = true
+primary_trait = "leadership_and_psionics"
+
+[relationships]
+allies = ["faction_sectoids", "faction_mutons", "faction_floaters"]
+enemies = ["xcom"]
+neutral = []
+
+[[units]]
+type = "ethereal"
+name = "Ethereal"
+count_per_squad = 1
+spawn_weight = 3
+health = 35
+armor = 0
+will = 100
+reaction = 50
+shooting = 60
+throwing = 50
+strength = 55
+psionic_power = 90
+psionic_defense = 80
+abilities = ["psi_panic", "mind_control", "psi_defense", "restoration"]
+equipment_primary = "plasma_rifle"
+equipment_secondary = "plasma_pistol"
+
+[technology]
+tech_tree = [
+    "plasma_weapons",
+    "psionic_master",
+    "dimensional_tech",
+    "resurrection_tech"
+]
+research_speed = 1.5
+
+[gameplay]
+squad_composition = "1 ethereal + 4-5 support units"
+tactics = "psionics_and_command"
+difficulty_modifier = 1.5
+appearance_frequency = "rare"
+boss_unit = true

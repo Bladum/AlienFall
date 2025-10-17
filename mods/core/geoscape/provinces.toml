@@ -1,0 +1,445 @@
+# Geoscape Province Definitions
+# Covers 80x40 hex grid representing Earth (~500km per hex)
+# Total: 40 provinces across all continents
+
+# North America
+[[province]]
+id = "province_california"
+name = "California"
+q = 5
+r = 10
+biome = "temperate"
+region = "north_america"
+country = "usa"
+population = 39000000
+baseFunding = 5000
+connections = ["province_nevada", "province_oregon"]
+
+[[province]]
+id = "province_nevada"
+name = "Nevada"
+q = 5
+r = 9
+biome = "desert"
+region = "north_america"
+country = "usa"
+population = 3000000
+baseFunding = 400
+connections = ["province_california", "province_utah"]
+
+[[province]]
+id = "province_utah"
+name = "Utah"
+q = 6
+r = 9
+biome = "desert"
+region = "north_america"
+country = "usa"
+population = 3000000
+baseFunding = 400
+connections = ["province_nevada", "province_colorado"]
+
+[[province]]
+id = "province_colorado"
+name = "Colorado"
+q = 7
+r = 9
+biome = "mountain"
+region = "north_america"
+country = "usa"
+population = 5700000
+baseFunding = 700
+connections = ["province_utah", "province_texas"]
+
+[[province]]
+id = "province_texas"
+name = "Texas"
+q = 8
+r = 10
+biome = "desert"
+region = "north_america"
+country = "usa"
+population = 30000000
+baseFunding = 4000
+connections = ["province_colorado", "province_florida"]
+
+[[province]]
+id = "province_florida"
+name = "Florida"
+q = 10
+r = 11
+biome = "temperate"
+region = "north_america"
+country = "usa"
+population = 22000000
+baseFunding = 3000
+connections = ["province_texas", "province_east_coast"]
+
+[[province]]
+id = "province_east_coast"
+name = "East Coast"
+q = 11
+r = 9
+biome = "temperate"
+region = "north_america"
+country = "usa"
+population = 50000000
+baseFunding = 7000
+connections = ["province_florida", "province_canada"]
+
+[[province]]
+id = "province_canada"
+name = "Canada"
+q = 8
+r = 6
+biome = "tundra"
+region = "north_america"
+country = "canada"
+population = 40000000
+baseFunding = 5000
+connections = ["province_east_coast", "province_oregon", "province_arctic"]
+
+[[province]]
+id = "province_oregon"
+name = "Oregon"
+q = 5
+r = 8
+biome = "temperate"
+region = "north_america"
+country = "usa"
+population = 4300000
+baseFunding = 600
+connections = ["province_california", "province_canada"]
+
+# Central America
+[[province]]
+id = "province_mexico"
+name = "Mexico"
+q = 7
+r = 12
+biome = "desert"
+region = "central_america"
+country = "mexico"
+population = 130000000
+baseFunding = 15000
+connections = ["province_texas", "province_central_america"]
+
+[[province]]
+id = "province_central_america"
+name = "Central America"
+q = 7
+r = 13
+biome = "jungle"
+region = "central_america"
+country = "various"
+population = 50000000
+baseFunding = 5000
+connections = ["province_mexico", "province_caribbean"]
+
+[[province]]
+id = "province_caribbean"
+name = "Caribbean"
+q = 9
+r = 13
+biome = "tropical"
+region = "central_america"
+country = "various"
+population = 45000000
+baseFunding = 4500
+connections = ["province_central_america", "province_south_america_n"]
+
+# South America
+[[province]]
+id = "province_south_america_n"
+name = "Northern South America"
+q = 8
+r = 15
+biome = "jungle"
+region = "south_america"
+country = "various"
+population = 90000000
+baseFunding = 10000
+connections = ["province_caribbean", "province_south_america_c"]
+
+[[province]]
+id = "province_south_america_c"
+name = "Central South America"
+q = 8
+r = 17
+biome = "jungle"
+region = "south_america"
+country = "brazil"
+population = 215000000
+baseFunding = 25000
+connections = ["province_south_america_n", "province_south_america_s"]
+
+[[province]]
+id = "province_south_america_s"
+name = "Southern South America"
+q = 8
+r = 19
+biome = "temperate"
+region = "south_america"
+country = "argentina"
+population = 47000000
+baseFunding = 5500
+connections = ["province_south_america_c"]
+
+# Europe
+[[province]]
+id = "province_western_europe"
+name = "Western Europe"
+q = 23
+r = 8
+biome = "temperate"
+region = "europe"
+country = "various"
+population = 200000000
+baseFunding = 25000
+connections = ["province_uk", "province_central_europe"]
+
+[[province]]
+id = "province_uk"
+name = "United Kingdom"
+q = 21
+r = 7
+biome = "temperate"
+region = "europe"
+country = "uk"
+population = 67000000
+baseFunding = 8000
+connections = ["province_western_europe"]
+
+[[province]]
+id = "province_central_europe"
+name = "Central Europe"
+q = 25
+r = 8
+biome = "temperate"
+region = "europe"
+country = "various"
+population = 180000000
+baseFunding = 20000
+connections = ["province_western_europe", "province_eastern_europe"]
+
+[[province]]
+id = "province_eastern_europe"
+name = "Eastern Europe"
+q = 28
+r = 8
+biome = "temperate"
+region = "europe"
+country = "russia"
+population = 144000000
+baseFunding = 15000
+connections = ["province_central_europe", "province_russia", "province_middle_east"]
+
+# Africa
+[[province]]
+id = "province_north_africa"
+name = "North Africa"
+q = 26
+r = 13
+biome = "desert"
+region = "africa"
+country = "various"
+population = 300000000
+baseFunding = 20000
+connections = ["province_western_europe", "province_central_africa"]
+
+[[province]]
+id = "province_central_africa"
+name = "Central Africa"
+q = 28
+r = 15
+biome = "jungle"
+region = "africa"
+country = "various"
+population = 400000000
+baseFunding = 25000
+connections = ["province_north_africa", "province_south_africa"]
+
+[[province]]
+id = "province_south_africa"
+name = "South Africa"
+q = 28
+r = 18
+biome = "savanna"
+region = "africa"
+country = "south_africa"
+population = 60000000
+baseFunding = 7000
+connections = ["province_central_africa"]
+
+# Middle East
+[[province]]
+id = "province_middle_east"
+name = "Middle East"
+q = 31
+r = 11
+biome = "desert"
+region = "middle_east"
+country = "various"
+population = 400000000
+baseFunding = 30000
+connections = ["province_eastern_europe", "province_south_asia", "province_north_africa"]
+
+# Asia
+[[province]]
+id = "province_south_asia"
+name = "South Asia"
+q = 35
+r = 13
+biome = "tropical"
+region = "asia"
+country = "india"
+population = 1400000000
+baseFunding = 100000
+connections = ["province_middle_east", "province_southeast_asia", "province_central_asia"]
+
+[[province]]
+id = "province_central_asia"
+name = "Central Asia"
+q = 32
+r = 9
+biome = "desert"
+region = "asia"
+country = "various"
+population = 70000000
+baseFunding = 5000
+connections = ["province_middle_east", "province_south_asia", "province_russia"]
+
+[[province]]
+id = "province_russia"
+name = "Russia"
+q = 35
+r = 6
+biome = "tundra"
+region = "asia"
+country = "russia"
+population = 146000000
+baseFunding = 15000
+connections = ["province_eastern_europe", "province_central_asia", "province_east_asia"]
+
+[[province]]
+id = "province_east_asia"
+name = "East Asia"
+q = 42
+r = 9
+biome = "temperate"
+region = "asia"
+country = "china"
+population = 1400000000
+baseFunding = 80000
+connections = ["province_russia", "province_southeast_asia", "province_japan"]
+
+[[province]]
+id = "province_japan"
+name = "Japan"
+q = 45
+r = 8
+biome = "temperate"
+region = "asia"
+country = "japan"
+population = 125000000
+baseFunding = 15000
+connections = ["province_east_asia"]
+
+[[province]]
+id = "province_southeast_asia"
+name = "Southeast Asia"
+q = 40
+r = 13
+biome = "jungle"
+region = "asia"
+country = "various"
+population = 700000000
+baseFunding = 40000
+connections = ["province_south_asia", "province_east_asia", "province_australia"]
+
+# Oceania
+[[province]]
+id = "province_australia"
+name = "Australia"
+q = 48
+r = 18
+biome = "desert"
+region = "oceania"
+country = "australia"
+population = 26000000
+baseFunding = 3000
+connections = ["province_southeast_asia"]
+
+[[province]]
+id = "province_oceania"
+name = "Oceania"
+q = 50
+r = 16
+biome = "tropical"
+region = "oceania"
+country = "various"
+population = 45000000
+baseFunding = 3000
+connections = ["province_australia"]
+
+# Polar Regions
+[[province]]
+id = "province_arctic"
+name = "Arctic"
+q = 25
+r = 2
+biome = "arctic"
+region = "polar"
+country = "various"
+population = 500000
+baseFunding = 100
+connections = ["province_canada", "province_russia"]
+
+[[province]]
+id = "province_antarctica"
+name = "Antarctica"
+q = 25
+r = 26
+biome = "arctic"
+region = "polar"
+country = "neutral"
+population = 1000
+baseFunding = 0
+connections = []
+
+# Ocean Provinces (Strategic Water Control)
+[[province]]
+id = "province_atlantic"
+name = "Atlantic Ocean"
+q = 15
+r = 10
+biome = "ocean"
+region = "oceanic"
+country = "neutral"
+population = 0
+baseFunding = 0
+connections = ["province_north_africa", "province_eastern_europe", "province_western_europe"]
+
+[[province]]
+id = "province_pacific"
+name = "Pacific Ocean"
+q = 50
+r = 12
+biome = "ocean"
+region = "oceanic"
+country = "neutral"
+population = 0
+baseFunding = 0
+connections = ["province_japan", "province_east_asia", "province_oceania"]
+
+[[province]]
+id = "province_indian_ocean"
+name = "Indian Ocean"
+q = 40
+r = 16
+biome = "ocean"
+region = "oceanic"
+country = "neutral"
+population = 0
+baseFunding = 0
+connections = ["province_middle_east", "province_south_asia", "province_southeast_asia", "province_australia"]

@@ -1,0 +1,127 @@
+# Base Facility Definitions
+# Core facilities for XCOM bases
+
+[[facility]]
+id = "command_center"
+name = "Command Center"
+description = "Strategic command and control center"
+type = "command"
+width = 2
+height = 2
+cost = 2000
+time_to_build = 10
+maintenance_cost = 50
+effect = "base_command"
+
+[[facility]]
+id = "living_quarters"
+name = "Living Quarters"
+description = "Soldiers' barracks and sleeping area"
+type = "residential"
+width = 3
+height = 2
+cost = 800
+time_to_build = 5
+maintenance_cost = 15
+capacity = 10
+effect = "soldier_morale"
+
+[[facility]]
+id = "workshop"
+name = "Workshop"
+description = "Equipment manufacturing and maintenance"
+type = "manufacturing"
+width = 2
+height = 2
+cost = 1500
+time_to_build = 8
+maintenance_cost = 30
+production_rate = 1.2
+
+[[facility]]
+id = "storage"
+name = "General Storage"
+description = "Item and supply storage"
+type = "storage"
+width = 2
+height = 2
+cost = 600
+time_to_build = 4
+maintenance_cost = 10
+capacity = 50
+effect = "storage_expansion"
+
+[[facility]]
+id = "power_generator"
+name = "Power Generator"
+description = "Nuclear power generation"
+type = "power"
+width = 1
+height = 1
+cost = 1200
+time_to_build = 8
+maintenance_cost = 25
+power_generation = 10
+effect = "power_supply"
+
+[[facility]]
+id = "radar_station"
+name = "Radar Station"
+description = "Detection and tracking system"
+type = "detection"
+width = 2
+height = 2
+cost = 1000
+time_to_build = 6
+maintenance_cost = 20
+detection_radius = 100
+effect = "geoscape_coverage"
+
+[[facility]]
+id = "med_lab"
+name = "Medical Laboratory"
+description = "Medical research and treatment"
+type = "medical"
+width = 2
+height = 2
+cost = 1100
+time_to_build = 7
+maintenance_cost = 25
+effect = "soldier_healing"
+
+[[facility]]
+id = "armor_workshop"
+name = "Armor Workshop"
+description = "Armor manufacturing and upgrades"
+type = "manufacturing"
+width = 2
+height = 2
+cost = 1300
+time_to_build = 7
+maintenance_cost = 20
+specialization = "armor"
+
+[[facility]]
+id = "workshop_munitions"
+name = "Munitions Workshop"
+description = "Ammunition and explosives manufacturing"
+type = "manufacturing"
+width = 2
+height = 2
+cost = 1200
+time_to_build = 7
+maintenance_cost = 20
+specialization = "ammunition"
+
+[[facility]]
+id = "alien_containment"
+name = "Alien Containment"
+description = "Secure facility for alien prisoners"
+type = "research"
+width = 2
+height = 2
+cost = 1500
+time_to_build = 8
+maintenance_cost = 30
+capacity = 5
+effect = "alien_research"

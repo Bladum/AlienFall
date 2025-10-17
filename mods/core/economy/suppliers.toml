@@ -1,0 +1,167 @@
+# Marketplace Suppliers Configuration
+#
+# Defines all marketplace suppliers including their regions, 
+# inventory, relationships, and characteristics.
+
+# Global Military Surplus - primary general equipment supplier
+[suppliers.military_surplus]
+name = "Global Military Surplus"
+description = "International network of military equipment suppliers"
+region = "global"
+base_relationship = 0.0
+pricing_tier = "standard"
+available_regions = []  # Empty = global availability
+monthly_refresh_day = 1
+entries = [
+    "rifle_assault",
+    "pistol_service", 
+    "grenade_frag",
+    "ammo_rifle",
+    "ammo_pistol",
+    "light_armor",
+    "helmet_tactical"
+]
+lore_text = "A global network of military surplus dealers with reliable inventory and fair prices."
+
+# Advanced Defense Corporation - high-tech equipment
+[suppliers.advanced_defense]
+name = "Advanced Defense Corp"
+description = "Premium high-technology military equipment"
+region = "global"
+base_relationship = 0.0
+pricing_tier = "premium"
+available_regions = []
+monthly_refresh_day = 15
+entries = [
+    "rifle_laser",
+    "armor_advanced",
+    "scope_targeting",
+    "armor_powered"
+]
+requires_research = ["plasma_weapons"]
+lore_text = "Premium technology supplier. Requires research breakthroughs to unlock new inventory."
+
+# Government Supply Bureau - official government equipment
+[suppliers.government]
+name = "Government Supply Bureau"
+description = "Official government military equipment"
+region = "global"
+base_relationship = 0.5
+pricing_tier = "budget"
+available_regions = []
+monthly_refresh_day = 5
+entries = [
+    "rifle_assault",
+    "ammo_rifle",
+    "helmet_combat",
+    "light_armor",
+    "soldier_recruit"
+]
+lore_text = "Official government supplier with standardized equipment and favorable initial relations."
+
+# Scientific Supply - research materials and equipment
+[suppliers.scientific_supply]
+name = "Scientific Supply International"
+description = "Research equipment and materials"
+region = "global"
+base_relationship = 0.0
+pricing_tier = "standard"
+available_regions = []
+monthly_refresh_day = 10
+entries = [
+    "research_samples",
+    "lab_equipment",
+    "analysis_tools",
+    "alien_specimen"
+]
+requires_research = ["alien_autopsy"]
+lore_text = "Specialized supplier for research materials and scientific equipment."
+
+# Aerospace Industries - vehicles and aircraft
+[suppliers.aerospace]
+name = "Aerospace Industries"
+description = "Combat craft and aerospace equipment"
+region = "global"
+base_relationship = 0.0
+pricing_tier = "premium"
+available_regions = []
+monthly_refresh_day = 20
+entries = [
+    "interceptor_fighter",
+    "transport_cargo",
+    "fuel_advanced",
+    "weapon_aircraft"
+]
+requires_research = ["advanced_propulsion"]
+lore_text = "Premium aerospace supplier for combat craft and advanced aviation equipment."
+
+# Regional Dealer Networks
+[suppliers.asia_regional]
+name = "Asian Regional Suppliers"
+description = "Equipment specific to Asian regions"
+region = "asia"
+base_relationship = 0.0
+pricing_tier = "standard"
+available_regions = ["asia"]
+monthly_refresh_day = 8
+entries = [
+    "rifle_assault",
+    "armor_light",
+    "ammo_rifle"
+]
+lore_text = "Local supplier network serving Asian operations with regionally-appropriate equipment."
+
+[suppliers.europe_regional]
+name = "European Industrial Suppliers"
+description = "Equipment specific to European regions"
+region = "europe"
+base_relationship = 0.0
+pricing_tier = "standard"
+available_regions = ["europe"]
+monthly_refresh_day = 12
+entries = [
+    "rifle_assault",
+    "ammo_rifle",
+    "industrial_tools"
+]
+lore_text = "European-based suppliers with industrial and military equipment."
+
+[suppliers.americas_regional]
+name = "Americas Supply Coalition"
+description = "Equipment specific to American regions"
+region = "americas"
+base_relationship = 0.5
+pricing_tier = "standard"
+available_regions = ["americas"]
+monthly_refresh_day = 3
+entries = [
+    "rifle_assault",
+    "pistol_service",
+    "grenade_frag",
+    "armor_light",
+    "soldier_recruit"
+]
+lore_text = "American-aligned suppliers with good initial relations due to proximity."
+
+# Configuration for supplier behavior
+[supplier_config]
+# Relationship affects prices: (-2.0 worst, 2.0 best)
+# Formula: 1.25 - (relationship * 0.375)
+# At -2.0: 2.0x cost (worst); At +2.0: 0.5x cost (best)
+min_relationship = -2.0
+max_relationship = 2.0
+relationship_decay_per_month = -0.1  # Slight decay if not maintained
+
+# Bulk discount tiers
+[supplier_config.bulk_discounts]
+"100+" = 0.7      # 30% discount
+"50-99" = 0.8     # 20% discount
+"20-49" = 0.9     # 10% discount
+"10-19" = 0.95    # 5% discount
+"1-9" = 1.0       # No discount
+
+# Delivery times by region
+[supplier_config.delivery_times]
+global = 7        # 7 days default
+local = 3         # 3 days same region
+distant = 14      # 14 days far region

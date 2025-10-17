@@ -1,0 +1,123 @@
+# Weapon Definitions
+# Weapons available for XCOM and aliens
+
+[[weapon]]
+id = "rifle"
+name = "Rifle"
+description = "Standard issue rifle"
+type = "primary"
+damage = 50
+accuracy = 70
+range = 25
+ammo_type = "rifle_ammo"
+cost = 800
+tech_level = "conventional"
+
+[[weapon]]
+id = "pistol"
+name = "Pistol"
+description = "Standard issue sidearm"
+type = "secondary"
+damage = 35
+accuracy = 60
+range = 15
+ammo_type = "pistol_ammo"
+cost = 400
+tech_level = "conventional"
+
+[[weapon]]
+id = "machine_gun"
+name = "Machine Gun"
+description = "Rapid-fire heavy weapon"
+type = "primary"
+damage = 45
+accuracy = 50
+range = 20
+fire_rate = 3
+ammo_type = "rifle_ammo"
+cost = 1500
+tech_level = "conventional"
+
+[[weapon]]
+id = "sniper_rifle"
+name = "Sniper Rifle"
+description = "Long-range precision weapon"
+type = "primary"
+damage = 70
+accuracy = 90
+range = 40
+ammo_type = "rifle_ammo"
+cost = 1200
+tech_level = "conventional"
+
+[[weapon]]
+id = "rocket_launcher"
+name = "Rocket Launcher"
+description = "Heavy explosive weapon"
+type = "primary"
+damage = 120
+accuracy = 40
+range = 30
+ammo_type = "rocket"
+cost = 2000
+tech_level = "conventional"
+
+[[weapon]]
+id = "plasma_pistol"
+name = "Plasma Pistol"
+description = "Alien plasma weapon"
+type = "secondary"
+damage = 55
+accuracy = 70
+range = 15
+ammo_type = "plasma_cartridge"
+cost = 0
+tech_level = "plasma"
+
+[[weapon]]
+id = "plasma_rifle"
+name = "Plasma Rifle"
+description = "Standard alien plasma rifle"
+type = "primary"
+damage = 70
+accuracy = 70
+range = 25
+ammo_type = "plasma_cartridge"
+cost = 0
+tech_level = "plasma"
+
+[[weapon]]
+id = "plasma_cannon"
+name = "Plasma Cannon"
+description = "Heavy alien plasma cannon"
+type = "primary"
+damage = 90
+accuracy = 60
+range = 30
+ammo_type = "plasma_cartridge"
+cost = 0
+tech_level = "plasma"
+
+[[weapon]]
+id = "laser_rifle"
+name = "Laser Rifle"
+description = "Precision laser weapon"
+type = "primary"
+damage = 65
+accuracy = 85
+range = 25
+ammo_type = "laser_power_pack"
+cost = 2500
+tech_level = "laser"
+
+[[weapon]]
+id = "laser_pistol"
+name = "Laser Pistol"
+description = "Compact laser sidearm"
+type = "secondary"
+damage = 45
+accuracy = 75
+range = 15
+ammo_type = "laser_power_pack"
+cost = 1500
+tech_level = "laser"

@@ -1,0 +1,58 @@
+# Faction Lore - Reticulan Cabal
+# Main antagonist faction spanning multiple phases
+
+[faction]
+id = "reticulan_cabal"
+name = "Reticulan Cabal"
+phase = 1
+type = "alien_hive_mind"
+discovered_phase = 1
+
+[backstory]
+text = """The Reticulan Cabal represents the organized force behind the invasion.
+Unlike scattered alien forces, they operate with strategic precision, coordinating
+UFO waves, establishing underground bases, and conducting long-term research on
+human physiology. They are not indigenous to Earth but serve a greater galactic
+empire. Their ultimate goal appears to be genetic research, potentially creating
+hybrid soldiers or understanding human resilience."""
+
+[homeworld]
+name = "Reticulan Prime"
+description = "Distant star system, exact location unknown"
+environment = "Unknown (presumably aquatic or underground)"
+
+[motivation]
+primary = "genetic_research"
+secondary = ["territorial_expansion", "resource_extraction"]
+weakness = "Their reliance on central hive mind means destroying command vessels can disrupt operations"
+
+[technology]
+advanced_weapons = true
+genetic_manipulation = true
+mind_control_research = true
+dimensional_rift_tech = true
+
+[resolution_paths]
+# Three possible endings involving this faction
+[[resolution_paths.path1]]
+name = "Diplomatic Treaty"
+difficulty = "hard"
+requirements = ["contact_leaders", "prove_peaceful_intent"]
+outcome = "Reticulans agree to withdraw; provide genetic research data"
+
+[[resolution_paths.path2]]
+name = "Hive Mind Destruction"
+difficulty = "extreme"
+requirements = ["locate_primary_hive", "infiltrate_base"]
+outcome = "Entire Reticulan presence eliminated; massive casualties"
+
+[[resolution_paths.path3]]
+name = "Stalemate"
+difficulty = "medium"
+requirements = ["achieve_military_parity", "establish_borders"]
+outcome = "Both sides maintain presence on Earth; cold war scenario"
+
+[combat_units]
+basic = ["reticulan_scout", "reticulan_warrior"]
+advanced = ["reticulan_commander", "reticulan_psion"]
+elite = ["hive_master", "dimensional_operative"]

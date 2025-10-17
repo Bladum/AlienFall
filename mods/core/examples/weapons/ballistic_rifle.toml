@@ -1,0 +1,30 @@
+# Example: Ballistic Rifle
+# Standard military rifle using conventional ammunition
+# Template for creating ballistic weapon variants
+
+[[weapon]]
+id = "example_ballistic_rifle"
+name = "Military Assault Rifle"
+phase = "phase0"
+category = "ballistic_rifle"
+type = "projectile"
+cost_manufacturing = 600
+damage = 20
+damage_type = "ballistic"
+armor_penetration = 8
+accuracy = 60
+range = 20
+fire_rate = 3
+capacity = 30
+weight = 3.8
+description = "Standard military rifle. Reliable ballistic weapon with balanced damage and fire rate. Good starting equipment."
+
+[[ammo]]
+id = "example_rifle_ammo"
+name = "Rifle Ammunition (5.56mm)"
+category = "ammunition"
+type = "ballistic"
+damage_bonus = 0
+weight = 0.05
+cost_manufacturing = 5
+description = "Standard military rifle ammunition. Reliable and cost-effective."

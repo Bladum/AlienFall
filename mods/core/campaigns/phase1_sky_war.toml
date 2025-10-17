@@ -1,0 +1,57 @@
+# Phase 1: Sky War (1999-2001)
+# Alien invasion via UFOs, Sky War with air combat
+
+[phase]
+id = "phase1_sky_war"
+name = "Sky War"
+description = "Direct alien invasion through UFO assaults. Fight for control of Earth's skies against Reticulan forces."
+start_year = 1999
+end_year = 2001
+phase_number = 1
+status = "invasion"
+
+[timeline]
+milestones = [
+    "first_ufo_contact",
+    "alien_invasion_begins",
+    "ufo_base_discovered",
+    "interspecies_contact",
+    "ufo_war_escalation"
+]
+
+[factions]
+active = [
+    "faction_sectoids",
+    "faction_mutons",
+    "faction_ethereals",
+    "faction_floaters",
+    "xcom"
+]
+
+[missions]
+types = [
+    "terror_attack",
+    "crash_recovery",
+    "abduction_site",
+    "ufo_interception",
+    "facility_raid"
+]
+
+[enemy_types]
+common = ["sectoid_soldier", "floater"]
+rare = ["ethereal", "muton_berserker"]
+boss = ["ethereal"]
+
+[technology]
+available = [
+    "plasma_weapons",
+    "laser_research",
+    "motion_detection",
+    "armor_upgrades"
+]
+
+[gameplay]
+tech_level = "plasma"
+difficulty_scaling = 1.0
+alien_visibility = "high"
+ufo_activity = "constant"

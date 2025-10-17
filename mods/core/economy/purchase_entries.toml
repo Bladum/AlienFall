@@ -1,0 +1,290 @@
+# Marketplace Purchase Entries Configuration
+#
+# Defines all purchasable items with pricing, availability, 
+# prerequisites, and supplier assignments.
+
+# WEAPONS - Ballistic phase (early game)
+[entries.rifle_assault]
+name = "Assault Rifle"
+description = "Standard military assault rifle"
+category = "weapons"
+base_price = 10000
+item_id = "rifle_assault"
+item_type = "item"
+supplier_id = "military_surplus"
+stock = 100
+restock_rate = 50
+delivery_time = 3
+required_research = []
+required_relationship = -2.0
+required_regions = []
+
+[entries.pistol_service]
+name = "Service Pistol"
+description = "Standard sidearm"
+category = "weapons"
+base_price = 3000
+item_id = "pistol_service"
+item_type = "item"
+supplier_id = "military_surplus"
+stock = 200
+restock_rate = 100
+delivery_time = 2
+required_research = []
+required_relationship = -2.0
+
+[entries.grenade_frag]
+name = "Fragmentation Grenade"
+description = "Standard anti-personnel grenade"
+category = "weapons"
+base_price = 1500
+item_id = "grenade_frag"
+item_type = "item"
+supplier_id = "military_surplus"
+stock = 150
+restock_rate = 75
+delivery_time = 2
+required_research = []
+required_relationship = -2.0
+
+# AMMUNITION
+[entries.ammo_rifle]
+name = "Rifle Ammunition (Box)"
+description = "Standard 7.62mm ammunition box"
+category = "ammunition"
+base_price = 500
+item_id = "ammo_rifle"
+item_type = "item"
+supplier_id = "military_surplus"
+stock = 500
+restock_rate = 250
+delivery_time = 1
+required_research = []
+required_relationship = -2.0
+
+[entries.ammo_pistol]
+name = "Pistol Ammunition (Box)"
+description = "Standard 9mm ammunition box"
+category = "ammunition"
+base_price = 300
+item_id = "ammo_pistol"
+item_type = "item"
+supplier_id = "military_surplus"
+stock = 500
+restock_rate = 250
+delivery_time = 1
+required_research = []
+required_relationship = -2.0
+
+# ARMOR - Early game
+[entries.helmet_combat]
+name = "Combat Helmet"
+description = "Standard protective headgear"
+category = "armor"
+base_price = 2000
+item_id = "helmet_combat"
+item_type = "item"
+supplier_id = "government"
+stock = 80
+restock_rate = 40
+delivery_time = 5
+required_research = []
+required_relationship = -1.5
+
+[entries.light_armor]
+name = "Light Combat Armor"
+description = "Basic protective armor suit"
+category = "armor"
+base_price = 15000
+item_id = "light_armor"
+item_type = "item"
+supplier_id = "government"
+stock = 50
+restock_rate = 25
+delivery_time = 5
+required_research = []
+required_relationship = -1.5
+
+[entries.armor_advanced]
+name = "Advanced Combat Armor"
+description = "High-tech protective armor with modular design"
+category = "armor"
+base_price = 45000
+item_id = "armor_advanced"
+item_type = "item"
+supplier_id = "advanced_defense"
+stock = 20
+restock_rate = 10
+delivery_time = 10
+required_research = ["advanced_armor"]
+required_relationship = -0.5
+
+# WEAPONS - Laser phase (mid game)
+[entries.rifle_laser]
+name = "Laser Rifle"
+description = "Energy weapon firing coherent laser beams"
+category = "weapons"
+base_price = 50000
+item_id = "rifle_laser"
+item_type = "item"
+supplier_id = "advanced_defense"
+stock = 15
+restock_rate = 5
+delivery_time = 7
+required_research = ["laser_weapons"]
+required_relationship = -0.5
+
+[entries.pistol_laser]
+name = "Laser Pistol"
+description = "Compact energy sidearm"
+category = "weapons"
+base_price = 25000
+item_id = "pistol_laser"
+item_type = "item"
+supplier_id = "advanced_defense"
+stock = 20
+restock_rate = 10
+delivery_time = 7
+required_research = ["laser_weapons"]
+required_relationship = -0.5
+
+# UNITS - Recruitment
+[entries.soldier_recruit]
+name = "Recruit Soldier"
+description = "Newly trained combat recruit"
+category = "units"
+base_price = 20000
+item_id = "soldier_rookie"
+item_type = "unit"
+supplier_id = "government"
+stock = -1  # Unlimited
+delivery_time = 7
+required_research = []
+required_relationship = -0.5
+
+[entries.soldier_veteran]
+name = "Veteran Soldier"
+description = "Experienced combat veteran"
+category = "units"
+base_price = 50000
+item_id = "soldier_veteran"
+item_type = "unit"
+supplier_id = "advanced_defense"
+stock = -1
+delivery_time = 14
+required_research = []
+required_relationship = 0.5
+
+# RESEARCH MATERIALS
+[entries.alien_specimen]
+name = "Alien Biological Specimen"
+description = "Captured alien for research"
+category = "research"
+base_price = 100000
+item_id = "alien_specimen"
+item_type = "item"
+supplier_id = "scientific_supply"
+stock = 5
+restock_rate = 2
+delivery_time = 10
+required_research = ["alien_autopsy"]
+required_relationship = 0.0
+
+[entries.alien_weapon]
+name = "Alien Weapon"
+description = "Captured alien weapon for analysis"
+category = "research"
+base_price = 75000
+item_id = "alien_weapon"
+item_type = "item"
+supplier_id = "scientific_supply"
+stock = 10
+restock_rate = 3
+delivery_time = 7
+required_research = ["alien_weapons_analysis"]
+required_relationship = 0.0
+
+# VEHICLES - Aerospace
+[entries.interceptor_fighter]
+name = "Interceptor Fighter Craft"
+description = "Advanced combat interceptor aircraft"
+category = "craft"
+base_price = 500000
+item_id = "fighter_interceptor"
+item_type = "craft"
+supplier_id = "aerospace"
+stock = 5
+restock_rate = 1
+delivery_time = 21
+required_research = ["advanced_propulsion"]
+required_relationship = 1.0
+
+[entries.transport_cargo]
+name = "Cargo Transport"
+description = "Military cargo transport aircraft"
+category = "craft"
+base_price = 250000
+item_id = "transport_cargo"
+item_type = "craft"
+supplier_id = "aerospace"
+stock = 3
+restock_rate = 1
+delivery_time = 21
+required_research = ["transport_craft"]
+required_relationship = 0.5
+
+# SPECIAL ITEMS
+[entries.armor_powered]
+name = "Powered Battle Armor"
+description = "Exoskeleton combat armor with enhanced strength"
+category = "armor"
+base_price = 100000
+item_id = "armor_powered"
+item_type = "item"
+supplier_id = "advanced_defense"
+stock = 8
+restock_rate = 2
+delivery_time = 14
+required_research = ["exoskeleton"]
+required_relationship = 1.0
+
+[entries.scope_targeting]
+name = "Advanced Targeting Scope"
+description = "Scope with ballistics computer and targeting system"
+category = "equipment"
+base_price = 8000
+item_id = "scope_targeting"
+item_type = "item"
+supplier_id = "advanced_defense"
+stock = 30
+restock_rate = 15
+delivery_time = 5
+required_research = ["targeting_systems"]
+required_relationship = 0.0
+
+# Marketplace pricing and configuration
+[marketplace_config]
+# Sell price is typically 70% of purchase price
+sell_price_multiplier = 0.7
+
+# Monthly stock refresh timing
+monthly_refresh_day = 1
+
+# Price modifiers based on relationships
+# Formula: base_price * (1.25 - relationship * 0.375)
+min_relationship_price = 2.0     # Worst case: 200% of base price
+max_relationship_price = 0.5     # Best case: 50% of base price
+
+# Bulk purchase discounts
+[marketplace_config.bulk_discounts]
+"100+" = 0.7   # 100+ items: 30% discount
+"50-99" = 0.8  # 50-99 items: 20% discount
+"20-49" = 0.9  # 20-49 items: 10% discount
+"10-19" = 0.95 # 10-19 items: 5% discount
+"1-9" = 1.0    # Less than 10: no discount
+
+# Regional availability modifiers
+[marketplace_config.regional_modifiers]
+asia = 1.1        # 10% more expensive in Asia
+europe = 1.0      # Standard price in Europe
+americas = 0.95   # 5% cheaper in Americas

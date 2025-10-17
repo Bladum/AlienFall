@@ -1,0 +1,556 @@
+# MapScript Definitions - Mission Type Layouts
+# Defines procedural map generation for each mission type
+# MapScripts describe how to place MapBlocks, spawn zones, and environmental features
+
+# ============================================================================
+# CRASH SITE - Alien UFO crash scenario
+# ============================================================================
+
+[[mapscript]]
+id = "crash_site_light"
+name = "Crash Site - Light Resistance"
+description = "Small alien spacecraft crash with light alien presence"
+mission_type = "crash"
+map_size = "small"  # 4x4 MapBlocks = 64x64 tiles
+difficulty_range = [1, 3]
+supported_biomes = ["forest", "plains", "desert", "rural"]
+
+# MapBlock placement sequence
+blocks = [
+    # Primary UFO wreckage area (center)
+    { x = 1, y = 1, tags = ["ufo", "crash"], weight = 100, required = true },
+    { x = 2, y = 1, tags = ["ufo", "wreckage"], weight = 90, required = false },
+    { x = 1, y = 2, tags = ["ufo", "wreckage"], weight = 90, required = false },
+    
+    # Surrounding terrain
+    { x = 0, y = 0, tags = ["terrain", "transition"], weight = 80, required = false },
+    { x = 3, y = 0, tags = ["terrain", "transition"], weight = 80, required = false },
+    { x = 0, y = 3, tags = ["terrain", "transition"], weight = 80, required = false },
+    { x = 3, y = 3, tags = ["terrain", "transition"], weight = 80, required = false },
+    
+    # Edge terrain
+    { x = 2, y = 0, tags = ["terrain", "edge"], weight = 70, required = false },
+    { x = 0, y = 2, tags = ["terrain", "edge"], weight = 70, required = false },
+    { x = 3, y = 2, tags = ["terrain", "edge"], weight = 70, required = false },
+    { x = 2, y = 3, tags = ["terrain", "edge"], weight = 70, required = false },
+]
+
+# Team spawn zones (x, y in tiles, radius for scatter)
+spawn_zones = [
+    { team = "player", x = 10, y = 10, radius = 6, unit_count = 6 },
+    { team = "aliens", x = 50, y = 50, radius = 8, unit_count = 4 },
+]
+
+# Environmental effects
+features = [
+    { type = "fire", intensity = "light", x = 32, y = 32, radius = 3 },
+    { type = "debris", density = "medium", coverage = 0.15 },
+    { type = "lighting", brightness = 0.9 },
+]
+
+# Environmental hazards (optional)
+hazards = [
+    { type = "radiation", x = 32, y = 32, radius = 8, damage_per_turn = 2 },
+]
+
+[[mapscript]]
+id = "crash_site_medium"
+name = "Crash Site - Medium Resistance"
+description = "Medium-sized UFO crash with moderate alien presence"
+mission_type = "crash"
+map_size = "medium"  # 6x6 MapBlocks = 96x96 tiles
+difficulty_range = [4, 6]
+supported_biomes = ["forest", "urban", "desert", "rural", "mountain"]
+
+blocks = [
+    # Primary UFO wreckage area
+    { x = 2, y = 2, tags = ["ufo", "crash"], weight = 100, required = true },
+    { x = 3, y = 2, tags = ["ufo", "wreckage"], weight = 90, required = false },
+    { x = 2, y = 3, tags = ["ufo", "interior"], weight = 85, required = false },
+    { x = 3, y = 3, tags = ["ufo", "wreckage"], weight = 80, required = false },
+    
+    # Surrounding crash debris
+    { x = 1, y = 1, tags = ["debris", "transition"], weight = 75, required = false },
+    { x = 4, y = 1, tags = ["debris", "transition"], weight = 75, required = false },
+    { x = 1, y = 4, tags = ["debris", "transition"], weight = 75, required = false },
+    { x = 4, y = 4, tags = ["debris", "transition"], weight = 75, required = false },
+    
+    # Edge terrain (3-ring)
+    { x = 0, y = 0, tags = ["terrain", "edge"], weight = 60, required = false },
+    { x = 5, y = 0, tags = ["terrain", "edge"], weight = 60, required = false },
+    { x = 0, y = 5, tags = ["terrain", "edge"], weight = 60, required = false },
+    { x = 5, y = 5, tags = ["terrain", "edge"], weight = 60, required = false },
+    { x = 2, y = 0, tags = ["terrain", "edge"], weight = 65, required = false },
+    { x = 3, y = 0, tags = ["terrain", "edge"], weight = 65, required = false },
+    { x = 0, y = 2, tags = ["terrain", "edge"], weight = 65, required = false },
+    { x = 5, y = 2, tags = ["terrain", "edge"], weight = 65, required = false },
+]
+
+spawn_zones = [
+    { team = "player", x = 15, y = 15, radius = 8, unit_count = 8 },
+    { team = "aliens", x = 80, y = 80, radius = 10, unit_count = 8 },
+]
+
+features = [
+    { type = "fire", intensity = "medium", x = 48, y = 48, radius = 5 },
+    { type = "smoke", density = "medium", coverage = 0.25 },
+    { type = "debris", density = "high", coverage = 0.20 },
+    { type = "lighting", brightness = 0.85 },
+]
+
+hazards = [
+    { type = "radiation", x = 48, y = 48, radius = 12, damage_per_turn = 3 },
+    { type = "fire", x = 40, y = 40, radius = 6, damage_per_turn = 2 },
+]
+
+---
+
+[[mapscript]]
+id = "crash_site_heavy"
+name = "Crash Site - Heavy Resistance"
+description = "Large UFO crash with heavy alien forces"
+mission_type = "crash"
+map_size = "large"  # 8x8 MapBlocks = 128x128 tiles
+difficulty_range = [7, 10]
+supported_biomes = ["urban", "industrial", "mountain", "forest", "desert"]
+
+blocks = [
+    # Main UFO structure
+    { x = 3, y = 3, tags = ["ufo", "crash"], weight = 100, required = true },
+    { x = 4, y = 3, tags = ["ufo", "interior"], weight = 95, required = false },
+    { x = 3, y = 4, tags = ["ufo", "interior"], weight = 95, required = false },
+    { x = 4, y = 4, tags = ["ufo", "core"], weight = 90, required = false },
+    
+    # Extensive wreckage field
+    { x = 2, y = 2, tags = ["wreckage", "debris"], weight = 85, required = false },
+    { x = 5, y = 2, tags = ["wreckage", "debris"], weight = 85, required = false },
+    { x = 2, y = 5, tags = ["wreckage", "debris"], weight = 85, required = false },
+    { x = 5, y = 5, tags = ["wreckage", "debris"], weight = 85, required = false },
+    
+    # Expanded terrain ring
+    { x = 1, y = 1, tags = ["transition", "edge"], weight = 70, required = false },
+    { x = 6, y = 1, tags = ["transition", "edge"], weight = 70, required = false },
+    { x = 1, y = 6, tags = ["transition", "edge"], weight = 70, required = false },
+    { x = 6, y = 6, tags = ["transition", "edge"], weight = 70, required = false },
+]
+
+spawn_zones = [
+    { team = "player", x = 20, y = 20, radius = 10, unit_count = 10 },
+    { team = "aliens", x = 100, y = 100, radius = 12, unit_count = 12 },
+]
+
+features = [
+    { type = "fire", intensity = "heavy", x = 64, y = 64, radius = 8 },
+    { type = "smoke", density = "heavy", coverage = 0.40 },
+    { type = "debris", density = "very_high", coverage = 0.30 },
+]
+
+hazards = [
+    { type = "radiation", x = 64, y = 64, radius = 16, damage_per_turn = 4 },
+    { type = "fire", x = 55, y = 55, radius = 8, damage_per_turn = 3 },
+    { type = "fire", x = 70, y = 70, radius = 8, damage_per_turn = 3 },
+]
+
+# ============================================================================
+# TERROR - Alien terror attack on civilian site
+# ============================================================================
+
+[[mapscript]]
+id = "terror_city_light"
+name = "Terror - Light Urban"
+description = "Small-scale terror attack on city block"
+mission_type = "terror"
+map_size = "small"
+difficulty_range = [1, 3]
+supported_biomes = ["urban"]
+
+blocks = [
+    { x = 1, y = 1, tags = ["urban", "building"], weight = 90, required = true },
+    { x = 2, y = 1, tags = ["urban", "building"], weight = 85, required = false },
+    { x = 1, y = 2, tags = ["urban", "street"], weight = 85, required = false },
+    { x = 2, y = 2, tags = ["urban", "open"], weight = 80, required = false },
+    { x = 0, y = 0, tags = ["urban", "edge"], weight = 70, required = false },
+    { x = 3, y = 0, tags = ["urban", "edge"], weight = 70, required = false },
+    { x = 0, y = 3, tags = ["urban", "edge"], weight = 70, required = false },
+    { x = 3, y = 3, tags = ["urban", "edge"], weight = 70, required = false },
+]
+
+spawn_zones = [
+    { team = "player", x = 10, y = 10, radius = 6, unit_count = 6 },
+    { team = "aliens", x = 50, y = 50, radius = 8, unit_count = 4 },
+    { team = "civilians", x = 30, y = 30, radius = 6, unit_count = 8 },
+]
+
+features = [
+    { type = "fire", intensity = "light", x = 40, y = 40, radius = 3 },
+    { type = "debris", density = "low", coverage = 0.10 },
+    { type = "lighting", brightness = 0.95 },
+]
+
+---
+
+[[mapscript]]
+id = "terror_city_medium"
+name = "Terror - Medium Urban"
+description = "Medium-scale terror attack on city district"
+mission_type = "terror"
+map_size = "medium"
+difficulty_range = [4, 6]
+supported_biomes = ["urban", "industrial"]
+
+blocks = [
+    { x = 2, y = 2, tags = ["urban", "building"], weight = 90, required = true },
+    { x = 3, y = 2, tags = ["urban", "building"], weight = 85, required = false },
+    { x = 2, y = 3, tags = ["urban", "building"], weight = 85, required = false },
+    { x = 3, y = 3, tags = ["urban", "street"], weight = 85, required = false },
+    { x = 1, y = 1, tags = ["urban", "alley"], weight = 75, required = false },
+    { x = 4, y = 1, tags = ["urban", "open"], weight = 75, required = false },
+    { x = 1, y = 4, tags = ["urban", "open"], weight = 75, required = false },
+    { x = 4, y = 4, tags = ["urban", "edge"], weight = 70, required = false },
+]
+
+spawn_zones = [
+    { team = "player", x = 15, y = 15, radius = 8, unit_count = 8 },
+    { team = "aliens", x = 80, y = 80, radius = 10, unit_count = 8 },
+    { team = "civilians", x = 40, y = 40, radius = 10, unit_count = 15 },
+]
+
+features = [
+    { type = "fire", intensity = "medium", x = 48, y = 48, radius = 5 },
+    { type = "smoke", density = "medium", coverage = 0.20 },
+    { type = "debris", density = "medium", coverage = 0.15 },
+    { type = "lighting", brightness = 0.90 },
+]
+
+---
+
+[[mapscript]]
+id = "terror_city_heavy"
+name = "Terror - Heavy Urban"
+description = "Large-scale terror attack on entire city district"
+mission_type = "terror"
+map_size = "large"
+difficulty_range = [7, 10]
+supported_biomes = ["urban", "industrial"]
+
+blocks = [
+    { x = 3, y = 3, tags = ["urban", "building"], weight = 90, required = true },
+    { x = 4, y = 3, tags = ["urban", "building"], weight = 90, required = true },
+    { x = 3, y = 4, tags = ["urban", "building"], weight = 90, required = true },
+    { x = 4, y = 4, tags = ["urban", "street"], weight = 85, required = false },
+    { x = 2, y = 2, tags = ["urban", "alley"], weight = 80, required = false },
+    { x = 5, y = 2, tags = ["urban", "open"], weight = 80, required = false },
+    { x = 2, y = 5, tags = ["urban", "open"], weight = 80, required = false },
+    { x = 5, y = 5, tags = ["urban", "edge"], weight = 75, required = false },
+]
+
+spawn_zones = [
+    { team = "player", x = 20, y = 20, radius = 10, unit_count = 10 },
+    { team = "aliens", x = 100, y = 100, radius = 12, unit_count = 12 },
+    { team = "civilians", x = 50, y = 50, radius = 12, unit_count = 20 },
+]
+
+features = [
+    { type = "fire", intensity = "heavy", x = 64, y = 64, radius = 8 },
+    { type = "smoke", density = "heavy", coverage = 0.35 },
+    { type = "debris", density = "high", coverage = 0.20 },
+    { type = "lighting", brightness = 0.85 },
+]
+
+# ============================================================================
+# BASE DEFENSE - Defense of human military base
+# ============================================================================
+
+[[mapscript]]
+id = "base_defense_light"
+name = "Base Defense - Light Attack"
+description = "Light alien assault on military base"
+mission_type = "base_defense"
+map_size = "small"
+difficulty_range = [2, 4]
+supported_biomes = ["military", "industrial", "plains"]
+
+blocks = [
+    { x = 1, y = 1, tags = ["base", "hangar"], weight = 95, required = true },
+    { x = 2, y = 1, tags = ["base", "barracks"], weight = 90, required = true },
+    { x = 1, y = 2, tags = ["base", "armory"], weight = 85, required = false },
+    { x = 2, y = 2, tags = ["base", "control"], weight = 85, required = false },
+    { x = 0, y = 0, tags = ["perimeter", "wall"], weight = 80, required = false },
+    { x = 3, y = 0, tags = ["perimeter", "wall"], weight = 80, required = false },
+    { x = 0, y = 3, tags = ["perimeter", "wall"], weight = 80, required = false },
+    { x = 3, y = 3, tags = ["perimeter", "defense"], weight = 80, required = false },
+]
+
+spawn_zones = [
+    { team = "player", x = 15, y = 15, radius = 8, unit_count = 8 },
+    { team = "aliens", x = 50, y = 50, radius = 8, unit_count = 6 },
+]
+
+features = [
+    { type = "cover", density = "high", coverage = 0.30 },
+    { type = "lighting", brightness = 1.0 },
+]
+
+---
+
+[[mapscript]]
+id = "base_defense_medium"
+name = "Base Defense - Medium Attack"
+description = "Medium-scale alien assault on military base"
+mission_type = "base_defense"
+map_size = "medium"
+difficulty_range = [5, 7]
+supported_biomes = ["military", "industrial", "underground"]
+
+blocks = [
+    { x = 2, y = 2, tags = ["base", "hangar"], weight = 95, required = true },
+    { x = 3, y = 2, tags = ["base", "barracks"], weight = 95, required = true },
+    { x = 2, y = 3, tags = ["base", "armory"], weight = 90, required = true },
+    { x = 3, y = 3, tags = ["base", "control"], weight = 90, required = true },
+    { x = 1, y = 1, tags = ["perimeter", "wall"], weight = 85, required = false },
+    { x = 4, y = 1, tags = ["perimeter", "wall"], weight = 85, required = false },
+    { x = 1, y = 4, tags = ["perimeter", "defense"], weight = 85, required = false },
+    { x = 4, y = 4, tags = ["perimeter", "defense"], weight = 85, required = false },
+]
+
+spawn_zones = [
+    { team = "player", x = 20, y = 20, radius = 10, unit_count = 10 },
+    { team = "aliens", x = 80, y = 80, radius = 10, unit_count = 10 },
+]
+
+features = [
+    { type = "cover", density = "very_high", coverage = 0.40 },
+    { type = "lighting", brightness = 1.0 },
+]
+
+---
+
+[[mapscript]]
+id = "base_defense_heavy"
+name = "Base Defense - Heavy Attack"
+description = "Massive alien assault on military base"
+mission_type = "base_defense"
+map_size = "large"
+difficulty_range = [8, 10]
+supported_biomes = ["military", "industrial", "underground"]
+
+blocks = [
+    { x = 3, y = 3, tags = ["base", "hangar"], weight = 95, required = true },
+    { x = 4, y = 3, tags = ["base", "barracks"], weight = 95, required = true },
+    { x = 3, y = 4, tags = ["base", "armory"], weight = 95, required = true },
+    { x = 4, y = 4, tags = ["base", "control"], weight = 95, required = true },
+    { x = 2, y = 2, tags = ["perimeter", "wall"], weight = 90, required = false },
+    { x = 5, y = 2, tags = ["perimeter", "wall"], weight = 90, required = false },
+    { x = 2, y = 5, tags = ["perimeter", "defense"], weight = 90, required = false },
+    { x = 5, y = 5, tags = ["perimeter", "defense"], weight = 90, required = false },
+]
+
+spawn_zones = [
+    { team = "player", x = 25, y = 25, radius = 12, unit_count = 12 },
+    { team = "aliens", x = 100, y = 100, radius = 12, unit_count = 14 },
+]
+
+features = [
+    { type = "cover", density = "extreme", coverage = 0.50 },
+    { type = "lighting", brightness = 1.0 },
+]
+
+# ============================================================================
+# ALIEN BASE - Assault on alien base structure
+# ============================================================================
+
+[[mapscript]]
+id = "alien_base_light"
+name = "Alien Base - Light Defense"
+description = "Small alien base with light defense forces"
+mission_type = "alien_base"
+map_size = "medium"
+difficulty_range = [4, 6]
+supported_biomes = ["underground", "mountain", "industrial"]
+
+blocks = [
+    { x = 2, y = 2, tags = ["alien", "structure"], weight = 95, required = true },
+    { x = 3, y = 2, tags = ["alien", "interior"], weight = 90, required = true },
+    { x = 2, y = 3, tags = ["alien", "interior"], weight = 90, required = true },
+    { x = 3, y = 3, tags = ["alien", "research"], weight = 85, required = false },
+    { x = 1, y = 1, tags = ["transition", "cavern"], weight = 80, required = false },
+    { x = 4, y = 1, tags = ["transition", "cavern"], weight = 80, required = false },
+    { x = 1, y = 4, tags = ["transition", "cavern"], weight = 80, required = false },
+    { x = 4, y = 4, tags = ["transition", "cavern"], weight = 75, required = false },
+]
+
+spawn_zones = [
+    { team = "player", x = 15, y = 15, radius = 8, unit_count = 8 },
+    { team = "aliens", x = 80, y = 80, radius = 10, unit_count = 10 },
+]
+
+features = [
+    { type = "lighting", brightness = 0.7 },
+    { type = "cover", density = "high", coverage = 0.35 },
+]
+
+---
+
+[[mapscript]]
+id = "alien_base_medium"
+name = "Alien Base - Medium Defense"
+description = "Medium alien base with moderate defense forces"
+mission_type = "alien_base"
+map_size = "large"
+difficulty_range = [6, 8]
+supported_biomes = ["underground", "mountain", "industrial"]
+
+blocks = [
+    { x = 3, y = 3, tags = ["alien", "structure"], weight = 95, required = true },
+    { x = 4, y = 3, tags = ["alien", "interior"], weight = 95, required = true },
+    { x = 3, y = 4, tags = ["alien", "interior"], weight = 95, required = true },
+    { x = 4, y = 4, tags = ["alien", "research"], weight = 90, required = true },
+    { x = 2, y = 2, tags = ["transition", "cavern"], weight = 85, required = false },
+    { x = 5, y = 2, tags = ["transition", "cavern"], weight = 85, required = false },
+    { x = 2, y = 5, tags = ["transition", "cavern"], weight = 85, required = false },
+    { x = 5, y = 5, tags = ["alien", "production"], weight = 80, required = false },
+]
+
+spawn_zones = [
+    { team = "player", x = 20, y = 20, radius = 10, unit_count = 10 },
+    { team = "aliens", x = 100, y = 100, radius = 12, unit_count = 12 },
+]
+
+features = [
+    { type = "lighting", brightness = 0.65 },
+    { type = "cover", density = "very_high", coverage = 0.40 },
+    { type = "anomaly", type_anomaly = "alien_tech", intensity = 1 },
+]
+
+---
+
+[[mapscript]]
+id = "alien_base_heavy"
+name = "Alien Base - Heavy Defense"
+description = "Large alien base with heavy defense forces"
+mission_type = "alien_base"
+map_size = "large"
+difficulty_range = [8, 10]
+supported_biomes = ["underground", "mountain"]
+
+blocks = [
+    { x = 3, y = 3, tags = ["alien", "structure"], weight = 95, required = true },
+    { x = 4, y = 3, tags = ["alien", "interior"], weight = 95, required = true },
+    { x = 3, y = 4, tags = ["alien", "interior"], weight = 95, required = true },
+    { x = 4, y = 4, tags = ["alien", "research"], weight = 95, required = true },
+    { x = 5, y = 3, tags = ["alien", "production"], weight = 90, required = false },
+    { x = 3, y = 5, tags = ["alien", "armory"], weight = 90, required = false },
+    { x = 4, y = 5, tags = ["alien", "command"], weight = 90, required = true },
+    { x = 2, y = 2, tags = ["transition", "cavern"], weight = 85, required = false },
+]
+
+spawn_zones = [
+    { team = "player", x = 25, y = 25, radius = 12, unit_count = 12 },
+    { team = "aliens", x = 100, y = 100, radius = 14, unit_count = 16 },
+]
+
+features = [
+    { type = "lighting", brightness = 0.60 },
+    { type = "cover", density = "extreme", coverage = 0.45 },
+    { type = "anomaly", type_anomaly = "alien_tech", intensity = 2 },
+    { type = "hazard", hazard_type = "alien_trap", frequency = 0.05 },
+]
+
+# ============================================================================
+# UFO LANDING - Alien UFO landing site without crash
+# ============================================================================
+
+[[mapscript]]
+id = "ufo_landing_light"
+name = "UFO Landing - Light Defense"
+description = "Small UFO landing with light forces"
+mission_type = "ufo_landing"
+map_size = "small"
+difficulty_range = [1, 3]
+supported_biomes = ["plains", "desert", "forest", "rural"]
+
+blocks = [
+    { x = 1, y = 1, tags = ["ufo", "landed"], weight = 100, required = true },
+    { x = 2, y = 1, tags = ["ufo", "ramp"], weight = 90, required = false },
+    { x = 1, y = 2, tags = ["terrain", "clearance"], weight = 85, required = false },
+    { x = 2, y = 2, tags = ["terrain", "approach"], weight = 80, required = false },
+    { x = 0, y = 0, tags = ["terrain", "perimeter"], weight = 75, required = false },
+    { x = 3, y = 0, tags = ["terrain", "perimeter"], weight = 75, required = false },
+    { x = 0, y = 3, tags = ["terrain", "perimeter"], weight = 75, required = false },
+    { x = 3, y = 3, tags = ["terrain", "perimeter"], weight = 75, required = false },
+]
+
+spawn_zones = [
+    { team = "player", x = 10, y = 10, radius = 6, unit_count = 6 },
+    { team = "aliens", x = 50, y = 50, radius = 8, unit_count = 6 },
+]
+
+features = [
+    { type = "ufo_beacon", x = 32, y = 32, radius = 20 },
+    { type = "lighting", brightness = 0.95 },
+]
+
+---
+
+[[mapscript]]
+id = "ufo_landing_medium"
+name = "UFO Landing - Medium Defense"
+description = "Medium UFO landing with moderate forces"
+mission_type = "ufo_landing"
+map_size = "medium"
+difficulty_range = [3, 6]
+supported_biomes = ["plains", "desert", "forest", "rural", "industrial"]
+
+blocks = [
+    { x = 2, y = 2, tags = ["ufo", "landed"], weight = 100, required = true },
+    { x = 3, y = 2, tags = ["ufo", "ramp"], weight = 95, required = true },
+    { x = 2, y = 3, tags = ["terrain", "clearance"], weight = 90, required = true },
+    { x = 3, y = 3, tags = ["terrain", "approach"], weight = 85, required = false },
+    { x = 1, y = 1, tags = ["terrain", "perimeter"], weight = 80, required = false },
+    { x = 4, y = 1, tags = ["terrain", "perimeter"], weight = 80, required = false },
+    { x = 1, y = 4, tags = ["terrain", "perimeter"], weight = 80, required = false },
+    { x = 4, y = 4, tags = ["terrain", "edge"], weight = 75, required = false },
+]
+
+spawn_zones = [
+    { team = "player", x = 15, y = 15, radius = 8, unit_count = 8 },
+    { team = "aliens", x = 80, y = 80, radius = 10, unit_count = 10 },
+]
+
+features = [
+    { type = "ufo_beacon", x = 48, y = 48, radius = 25 },
+    { type = "lighting", brightness = 0.90 },
+]
+
+---
+
+[[mapscript]]
+id = "ufo_landing_heavy"
+name = "UFO Landing - Heavy Defense"
+description = "Large UFO landing with heavy forces and defenses"
+mission_type = "ufo_landing"
+map_size = "large"
+difficulty_range = [6, 10]
+supported_biomes = ["plains", "desert", "industrial", "urban"]
+
+blocks = [
+    { x = 3, y = 3, tags = ["ufo", "landed"], weight = 100, required = true },
+    { x = 4, y = 3, tags = ["ufo", "ramp"], weight = 100, required = true },
+    { x = 3, y = 4, tags = ["terrain", "clearance"], weight = 95, required = true },
+    { x = 4, y = 4, tags = ["terrain", "approach"], weight = 90, required = true },
+    { x = 2, y = 2, tags = ["defense", "perimeter"], weight = 85, required = false },
+    { x = 5, y = 2, tags = ["defense", "perimeter"], weight = 85, required = false },
+    { x = 2, y = 5, tags = ["defense", "perimeter"], weight = 85, required = false },
+    { x = 5, y = 5, tags = ["terrain", "edge"], weight = 80, required = false },
+]
+
+spawn_zones = [
+    { team = "player", x = 20, y = 20, radius = 10, unit_count = 10 },
+    { team = "aliens", x = 100, y = 100, radius = 12, unit_count = 14 },
+]
+
+features = [
+    { type = "ufo_beacon", x = 64, y = 64, radius = 30 },
+    { type = "defense", defense_type = "alien_turret", x = 64, y = 64, radius = 20 },
+    { type = "lighting", brightness = 0.85 },
+]

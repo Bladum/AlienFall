@@ -1,0 +1,71 @@
+# Faction: Muton Collective
+# Reptilian heavy assault aliens
+
+[faction]
+id = "faction_mutons"
+name = "Muton Collective"
+description = "Reptilian aliens specializing in heavy assault and physical combat"
+type = "alien"
+tags = ["alien", "melee", "terrestrial"]
+active_phases = ["phase1_sky_war", "phase2_deep_war", "phase3_dimensional_war"]
+tech_level = "plasma"
+
+[characteristics]
+psionic = false
+aquatic = false
+dimensional = false
+primary_trait = "physical_dominance"
+
+[relationships]
+allies = ["faction_ethereals", "faction_sectoids"]
+enemies = ["xcom", "faction_blackops"]
+neutral = []
+
+[[units]]
+type = "muton_soldier"
+name = "Muton Soldier"
+count_per_squad = 2
+spawn_weight = 10
+health = 45
+armor = 10
+will = 70
+reaction = 55
+shooting = 60
+throwing = 50
+strength = 75
+psionic_power = 20
+psionic_defense = 40
+abilities = ["melee_attack"]
+equipment_primary = "plasma_rifle"
+equipment_secondary = "plasma_pistol"
+
+[[units]]
+type = "muton_berserker"
+name = "Muton Berserker"
+count_per_squad = 1
+spawn_weight = 5
+health = 55
+armor = 15
+will = 65
+reaction = 60
+shooting = 50
+throwing = 40
+strength = 85
+psionic_power = 10
+psionic_defense = 35
+abilities = ["berserker_charge", "melee_attack"]
+equipment_primary = "plasma_rifle"
+
+[technology]
+tech_tree = [
+    "plasma_weapons",
+    "armor_enhancement",
+    "strength_augmentation"
+]
+research_speed = 1.0
+
+[gameplay]
+squad_composition = "3-4 soldiers + 1 berserker"
+tactics = "close_combat_assault"
+difficulty_modifier = 1.2
+appearance_frequency = "common"

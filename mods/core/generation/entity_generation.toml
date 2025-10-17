@@ -1,0 +1,268 @@
+# Entity Generation Configuration
+# Procedural unit stats, equipment, and ability generation
+
+[entity_generation]
+# Entity types
+entity_types = ["unit", "craft", "facility"]
+
+# Unit generation
+[unit_generation]
+enabled = true
+stat_scaling_by_level = true
+
+# Stat ranges by unit type (base values)
+[unit_stats.soldier]
+health_min = 80
+health_max = 120
+action_points_min = 7
+action_points_max = 10
+accuracy_min = 50
+accuracy_max = 80
+reactions_min = 40
+reactions_max = 70
+strength_min = 30
+strength_max = 60
+throwing_accuracy_min = 40
+throwing_accuracy_max = 70
+
+[unit_stats.heavy]
+health_min = 120
+health_max = 160
+action_points_min = 6
+action_points_max = 9
+accuracy_min = 40
+accuracy_max = 70
+reactions_min = 30
+reactions_max = 60
+strength_min = 60
+strength_max = 90
+throwing_accuracy_min = 20
+throwing_accuracy_max = 50
+
+[unit_stats.sniper]
+health_min = 70
+health_max = 100
+action_points_min = 8
+action_points_max = 11
+accuracy_min = 70
+accuracy_max = 95
+reactions_min = 50
+reactions_max = 80
+strength_min = 20
+strength_max = 50
+throwing_accuracy_min = 30
+throwing_accuracy_max = 60
+
+[unit_stats.support]
+health_min = 60
+health_max = 90
+action_points_min = 8
+action_points_max = 11
+accuracy_min = 55
+accuracy_max = 75
+reactions_min = 55
+reactions_max = 75
+strength_min = 25
+strength_max = 55
+throwing_accuracy_min = 50
+throwing_accuracy_max = 80
+
+# Alien unit generation
+[alien_generation.sectoid]
+health_min = 60
+health_max = 100
+armor_min = 0
+armor_max = 20
+psionic_min = 50
+psionic_max = 80
+accuracy_min = 50
+accuracy_max = 75
+
+[alien_generation.muton]
+health_min = 120
+health_max = 160
+armor_min = 30
+armor_max = 50
+psionic_min = 0
+psionic_max = 20
+accuracy_min = 40
+accuracy_max = 70
+melee_damage_min = 30
+melee_damage_max = 50
+
+[alien_generation.floater]
+health_min = 80
+health_max = 120
+armor_min = 10
+armor_max = 30
+psionic_min = 40
+psionic_max = 70
+accuracy_min = 60
+accuracy_max = 80
+mobility_bonus = 1.2
+
+[alien_generation.chryssalid]
+health_min = 140
+health_max = 180
+armor_min = 40
+armor_max = 60
+psionic_min = 0
+psionic_max = 10
+accuracy_min = 30
+accuracy_max = 60
+melee_damage_min = 50
+melee_damage_max = 80
+
+[alien_generation.ethereal]
+health_min = 100
+health_max = 140
+armor_min = 20
+armor_max = 40
+psionic_min = 80
+psionic_max = 100
+accuracy_min = 70
+accuracy_max = 90
+special_abilities = ["psionic_control", "dimensional_shift"]
+
+# Equipment generation
+[equipment_generation]
+enabled = true
+equip_probability = 0.80
+max_items_per_unit = 3
+
+# Primary weapon distribution (phase-based)
+[equipment.primary_weapons]
+phase0_ballistic = ["pistol_9mm", "assault_rifle", "sniper_rifle", "shotgun"]
+phase1_energy = ["laser_pistol", "laser_rifle", "plasma_pistol"]
+phase2_advanced = ["gauss_rifle", "sonic_cannon"]
+phase3_ultimate = ["particle_beam"]
+
+# Secondary weapons (sidearms)
+[equipment.secondary_weapons]
+available_types = ["pistol", "handgun", "melee"]
+equip_probability = 0.60
+max_per_unit = 1
+
+# Armor generation
+[equipment.armor]
+phase0_armor = ["civilian_clothing", "ballistic_vest", "tactical_suit"]
+phase1_armor = ["power_suit", "power_suit_advanced"]
+phase2_armor = ["aqua_armor", "alien_armor_light"]
+phase3_armor = ["dimensional_armor", "alien_armor_heavy"]
+
+# Special items
+[equipment.special_items]
+med_kit_probability = 0.30
+grenade_probability = 0.40
+ammo_probability = 0.20
+
+# Ability generation
+[ability_generation]
+enabled = true
+base_abilities = ["walk", "aim", "shoot"]
+special_ability_probability = 0.30
+
+# Ability pool by faction
+[abilities.human]
+common = ["suppress_fire", "reaction_shot", "aimed_shot"]
+uncommon = ["overwatch", "steady_aim", "quick_reflexes"]
+rare = ["rapid_fire", "deadeye", "tactical_awareness"]
+
+[abilities.sectoid]
+common = ["mind_control", "mental_shield", "telepathy"]
+uncommon = ["psionic_blast", "dominate", "psychic_link"]
+rare = ["hive_coordination", "master_control"]
+
+[abilities.muton]
+common = ["berserker_charge", "intimidation"]
+uncommon = ["regeneration", "armor_upgrade", "melee_mastery"]
+rare = ["unstoppable_force", "armor_amplification"]
+
+# Stat modifiers by rank
+[rank_modifiers]
+rookie_multiplier = 0.80
+corporal_multiplier = 1.0
+sergeant_multiplier = 1.15
+captain_multiplier = 1.30
+major_multiplier = 1.50
+
+# Difficulty scaling for generated units
+[difficulty_scaling]
+easy_enemy_health = 0.70
+normal_enemy_health = 1.0
+heroic_enemy_health = 1.30
+ironman_enemy_health = 1.50
+
+easy_enemy_accuracy = 0.70
+normal_enemy_accuracy = 1.0
+heroic_enemy_accuracy = 1.20
+ironman_enemy_accuracy = 1.40
+
+easy_enemy_armor = 0.60
+normal_enemy_armor = 1.0
+heroic_enemy_armor = 1.25
+ironman_enemy_armor = 1.50
+
+# Craft generation
+[craft_generation]
+enabled = true
+
+# Interceptor variants
+[craft.interceptor]
+speed_min = 1800
+speed_max = 2000
+armor_min = 30
+armor_max = 50
+weapon_slots = 2
+fuel_capacity = 50
+
+# Transport variants
+[craft.transport]
+speed_min = 900
+speed_max = 1200
+armor_min = 50
+armor_max = 70
+troop_capacity = 12
+fuel_capacity = 100
+
+# Facility generation
+[facility_generation]
+enabled = true
+
+# Facility sizes and stats
+[facility.small]
+size = 10
+capacity = 5
+maintenance_cost_min = 100
+maintenance_cost_max = 200
+staffing_min = 1
+staffing_max = 3
+
+[facility.medium]
+size = 20
+capacity = 15
+maintenance_cost_min = 300
+maintenance_cost_max = 500
+staffing_min = 3
+staffing_max = 8
+
+[facility.large]
+size = 40
+capacity = 30
+maintenance_cost_min = 800
+maintenance_cost_max = 1500
+staffing_min = 8
+staffing_max = 15
+
+# Deterministic seed parameters
+[seed_management]
+use_map_seed = true
+use_entity_seed = true
+seed_from_mission_id = true
+seed_from_date = true
+
+# Random number generation
+[random_generation]
+algorithm = "xorshift"
+period = 4294967296
+distribution = "uniform"

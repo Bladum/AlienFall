@@ -1,0 +1,30 @@
+# Example: Sniper Unit
+# Specialized long-range unit with high accuracy and low health
+# Template for creating precision marksman units
+
+[[unit]]
+id = "example_sniper"
+name = "Sniper"
+type = "soldier"
+rank = "sergeant"
+experience = 50
+
+[unit.stats]
+health = 70
+action_points = 8
+accuracy = 95
+time_units = 50
+strength = 30
+reactions = 70
+bravery = 50
+
+[unit.abilities]
+precision_training = "sniper_focus"
+focus_fire = "aimed_shot"
+
+[unit.equipment]
+primary_weapon = "ballistic_rifle_sniper"
+armor = "light_tactical_gear"
+special_equipment = "laser_scope"
+
+description = "Elite sniper with exceptional accuracy. Lower health but devastating at range. Requires open sightlines."

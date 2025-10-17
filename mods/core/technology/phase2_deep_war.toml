@@ -1,0 +1,277 @@
+# Phase 2: Deep War Technology (2003-2003)
+# Period: 2003-2003
+# Description: Advanced plasma weapons, gauss technology, aquatic adaptations, dimensional theory
+
+[[weapon]]
+id = "gauss_pistol"
+name = "Gauss Pistol"
+phase = "phase2"
+category = "gauss_pistol"
+type = "gauss"
+cost_manufacturing = 3000
+research_required = ["research_gauss_technology"]
+damage = 32
+damage_type = "kinetic"
+armor_penetration = 25
+accuracy = 72
+range = 22
+fire_rate = 3
+capacity = 20
+weight = 2.4
+description = "Electromagnetic accelerator weapon. Gauss technology provides superior armor penetration without relying on alien plasma."
+
+[[weapon]]
+id = "gauss_rifle"
+name = "Gauss Rifle"
+phase = "phase2"
+category = "gauss_rifle"
+type = "gauss"
+cost_manufacturing = 4500
+research_required = ["research_gauss_technology"]
+damage = 48
+damage_type = "kinetic"
+armor_penetration = 32
+accuracy = 78
+range = 35
+fire_rate = 2
+capacity = 25
+weight = 4.2
+description = "Military-grade gauss rifle. Reliable and devastating against heavily armored targets."
+
+[[weapon]]
+id = "gauss_cannon"
+name = "Gauss Cannon"
+phase = "phase2"
+category = "gauss_heavy"
+type = "gauss"
+cost_manufacturing = 7000
+research_required = ["research_gauss_technology"]
+damage = 70
+damage_type = "kinetic"
+armor_penetration = 40
+accuracy = 68
+range = 45
+fire_rate = 1
+capacity = 15
+weight = 7.0
+description = "Heavy support gauss weapon. Extreme armor penetration and damage. Military's answer to heavy aliens."
+
+[[weapon]]
+id = "sonic_pistol"
+name = "Sonic Pistol"
+phase = "phase2"
+category = "sonic_pistol"
+type = "sonic"
+cost_manufacturing = 2500
+research_required = ["research_sonic_technology"]
+damage = 28
+damage_type = "sonic"
+armor_penetration = 12
+accuracy = 60
+range = 16
+fire_rate = 4
+capacity = 30
+weight = 2.1
+description = "Experimental sonic weapon using vibration frequencies. Less lethal option with crowd-control potential."
+
+[[weapon]]
+id = "sonic_rifle"
+name = "Sonic Rifle"
+phase = "phase2"
+category = "sonic_rifle"
+type = "sonic"
+cost_manufacturing = 4000
+research_required = ["research_sonic_technology"]
+damage = 40
+damage_type = "sonic"
+armor_penetration = 18
+accuracy = 65
+range = 28
+fire_rate = 2
+capacity = 25
+weight = 3.8
+description = "Sonic resonance weapon. Effective especially against organic targets and exoskeletons."
+
+[[armor]]
+id = "armor_advanced_tactical"
+name = "Advanced Tactical Suit"
+phase = "phase2"
+category = "advanced_tactical"
+armor_class = 2
+armor_protection = 35
+weight = 8
+cost_manufacturing = 2000
+research_required = ["research_advanced_armor"]
+special_abilities = ["enhanced_mobility", "thermal_regulation"]
+description = "Human-engineered tactical suit with improved materials and design. Better protection than alien-derived armor."
+
+[[armor]]
+id = "armor_aquatic_suit"
+name = "Aquatic Combat Suit"
+phase = "phase2"
+category = "aquatic"
+armor_class = 2
+armor_protection = 32
+weight = 9
+cost_manufacturing = 2500
+research_required = ["research_aquatic_adaptation"]
+special_abilities = ["water_breathing", "pressure_resistance", "thermal_vision"]
+description = "Specialized armor for underwater operations. Enables human soldiers to combat aquatic threats."
+
+[[armor]]
+id = "armor_reinforced_exoskeleton"
+name = "Reinforced Exoskeleton"
+phase = "phase2"
+category = "exoskeleton"
+armor_class = 3
+armor_protection = 50
+weight = 15
+cost_manufacturing = 4000
+research_required = ["research_powered_armor"]
+special_abilities = ["enhanced_strength", "jump_assist", "fire_resistance"]
+description = "Powered exoskeleton providing exceptional protection and strength. Heavy but incredibly effective."
+
+[[vehicle]]
+id = "submarine_advanced"
+name = "Advanced Submarine"
+phase = "phase2"
+category = "submarine"
+type = "water"
+speed = 12
+range = 40
+armor = 25
+health = 180
+capacity = 12
+cost_manufacturing = 8000
+research_required = ["research_aquatic_vehicles"]
+special_abilities = ["deep_dive", "sonar", "silent_running"]
+description = "Advanced submarine for deep-water operations against aquatic alien forces."
+
+[[research]]
+id = "research_gauss_technology"
+name = "Gauss Technology"
+phase = "phase2"
+category = "weapons"
+description = "Study of electromagnetic acceleration for kinetic weapons. Requires advanced materials and power systems."
+prerequisites = ["research_advanced_materials"]
+unlock_technologies = ["research_hypersonic_weapons"]
+unlock_items = ["gauss_pistol", "gauss_rifle", "gauss_cannon"]
+research_cost = 3000
+research_time_days = 21
+
+[[research]]
+id = "research_sonic_technology"
+name = "Sonic Weapons"
+phase = "phase2"
+category = "weapons"
+description = "Experimental sonic and vibration-based weaponry. Less lethal options with crowd control applications."
+prerequisites = ["research_advanced_materials"]
+unlock_technologies = []
+unlock_items = ["sonic_pistol", "sonic_rifle"]
+research_cost = 2500
+research_time_days = 18
+
+[[research]]
+id = "research_aquatic_adaptation"
+name = "Aquatic Combat Adaptation"
+phase = "phase2"
+category = "armor"
+description = "Development of underwater combat equipment and soldier augmentation for aquatic operations."
+prerequisites = ["research_gill_men_autopsy"]
+unlock_technologies = ["research_deep_pressure_tech"]
+unlock_items = ["armor_aquatic_suit"]
+research_cost = 2000
+research_time_days = 14
+
+[[research]]
+id = "research_aquatic_vehicles"
+name = "Aquatic Vehicle Technology"
+phase = "phase2"
+category = "vehicles"
+description = "Reverse-engineering of alien aquatic vessels. Development of human submarine technology."
+prerequisites = ["research_aquatic_adaptation"]
+unlock_technologies = []
+unlock_items = ["submarine_advanced"]
+research_cost = 3500
+research_time_days = 20
+
+[[research]]
+id = "research_powered_armor"
+name = "Powered Armor Systems"
+phase = "phase2"
+category = "armor"
+description = "Development of exoskeletons and powered armor using advanced materials and energy systems."
+prerequisites = ["research_advanced_materials"]
+unlock_technologies = ["research_dimensional_armor"]
+unlock_items = ["armor_reinforced_exoskeleton"]
+research_cost = 3000
+research_time_days = 24
+
+[[research]]
+id = "research_dimensional_theory"
+name = "Dimensional Theory"
+phase = "phase2"
+category = "science"
+description = "Initial research into dimensional mechanics and breach phenomena. Foundation for Phase 3."
+prerequisites = ["research_alien_origins"]
+unlock_technologies = ["research_dimensional_weapons", "research_dimensional_armor"]
+unlock_items = []
+research_cost = 4000
+research_time_days = 30
+
+[[research]]
+id = "research_advanced_materials"
+name = "Advanced Materials Science"
+phase = "phase2"
+category = "materials"
+description = "Development of advanced composite materials and alien alloy processing."
+prerequisites = ["research_alien_alloys"]
+unlock_technologies = ["research_exotic_materials"]
+unlock_items = []
+research_cost = 2500
+research_time_days = 16
+
+[[research]]
+id = "research_gill_men_autopsy"
+name = "Gill-Men Biology Analysis"
+phase = "phase2"
+category = "biology"
+description = "Study of aquatic alien species physiology. Reveals weaknesses and adaptation mechanisms."
+prerequisites = []
+unlock_technologies = ["research_aquatic_adaptation"]
+unlock_items = []
+research_cost = 1500
+research_time_days = 10
+
+[[technology]]
+id = "advanced_electronics"
+name = "Advanced Electronics"
+phase = "phase2"
+category = "systems"
+description = "Improved targeting systems, communications, and sensor arrays."
+prerequisites = ["research_advanced_materials"]
+research_cost = 1500
+research_time_days = 12
+unlock_technologies = []
+
+[[ammo]]
+id = "ammo_gauss_round"
+name = "Gauss Ammunition"
+phase = "phase2"
+category = "ammunition"
+type = "kinetic"
+damage = 5
+weight = 0.5
+cost_manufacturing = 50
+description = "Specialized electromagnetic accelerator ammunition for gauss weapons."
+
+[[ammo]]
+id = "ammo_sonic_charge"
+name = "Sonic Charge Pack"
+phase = "phase2"
+category = "ammunition"
+type = "sonic"
+damage = 3
+weight = 0.3
+cost_manufacturing = 60
+description = "Energy pack for sonic weapons. Provides vibration frequency generation."

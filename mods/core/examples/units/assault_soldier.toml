@@ -1,0 +1,30 @@
+# Example: Assault Soldier
+# A well-rounded soldier with good accuracy and health
+# Suitable as a template for creating soldier units
+
+[[unit]]
+id = "example_assault_soldier"
+name = "Assault Soldier"
+type = "soldier"
+rank = "private"
+experience = 0
+
+[unit.stats]
+health = 100
+action_points = 8
+accuracy = 65
+time_units = 50
+strength = 40
+reactions = 50
+bravery = 60
+
+[unit.abilities]
+standard_training = "basic_combat"
+armor_usage = "tactical_gear"
+
+[unit.equipment]
+primary_weapon = "ballistic_rifle_assault"
+armor = "tactical_vest"
+special_equipment = "none"
+
+description = "Standard assault soldier. Balanced stats for versatile combat roles. Good health and moderate accuracy."

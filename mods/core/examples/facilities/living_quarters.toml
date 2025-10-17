@@ -1,0 +1,31 @@
+# Example: Living Quarters Facility
+# Personnel accommodation facility
+# Template for creating living quarters variants
+
+[[facility]]
+id = "example_living_quarters"
+name = "Advanced Living Quarters"
+phase = "phase0"
+category = "accommodation"
+build_time = 14
+build_cost = 100000
+health = 100
+armor = 5
+
+[facility.capacities]
+units = 20
+
+[facility.services]
+provides = ["housing"]
+requires = ["power"]
+
+maintenance = 5000
+description = "Living quarters for personnel. Accommodates up to 20 soldiers, scientists, or support staff."
+
+[facility.adjacency_bonuses]
+medical_bay = 0.10
+training_room = 0.05
+
+[facility.benefits]
+morale_bonus = 0.10
+fatigue_recovery = 0.15

@@ -1,0 +1,81 @@
+# Equipment Definitions
+# Grenades, equipment, and utility items
+
+[[equipment]]
+id = "hand_grenade"
+name = "Hand Grenade"
+description = "Standard explosive grenade"
+type = "grenade"
+damage = 60
+radius = 10
+cost = 100
+tech_level = "conventional"
+
+[[equipment]]
+id = "proximity_grenade"
+name = "Proximity Grenade"
+description = "Motion-triggered grenade"
+type = "grenade"
+damage = 60
+radius = 10
+trigger = "proximity"
+cost = 150
+tech_level = "conventional"
+
+[[equipment]]
+id = "smoke_grenade"
+name = "Smoke Grenade"
+description = "Creates smoke screen for cover"
+type = "grenade"
+damage = 0
+radius = 15
+effect = "smoke"
+cost = 80
+tech_level = "conventional"
+
+[[equipment]]
+id = "alien_grenade"
+name = "Alien Grenade"
+description = "Alien explosive grenade"
+type = "grenade"
+damage = 70
+radius = 12
+cost = 0
+tech_level = "alien"
+
+[[equipment]]
+id = "minirocket"
+name = "Mini Rocket"
+description = "Small rocket for heavy weapons"
+type = "grenade"
+damage = 100
+radius = 15
+cost = 300
+tech_level = "conventional"
+
+[[equipment]]
+id = "medikit"
+name = "Medikit"
+description = "First aid and medical supplies"
+type = "medical"
+healing = 25
+cost = 200
+tech_level = "conventional"
+
+[[equipment]]
+id = "psi_amp"
+name = "Psi Amplifier"
+description = "Amplifies psionic abilities"
+type = "utility"
+bonus = "psi_power"
+cost = 1500
+tech_level = "psionic"
+
+[[equipment]]
+id = "motion_scanner"
+name = "Motion Scanner"
+description = "Detects nearby movement"
+type = "utility"
+effect = "motion_detection"
+cost = 300
+tech_level = "conventional"

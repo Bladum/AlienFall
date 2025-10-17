@@ -1,0 +1,29 @@
+# Example: Interceptor Aircraft
+# Fast combat aircraft designed for UFO interception
+# Template for creating interceptor variants
+
+[[craft]]
+id = "example_interceptor"
+name = "Firestorm Interceptor"
+type = "interceptor"
+phase = "phase0"
+speed = 2.0
+range = 30
+fuel_capacity = 150
+crew_capacity = 2
+cargo_slots = 0
+weapons_slots = 4
+health = 120
+armor = 15
+cost_manufacturing = 50000
+description = "Fast combat interceptor. Designed for rapid response to UFO threats. Minimal cargo capacity, heavy armament."
+
+[craft.services]
+provides = ["combat", "interception"]
+requires = ["fuel", "maintenance"]
+
+[craft.equipment]
+primary_weapon_slot_1 = "weapon_mount_heavy"
+primary_weapon_slot_2 = "weapon_mount_heavy"
+secondary_weapon_slot_1 = "weapon_mount_light"
+secondary_weapon_slot_2 = "weapon_mount_light"

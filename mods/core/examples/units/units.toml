@@ -1,0 +1,134 @@
+# Unit Examples
+# Reference unit types with realistic stats for modding
+
+# Soldier Types
+[[unit]]
+id = "example_assault_soldier"
+name = "Assault Soldier"
+category = "infantry"
+health = 100
+armor_class = 2
+accuracy = 65
+reactions = 55
+strength = 50
+bravery = 65
+psionic_strength = 5
+time_units = 60
+description = "Front-line infantry unit. High HP and strength, good accuracy. Versatile soldier."
+
+[[unit]]
+id = "example_sniper"
+name = "Sniper"
+category = "specialist"
+health = 80
+armor_class = 1
+accuracy = 95
+reactions = 70
+strength = 35
+bravery = 50
+psionic_strength = 3
+time_units = 55
+description = "Precision marksman. Excellent accuracy, weak in melee. Long-range specialist."
+
+[[unit]]
+id = "example_heavy_weapons"
+name = "Heavy Weapons Specialist"
+category = "heavy"
+health = 110
+armor_class = 3
+accuracy = 55
+reactions = 45
+strength = 75
+bravery = 60
+psionic_strength = 0
+time_units = 40
+description = "Carries heavy weapons and explosives. High strength, low accuracy. Close-range devastation."
+
+[[unit]]
+id = "example_medic"
+name = "Combat Medic"
+category = "support"
+health = 85
+armor_class = 2
+accuracy = 60
+reactions = 60
+strength = 40
+bravery = 55
+psionic_strength = 20
+time_units = 65
+description = "Support unit with healing capabilities. Useful for keeping team alive."
+
+[[unit]]
+id = "example_assault_commando"
+name = "Assault Commando"
+category = "elite"
+health = 120
+armor_class = 3
+accuracy = 75
+reactions = 75
+strength = 65
+bravery = 80
+psionic_strength = 15
+time_units = 70
+description = "Elite soldier. High stats across the board. Best all-around combatant."
+
+# Alien Units (example enemy types)
+[[unit]]
+id = "example_sectoid"
+name = "Sectoid Soldier"
+category = "alien"
+alien_type = "sectoid"
+health = 50
+armor_class = 0
+accuracy = 55
+reactions = 50
+strength = 30
+bravery = 40
+psionic_strength = 40
+time_units = 50
+description = "Basic alien soldier. Weak physically but psychically powerful. Often mind controls."
+
+[[unit]]
+id = "example_sectoid_commander"
+name = "Sectoid Commander"
+category = "alien_elite"
+alien_type = "sectoid"
+health = 80
+armor_class = 1
+accuracy = 65
+reactions = 65
+strength = 40
+bravery = 70
+psionic_strength = 80
+time_units = 65
+description = "Veteran Sectoid. Stronger, more aggressive, powerful psionic abilities."
+
+[[unit]]
+id = "example_muton"
+name = "Muton Warrior"
+category = "alien"
+alien_type = "muton"
+health = 150
+armor_class = 3
+accuracy = 60
+reactions = 50
+strength = 90
+bravery = 75
+psionic_strength = 10
+time_units = 45
+description = "Large alien soldier. Armored carapace, extreme strength. Physical powerhouse."
+
+[[unit]]
+id = "example_ethereal"
+name = "Ethereal Overseer"
+category = "alien_commander"
+alien_type = "ethereal"
+health = 100
+armor_class = 2
+accuracy = 75
+reactions = 80
+strength = 60
+bravery = 100
+psionic_strength = 120
+time_units = 75
+description = "Alien command unit. Powerful psionic abilities, excellent tactical AI."

@@ -1,0 +1,155 @@
+# Narrative Hooks: Research Discoveries
+# Triggered when research completes, revealing story beats and lore
+
+[[narrative_event]]
+id = "research_alien_biology"
+title = "Alien Biology Breakthrough"
+trigger_type = "research_complete"
+trigger_id = "research_alien_biology"
+description = "Scientists make a shocking discovery about alien physiology"
+lore_entry = """
+DNA analysis of captured Sectoid specimens reveals disturbing truths. Their genetic code shows signs of advanced genetic engineering, not natural evolution. The modification markers suggest intervention by a technologically superior civilization.
+
+Our biologists theorize: these creatures are not native to Earth. They were engineered for specific purposes. But by whom? And why send them to Earth?
+
+The implications are chilling. If the Sectoids are manufactured soldiers, what other species might be waiting in the stars?
+"""
+unlocks = ["alien_origins", "genetic_engineering_theory"]
+encyclopedia_category = "biology"
+priority = 80
+
+[[narrative_event]]
+id = "research_plasma_weapons"
+title = "Plasma Technology Discovered"
+trigger_type = "research_complete"
+trigger_id = "research_plasma_weapons"
+description = "Reverse-engineering alien plasma weapons yields revolutionary insights"
+lore_entry = """
+The captured plasma rifle is unlike anything in human weapons development. Analysis reveals plasma containment technology that defies conventional physics. The aliens have mastered matter manipulation at the molecular level.
+
+Our scientists are amazed. They estimate plasma technology is 50+ years ahead of human development. More troubling: the design is elegant and efficient, suggesting the aliens have perfected this technology over centuries.
+
+With plasma weaponry now understood, we can begin manufacturing our own plasma arms. But this raises a question: if we can reverse-engineer their weapons, what else might we recover from crash sites?
+"""
+unlocks = ["plasma_weapons_manufacturing", "alien_tech_analysis"]
+encyclopedia_category = "technology"
+priority = 85
+
+[[narrative_event]]
+id = "research_alien_alloys"
+title = "Alien Alloy Composition Identified"
+trigger_type = "research_complete"
+trigger_id = "research_alien_alloys"
+description = "Advanced material science breakthrough reveals alien manufacturing secrets"
+lore_entry = """
+The metallic hull of the alien craft is not pure aluminum or titanium. It's a composite alloy incorporating elements we've never seen combined before. Most shocking: one component appears to be crystalline in nature, almost crystalline silicon-based but with properties suggesting artificial crystalline structure.
+
+Our metallurgists are astounded. The alloy is simultaneously lighter and stronger than anything humanity has produced. Its heat dissipation properties suggest the aliens can operate weapons far more powerful than we thought possible.
+
+But here's the breakthrough: we can synthesize this alloy. The manufacturing process is complex, but theoretically achievable. This opens new possibilities for armor and structural applications.
+"""
+unlocks = ["alien_alloy_manufacturing", "advanced_armor_development"]
+encyclopedia_category = "materials"
+priority = 80
+
+[[narrative_event]]
+id = "research_mind_control"
+title = "Sectoid Psionic Network Discovered"
+trigger_type = "research_complete"
+trigger_id = "research_psionic_power"
+description = "Terrifying evidence that Sectoids communicate through psychic means"
+lore_entry = """
+Interrogation of a captured Sectoid reveals something impossible: they possess psychic abilities. Telepathic communication, mind control, even limited precognition.
+
+Our scientists debate the mechanism. Biological psionic organs? Technological implants? The captured specimen shows signs of both. One theory: Sectoid brains are fundamentally different from humans, with additional neural structures dedicated to psychic manipulation.
+
+Most disturbing finding: Sectoids can potentially control human hosts through psionic means. One captive soldier briefly fell under Sectoid control during interrogation. We barely re-established his autonomy.
+
+This changes everything. We're not just facing advanced weapons. We're facing an enemy with fundamentally different capabilities. We need to develop psionic defenses immediately.
+"""
+unlocks = ["psionic_defense_research", "mind_shield_development"]
+encyclopedia_category = "psionic_warfare"
+priority = 90
+
+[[narrative_event]]
+id = "research_sectoid_biology"
+title = "Sectoid Caste System Decoded"
+trigger_type = "research_complete"
+trigger_id = "research_sectoid_biology"
+description = "Analysis reveals Sectoids operate as hive-like society with distinct castes"
+lore_entry = """
+Comparing specimens from different missions, we've identified multiple Sectoid variants:
+- Workers: Smaller, weaker, likely support roles
+- Soldiers: Standard combat units we've been facing
+- Leaders: Rare, larger, displaying enhanced psionic abilities
+- Ethereals: Extremely rare, presumably the true commanders
+
+Each caste shows specialized adaptations. Workers have enhanced dexterity. Soldiers have reinforced skeletal structure. Leaders have enlarged craniums suggesting more developed brains. Ethereals are barely understood—we've captured only one.
+
+The implications suggest a rigid command hierarchy. Eliminate higher-ranking Sectoids and lower ranks become disorganized. This is tactically valuable intelligence for battlefield operations.
+"""
+unlocks = ["sectoid_weakness_analysis", "caste_targeting_tactics"]
+encyclopedia_category = "alien_intelligence"
+priority = 75
+
+[[narrative_event]]
+id = "research_craft_technology"
+title = "UFO Propulsion System Partially Understood"
+trigger_type = "research_complete"
+trigger_id = "research_craft_propulsion"
+description = "Engineers gain insight into faster-than-light propulsion"
+lore_entry = """
+The crashed UFO's propulsion system is a marvel of engineering. It achieves velocities that violate our understanding of physics. The drive mechanism is partially intact but still largely mysterious.
+
+Our best engineers believe it operates by manipulating spacetime itself—creating localized distortions that allow the craft to "slide" through space. If true, this explains how aliens travel between stars.
+
+We can't duplicate the technology yet. The exotic materials and energy requirements are beyond our current capabilities. But now we understand what's possible. UFO propulsion becomes a long-term research goal.
+
+With this knowledge, our interceptor craft might be upgraded. Future human ships could match or exceed alien speed if we continue this research.
+"""
+unlocks = ["advanced_propulsion_research", "spacetime_physics"]
+encyclopedia_category = "xenoengineering"
+priority = 88
+
+[[narrative_event]]
+id = "research_first_contact_protocol"
+title = "First Contact: Understanding the Invasion"
+trigger_type = "research_complete"
+trigger_id = "research_first_contact"
+description = "Captured intelligence reveals the true scope of the alien presence"
+lore_entry = """
+Through interrogations and data recovery from alien computers, we've pieced together intelligence about the invasion:
+
+1. **Duration**: Sectoids have been on Earth for at least 5 years, observing before direct contact
+2. **Scale**: Thousands of alien combatants, not just the handful we've encountered
+3. **Objectives**: Evidence suggests mining operations for rare minerals and biological specimens
+4. **Command**: All evidence points to a larger command structure off-world
+
+The terrifying conclusion: what we're fighting is a forward presence. The real threat is in orbit or deeper in space. We've encountered only the tip of the invading force.
+
+Military leadership demands increased military spending and research funding. The security council declares this the greatest threat to humanity. All nations must coordinate against the common alien enemy.
+
+But cooperation proves difficult. Nations prioritize their own survival. The geopolitical situation becomes increasingly tense.
+"""
+unlocks = ["alien_command_structure", "invasion_scope_assessment"]
+encyclopedia_category = "strategic_analysis"
+priority = 95
+
+[[narrative_event]]
+id = "research_weapon_progression"
+title = "Laser Technology: First Generation Energy Weapons"
+trigger_type = "research_complete"
+trigger_id = "research_laser_weapons"
+description = "Humanity develops its first energy weapon systems"
+lore_entry = """
+Building on alien plasma technology principles, our scientists have successfully created laser weapons. The first prototype is crude—large, power-hungry, and fragile—but it works.
+
+The laser rifle represents a turning point in human warfare. No ammunition to resupply. Unlimited range. Precision targeting. Energy weapons represent a technological leap ahead of conventional ballistics.
+
+Our soldiers test laser weapons and report excellent results. Military procurement immediately orders mass production. Laser arms become our standard-issue by year 2000.
+
+But we know aliens have better energy technology. Their plasma weapons are more powerful and efficient. The race for technological superiority accelerates.
+"""
+unlocks = ["energy_weapon_mastery", "laser_rifle_production"]
+encyclopedia_category = "military_tech"
+priority = 70

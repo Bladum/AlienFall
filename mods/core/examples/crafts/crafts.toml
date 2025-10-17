@@ -1,0 +1,80 @@
+# Craft Examples
+# Reference aircraft and spacecraft for modders
+
+# Early Interceptors
+[[craft]]
+id = "example_interceptor"
+name = "Example Interceptor"
+type = "interceptor"
+class = "fighter"
+speed = 2000
+armament_slots = 1
+armor_class = 2
+armor_points = 100
+fuel_capacity = 1000
+range = 5000
+crew_size = 1
+description = "Small fast combat interceptor. Quick response to UFO threats."
+
+# Transport Craft
+[[craft]]
+id = "example_transport_skyranger"
+name = "Example Transport"
+type = "transport"
+class = "troop_carrier"
+speed = 1500
+armament_slots = 0
+armor_class = 1
+armor_points = 80
+fuel_capacity = 1200
+range = 8000
+crew_size = 2
+troop_capacity = 8
+description = "Transport aircraft for deploying ground forces to mission sites."
+
+# Heavy Support
+[[craft]]
+id = "example_heavy_support"
+name = "Example Support Craft"
+type = "support"
+class = "heavy"
+speed = 1200
+armament_slots = 2
+armor_class = 3
+armor_points = 150
+fuel_capacity = 1500
+range = 10000
+crew_size = 3
+special_equipment = ["advanced_radar", "command_center"]
+description = "Heavy support craft with advanced systems and dual weapons."
+
+# Advanced Phase 1+ Craft
+[[craft]]
+id = "example_firestorm"
+name = "Example Advanced Fighter"
+type = "interceptor"
+class = "advanced"
+speed = 2500
+armament_slots = 2
+armor_class = 3
+armor_points = 120
+fuel_capacity = 1500
+range = 7000
+crew_size = 1
+description = "Advanced fighter with improved engines and dual weapon mounts."
+
+# Experimental Submersible
+[[craft]]
+id = "example_submarine"
+name = "Example Submarine"
+type = "underwater"
+class = "exploration"
+speed = 800
+armament_slots = 1
+armor_class = 4
+armor_points = 200
+fuel_capacity = 2000
+range = 5000
+crew_size = 3
+special_equipment = ["sonar", "depth_charges"]
+description = "Underwater vessel for aquatic missions and research."

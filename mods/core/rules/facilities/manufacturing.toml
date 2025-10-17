@@ -1,0 +1,53 @@
+# Manufacturing Facility Definitions
+
+[[facility]]
+id = "manufacturing_weapons"
+name = "Weapons Manufacturing"
+description = "Weapon production facility"
+type = "manufacturing"
+width = 3
+height = 3
+cost = 2000
+time_to_build = 10
+maintenance_cost = 40
+production_rate = 1.5
+specialization = "weapons"
+
+[[facility]]
+id = "manufacturing_armor"
+name = "Armor Manufacturing"
+description = "Body armor and protective gear production"
+type = "manufacturing"
+width = 3
+height = 3
+cost = 1800
+time_to_build = 10
+maintenance_cost = 35
+production_rate = 1.4
+specialization = "armor"
+
+[[facility]]
+id = "manufacturing_ammunition"
+name = "Ammunition Factory"
+description = "Ammunition and explosives production"
+type = "manufacturing"
+width = 3
+height = 3
+cost = 1700
+time_to_build = 9
+maintenance_cost = 32
+production_rate = 2.0
+specialization = "ammunition"
+
+[[facility]]
+id = "heavy_weapons_factory"
+name = "Heavy Weapons Factory"
+description = "Heavy weapon and rocket launcher production"
+type = "manufacturing"
+width = 4
+height = 3
+cost = 2500
+time_to_build = 12
+maintenance_cost = 50
+production_rate = 0.8
+specialization = "heavy_weapons"

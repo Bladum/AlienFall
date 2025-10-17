@@ -1,0 +1,28 @@
+# Example: Transport Aircraft
+# Large transport designed for deploying troops and supplies
+# Template for creating transport variants
+
+[[craft]]
+id = "example_transport"
+name = "Skyranger Transport"
+type = "transport"
+phase = "phase0"
+speed = 0.5
+range = 20
+fuel_capacity = 100
+crew_capacity = 14
+cargo_slots = 10
+weapons_slots = 1
+health = 200
+armor = 20
+cost_manufacturing = 75000
+description = "Large troop transport. Slow but capacious. Can carry full squads and supplies. Limited defensive armament."
+
+[craft.services]
+provides = ["transport", "cargo"]
+requires = ["fuel", "maintenance"]
+
+[craft.equipment]
+primary_weapon_slot_1 = "weapon_mount_light"
+cargo_bay = "large_cargo_hold"
+squad_compartment = "crew_section_14"

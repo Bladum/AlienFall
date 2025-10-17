@@ -1,0 +1,139 @@
+# Map Generation Configuration
+# Procedural map generation parameters, terrain features, and placement rules
+
+[map_generation]
+default_width = 60
+default_height = 60
+min_width = 40
+max_width = 80
+min_height = 40
+max_height = 80
+
+# Terrain feature generation
+[terrain_features]
+# Forest biome terrain features
+forest_dense_coverage = 0.35
+forest_sparse_coverage = 0.25
+forest_water_coverage = 0.10
+forest_elevation_variation = 0.20
+
+# Urban biome terrain features
+urban_building_coverage = 0.40
+urban_street_coverage = 0.30
+urban_vehicle_coverage = 0.05
+urban_rubble_coverage = 0.15
+
+# Desert biome terrain features
+desert_rock_coverage = 0.25
+desert_sand_dunes = 0.30
+desert_elevation_variation = 0.15
+desert_water_coverage = 0.02
+
+# Underwater biome terrain features
+underwater_coral_coverage = 0.20
+underwater_vegetation_coverage = 0.25
+underwater_rock_coverage = 0.20
+underwater_current_zones = 0.10
+
+# Mountain biome terrain features
+mountain_rock_coverage = 0.45
+mountain_elevation_variation = 0.60
+mountain_cave_entrances = 0.10
+mountain_vegetation_coverage = 0.15
+
+# Cover and obstacles
+[cover_placement]
+# Probability of placing cover at valid location
+cover_placement_probability = 0.30
+# Maximum cover per map
+max_cover_objects = 40
+# Cover placement prefers:
+cover_prefers_edges = true
+cover_minimum_distance = 3
+# Cover types by biome
+forest_cover_types = ["tree", "log", "rock", "shrub"]
+urban_cover_types = ["wall", "car", "dumpster", "rubble"]
+desert_cover_types = ["rock", "dune", "cactus"]
+underwater_cover_types = ["rock", "coral", "kelp"]
+
+# Destructible objects
+[destructibles]
+destructible_placement_probability = 0.20
+max_destructibles_per_map = 25
+destructible_types = ["crate", "barrel", "vehicle", "furniture", "wall_section"]
+destructible_health_ranges = { crate = "10-20", barrel = "15-30", vehicle = "40-80", furniture = "5-15", wall_section = "30-60" }
+
+# Elevation and transitions
+[elevation]
+enable_multi_level_maps = true
+max_elevation_levels = 3
+elevation_change_probability = 0.15
+ramp_minimum_width = 2
+ramp_maximum_slope = 0.5
+
+# Alien installations (bases, ruins)
+[alien_structures]
+structure_placement_probability = 0.40
+structure_types = ["gate", "console", "power_core", "research_pod"]
+structure_minimum_distance = 8
+structure_spawns_aliens = true
+
+# Generation algorithms
+[algorithms]
+# Perlin noise for terrain generation
+use_perlin_noise = true
+perlin_scale = 0.1
+perlin_octaves = 4
+
+# Cellular automata for caves/urban
+use_cellular_automata = true
+cell_birth_threshold = 4
+cell_death_threshold = 3
+
+# Force-directed placement for objects
+use_force_directed = true
+repulsion_strength = 2.0
+attraction_range = 20
+
+# Mission-specific map layouts
+[mission_layouts]
+# UFO crash sites: more varied terrain, crash debris
+crash_site_debris_count = 15
+crash_site_crater_size = 10
+
+# Terror sites: dense urban, many buildings
+terror_site_building_density = 0.50
+terror_site_civilian_spawn_chance = 0.30
+
+# Alien bases: structured layout, alien architecture
+base_room_grid_size = 20
+base_corridor_width = 3
+
+# Supply ship: industrial, modular
+supply_ship_section_size = 15
+supply_ship_sections = 4
+
+# Spawn point constraints
+[spawn_points]
+minimum_spawn_distance = 15
+maximum_spawn_distance = 40
+spawn_area_radius = 3
+player_spawns_per_mission = 1
+ai_spawn_groups = [1, 2, 3]
+
+# Difficulty scaling
+[difficulty_scaling]
+easy_enemy_count = 3
+normal_enemy_count = 5
+heroic_enemy_count = 8
+ironman_enemy_count = 10
+
+easy_cover_bonus = 1.20
+normal_cover_bonus = 1.0
+heroic_cover_bonus = 0.80
+ironman_cover_bonus = 0.60
+
+easy_terrain_favor_player = true
+normal_terrain_neutral = true
+heroic_terrain_favor_aliens = true
+ironman_terrain_favor_aliens = true

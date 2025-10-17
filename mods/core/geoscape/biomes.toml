@@ -1,0 +1,265 @@
+# Geoscape Biome Definitions
+# Defines terrain types and their environmental properties for provinces
+
+[[biome]]
+id = "temperate"
+name = "Temperate"
+description = "Moderate climate with forests, grasslands, and rivers"
+color = "#4CAF50"
+terrainWeights = [
+    { id = "grassland", weight = 40 },
+    { id = "forest", weight = 30 },
+    { id = "scrubland", weight = 20 },
+    { id = "water", weight = 10 }
+]
+mapScripts = ["urban_crossroads", "forest_clearing", "rural_settlement"]
+hazards = []
+
+[[biome]]
+id = "desert"
+name = "Desert"
+description = "Arid region with minimal vegetation and sand dunes"
+color = "#FDD835"
+terrainWeights = [
+    { id = "sand", weight = 60 },
+    { id = "rocky", weight = 25 },
+    { id = "scrubland", weight = 15 }
+]
+mapScripts = ["desert_oasis", "desert_ruins", "desert_random"]
+hazards = ["extreme_heat", "sandstorm"]
+
+[[biome]]
+id = "jungle"
+name = "Jungle"
+description = "Dense tropical forest with high biodiversity"
+color = "#2E7D32"
+terrainWeights = [
+    { id = "dense_forest", weight = 60 },
+    { id = "light_forest", weight = 25 },
+    { id = "water", weight = 15 }
+]
+mapScripts = ["jungle_clearing", "jungle_river", "jungle_temple"]
+hazards = ["toxic_flora", "dense_fog"]
+
+[[biome]]
+id = "mountain"
+name = "Mountain"
+description = "Elevated terrain with peaks, valleys, and rocky outcrops"
+color = "#9E9E9E"
+terrainWeights = [
+    { id = "rocky", weight = 50 },
+    { id = "mountain_pass", weight = 30 },
+    { id = "snow", weight = 20 }
+]
+mapScripts = ["mountain_pass", "peak_assault", "valley_base"]
+hazards = ["avalanche", "thin_air"]
+
+[[biome]]
+id = "tundra"
+name = "Tundra"
+description = "Arctic region with permafrost and minimal vegetation"
+color = "#B3E5FC"
+terrainWeights = [
+    { id = "snow", weight = 50 },
+    { id = "ice", weight = 30 },
+    { id = "rocky", weight = 20 }
+]
+mapScripts = ["frozen_field", "ice_base", "frozen_river"]
+hazards = ["blizzard", "frostbite"]
+
+[[biome]]
+id = "tropical"
+name = "Tropical"
+description = "Warm, humid region with seasonal rainfall"
+color = "#81C784"
+terrainWeights = [
+    { id = "forest", weight = 50 },
+    { id = "grassland", weight = 30 },
+    { id = "water", weight = 20 }
+]
+mapScripts = ["tropical_village", "tropical_river", "tropical_beach"]
+hazards = ["hurricane", "flooding"]
+
+[[biome]]
+id = "savanna"
+name = "Savanna"
+description = "Open grassland with scattered trees"
+color = "#C5E1A5"
+terrainWeights = [
+    { id = "grassland", weight = 70 },
+    { id = "scrubland", weight = 20 },
+    { id = "water", weight = 10 }
+]
+mapScripts = ["savanna_plain", "watering_hole", "savanna_settlement"]
+hazards = ["drought", "wildfire"]
+
+[[biome]]
+id = "arctic"
+name = "Arctic"
+description = "Extreme polar region with ice sheets and glaciers"
+color = "#E0F2F1"
+terrainWeights = [
+    { id = "ice", weight = 70 },
+    { id = "snow", weight = 25 },
+    { id = "rocky", weight = 5 }
+]
+mapScripts = ["glacier_base", "ice_station", "polar_research"]
+hazards = ["whiteout", "crevasse"]
+
+[[biome]]
+id = "ocean"
+name = "Ocean"
+description = "Open water (not playable but affects strategic navigation)"
+color = "#1976D2"
+terrainWeights = []
+mapScripts = []
+hazards = ["storm", "tsunami"]
+
+[[biome]]
+id = "urban"
+name = "Urban"
+description = "Metropolitan area with buildings and infrastructure"
+color = "#757575"
+terrainWeights = [
+    { id = "buildings", weight = 50 },
+    { id = "pavement", weight = 30 },
+    { id = "parks", weight = 20 }
+]
+mapScripts = ["city_downtown", "industrial_complex", "suburban_sprawl"]
+hazards = ["civilian_panic", "infrastructure_failure"]
+
+# Urban variants
+[[biome]]
+id = "industrial"
+name = "Industrial"
+description = "Manufacturing and processing areas"
+color = "#616161"
+terrainWeights = [
+    { id = "warehouses", weight = 60 },
+    { id = "metal", weight = 25 },
+    { id = "rubble", weight = 15 }
+]
+mapScripts = ["warehouse_district", "factory_floor", "shipping_yard"]
+hazards = ["toxic_spill", "explosion_risk"]
+
+[[biome]]
+id = "rural"
+name = "Rural"
+description = "Farmland and small settlements"
+color = "#C6FF00"
+terrainWeights = [
+    { id = "fields", weight = 50 },
+    { id = "forest", weight = 25 },
+    { id = "grassland", weight = 25 }
+]
+mapScripts = ["farmland", "village", "forest_farm"]
+hazards = ["crop_failure", "animal_swarms"]
+
+# Terrain definitions used by biomes
+[[terrain]]
+id = "grassland"
+name = "Grassland"
+tags = ["open", "temperate", "traversable"]
+difficulty = 1
+
+[[terrain]]
+id = "forest"
+name = "Forest"
+tags = ["forest", "cover", "temperate"]
+difficulty = 2
+
+[[terrain]]
+id = "dense_forest"
+name = "Dense Forest"
+tags = ["forest", "cover", "heavy"]
+difficulty = 3
+
+[[terrain]]
+id = "light_forest"
+name = "Light Forest"
+tags = ["forest", "sparse"]
+difficulty = 1
+
+[[terrain]]
+id = "scrubland"
+name = "Scrubland"
+tags = ["rough", "open"]
+difficulty = 2
+
+[[terrain]]
+id = "sand"
+name = "Sand"
+tags = ["desert", "open"]
+difficulty = 1
+
+[[terrain]]
+id = "rocky"
+name = "Rocky"
+tags = ["rough", "cover"]
+difficulty = 2
+
+[[terrain]]
+id = "water"
+name = "Water"
+tags = ["water", "hazard"]
+difficulty = 3
+
+[[terrain]]
+id = "snow"
+name = "Snow"
+tags = ["arctic", "slippery"]
+difficulty = 2
+
+[[terrain]]
+id = "ice"
+name = "Ice"
+tags = ["arctic", "slippery", "hazard"]
+difficulty = 3
+
+[[terrain]]
+id = "mountain_pass"
+name = "Mountain Pass"
+tags = ["mountain", "traversable"]
+difficulty = 2
+
+[[terrain]]
+id = "buildings"
+name = "Buildings"
+tags = ["urban", "cover"]
+difficulty = 2
+
+[[terrain]]
+id = "pavement"
+name = "Pavement"
+tags = ["urban", "road"]
+difficulty = 1
+
+[[terrain]]
+id = "parks"
+name = "Parks"
+tags = ["urban", "open"]
+difficulty = 1
+
+[[terrain]]
+id = "warehouses"
+name = "Warehouses"
+tags = ["industrial", "cover"]
+difficulty = 2
+
+[[terrain]]
+id = "metal"
+name = "Metal Structure"
+tags = ["industrial", "cover"]
+difficulty = 2
+
+[[terrain]]
+id = "rubble"
+name = "Rubble"
+tags = ["industrial", "rough"]
+difficulty = 3
+
+[[terrain]]
+id = "fields"
+name = "Fields"
+tags = ["rural", "open"]
+difficulty = 1

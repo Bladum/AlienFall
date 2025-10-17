@@ -1,0 +1,214 @@
+# Alien Unit Definitions
+# Units: Alien species for various factions
+
+[[unit]]
+id = "sectoid_soldier"
+name = "Sectoid Soldier"
+description = "Grey-skinned psionic alien, foot soldier"
+type = "alien"
+faction = "faction_sectoids"
+side = "alien"
+image = "units/sectoid.png"
+rank = "common"
+
+[unit.stats]
+health = 30
+armor = 0
+will = 80
+reaction = 50
+shooting = 50
+throwing = 40
+strength = 50
+psionic_power = 40
+psionic_defense = 60
+
+[unit.abilities]
+psi_panic = "psi_panic"
+mind_control = "mind_control_weak"
+
+[unit.equipment]
+primary = "plasma_pistol"
+secondary = "none"
+armor = "none"
+
+[[unit]]
+id = "sectoid_leader"
+name = "Sectoid Leader"
+description = "Higher-ranked sectoid with enhanced psionic abilities"
+type = "alien"
+faction = "faction_sectoids"
+side = "alien"
+image = "units/sectoid_leader.png"
+rank = "leader"
+
+[unit.stats]
+health = 40
+armor = 0
+will = 90
+reaction = 55
+shooting = 55
+throwing = 45
+strength = 55
+psionic_power = 60
+psionic_defense = 70
+
+[unit.abilities]
+psi_panic = "psi_panic"
+mind_control = "mind_control"
+resurrection = "restore_corpses"
+
+[unit.equipment]
+primary = "plasma_rifle"
+secondary = "none"
+armor = "none"
+
+[[unit]]
+id = "muton_soldier"
+name = "Muton Soldier"
+description = "Tough reptilian alien with physical strength"
+type = "alien"
+faction = "faction_mutons"
+side = "alien"
+image = "units/muton.png"
+rank = "common"
+
+[unit.stats]
+health = 45
+armor = 10
+will = 70
+reaction = 55
+shooting = 60
+throwing = 50
+strength = 75
+psionic_power = 20
+psionic_defense = 40
+
+[unit.abilities]
+melee_attack = "claw_strike"
+
+[unit.equipment]
+primary = "plasma_rifle"
+secondary = "plasma_pistol"
+armor = "muton_hide"
+grenades = ["alien_grenade"]
+
+[[unit]]
+id = "muton_berserker"
+name = "Muton Berserker"
+description = "Aggressive muton specializing in close combat"
+type = "alien"
+faction = "faction_mutons"
+side = "alien"
+image = "units/muton_berserker.png"
+rank = "leader"
+
+[unit.stats]
+health = 55
+armor = 15
+will = 65
+reaction = 60
+shooting = 50
+throwing = 40
+strength = 85
+psionic_power = 10
+psionic_defense = 35
+
+[unit.abilities]
+berserker_charge = "berserker_charge"
+melee_attack = "claw_strike"
+
+[unit.equipment]
+primary = "plasma_rifle"
+secondary = "plasma_pistol"
+armor = "muton_hide_heavy"
+
+[[unit]]
+id = "ethereal"
+name = "Ethereal"
+description = "Tall, psionic commander species"
+type = "alien"
+faction = "faction_ethereals"
+side = "alien"
+image = "units/ethereal.png"
+rank = "commander"
+
+[unit.stats]
+health = 35
+armor = 0
+will = 100
+reaction = 50
+shooting = 60
+throwing = 50
+strength = 55
+psionic_power = 90
+psionic_defense = 80
+
+[unit.abilities]
+psi_panic = "psi_panic"
+mind_control = "mind_control_strong"
+psi_defense = "psi_defense"
+restoration = "restore_corpses"
+
+[unit.equipment]
+primary = "plasma_rifle"
+secondary = "plasma_pistol"
+armor = "none"
+
+[[unit]]
+id = "floater"
+name = "Floater"
+description = "Flying alien with mobility advantage"
+type = "alien"
+faction = "faction_ethereals"
+side = "alien"
+image = "units/floater.png"
+rank = "common"
+
+[unit.stats]
+health = 25
+armor = 5
+will = 65
+reaction = 60
+shooting = 55
+throwing = 45
+strength = 45
+psionic_power = 30
+psionic_defense = 50
+
+[unit.abilities]
+flying = "flight"
+
+[unit.equipment]
+primary = "plasma_pistol"
+secondary = "none"
+armor = "floater_hide"
+
+[[unit]]
+id = "chryssalid"
+name = "Chryssalid"
+description = "Insectoid creature with terrifying melee attack"
+type = "alien"
+faction = "faction_chryssalids"
+side = "alien"
+image = "units/chryssalid.png"
+rank = "common"
+
+[unit.stats]
+health = 50
+armor = 10
+will = 60
+reaction = 70
+shooting = 20
+throwing = 10
+strength = 80
+psionic_power = 0
+psionic_defense = 30
+
+[unit.abilities]
+melee_attack = "chryssalid_bite"
+terror_attack = "terror_attack"
+
+[unit.equipment]
+primary = "none"
+secondary = "none"
+armor = "chryssalid_carapace"

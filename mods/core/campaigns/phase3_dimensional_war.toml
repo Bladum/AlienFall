@@ -1,0 +1,56 @@
+# Phase 3: Dimensional War (2003-2004)
+# Reality-warping entities, dimensional threats, final endgame
+
+[phase]
+id = "phase3_dimensional_war"
+name = "Dimensional War"
+description = "Reality fractures as dimensional entities manifest. The final battle for Earth's existence against forces beyond space-time."
+start_year = 2003
+end_year = 2004
+phase_number = 3
+status = "endgame"
+
+[timeline]
+milestones = [
+    "dimensional_rift",
+    "dimensional_beings",
+    "final_confrontation"
+]
+
+[factions]
+active = [
+    "faction_ethereals",
+    "faction_dimensional_entities",
+    "faction_void_cultists",
+    "xcom"
+]
+
+[missions]
+types = [
+    "dimensional_incursion",
+    "reality_stabilization",
+    "final_assault",
+    "interdimensional_combat",
+    "fate_of_earth"
+]
+
+[enemy_types]
+common = ["void_entity", "dimensional_wraith"]
+rare = ["ethereal_dimensional", "reality_bender"]
+boss = ["elder_god", "dimensional_queen"]
+
+[technology]
+available = [
+    "dimensional_shielding",
+    "reality_weapons",
+    "void_traversal",
+    "quantum_armor"
+]
+
+[gameplay]
+tech_level = "dimensional"
+difficulty_scaling = 1.5
+alien_visibility = "overwhelming"
+new_environments = ["dimensional_rifts", "void_spaces", "twisted_reality"]
+environmental_effects = ["reality_distortion", "time_flux", "dimensional_tears"]
+special_mechanics = ["sanity_system", "reality_collapse"]

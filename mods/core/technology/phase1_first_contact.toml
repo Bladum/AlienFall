@@ -1,0 +1,307 @@
+# Phase 1: First Contact (2000-2002)
+# Humanity discovers and researches alien plasma technology
+# Laser weapons developed, early power suits available
+
+[[weapon]]
+id = "laser_pistol"
+name = "Laser Pistol"
+phase = "phase1"
+category = "laser_pistol"
+type = "energy"
+cost_manufacturing = 1500
+damage = 25
+damage_type = "laser"
+armor_penetration = 15
+accuracy = 70
+range = 20
+fire_rate = 3
+capacity = 30
+weight = 2.0
+description = "Early laser weapon. Energy-based, no ammunition concerns. Good balance of damage and accuracy."
+
+[[weapon]]
+id = "laser_rifle"
+name = "Laser Rifle"
+phase = "phase1"
+category = "laser_rifle"
+type = "energy"
+cost_manufacturing = 2500
+damage = 35
+damage_type = "laser"
+armor_penetration = 20
+accuracy = 75
+range = 30
+fire_rate = 2
+capacity = 30
+weight = 3.5
+description = "Military-grade laser rifle. Effective against most targets including aliens."
+
+[[weapon]]
+id = "laser_heavy"
+name = "Heavy Laser"
+phase = "phase1"
+category = "laser_heavy"
+type = "energy"
+cost_manufacturing = 4000
+damage = 55
+damage_type = "laser"
+armor_penetration = 30
+accuracy = 65
+range = 40
+fire_rate = 1
+capacity = 10
+weight = 6.0
+description = "Heavy support laser weapon. High damage, slow fire rate."
+
+[[weapon]]
+id = "plasma_pistol"
+name = "Plasma Pistol"
+phase = "phase1"
+category = "plasma_pistol"
+type = "plasma"
+cost_manufacturing = 2000
+research_required = ["research_plasma_weapons"]
+damage = 30
+damage_type = "plasma"
+armor_penetration = 18
+accuracy = 68
+range = 18
+fire_rate = 2
+capacity = 20
+weight = 2.3
+description = "Captured alien plasma weapon, reverse-engineered for human use. Unstable but powerful."
+
+[[weapon]]
+id = "plasma_rifle"
+name = "Plasma Rifle"
+phase = "phase1"
+category = "plasma_rifle"
+type = "plasma"
+cost_manufacturing = 3500
+research_required = ["research_plasma_weapons"]
+damage = 45
+damage_type = "plasma"
+armor_penetration = 25
+accuracy = 70
+range = 28
+fire_rate = 2
+capacity = 25
+weight = 4.0
+description = "Military-grade plasma rifle. Alien technology adapted for human soldiers."
+
+[[weapon]]
+id = "plasma_cannon"
+name = "Plasma Cannon"
+phase = "phase1"
+category = "plasma_heavy"
+type = "plasma"
+cost_manufacturing = 6000
+research_required = ["research_plasma_weapons"]
+damage = 65
+damage_type = "plasma"
+armor_penetration = 40
+accuracy = 60
+range = 35
+fire_rate = 1
+capacity = 8
+weight = 7.5
+description = "Heavy plasma support weapon. Devastating firepower against clusters of enemies."
+
+[[armor]]
+id = "armor_power_suit"
+name = "Power Suit"
+phase = "phase1"
+category = "power"
+armor_class = 4
+armor_protection = 50
+weight = 20
+cost_manufacturing = 3500
+research_required = ["research_power_armor"]
+special_abilities = ["strength_boost", "environmental_protection", "jump_assistance"]
+description = "First-generation power armor suit. Enhanced strength and protection."
+
+[[armor]]
+id = "armor_advanced_combat"
+name = "Advanced Combat Suit"
+phase = "phase1"
+category = "military"
+armor_class = 3
+armor_protection = 35
+weight = 10
+cost_manufacturing = 1500
+special_abilities = ["increased_carrying", "thermal_vision", "night_vision"]
+description = "Upgraded military combat suit with integrated systems."
+
+[[armor]]
+id = "armor_alien_alloy"
+name = "Alien Alloy Armor"
+phase = "phase1"
+category = "exotic"
+armor_class = 5
+armor_protection = 60
+weight = 12
+cost_manufacturing = 5000
+research_required = ["research_alien_materials"]
+special_abilities = ["energy_resistance", "environmental_protection"]
+description = "Armor fabricated from captured alien alloys. Superior protection."
+
+[[equipment]]
+id = "equipment_medkit_advanced"
+name = "Advanced Medical Kit"
+phase = "phase1"
+category = "medical"
+cost_manufacturing = 300
+weight = 2.0
+max_uses = 8
+healing_amount = 50
+special_effects = ["stops_bleeding", "cures_poison"]
+description = "Improved medical kit with alien-derived compounds. More effective healing."
+
+[[equipment]]
+id = "equipment_motion_scanner"
+name = "Motion Scanner"
+phase = "phase1"
+category = "tactical"
+cost_manufacturing = 800
+weight = 1.5
+max_uses = 10
+detection_range = 20
+special_effects = ["detect_movement"]
+description = "Handheld motion detection device. Alerts to movement in range."
+
+[[equipment]]
+id = "equipment_meld_bomb"
+name = "Meld Bomb"
+phase = "phase1"
+category = "explosive"
+cost_manufacturing = 600
+weight = 1.2
+max_uses = 1
+damage = 50
+damage_type = "explosive_energy"
+area_of_effect = 8
+description = "Experimental muton meld-infused explosive. Extreme damage in focused area."
+
+[[facility]]
+id = "facility_power_plant"
+name = "Power Plant"
+phase = "phase1"
+category = "infrastructure"
+cost_manufacturing = 5000
+construction_days = 28
+maintenance_cost = 200
+energy_output = 100
+bonuses = ["laser_weapon_efficiency", "power_armor_charging"]
+description = "Nuclear power facility. Enables laser and energy weapons research."
+
+[[facility]]
+id = "facility_laser_laboratory"
+name = "Laser Laboratory"
+phase = "phase1"
+category = "research"
+cost_manufacturing = 4000
+construction_days = 21
+maintenance_cost = 180
+research_speed = 1.5
+specialization = "laser_weapons"
+description = "Specialized lab for laser weapons research."
+
+[[facility]]
+id = "facility_plasma_laboratory"
+name = "Plasma Laboratory"
+phase = "phase1"
+category = "research"
+cost_manufacturing = 5500
+construction_days = 28
+maintenance_cost = 250
+research_required = ["research_plasma_weapons"]
+research_speed = 1.8
+specialization = "plasma_weapons"
+description = "Advanced facility for plasma weapons research and reverse-engineering."
+
+[[unit]]
+id = "unit_commando"
+name = "Commando"
+phase = "phase1"
+category = "elite"
+cost_recruitment = 1200
+health = 105
+accuracy = 75
+reactions = 70
+strength = 55
+bravery = 75
+psionic_strength = 10
+time_units = 65
+armor_class = 3
+starting_weapon = "laser_rifle"
+special_abilities = ["leadership", "tactical_training", "advanced_marksmanship"]
+description = "Elite soldier trained in advanced tactics. High stats across the board."
+
+[[unit]]
+id = "unit_psionic_recruit"
+name = "Psionic Recruit"
+phase = "phase1"
+category = "specialist"
+cost_recruitment = 1500
+research_required = ["research_psionic_training"]
+health = 80
+accuracy = 60
+reactions = 55
+strength = 40
+bravery = 65
+psionic_strength = 50
+time_units = 55
+armor_class = 2
+starting_weapon = "laser_pistol"
+special_abilities = ["mind_control_resistance", "psionic_defense"]
+description = "Soldier trained in psychic abilities. Early psionic potential."
+
+[[research]]
+id = "research_laser_weapons"
+name = "Laser Weapons"
+phase = "phase1"
+category = "weapons"
+research_cost = 500
+prerequisites = []
+unlock_items = ["laser_pistol", "laser_rifle", "laser_heavy"]
+description = "Research into laser technology. Unlocks laser-based weapons."
+
+[[research]]
+id = "research_plasma_weapons"
+name = "Plasma Weapons"
+phase = "phase1"
+category = "weapons"
+research_cost = 800
+prerequisites = ["research_laser_weapons", "research_alien_artifacts"]
+unlock_items = ["plasma_pistol", "plasma_rifle", "plasma_cannon"]
+description = "Reverse-engineering captured alien plasma weapons."
+
+[[research]]
+id = "research_power_armor"
+name = "Power Armor"
+phase = "phase1"
+category = "armor"
+research_cost = 600
+prerequisites = []
+unlock_items = ["armor_power_suit"]
+description = "Development of exoskeleton power armor systems."
+
+[[research]]
+id = "research_alien_materials"
+name = "Alien Materials"
+phase = "phase1"
+category = "materials"
+research_cost = 700
+prerequisites = ["research_alien_artifacts"]
+unlock_items = ["armor_alien_alloy"]
+description = "Study of alien metallic alloys for armor fabrication."
+
+[[research]]
+id = "research_psionic_training"
+name = "Psionic Training"
+phase = "phase1"
+category = "special"
+research_cost = 900
+prerequisites = []
+unlock_items = ["unit_psionic_recruit"]
+description = "Development of psychic training programs for soldiers."

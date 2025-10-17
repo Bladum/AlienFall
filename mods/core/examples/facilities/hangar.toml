@@ -1,0 +1,32 @@
+# Example: Hangar Facility
+# Aircraft storage and maintenance facility
+# Template for creating hangar variants
+
+[[facility]]
+id = "example_hangar"
+name = "Advanced Hangar"
+phase = "phase0"
+category = "aircraft"
+build_time = 21
+build_cost = 200000
+health = 150
+armor = 10
+
+[facility.capacities]
+crafts = 2
+repair_bays = 1
+
+[facility.services]
+provides = ["aircraft_storage", "repair", "refueling"]
+requires = ["power", "fuel"]
+
+maintenance = 15000
+description = "Aircraft hangar. Stores and maintains up to 2 aircraft. One repair bay for maintenance."
+
+[facility.adjacency_bonuses]
+power_generator = 0.10
+workshop = 0.05
+
+[facility.benefits]
+repair_speed_bonus = 0.25
+refuel_rate_bonus = 0.15

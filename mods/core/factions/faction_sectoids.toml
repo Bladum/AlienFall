@@ -1,0 +1,70 @@
+# Faction: Sectoid Empire
+# Grey-skinned psionic aliens
+
+[faction]
+id = "faction_sectoids"
+name = "Sectoid Empire"
+description = "Grey-skinned psionic aliens, masters of mind control and infiltration"
+type = "alien"
+tags = ["alien", "psionic", "terrestrial"]
+active_phases = ["phase1_sky_war", "phase2_deep_war", "phase3_dimensional_war"]
+tech_level = "plasma"
+
+[characteristics]
+psionic = true
+aquatic = false
+dimensional = false
+primary_trait = "psionic_dominance"
+
+[relationships]
+allies = ["faction_ethereals", "faction_mutons"]
+enemies = ["xcom", "faction_blackops"]
+neutral = []
+
+[[units]]
+type = "sectoid_soldier"
+name = "Sectoid Soldier"
+count_per_squad = 2
+spawn_weight = 10
+health = 30
+armor = 0
+will = 80
+reaction = 50
+shooting = 50
+throwing = 40
+strength = 50
+psionic_power = 40
+psionic_defense = 60
+abilities = ["psi_panic", "mind_probe"]
+equipment_primary = "plasma_pistol"
+
+[[units]]
+type = "sectoid_leader"
+name = "Sectoid Leader"
+count_per_squad = 1
+spawn_weight = 5
+health = 40
+armor = 0
+will = 90
+reaction = 55
+shooting = 55
+throwing = 45
+strength = 55
+psionic_power = 60
+psionic_defense = 70
+abilities = ["psi_panic", "mind_control", "resurrection"]
+equipment_primary = "plasma_rifle"
+
+[technology]
+tech_tree = [
+    "plasma_weapons",
+    "psionic_enhancement",
+    "mind_control_tech"
+]
+research_speed = 1.2
+
+[gameplay]
+squad_composition = "3-5 soldiers + 1 leader"
+tactics = "psionics_focused"
+difficulty_modifier = 1.1
+appearance_frequency = "common"

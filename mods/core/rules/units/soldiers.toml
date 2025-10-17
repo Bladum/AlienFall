@@ -1,0 +1,171 @@
+# Soldier Unit Definitions
+# Units: Human soldiers for XCOM organization
+
+[[unit]]
+id = "soldier_rookie"
+name = "Rookie Soldier"
+description = "Untrained soldier with basic equipment"
+type = "soldier"
+faction = "xcom"
+side = "human"
+image = "units/soldier.png"
+rank = "rookie"
+
+[unit.stats]
+health = 30
+armor = 0
+will = 60
+reaction = 50
+shooting = 50
+throwing = 40
+strength = 50
+psionic_power = 0
+psionic_defense = 40
+
+[unit.equipment]
+primary = "rifle"
+secondary = "pistol"
+armor = "combat_armor_light"
+grenades = ["hand_grenade"]
+
+[[unit]]
+id = "soldier_squaddie"
+name = "Squaddie"
+description = "Experienced soldier with improved stats"
+type = "soldier"
+faction = "xcom"
+side = "human"
+image = "units/soldier.png"
+rank = "squaddie"
+
+[unit.stats]
+health = 35
+armor = 0
+will = 65
+reaction = 55
+shooting = 55
+throwing = 45
+strength = 55
+psionic_power = 0
+psionic_defense = 45
+
+[unit.equipment]
+primary = "rifle"
+secondary = "pistol"
+armor = "combat_armor_standard"
+grenades = ["hand_grenade"]
+
+[[unit]]
+id = "soldier_sergeant"
+name = "Sergeant"
+description = "Squad leader with leadership abilities"
+type = "soldier"
+faction = "xcom"
+side = "human"
+image = "units/soldier.png"
+rank = "sergeant"
+
+[unit.stats]
+health = 40
+armor = 0
+will = 70
+reaction = 60
+shooting = 60
+throwing = 50
+strength = 60
+psionic_power = 0
+psionic_defense = 50
+
+[unit.abilities]
+leadership = "command_aura"
+
+[unit.equipment]
+primary = "rifle"
+secondary = "pistol"
+armor = "combat_armor_heavy"
+grenades = ["hand_grenade", "proximity_grenade"]
+
+[[unit]]
+id = "soldier_heavy"
+name = "Heavy Weapons Specialist"
+description = "Soldier trained with heavy weapons"
+type = "heavy"
+faction = "xcom"
+side = "human"
+image = "units/heavy.png"
+rank = "squaddie"
+
+[unit.stats]
+health = 45
+armor = 5
+will = 60
+reaction = 45
+shooting = 60
+throwing = 40
+strength = 65
+psionic_power = 0
+psionic_defense = 40
+
+[unit.equipment]
+primary = "machine_gun"
+secondary = "pistol"
+armor = "combat_armor_heavy"
+grenades = ["hand_grenade", "minirocket"]
+
+[[unit]]
+id = "soldier_sniper"
+name = "Sniper"
+description = "Long-range specialist with precision aim"
+type = "sniper"
+faction = "xcom"
+side = "human"
+image = "units/sniper.png"
+rank = "squaddie"
+
+[unit.stats]
+health = 30
+armor = 0
+will = 65
+reaction = 55
+shooting = 75
+throwing = 40
+strength = 50
+psionic_power = 0
+psionic_defense = 45
+
+[unit.equipment]
+primary = "sniper_rifle"
+secondary = "pistol"
+armor = "combat_armor_light"
+grenades = ["hand_grenade"]
+
+[[unit]]
+id = "soldier_support"
+name = "Support Specialist"
+description = "Medic and support role specialist"
+type = "support"
+faction = "xcom"
+side = "human"
+image = "units/medic.png"
+rank = "squaddie"
+
+[unit.stats]
+health = 32
+armor = 0
+will = 70
+reaction = 50
+shooting = 50
+throwing = 45
+strength = 50
+psionic_power = 0
+psionic_defense = 50
+
+[unit.abilities]
+healing = "field_medic"
+support = "resupply"
+
+[unit.equipment]
+primary = "rifle"
+secondary = "pistol"
+armor = "combat_armor_standard"
+grenades = ["hand_grenade", "smoke_grenade"]

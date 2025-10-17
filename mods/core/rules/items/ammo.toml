@@ -1,0 +1,46 @@
+# Ammunition Definitions
+
+[[ammo]]
+id = "rifle_ammo"
+name = "Rifle Ammunition"
+description = "Standard rifle cartridges"
+type = "ballistic"
+quantity = 50
+cost = 50
+tech_level = "conventional"
+
+[[ammo]]
+id = "pistol_ammo"
+name = "Pistol Ammunition"
+description = "Standard pistol cartridges"
+type = "ballistic"
+quantity = 30
+cost = 30
+tech_level = "conventional"
+
+[[ammo]]
+id = "rocket"
+name = "Rocket"
+description = "Explosive rocket projectile"
+type = "explosive"
+quantity = 1
+cost = 500
+tech_level = "conventional"
+
+[[ammo]]
+id = "plasma_cartridge"
+name = "Plasma Cartridge"
+description = "Alien plasma power cartridge"
+type = "energy"
+quantity = 100
+cost = 0
+tech_level = "plasma"
+
+[[ammo]]
+id = "laser_power_pack"
+name = "Laser Power Pack"
+description = "Charged laser power cell"
+type = "energy"
+quantity = 100
+cost = 200
+tech_level = "laser"

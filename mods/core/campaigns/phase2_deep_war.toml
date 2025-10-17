@@ -1,0 +1,55 @@
+# Phase 2: Deep War (2001-2002)
+# Aquatic species emergence, underwater threats (USO)
+
+[phase]
+id = "phase2_deep_war"
+name = "Deep War"
+description = "Alien aquatic species emerge from Earth's oceans. Face underwater threats and adapt to new battlegrounds."
+start_year = 2001
+end_year = 2002
+phase_number = 2
+status = "expansion"
+
+[timeline]
+milestones = [
+    "aquatic_emergence",
+    "uso_threat"
+]
+
+[factions]
+active = [
+    "faction_mutons",
+    "faction_ethereals",
+    "faction_gill_men",
+    "faction_aquatic_colony",
+    "xcom"
+]
+
+[missions]
+types = [
+    "submarine_raid",
+    "underwater_investigation",
+    "coastal_defense",
+    "island_assault",
+    "deep_sea_exploration"
+]
+
+[enemy_types]
+common = ["gill_man_soldier", "aquatic_drone"]
+rare = ["muton_deep", "ethereal_water"]
+boss = ["aquatic_overlord"]
+
+[technology]
+available = [
+    "aquatic_adaptation",
+    "submarine_tech",
+    "pressure_suits",
+    "sonar_systems"
+]
+
+[gameplay]
+tech_level = "advanced_plasma"
+difficulty_scaling = 1.2
+alien_visibility = "high"
+new_environments = ["underwater", "coastal"]
+environmental_effects = ["pressure", "water_current"]

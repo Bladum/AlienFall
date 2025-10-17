@@ -1,0 +1,30 @@
+# Example: Heavy Weapons Specialist
+# Tank-like unit with high health and heavy armament
+# Template for creating support/heavy unit roles
+
+[[unit]]
+id = "example_heavy_weapons"
+name = "Heavy Weapons Specialist"
+type = "soldier"
+rank = "sergeant"
+experience = 40
+
+[unit.stats]
+health = 130
+action_points = 7
+accuracy = 55
+time_units = 45
+strength = 60
+reactions = 40
+bravery = 70
+
+[unit.abilities]
+heavy_weapons_training = "support_firepower"
+suppressive_fire = "spray_attack"
+
+[unit.equipment]
+primary_weapon = "ballistic_heavy_gun"
+armor = "reinforced_tactical_suit"
+special_equipment = "ammo_pack"
+
+description = "Heavy weapons specialist with high HP and strength. Lower accuracy but devastating firepower. Perfect for suppression."

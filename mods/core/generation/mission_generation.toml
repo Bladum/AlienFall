@@ -1,0 +1,190 @@
+# Mission Generation Configuration
+# Mission randomization, enemy placement, and reinforcement parameters
+
+[mission_generation]
+# Mission types
+mission_types = ["crash", "landing", "terror", "base_assault", "supply"]
+
+# Crash site missions
+[mission.crash]
+description = "Intercept and capture crashed UFO"
+default_difficulty = 3
+enemy_types = ["sectoid", "muton", "cyberdisc"]
+min_enemies = 3
+max_enemies = 8
+reinforcements_enabled = false
+objective_types = ["extract_artifacts", "capture_aliens", "secure_area"]
+
+# Landing site missions
+[mission.landing]
+description = "Intercept alien landing and deployment"
+default_difficulty = 4
+enemy_types = ["sectoid", "floater", "muton", "ethereal"]
+min_enemies = 6
+max_enemies = 12
+reinforcements_enabled = true
+reinforcement_waves = 2
+reinforcement_timing = [30, 60]  # Turns between reinforcements
+objective_types = ["prevent_deployment", "capture_commander", "extract_intel"]
+
+# Terror site missions
+[mission.terror]
+description = "Defend city from alien assault"
+default_difficulty = 5
+enemy_types = ["sectoid", "floater", "muton", "zombie"]
+min_enemies = 8
+max_enemies = 15
+reinforcements_enabled = true
+reinforcement_waves = 3
+reinforcement_timing = [20, 40, 60]
+civilian_count_min = 10
+civilian_count_max = 30
+objective_types = ["protect_civilians", "eliminate_threats", "secure_zone"]
+
+# Alien base assault missions
+[mission.base_assault]
+description = "Assault alien underground base"
+default_difficulty = 6
+enemy_types = ["sectoid", "muton", "ethereal", "chryssalid"]
+min_enemies = 10
+max_enemies = 20
+reinforcements_enabled = true
+reinforcement_waves = 4
+reinforcement_timing = [25, 50, 75, 100]
+objective_types = ["destroy_power_core", "eliminate_commander", "extract_research"]
+
+# Supply ship interception missions
+[mission.supply]
+description = "Intercept alien supply ship"
+default_difficulty = 4
+enemy_types = ["sectoid", "muton", "drone"]
+min_enemies = 5
+max_enemies = 10
+reinforcements_enabled = true
+reinforcement_waves = 2
+reinforcement_timing = [35, 70]
+objective_types = ["capture_supplies", "eliminate_crew", "secure_vessel"]
+
+# Enemy placement rules
+[enemy_placement]
+# Placement algorithms
+algorithm = "force_directed"  # Options: force_directed, grid, random, strategic
+grid_cell_size = 10
+
+# Distance from player spawn
+minimum_enemy_distance = 10
+maximum_enemy_distance = 40
+preferred_enemy_distance = 20
+
+# Density variations
+sparse_density = 0.15
+normal_density = 0.30
+dense_density = 0.50
+
+# Grouping behavior
+enable_squad_grouping = true
+squad_size_min = 2
+squad_size_max = 4
+squad_cohesion_range = 8
+
+# Leader placement
+leader_squad_size = 4
+leader_always_present = true
+
+# Reinforcement system
+[reinforcements]
+enabled = true
+wave_scaling = 1.2  # Each wave is 20% larger
+deployment_edge_probability = 0.80
+deployment_edges = ["north", "south", "east", "west"]
+deployment_spacing = 5
+
+# Early reinforcements (turn 15-30)
+early_wave_probability = 0.40
+early_wave_size_multiplier = 0.8
+
+# Mid reinforcements (turn 30-60)
+mid_wave_probability = 0.70
+mid_wave_size_multiplier = 1.0
+
+# Late reinforcements (turn 60+)
+late_wave_probability = 0.50
+late_wave_size_multiplier = 1.2
+
+# Objective placement
+[objectives]
+objective_minimum_distance_player = 15
+objective_maximum_distance_player = 35
+objective_types = [
+    "extract_artifact",
+    "capture_alien",
+    "eliminate_target",
+    "protect_npc",
+    "secure_zone",
+    "destroy_structure"
+]
+
+# Extract artifact missions
+artifact_spawn_count = 1
+artifact_spawn_probability = 0.80
+artifact_always_near_aliens = true
+
+# Capture missions
+capture_target_types = ["commander", "scientist", "engineer"]
+capture_target_always_present = true
+
+# Eliminate missions
+eliminate_target_count = 1
+eliminate_target_difficulty = "heroic"
+
+# Protect missions
+npc_spawn_count_min = 1
+npc_spawn_count_max = 5
+npc_spawn_near_player = true
+npc_has_ai = true
+
+# Victory conditions
+[victory_conditions]
+# Turn limits
+easy_turn_limit = 30
+normal_turn_limit = 25
+heroic_turn_limit = 20
+ironman_turn_limit = 15
+
+# Casualty limits
+easy_casualty_limit = 3
+normal_casualty_limit = 2
+heroic_casualty_limit = 1
+ironman_casualty_limit = 0  # Permadeath mode
+
+# Failure conditions
+[failure_conditions]
+# All player units eliminated
+all_units_eliminated = true
+
+# Objective failures
+objective_timeout_turns = 30
+objective_protection_failure = true
+objective_capture_failure = true
+
+# Civilian casualties (terror missions)
+civilian_casualty_limit_easy = 50
+civilian_casualty_limit_normal = 20
+civilian_casualty_limit_heroic = 10
+
+# Difficulty scaling
+[difficulty_scaling]
+easy_enemy_reduction = 0.70
+normal_enemy_count = 1.0
+heroic_enemy_increase = 1.30
+ironman_enemy_increase = 1.50
+
+easy_reinforcement_probability = 0.30
+normal_reinforcement_probability = 0.70
+heroic_reinforcement_probability = 0.90
+ironman_reinforcement_probability = 0.95
+
+easy_turn_limit_increase = 1.50
+normal_turn_limit = 1.0
+heroic_turn_limit_decrease = 0.80
+ironman_turn_limit_decrease = 0.60

@@ -1,0 +1,108 @@
+# Narrative Hooks: Interrogation Events
+# Triggered when alien interrogations yield strategic information
+
+[[narrative_event]]
+id = "interrogation_sectoid_origins"
+title = "Sectoid Interrogation: Origins Revealed"
+trigger_type = "interrogation_complete"
+trigger_id = "sectoid"
+description = "Interrogating a Sectoid reveals shocking information about their origin"
+lore_entry = """
+Through psychic scanning of a cooperative Sectoid, we discover troubling truths:
+
+The Sectoid species originated in the Zeta Reticuli system, light-years from Earth. Their civilization is ancient—thousands of years old. Their invasive species are custom-bred warriors, not an entire civilization.
+
+Most disturbing: the Sectoids show deference to an unknown higher power. They speak of "the Ethereals" as cosmic creators. They believe they're not in command of this invasion—they're merely executors of a larger strategy.
+
+Our interrogation is cut short when the Sectoid goes catatonic. We cannot determine who these Ethereals are or where they originate. But their existence suggests we're facing a conflict far larger than we imagined.
+"""
+unlocks = ["ethereal_threat_assessment", "cosmic_warfare_theory"]
+encyclopedia_category = "alien_leadership"
+priority = 90
+
+[[narrative_event]]
+id = "interrogation_muton_origins"
+title = "Muton Interrogation: Genetically Engineered Soldiers"
+trigger_type = "interrogation_complete"
+trigger_id = "muton"
+description = "A captured Muton provides intel about genetic engineering and alien warfare doctrine"
+lore_entry = """
+Unlike Sectoids, Mutons are less telepathic but more brutally direct. Through enhanced interrogation techniques, we extract valuable military intelligence:
+
+The Mutons are grown in biological vats, not born naturally. Each Muton is engineered for combat: enhanced muscle mass, accelerated reflexes, specialized armor plating. They're biological weapons—perfect soldiers in the alien arsenal.
+
+Most chilling: Muton intelligence suggests hundreds of them wait off-world, ready for deployment. If they bring their entire army to Earth, our conventional military stands no chance.
+
+The interrogated Muton dies rather than reveal higher-level command structure. But before dying, it communicates one phrase repeatedly: "Ethereal dawn." We have no idea what it means.
+"""
+unlocks = ["muton_threat_assessment", "genetic_engineering_warning"]
+encyclopedia_category = "alien_combat_doctrine"
+priority = 85
+
+[[narrative_event]]
+id = "interrogation_sectoid_psionics"
+title = "Sectoid Interrogation: Psionic Warfare Decoded"
+trigger_type = "interrogation_complete"
+trigger_id = "sectoid_leader"
+description = "Sectoid Leader reveals terrifying psychic capabilities and control methods"
+lore_entry = """
+A captured Sectoid Leader is surprisingly cooperative during questioning. Through translation of psionic impressions, we learn:
+
+Sectoids use psychic abilities not just for communication but for strategic coordination. All Sectoid units in a deployment remain mentally linked through a central psychic hub. Eliminate the leader, and the connection breaks.
+
+Most terrifying: Sectoids consider human minds ripe for control. They believe humans lack psychic defenses and can be enslaved through continuous psionic exposure. They view human subjugation as inevitable—only a matter of time.
+
+The captured leader's final message: "Your mind-prison will fall. Ethereal inevitability cannot be refused."
+
+Research teams immediately begin developing psionic shielding technology to protect soldiers from mind control.
+"""
+unlocks = ["psionic_combat_tactics", "neural_shield_research"]
+encyclopedia_category = "psionic_warfare"
+priority = 92
+
+[[narrative_event]]
+id = "interrogation_alien_mission"
+title = "Captured Alien Reveals Mission Objectives"
+trigger_type = "interrogation_complete"
+trigger_id = "alien_commander"
+description = "High-ranking alien operative divulges specific strategic objectives"
+lore_entry = """
+A captured alien commander (species unknown) provides unprecedented strategic intelligence before committing suicide rather than continue captivity:
+
+Mission objectives discovered:
+1. Acquire genetic material from 50,000+ humans for unknown purposes
+2. Establish mining operations in North Africa and Middle East regions
+3. Retrieve specific technological artifacts from ancient Earth sites
+4. Eliminate the UN military coordination center if discovered
+5. Establish permanent extraterrestrial bases in Asia-Pacific region
+
+Timeline: Full planetary conquest expected within 18 months.
+
+The intelligence is shocking. The aliens aren't simply conquering—they're executing a detailed strategic plan with specific objectives. They know about our military command structure. They're planning to neutralize us systematically.
+
+All military forces are placed on highest alert. New Year's Eve 2004 deadline imposed for achieving defensive capability.
+"""
+unlocks = ["alien_strategic_assessment", "total_war_preparation"]
+encyclopedia_category = "strategic_threat_assessment"
+priority = 95
+
+[[narrative_event]]
+id = "interrogation_ethical_dilemma"
+title = "Interrogation: Ethical Boundary Questioned"
+trigger_type = "interrogation_complete"
+trigger_id = "alien_civilian"
+description = "Capture of non-combatant alien raises ethical questions about warfare"
+lore_entry = """
+Our forces inadvertently capture an alien non-combatant—apparently a technician or scientist rather than soldier. Unlike military aliens, this one begs for mercy.
+
+Through slow communication, we learn: this alien species doesn't want war with Earth. The invasion is being forced upon them by the Ethereals—an empire they cannot resist. They're enslaved, just as we're being invaded.
+
+This creates an ethical dilemma. Military leaders demand intelligence extraction by any means. Humanitarian leaders argue this alien is a prisoner of war and deserves protection under international convention.
+
+The debate exposes deep divisions in the UN. Some nations advocate for total war and genocide against all aliens. Others suggest diplomatic negotiation. The alien is eventually released, but not before military intelligence extracts critical information about alien government structure.
+
+The incident reveals uncomfortable truth: the aliens aren't unified in their invasion. Some resist. Some obey out of fear. The enemy isn't monolithic.
+"""
+unlocks = ["alien_political_factions", "diplomatic_possibility"]
+encyclopedia_category = "ethical_dilemma"
+priority = 60

@@ -1,0 +1,64 @@
+# Geoscape World Configuration
+# Defines the primary game world (Earth) with hex grid and time settings
+
+[[world]]
+id = "earth"
+name = "Earth"
+description = "Primary operational theater - Planet Earth"
+
+# Hex Grid Settings
+[world.hex_grid]
+width = 80         # Hex columns
+height = 40        # Hex rows
+hexSize = 12       # Pixels per hex
+scale = 500        # km per hex tile
+
+# Calendar Settings
+[world.calendar]
+startYear = 1996
+startMonth = 1
+startDay = 1
+daysPerWeek = 6
+daysPerMonth = 30
+monthsPerYear = 12
+
+# Day/Night Cycle
+[world.daynight]
+enabled = true
+speed = 4          # Rotation speed
+coverage = 0.5     # How much of world is in darkness at any time
+
+# Strategic Settings
+[world.strategic]
+initialFunding = 10000
+monthlyFunding = 5000
+startingBaseLocation = "province_california"
+startingCrafts = 1
+
+# Visualization
+[world.visual]
+backgroundColor = { r = 0.1, g = 0.1, b = 0.2 }
+foregroundColor = { r = 1.0, g = 1.0, b = 1.0 }
+hexColor = { r = 0.3, g = 0.3, b = 0.5 }
+selectedColor = { r = 1.0, g = 0.8, b = 0.0 }
+highlightColor = { r = 0.0, g = 1.0, b = 0.0 }
+
+# Province Distribution Reference
+[world.regions]
+north_america = "provinces: california, nevada, utah, colorado, texas, florida, east_coast, canada, oregon, mexico"
+central_america = "provinces: central_america, caribbean"
+south_america = "provinces: south_america_n, south_america_c, south_america_s"
+europe = "provinces: uk, western_europe, central_europe, eastern_europe"
+africa = "provinces: north_africa, central_africa, south_africa"
+middle_east = "provinces: middle_east"
+asia = "provinces: south_asia, central_asia, russia, east_asia, japan, southeast_asia"
+oceania = "provinces: australia, oceania"
+polar = "provinces: arctic, antarctica"
+oceanic = "provinces: atlantic, pacific, indian_ocean"
+
+# Strategic Importance
+[world.strategic_zones]
+high_value = ["province_east_coast", "province_east_asia", "province_south_asia", "province_central_europe", "province_middle_east"]
+resource_rich = ["province_middle_east", "province_southeast_asia", "province_south_africa"]
+defensive = ["province_arctic", "province_antarctica"]
+trade_routes = ["province_atlantic", "province_pacific", "province_indian_ocean"]

@@ -1,0 +1,47 @@
+# Strategic Mission Definitions
+# Geoscape missions
+
+[[mission]]
+id = "council_battle"
+name = "Council Battle"
+description = "Defend council nation from invasion"
+type = "strategic"
+reward_experience = 100
+reward_credits = 500
+council_approval = 25
+
+[[mission]]
+id = "ufo_interception"
+name = "UFO Interception"
+description = "Intercept UFO over territory"
+type = "strategic"
+reward_experience = 150
+reward_credits = 800
+council_approval = 20
+
+[[mission]]
+id = "research_mission"
+name = "Research Expedition"
+description = "Gather scientific data from site"
+type = "strategic"
+reward_experience = 100
+reward_credits = 300
+research_boost = 1.2
+
+[[mission]]
+id = "supply_raid"
+name = "Supply Raid"
+description = "Retrieve strategic supplies"
+type = "strategic"
+reward_experience = 80
+reward_credits = 600
+supply_type = "ammunition"
+
+[[mission]]
+id = "diplomatic_mission"
+name = "Diplomatic Mission"
+description = "Negotiate with local faction"
+type = "strategic"
+reward_experience = 60
+reward_credits = 400
+alliance_value = 15

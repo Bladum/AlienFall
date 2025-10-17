@@ -1,0 +1,88 @@
+# Tactical Mission Definitions
+# Battlescape missions
+
+[[mission]]
+id = "terror_attack"
+name = "Terror Attack"
+description = "Defend a city from alien invasion"
+type = "tactical"
+difficulty = 3
+squad_size = 6
+time_limit = 20
+map_size = "large"
+enemy_types = ["sectoid_soldier", "sectoid_leader", "floater"]
+enemy_count = 8
+reward_experience = 200
+reward_credits = 500
+
+[[mission]]
+id = "crash_recovery"
+name = "Crash Recovery"
+description = "Recover materials from crashed UFO"
+type = "tactical"
+difficulty = 4
+squad_size = 6
+time_limit = 25
+map_size = "large"
+enemy_types = ["muton_soldier", "muton_berserker", "ethereal"]
+enemy_count = 10
+reward_experience = 300
+reward_credits = 1000
+
+[[mission]]
+id = "abduction_site"
+name = "Abduction Site"
+description = "Stop alien abduction at civilian location"
+type = "tactical"
+difficulty = 2
+squad_size = 4
+time_limit = 15
+map_size = "medium"
+enemy_types = ["sectoid_soldier", "floater"]
+enemy_count = 6
+civilian_count = 3
+reward_experience = 150
+reward_credits = 300
+
+[[mission]]
+id = "facility_raid"
+name = "Alien Facility Raid"
+description = "Assault an alien research facility"
+type = "tactical"
+difficulty = 5
+squad_size = 8
+time_limit = 30
+map_size = "extra_large"
+enemy_types = ["sectoid_soldier", "sectoid_leader", "muton_soldier", "ethereal"]
+enemy_count = 15
+reward_experience = 400
+reward_credits = 2000
+
+[[mission]]
+id = "base_defense"
+name = "Base Defense"
+description = "Defend XCOM base from assault"
+type = "tactical"
+difficulty = 4
+squad_size = 8
+time_limit = 20
+map_size = "large"
+enemy_types = ["muton_soldier", "muton_berserker", "chryssalid"]
+enemy_count = 12
+reward_experience = 350
+reward_credits = 1500
+
+[[mission]]
+id = "escort_mission"
+name = "VIP Escort"
+description = "Protect and escort a VIP to extraction"
+type = "tactical"
+difficulty = 3
+squad_size = 5
+time_limit = 18
+map_size = "medium"
+enemy_types = ["sectoid_soldier", "floater"]
+enemy_count = 8
+civilian_count = 1
+reward_experience = 200
+reward_credits = 600

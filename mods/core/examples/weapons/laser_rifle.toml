@@ -1,0 +1,32 @@
+# Example: Laser Rifle
+# Energy-based weapon using advanced power systems
+# Template for creating laser weapon variants
+
+[[weapon]]
+id = "example_laser_rifle"
+name = "Military Laser Rifle"
+phase = "phase1"
+category = "laser_rifle"
+type = "energy"
+research_required = ["research_laser_weapons"]
+cost_manufacturing = 2500
+damage = 35
+damage_type = "laser"
+armor_penetration = 20
+accuracy = 75
+range = 30
+fire_rate = 2
+capacity = 30
+weight = 3.5
+description = "Energy-based laser weapon. No ammunition consumption, consistent damage. Superior accuracy compared to ballistic."
+
+[[technology]]
+id = "example_laser_research"
+name = "Laser Weapons Technology"
+phase = "phase1"
+category = "weapons"
+description = "Research into directed laser weaponry. Enables energy-based combat systems."
+prerequisites = []
+research_cost = 2000
+research_time_days = 14
+unlock_items = ["example_laser_rifle"]

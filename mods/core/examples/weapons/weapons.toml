@@ -1,0 +1,171 @@
+# Weapon Examples
+# Reference weapons for modders creating custom equipment
+
+# Ballistic Weapons
+[[weapon]]
+id = "example_rifle_basic"
+name = "Example Assault Rifle"
+type = "ballistic"
+category = "rifle"
+damage = 20
+accuracy = 60
+range = 20
+fire_rate = 3
+description = "Standard ballistic rifle. Good all-around weapon for generic soldiers."
+
+# Laser Weapons
+[[weapon]]
+id = "example_laser_rifle"
+name = "Example Laser Rifle"
+type = "laser"
+category = "energy"
+damage = 35
+accuracy = 75
+range = 30
+fire_rate = 2
+description = "Energy weapon. Good penetration, no ammunition concerns."
+
+# Plasma Weapons
+[[weapon]]
+id = "example_plasma_rifle"
+name = "Example Plasma Rifle"
+type = "plasma"
+category = "exotic"
+damage = 45
+accuracy = 70
+range = 28
+fire_rate = 2
+armor_penetration = 25
+description = "Alien plasma technology. High damage, requires power management."
+
+# Gauss Weapons
+[[weapon]]
+id = "example_gauss_rifle"
+name = "Example Gauss Rifle"
+type = "gauss"
+category = "kinetic"
+damage = 50
+accuracy = 80
+range = 35
+fire_rate = 1
+armor_penetration = 30
+description = "Advanced kinetic weapon. High accuracy and penetration, slow fire rate."
+
+# Experimental/Exotic
+[[weapon]]
+id = "example_sonic_cannon"
+name = "Example Sonic Cannon"
+type = "sonic"
+category = "exotic"
+damage = 40
+accuracy = 65
+range = 25
+fire_rate = 1
+armor_penetration = 15
+area_of_effect = 3
+description = "Experimental sonic weapon. Lower accuracy but area damage."
+
+# Armor Examples
+[[armor]]
+id = "example_armor_ballistic"
+name = "Example Ballistic Armor"
+armor_class = 2
+armor_protection = 25
+weight = 8
+description = "Standard protective gear against bullets and shrapnel."
+
+[[armor]]
+id = "example_armor_power_suit"
+name = "Example Power Suit"
+armor_class = 4
+armor_protection = 50
+weight = 20
+special_abilities = ["strength_boost", "environmental_protection"]
+description = "Mechanized power armor. Enhanced strength and full environmental protection."
+
+[[armor]]
+id = "example_armor_alien_alloy"
+name = "Example Alien Alloy Armor"
+armor_class = 5
+armor_protection = 60
+weight = 12
+special_abilities = ["energy_resistance", "durability"]
+description = "Advanced armor made from alien materials. Superior protection."
+
+# Ammunition/Magazine Examples
+[[equipment]]
+id = "example_magazine_rifle"
+name = "Rifle Magazine"
+type = "ammo"
+max_uses = 1
+weight = 0.5
+description = "Standard magazine for rifles. Provides 30 rounds."
+
+[[equipment]]
+id = "example_magazine_extended"
+name = "Extended Magazine"
+type = "ammo"
+max_uses = 1
+weight = 0.8
+capacity_bonus = 50
+description = "Extended capacity magazine. Holds 45 rounds."
+
+# Grenade Examples
+[[equipment]]
+id = "example_grenade_frag"
+name = "Fragmentation Grenade"
+type = "grenade"
+max_uses = 1
+weight = 0.5
+damage = 35
+area_of_effect = 6
+description = "Explosive fragmentation grenade. Area damage effect."
+
+[[equipment]]
+id = "example_grenade_stun"
+name = "Stun Grenade"
+type = "grenade"
+max_uses = 1
+weight = 0.4
+stun_duration = 2
+area_of_effect = 8
+description = "Non-lethal stun grenade. Temporary incapacitation effect."
+
+# Medical Equipment
+[[equipment]]
+id = "example_medkit"
+name = "Medical Kit"
+type = "medical"
+max_uses = 5
+weight = 1.5
+healing_amount = 30
+special_effects = ["stops_bleeding"]
+description = "First aid kit for stabilizing and healing wounded soldiers."
+
+[[equipment]]
+id = "example_medkit_advanced"
+name = "Advanced Medical Kit"
+type = "medical"
+max_uses = 8
+weight = 2.0
+healing_amount = 50
+special_effects = ["stops_bleeding", "cures_poison"]
+description = "Improved medical kit with alien-derived compounds."
+
+# Tactical Equipment
+[[equipment]]
+id = "example_motion_scanner"
+name = "Motion Scanner"
+type = "tactical"
+weight = 1.5
+detection_range = 20
+description = "Handheld sensor detects movement in range."
+
+[[equipment]]
+id = "example_psi_amp"
+name = "Psionic Amplifier"
+type = "psionic"
+weight = 2.0
+psi_range = 25
+psi_strength = 1.5
+description = "Device that amplifies psionic abilities."

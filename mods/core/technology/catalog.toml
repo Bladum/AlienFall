@@ -1,0 +1,137 @@
+# Technology Catalog - Research Tree Progression
+# Phase-based technology progression
+
+[tech_phase0]
+# Shadow War Technologies (starting phase)
+
+[[tech_phase0.technologies]]
+id = "basic_weapons"
+name = "Standard Firearms"
+description = "Military-grade ballistic weapons"
+phase = 0
+research_time = 3600
+cost = 500
+prerequisites = []
+unlocks = []
+startUnlocked = true
+
+[[tech_phase0.technologies]]
+id = "conventional_armor"
+name = "Combat Armor"
+description = "Heavy protective armor with enhanced plating"
+phase = 0
+research_time = 5400
+cost = 800
+prerequisites = []
+unlocks = []
+startUnlocked = true
+
+[[tech_phase0.technologies]]
+id = "stun_rod"
+name = "Stun Rod Technology"
+description = "Non-lethal subdual weapon"
+phase = 0
+research_time = 7200
+cost = 1200
+prerequisites = ["basic_weapons"]
+unlocks = []
+startUnlocked = false
+
+[tech_phase1]
+# Sky War Technologies (alien invasion)
+
+[[tech_phase1.technologies]]
+id = "plasma_research"
+name = "Plasma Weapon Research"
+description = "Reverse-engineered plasma technology"
+phase = 1
+research_time = 14400
+cost = 5000
+prerequisites = ["alien_artifacts"]
+unlocks = ["plasma_rifle", "plasma_pistol"]
+startUnlocked = false
+alien_required = true
+
+[[tech_phase1.technologies]]
+id = "alien_artifacts"
+name = "Alien Artifact Analysis"
+description = "Scientific study of recovered alien technology"
+phase = 1
+research_time = 10800
+cost = 3000
+prerequisites = ["basic_weapons"]
+unlocks = ["plasma_research", "alien_armor"]
+startUnlocked = false
+
+[[tech_phase1.technologies]]
+id = "plasma_rifle"
+name = "Plasma Rifle"
+description = "High-powered plasma weapon, equivalent to three bullets"
+phase = 1
+research_time = 18000
+cost = 7500
+prerequisites = ["plasma_research"]
+unlocks = []
+startUnlocked = false
+alien_required = true
+
+[[tech_phase1.technologies]]
+id = "alien_armor"
+name = "Alien Armor Study"
+description = "Understanding alien biological armor structures"
+phase = 1
+research_time = 12000
+cost = 4000
+prerequisites = ["alien_artifacts"]
+unlocks = ["advanced_armor"]
+startUnlocked = false
+
+[tech_phase2]
+# Deep War Technologies
+
+[[tech_phase2.technologies]]
+id = "submarine_tech"
+name = "Submarine Technology"
+description = "Deep sea exploration and combat vehicles"
+phase = 2
+research_time = 21600
+cost = 12000
+prerequisites = ["alien_armor"]
+unlocks = []
+startUnlocked = false
+
+[[tech_phase2.technologies]]
+id = "deep_excavation"
+name = "Deep Excavation Techniques"
+description = "Mining and exploration equipment for underground bases"
+phase = 2
+research_time = 18000
+cost = 10000
+prerequisites = ["plasma_research"]
+unlocks = []
+startUnlocked = false
+
+[tech_phase3]
+# Dimensional War Technologies
+
+[[tech_phase3.technologies]]
+id = "dimensional_tech"
+name = "Dimensional Research"
+description = "Understanding dimensional rifts and barriers"
+phase = 3
+research_time = 28800
+cost = 20000
+prerequisites = ["plasma_research", "advanced_armor"]
+unlocks = ["reality_anchors"]
+startUnlocked = false
+
+[[tech_phase3.technologies]]
+id = "reality_anchors"
+name = "Reality Anchors"
+description = "Devices to stabilize dimensional rifts"
+phase = 3
+research_time = 25200
+cost = 18000
+prerequisites = ["dimensional_tech"]
+unlocks = []
+startUnlocked = false

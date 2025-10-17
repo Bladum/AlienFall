@@ -1,0 +1,42 @@
+# Campaign Phases Configuration
+# Defines the 4 campaign phases with thresholds, threats, and transitions
+
+[phase0]
+id = "shadow_war"
+name = "Shadow War"
+description = "Supernatural events, government denial, conspiracy"
+minTime = 0
+threatCap = 0.4
+factions = ["supernatural_entities"]
+startTechnologies = ["basic_weapons", "conventional_armor"]
+victoryCondition = "reach_50_threat_or_300_days"
+
+[phase1]
+id = "sky_war"
+name = "Sky War"
+description = "Alien invasion begins, UFO waves, public panic"
+minTime = 86400
+threatCap = 0.7
+factions = ["terrestrial_aliens", "reticulan_cabal"]
+startTechnologies = ["plasma_research", "alien_artifacts"]
+victoryCondition = "alien_activity_below_30"
+
+[phase2]
+id = "deep_war"
+name = "Deep War"
+description = "Underwater threats, underground operations, depth exploration"
+minTime = 172800
+threatCap = 0.9
+factions = ["aquatic_species", "reticulan_cabal"]
+startTechnologies = ["submarine_tech", "deep_excavation"]
+victoryCondition = "aquatic_base_destroyed"
+
+[phase3]
+id = "dimensional_war"
+name = "Dimensional War"
+description = "Reality tears, dimensional rifts, otherworldly threats"
+minTime = 259200
+threatCap = 1.0
+factions = ["dimensional_species"]
+startTechnologies = ["dimensional_tech", "reality_anchors"]
+victoryCondition = "seal_all_rifts"

@@ -1,0 +1,155 @@
+# Facility Examples
+# Reference base facilities for modders
+
+# Personnel Facilities
+[[facility]]
+id = "example_barracks"
+name = "Example Barracks"
+type = "personnel"
+category = "housing"
+cost = 2000
+build_days = 14
+maintenance = 100
+capacity = 50
+description = "Military barracks for housing and training troops."
+
+[[facility]]
+id = "example_quarters"
+name = "Example Quarters"
+type = "personnel"
+category = "housing"
+cost = 1500
+build_days = 10
+maintenance = 75
+capacity = 30
+happiness_bonus = 10
+description = "Officer quarters. Better morale than barracks."
+
+# Research Facilities
+[[facility]]
+id = "example_laboratory"
+name = "Example Laboratory"
+type = "research"
+category = "science"
+cost = 3000
+build_days = 21
+maintenance = 150
+research_speed = 1.0
+description = "General research facility for studying alien technology."
+
+[[facility]]
+id = "example_laser_lab"
+name = "Example Laser Lab"
+type = "research"
+category = "science"
+cost = 4000
+build_days = 21
+maintenance = 180
+research_speed = 1.5
+specialization = "laser_weapons"
+description = "Specialized laboratory for laser weapons research."
+
+[[facility]]
+id = "example_plasma_lab"
+name = "Example Plasma Lab"
+type = "research"
+category = "science"
+cost = 5500
+build_days = 28
+maintenance = 250
+research_speed = 1.8
+specialization = "plasma_weapons"
+description = "Advanced facility for alien plasma technology research."
+
+# Storage Facilities
+[[facility]]
+id = "example_armory"
+name = "Example Armory"
+type = "storage"
+category = "inventory"
+cost = 1500
+build_days = 10
+maintenance = 75
+storage_capacity = 200
+description = "Secure storage for weapons and equipment."
+
+[[facility]]
+id = "example_hangar"
+name = "Example Hangar"
+type = "storage"
+category = "garage"
+cost = 3500
+build_days = 20
+maintenance = 150
+craft_capacity = 3
+description = "Aircraft hangar for storing and maintaining craft."
+
+# Manufacturing Facilities
+[[facility]]
+id = "example_workshop"
+name = "Example Workshop"
+type = "manufacturing"
+category = "production"
+cost = 2500
+build_days = 15
+maintenance = 120
+manufacturing_speed = 1.0
+description = "General workshop for manufacturing equipment and weapons."
+
+[[facility]]
+id = "example_production_line"
+name = "Example Production Line"
+type = "manufacturing"
+category = "production"
+cost = 4000
+build_days = 20
+maintenance = 180
+manufacturing_speed = 1.5
+specialization = "weapons"
+description = "Optimized production line for weapon manufacturing."
+
+# Power/Infrastructure
+[[facility]]
+id = "example_power_plant"
+name = "Example Power Plant"
+type = "infrastructure"
+category = "utility"
+cost = 5000
+build_days = 28
+maintenance = 200
+power_generation = 100
+description = "Nuclear power facility. Enables advanced weapon research."
+
+[[facility]]
+id = "example_radar"
+name = "Example Radar"
+type = "infrastructure"
+category = "detection"
+cost = 2000
+build_days = 14
+maintenance = 100
+detection_range = 50
+description = "Long-range radar for UFO detection."
+
+# Special Facilities
+[[facility]]
+id = "example_psi_chamber"
+name = "Example Psi Chamber"
+type = "special"
+category = "training"
+cost = 3500
+build_days = 18
+maintenance = 140
+psi_training_speed = 1.5
+description = "Facility for developing psychic soldier abilities."
+
+[[facility]]
+id = "example_containment"
+name = "Example Alien Containment"
+type = "special"
+category = "security"
+cost = 4000
+build_days = 20
+maintenance = 160
+containment_capacity = 10
+description = "Secure containment for captured alien specimens and interrogation."

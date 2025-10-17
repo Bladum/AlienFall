@@ -1,0 +1,152 @@
+# Campaign Timeline
+# Master timeline with 18 major milestones from 1996-2004
+
+[campaign_metadata]
+total_campaign_length = 8
+total_milestones = 18
+start_year = 1996
+end_year = 2004
+
+[[milestone]]
+id = "start_private_firm"
+phase = 0
+name = "Private Organization Started"
+year = 1996
+month = 1
+description = "Private paranormal investigation firm founded to investigate X-Files style events"
+
+[[milestone]]
+id = "first_anomalies"
+phase = 0
+name = "First Strange Anomalies"
+year = 1996
+month = 6
+description = "Pattern of unexplained phenomena detected globally"
+
+[[milestone]]
+id = "supernatural_outbreaks"
+phase = 0
+name = "Supernatural Outbreaks"
+year = 1996
+month = 12
+description = "Coordinated supernatural events across multiple continents"
+
+[[milestone]]
+id = "blackops_evidence"
+phase = 0
+name = "Black Ops Evidence Gathering"
+year = 1997
+month = 6
+description = "Military black ops begin collecting classified evidence"
+
+[[milestone]]
+id = "alien_signatures"
+phase = 0
+name = "First Alien Signatures Detected"
+year = 1997
+month = 12
+description = "Technology analysis reveals non-terrestrial origin"
+
+[[milestone]]
+id = "build_network"
+phase = 0
+name = "Covert Network Expansion"
+year = 1998
+month = 6
+description = "International secret network established across 8 countries"
+
+[[milestone]]
+id = "intelligence_spike"
+phase = 0
+name = "Intelligence Spike"
+year = 1998
+month = 12
+description = "Multiple credible UFO sightings and evidence consolidation"
+
+[[milestone]]
+id = "formalize_xcom"
+phase = 0
+name = "XCOM Formally Established"
+year = 1999
+month = 1
+description = "Secret military organization XCOM officially formed"
+
+[[milestone]]
+id = "first_ufo_contact"
+phase = 1
+name = "First UFO Contact"
+year = 1999
+month = 6
+description = "Armed encounter with alien spacecraft over Atlantic"
+
+[[milestone]]
+id = "alien_invasion_begins"
+phase = 1
+name = "Alien Invasion Begins"
+year = 1999
+month = 12
+description = "Coordinated alien invasion across major world cities"
+
+[[milestone]]
+id = "ufo_base_discovered"
+phase = 1
+name = "UFO Base Discovered"
+year = 2000
+month = 6
+description = "First operational alien base located and infiltrated"
+
+[[milestone]]
+id = "interspecies_contact"
+phase = 1
+name = "Interspecies Contact"
+year = 2000
+month = 12
+description = "First communication attempt with alien leadership"
+
+[[milestone]]
+id = "ufo_war_escalation"
+phase = 1
+name = "UFO War Escalation"
+year = 2001
+month = 6
+description = "Increased UFO activity and alien aggression spike"
+
+[[milestone]]
+id = "aquatic_emergence"
+phase = 2
+name = "Aquatic Species Emergence"
+year = 2001
+month = 12
+description = "Discovery of underwater alien research facilities"
+
+[[milestone]]
+id = "uso_threat"
+phase = 2
+name = "Unidentified Submerged Objects (USO) Threat"
+year = 2002
+month = 6
+description = "Systematic USO attacks on coastal facilities begin"
+
+[[milestone]]
+id = "dimensional_rift"
+phase = 3
+name = "Dimensional Rift Event"
+year = 2003
+month = 1
+description = "First dimensional anomaly detected"
+
+[[milestone]]
+id = "dimensional_beings"
+phase = 3
+name = "Dimensional Beings Manifest"
+year = 2003
+month = 6
+description = "Reality-warping entities begin appearing"
+
+[[milestone]]
+id = "final_confrontation"
+phase = 3
+name = "Final Confrontation"
+year = 2004
+month = 12
+description = "Campaign climax - battle for Earth's fate"

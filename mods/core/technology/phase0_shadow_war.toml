@@ -1,0 +1,310 @@
+# Phase 0: Shadow War Technology (1996-1999)
+# Period: 1996-1999
+# Description: Conventional weapons, early experimental systems, initial alien contact response
+
+[[weapon]]
+id = "ballistic_pistol_9mm"
+name = "9mm Pistol"
+phase = "phase0"
+category = "ballistic_pistol"
+type = "projectile"
+cost_manufacturing = 200
+cost_upkeep = 10
+damage = 12
+damage_type = "ballistic"
+armor_penetration = 5
+accuracy = 65
+range = 12
+fire_rate = 2
+capacity = 15
+weight = 2.5
+description = "Standard issue 9mm sidearm. Reliable but limited penetration against armored targets."
+
+[[weapon]]
+id = "ballistic_rifle_assault"
+name = "Assault Rifle"
+phase = "phase0"
+category = "ballistic_rifle"
+type = "projectile"
+cost_manufacturing = 600
+damage = 20
+damage_type = "ballistic"
+armor_penetration = 8
+accuracy = 60
+range = 20
+fire_rate = 3
+capacity = 30
+weight = 3.8
+description = "Military-grade assault rifle. Balanced damage and fire rate. Standard infantry weapon."
+
+[[weapon]]
+id = "ballistic_rifle_sniper"
+name = "Sniper Rifle"
+phase = "phase0"
+category = "ballistic_rifle"
+type = "projectile"
+cost_manufacturing = 1200
+damage = 45
+damage_type = "ballistic"
+armor_penetration = 15
+accuracy = 95
+range = 50
+fire_rate = 1
+capacity = 5
+weight = 4.5
+description = "High-powered precision rifle. Excellent range and damage, but slow rate of fire."
+
+[[weapon]]
+id = "ballistic_shotgun"
+name = "Combat Shotgun"
+phase = "phase0"
+category = "ballistic_shotgun"
+type = "projectile"
+cost_manufacturing = 800
+damage = 30
+damage_type = "ballistic"
+armor_penetration = 5
+accuracy = 40
+range = 8
+fire_rate = 2
+capacity = 8
+weight = 3.5
+description = "Close-range combat weapon. High damage at short range, spread pellets."
+
+[[weapon]]
+id = "ballistic_smg"
+name = "Submachine Gun"
+phase = "phase0"
+category = "ballistic_smg"
+type = "projectile"
+cost_manufacturing = 400
+damage = 15
+damage_type = "ballistic"
+armor_penetration = 4
+accuracy = 50
+range = 15
+fire_rate = 6
+capacity = 25
+weight = 2.8
+description = "High-volume automatic fire. Good for close-quarters and suppression."
+
+[[armor]]
+id = "armor_civilian_clothing"
+name = "Civilian Clothing"
+phase = "phase0"
+category = "civilian"
+armor_class = 0
+armor_protection = 0
+weight = 0
+cost_manufacturing = 0
+special_abilities = []
+description = "Standard civilian attire. Provides no protection."
+
+[[armor]]
+id = "armor_ballistic_vest"
+name = "Ballistic Vest"
+phase = "phase0"
+category = "ballistic"
+armor_class = 1
+armor_protection = 15
+weight = 5
+cost_manufacturing = 300
+special_abilities = []
+description = "Kevlar ballistic vest. Protects against projectile weapons."
+
+[[armor]]
+id = "armor_combat_suit"
+name = "Combat Suit"
+phase = "phase0"
+category = "military"
+armor_class = 2
+armor_protection = 25
+weight = 8
+cost_manufacturing = 800
+special_abilities = ["increased_carrying", "thermal_vision"]
+description = "Military-grade tactical suit with integrated equipment. Enhanced carrying capacity and night vision."
+
+[[armor]]
+id = "armor_power_armor_prototype"
+name = "Power Armor Prototype"
+phase = "phase0"
+category = "experimental"
+armor_class = 3
+armor_protection = 40
+weight = 15
+cost_manufacturing = 2500
+special_abilities = ["strength_boost", "environmental_protection"]
+research_required = ["power_armor_research"]
+description = "Experimental powered exoskeleton. Enhanced strength and environmental protection. Requires research."
+
+[[equipment]]
+id = "equipment_medkit"
+name = "Medical Kit"
+phase = "phase0"
+category = "medical"
+cost_manufacturing = 150
+weight = 1.5
+max_uses = 5
+healing_amount = 30
+special_effects = ["stops_bleeding"]
+description = "Portable medical kit. Stabilizes and heals wounded soldiers."
+
+[[equipment]]
+id = "equipment_grenade_fragmentation"
+name = "Fragmentation Grenade"
+phase = "phase0"
+category = "explosive"
+cost_manufacturing = 50
+weight = 0.5
+max_uses = 1
+damage = 35
+damage_type = "explosive"
+area_of_effect = 6
+description = "Standard military fragmentation grenade. Area damage effect."
+
+[[equipment]]
+id = "equipment_flashbang"
+name = "Flashbang Grenade"
+phase = "phase0"
+category = "tactical"
+cost_manufacturing = 40
+weight = 0.4
+max_uses = 1
+stun_duration = 2
+area_of_effect = 8
+description = "Non-lethal stun grenade. Temporarily blinds and deafens targets."
+
+[[facility]]
+id = "facility_barracks"
+name = "Barracks"
+phase = "phase0"
+category = "personnel"
+cost_manufacturing = 2000
+construction_days = 14
+maintenance_cost = 100
+max_personnel = 50
+bonuses = ["training_speed_increase", "morale_increase"]
+description = "Military barracks for housing and training troops."
+
+[[facility]]
+id = "facility_armory"
+name = "Armory"
+phase = "phase0"
+category = "storage"
+cost_manufacturing = 1500
+construction_days = 10
+maintenance_cost = 75
+equipment_slots = 200
+bonuses = ["equipment_organization"]
+description = "Secure storage for weapons and equipment."
+
+[[facility]]
+id = "facility_laboratory"
+name = "Laboratory"
+phase = "phase0"
+category = "research"
+cost_manufacturing = 3000
+construction_days = 21
+maintenance_cost = 150
+research_speed = 1.0
+bonuses = ["research_efficiency"]
+description = "Research facility for studying captured alien technology."
+
+[[unit]]
+id = "unit_soldier_recruit"
+name = "Recruit Soldier"
+phase = "phase0"
+category = "infantry"
+cost_recruitment = 500
+health = 80
+accuracy = 50
+reactions = 50
+strength = 40
+bravery = 50
+psionic_strength = 0
+time_units = 50
+armor_class = 1
+starting_weapon = "ballistic_rifle_assault"
+description = "Fresh military recruit. Low experience but basic training complete."
+
+[[unit]]
+id = "unit_soldier_veteran"
+name = "Veteran Soldier"
+phase = "phase0"
+category = "infantry"
+cost_recruitment = 800
+health = 100
+accuracy = 70
+reactions = 65
+strength = 50
+bravery = 70
+psionic_strength = 5
+time_units = 60
+armor_class = 2
+starting_weapon = "ballistic_rifle_assault"
+special_abilities = ["leadership", "tactical_training"]
+description = "Experienced soldier with multiple deployments. Higher stats and special abilities."
+
+[[unit]]
+id = "unit_heavy_weapons"
+name = "Heavy Weapons Specialist"
+phase = "phase0"
+category = "heavy"
+cost_recruitment = 1000
+health = 110
+accuracy = 55
+reactions = 45
+strength = 65
+bravery = 60
+psionic_strength = 0
+time_units = 40
+armor_class = 3
+starting_weapon = "ballistic_rifle_assault"
+special_abilities = ["heavy_weapons_training"]
+description = "Specialist trained for heavy weapons and explosives."
+
+[[unit]]
+id = "unit_sniper"
+name = "Sniper"
+phase = "phase0"
+category = "specialist"
+cost_recruitment = 900
+health = 85
+accuracy = 90
+reactions = 70
+strength = 35
+bravery = 55
+psionic_strength = 3
+time_units = 55
+armor_class = 1
+starting_weapon = "ballistic_rifle_sniper"
+special_abilities = ["precision_aim", "stealth"]
+description = "Precision marksman. Excellent accuracy but lower close-range capability."
+
+[[research]]
+id = "research_ballistic_weapons"
+name = "Ballistic Weapons"
+phase = "phase0"
+category = "weapons"
+research_cost = 100
+unlock_items = ["ballistic_pistol_9mm", "ballistic_rifle_assault", "ballistic_shotgun"]
+description = "Baseline research into conventional ballistic weaponry. Unlocks basic firearms."
+
+[[research]]
+id = "research_armor_improvement"
+name = "Armor Development"
+phase = "phase0"
+category = "armor"
+research_cost = 150
+unlock_items = ["armor_ballistic_vest", "armor_combat_suit"]
+description = "Research into improved body armor and protective equipment."
+
+[[research]]
+id = "research_heavy_weapons"
+name = "Heavy Weapons Development"
+phase = "phase0"
+category = "weapons"
+research_cost = 200
+prerequisites = ["research_ballistic_weapons"]
+unlock_items = ["ballistic_rifle_sniper"]
+description = "Development of high-powered and specialized weapons systems."

@@ -1,0 +1,32 @@
+# Example: Workshop Facility
+# Manufacturing facility enabling equipment production
+# Template for creating workshop variants
+
+[[facility]]
+id = "example_workshop"
+name = "Advanced Workshop"
+phase = "phase0"
+category = "manufacturing"
+build_time = 21
+build_cost = 150000
+health = 100
+armor = 5
+
+[facility.capacities]
+manufacturing_projects = 2
+units = 5
+
+[facility.services]
+provides = ["manufacturing"]
+requires = ["power"]
+
+maintenance = 10000
+description = "Manufacturing workshop. Produces weapons and equipment. Supports up to 5 workers."
+
+[facility.adjacency_bonuses]
+storage_warehouse = 0.10
+power_generator = 0.05
+
+[facility.benefits]
+production_speed_bonus = 1.0
+defect_rate_reduction = 0.10

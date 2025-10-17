@@ -1,0 +1,232 @@
+# Black Market Configuration
+#
+# Illegal and restricted items with karma costs,
+# discovery risks, and underground dealer information.
+
+# Underground Arms Network - primary black market dealer
+[dealers.underground_network]
+name = "Underground Arms Network"
+description = "International illegal weapons supplier"
+discovered = false
+base_trust_level = 1
+available_regions = []  # Global
+discovery_mission = "discover_black_market_asia"
+lore_text = "Secretive international network supplying weapons and technology to those with credits and few moral qualms."
+
+# Black Market - Weapons
+[entries.rifle_plasma_illegal]
+name = "Plasma Rifle (Illegal)"
+description = "Smuggled alien plasma weapon"
+category = "weapons"
+base_price = 200000      # 33% markup over legal plasma rifle
+item_id = "plasma_rifle_black"
+item_type = "item"
+dealer_id = "underground_network"
+stock = 3
+restock_rate = 0         # No restocking!
+karma_impact = -10
+discovery_chance = 0.15
+required_regions = []    # Available everywhere
+required_trust_level = 1
+
+[entries.pistol_plasma_black]
+name = "Plasma Pistol (Illegal)"
+description = "Compact illegal plasma weapon"
+category = "weapons"
+base_price = 100000
+item_id = "pistol_plasma_black"
+item_type = "item"
+dealer_id = "underground_network"
+stock = 5
+restock_rate = 0
+karma_impact = -8
+discovery_chance = 0.12
+required_regions = []
+required_trust_level = 1
+
+[entries.grenade_plasma_black]
+name = "Plasma Grenade (Illegal)"
+description = "Illegal area-effect plasma explosive"
+category = "weapons"
+base_price = 50000
+item_id = "grenade_plasma_black"
+item_type = "item"
+dealer_id = "underground_network"
+stock = 8
+restock_rate = 0
+karma_impact = -5
+discovery_chance = 0.1
+required_regions = []
+required_trust_level = 1
+
+# Black Market - Alien Technology
+[entries.alien_psionics]
+name = "Alien Psionic Enhancement"
+description = "Illegal psionic augmentation technology"
+category = "research"
+base_price = 150000
+item_id = "psionic_enhancement"
+item_type = "item"
+dealer_id = "underground_network"
+stock = 2
+restock_rate = 0
+karma_impact = -15       # Major ethical violation
+discovery_chance = 0.2
+required_regions = []
+required_trust_level = 2
+
+[entries.alien_genetic]
+name = "Alien Genetic Material"
+description = "Alien genetic samples for illegal research"
+category = "research"
+base_price = 120000
+item_id = "alien_genetic_black"
+item_type = "item"
+dealer_id = "underground_network"
+stock = 4
+restock_rate = 0
+karma_impact = -12
+discovery_chance = 0.18
+required_regions = []
+required_trust_level = 2
+
+# Black Market - Bioweapons & WMDs
+[entries.bioweapon_virus]
+name = "Bioweapon Virus Sample"
+description = "Illegal biological weapon agent"
+category = "weapons"
+base_price = 300000
+item_id = "bioweapon_virus"
+item_type = "item"
+dealer_id = "underground_network"
+stock = 1
+restock_rate = 0
+karma_impact = -30       # Extreme ethical violation
+discovery_chance = 0.25
+required_regions = []
+required_trust_level = 3
+
+[entries.radiation_weapon]
+name = "Radiation Weapon Prototype"
+description = "Illegal radioactive weapon"
+category = "weapons"
+base_price = 250000
+item_id = "radiation_weapon"
+item_type = "item"
+dealer_id = "underground_network"
+stock = 1
+restock_rate = 0
+karma_impact = -25
+discovery_chance = 0.22
+required_regions = []
+required_trust_level = 3
+
+# Black Market - Stolen/Restricted Military
+[entries.prototype_armor_black]
+name = "Prototype Military Armor"
+description = "Stolen prototype armor suit"
+category = "armor"
+base_price = 80000
+item_id = "armor_prototype_black"
+item_type = "item"
+dealer_id = "underground_network"
+stock = 6
+restock_rate = 0
+karma_impact = -3
+discovery_chance = 0.08
+required_regions = []
+required_trust_level = 1
+
+[entries.weapon_experimental]
+name = "Experimental Weapon Prototype"
+description = "Illegal military prototype weapon"
+category = "weapons"
+base_price = 120000
+item_id = "weapon_experimental"
+item_type = "item"
+dealer_id = "underground_network"
+stock = 3
+restock_rate = 0
+karma_impact = -8
+discovery_chance = 0.14
+required_regions = []
+required_trust_level = 2
+
+# Black Market - Regional Specialized
+[entries.incendiary_weapon]
+name = "Incendiary Cluster Weapon"
+description = "Illegal area denial weapon"
+category = "weapons"
+base_price = 60000
+item_id = "incendiary_weapon"
+item_type = "item"
+dealer_id = "underground_network"
+stock = 4
+restock_rate = 0
+karma_impact = -7
+discovery_chance = 0.12
+required_regions = ["africa", "middle_east"]
+required_trust_level = 1
+
+[entries.emp_device]
+name = "Electromagnetic Pulse Device"
+description = "Illegal EMP weapon"
+category = "weapons"
+base_price = 100000
+item_id = "emp_device"
+item_type = "item"
+dealer_id = "underground_network"
+stock = 2
+restock_rate = 0
+karma_impact = -5
+discovery_chance = 0.1
+required_regions = []
+required_trust_level = 2
+
+# Black Market Configuration
+[black_market_config]
+# Trust levels unlock different inventory
+min_trust_level = 1
+max_trust_level = 3
+
+# Discovery consequences
+[black_market_config.discovery_penalties]
+karma_multiplier = 2.0       # Double karma loss from purchases
+fame_loss = -20              # Fame reduction on discovery
+relation_penalty = -0.5      # Country/supplier relation damage
+funding_cut = 0.8            # 20% funding cut from all sources
+
+# Discovery consequences are applied on discovery plus:
+# - Random country may impose trade embargo (-1.0 relation)
+# - Funding countries may cut by additional 50% for month
+# - Each black market dealer you've used may become hostile
+
+# Risk calculation modifiers
+[black_market_config.risk_modifiers]
+# Quantity increases risk: +10% per item after first
+quantity_multiplier = 0.1
+
+# Fame increases discovery chance (higher fame = more scrutiny)
+# Formula: base_chance * (1.0 + fame/100)
+fame_risk_multiplier = 0.01
+
+# Dealer trust level reduces risk
+# Each trust level: -5% discovery chance
+trust_risk_reduction = 0.05
+
+# Regional modifiers
+[black_market_config.regional_modifiers]
+# Some regions are safer for black market operations
+asia = 1.2        # +20% discovery chance (more surveillance)
+europe = 1.0      # Standard
+americas = 0.9    # -10% discovery chance (more chaotic)
+africa = 0.8      # -20% discovery chance (less organized)
+
+# Price modifiers (markup over base)
+[black_market_config.pricing]
+standard_markup = 1.33   # 33% markup on normal prices
+trust_discount_per_level = -0.05  # -5% discount per trust level
+quantity_discount = 0.0  # No bulk discounts on black market!
+
+# Monthly stock is fixed - no restocking
+# Dealers "refresh" by acquiring new stock (rp event)

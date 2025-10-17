@@ -1,0 +1,55 @@
+# Defense Facility Definitions
+
+[[facility]]
+id = "defense_cannon"
+name = "Defense Cannon"
+description = "Anti-aircraft and anti-craft defense system"
+type = "defense"
+width = 1
+height = 1
+cost = 1500
+time_to_build = 8
+maintenance_cost = 30
+attack_power = 80
+range = 50
+effect = "air_defense"
+
+[[facility]]
+id = "defense_laser"
+name = "Defense Laser"
+description = "Laser-based defense system"
+type = "defense"
+width = 1
+height = 1
+cost = 2000
+time_to_build = 9
+maintenance_cost = 40
+attack_power = 90
+range = 60
+effect = "air_defense"
+
+[[facility]]
+id = "defense_missile"
+name = "Defense Missile"
+description = "Missile interception defense system"
+type = "defense"
+width = 2
+height = 1
+cost = 2500
+time_to_build = 10
+maintenance_cost = 50
+attack_power = 100
+range = 70
+effect = "air_defense"
+
+[[facility]]
+id = "motion_detection"
+name = "Motion Detection"
+description = "Intrusion detection system"
+type = "defense"
+width = 1
+height = 1
+cost = 500
+time_to_build = 3
+maintenance_cost = 10
+effect = "alarm_system"

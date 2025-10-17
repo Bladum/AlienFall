@@ -1,0 +1,104 @@
+# Narrative Hooks: Phase Transition Events
+# Triggered when campaign progresses between major phases
+
+[[narrative_event]]
+id = "phase_0_introduction"
+title = "Shadow War Begins"
+trigger_type = "phase_transition"
+trigger_id = "phase_1"
+description = "Campaign introduction: Silent alien invasion discovered"
+lore_entry = """
+Date: January 1996
+
+For years, the world remained blissfully unaware. Alien forces operated in the shadows, performing reconnaissance, establishing hidden bases, and preparing their invasion. But today, everything changes.
+
+Our satellites detected unusual activity in a remote region. Military forces deployed. They found it—an alien base. The first confirmed evidence of extraterrestrial life. The creatures inside were hostile and heavily armed.
+
+Humanity learned a terrible truth: we're not alone. And we're not welcome.
+
+In response, the United Nations assembles a crisis council. All nations agree: we must understand the alien threat and defend Earth. Thus begins the "X-COM" project—an international military organization dedicated to preventing alien conquest.
+
+Few realize this is merely the beginning. The shadow war is about to become very real.
+"""
+unlocks = ["human_coordination_begins", "military_mobilization"]
+encyclopedia_category = "campaign_start"
+priority = 100
+
+[[narrative_event]]
+id = "phase_1_first_contact"
+title = "First Contact: Humanity Faces the Stars"
+trigger_type = "phase_transition"
+trigger_id = "phase_2"
+description = "Phase transition: Regular UFO sightings escalate, technology acquired"
+lore_entry = """
+Date: March 2000
+
+Four years of shadow conflict have passed. In that time, we've captured numerous alien units and analyzed their technology. We've developed laser weapons. We've uncovered evidence of multiple alien species working in coordinated invasion.
+
+Then, on a single night, everything accelerates.
+
+Thousands of UFOs appear over major population centers worldwide. Governments panic. Military forces mobilize but struggle against superior technology. Dozens of cities come under direct alien attack.
+
+In a single week, humanity suffers over 10,000 casualties. The game has changed. The aliens have grown impatient. They're no longer hiding.
+
+Our scientific teams work frantically to understand the escalation. Through interrogations and recovered data, we learn the truth: the invasion timeline has been accelerated. Higher-ranking alien entities want Earth subjugated within months, not years.
+
+Humanity stands at a crossroads. We can surrender or escalate our military response. There is no middle ground.
+
+Most nations choose war.
+"""
+unlocks = ["plasma_weapons_discovered", "alien_command_structure_revealed"]
+encyclopedia_category = "first_contact"
+priority = 100
+
+[[narrative_event]]
+id = "phase_2_deep_war"
+title = "War Without End: Humanity Adapts or Falls"
+trigger_type = "phase_transition"
+trigger_id = "phase_3"
+description = "Phase transition: Extended conflict revealed, advanced aliens encountered"
+lore_entry = """
+Date: September 2002
+
+The war drags on. Humanity has adapted, developed advanced weapons, established defensive perimeters. But so have the aliens. Each month brings new enemy types, more sophisticated tactics, larger invasion forces.
+
+Then, during a deep-space interdiction mission, our pilots encounter something new: an Ethereal. Not commanding from a base, but piloting an advanced craft personally.
+
+The Ethereal defeats our entire fighter squadron with ease. When captured and interrogated, the Ethereal communicates an ominous message: "Your resistance is noted. Your resilience is impressive. But ultimately irrelevant. The conquest continues. The Ethereal Collective expands."
+
+In that moment, humanity realizes the invasion is not a military conquest aimed at occupation. It's extermination. The Ethereals—mysterious cosmic entities of immense power—view humanity as extinct. We're not fighting for Earth's future. We're fighting for survival.
+
+A new realization takes hold: if we don't win decisively, humanity ends. Negotiation is impossible. Peaceful coexistence is fantasy. Either we break the aliens' invasion capability, or we cease to exist.
+
+Humanity mobilizes its entire military and industrial apparatus. All resources committed to total war.
+"""
+unlocks = ["ethereal_threat_confirmed", "total_mobilization"]
+encyclopedia_category = "prolonged_conflict"
+priority = 100
+
+[[narrative_event]]
+id = "phase_3_dimensional_war"
+title = "War Reaches the Stars: Final Conflict"
+trigger_type = "phase_transition"
+trigger_id = "phase_4"
+description = "Phase transition: Campaign reaches climax, dimensional technologies discovered"
+lore_entry = """
+Date: December 2004
+
+Three years of desperate warfare have taken their toll. Earth is scarred. Millions are dead. Entire cities destroyed. But humanity refuses to be conquered.
+
+Our research teams have achieved the impossible: dimensional portal technology. We can now strike at alien bases not just on Earth but in other dimensions. We've developed weapons and armor based on completely alien principles—technology that seemed like magic only years ago.
+
+Most significantly: we've identified the Ethereal Collective's primary objective. They're not conquering Earth for resources or population. They're transforming it into a dimensional nexus—a gateway for forces beyond our comprehension.
+
+The portal on Earth is nearly complete. Massive alien installations have been constructed across multiple locations. If they complete their work, Earth becomes a beachhead for a cosmic war we cannot fathom.
+
+It's now or never. X-COM launches the final assault. Our goal: infiltrate the dimensional nexus, destroy the portal infrastructure, and eliminate the Ethereal command presence permanently.
+
+Victory means Earth's survival. Failure means the extinction of human civilization and the transformation of our planet into a cosmic battlefield for forces we cannot understand.
+
+This is the final war.
+"""
+unlocks = ["dimensional_warfare", "ethereal_extinction_protocol"]
+encyclopedia_category = "final_confrontation"
+priority = 100

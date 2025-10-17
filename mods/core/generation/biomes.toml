@@ -1,0 +1,383 @@
+# Battlescape Map Generation - Biome Definitions# Battlescape Map Generation - Biome Definitions
+
+##
+
+# Defines biomes (regional terrain types) with terrain weighting,# Defines biomes (regional terrain types) with terrain weighting,
+
+# default mapscripts, environmental features, and aesthetic properties.# default mapscripts, environmental features, and aesthetic properties.
+
+
+
+# FOREST BIOME# FOREST BIOME - Dense vegetation, rivers, moderate cover
+
+[biomes.forest][biomes.forest]
+
+name = "Forest"name = "Forest"
+
+description = "Dense forest with trees, vegetation, and water features"description = "Dense forest with trees, vegetation, and water features"
+
+default_mapscript = "forest_river"default_mapscript = "forest_river"
+
+available_terrains = ["forest_trees", "grass_field", "water_river"]available_terrains = ["forest_trees", "grass_field", "water_river"]
+
+light_level = 0.7environmental_features = ["dense_foliage", "rivers", "minimal_structures"]
+
+visibility_range = 15light_level = 0.7
+
+visibility_range = 15
+
+[biomes.forest.terrain_weights]
+
+forest_trees = 0.50[biomes.forest.terrain_weights]
+
+grass_field = 0.30forest_trees = 0.50
+
+water_river = 0.20grass_field = 0.30
+
+water_river = 0.20
+
+# URBAN BIOME
+
+[biomes.urban][biomes.forest.ambient_color]
+
+name = "Urban"r = 0.2
+
+description = "City environment with buildings, streets, and underground structures"g = 0.4
+
+default_mapscript = "city_crossroads"b = 0.2
+
+available_terrains = ["building_urban", "pavement", "foliage_urban"]
+
+light_level = 0.9# URBAN BIOME - Buildings, streets, underground facilities
+
+visibility_range = 20[biomes.urban]
+
+name = "Urban"
+
+[biomes.urban.terrain_weights]description = "City environment with buildings, streets, and underground structures"
+
+building_urban = 0.60default_mapscript = "city_crossroads"
+
+pavement = 0.25available_terrains = ["building_urban", "pavement", "foliage_urban"]
+
+foliage_urban = 0.15terrain_weights = {
+
+    building_urban = 0.60,    # 60% building structures
+
+# DESERT BIOME    pavement = 0.25,          # 25% streets/pavement
+
+[biomes.desert]    foliage_urban = 0.15      # 15% urban vegetation
+
+name = "Desert"}
+
+description = "Arid desert with sand, rocks, and minimal vegetation"environmental_features = ["buildings", "rooftops", "underground_tunnels"]
+
+default_mapscript = "desert_ruins"ambient_color = [0.3, 0.3, 0.3]  # Gray concrete
+
+available_terrains = ["sand_dunes", "rock_outcrop", "desert_vegetation"]light_level = 0.9
+
+light_level = 1.1visibility_range = 20
+
+visibility_range = 25
+
+# DESERT BIOME - Sandy terrain, rocks, minimal cover
+
+[biomes.desert.terrain_weights][biomes.desert]
+
+sand_dunes = 0.70name = "Desert"
+
+rock_outcrop = 0.20description = "Arid desert with sand, rocks, and minimal vegetation"
+
+desert_vegetation = 0.10default_mapscript = "desert_ruins"
+
+available_terrains = ["sand_dunes", "rock_outcrop", "desert_vegetation"]
+
+# ARCTIC BIOMEterrain_weights = {
+
+[biomes.arctic]    sand_dunes = 0.70,        # 70% sand
+
+name = "Arctic"    rock_outcrop = 0.20,      # 20% rocky areas
+
+description = "Frozen tundra with snow, ice, and rocky terrain"    desert_vegetation = 0.10  # 10% sparse plants
+
+default_mapscript = "arctic_outpost"}
+
+available_terrains = ["snow_field", "ice_sheet", "rock_frozen"]environmental_features = ["sand_storms", "rocky_terrain", "minimal_cover"]
+
+light_level = 0.8ambient_color = [0.5, 0.4, 0.2]  # Sandy yellow
+
+visibility_range = 10light_level = 1.1
+
+visibility_range = 25  # Maximum visibility in open desert
+
+[biomes.arctic.terrain_weights]
+
+snow_field = 0.50# ARCTIC BIOME - Snow, ice, frozen terrain
+
+ice_sheet = 0.30[biomes.arctic]
+
+rock_frozen = 0.20name = "Arctic"
+
+description = "Frozen tundra with snow, ice, and rocky terrain"
+
+# WATER BIOMEdefault_mapscript = "arctic_outpost"
+
+[biomes.water]available_terrains = ["snow_field", "ice_sheet", "rock_frozen"]
+
+name = "Water"terrain_weights = {
+
+description = "Aquatic environment with beaches, islands, and shallow water"    snow_field = 0.50,        # 50% snow
+
+default_mapscript = "island_base"    ice_sheet = 0.30,         # 30% ice
+
+available_terrains = ["water_shallow", "beach_sand", "island_rock"]    rock_frozen = 0.20        # 20% frozen rocks
+
+light_level = 0.9}
+
+visibility_range = 18environmental_features = ["blizzards", "slippery_terrain", "visibility_reduced"]
+
+ambient_color = [0.6, 0.7, 0.8]  # Cool blue-white
+
+[biomes.water.terrain_weights]light_level = 0.8
+
+water_shallow = 0.50visibility_range = 10  # Reduced by snow/blizzard
+
+beach_sand = 0.30
+
+island_rock = 0.20# WATER BIOME - Aquatic environments, beaches, islands
+
+[biomes.water]
+
+# INDUSTRIAL BIOMEname = "Water"
+
+[biomes.industrial]description = "Aquatic environment with beaches, islands, and shallow water"
+
+name = "Industrial"default_mapscript = "island_base"
+
+description = "Industrial complex with factories, refineries, and mining structures"available_terrains = ["water_shallow", "beach_sand", "island_rock"]
+
+default_mapscript = "industrial_complex"terrain_weights = {
+
+available_terrains = ["building_industrial", "metal_floor", "chemical_hazard"]    water_shallow = 0.50,     # 50% shallow water
+
+light_level = 0.8    beach_sand = 0.30,        # 30% beaches
+
+visibility_range = 18    island_rock = 0.20        # 20% island formations
+
+}
+
+[biomes.industrial.terrain_weights]environmental_features = ["swimming", "water_hazards", "limited_structures"]
+
+building_industrial = 0.50ambient_color = [0.2, 0.4, 0.6]  # Blue water
+
+metal_floor = 0.35light_level = 0.9
+
+chemical_hazard = 0.15visibility_range = 18
+
+
+
+# UNDERGROUND BIOME# INDUSTRIAL BIOME - Factories, refineries, mining operations
+
+[biomes.underground][biomes.industrial]
+
+name = "Underground"name = "Industrial"
+
+description = "Underground caverns and alien facility interiors"description = "Industrial complex with factories, refineries, and mining structures"
+
+default_mapscript = "alien_base"default_mapscript = "industrial_complex"
+
+available_terrains = ["cave_rock", "alien_structure", "bioluminescent"]available_terrains = ["building_industrial", "metal_floor", "chemical_hazard"]
+
+light_level = 0.5terrain_weights = {
+
+visibility_range = 12    building_industrial = 0.50,  # 50% industrial structures
+
+    metal_floor = 0.35,         # 35% metal platforms
+
+[biomes.underground.terrain_weights]    chemical_hazard = 0.15      # 15% hazardous areas
+
+cave_rock = 0.40}
+
+alien_structure = 0.45environmental_features = ["toxic_chemicals", "high_structures", "machinery"]
+
+bioluminescent = 0.15ambient_color = [0.4, 0.3, 0.2]  # Brown industrial
+
+light_level = 0.8
+
+# RURAL BIOMEvisibility_range = 18
+
+[biomes.rural]
+
+name = "Rural"# UNDERGROUND BIOME - Caverns, alien bases, tunnels
+
+description = "Rural countryside with farms, villages, and scattered structures"[biomes.underground]
+
+default_mapscript = "rural_settlement"name = "Underground"
+
+available_terrains = ["crop_field", "building_rural", "dirt_road"]description = "Underground caverns and alien facility interiors"
+
+light_level = 0.95default_mapscript = "alien_base"
+
+visibility_range = 22available_terrains = ["cave_rock", "alien_structure", "bioluminescent"]
+
+terrain_weights = {
+
+[biomes.rural.terrain_weights]    cave_rock = 0.40,          # 40% natural rock
+
+crop_field = 0.50    alien_structure = 0.45,    # 45% alien materials
+
+building_rural = 0.25    bioluminescent = 0.15      # 15% glowing surfaces
+
+dirt_road = 0.25}
+
+environmental_features = ["darkness", "alien_tech", "uneven_terrain"]
+
+# MOUNTAIN BIOMEambient_color = [0.3, 0.2, 0.4]  # Purple alien glow
+
+[biomes.mountain]light_level = 0.5
+
+name = "Mountain"visibility_range = 12
+
+description = "High altitude mountain terrain with peaks and passes"
+
+default_mapscript = "mountain_pass"# RURAL BIOME - Farmland, villages, scattered buildings
+
+available_terrains = ["rock_peak", "snow_slope", "mountain_cave"][biomes.rural]
+
+light_level = 0.85name = "Rural"
+
+visibility_range = 20description = "Rural countryside with farms, villages, and scattered structures"
+
+default_mapscript = "rural_settlement"
+
+[biomes.mountain.terrain_weights]available_terrains = ["crop_field", "building_rural", "dirt_road"]
+
+rock_peak = 0.50terrain_weights = {
+
+snow_slope = 0.35    crop_field = 0.50,         # 50% farmland
+
+mountain_cave = 0.15    building_rural = 0.25,     # 25% rural buildings
+
+    dirt_road = 0.25           # 25% roads and paths
+
+# BIOME CONFIGURATION}
+
+[biome_config]environmental_features = ["crops", "scattered_buildings", "open_terrain"]
+
+# Difficulty modifiers - affects mission difficulty scalingambient_color = [0.3, 0.4, 0.2]  # Green fields
+
+light_level = 0.95
+
+[biome_config.difficulty_modifiers]visibility_range = 22
+
+forest = 1.0
+
+urban = 1.1# MOUNTAIN BIOME - High altitude, rocky terrain, limited access
+
+desert = 0.9[biomes.mountain]
+
+arctic = 1.0name = "Mountain"
+
+water = 1.2description = "High altitude mountain terrain with peaks and passes"
+
+industrial = 1.15default_mapscript = "mountain_pass"
+
+underground = 1.25available_terrains = ["rock_peak", "snow_slope", "mountain_cave"]
+
+rural = 0.8terrain_weights = {
+
+mountain = 1.1    rock_peak = 0.50,          # 50% rocky peaks
+
+    snow_slope = 0.35,         # 35% snow-covered slopes
+
+# Environmental effects by biome    mountain_cave = 0.15       # 15% cavern entrances
+
+[biome_config.environmental_effects]}
+
+forest = ["rain", "fog", "dense_foliage"]environmental_features = ["high_altitude", "avalanche", "limited_movement"]
+
+urban = ["smoke", "fire", "collapsing_buildings"]ambient_color = [0.5, 0.5, 0.5]  # Gray stone
+
+desert = ["sand_storm", "heat_haze"]light_level = 0.85
+
+arctic = ["blizzard", "visibility_reduced"]visibility_range = 20
+
+water = ["currents", "water_hazards"]
+
+industrial = ["toxic_gas", "electrical_hazards"]# Biome Configuration
+
+underground = ["darkness", "earthquakes"][biome_config]
+
+rural = ["weather", "open_space"]# Difficulty modifiers - affects mission difficulty scaling
+
+mountain = ["avalanche", "thin_air"]difficulty_modifiers = {
+
+    forest = 1.0,        # Baseline
+    urban = 1.1,         # 10% harder (more cover for enemies)
+    desert = 0.9,        # 10% easier (open terrain)
+    arctic = 1.0,        # Baseline
+    water = 1.2,         # 20% harder (movement restrictions)
+    industrial = 1.15,   # 15% harder (hazards)
+    underground = 1.25,  # 25% harder (alien tech)
+    rural = 0.8,         # 20% easier (open space)
+    mountain = 1.1       # 10% harder (elevation)
+}
+
+# Environmental effects by biome
+[biome_config.environmental_effects]
+forest = ["rain", "fog", "dense_foliage"]
+urban = ["smoke", "fire", "collapsing_buildings"]
+desert = ["sand_storm", "heat_haze"]
+arctic = ["blizzard", "visibility_reduced"]
+water = ["currents", "water_hazards"]
+industrial = ["toxic_gas", "electrical_hazards"]
+underground = ["darkness", "earthquakes"]
+rural = ["weather", "open_space"]
+mountain = ["avalanche", "thin_air"]
+
+# Weather effects by biome
+[biome_config.weather_patterns]
+forest = {
+    clear = 0.4,
+    rain = 0.4,
+    fog = 0.2
+}
+urban = {
+    clear = 0.6,
+    rain = 0.3,
+    smoke = 0.1
+}
+desert = {
+    clear = 0.7,
+    dust_storm = 0.2,
+    heat = 0.1
+}
+arctic = {
+    clear = 0.3,
+    blizzard = 0.5,
+    whiteout = 0.2
+}
+water = {
+    calm = 0.5,
+    rough = 0.3,
+    storm = 0.2
+}
+industrial = {
+    clear = 0.5,
+    smoke = 0.3,
+    toxic = 0.2
+}
+underground = {
+    stable = 0.8,
+    unstable = 0.2
+}
+rural = {
+    clear = 0.6,
+    rain = 0.3,
+    fog = 0.1
+}
+mountain = {
+    clear = 0.5,
+    wind = 0.3,
+    snow = 0.2
+}

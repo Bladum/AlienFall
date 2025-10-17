@@ -1,0 +1,213 @@
+# Research Discovery Narrative Hooks
+# Triggered when research projects complete, revealing lore
+
+[[narrative_hook]]
+id = "narrative_laser_research"
+title = "Laser Technology Breakthrough"
+trigger_type = "research_complete"
+trigger_id = "research_laser_weapons"
+description = "Discovery of laser weapon technology"
+lore_entry = """
+Our scientists have successfully reverse-engineered human laser technology into viable combat weapons.
+The Laser Pistol and Rifle represent a paradigm shift in conventional warfare.
+Energy weapons offer unlimited ammunition and superior penetration compared to ballistic rounds.
+This technology will form the backbone of our armed forces in the coming conflict.
+"""
+encyclopedia_category = "technology"
+priority = 90
+unlocks = ["narrative_plasma_research", "narrative_power_research"]
+effects = { unlock_research = ["research_plasma_weapons"], funding_change = 500, panic_change = -10 }
+
+[[narrative_hook]]
+id = "narrative_plasma_research"
+title = "Alien Plasma Mastery"
+trigger_type = "research_complete"
+trigger_id = "research_plasma_weapons"
+description = "Successful reverse-engineering of alien plasma weapons"
+lore_entry = """
+Through months of analysis, our weapons specialists have successfully adapted captured alien plasma weapons for human use.
+The Plasma Rifle represents humanity's first truly alien technology.
+Unlike laser weapons, plasma requires containment fields that consume significant power.
+But the destructive potential is beyond anything we've achieved with conventional technology.
+The aliens will be shocked by our newfound capabilities.
+"""
+encyclopedia_category = "technology"
+priority = 95
+unlocks = ["narrative_advanced_plasma", "narrative_alien_understanding"]
+effects = { unlock_research = ["research_gauss_weapons"], funding_change = 1000, panic_change = -15 }
+
+[[narrative_hook]]
+id = "narrative_power_research"
+title = "Power Armor Development"
+trigger_type = "research_complete"
+trigger_id = "research_power_armor"
+description = "First-generation power exoskeleton suits completed"
+lore_entry = """
+Our engineering teams have successfully developed wearable power armor systems.
+These mechanized suits enhance soldier strength, endurance, and survivability.
+The prototypes are ready for field testing.
+Initial projections suggest casualty rates could be reduced by 30-40% in combat scenarios.
+This represents a major advantage in our ongoing conflict with the alien invaders.
+"""
+encyclopedia_category = "technology"
+priority = 85
+unlocks = ["narrative_advanced_armor"]
+effects = { unlock_research = ["research_advanced_power_armor"], funding_change = 800 }
+
+[[narrative_hook]]
+id = "narrative_alien_biology"
+title = "Alien Biology Analysis"
+trigger_type = "research_complete"
+trigger_id = "research_alien_biology"
+description = "Comprehensive analysis of alien physiology"
+lore_entry = """
+Our scientists have completed extensive analysis of captured alien specimens.
+The findings are disturbing: Sectoid DNA shows clear signs of artificial genetic engineering.
+This suggests the aliens we face are not naturally evolved beings, but rather engineered soldiers.
+Someone or something has designed them for combat efficiency and obedience.
+The question becomes: who created them, and are they more dangerous than we thought?
+"""
+encyclopedia_category = "lore"
+priority = 100
+unlocks = ["narrative_ethereal_theory", "narrative_precursor_knowledge"]
+effects = { strategic_intel = "alien_manufacturing", panic_change = 20 }
+
+[[narrative_hook]]
+id = "narrative_ethereal_theory"
+title = "Ethereal Hypothesis"
+trigger_type = "research_complete"
+trigger_id = "research_alien_hierarchy"
+description = "Evidence of higher intelligence commanding alien forces"
+lore_entry = """
+Interrogations of high-ranking Sectoid specimens reveal a shocking truth:
+The aliens we face are slaves to a more advanced civilization.
+These mysterious 'Ethereal Overseers' command entire fleets through means we don't yet understand.
+Captured Sectoid memories suggest the Ethereals are telepathic, controlling their armies psychically.
+If true, Earth faces an existential threat far greater than the current invasion.
+Our only hope may lie in developing psychic countermeasures.
+"""
+encyclopedia_category = "lore"
+priority = 99
+unlocks = ["narrative_psionic_research", "narrative_dimensional_threat"]
+effects = { strategic_intel = "alien_command_structure", panic_change = 30 }
+
+[[narrative_hook]]
+id = "narrative_sectoid_weakness"
+title = "Sectoid Psychological Vulnerability"
+trigger_type = "interrogation_complete"
+trigger_id = "sectoid_soldier"
+description = "Interrogation reveals Sectoid fears and control methods"
+lore_entry = """
+Through advanced interrogation techniques, we've discovered a critical vulnerability:
+Sectoids fear their Ethereal overlords and are essentially slave soldiers under psychic compulsion.
+This psychological dependence might be exploitable, potentially turning captive Sectoids against their masters.
+Our psionic specialists believe we could develop countermeasures or even recruit alien soldiers to our cause.
+If we can break the psychic chains, we might turn the tide of this war.
+"""
+encyclopedia_category = "factions"
+priority = 90
+unlocks = ["narrative_psionic_defense", "narrative_sectoid_defection"]
+effects = { unlock_research = ["research_psionic_defense"], strategic_intel = "sectoid_psychology" }
+
+[[narrative_hook]]
+id = "narrative_muton_warrior"
+title = "Muton Physiology Study"
+trigger_type = "interrogation_complete"
+trigger_id = "muton_commander"
+description = "Analysis of captured Muton specimen reveals strength and weaknesses"
+lore_entry = """
+The Muton we captured is larger, stronger, and more aggressive than the Sectoids.
+Unlike Sectoids, Mutons show signs of free will, suggesting lower psychic control levels.
+They appear to be genetically superior specimens - possibly alien elite soldiers or special forces.
+Their armor integration appears biological, with reinforced carapace and integrated weapon systems.
+Against conventional forces, Mutons are formidable. We'll need advanced weapons and tactics to defeat them effectively.
+"""
+encyclopedia_category = "factions"
+priority = 85
+unlocks = ["narrative_genetic_enhancement"]
+effects = { strategic_intel = "muton_tactics", panic_change = 15 }
+
+[[narrative_hook]]
+id = "narrative_terror_mission_success"
+title = "Heroic Defense"
+trigger_type = "mission_success"
+trigger_id = "terror_mission_alpha"
+description = "Player successfully defended civilians in terror mission"
+lore_entry = """
+Our forces successfully protected civilians during an alien attack on a major city.
+The swift response and effective tactics prevented a massacre and prevented mass panic.
+Local authorities are grateful, and media coverage is overwhelmingly positive.
+International support for our organization has increased significantly.
+These victories remind people that humanity can fight back against the alien threat.
+"""
+encyclopedia_category = "missions"
+priority = 70
+effects = { funding_change = 1000, panic_change = -25 }
+
+[[narrative_hook]]
+id = "narrative_crash_recovery"
+title = "Recovered UFO Technology"
+trigger_type = "mission_success"
+trigger_id = "ufo_crash_recovery"
+description = "Successfully recovered alien craft from crash site"
+lore_entry = """
+Our salvage teams have recovered significant alien technology from a downed UFO.
+The intact propulsion systems and weapon arrays are being studied by our best engineers.
+This material will accelerate our research into reverse-engineering alien technology.
+We're seeing proof that Earth's scientists can adapt and overcome alien engineering.
+The morale boost from this victory cannot be understated.
+"""
+encyclopedia_category = "technology"
+priority = 95
+effects = { unlock_research = ["research_plasma_weapons", "research_advanced_systems"], funding_change = 2000 }
+
+[[narrative_hook]]
+id = "narrative_phase_one_start"
+title = "First Contact Protocol Activated"
+trigger_type = "phase_transition"
+trigger_id = "phase_1"
+description = "Transition into Phase 1: First Contact with alien invasion"
+lore_entry = """
+The time for covert operations has ended.
+The alien presence has been revealed to the world, and panic grips nations globally.
+Governments are scrambling to respond to this unprecedented threat.
+Our organization stands at the forefront of humanity's defense against extraterrestrial invasion.
+The world now knows we are not alone, and that we are not welcome.
+This is humanity's defining moment.
+"""
+encyclopedia_category = "campaign"
+priority = 100
+effects = { panic_change = 50, funding_change = 5000 }
+
+[[narrative_hook]]
+id = "narrative_phase_two_start"
+title = "War Escalation"
+trigger_type = "phase_transition"
+trigger_id = "phase_2"
+description = "Transition into Phase 2: Escalating alien invasion"
+lore_entry = """
+The initial invasion was just the beginning.
+Larger, more sophisticated alien forces continue to arrive on Earth.
+We've discovered evidence of a massive alien presence on the Moon and possibly beyond.
+Humanity faces an enemy that commands resources we can barely comprehend.
+If we cannot achieve military superiority soon, extinction may await our species.
+"""
+encyclopedia_category = "campaign"
+priority = 99
+effects = { panic_change = 75, funding_change = 7000 }
+
+[[narrative_hook]]
+id = "narrative_base_established"
+title = "Operational Base Secured"
+trigger_type = "facility_complete"
+trigger_id = "main_base"
+description = "Player's first operational base is fully established"
+lore_entry = """
+Our operational base is now fully functional and equipped.
+From this location, we will coordinate global defense operations.
+With secure facilities, advanced laboratories, and trained personnel, we are ready to meet the alien threat.
+This base represents humanity's best hope for survival.
+"""
+encyclopedia_category = "operations"
+priority = 80
+effects = { strategic_intel = "base_operational" }

@@ -1,0 +1,102 @@
+# Civilian Unit Definitions
+# Units: Non-combatant civilians
+
+[[unit]]
+id = "civilian_scientist"
+name = "Scientist"
+description = "Research specialist from university or lab"
+type = "civilian"
+faction = "civilian"
+side = "human"
+image = "units/scientist.png"
+
+[unit.stats]
+health = 20
+armor = 0
+will = 50
+reaction = 40
+shooting = 30
+throwing = 20
+strength = 40
+psionic_power = 10
+psionic_defense = 30
+
+[unit.equipment]
+primary = "none"
+secondary = "none"
+armor = "none"
+
+[[unit]]
+id = "civilian_worker"
+name = "Worker"
+description = "Factory or construction worker"
+type = "civilian"
+faction = "civilian"
+side = "human"
+image = "units/worker.png"
+
+[unit.stats]
+health = 25
+armor = 0
+will = 50
+reaction = 45
+shooting = 25
+throwing = 25
+strength = 60
+psionic_power = 0
+psionic_defense = 25
+
+[unit.equipment]
+primary = "none"
+secondary = "none"
+armor = "none"
+
+[[unit]]
+id = "civilian_child"
+name = "Child"
+description = "Young civilian"
+type = "civilian"
+faction = "civilian"
+side = "human"
+image = "units/child.png"
+
+[unit.stats]
+health = 15
+armor = 0
+will = 40
+reaction = 45
+shooting = 15
+throwing = 15
+strength = 30
+psionic_power = 5
+psionic_defense = 20
+
+[unit.equipment]
+primary = "none"
+secondary = "none"
+armor = "none"
+
+[[unit]]
+id = "civilian_elder"
+name = "Elder"
+description = "Elderly civilian"
+type = "civilian"
+faction = "civilian"
+side = "human"
+image = "units/elder.png"
+
+[unit.stats]
+health = 20
+armor = 0
+will = 55
+reaction = 35
+shooting = 30
+throwing = 25
+strength = 40
+psionic_power = 15
+psionic_defense = 35
+
+[unit.equipment]
+primary = "none"
+secondary = "none"
+armor = "none"

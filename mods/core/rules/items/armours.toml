@@ -1,0 +1,92 @@
+# Armour Definitions
+# Armor available to units
+
+[[armour]]
+id = "combat_armor_light"
+name = "Light Combat Armor"
+description = "Basic protective gear"
+type = "light"
+armor_value = 5
+weight = 3
+cost = 400
+tech_level = "conventional"
+
+[[armour]]
+id = "combat_armor_standard"
+name = "Combat Armor"
+description = "Standard military-grade armor"
+type = "standard"
+armor_value = 10
+weight = 5
+cost = 800
+tech_level = "conventional"
+
+[[armour]]
+id = "combat_armor_heavy"
+name = "Heavy Combat Armor"
+description = "Heavy reinforced armor suit"
+type = "heavy"
+armor_value = 15
+weight = 8
+cost = 1500
+tech_level = "conventional"
+
+[[armour]]
+id = "power_suit"
+name = "Power Suit"
+description = "Powered exoskeleton armor"
+type = "power"
+armor_value = 20
+weight = 12
+cost = 3500
+tech_level = "advanced"
+
+[[armour]]
+id = "flying_suit"
+name = "Flying Suit"
+description = "Armor with flight capability"
+type = "special"
+armor_value = 12
+weight = 6
+cost = 2500
+tech_level = "advanced"
+
+[[armour]]
+id = "muton_hide"
+name = "Muton Hide"
+description = "Alien muton natural armor"
+type = "alien"
+armor_value = 10
+weight = 0
+cost = 0
+tech_level = "alien"
+
+[[armour]]
+id = "muton_hide_heavy"
+name = "Muton Heavy Hide"
+description = "Reinforced muton alien armor"
+type = "alien"
+armor_value = 15
+weight = 0
+cost = 0
+tech_level = "alien"
+
+[[armour]]
+id = "floater_hide"
+name = "Floater Hide"
+description = "Alien floater lightweight armor"
+type = "alien"
+armor_value = 5
+weight = 0
+cost = 0
+tech_level = "alien"
+
+[[armour]]
+id = "chryssalid_carapace"
+name = "Chryssalid Carapace"
+description = "Natural alien insectoid armor"
+type = "alien"
+armor_value = 10
+weight = 0
+cost = 0
+tech_level = "alien"

@@ -1,0 +1,42 @@
+# Example: Plasma Cannon
+# Captured alien weapon reverse-engineered for human use
+# Template for creating heavy plasma weapon variants
+
+[[weapon]]
+id = "example_plasma_cannon"
+name = "Captured Plasma Cannon"
+phase = "phase1"
+category = "plasma_heavy"
+type = "plasma"
+research_required = ["research_plasma_weapons"]
+cost_manufacturing = 6000
+damage = 65
+damage_type = "plasma"
+armor_penetration = 40
+accuracy = 60
+range = 35
+fire_rate = 1
+capacity = 12
+weight = 7.5
+description = "Alien plasma weapon reverse-engineered for military use. High damage but slow rate of fire. Requires power cells."
+
+[[ammo]]
+id = "example_plasma_cell"
+name = "Plasma Power Cell"
+category = "ammunition"
+type = "plasma"
+damage_bonus = 5
+weight = 0.8
+cost_manufacturing = 150
+description = "Alien plasma energy cell. Powers plasma weapons. Dangerous and expensive."
+
+[[research]]
+id = "example_research_plasma"
+name = "Alien Plasma Weapons"
+phase = "phase1"
+category = "weapons"
+description = "Analysis and reverse-engineering of alien plasma technology. Enables manufacturing of plasma weapons."
+prerequisites = []
+research_cost = 3000
+research_time_days = 21
+unlock_items = ["example_plasma_cannon"]

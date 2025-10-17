@@ -1,0 +1,345 @@
+# Phase 3: Dimensional War Technology (2004-2004)
+# Period: 2004-2004 (Endgame)
+# Description: Particle beams, dimensional technology, alien hybrid weapons, final confrontation technology
+
+[[weapon]]
+id = "particle_beam_pistol"
+name = "Particle Beam Pistol"
+phase = "phase3"
+category = "particle_beam_pistol"
+type = "particle"
+cost_manufacturing = 5000
+research_required = ["research_particle_beam_weapons"]
+damage = 40
+damage_type = "particle"
+armor_penetration = 35
+accuracy = 75
+range = 25
+fire_rate = 2
+capacity = 15
+weight = 2.6
+description = "Cutting-edge particle accelerator weapon. Extreme damage and penetration. Humanity's ultimate weapon technology."
+
+[[weapon]]
+id = "particle_beam_rifle"
+name = "Particle Beam Rifle"
+phase = "phase3"
+category = "particle_beam_rifle"
+type = "particle"
+cost_manufacturing = 7500
+research_required = ["research_particle_beam_weapons"]
+damage = 60
+damage_type = "particle"
+armor_penetration = 45
+accuracy = 80
+range = 40
+fire_rate = 1
+capacity = 20
+weight = 5.5
+description = "Military particle beam rifle. Devastating against all known armor types. Final solution against alien forces."
+
+[[weapon]]
+id = "dimensional_disruptor"
+name = "Dimensional Disruptor"
+phase = "phase3"
+category = "dimensional"
+type = "dimensional"
+cost_manufacturing = 8000
+research_required = ["research_dimensional_weapons"]
+damage = 50
+damage_type = "dimensional"
+armor_penetration = 50
+accuracy = 65
+range = 20
+fire_rate = 1
+capacity = 10
+weight = 4.0
+description = "Weapon utilizing dimensional breach technology. Causes localized dimensional instability. Highly experimental."
+
+[[weapon]]
+id = "hybrid_plasma_cannon"
+name = "Hybrid Plasma Cannon"
+phase = "phase3"
+category = "plasma_cannon"
+type = "hybrid_plasma"
+cost_manufacturing = 9000
+research_required = ["research_hybrid_alien_weapons"]
+damage = 75
+damage_type = "plasma"
+armor_penetration = 40
+accuracy = 60
+range = 35
+fire_rate = 1
+capacity = 12
+weight = 7.5
+description = "Fusion of human and alien technology. Hybrid plasma system combining best of both civilizations."
+
+[[armor]]
+id = "armor_dimensional_suit"
+name = "Dimensional Combat Suit"
+phase = "phase3"
+category = "dimensional"
+armor_class = 4
+armor_protection = 60
+weight = 12
+cost_manufacturing = 6000
+research_required = ["research_dimensional_armor"]
+special_abilities = ["dimensional_phase", "temporal_field", "adaptive_shielding"]
+description = "Ultimate armor technology utilizing dimensional mechanics. Phasing capability and temporal fields protect wearer."
+
+[[armor]]
+id = "armor_hybrid_assault"
+name = "Hybrid Alien Assault Suit"
+phase = "phase3"
+category = "hybrid"
+armor_class = 4
+armor_protection = 55
+weight = 10
+cost_manufacturing = 5500
+research_required = ["research_hybrid_alien_armor"]
+special_abilities = ["psionic_resistance", "alien_interface", "enhanced_regeneration"]
+description = "Fusion of human engineering and alien biotech. Provides psychological resilience and biological enhancement."
+
+[[armor]]
+id = "armor_ethereal_echo_suit"
+name = "Ethereal Echo Suit"
+phase = "phase3"
+category = "ethereal_tech"
+armor_class = 3
+armor_protection = 45
+weight = 8
+cost_manufacturing = 4500
+research_required = ["research_ethereal_technology"]
+special_abilities = ["psionic_echo", "dimensional_shift", "consciousness_fragment"]
+description = "Captured Ethereal technology adapted for human use. Provides psionic capabilities and dimensional awareness."
+
+[[vehicle]]
+id = "interceptor_advanced"
+name = "Advanced Interceptor"
+phase = "phase3"
+category = "interceptor"
+type = "air"
+speed = 25
+range = 50
+armor = 35
+health = 220
+capacity = 4
+cost_manufacturing = 12000
+research_required = ["research_advanced_interceptor"]
+special_abilities = ["hypersonic_flight", "dimensional_anchor", "plasma_shielding"]
+description = "Final-generation interceptor with dimensional technology integration. Match for any alien craft."
+
+[[vehicle]]
+id = "dimensional_carrier"
+name = "Dimensional Carrier"
+phase = "phase3"
+category = "transport"
+type = "air"
+speed = 8
+range = 60
+armor = 40
+health = 300
+capacity = 30
+cost_manufacturing = 20000
+research_required = ["research_dimensional_vehicles"]
+special_abilities = ["dimensional_warp", "stealth_mode", "multi_dimensional_storage"]
+description = "Strategic transport with dimensional technology. Can operate across dimensional boundaries."
+
+[[research]]
+id = "research_particle_beam_weapons"
+name = "Particle Beam Technology"
+phase = "phase3"
+category = "weapons"
+description = "Development of particle accelerator weapons. Ultimate human weapon technology combining all previous research."
+prerequisites = ["research_advanced_materials", "research_exotic_materials"]
+unlock_technologies = []
+unlock_items = ["particle_beam_pistol", "particle_beam_rifle"]
+research_cost = 5000
+research_time_days = 28
+
+[[research]]
+id = "research_dimensional_weapons"
+name = "Dimensional Breach Weapons"
+phase = "phase3"
+category = "weapons"
+description = "Weaponization of dimensional breach technology. Enables attacks across dimensional boundaries."
+prerequisites = ["research_dimensional_theory"]
+unlock_technologies = []
+unlock_items = ["dimensional_disruptor"]
+research_cost = 4500
+research_time_days = 25
+
+[[research]]
+id = "research_dimensional_armor"
+name = "Dimensional Armor Systems"
+phase = "phase3"
+category = "armor"
+description = "Development of armor utilizing dimensional phase technology. Enables partial intangibility."
+prerequisites = ["research_dimensional_theory", "research_powered_armor"]
+unlock_technologies = []
+unlock_items = ["armor_dimensional_suit"]
+research_cost = 4000
+research_time_days = 22
+
+[[research]]
+id = "research_ethereal_technology"
+name = "Ethereal Technology Integration"
+phase = "phase3"
+category = "alien_tech"
+description = "Study and reverse-engineering of Ethereal technology. Most advanced alien technology encountered."
+prerequisites = ["research_ethereal_autopsy"]
+unlock_technologies = ["research_psionic_resistance"]
+unlock_items = ["armor_ethereal_echo_suit"]
+research_cost = 3500
+research_time_days = 24
+
+[[research]]
+id = "research_hybrid_alien_weapons"
+name = "Hybrid Alien Weapons"
+phase = "phase3"
+category = "weapons"
+description = "Fusion of human and alien weapon technologies. Combines strengths of both civilizations."
+prerequisites = ["research_plasma_weapons", "research_particle_beam_weapons"]
+unlock_technologies = []
+unlock_items = ["hybrid_plasma_cannon"]
+research_cost = 4000
+research_time_days = 20
+
+[[research]]
+id = "research_hybrid_alien_armor"
+name = "Hybrid Alien Armor"
+phase = "phase3"
+category = "armor"
+description = "Fusion of human engineering and alien biotech. Provides enhanced protection and regeneration."
+prerequisites = ["research_alien_alloys", "research_powered_armor"]
+unlock_technologies = []
+unlock_items = ["armor_hybrid_assault"]
+research_cost = 3500
+research_time_days = 18
+
+[[research]]
+id = "research_dimensional_vehicles"
+name = "Dimensional Vehicle Technology"
+phase = "phase3"
+category = "vehicles"
+description = "Integration of dimensional mechanics into vehicle design. Enables interdimensional travel."
+prerequisites = ["research_dimensional_theory"]
+unlock_technologies = []
+unlock_items = ["dimensional_carrier"]
+research_cost = 5000
+research_time_days = 26
+
+[[research]]
+id = "research_advanced_interceptor"
+name = "Advanced Interceptor Development"
+phase = "phase3"
+category = "vehicles"
+description = "Final-generation interceptor design incorporating all advanced technologies."
+prerequisites = ["research_particle_beam_weapons", "research_dimensional_theory"]
+unlock_technologies = []
+unlock_items = ["interceptor_advanced"]
+research_cost = 3000
+research_time_days = 16
+
+[[research]]
+id = "research_exotic_materials"
+name = "Exotic Materials Science"
+phase = "phase3"
+category = "materials"
+description = "Study of dimensional materials and exotic matter. Foundation for dimensional technology."
+prerequisites = ["research_advanced_materials"]
+unlock_technologies = ["research_dimensional_theory"]
+unlock_items = []
+research_cost = 3500
+research_time_days = 22
+
+[[research]]
+id = "research_psionic_resistance"
+name = "Psionic Resistance Protocols"
+phase = "phase3"
+category = "biology"
+description = "Development of mental defense systems against psionic attacks from Ethereal forces."
+prerequisites = ["research_ethereal_technology"]
+unlock_technologies = []
+unlock_items = []
+research_cost = 2500
+research_time_days = 15
+
+[[research]]
+id = "research_ethereal_autopsy"
+name = "Ethereal Autopsy"
+phase = "phase3"
+category = "biology"
+description = "Analysis of Ethereal physiology and technology. Reveals understanding of dimensional beings."
+prerequisites = []
+unlock_technologies = ["research_ethereal_technology"]
+unlock_items = []
+research_cost = 3000
+research_time_days = 18
+
+[[research]]
+id = "research_deep_pressure_tech"
+name = "Deep Pressure Technology"
+phase = "phase3"
+category = "materials"
+description = "Advanced pressure-resistant materials for extreme depth operations."
+prerequisites = ["research_advanced_materials"]
+unlock_technologies = []
+unlock_items = []
+research_cost = 1500
+research_time_days = 12
+
+[[technology]]
+id = "dimensional_scanning"
+name = "Dimensional Scanning"
+phase = "phase3"
+category = "systems"
+description = "Ability to scan across dimensional boundaries. Detects threats in other dimensions."
+prerequisites = ["research_dimensional_theory"]
+research_cost = 2000
+research_time_days = 14
+unlock_technologies = []
+
+[[technology]]
+id = "consciousness_upload"
+name = "Consciousness Upload Technology"
+phase = "phase3"
+category = "biology"
+description = "Transfer human consciousness into android or dimensional storage. Immortality option."
+prerequisites = ["research_ethereal_technology"]
+research_cost = 4000
+research_time_days = 28
+unlock_technologies = []
+
+[[ammo]]
+id = "ammo_particle_charge"
+name = "Particle Charge Pack"
+phase = "phase3"
+category = "ammunition"
+type = "particle"
+damage = 8
+weight = 0.8
+cost_manufacturing = 150
+description = "Advanced particle accelerator ammunition. Highest damage-per-round of any ammunition."
+
+[[ammo]]
+id = "ammo_dimensional_core"
+name = "Dimensional Charge Core"
+phase = "phase3"
+category = "ammunition"
+type = "dimensional"
+damage = 6
+weight = 1.0
+cost_manufacturing = 200
+description = "Dimensional instability ammunition. Highly experimental and expensive."
+
+[[ammo]]
+id = "ammo_hybrid_plasma_cell"
+name = "Hybrid Plasma Cell"
+phase = "phase3"
+category = "ammunition"
+type = "plasma"
+damage = 10
+weight = 0.9
+cost_manufacturing = 180
+description = "Hybrid human-alien plasma ammunition. Maximum fusion efficiency."
