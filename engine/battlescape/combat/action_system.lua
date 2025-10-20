@@ -91,10 +91,23 @@ end
 -- Reset unit for new turn
 function ActionSystem:resetUnit(unit)
     unit.actionPointsLeft = ActionSystem.AP_PER_TURN
+    
+    -- Apply morale/sanity AP modifiers
+    local MoraleSystem = require("battlescape.systems.morale_system")
+    local apModifier = MoraleSystem.getAPModifier(unit.id)
+    unit.actionPointsLeft = math.max(0, unit.actionPointsLeft + apModifier)
+    
+    -- Check if unit is panicked (cannot act at all)
+    local canAct, reason = MoraleSystem.canAct(unit.id)
+    if not canAct then
+        unit.actionPointsLeft = 0
+        print(string.format("[ActionSystem] %s cannot act: %s", unit.name, reason))
+    end
+    
     unit.movementPoints = unit:calculateMP()
     unit.hasActed = false
-    print(string.format("[ActionSystem] Reset %s: AP=%d, MP=%d",
-          unit.name, unit.actionPointsLeft, unit.movementPoints))
+    print(string.format("[ActionSystem] Reset %s: AP=%d (modifier: %d), MP=%d",
+          unit.name, unit.actionPointsLeft, apModifier, unit.movementPoints))
 end
 
 -- Spend action points

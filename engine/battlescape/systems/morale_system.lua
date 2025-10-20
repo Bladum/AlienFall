@@ -1,213 +1,229 @@
 ---@meta
 
----Morale & Panic System
----Handles unit morale, panic, berserk states, leadership, rally actions
+---Morale & Sanity System (NEW)
+---Handles unit morale, sanity, and panic states for tactical combat
+---Morale: Derived from BRAVERY stat (6-12), buffer during battle
+---Sanity: Separate stat (6-12), psychological stability buffer
+---Both systems apply AP modifiers when low, and panic when depleted
 ---@module morale_system
 
 local MoraleSystem = {}
 
 -- Configuration
 MoraleSystem.CONFIG = {
-    -- Morale thresholds
-    MORALE_PANIC_THRESHOLD = 30, -- Below 30 = panic risk
-    MORALE_BERSERK_THRESHOLD = 20, -- Below 20 = berserk risk
-    MORALE_BROKEN_THRESHOLD = 10, -- Below 10 = broken (cannot act)
+    -- AP Modifier thresholds
+    AP_MODIFIER_THRESHOLD_2 = 2,  -- When morale/sanity = 2: -1 AP
+    AP_MODIFIER_THRESHOLD_1 = 1,  -- When morale/sanity = 1: -2 AP
     
-    -- Panic/berserk chances
-    PANIC_BASE_CHANCE = 0.5, -- 50% at threshold
-    BERSERK_BASE_CHANCE = 0.3, -- 30% at berserk threshold
+    -- Stress event morale loss
+    ALLY_DEATH_MORALE_LOSS = 1,  -- -1 morale when ally dies nearby
+    CRITICAL_HIT_MORALE_LOSS = 1,  -- -1 morale when critically hit
     
-    -- Morale damage events
-    ALLY_DEATH_MORALE_LOSS = 10,
-    NEARBY_ALLY_DEATH_LOSS = 5, -- Within 5 hexes
-    ENEMY_KILL_MORALE_GAIN = 5,
-    DAMAGE_TAKEN_MORALE_LOSS = 2, -- Per 10% HP lost
-    MISS_SHOT_MORALE_LOSS = 1,
-    CRITICAL_HIT_MORALE_LOSS = 5,
+    -- Sanity loss per mission (post-battle)
+    SANITY_LOSS_STANDARD = 0,     -- Standard difficulty
+    SANITY_LOSS_MODERATE = 1,     -- Moderate difficulty  
+    SANITY_LOSS_HARD = 2,         -- Hard difficulty
+    SANITY_LOSS_NIGHT_MISSION = 1,  -- Additional penalty for night missions
+    SANITY_LOSS_PER_ALLY_KIA = 1,   -- Per ally killed
     
     -- Leadership bonuses
-    LEADER_MORALE_BONUS = 10, -- +10 morale to nearby allies
-    LEADER_RANGE = 5, -- Within 5 hexes
+    LEADER_MORALE_BONUS = 1,       -- +1 morale to nearby allies per turn
+    LEADER_RANGE = 5,              -- Within 5 hexes
     
     -- Rally action
-    RALLY_MORALE_RESTORE = 20,
+    RALLY_MORALE_RESTORE = 2,      -- +2 morale
     RALLY_AP_COST = 4,
 }
 
----@class MoraleState
+---@class PsychologicalState
 ---@field unitId string
----@field morale number Current morale (0-100)
----@field state string "normal", "shaken", "panic", "berserk", "broken"
----@field panicDuration number Turns remaining in panic
----@field berserkDuration number Turns remaining in berserk
+---@field morale number Current morale (0-12, derived from bravery)
+---@field maxMorale number Max morale (equals BRAVERY stat)
+---@field sanity number Current sanity (0-12)
+---@field maxSanity number Max sanity (base sanity stat)
+---@field state string "normal", "stressed", "panicked"
 
 -- Private state
-local moraleStates = {} -- unitId -> MoraleState
+local psychStates = {} -- unitId -> PsychologicalState
 
----Initialize morale for a unit
+---Initialize morale/sanity for a unit
 ---@param unitId string Unit identifier
----@param initialMorale number|nil Starting morale (default 70)
-function MoraleSystem.initUnit(unitId, initialMorale)
-    moraleStates[unitId] = {
+---@param bravery number Bravery stat (becomes max morale)
+---@param sanity number Sanity stat (becomes max sanity)
+function MoraleSystem.initUnit(unitId, bravery, sanity)
+    bravery = math.max(1, math.min(12, bravery or 9))
+    sanity = math.max(1, math.min(12, sanity or 9))
+    
+    psychStates[unitId] = {
         unitId = unitId,
-        morale = initialMorale or 70,
+        morale = bravery,              -- Start at max
+        maxMorale = bravery,           -- Morale cannot exceed bravery
+        sanity = sanity,               -- Start at max
+        maxSanity = sanity,            -- Max sanity for this unit
         state = "normal",
-        panicDuration = 0,
-        berserkDuration = 0,
     }
+    
+    print(string.format("[MoraleSystem] %s initialized: morale=%d (max %d), sanity=%d (max %d)",
+        unitId, bravery, bravery, sanity, sanity))
 end
 
----Remove unit from morale tracking
+---Remove unit from tracking
 ---@param unitId string Unit identifier
 function MoraleSystem.removeUnit(unitId)
-    moraleStates[unitId] = nil
+    psychStates[unitId] = nil
 end
 
----Get unit morale state
+---Get psychological state for a unit
 ---@param unitId string Unit identifier
----@return MoraleState|nil state
+---@return PsychologicalState|nil state
 function MoraleSystem.getState(unitId)
-    return moraleStates[unitId]
+    return psychStates[unitId]
 end
 
----Modify unit morale
+---Modify unit morale (loss from stress events)
 ---@param unitId string Unit identifier
----@param amount number Morale change (positive or negative)
+---@param amount number Morale change (usually negative)
 ---@param reason string|nil Reason for change
 function MoraleSystem.modifyMorale(unitId, amount, reason)
-    local state = moraleStates[unitId]
+    local state = psychStates[unitId]
     if not state then
-        MoraleSystem.initUnit(unitId)
-        state = moraleStates[unitId]
+        print(string.format("[MoraleSystem] WARNING: Unit %s not initialized", unitId))
+        return
     end
     
     local oldMorale = state.morale
-    state.morale = math.max(0, math.min(100, state.morale + amount))
+    state.morale = math.max(0, math.min(state.maxMorale, state.morale + amount))
     
-    print(string.format("[Morale] %s morale: %d -> %d (%s%d, %s)", 
-        unitId, oldMorale, state.morale, 
+    print(string.format("[MoraleSystem] %s morale: %d -> %d (%s%d, %s)",
+        unitId, oldMorale, state.morale,
         amount >= 0 and "+" or "", amount, reason or "unknown"))
     
-    -- Update state based on new morale
     MoraleSystem.updateState(state)
 end
 
----Update morale state based on current morale value
----@param state MoraleState
+---Modify unit sanity (loss from missions, recovery from base time)
+---@param unitId string Unit identifier
+---@param amount number Sanity change (negative for loss, positive for recovery)
+---@param reason string|nil Reason for change
+function MoraleSystem.modifySanity(unitId, amount, reason)
+    local state = psychStates[unitId]
+    if not state then
+        print(string.format("[MoraleSystem] WARNING: Unit %s not initialized", unitId))
+        return
+    end
+    
+    local oldSanity = state.sanity
+    state.sanity = math.max(0, math.min(state.maxSanity, state.sanity + amount))
+    
+    print(string.format("[MoraleSystem] %s sanity: %d -> %d (%s%d, %s)",
+        unitId, oldSanity, state.sanity,
+        amount >= 0 and "+" or "", amount, reason or "unknown"))
+    
+    MoraleSystem.updateState(state)
+end
+
+---Update psychological state based on morale/sanity values
+---@param state PsychologicalState
 function MoraleSystem.updateState(state)
-    local cfg = MoraleSystem.CONFIG
-    
-    -- Already in special state (panic/berserk)
-    if state.panicDuration > 0 then
-        state.state = "panic"
-        return
-    end
-    if state.berserkDuration > 0 then
-        state.state = "berserk"
-        return
-    end
-    
-    -- Check thresholds
-    if state.morale < cfg.MORALE_BROKEN_THRESHOLD then
-        state.state = "broken"
-    elseif state.morale < cfg.MORALE_BERSERK_THRESHOLD then
-        -- Roll for berserk
-        if math.random() < cfg.BERSERK_BASE_CHANCE then
-            state.state = "berserk"
-            state.berserkDuration = 2 -- 2 turns
-            print(string.format("[Morale] %s went BERSERK!", state.unitId))
-        else
-            state.state = "shaken"
-        end
-    elseif state.morale < cfg.MORALE_PANIC_THRESHOLD then
-        -- Roll for panic
-        if math.random() < cfg.PANIC_BASE_CHANCE then
-            state.state = "panic"
-            state.panicDuration = 2 -- 2 turns
-            print(string.format("[Morale] %s PANICKED!", state.unitId))
-        else
-            state.state = "shaken"
-        end
+    -- Panic if EITHER morale OR sanity reaches 0
+    if state.morale == 0 or state.sanity == 0 then
+        state.state = "panicked"
+        print(string.format("[MoraleSystem] %s PANICKED (morale=%d, sanity=%d)", 
+            state.unitId, state.morale, state.sanity))
+    elseif state.morale <= 2 or state.sanity <= 2 then
+        -- Stressed but functional
+        state.state = "stressed"
     else
         state.state = "normal"
     end
 end
 
----Process ally death morale impact
+---Get AP modifier based on morale/sanity
+---Returns AP penalty that should be applied to unit
+---@param unitId string Unit identifier
+---@return number modifier (negative = AP penalty)
+function MoraleSystem.getAPModifier(unitId)
+    local state = psychStates[unitId]
+    if not state then return 0 end
+    
+    local cfg = MoraleSystem.CONFIG
+    local minMoraleSanity = math.min(state.morale, state.sanity)
+    
+    if minMoraleSanity <= cfg.AP_MODIFIER_THRESHOLD_1 then
+        return -2  -- -2 AP
+    elseif minMoraleSanity <= cfg.AP_MODIFIER_THRESHOLD_2 then
+        return -1  -- -1 AP
+    else
+        return 0   -- No modifier
+    end
+end
+
+---Check if unit can act (not panicked)
+---@param unitId string Unit identifier
+---@return boolean canAct
+---@return string|nil reason
+function MoraleSystem.canAct(unitId)
+    local state = psychStates[unitId]
+    if not state then return true end
+    
+    if state.state == "panicked" then
+        return false, "Panicked - unit inactive"
+    end
+    
+    return true
+end
+
+---Process ally death - applies morale loss to nearby units
 ---@param deadUnitId string Dead unit ID
----@param deadUnitPos table {q, r} position
----@param allUnits table List of all units
-function MoraleSystem.processAllyDeath(deadUnitId, deadUnitPos, allUnits)
+---@param deadUnitTeam string Dead unit team
+function MoraleSystem.processAllyDeath(deadUnitId, deadUnitTeam)
     local cfg = MoraleSystem.CONFIG
     
-    for _, unit in ipairs(allUnits) do
-        if unit.id ~= deadUnitId and unit.team == allUnits.team then
-            -- Calculate distance
-            local distance = MoraleSystem.calculateDistance(
-                unit.q, unit.r, deadUnitPos.q, deadUnitPos.r
-            )
-            
-            if distance <= cfg.LEADER_RANGE then
-                -- Nearby ally death
-                MoraleSystem.modifyMorale(unit.id, -cfg.NEARBY_ALLY_DEATH_LOSS, "nearby ally death")
-            else
-                -- Distant ally death
-                MoraleSystem.modifyMorale(unit.id, -cfg.ALLY_DEATH_MORALE_LOSS, "ally death")
-            end
+    for unitId, state in pairs(psychStates) do
+        -- Only affect living allies
+        if state.unitId ~= deadUnitId and unitId ~= deadUnitId then
+            MoraleSystem.modifyMorale(unitId, -cfg.ALLY_DEATH_MORALE_LOSS, "ally death")
         end
     end
 end
 
----Process enemy kill morale boost
----@param killerUnitId string Killer unit ID
-function MoraleSystem.processEnemyKill(killerUnitId)
+---Process critical hit - applies morale loss to hit unit
+---@param targetUnitId string Target unit ID
+function MoraleSystem.processCriticalHit(targetUnitId)
     local cfg = MoraleSystem.CONFIG
-    MoraleSystem.modifyMorale(killerUnitId, cfg.ENEMY_KILL_MORALE_GAIN, "enemy kill")
+    MoraleSystem.modifyMorale(targetUnitId, -cfg.CRITICAL_HIT_MORALE_LOSS, "critical hit")
 end
 
----Process damage taken morale loss
----@param unitId string Unit ID
----@param damagePercent number Damage as % of max HP (0-100)
-function MoraleSystem.processDamageTaken(unitId, damagePercent)
+---Apply post-mission sanity loss
+---@param unitId string Unit identifier
+---@param missionDifficulty string "standard", "moderate", "hard", "horror"
+---@param isNightMission boolean Whether mission was at night
+---@param alliesKIA number Number of allies that died
+function MoraleSystem.applyPostMissionSanityLoss(unitId, missionDifficulty, isNightMission, alliesKIA)
     local cfg = MoraleSystem.CONFIG
-    local moraleLoss = math.floor((damagePercent / 10) * cfg.DAMAGE_TAKEN_MORALE_LOSS)
-    MoraleSystem.modifyMorale(unitId, -moraleLoss, "damage taken")
-end
-
----Process missed shot morale loss
----@param unitId string Unit ID
-function MoraleSystem.processMissedShot(unitId)
-    local cfg = MoraleSystem.CONFIG
-    MoraleSystem.modifyMorale(unitId, -cfg.MISS_SHOT_MORALE_LOSS, "missed shot")
-end
-
----Process critical hit morale loss
----@param unitId string Unit ID
-function MoraleSystem.processCriticalHit(unitId)
-    local cfg = MoraleSystem.CONFIG
-    MoraleSystem.modifyMorale(unitId, -cfg.CRITICAL_HIT_MORALE_LOSS, "critical hit")
-end
-
----Apply leadership morale bonus
----@param leaderUnit table Leader unit
----@param allUnits table List of all units
-function MoraleSystem.applyLeadershipBonus(leaderUnit, allUnits)
-    local cfg = MoraleSystem.CONFIG
+    local totalLoss = 0
     
-    if not leaderUnit.isLeader then return end
+    -- Base sanity loss by difficulty
+    if missionDifficulty == "moderate" then
+        totalLoss = cfg.SANITY_LOSS_MODERATE
+    elseif missionDifficulty == "hard" or missionDifficulty == "horror" then
+        totalLoss = cfg.SANITY_LOSS_HARD
+    else
+        totalLoss = cfg.SANITY_LOSS_STANDARD
+    end
     
-    for _, unit in ipairs(allUnits) do
-        if unit.id ~= leaderUnit.id and unit.team == leaderUnit.team then
-            local distance = MoraleSystem.calculateDistance(
-                leaderUnit.q, leaderUnit.r, unit.q, unit.r
-            )
-            
-            if distance <= cfg.LEADER_RANGE then
-                -- Apply temporary bonus (not permanent morale gain)
-                print(string.format("[Morale] %s inspired by leader %s (+%d morale)", 
-                    unit.id, leaderUnit.id, cfg.LEADER_MORALE_BONUS))
-            end
-        end
+    -- Night mission penalty
+    if isNightMission then
+        totalLoss = totalLoss + cfg.SANITY_LOSS_NIGHT_MISSION
+    end
+    
+    -- Per-ally penalty
+    totalLoss = totalLoss + (alliesKIA or 0) * cfg.SANITY_LOSS_PER_ALLY_KIA
+    
+    if totalLoss > 0 then
+        MoraleSystem.modifySanity(unitId, -totalLoss, 
+            string.format("post-mission (%s, night=%s, KIA=%d)", missionDifficulty, 
+                tostring(isNightMission), alliesKIA or 0))
     end
 end
 
@@ -221,97 +237,74 @@ function MoraleSystem.rally(unitId, targetUnitId)
     
     MoraleSystem.modifyMorale(target, cfg.RALLY_MORALE_RESTORE, "rally action")
     
-    print(string.format("[Morale] %s rallied %s (+%d morale)", 
+    print(string.format("[MoraleSystem] %s rallied %s (+%d morale)", 
         unitId, target, cfg.RALLY_MORALE_RESTORE))
     
     return true
 end
 
----Process turn end for morale (decay durations)
----@param unitId string Unit ID
-function MoraleSystem.processTurnEnd(unitId)
-    local state = moraleStates[unitId]
-    if not state then return end
+---Apply leader aura bonus (per turn)
+---@param leaderUnitId string Leader unit ID
+---@param nearbyUnitIds table List of nearby unit IDs
+function MoraleSystem.applyLeadershipBonus(leaderUnitId, nearbyUnitIds)
+    local cfg = MoraleSystem.CONFIG
     
-    -- Decay panic/berserk durations
-    if state.panicDuration > 0 then
-        state.panicDuration = state.panicDuration - 1
-        if state.panicDuration == 0 then
-            print(string.format("[Morale] %s recovered from panic", unitId))
-            MoraleSystem.updateState(state)
-        end
-    end
-    
-    if state.berserkDuration > 0 then
-        state.berserkDuration = state.berserkDuration - 1
-        if state.berserkDuration == 0 then
-            print(string.format("[Morale] %s recovered from berserk", unitId))
-            MoraleSystem.updateState(state)
+    for _, unitId in ipairs(nearbyUnitIds) do
+        if unitId ~= leaderUnitId then
+            MoraleSystem.modifyMorale(unitId, cfg.LEADER_MORALE_BONUS, "leader aura")
         end
     end
 end
 
----Check if unit can act (not broken, not panicked)
----@param unitId string Unit ID
----@return boolean canAct, string|nil reason
-function MoraleSystem.canAct(unitId)
-    local state = moraleStates[unitId]
-    if not state then return true end
-    
-    if state.state == "broken" then
-        return false, "Broken morale - cannot act"
-    end
-    
-    if state.state == "panic" then
-        return false, "Panicking - cannot act normally"
-    end
-    
-    return true
-end
-
----Get morale color for UI
----@param morale number Morale value (0-100)
+---Get morale/sanity color for UI display
+---@param value number Current value (0-12)
+---@param maxValue number Max value (0-12)
 ---@return table rgb {r, g, b}
-function MoraleSystem.getMoraleColor(morale)
-    if morale >= 70 then
-        return {0.4, 1.0, 0.4} -- Green
-    elseif morale >= 50 then
-        return {1.0, 1.0, 0.4} -- Yellow
-    elseif morale >= 30 then
-        return {1.0, 0.6, 0.2} -- Orange
+function MoraleSystem.getStateColor(value, maxValue)
+    local ratio = value / maxValue
+    
+    if ratio >= 0.75 then
+        return {0.4, 1.0, 0.4}  -- Green
+    elseif ratio >= 0.5 then
+        return {1.0, 1.0, 0.4}  -- Yellow
+    elseif ratio >= 0.25 then
+        return {1.0, 0.6, 0.2}  -- Orange
     else
-        return {1.0, 0.2, 0.2} -- Red
+        return {1.0, 0.2, 0.2}  -- Red
     end
 end
 
----Calculate hex distance
----@param q1 number Q1
----@param r1 number R1
----@param q2 number Q2
----@param r2 number R2
----@return number distance
-function MoraleSystem.calculateDistance(q1, r1, q2, r2)
-    local dq = math.abs(q2 - q1)
-    local dr = math.abs(r2 - r1)
-    local ds = math.abs((-q1 - r1) - (-q2 - r2))
-    return math.floor((dq + dr + ds) / 2)
+---Get state string for display
+---@param unitId string Unit identifier
+---@return string stateString "NORMAL", "STRESSED", "PANICKED", or "UNKNOWN"
+function MoraleSystem.getStateString(unitId)
+    local state = psychStates[unitId]
+    if not state then return "UNKNOWN" end
+    
+    if state.state == "panicked" then
+        return "PANICKED"
+    elseif state.state == "stressed" then
+        return "STRESSED"
+    else
+        return "NORMAL"
+    end
 end
 
----Configure morale system parameters
+---Configure system parameters
 ---@param config table Configuration overrides
 function MoraleSystem.configure(config)
     for k, v in pairs(config) do
         if MoraleSystem.CONFIG[k] ~= nil then
             MoraleSystem.CONFIG[k] = v
-            print(string.format("[Morale] Config: %s = %s", k, tostring(v)))
+            print(string.format("[MoraleSystem] Config: %s = %s", k, tostring(v)))
         end
     end
 end
 
 ---Reset entire system
 function MoraleSystem.reset()
-    moraleStates = {}
-    print("[Morale] System reset")
+    psychStates = {}
+    print("[MoraleSystem] System reset")
 end
 
 return MoraleSystem

@@ -210,12 +210,12 @@ end
     Calculate melee attack accuracy
     
     @param weaponType: Type of melee weapon
-    @param attackerSkill: Attacker's melee skill (0-100)
-    @param attackerStrength: Attacker's strength (0-100)
+    @param attackerMelee: Attacker's melee stat (6-12)
+    @param attackerStrength: Attacker's strength (6-12)
     @param isBackstab: Boolean, attacking from behind?
     @return finalAccuracy: Percentage (0-100)
 ]]
-function MeleeSystem.calculateMeleeAccuracy(weaponType, attackerSkill, attackerStrength, isBackstab)
+function MeleeSystem.calculateMeleeAccuracy(weaponType, attackerMelee, attackerStrength, isBackstab)
     local weaponData = MeleeSystem.getMeleeWeaponData(weaponType)
     
     if not weaponData then
@@ -223,10 +223,11 @@ function MeleeSystem.calculateMeleeAccuracy(weaponType, attackerSkill, attackerS
     end
     
     local baseAccuracy = weaponData.accuracy
-    local skillBonus = attackerSkill * CONFIG.SKILL_ACCURACY_BONUS
+    -- Melee stat bonus: +2% per melee point above 6 (or -2% below 6)
+    local meleeBonus = (attackerMelee - 6) * 2
     local backstabBonus = (isBackstab and weaponData.canBackstab) and CONFIG.BACKSTAB_ACCURACY_BONUS or 0
     
-    local finalAccuracy = baseAccuracy + skillBonus + backstabBonus
+    local finalAccuracy = baseAccuracy + meleeBonus + backstabBonus
     
     return math.min(100, math.max(0, finalAccuracy))
 end
@@ -235,12 +236,13 @@ end
     Calculate melee attack damage
     
     @param weaponType: Type of melee weapon
-    @param attackerStrength: Attacker's strength (0-100)
+    @param attackerMelee: Attacker's melee stat (6-12)
+    @param attackerStrength: Attacker's strength (6-12)
     @param isBackstab: Boolean, attacking from behind?
     @return baseDamage: Base damage before armor
     @return armorPenetration: AP value
 ]]
-function MeleeSystem.calculateMeleeDamage(weaponType, attackerStrength, isBackstab)
+function MeleeSystem.calculateMeleeDamage(weaponType, attackerMelee, attackerStrength, isBackstab)
     local weaponData = MeleeSystem.getMeleeWeaponData(weaponType)
     
     if not weaponData then
@@ -248,10 +250,12 @@ function MeleeSystem.calculateMeleeDamage(weaponType, attackerStrength, isBackst
     end
     
     local baseDamage = weaponData.damage
-    local strengthBonus = attackerStrength * CONFIG.STRENGTH_DAMAGE_BONUS
+    -- Both Melee and Strength contribute to damage
+    local meleeBonus = (attackerMelee - 6) * 0.5  -- +0.5 damage per melee point
+    local strengthBonus = (attackerStrength - 6) * 0.5  -- +0.5 damage per strength point
     local backstabMultiplier = (isBackstab and weaponData.canBackstab) and (1 + CONFIG.BACKSTAB_DAMAGE_BONUS / 100) or 1
     
-    local finalDamage = (baseDamage + strengthBonus) * backstabMultiplier
+    local finalDamage = (baseDamage + meleeBonus + strengthBonus) * backstabMultiplier
     
     return math.floor(finalDamage), weaponData.armorPenetration
 end
@@ -262,20 +266,20 @@ end
     @param attackerQ, attackerR: Attacker position
     @param targetQ, targetR: Target position
     @param weaponType: Type of melee weapon
-    @param attackerSkill: Attacker's melee skill (0-100)
-    @param attackerStrength: Attacker's strength (0-100)
+    @param attackerMelee: Attacker's melee stat (6-12)
+    @param attackerStrength: Attacker's strength (6-12)
     @param isBackstab: Boolean, attacking from behind?
     @return result table with hit, damage, stunned, etc.
 ]]
-function MeleeSystem.performMeleeAttack(attackerQ, attackerR, targetQ, targetR, weaponType, attackerSkill, attackerStrength, isBackstab)
+function MeleeSystem.performMeleeAttack(attackerQ, attackerR, targetQ, targetR, weaponType, attackerMelee, attackerStrength, isBackstab)
     local weaponData = MeleeSystem.getMeleeWeaponData(weaponType)
     
     if not weaponData then
         return { success = false, reason = "Invalid weapon" }
     end
     
-    -- Calculate accuracy
-    local accuracy = MeleeSystem.calculateMeleeAccuracy(weaponType, attackerSkill, attackerStrength, isBackstab)
+    -- Calculate accuracy using new Melee stat
+    local accuracy = MeleeSystem.calculateMeleeAccuracy(weaponType, attackerMelee, attackerStrength, isBackstab)
     
     -- Roll to hit
     local roll = math.random(1, 100)
@@ -292,8 +296,8 @@ function MeleeSystem.performMeleeAttack(attackerQ, attackerR, targetQ, targetR, 
         }
     end
     
-    -- Calculate damage
-    local damage, armorPen = MeleeSystem.calculateMeleeDamage(weaponType, attackerStrength, isBackstab)
+    -- Calculate damage using new Melee stat
+    local damage, armorPen = MeleeSystem.calculateMeleeDamage(weaponType, attackerMelee, attackerStrength, isBackstab)
     
     -- Check for stun effect
     local stunned = false
@@ -358,20 +362,20 @@ end
     Visualize melee attack data for UI
     
     @param weaponType: Type of melee weapon
-    @param attackerSkill: Attacker's melee skill
-    @param attackerStrength: Attacker's strength
+    @param attackerMelee: Attacker's melee stat (6-12)
+    @param attackerStrength: Attacker's strength (6-12)
     @param isBackstab: Boolean
     @return visualization data
 ]]
-function MeleeSystem.visualizeMeleeAttack(weaponType, attackerSkill, attackerStrength, isBackstab)
+function MeleeSystem.visualizeMeleeAttack(weaponType, attackerMelee, attackerStrength, isBackstab)
     local weaponData = MeleeSystem.getMeleeWeaponData(weaponType)
     
     if not weaponData then
         return nil
     end
     
-    local accuracy = MeleeSystem.calculateMeleeAccuracy(weaponType, attackerSkill, attackerStrength, isBackstab)
-    local damage, armorPen = MeleeSystem.calculateMeleeDamage(weaponType, attackerStrength, isBackstab)
+    local accuracy = MeleeSystem.calculateMeleeAccuracy(weaponType, attackerMelee, attackerStrength, isBackstab)
+    local damage, armorPen = MeleeSystem.calculateMeleeDamage(weaponType, attackerMelee, attackerStrength, isBackstab)
     
     return {
         weaponName = weaponData.name,

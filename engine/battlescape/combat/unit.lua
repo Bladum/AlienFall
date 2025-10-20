@@ -251,6 +251,18 @@ function Unit:updateStats()
     self.stats.health = math.max(1, self.stats.health)
     self.stats.sight = math.max(1, self.stats.sight)
     self.stats.sense = math.max(0, self.stats.sense)
+    
+    -- Ensure psychological stats are initialized (6-12 range for humans)
+    self.stats.melee = self.stats.melee or 9  -- Melee effectiveness (6-12 range)
+    self.stats.bravery = self.stats.bravery or 9  -- Morale buffer stat (6-12 range)
+    self.stats.sanity = self.stats.sanity or 9  -- Psychological stability (6-12 range)
+    self.stats.psi = self.stats.psi or 0  -- Psionic power (0-20 range)
+    
+    -- Ensure psychological stats stay in valid ranges
+    self.stats.melee = math.max(1, math.min(12, self.stats.melee))
+    self.stats.bravery = math.max(1, math.min(12, self.stats.bravery))
+    self.stats.sanity = math.max(1, math.min(12, self.stats.sanity))
+    self.stats.psi = math.max(0, self.stats.psi)
 
     print(string.format("[Unit] Unit creation completed for %s", classId))
     return self
@@ -258,7 +270,7 @@ end
 
 --- Calculate total movement points from remaining action points.
 ---
---- Movement points = actionPointsLeft × speed stat.
+--- Movement points = actionPointsLeft ï¿½ speed stat.
 --- Used to determine how far a unit can move in their remaining turn.
 ---
 --- @return number Total movement points available

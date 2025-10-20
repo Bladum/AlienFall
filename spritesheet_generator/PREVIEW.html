@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graphics Spritesheet Generator - Preview</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.95;
+        }
+        .content {
+            padding: 3rem 2rem;
+        }
+        .status {
+            background: #10b981;
+            color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+        .status::before {
+            content: "✓ ";
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+        .section {
+            margin-bottom: 2rem;
+        }
+        .section h2 {
+            color: #667eea;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 0.5rem;
+        }
+        .files-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        .file-card {
+            background: #f3f4f6;
+            border-left: 4px solid #667eea;
+            padding: 1rem;
+            border-radius: 6px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .file-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .file-card h3 {
+            color: #667eea;
+            font-size: 0.95rem;
+            word-break: break-all;
+            margin-bottom: 0.5rem;
+        }
+        .file-card .info {
+            font-size: 0.85rem;
+            color: #666;
+            line-height: 1.6;
+        }
+        .stats-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: white;
+            border: 1px solid #e5e7eb;
+        }
+        .stats-table th {
+            background: #f3f4f6;
+            color: #667eea;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid #667eea;
+        }
+        .stats-table td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .stats-table tr:hover {
+            background: #f9fafb;
+        }
+        .instruction {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+        }
+        .instruction strong {
+            color: #d97706;
+        }
+        .code {
+            background: #1f2937;
+            color: #e5e7eb;
+            padding: 1rem;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+        .highlight {
+            background: #fef08a;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-weight: 500;
+        }
+        .footer {
+            background: #f3f4f6;
+            padding: 2rem;
+            text-align: center;
+            color: #666;
+            border-top: 1px solid #e5e7eb;
+        }
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .badge {
+            display: inline-block;
+            background: #dbeafe;
+            color: #0284c7;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🖨️ Graphics Spritesheet Generator</h1>
+            <p>Arkusze do druku A4 - 150 grafik na każdej stronie</p>
+        </div>
+        
+        <div class="content">
+            <div class="status">
+                ✓ Generator działa! Wszystkie 10 grafik zostały przetworzone i są gotowe do drukowania na papierze A4.
+            </div>
+            
+            <!-- SPECIFICATIONS -->
+            <div class="section">
+                <h2>📋 Specyfikacja</h2>
+                <table class="stats-table">
+                    <tr>
+                        <th>Parametr</th>
+                        <th>Wartość</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Format papieru</strong></td>
+                        <td>A4 (210 × 297 mm)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Rozdzielczość</strong></td>
+                        <td>300 DPI</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Wymiary (piksele)</strong></td>
+                        <td>2480 × 3508 px</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Margines</strong></td>
+                        <td>50 px</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Kolumny</strong></td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Wiersze</strong></td>
+                        <td>15</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Razem grafik na arkusz</strong></td>
+                        <td><span class="highlight">150</span></td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- FILES -->
+            <div class="section">
+                <h2>📁 Wygenerowane pliki (10)</h2>
+                <div class="files-grid">
+                    <div class="file-card">
+                        <h3>red_archer_A4_150items.png</h3>
+                        <div class="info">
+                            <div>📐 Wymiary: 64×64 px</div>
+                            <div>🔢 Kopii: 150</div>
+                            <div>💾 Rozmiar: ~250 KB</div>
+                        </div>
+                    </div>
+                    <div class="file-card">
+                        <h3>red_balista_A4_150items.png</h3>
+                        <div class="info">
+                            <div>📐 Wymiary: 64×63 px</div>
+                            <div>🔢 Kopii: 150</div>
+                            <div>💾 Rozmiar: ~280 KB</div>
+                        </div>
+                    </div>
+                    <div class="file-card">
+                        <h3>red_cavalery_A4_150items.png</h3>
+                        <div class="info">
+                            <div>📐 Wymiary: 64×64 px</div>
+                            <div>🔢 Kopii: 150</div>
+                            <div>💾 Rozmiar: ~350 KB</div>
+                        </div>
+                    </div>
+                    <div class="file-card">
+                        <h3>red_dragon_A4_150items.png</h3>
+                        <div class="info">
+                            <div>📐 Wymiary: 64×64 px</div>
+                            <div>🔢 Kopii: 150</div>
+                            <div>💾 Rozmiar: ~280 KB</div>
+                        </div>
+                    </div>
+                    <div class="file-card">
+                        <h3>red_footman_A4_150items.png</h3>
+                        <div class="info">
+                            <div>📐 Wymiary: 64×64 px</div>
+                            <div>🔢 Kopii: 150</div>
+                            <div>💾 Rozmiar: ~260 KB</div>
+                        </div>
+                    </div>
+                    <div class="file-card">
+                        <h3>red_frog_A4_150items.png</h3>
+                        <div class="info">
+                            <div>📐 Wymiary: 64×64 px</div>
+                            <div>🔢 Kopii: 150</div>
+                            <div>💾 Rozmiar: ~250 KB</div>
+                        </div>
+                    </div>
+                    <div class="file-card">
+                        <h3>red_harpy_A4_150items.png</h3>
+                        <div class="info">
+                            <div>📐 Wymiary: 64×64 px</div>
+                            <div>🔢 Kopii: 150</div>
+                            <div>💾 Rozmiar: ~320 KB</div>
+                        </div>
+                    </div>
+                    <div class="file-card">
+                        <h3>red_kraken_A4_150items.png</h3>
+                        <div class="info">
+                            <div>📐 Wymiary: 64×64 px</div>
+                            <div>🔢 Kopii: 150</div>
+                            <div>💾 Rozmiar: ~190 KB</div>
+                        </div>
+                    </div>
+                    <div class="file-card">
+                        <h3>red_pikeman_A4_150items.png</h3>
+                        <div class="info">
+                            <div>📐 Wymiary: 64×64 px</div>
+                            <div>🔢 Kopii: 150</div>
+                            <div>💾 Rozmiar: ~240 KB</div>
+                        </div>
+                    </div>
+                    <div class="file-card">
+                        <h3>red_worker_A4_150items.png</h3>
+                        <div class="info">
+                            <div>📐 Wymiary: 64×64 px</div>
+                            <div>🔢 Kopii: 150</div>
+                            <div>💾 Rozmiar: ~190 KB</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PRINTING -->
+            <div class="section">
+                <h2>🖨️ Instrukcja drukowania</h2>
+                <div class="instruction">
+                    <strong>⚠️ WAŻNE:</strong> Skala drukowania <span class="highlight">MUSI być 100%</span>. Bez skalowania!
+                </div>
+                <ol style="line-height: 2;">
+                    <li>Otwórz plik PNG (np. <code>red_archer_A4_150items.png</code>)</li>
+                    <li>Otwórz <strong>Print Preview</strong> (Ctrl+P)</li>
+                    <li>Ustaw parametry:
+                        <div style="margin-left: 2rem; margin-top: 0.5rem;">
+                            <span class="badge">A4 papier</span>
+                            <span class="badge">100% skala</span>
+                            <span class="badge">0 mm marginesy</span>
+                            <span class="badge">Portret orientacja</span>
+                        </div>
+                    </li>
+                    <li>Drukuj!</li>
+                </ol>
+            </div>
+
+            <!-- USAGE -->
+            <div class="section">
+                <h2>🚀 Jak uruchomić generator</h2>
+                <div style="background: #f9fafb; padding: 1rem; border-radius: 6px; margin: 1rem 0;">
+                    <p style="margin-bottom: 0.5rem;"><strong>Opcja 1: Double-click</strong></p>
+                    <div class="code">run_spritesheet_generator.bat</div>
+                    
+                    <p style="margin-bottom: 0.5rem; margin-top: 1rem;"><strong>Opcja 2: PowerShell</strong></p>
+                    <div class="code">.\run_spritesheet_generator.ps1</div>
+                    
+                    <p style="margin-bottom: 0.5rem; margin-top: 1rem;"><strong>Opcja 3: Love2D bezpośrednio</strong></p>
+                    <div class="code">lovec "spritesheet_generator"</div>
+                </div>
+            </div>
+
+            <!-- TECHNICAL -->
+            <div class="section">
+                <h2>⚙️ Szczegóły techniczne</h2>
+                <table class="stats-table">
+                    <tr>
+                        <th>Aspekt</th>
+                        <th>Wartość</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Siatka</strong></td>
+                        <td>10 kolumn × 15 wierszy</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Rozmiar komórki</strong></td>
+                        <td>238 × 227 px</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Skalowanie</strong></td>
+                        <td>Automatyczne, 95% komórki</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Aspect ratio</strong></td>
+                        <td>Zachowany</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Tło</strong></td>
+                        <td>Białe (255, 255, 255)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Format wyjścia</strong></td>
+                        <td>PNG z przezroczystością</td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- FEATURES -->
+            <div class="section">
+                <h2>✨ Cechy</h2>
+                <ul style="list-style: none; line-height: 2;">
+                    <li>✓ Automatyczne skalowanie grafik do rozmiaru komórki</li>
+                    <li>✓ Zachowanie proporcji aspect ratio</li>
+                    <li>✓ Optimizacja dla drukowania (300 DPI)</li>
+                    <li>✓ 10 grafik przetworzone jednocześnie</li>
+                    <li>✓ Białe tło (idealne do drukowania)</li>
+                    <li>✓ PNG format wysokiej jakości</li>
+                    <li>✓ Szybkie generowanie (~30 sekund na 10 grafik)</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Graphics Spritesheet Generator • Część projektu AlienFall (XCOM Simple)</p>
+            <p style="margin-top: 0.5rem; font-size: 0.9rem;">
+                <a href="QUICKSTART.md">Quick Start</a> • 
+                <a href="README.md">Pełny README</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>
