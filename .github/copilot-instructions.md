@@ -318,6 +318,7 @@ c:\Users\tombl\Documents\Projects\
 - **Task Management**: Always create task documents before starting work. Update tasks.md throughout.
 - **Temporary Files**: Always use `os.getenv("TEMP")` - never create temp files in project directories.
 - **Documentation**: Update wiki files when making changes.
+- **Reporting**: Do NOT create summary reports in markdown files. Provide brief summaries directly in chat after tasks are completed.
 
 ## Specific Game Systems
 
