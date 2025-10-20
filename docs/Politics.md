@@ -1,8 +1,19 @@
-## Politics
+# Politics
 
-### Fame System
+## Table of Contents
 
-**Overview**
+- [Fame System](#fame-system)
+- [Karma System](#karma-system)
+- [Relationship System](#relationship-system)
+- [Power Points](#power-points)
+- [Advisors System](#advisors-system)
+- [Organization Level](#organization-level)
+
+---
+
+## Fame System
+
+### Overview
 Fame represents the player organization's public reputation and recognition by civilians, governments, and media. Fame is a measurable indicator of how well-known the organization has become, with significant gameplay implications.
 
 **Fame Range & Levels**
@@ -45,9 +56,9 @@ Fame represents the player organization's public reputation and recognition by c
 
 ---
 
-### Karma System
+## Karma System
 
-**Overview**
+### Overview
 Karma is an internal moral alignment tracker reflecting the player organization's ethical choices and conduct. Unlike fame, karma is invisible to the game world and only affects available options and events behind the scenes.
 
 **Karma Range & Alignment Levels**
@@ -100,7 +111,7 @@ Players must infer karma effects through gameplay; no explicit moral choice disp
 
 ---
 
-### Relationship System
+## Relationship System
 
 **Overview**
 Relationships represent diplomatic standing with three major groups: Countries, Suppliers, and Factions. All relationships operate on a unified scale and significantly impact available options and costs. Relationships are the foundation of strategic positioning and long-term campaign success.
@@ -263,7 +274,7 @@ Examples:
 
 ---
 
-### Power Points
+## Power Points
 
 **Overview**
 Power Points represent the player organization's developmental progress, measured monthly. They represent tangible indicators of strategic advancement independent of immediate success metrics. Power Points are the primary currency for organizational growth decisions.
@@ -320,7 +331,7 @@ Power Points serve as:
 
 ---
 
-### Advisors System
+## Advisors System
 
 **Overview**
 Advisors are high-level specialists hired to manage critical organizational functions. Each advisor provides meaningful global bonuses and unlocks advanced management capabilities. Advisors represent the leadership structure and expertise level of the organization.
@@ -421,7 +432,7 @@ Hiring multiple complementary advisors creates bonus effects:
 
 ---
 
-### Organization Level
+## Organization Level
 
 **Overview**
 Organization Level represents strategic progression milestones that gate access to advanced gameplay features and content. Levels provide clear goals for long-term campaign progression and create a sense of organizational growth and maturity.
@@ -495,4 +506,5 @@ Advancement Cost = (Current Level × 5) + 5 Power Points
 - **Economic**: Total credits earned, research completion count, manufacturing volume
 - **Diplomatic**: Alliance formation, treaty agreements, suppliers controlled
 - **Organizational**: Bases built, personnel recruited, advisor hiring
-
+
+

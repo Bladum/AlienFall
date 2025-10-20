@@ -1,5 +1,26 @@
 # Crafts System
 
+## Table of Contents
+
+- [Overview](#overview)
+- [Craft Fundamentals](#craft-fundamentals)
+- [Craft Classification](#craft-classification)
+- [Craft Statistics](#craft-statistics)
+- [Craft Weapons](#craft-weapons)
+- [Craft Addons & Upgrades](#craft-addons--upgrades)
+- [Craft Experience & Progression](#craft-experience--progression)
+- [Craft Maintenance & Repair](#craft-maintenance--repair)
+- [Craft Transport Mechanics](#craft-transport-mechanics)
+- [Crash Sites & Rescue Missions](#crash-sites--rescue-missions)
+- [Craft-Unit Integration](#craft-unit-integration)
+- [Craft Types by Engine & Terrain](#craft-types-by-engine--terrain)
+- [Quick Reference Table](#quick-reference-table)
+- [Craft Manufacturing & Technology](#craft-manufacturing--technology)
+- [Design Philosophy](#design-philosophy)
+- [Integration with Other Systems](#integration-with-other-systems)
+
+---
+
 ## Overview
 
 Crafts serve as the primary vehicles for strategic deployment and tactical operations in AlienFall. Similar to heroes in Heroes of Might and Magic, crafts function as persistent assets that move across the Geoscape carrying units to battle sites. Beyond transport, crafts engage in their own tactical layer through the **Interception system**, enabling player-controlled aerial combat against UFOs and enemy forces.

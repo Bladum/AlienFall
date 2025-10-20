@@ -14,8 +14,12 @@
 - [Unit Resource Management](#unit-resource-management)
 - [Unit Actions](#unit-actions)
 - [Status Effects & Morale](#status-effects--morale)
+- [Unit Abilities & Special Systems](#unit-abilities--special-systems)
+- [Concealment & Stealth (Advanced)](#concealment--stealth-advanced)
+- [Future Enhancements](#future-enhancements)
 - [Advanced Mechanics & Tactical Depth](#advanced-mechanics--tactical-depth)
 - [Victory & Defeat](#victory--defeat)
+- [Conclusion](#conclusion)
 
 ---
 

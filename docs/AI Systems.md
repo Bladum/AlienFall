@@ -1,18 +1,34 @@
-## AI Systems
+# AI Systems
 
-### Overview
+## Table of Contents
 
-**Architecture**
+- [Overview](#overview)
+- [Strategic AI (Geoscape)](#strategic-ai-geoscape)
+- [Operational AI (Interception)](#operational-ai-interception)
+- [Tactical AI (Battlescape)](#tactical-ai-battlescape)
+- [Autonomous Player AI](#autonomous-player-ai)
+- [Real-Time AI Behavior Adjustment](#real-time-ai-behavior-adjustment)
+- [AI System Integration & Emergent Behavior](#ai-system-integration--emergent-behavior)
+- [AI Configuration & Tuning](#ai-configuration--tuning)
+
+---
+
+## Overview
+
+### Architecture
+
 AI in AlienFall operates on a multi-layered hierarchical system spanning three scales: Strategic (Geoscape), Operational (Interception), and Tactical (Battlescape). Each layer maintains independent decision-making while coordinating through state messaging. AI agents execute deterministic decision trees rather than randomization—apparent randomness emerges from imperfect information and probabilistic mission generation.
 
-**Design Philosophy**
+### Design Philosophy
+
 - **Hierarchical**: Strategic decisions filter to tactical implementation
 - **Deterministic**: Decisions based on state rules, not random rolls
 - **Transparent**: All AI decisions loggable for analysis and tuning
 - **Emergent**: Complex behavior emerges from simple rule interactions
 - **Player-Mimic**: Autonomous agents can replicate human player strategy for testing
 
-**Scope Overview**
+### Scope Overview
+
 AI systems manage:
 - **Strategic Layer**: Campaign progression, faction diplomacy, mission generation, resource escalation
 - **Operational Layer**: Interception mechanics, UFO positioning, craft combat decisions
@@ -21,14 +37,15 @@ AI systems manage:
 
 ---
 
-### Strategic AI (Geoscape)
+## Strategic AI (Geoscape)
 
-**Overview**
+### Overview
+
 Strategic AI orchestrates global operations: faction behavior, mission generation, economic dynamics, and player threat escalation. The layer operates at campaign scale with 30-day cycles coordinating multiple subordinate systems.
 
-#### Faction AI System
+### Faction AI System
 
-**Faction Autonomy & Objectives**
+#### Faction Autonomy & Objectives
 
 Each faction (e.g., Sectoids, Ethereals, Hybrids) maintains independent strategic goals:
 
@@ -41,7 +58,7 @@ Each faction (e.g., Sectoids, Ethereals, Hybrids) maintains independent strategi
 | **Resource Management** | Generate resources, manufacture units, conduct research | Allocation mirrors player economy (10% research, 30% military) |
 | **Escalation Trigger** | Launch special attacks when campaign meter reaches threshold | Campaign points accumulate each mission cycle |
 
-**Faction Decision Algorithm**
+#### Faction Decision Algorithm
 ```
 Each Turn:
 1. Assess Player Threat Level (military strength, base count, fame)
@@ -54,9 +71,9 @@ Each Turn:
 5. Update Faction State → Resources consumed, bases placed, diplomatic pressure applied
 ```
 
-#### Country & Supplier AI
+### Country & Supplier AI
 
-**Country Behavior**
+#### Country Behavior
 
 Countries provide funding, claim territories, and respond to player performance:
 
@@ -68,7 +85,7 @@ Countries provide funding, claim territories, and respond to player performance:
 | **Diplomatic Reward** | Fame > Threshold + Alliance Bonus | +20K one-time reward, +1 supplier relationship |
 | **Territory Claim** | Undefended province during faction attack | Country loses province, can become hostile |
 
-**Supplier Behavior**
+#### Supplier Behavior
 
 Suppliers control marketplace inventory and pricing based on relationship:
 
@@ -81,7 +98,7 @@ Suppliers control marketplace inventory and pricing based on relationship:
 
 #### Mission Generation AI
 
-**Mission Framework**
+##### Mission Framework
 
 Missions are procedurally generated based on faction state and escalation meter:
 
@@ -94,7 +111,7 @@ Missions are procedurally generated based on faction state and escalation meter:
 | **Research Facility** | Alien tech site | Researchers + guards | +500 base + tech samples |
 | **Supply Raid** | Low player resources | Aliens vs Storage | +300 base + loot |
 
-**Mission Difficulty Scaling**
+##### Mission Difficulty Scaling
 
 Mission composition scales with player progression:
 ```
@@ -108,7 +125,7 @@ Alien Team Composition:
 
 #### Campaign Escalation Mechanics
 
-**Escalation Meter**
+##### Escalation Meter
 
 Campaign progress tracked through escalation points:
 - Each faction attack: +1 point
@@ -126,14 +143,15 @@ Escalation Thresholds:
 
 ---
 
-### Operational AI (Interception)
+## Operational AI (Interception)
 
-**Overview**
+### Overview
+
 Interception AI manages UFO behavior during craft vs. UFO combat: movement decisions, attack/flee calculations, energy management, and tactical positioning. Operates at individual UFO scale with action-per-turn resolution.
 
-#### UFO Decision Tree
+### UFO Decision Tree
 
-**UFO Behavior States**
+#### UFO Behavior States
 
 | State | Trigger | Behavior | Transition |
 |---|---|---|---|
@@ -142,7 +160,7 @@ Interception AI manages UFO behavior during craft vs. UFO combat: movement decis
 | **Escape** | HP < 25% or outnumbered 2:1 | Flee toward objective/edge | → Complete escape or intercept |
 | **Defensive** | Defending base/cargo | Hold position, return fire | → Aggressive if player retreats |
 
-**UFO Attack Resolution**
+#### UFO Attack Resolution
 
 Each turn UFO calculates attack viability:
 ```
@@ -158,14 +176,15 @@ UFO Decision:
 
 ---
 
-### Tactical AI (Battlescape)
+## Tactical AI (Battlescape)
 
-**Overview**
+### Overview
+
 Battlescape AI orchestrates squad-level combat with hierarchical decision-making: Side coordinates strategy, Teams manage squad groupings, Squads coordinate unit tactics, Units execute individual actions. All decisions derive from deterministic evaluation of game state.
 
-#### Side-Level AI
+### Side-Level AI
 
-**Faction Alignment & Engagement Rules**
+#### Faction Alignment & Engagement Rules
 
 | Side Type | Engagement Rules | Behavioral Goals | Coordination |
 |---|---|---|---|
@@ -191,7 +210,7 @@ Chosen Strategy:
 
 #### Team-Level AI (Squad Coordination)
 
-**Team Composition & Roles**
+##### Team Composition & Roles
 
 Each Team manages 2-4 Squads with coordinated objectives:
 
@@ -217,7 +236,7 @@ Each Turn:
 
 #### Squad-Level AI (1-10 Unit Groups)
 
-**Squad Formation Mechanics**
+##### Squad Formation Mechanics
 
 Squads maintain formations optimizing cover and firepower:
 
@@ -249,7 +268,7 @@ Squad Decision Loop:
 
 #### Unit-Level AI
 
-**Unit State Machine**
+##### Unit State Machine
 
 Individual units operate through discrete states:
 
@@ -294,14 +313,15 @@ Movement Cost = Base_Cost + Terrain_Modifier + Cover_Bonus - Squad_Cohesion_Pena
 
 ---
 
-### Autonomous Player AI (For Analytics & Testing)
+## Autonomous Player AI
 
-**Overview**
+### Overview
+
 Autonomous Player AI replicates human decision-making across all game systems: base management, research planning, manufacturing, unit recruitment, resource allocation, and tactical decision-making. Enables full campaign simulation without human intervention.
 
-#### Basescape Player AI
+### Basescape Player AI
 
-**Base Management Decision-Making**
+#### Base Management Decision-Making
 
 The autonomous player makes decisions for facility construction, research prioritization, and resource allocation:
 
@@ -332,7 +352,7 @@ Monthly Base Management Loop:
 
 #### Geoscape Player AI
 
-**Strategic Decision-Making**
+##### Strategic Decision-Making
 
 Autonomous player makes province targeting, craft deployment, and research priority decisions:
 
@@ -358,7 +378,7 @@ Campaign Strategic Loop:
 
 #### Tactical Combat Player AI
 
-**Mission Acceptance & Unit Preparation**
+##### Mission Acceptance & Unit Preparation
 
 Autonomous player chooses which missions to accept and how to equip units:
 
@@ -384,12 +404,13 @@ Mission Preparation:
 
 ---
 
-### Real-Time AI Behavior Adjustment
+## Real-Time AI Behavior Adjustment
 
-**Overview**
+### Overview
+
 AI difficulty scales dynamically based on player performance, creating appropriate challenge without frustration.
 
-#### Difficulty Scaling Mechanisms
+### Difficulty Scaling Mechanisms
 
 | Difficulty Level | Alien Unit Count | Equipment Tier | Reaction Speed | Special Abilities |
 |---|---|---|---|---|
@@ -400,28 +421,30 @@ AI difficulty scales dynamically based on player performance, creating appropria
 
 ---
 
-### AI System Integration & Emergent Behavior
+## AI System Integration & Emergent Behavior
 
-**Overview**
+### Overview
+
 Complex behavior emerges from simple subsystem interactions creating believable faction behavior, strategic depth, and replayable campaigns.
 
-#### Cascading Decision Effects
+### Cascading Decision Effects
 
 When Strategic AI decides to attack a province:
 1. **Strategic Effect**: Escalation meter +1, faction presence grows
 2. **Operational Effect**: UFO generated, interception mission available
 3. **Tactical Effect**: Unit teams created, combat mission available
 4. **Economic Effect**: Salvage available from victory, equipment manufacturing unlocked
-5. **Campaign Effect**: Player reputation affected (fame/karma), country relations shift
+5. Campaign Effect: Player reputation affected (fame/karma), country relations shift
 
 ---
 
-### AI Configuration & Tuning
+## AI Configuration & Tuning
 
-**Overview**
+### Overview
+
 AI behavior is entirely controlled via TOML configuration, enabling rapid balance iteration without code changes.
 
-**Configuration Example**
+### Configuration Example
 ```toml
 [ai.faction.attack_decision]
 min_force_ratio = 1.5  # Faction needs 1.5x player force to attack

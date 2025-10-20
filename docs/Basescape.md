@@ -1,20 +1,38 @@
-## Basescape
+# Basescape
 
-### Overview
+## Table of Contents
 
-**System Architecture**
+- [Overview](#overview)
+- [Base Construction & Sizing](#base-construction--sizing)
+- [Facility Grid System](#facility-grid-system)
+- [Facilities & Services System](#facilities--services-system)
+- [Unit Recruitment & Personnel](#unit-recruitment--personnel)
+- [Equipment & Crafts Management](#equipment--crafts-management)
+- [Base Maintenance & Economics](#base-maintenance--economics)
+- [Base Defense & Interception](#base-defense--interception)
+- [Base Integration & Feedback Loops](#base-integration--feedback-loops)
+- [Base Radar Coverage](#base-radar-coverage)
+- [Base Reports & Analytics](#base-reports--analytics)
+
+---
+
+## Overview
+
+### System Architecture
+
 Basescape is the tactical base management layer where players construct and maintain operational hubs. Each base is a grid-based facility complex that provides housing, research capability, manufacturing capacity, resource storage, and defensive capabilities. Bases serve as the economic and operational backbone of the player organization, converting battlefield salvage into research, equipped units, and long-term strategic advantage.
 
 **Design Philosophy**
+
 Basescape emphasizes spatial planning, resource optimization, and interconnected systems. Facilities provide diverse functions but require careful positioning to maximize efficiency bonuses. The system creates meaningful strategic decisions: size affects cost and defensive capacity; facility placement determines adjacency bonuses; maintenance costs scale with complexity. Multiple playstyles are supported: research-focused bases, manufacturing-focused factories, defense-oriented strongholds, or balanced facilities.
 
 **Core Principle**: One base per province (exclusive territorial occupation).
 
 ---
 
-### Base Construction & Sizing
+## Base Construction & Sizing
 
-**Overview**
+### Overview
 Base construction is a capital-intensive decision that gates player expansion. Base size directly affects initial cost, construction time, facility capacity, and defensive potential. Larger bases provide more slots but require greater resources and longer construction periods.
 
 **Base Size Progression**
@@ -68,7 +86,7 @@ Tech Bonus: Advanced construction research provides -10% to -20% time reduction
 
 ---
 
-### Facility Grid System
+## Facility Grid System
 
 **Overview**
 Base facilities exist on a hexagonal grid, creating a two-dimensional strategic layout. The hex grid creates a balanced topology where each facility touches six neighbors (not four as in square grids), encouraging diverse placement strategies and requiring careful planning.
@@ -108,7 +126,7 @@ Base facilities exist on a hexagonal grid, creating a two-dimensional strategic 
 
 ---
 
-### Facilities & Services System
+## Facilities & Services System
 
 **Overview**
 Facilities are modular buildings that provide services, generate capacity, and consume resources. Each facility serves one primary function but may provide secondary benefits. Services are simple binary flags (service exists or doesn't); there are no service levels.
@@ -174,7 +192,7 @@ Horizontal/vertical connections provide efficiency bonuses:
 
 ---
 
-### Unit Recruitment & Personnel
+## Unit Recruitment & Personnel
 
 **Overview**
 Units are the only living personnel in bases. There are no separate scientists or engineers; all work is performed by units allocated to facilities. Units provide housing, training capacity, and combat effectiveness.
@@ -250,7 +268,7 @@ Units are the only living personnel in bases. There are no separate scientists o
 
 ---
 
-### Equipment & Crafts Management
+## Equipment & Crafts Management
 
 **Overview**
 Items and crafts represent player equipment inventory and transport capabilities. All items have weight and space; crafts occupy dedicated slots in hangars and garages. Strategic management of equipment directly impacts field effectiveness.
@@ -285,7 +303,7 @@ Items and crafts represent player equipment inventory and transport capabilities
 
 ---
 
-### Base Maintenance & Economics
+## Base Maintenance & Economics
 
 **Overview**
 Bases are capital-intensive and require continuous resource investment. Maintenance costs scale with base complexity and scale non-linearly with size, creating economic pressure to optimize efficiency.
@@ -318,7 +336,7 @@ Net Monthly Budget = Monthly Income - Monthly Cost
 
 ---
 
-### Base Defense & Interception
+## Base Defense & Interception
 
 **Overview**
 Bases are vulnerable to alien interception attacks. Defense is primarily passive (turrets, defensive facilities, HP values) supplemented by player active defense through Battlescape engagement.
@@ -369,7 +387,7 @@ Repair Cost = (Damage Taken / Max HP) × (50% of Build Cost)
 
 ---
 
-### Base Integration & Feedback Loops
+## Base Integration & Feedback Loops
 
 **Overview**
 Basescape integrates with Geoscape, Battlescape, and economy systems through vertical and horizontal feedback loops creating emergent gameplay and strategic depth.
@@ -423,7 +441,7 @@ Basescape integrates with Geoscape, Battlescape, and economy systems through ver
 
 ---
 
-### Base Radar Coverage
+## Base Radar Coverage
 
 **Overview**
 Radar facilities provide Geoscape mission detection and early warning. Higher radar coverage increases mission visibility range, directly impacting player ability to intercept threats before they complete objectives.
@@ -450,7 +468,7 @@ Radar facilities provide Geoscape mission detection and early warning. Higher ra
 
 ---
 
-### Base Reports & Analytics
+## Base Reports & Analytics
 
 **Overview**
 Monthly base reports provide comprehensive overview of base status, enabling informed strategic decisions and identifying optimization opportunities.
@@ -478,4 +496,5 @@ Monthly base reports provide comprehensive overview of base status, enabling inf
 - Trend indicators (improving/declining efficiency over months)
 - Optimization recommendations (adjacency bonus opportunities, power efficiency, etc.)
 	
-
+
+

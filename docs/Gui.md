@@ -9,7 +9,7 @@
 - [Responsive Design](#responsive-design)
 - [UI Themes](#ui-themes)
 - [Scene-Specific Layouts](#scene-specific-layouts)
-  - [Geoscape Scene](#geoscape-scene)
+- [Geoscape Scene](#geoscape-scene)
 
 ## Overview
 
@@ -33,10 +33,11 @@ Player communication layer providing accessible, intuitive interaction with all 
 2. Enter (trigger fade-in)
 3. Update (process input/logic)
 4. Draw (render)
-5. Exit (trigger fade-out)
-6. Cleanup (release resources)
+6. Exit (trigger fade-out)
+7. Cleanup (release resources)
 
-- Event System
+### Event System
+
 - **Input Events**: Click, Hover, Focus, Blur, Change, Double-Click, Right-Click
 - **Callbacks**: Trigger on events, enable responsive behavior
 
@@ -138,7 +139,7 @@ Player communication layer providing accessible, intuitive interaction with all 
 - World Analytics (statistics, faction status)
 - Budget Breakdown (detailed finance view)
 
-#### Basescape Scene
+### Basescape Scene
 
 **Main Components**:
 - **Base Grid** (center-left): 2D facility layout
@@ -154,7 +155,7 @@ Player communication layer providing accessible, intuitive interaction with all 
 - Base Analytics (statistics, efficiency)
 - Base Transfer (resource movement)
 
-#### Battlescape Scene
+### Battlescape Scene
 
 **Main Components**:
 - **Hex Grid Map** (center): Tactical battlefield
@@ -170,7 +171,7 @@ Player communication layer providing accessible, intuitive interaction with all 
 - Ability Details (preview ability effects)
 - Post-Mission Summary (results, rewards, casualties)
 
-#### Interception Scene
+### Interception Scene
 
 **Main Components**:
 - **Craft Status** (left): Health, armor, weapons

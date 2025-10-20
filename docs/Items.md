@@ -11,6 +11,7 @@
 - [Craft Equipment](#craft-equipment)
 - [Special Item Types](#special-item-types)
 - [Economy & Trading](#economy--trading)
+- [Appendix: Quick Reference](#appendix-quick-reference)
 
 ---
 

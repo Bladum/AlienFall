@@ -1,15 +1,36 @@
-## Interception
+# Interception
 
-### Overview
+## Table of Contents
+
+- [Overview](#overview)
+- [Strategic Environment](#strategic-environment)
+- [Equipment & Weapon Systems](#equipment--weapon-systems)
+- [Weapon Mechanics](#weapon-mechanics)
+- [Action Point System](#action-point-system)
+- [Energy Point System](#energy-point-system)
+- [Object Capabilities](#object-capabilities)
+- [Combat Model Simplification](#combat-model-simplification)
+- [Object Deactivation](#object-deactivation)
+- [Interception Outcomes](#interception-outcomes)
+- [Experience & Advancement](#experience--advancement)
+- [Base Defense Integration](#base-defense-integration)
+- [Biome & Environmental Effects](#biome--environmental-effects)
+- [Interception as Strategic Layer](#interception-as-strategic-layer)
+- [Design Analogy](#design-analogy)
+
+---
+
+## Overview
 
 Interception is the tactical engagement layer positioned between the Geoscape (strategic) and Battlescape (tactical squad combat) levels. It represents mid-level military engagements between player craft/bases and enemy forces (UFOs, alien bases, missions). The interception system uses a card-game-like combat model featuring hero-level craft and base defenses engaging enemy objectives.
 
 **Design Philosophy**
+
 Interception bridges strategic deployment and tactical ground combat. It simulates aerial/orbital combat and base defense scenarios before the conflict escalates to ground-level battlescape. The system emphasizes resource commitment, positioning, and weapon selection over individual unit tactics.
 
 ---
 
-### Strategic Environment
+## Strategic Environment
 
 **Three-Dimensional Engagement Space**
 Combat is organized into three altitude sectors representing different operational domains:
@@ -24,7 +45,7 @@ Combat is organized into three altitude sectors representing different operation
 - Mixing of object types within sectors allowed
 - Sector switching restricted during engagement (see "Deactivation Mechanics")
 
-**Combat Formation**
+- Combat Formation
 - Player forces occupy left side of engagement screen
 - Enemy forces occupy right side of engagement screen
 - Sectors are independent but visible simultaneously
@@ -32,10 +53,10 @@ Combat is organized into three altitude sectors representing different operation
 
 ---
 
-### Equipment & Weapon Systems
+## Equipment & Weapon Systems
 
 **Equipment Specialization**
-Craft equipment determines available actions and tactical capabilities during interception. Equipment loadouts define what targets can be engaged.
+Craft equipment determines available actions and tactical capabilities during interception.
 
 **Weapon Type Interactions**
 
@@ -56,7 +77,7 @@ Craft equipment determines available actions and tactical capabilities during in
 
 ---
 
-### Weapon Mechanics
+## Weapon Mechanics
 
 **Weapon Properties**
 Each weapon has distinct characteristics that define its effectiveness:
@@ -103,7 +124,7 @@ Specialized weapons operate on craft and bases but not individual soldiers:
 
 ---
 
-### Action Point System
+## Action Point System
 
 **Action Point Mechanics**
 Action Points govern how frequently units can perform actions during combat turns. AP regenerates at start of each turn based on health status.
@@ -139,7 +160,7 @@ Action Points govern how frequently units can perform actions during combat turn
 
 ---
 
-### Energy Point System
+## Energy Point System
 
 **Energy Pool Mechanics**
 Energy Points represent combined capacity for:
@@ -189,7 +210,7 @@ Energy Points represent combined capacity for:
 
 ---
 
-### Object Capabilities
+## Object Capabilities
 
 **Every Combat Object Possesses**
 - **Health Points**: Damage threshold before destruction
@@ -212,7 +233,7 @@ Each object can select from:
 
 ---
 
-### Combat Model Simplification
+## Combat Model Simplification
 
 **Excluded Mechanics**
 The interception system intentionally excludes complexity for streamlined gameplay:
@@ -228,7 +249,7 @@ Simplification creates transparent gameplay where players understand exactly how
 
 ---
 
-### Object Deactivation
+## Object Deactivation
 
 **Deactivation Mechanics**
 Objects can become disabled through damage, creating escalating vulnerability:
@@ -257,7 +278,7 @@ Objects can become disabled through damage, creating escalating vulnerability:
 
 ---
 
-### Interception Outcomes
+## Interception Outcomes
 
 **Victory Conditions (Player Wins)**
 1. **Total Destruction**: Reduce all enemy objects to 0 HP
@@ -282,7 +303,7 @@ Objects can become disabled through damage, creating escalating vulnerability:
 
 ---
 
-### Experience & Advancement
+## Experience & Advancement
 
 **Interception Experience**
 - **Craft Crews**: Gain experience for participation in interception
@@ -298,7 +319,7 @@ Objects can become disabled through damage, creating escalating vulnerability:
 
 ---
 
-### Base Defense Integration
+## Base Defense Integration
 
 **Facility-Based Defense**
 Facilities with base defense capability contribute to interception:
@@ -327,7 +348,7 @@ When player forces assault enemy alien bases during interception:
 
 ---
 
-### Biome & Environmental Effects
+## Biome & Environmental Effects
 
 **Terrain Influence on Interception**
 Province biome affects interception appearance and mechanics:
@@ -346,7 +367,7 @@ Province biome affects interception appearance and mechanics:
 
 ---
 
-### Interception as Strategic Layer
+## Interception as Strategic Layer
 
 **Position in Game Flow**
 ```
@@ -372,7 +393,7 @@ Geoscape → [Radar Detection] → Interception → [Victory/Defeat] → Battles
 
 ---
 
-### Design Analogy
+## Design Analogy
 
 **Card Battle Game Comparison**
 Interception resembles tactical card battle games at the strategic hero level:
@@ -386,4 +407,5 @@ Interception resembles tactical card battle games at the strategic hero level:
 The interception system abstracts mid-level combat into resource management and tactical selection, avoiding individual soldier-level micromanagement while maintaining strategic depth.
 	
 
-
+
+

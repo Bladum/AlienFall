@@ -1,17 +1,41 @@
-## Geoscape
+# Geoscape
 
-### Overview
+## Table of Contents
+
+- [Overview](#overview)
+- [Universe System](#universe-system)
+- [World System](#world-system)
+- [World Renderer](#world-renderer)
+- [World Tile System](#world-tile-system)
+- [World Path System](#world-path-system)
+- [Province System](#province-system)
+- [Biome System](#biome-system)
+- [Region System](#region-system)
+- [Portal System](#portal-system)
+- [Country System](#country-system)
+- [Travel System](#travel-system)
+- [Radar Coverage System](#radar-coverage-system)
+- [Random Encounter System (Proposed)](#random-encounter-system-proposed)
+- [Geoscape Gameplay Loop](#geoscape-gameplay-loop)
+- [Visual Design Analogy](#visual-design-analogy)
+- [Geoscape Map Scales](#geoscape-map-scales)
+
+---
+
+## Overview
+
+### Design Context
 
 The Geoscape is the strategic layer of the game, representing the global view of military operations across the entire world. It combines elements from games like Eador, Heroes of Might and Magic, and Europa Universalis, where player craft function as heroes commanding armies (units), moving across a defined world map. The Geoscape manages base locations, mission generation, craft deployment, radar detection, and strategic decision-making at the macro level.
 
-**Design Philosophy**
+### Design Philosophy
 The Geoscape emphasizes strategic planning and resource allocation. Players must balance multiple objectives: base expansion, craft deployment, mission interception, country relationships, and long-term territorial control. The system supports multiple playstyles from aggressive expansion to defensive consolidation.
 
 ---
 
-### Universe System
+## Universe System
 
-**Overview**
+### Overview
 The Universe manages all worlds and inter-world connectivity. Multiple independent worlds exist simultaneously, each with their own geopolitical situation and mission generation. Portals provide limited inter-world travel.
 
 **Multi-World Mechanics**
@@ -33,7 +57,7 @@ Managing multiple active worlds provides additional complexity and strategic dep
 
 ---
 
-### World System
+## World System
 
 **Overview**
 A World is a complete strategic map represented as a 2D hexagonal grid. Earth is the primary world (90×45 hex tiles, each representing 500km). Multiple worlds exist with varying sizes and configurations.
@@ -66,7 +90,7 @@ A World is a complete strategic map represented as a 2D hexagonal grid. Earth is
 
 ---
 
-### World Renderer
+## World Renderer
 
 **Overview**
 The World Renderer displays the hexagonal map with visual clarity and strategic information overlay. It supports multiple display modes to convey different information layers.
@@ -96,7 +120,7 @@ Color-coded overlays allow players to quickly assess situations and make informe
 
 ---
 
-### World Tile System
+## World Tile System
 
 **Overview**
 World Tiles are the individual hexagonal cells comprising the world map. Each tile has terrain properties affecting movement costs and gameplay mechanics. Tiles themselves are not gameplay entities but support pathfinding and rendering.
@@ -118,7 +142,7 @@ Terrain affects craft travel speed and movement point expenditure. Rough terrain
 
 ---
 
-### World Path System
+## World Path System
 
 **Overview**
 World Paths are pre-calculated shortest routes between two provinces for specific craft types. They optimize travel by accounting for craft-specific movement capabilities (aircraft vs. naval vs. ground).
@@ -142,7 +166,7 @@ World Paths are pre-calculated shortest routes between two provinces for specifi
 
 ---
 
-### Province System
+## Province System
 
 **Overview**
 Provinces are the fundamental entities of the Geoscape. Each province is a graph node capable of containing bases, missions, and craft. Provinces are the primary target of strategic operations and diplomatic relations.
@@ -183,7 +207,7 @@ Provinces are uniquely identifiable and persistent. Player decisions affect prov
 
 ---
 
-### Biome System
+## Biome System
 
 **Overview**
 Biomes define the environmental characteristics of provinces, affecting gameplay mechanics, visuals, and available mission types. Each province has exactly one biome classification.
@@ -229,7 +253,7 @@ Each biome determines:
 
 ---
 
-### Region System
+## Region System
 
 **Overview**
 Regions are groupings of provinces that share geopolitical and administrative boundaries. All scoring is calculated at regional level, then aggregated to countries. Regions provide both strategic boundaries and administrative organization.
@@ -271,7 +295,7 @@ Regions are groupings of provinces that share geopolitical and administrative bo
 
 ---
 
-### Portal System
+## Portal System
 
 **Overview**
 Portals are special transit locations enabling instantaneous, cost-free travel between two provinces, even if they reside on different worlds. Portals provide critical strategic value through enabled rapid deployment.
@@ -294,7 +318,7 @@ Portals typically exist in pairs, creating stable wormhole connections. Players 
 
 ---
 
-### Country System
+## Country System
 
 **Overview**
 Countries are political entities representing allied and hostile nations that the player must protect and manage. Each country has economic power, diplomatic relations, and strategic importance. Countries are the source of player funding and mission generation.
@@ -340,7 +364,7 @@ Countries are political entities representing allied and hostile nations that th
 
 ---
 
-### Travel System
+## Travel System
 
 **Overview**
 Travel represents craft movement between provinces. Craft are assigned missions to specific provinces and travel there using pre-calculated world paths. Travel speed determines operational capability and range.
@@ -387,7 +411,7 @@ Travel Time = Path Distance / Craft Speed
 
 ---
 
-### Radar Coverage System
+## Radar Coverage System
 
 **Overview**
 Radar Coverage represents the detection capability of player bases and craft. Equipped with radar systems, bases and craft scan nearby provinces daily to detect enemy missions. This creates dynamic mission revelation and interception opportunities.
@@ -455,7 +479,7 @@ Radar Coverage represents the detection capability of player bases and craft. Eq
 
 ---
 
-### Random Encounter System (Proposed)
+## Random Encounter System (Proposed)
 
 **Overview**
 *[DESIGN QUESTION: Under consideration for future implementation]*
@@ -472,7 +496,7 @@ During transit between provinces, craft might encounter hostile forces in mid-jo
 
 ---
 
-### Geoscape Gameplay Loop
+## Geoscape Gameplay Loop
 
 **Overview**
 The core Geoscape gameplay loop represents the primary player interaction with the strategic layer.
@@ -498,7 +522,7 @@ The core Geoscape gameplay loop represents the primary player interaction with t
 
 ---
 
-### Visual Design Analogy
+## Visual Design Analogy
 
 **Inspirational Games**
 The Geoscape resembles strategic layers from:
@@ -512,7 +536,7 @@ Craft = Heroes commanding armies (units), moving across a well-defined world whe
 
 ---
 
-### Geoscape Map Scales
+## Geoscape Map Scales
 
 **Strategic Scale** (Zoomed Out)
 - View entire world/region
@@ -529,4 +553,5 @@ Craft = Heroes commanding armies (units), moving across a well-defined world whe
 - Plan precise routes
 - Province boundaries clear
 - Biome details visible
-	
+	
+

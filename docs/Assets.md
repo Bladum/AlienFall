@@ -6,14 +6,8 @@
 - [Tileset System](#tileset-system)
 - [Asset Management & Caching](#asset-management--caching)
 - [Mod Creation](#mod-creation)
-  - [Mod Structure](#mod-structure)
-  - [Mod Data Format (TOML)](#mod-data-format-toml)
 - [Mod Loading & Integration](#mod-loading--integration)
-  - [Load Order](#load-order)
-  - [API Integration](#api-integration)
 - [Testing & Validation](#testing--validation)
-  - [Mod Validation](#mod-validation)
-  - [Testing Framework](#testing-framework)
 - [Mod API Documentation](#mod-api-documentation)
 
 ## Asset Types & Organization
@@ -68,7 +62,7 @@ graphics = "sprites/unit.png"
 audio = "sounds/footstep.ogg"
 ```
 
-### Mod Loading & Integration
+## Mod Loading & Integration
 
 ### Load Order
 - Load core game assets and mods first

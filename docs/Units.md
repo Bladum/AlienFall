@@ -1,6 +1,28 @@
 # Units System
 
+## Table of Contents
+
+- [Overview](#overview)
+- [Unit Classification](#unit-classification)
+- [Unit Recruitment](#unit-recruitment)
+- [Unit Statistics](#unit-statistics)
+- [Experience & Progression](#experience--progression)
+- [Unit Inventory & Equipment](#unit-inventory--equipment)
+- [Unit Traits](#unit-traits)
+- [Transformations](#transformations)
+- [Unit Roles & Specializations](#unit-roles--specializations)
+- [Unit Health & Recovery](#unit-health--recovery)
+- [Unit Morale & Psychology](#unit-morale--psychology)
+- [Unit Customization & Individuality](#unit-customization--individuality)
+- [Unit Cost & Maintenance](#unit-cost--maintenance)
+- [Quick Reference Table](#quick-reference-table)
+- [Design Philosophy](#design-philosophy)
+
+---
+
 ## Overview
+
+### Design Context
 
 The Unit system is the foundation of tactical gameplay in AlienFall. Units represent individual soldiers, specialized operatives, and alien entities that form the backbone of combat operations. The system features a deep progression mechanic inspired by XCOM and Battle for Wesnoth, where units advance through experience-based ranks with branching specialization paths.
 
@@ -596,14 +618,13 @@ Players can mix and match traits, equipment, and specializations to create hybri
 
 **Passive Recovery**:
 - +0 HP per turn in battle (no passive healing)
-- +1 HP per day in barracks
-- +3 HP per day in Medical Facility
-- Full recovery in 7 days (max HP health) in advanced facilities
+- +1 HP per week in barracks
+- +3 HP per week in Medical Facility
 
 **Active Recovery**:
-- Medikit use: 25 HP (Medic class) or 15 HP (other classes), 5 charges per kit
-- Surgical facility: Instant full healing, costs 500 credits
-- Stimulant injection: +10 HP, one-time use item
+- Medikit use: 3 HP (Medic class) or 2 HP (other classes), 5 charges per kit
+- Surgical facility: Instant full healing, costs 50K
+- Stimulant injection: +1 HP, one-time use item
 
 ### Wound System
 

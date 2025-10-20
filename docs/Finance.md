@@ -1,8 +1,18 @@
-## Finance
+# Finance
 
-### Score System
+## Table of Contents
 
-**Overview**
+- [Score System](#score-system)
+- [Country Funding](#country-funding)
+- [Income Sources](#income-sources)
+- [Expenses](#expenses)
+- [Monthly Financial Report](#monthly-financial-report)
+
+---
+
+## Score System
+
+### Overview
 The score system measures how effectively the player protects allied nations from alien threats. Score is separate from game success metrics; it directly impacts funding and relationships.
 
 **Scoring Mechanics**
@@ -23,13 +33,14 @@ The score system measures how effectively the player protects allied nations fro
 - Refusing mission interception requests
 
 **Strategic Impact**
+
 Score directly influences country relationships and funding levels, creating a feedback loop where successful operations lead to greater resources.
 
 ---
 
-### Country Funding
+## Country Funding
 
-**Overview**
+### Overview
 Countries allocate defense budgets based on player performance. The player receives a percentage of each country's GDP monthly, proportional to the defense funding level assigned.
 
 **Funding Calculation**
@@ -48,9 +59,9 @@ Countries allocate defense budgets based on player performance. The player recei
 
 ---
 
-### Income Sources
+## Income Sources
 
-**Primary Revenue Streams**
+### Primary Revenue Streams
 1. **Country Funding**: Monthly allocation based on defense budget level and country relationships
 2. **Mission Loot Sales**: Selling salvaged alien technology and equipment from completed missions
 3. **Raid Loot Sales**: Selling equipment captured during non-mission battles and skirmishes
@@ -60,9 +71,9 @@ Countries allocate defense budgets based on player performance. The player recei
 
 ---
 
-### Expenses
+## Expenses
 
-**Operational Costs**
+### Operational Costs
 - **Equipment Purchases**: Buying items, units, craft, and facility components from marketplace
 - **Personnel Maintenance**: Monthly upkeep for all soldiers and support personnel
 - **Facility Maintenance**: Regular maintenance for all constructed facilities
@@ -78,7 +89,7 @@ Countries allocate defense budgets based on player performance. The player recei
 
 ---
 
-### Monthly Financial Report
+## Monthly Financial Report
 
 **Statement Components**
 - **Total Revenue**: Sum of all income sources
@@ -110,4 +121,5 @@ When cash reserves become depleted, players can take out loans to continue opera
 
 **Risk Management**
 Players must carefully manage debt levels to avoid financial ruin, as excessive interest payments drain resources needed for operations.
-
+
+

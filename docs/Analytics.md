@@ -1,14 +1,28 @@
-## Analytics
+# Analytics
 
-### Overview
+## Table of Contents
 
-**System Architecture**
+- [Overview](#overview)
+- [Stage 1: Autonomous Simulation & Log Capture](#stage-1-autonomous-simulation--log-capture)
+- [Stage 2: Data Aggregation & Processing](#stage-2-data-aggregation--processing)
+- [Stage 3: Metric Calculation](#stage-3-metric-calculation)
+- [Stage 4: Insights & Visualization](#stage-4-insights--visualization)
+- [Stage 5: Action Planning](#stage-5-action-planning)
+
+---
+
+## Overview
+
+### System Architecture
+
 Analytics is a comprehensive data collection, processing, and analysis framework that enables continuous game balance improvement, performance optimization, and design validation. The system operates on a five-stage pipeline: autonomous simulation → log capture → data aggregation → metric calculation → action planning. All analytics data flows through structured, queryable formats (Parquet, SQL) enabling rapid insights and automated decision-making.
 
-**Design Philosophy**
+### Design Philosophy
+
 Analytics enables data-driven game design through continuous feedback loops. Rather than relying on manual playtesting or intuition, the analytics system captures millions of game events, extracts meaningful patterns, and surfaces actionable insights. The system supports both automated AI-driven testing and organic player-generated data, creating a unified data corpus for holistic game understanding.
 
-**Strategic Purpose**
+### Strategic Purpose
+
 - **Balance Validation**: Verify that game mechanics function as intended
 - **Performance Profiling**: Identify bottlenecks and optimization opportunities
 - **Design Verification**: Confirm design goals are met through gameplay data
@@ -18,12 +32,13 @@ Analytics enables data-driven game design through continuous feedback loops. Rat
 
 ---
 
-### Stage 1: Autonomous Simulation & Log Capture
+## Stage 1: Autonomous Simulation & Log Capture
 
-**Overview**
+### Overview
+
 Autonomous simulations run miniature game instances where AI agents execute both strategic decisions (faction operations) and tactical decisions (player actions including UI clicks). Simulations execute entirely in backend, generating granular logs of all game events.
 
-**Simulation Types**
+### Simulation Types
 
 | Simulation Type | Scope | Duration | Frequency | Purpose |
 |---|---|---|---|---|
@@ -33,12 +48,13 @@ Autonomous simulations run miniature game instances where AI agents execute both
 | **Battlescape Simulation** | Tactical ground combat | Single mission | Per-mission | Unit balance, weapon effectiveness, AI tactics |
 | **Full Campaign Simulation** | All systems integrated | 6-12 months gameplay | Weekly | Emergent interactions, long-term dynamics |
 
-**Dual AI Architecture**
+### Dual AI Architecture
+
 - **Faction AI**: Native game AI executing enemy strategy (campaign generation, unit deployment, tactical decisions)
 - **Player AI**: Separate meta-AI making high-level strategic decisions mimicking human player behavior (base building, research prioritization, craft deployment, UI interaction patterns)
 - **Interaction Layer**: Player AI receives game state, makes decisions, translates to actions/UI clicks, feeds into Faction AI reactions
 
-**Player AI Decision-Making**
+### Player AI Decision-Making
 ```
 Player AI Decision Loop:
 1. Analyze Game State → Current resources, base status, threats, opportunities
@@ -48,7 +64,7 @@ Player AI Decision Loop:
 5. Feedback → Record all actions, outcomes, costs, durations
 ```
 
-**Log Structure & Format**
+### Log Structure & Format
 
 All game events logged with consistent schema:
 ```
@@ -92,7 +108,7 @@ In addition to autonomous simulations:
 
 ---
 
-### Stage 2: Data Processing & Aggregation
+## Stage 2: Data Aggregation & Processing
 
 **Overview**
 Raw logs are transformed into queryable SQL databases using DuckDB and Parquet files. This stage enables rapid analysis and historical comparisons without manual log parsing.
@@ -154,7 +170,7 @@ ORDER BY usage_count DESC
 
 ---
 
-### Stage 3: Analytics & Insights Generation
+## Stage 3: Metric Calculation
 
 **Overview**
 Aggregated data enables extraction of actionable insights. Analytics stage compares actual performance against expected behavior, identifies deviations, and surfaces balance issues or implementation problems.
@@ -353,7 +369,7 @@ ORDER BY peak_memory DESC
 
 ---
 
-### Stage 4: Global Metrics Definition & Validation
+## Stage 4: Insights & Visualization
 
 **Overview**
 Global metrics define success criteria for game design. They answer: "Is the game good?" across multiple dimensions. Metrics are defined in configuration (TOML) and automatically calculated from analytics data to track progress toward design goals.
@@ -475,7 +491,7 @@ Research Pacing Issue: Mid-tier research taking 40% longer
 
 ---
 
-### Stage 5: Action Planning & Improvement Cycles
+## Stage 5: Action Planning
 
 **Overview**
 Metrics that fail acceptance criteria automatically generate action plans. These plans identify whether issues lie in game configuration (MOD/TOML) or engine implementation, enabling targeted fixes.
@@ -871,4 +887,5 @@ Recommendation: Pause AI simulations using Plasma Rifle, investigate TOML
 
 	
 	
-
+
+

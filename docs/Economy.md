@@ -1,8 +1,20 @@
-## Economy
+# Economy
 
-### Research Projects
+## Table of Contents
 
-**Overview**
+- [Research Projects](#research-projects)
+- [Research Technology Tree](#research-technology-tree)
+- [Manufacturing Projects](#manufacturing-projects)
+- [Marketplace](#marketplace)
+- [Black Market](#black-market)
+- [Supplier System](#supplier-system)
+- [Transfer System](#transfer-system)
+
+---
+
+## Research Projects
+
+### Overview
 Research projects allow players to unlock new technologies and capabilities by conducting scientific research. Each project requires a specific combination of resources, facilities, personnel, and prerequisite research.
 
 **Requirements**
@@ -53,15 +65,16 @@ Research projects allow players to unlock new technologies and capabilities by c
 - Alien research branches off with unique dependencies (requires captured aliens first)
 
 **Failed Research**
+
 - Research cannot fail but can be cancelled
 - Cancelled research returns 50-75% of invested credits
 - Partial progress retained (not lost on cancellation)
 
 ---
 
-### Research Technology Tree
+## Research Technology Tree
 
-**Overview**
+#### Overview
 Research projects form interconnected branches that build a comprehensive technology tree. Players progress through multiple research paths simultaneously.
 
 **Mechanics**
@@ -71,13 +84,14 @@ Research projects form interconnected branches that build a comprehensive techno
 - Completing research unlocks new items, manufacturing capabilities, and mission options
 
 **Strategic Depth**
+
 - Players must balance broad research against focused advancement
 - Regional technology variations can impact mission strategies
 - Faction research trees remain independent and separate
 
 ---
 
-### Manufacturing Projects
+## Manufacturing Projects
 
 **Overview**
 Once a technology is researched, players can begin manufacturing relevant items, weapons, armor, and craft equipment. Manufacturing is a resource-intensive operation requiring careful planning and facility investment.
@@ -147,7 +161,7 @@ Engineer Hours = Item Complexity × Quantity
 
 ---
 
-### Marketplace
+## Marketplace
 
 **Overview**
 The marketplace provides access to items, weapons, armor, ammunition, and supplies through multiple competing suppliers. Marketplace availability is dynamic based on diplomatic relations, fame, black market access, and tech progress.
@@ -255,7 +269,7 @@ Bulk Discount: 5% per 5+ items, 15% per 20+ items, 25% per 50+ items
 
 ---
 
-### Black Market
+## Black Market
 
 **Overview**
 The black market provides restricted access to rare items and specialized services beyond legitimate channels, including espionage, assassination, and illegal salvage.
@@ -275,7 +289,7 @@ The black market provides restricted access to rare items and specialized servic
 
 ---
 
-### Supplier System
+## Supplier System
 
 **Overview**
 Each good available for purchase has an associated supplier. Supplier relationships directly impact pricing and availability, creating an economic web of dependencies and strategic considerations.
@@ -390,7 +404,7 @@ Pricing Modifier = 1.0 + (0.005 × (100 - Relation))
 
 ---
 
-### Transfer System
+## Transfer System
 
 **Overview**
 The transfer system handles the movement of items, crafts, and personnel between bases, enabling logistics and supply chain management. It's the backbone of inter-base coordination and logistical warfare.
@@ -509,4 +523,5 @@ Disruption chance: 20% per delivery during active warfare in region
 - **Conditional Transfers**: Set transfer triggers based on events (low ammo → auto-resupply)
 - **Transfer Insurance**: Optional premium (5% of cost) covers up to 100% loss
 - **Regional Specialization**: Different regions excel at different goods (stability affects production speed)
-
+
+
