@@ -1,5 +1,50 @@
 # Phase 0: The Initiation - Running Scraps and Favors (1996)
 
+> **← [Story Index](09_LORE_INDEX.md) | [Lore Overview](00_LORE_OVERVIEW.md) | [Next: Phase I →](04_PHASE_1_REGIONAL_CONFLICT.md)**
+
+---
+
+## Quick Navigation
+- [Historical Context](#historical-context)
+- [X-Agency Structure](#the-xagency-small-beginnings)
+- [Mission 1: Retrieve & Repair](#mission-1-retrieve--repair)
+- [Mission 2: Bring & Carry](#mission-2-bring--carry)
+- [Mission 3: Verify & Check](#mission-3-verify--check)
+
+---
+
+## Phase 0 Overview: The Initiation
+
+```mermaid
+graph TB
+    subgraph World["Broken World 1996"]
+        CHAOS["🌍 Global Chaos<br/>Collapsed governments<br/>Regional warlords<br/>No international law"]
+    end
+    
+    subgraph Agency["X-Agency Formation"]
+        XA["👥 Small Mercenary Unit<br/>20-50 skilled operatives<br/>Seeking survival<br/>Taking any contract"]
+    end
+    
+    subgraph Missions["Training Missions"]
+        M1["📦 Retrieve & Repair<br/>Scavenge tech<br/>Local operation"]
+        M2["🚚 Bring & Carry<br/>Logistics<br/>Supply chain test"]
+        M3["✓ Verify & Check<br/>Reconnaissance<br/>Gather intelligence"]
+    end
+    
+    CHAOS -->|Opportunity| XA
+    XA -->|Learns through| M1
+    M1 -->|Builds to| M2
+    M2 -->|Leads to| M3
+    
+    style CHAOS fill:#8B4513
+    style XA fill:#32CD32,stroke:#000,stroke-width:2px
+    style M1 fill:#FFA500
+    style M2 fill:#FF6347
+    style M3 fill:#DC143C
+```
+
+---
+
 ## The Beginning: When the World Broke
 
 ### Historical Context
@@ -376,3 +421,8 @@ This understanding will make Phase I shocking: the X-Agency thought they were op
 **Phase 0 is not the beginning of the Long War. It is the beginning of the X-Agency's visibility in the Long War. The war has been happening in hidden corners for years. Phase 0 is where the X-Agency enters the stage—and becomes noticed by forces already playing the game.**
 
 This makes the X-Agency not the heroes of a universal narrative, but the disruptive variable in an existing conspiracy—unpredictable precisely because they were not designed to be part of the system.
+
+---
+
+> **← [Story Index](09_LORE_INDEX.md) | [Lore Overview](00_LORE_OVERVIEW.md) | [Next: Phase I →](04_PHASE_1_REGIONAL_CONFLICT.md)**
+```

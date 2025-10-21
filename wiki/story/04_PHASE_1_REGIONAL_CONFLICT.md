@@ -1,5 +1,74 @@
 # Phase I: The Age of Regional Conflict (1996-1999)
 
+> **← [Story Index](09_LORE_INDEX.md) | [Lore Overview](00_LORE_OVERVIEW.md) | [Prev: Phase 0](03_PHASE_0_INITIATION.md) | [Next: Phase II →](05_PHASE_2_SHADOW_WAR.md)**
+
+---
+
+## Quick Navigation
+- [What Is Phase I?](#the-orchestrated-chaos)
+- [Five Factions Overview](#the-five-factions-in-phase-i)
+- [Condor Cartel](#condor-cartel-the-rising-power)
+- [European Concord](#european-concord-the-paralyzed-power)
+- [Siberian Bloc](#siberian-bloc-the-hardened-survivors)
+- [Dragon's Eye](#dragons-eye-the-cybernetic-state)
+- [New Patriots](#new-patriots-the-isolationist-military)
+- [Paranormal Threats](#paranormal-emergence)
+
+---
+
+## Phase I Overview: Regional Conflict
+
+```mermaid
+graph TB
+    subgraph Visible["Visible Surface"]
+        CC["🇧🇷 Condor Cartel<br/>Resources<br/>South America"]
+        EC["🇪🇺 European Concord<br/>Corporate<br/>Europe"]
+        SB["🇷🇺 Siberian Bloc<br/>Survivors<br/>Russia/Eurasia"]
+        DE["🇨🇳 Dragon's Eye<br/>Cybernetic<br/>Asia"]
+        NP["🇺🇸 New Patriots<br/>Isolationist<br/>North America"]
+    end
+    
+    subgraph Hidden["Hidden Reality"]
+        SYN["⚡ THE SYNDICATE<br/>Orchestrating Everything"]
+    end
+    
+    subgraph XA_Role["X-Agency"]
+        XA["👥 Mercenary Pawns<br/>Think they choose contracts<br/>Actually manipulated<br/>Becoming regional power"]
+    end
+    
+    CC -.->|Believes competing with| EC
+    EC -.->|Believes competing with| SB
+    SB -.->|Believes competing with| DE
+    DE -.->|Believes competing with| NP
+    CC -.->|Believes competing with| NP
+    
+    SYN -->|Controls all| CC
+    SYN -->|Controls all| EC
+    SYN -->|Controls all| SB
+    SYN -->|Controls all| DE
+    SYN -->|Controls all| NP
+    
+    SYN -->|Manipulates| XA
+    XA -->|Works for| CC
+    XA -->|Works for| EC
+    XA -->|Works for| SB
+    XA -->|Works for| DE
+    XA -->|Works for| NP
+    
+    style Visible fill:#f9f9f9,stroke:#ccc
+    style Hidden fill:#DC143C,stroke:#000,stroke-width:3px,color:#fff
+    style XA_Role fill:#FFA500,stroke:#000,stroke-width:2px
+    style SYN fill:#DC143C,stroke:#000,stroke-width:3px,color:#fff
+    style CC fill:#8B4513
+    style EC fill:#4169E1
+    style SB fill:#2F4F4F
+    style DE fill:#FF69B4
+    style NP fill:#228B22
+    style XA fill:#32CD32,stroke:#000,stroke-width:2px
+```
+
+---
+
 ## The Orchestrated Chaos
 
 ### What Is Phase I?
@@ -571,3 +640,8 @@ Except Phase II contains a catastrophic flaw in the Syndicate's planning...
 **Phase I appears to be natural geopolitical competition. It is actually an orchestrated symphony of manipulation, deception, and controlled chaos. Every nation, every faction, every military commander believes they are acting independently. None suspect that an invisible hand has been arranging events for years.**
 
 **This is what makes the Phase I to Phase II transition so powerful: players discover that the conflict they've been participating in was choreographed. They are not soldiers in a natural war—they are actors in a conspiracy's play.**
+
+---
+
+> **← [Story Index](09_LORE_INDEX.md) | [Lore Overview](00_LORE_OVERVIEW.md) | [Prev: Phase 0](03_PHASE_0_INITIATION.md) | [Next: Phase II →](05_PHASE_2_SHADOW_WAR.md)**
+```

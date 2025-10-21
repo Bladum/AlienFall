@@ -1,5 +1,21 @@
 # The Factions: Detailed Analysis and Comparisons
 
+> **[← Story Index](09_LORE_INDEX.md) | [Lore Overview](00_LORE_OVERVIEW.md) | [README](README.md)**
+
+---
+
+## Quick Navigation
+- [Phase I: Five Regional Factions](#phase-i-the-five-regional-factions)
+- [Condor Cartel](#1-condor-cartel-south-america---the-resource-barons)
+- [European Concord](#2-european-concord-europe---the-corporate-bureaucracy)
+- [Siberian Bloc](#3-siberian-bloc-russia-eurasia---the-hardened-survivors)
+- [Dragon's Eye](#4-dragons-eye-asia---the-cybernetic-state)
+- [New Patriots](#5-new-patriots-north-america---the-isolationist-military)
+- [Non-Aligned Forces](#non-aligned-forces-those-outside-the-five)
+- [Syndicate & GRF](#the-syndicate-and-global-resilience-force)
+
+---
+
 ## Complete Faction Overview
 
 This document provides comprehensive information about every major faction encountered throughout the Long War, from Phase 0 through Phase V. Each faction is analyzed through the lenses of their goals, methods, strengths, weaknesses, and relationship to the central conflict.
@@ -466,3 +482,8 @@ These are not factions but manifestations of human chaos and Syndicate experimen
 This is what makes Phase I fascinating narratively: the players (X-Agency and player-controlled units) gradually realize that the faction warfare they're engaging in is orchestrated. Every conflict they witness, every mission they undertake, feeds into the Syndicate's larger plan.
 
 The war doesn't end because one faction wins. It transforms because the players discover the hidden hand manipulating all five factions, and that discovery changes everything.
+
+---
+
+> **[← Story Index](09_LORE_INDEX.md) | [Lore Overview](00_LORE_OVERVIEW.md) | [README](README.md) | [Next: Timeline →](02_TIMELINE_DIAGRAM.md)**
+```

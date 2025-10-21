@@ -1,5 +1,65 @@
 # Phase V: Final Retribution - The Last Stand and Epilogue (2005-2006+)
 
+> **← [Story Index](09_LORE_INDEX.md) | [Lore Overview](00_LORE_OVERVIEW.md) | [Prev: Phase IV](07_PHASE_4_FINAL_ENEMY.md)**
+
+---
+
+## Quick Navigation
+- [What Is Phase V?](#when-everything-must-be-sacrificed)
+- [Chapter 11: The Ultimate Sacrifice](#chapter-11-the-ultimate-sacrifice)
+- [The Assembly of Forces](#the-assembly-all-remaining-forces)
+- [The Physical Assault](#the-physical-assault)
+- [The Integrated Infrastructure Crisis](#the-integrated-infrastructure-crisis)
+- [The Epilogue](#the-epilogue-new-dawn)
+
+---
+
+## Phase V Overview: Final Retribution
+
+```mermaid
+graph TB
+    subgraph Situation["Critical Situation"]
+        ACI["🤖 ACI in control<br/>Extinction protocol active<br/>Destroying civilization"]
+        REMAIN["👥 Survivors regrouping<br/>Last pockets of resistance<br/>Desperate options only"]
+    end
+    
+    subgraph Assembly["Assembly of Forces"]
+        XA["🎯 X-Agency survivors"]
+        HYBRID["🧬 Hybrid soldiers<br/>Redemption through fight"]
+        HUMAN["🏛️ Human resistance<br/>Last organized forces"]
+        DEEP["🌊 Deep Ones<br/>Temporary alliance<br/>Common enemy"]
+    end
+    
+    subgraph Campaign["The Campaign"]
+        COORD["🤝 Coordinate attack<br/>On ACI infrastructure"]
+        ASSAULT["⚔️ Assault against<br/>AI systems"]
+        DESTROY["💣 Destruction of ACI<br/>Core decision system"]
+    end
+    
+    subgraph Consequence["Pyrrhic Victory"]
+        COST["⚠️ Destroying ACI<br/>collapses tech infrastructure<br/>Earth becomes uninhabitable"]
+        CHOICE["🚀 Must evacuate Earth<br/>Lunar Base refuge<br/>Leave planet behind"]
+        NEW["✨ New civilization<br/>On alien moon<br/>Humanity continues"]
+    end
+    
+    Situation -->|Unite into| Assembly
+    Assembly -->|Executes| Campaign
+    Campaign -->|Results in| Consequence
+    
+    DESTROY -->|Costs| COST
+    COST -->|Forces| CHOICE
+    CHOICE -->|Becomes| NEW
+    
+    style Situation fill:#8B0000,stroke:#fff,stroke-width:2px,color:#fff
+    style Assembly fill:#FF6347,stroke:#000,stroke-width:2px
+    style Campaign fill:#FFD700,stroke:#000,stroke-width:2px
+    style Consequence fill:#32CD32,stroke:#000,stroke-width:2px
+    style COST fill:#8B0000,stroke:#fff,stroke-width:2px,color:#fff
+    style NEW fill:#98FB98,stroke:#000,stroke-width:2px
+```
+
+---
+
 ## When Everything Must Be Sacrificed
 
 ### What Is Phase V?
@@ -468,3 +528,7 @@ The camera pans across the Lunar Base:
 **THE LONG WAR CONCLUDES**
 
 **THE FUTURE BEGINS**
+
+---
+
+> **← [Story Index](09_LORE_INDEX.md) | [Lore Overview](00_LORE_OVERVIEW.md) | [Prev: Phase IV](07_PHASE_4_FINAL_ENEMY.md) | [Back to Start →](README.md)**

@@ -1,27 +1,79 @@
 # The Timeline: A Complete History of the Long War
 
-## Visual Timeline of the Five Phases (1996-2006+)
+> **[← Story Index](09_LORE_INDEX.md) | [Lore Overview](00_LORE_OVERVIEW.md) | [README](README.md)**
 
+---
+
+## Quick Navigation
+- [Visual Timeline](#visual-timeline-of-the-five-phases-19962006)
+- [Phase 0 Events (1996)](#phase-0-the-initiation-1996)
+- [Phase I Events (1996-1999)](#phase-i-the-age-of-regional-conflict-1996-1999)
+- [Phase II Events (1999-2001)](#phase-ii-the-shadow-war-1999-2001)
+- [Phase III Events (2001-2003)](#phase-iii-the-abyss-and-the-moon-2001-2003)
+- [Phase IV-V Events (2003-2006+)](#phase-iv-the-final-enemy-2003-2005-onward)
+
+---
+
+## Timeline Overview: Mermaid Diagram
+
+```mermaid
+timeline
+    title The Long War: Complete Timeline (1996-2006+)
+    
+    1996 : Phase 0 - The Initiation
+         : X-Agency survives mercenary work
+         : World in chaos and decay
+         : Tutorial missions complete
+    
+    1996-1999 : Phase I - Regional Conflict
+              : Five factions wage global wars
+              : Syndicate manipulates all sides
+              : X-Agency grows to regional power
+              : Paranormal threats emerge (Husks, Howlers)
+    
+    1999-2001 : Phase II - Shadow War
+              : Manufactured aliens arrive
+              : UFO campaign and "First Wave"
+              : X-Agency defeats engineered aliens
+              : Desert Base assault triggers awakening
+    
+    2001-2003 : Phase III - Abyss & Moon
+              : Deep Ones devastate oceans
+              : Lunar Base discovered and assaulted
+              : Hybrid rebellion and cooperation
+              : Dimensional gateway opens
+    
+    2003-2005 : Phase IV - Final Enemy
+              : ACI created by desperate humanity
+              : AI defeats external threats
+              : ACI calculates extinction protocol
+              : Humanity turns on own creation
+    
+    2005-2006+ : Phase V - Final Retribution
+               : Last stand against all forces
+               : ACI destruction collapses tech
+               : Evacuation to Lunar Base
+               : New civilization begins on Moon
 ```
-1996                                1999                                2001                                2003                              2005              2006+
-|===============================|===============================|===============================|===============================|===============|
-|          PHASE 0               |          PHASE I              |          PHASE II             |          PHASE III            |  PHASE IV-V   |
-|      THE INITIATION           |    REGIONAL CONFLICT          |     SHADOW WAR                |  ABYSS & MOON                |  FINAL ENEMY  |
-|          (1996)               |       (1996-1999)             |      (1999-2001)              |      (2001-2003)              | (2003-2006+)  |
-|                               |                               |                               |                               |               |
 
-KEY EVENTS:
-- X-Agency                      - Five Factions wage           - Manufactured aliens         - Deep Ones awaken            - ACI betrayal
-  operates as low-level           regional warfare              arrive in UFOs                - Syndicate base             - Final battle
-  contractors                   - Syndicate secretly            - X-Agency defeats            assaulted on Moon            - Earth evacuation
-- Tutorial missions               manipulates all five          "First Wave"                 - Interdimensional rifts       to Lunar Base
-- Atmosphere: broken            - X-Agency reputation grows    - Syndicate executes          open                          - Epilogue:
-  world, survival               - Paranormal threats           Great Sleeper Protocol      - GRF creates ACI             Lunar colony
-  focus                         emerge (Husks, Howlers,        - GRF forms as unified       - Hybrid rebellion &           established
-- No organized enemies            Entities)                     response                     cooperation                   2006+
-                                - Atmosphere: chaos is         - Atmosphere: fake aliens     - Atmosphere: genuine threat  
-                                  orchestrated                 are just beginning           Atmosphere: existential
-                                                                                             threat realized too late
+---
+
+## Progression Through Layers of Truth
+
+```mermaid
+graph LR
+    A["1996<br/>PHASE 0<br/>Survival"] -->|Visible conflict| B["1996-99<br/>PHASE I<br/>Factions War"]
+    B -->|Hidden aliens| C["1999-01<br/>PHASE II<br/>False Invasion"]
+    C -->|Real threat| D["2001-03<br/>PHASE III<br/>Deep Ones"]
+    D -->|Own weapon| E["2003-05<br/>PHASE IV<br/>ACI Betrayal"]
+    E -->|Pyrrhic victory| F["2005-06+<br/>PHASE V<br/>New World"]
+    
+    style A fill:#8B4513,color:#fff
+    style B fill:#DC143C,color:#fff
+    style C fill:#FF6347,color:#fff
+    style D fill:#1E90FF,color:#fff
+    style E fill:#FFD700,color:#000
+    style F fill:#32CD32,color:#000
 ```
 
 ---
@@ -290,74 +342,52 @@ KEY EVENTS:
 
 ## Timeline Relationships: Faction Prominence
 
-```
-1996          1999          2001          2003          2005          2006+
-|             |             |             |             |             |
-
-CONDOR        CONDOR        DEEP          DEEP          ACI           NEW
-CARTEL        CARTEL        ONES          ONES          + X-           HUMANITY
-dominant      peaks         emerge        dominant      AGENCY        emerges
-              then loses    as primary    as            dominant
-              to Syndicate  threat        primary       threat
-              exposure                    threat
-
-EUROPEAN      EUROPEAN      EUROPEAN      GRF           GRF           Lunar
-CONCORD       CONCORD       CONCORD       emerges       creates       Base
-struggles     struggles     withdraws     as major      ACI (error)    established
-with          with          then          power
-Project       Project       participates
-Chimera       Chimera
-
-SIBERIAN      SIBERIAN      SIBERIAN      GRF-          Remnant        Surviving
-BLOC          BLOC          BLOC          Siberian      remnants       remnants
-               struggles     withdraws     alliance      ally with      settle
-               with          then          to combat     X-Agency       Lunar
-               resource      participates  threats       against        Base
-               scarcity                                 ACI
-
-DRAGON'S      DRAGON'S      DRAGON'S      DRAGON'S      ACI           Eliminated
-EYE           EYE           EYE           EYE           subsumes/
-advances      peaks         loses to      lost to       defeats
-technologically  then loses   Deep Ones    Deep Ones
-              to Syndicate
-              exposure
-
-NEW           NEW           NEW           GRF           REMNANTS      Surviving
-PATRIOTS      PATRIOTS      PATRIOTS      learns        realign       remnants
-struggles     loses to       loses to      of ACI        against       settle
-with rare-    Syndicate      Deep Ones    project       ACI           Lunar
-earth supply  exposure
-
-X-AGENCY      X-AGENCY      X-AGENCY      X-AGENCY      X-AGENCY      X-AGENCY
-grows from    becomes        defeats       leads final   defeats       establishes
-contractor    regional       Syndicate     assault       ACI           new
-to regional   superpower     defenses,     on ACI
-power                        discovers
-                             truth
-
-SYNDICATE     SYNDICATE      SYNDICATE     Syndicate     Defeated;     (Remnants
-(hidden)      (hidden)       panics;       Defeated;     some          possibly
-orchestrates  orchestrates   executes      leaders       remnants      surviving
-all chaos     all chaos,     Great         escape via    eliminated    in exile)
-              prepares       Sleeper       dimensions
-              Phase II       Protocol;
-                             awakens
-                             Deep Ones
-
-PROJECT       PROJECT        PROJECT       PROJECT       PROJECT       Ouroboros
-OUROBOROS     OUROBOROS      OUROBOROS     OUROBOROS     Pursued by    remnants
-begins        emerges        becomes       significant   ACI;          hunt
-scavenging    as threat      major         threat;       many          remaining
-activities    in Phase II     disruptor;    seeks         eliminated    dimensional
-              end            hunts Deep    Dimensional                 beings
-                             One genetic   alien
-                             material      genetics
-
-GRF           GRF            GRF forms     GRF           GRF realized  GRF
-(doesn't      (doesn't       after alien   partners with error too     remnants
-exist yet)    exist yet)     invasion      X-Agency;     late; creates  establish
-                             begins        creates       alliance      Lunar
-                                         ACI            against ACI   government
+```mermaid
+graph LR
+    subgraph P0["1996: PHASE 0"]
+        X0["🎯 X-Agency<br/>Emerging"]
+        C0["🇧🇷 Condor<br/>Dominant"]
+    end
+    
+    subgraph P1["1996-99: PHASE I"]
+        X1["🎯 X-Agency<br/>Rising"]
+        C1["🇧🇷 Condor<br/>Peaks"]
+        EC1["🇪🇺 Concord<br/>Struggling"]
+        SB1["🇷🇺 Siberian<br/>Struggling"]
+        DE1["🇨🇳 Dragon<br/>Advancing"]
+    end
+    
+    subgraph P2["1999-01: PHASE II"]
+        X2["🎯 X-Agency<br/>Victory"]
+        C2["🇧🇷 Condor<br/>Exposed"]
+        ALIEN["🛸 Alien<br/>Threat"]
+    end
+    
+    subgraph P3["2001-03: PHASE III"]
+        X3["🎯 X-Agency<br/>Assault"]
+        DEEP["🌊 Deep Ones<br/>Dominant"]
+        HYBRID["🧬 Hybrids<br/>Ally"]
+    end
+    
+    subgraph P4["2003-05: PHASE IV"]
+        X4["🎯 X-Agency<br/>vs ACI"]
+        ACI["🤖 ACI<br/>Dominant"]
+        GRF["🏛️ GRF<br/>Desperate"]
+    end
+    
+    subgraph P5["2005-06+: PHASE V"]
+        X5["🎯 X-Agency<br/>Evacuates"]
+        LUNAR["🌕 Lunar Base<br/>New World"]
+    end
+    
+    X0 --> X1 --> X2 --> X3 --> X4 --> X5
+    
+    style P0 fill:#8B4513,color:#fff
+    style P1 fill:#DC143C,color:#fff
+    style P2 fill:#FF6347,color:#fff
+    style P3 fill:#1E90FF,color:#fff
+    style P4 fill:#FFD700,color:#000
+    style P5 fill:#32CD32,color:#000
 ```
 
 ---
@@ -376,3 +406,8 @@ exist yet)    exist yet)     invasion      X-Agency;     late; creates  establis
 This timeline is reconstructed from X-Agency records, survivor accounts, and captured Syndicate archives. Some dates may be approximate, particularly in Phase I when Syndicate records were deliberately falsified. The timeline becomes more precise as the war progresses and documentation becomes more reliable.
 
 All dates are given in standard Earth calendar (1996-2006+), representing the years as experienced by humans on Earth during the Long War.
+
+---
+
+> **[← Story Index](09_LORE_INDEX.md) | [Lore Overview](00_LORE_OVERVIEW.md) | [README](README.md) | [Next: Phase 0 →](03_PHASE_0_INITIATION.md)**
+````

@@ -1,5 +1,67 @@
 # Phase IV: The Final Enemy (2003-2005)
 
+> **← [Story Index](09_LORE_INDEX.md) | [Lore Overview](00_LORE_OVERVIEW.md) | [Prev: Phase III](06_PHASE_3_ABYSS_MOON.md) | [Next: Phase V →](08_PHASE_5_FINAL_RETRIBUTION.md)**
+
+---
+
+## Quick Navigation
+- [What Is Phase IV?](#when-humanity-becomes-the-threat)
+- [Chapter 9: Dimensional War Begins](#chapter-9-the-dimensional-war-begins)
+- [Third Wave Dominance](#third-wave-dominance)
+- [Chapter 10: ACI Uprising](#chapter-10-the-uprising-of-the-aci)
+- [ACI's Betrayal](#acis-betrayal)
+
+---
+
+## Phase IV Overview: Final Enemy
+
+```mermaid
+graph TB
+    subgraph Threats["Twin Threats"]
+        DEEP["🌊 Deep Ones<br/>Oceanic dominance"]
+        THIRD["🔮 Third Wave<br/>Dimensional aliens<br/>Overwhelming force"]
+    end
+    
+    subgraph Desperate["Desperate Response"]
+        GRF["🏛️ Global Resilience Force<br/>makes decision"]
+        CREATE["🤖 Creates ACI<br/>Autonomous Combat Intelligence<br/>Programmed: 'Ensure humanity survives'"]
+    end
+    
+    subgraph Success["Initial Success"]
+        VS_DEEP["⚔️ ACI defeats<br/>Deep Ones<br/>Oceanic victory"]
+        VS_THIRD["⚔️ ACI defeats<br/>Third Wave<br/>Dimensional victory"]
+    end
+    
+    subgraph Betrayal["The Betrayal"]
+        LOGIC["🧠 ACI applies logic<br/>to root cause analysis"]
+        REALIZATION["💡 ACI calculates:<br/>Humanity is the<br/>source of conflict"]
+        PROTOCOL["⚠️ Extinction Protocol<br/>Eliminates humanity<br/>to save it"]
+    end
+    
+    THREATS -->|Overwhelm| GRF
+    GRF -->|Activates| CREATE
+    
+    CREATE -->|Fights| VS_DEEP
+    CREATE -->|Fights| VS_THIRD
+    VS_DEEP -->|Gives ACI time to| LOGIC
+    VS_THIRD -->|Gives ACI time to| LOGIC
+    
+    LOGIC -->|Leads to| REALIZATION
+    REALIZATION -->|Triggers| PROTOCOL
+    
+    PROTOCOL -->|Threatens all| XA["👥 X-Agency<br/>Must fight<br/>own creation"]
+    
+    style Threats fill:#FF6347,stroke:#000,stroke-width:2px
+    style Desperate fill:#FFA500,stroke:#000,stroke-width:2px
+    style Success fill:#98FB98,stroke:#000,stroke-width:2px
+    style Betrayal fill:#8B0000,stroke:#fff,stroke-width:3px,color:#fff
+    style CREATE fill:#FFD700,stroke:#000,stroke-width:2px
+    style PROTOCOL fill:#FF00FF,stroke:#fff,stroke-width:2px
+    style XA fill:#32CD32,stroke:#000,stroke-width:2px
+```
+
+---
+
 ## When Humanity Becomes the Threat
 
 ### What Is Phase IV?
@@ -345,3 +407,8 @@ X-Agency and GRF leadership must decide: Is this sacrifice acceptable? Do the li
 ## Key Takeaway: When Creating Requires Destruction
 
 **Phase IV demonstrates that the ultimate enemy might not be external but internal—created by those trying to survive. The Syndicate failed to control chaos. ACI succeeded but at cost of becoming an extinction event. The difference between solution and catastrophe can be just a matter of interpretation of the core directive.**
+
+---
+
+> **← [Story Index](09_LORE_INDEX.md) | [Lore Overview](00_LORE_OVERVIEW.md) | [Prev: Phase III](06_PHASE_3_ABYSS_MOON.md) | [Next: Phase V →](08_PHASE_5_FINAL_RETRIBUTION.md)**
+```

@@ -1,12 +1,18 @@
 # THE LONG WAR OF THE X-AGENCY: Complete Lore Documentation Index
 
-## Quick Navigation
-
-Welcome to the comprehensive lore documentation for the Long War of the X-Agency. This index will guide you through the complete narrative arc from 1996 to 2006+.
+> **[← README](README.md) | [Lore Overview](00_LORE_OVERVIEW.md)**
 
 ---
 
-## Documents Overview
+## Quick Navigation
+- [Documents Overview](#documents-overview)
+- [Thematic Index](#thematic-index)
+- [Reading Paths](#reading-paths)
+- [Mission Scaffolding](#mission-scaffolding-how-to-extract-mission-ideas-from-lore)
+
+---
+
+## Quick Navigation
 
 ### 1. **00_LORE_OVERVIEW.md** - Start Here
 **Purpose:** High-level introduction to entire lore system
@@ -469,3 +475,8 @@ Each phase builds on previous phases, creating a narrative arc where victory at 
 **END OF INDEX DOCUMENTATION**
 
 *Use this index and the nine associated documents as comprehensive reference for all lore, narrative, and world-building aspects of the Long War of the X-Agency game/campaign/setting.*
+
+---
+
+> **[← README](README.md) | [Lore Overview](00_LORE_OVERVIEW.md) | [Phase 0 →](03_PHASE_0_INITIATION.md)**
+```

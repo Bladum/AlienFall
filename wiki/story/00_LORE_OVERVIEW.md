@@ -1,5 +1,18 @@
 # The Long War of the X-Agency: Complete Lore Overview
 
+> **[← Story Index](09_LORE_INDEX.md) | [README](README.md)**
+
+---
+
+## Quick Navigation
+- [The Core Truth](#the-core-truth-what-this-war-was-really-about)
+- [Timeline Overview](#timeline-overview-the-five-phases)
+- [The Great Powers](#the-great-powers-that-shape-the-war)
+- [Reading Guide](#reading-guide)
+- [Key Narrative Themes](#key-narrative-themes)
+
+---
+
 ## A Comprehensive History of the Five Phases of Conflict
 
 **Timeline: 1996 - 2006+**
@@ -180,3 +193,7 @@ No faction is purely evil. Even the Syndicate is composed of humans who believe 
 **"If you have the power to stop evil, are you morally obligated to use it? And if that power awakens something worse than the evil you stopped, were you wrong to act?"**
 
 This is the unspoken question behind every decision the X-Agency makes across all five phases of the Long War.
+
+---
+
+> **[← Story Index](09_LORE_INDEX.md) | [README](README.md) | [Next: Factions →](01_FACTIONS.md)**
