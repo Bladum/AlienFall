@@ -360,6 +360,15 @@ c:\Users\tombl\Documents\Projects\
 - Keep tests up-to-date with code changes
 - Follow Code Standards and Best Practices section above
 
+**MANDATORY: File Creation & Documentation Rules**
+- ✅ Only create files that user explicitly requests
+- ✅ NO automatic summary/progress report files
+- ✅ NO auto-generated completion/status documentation
+- ✅ NO unnecessary meta-files (unless specifically asked)
+- ✅ Brief chat summary only: what was done, where it is, what's next
+- ✅ Create exactly what was asked for - nothing more
+- ✅ Quality over quantity of output
+
 ---
 
 ## Quick Reference

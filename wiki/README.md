@@ -12,11 +12,18 @@ This folder contains all documentation about how the game works: game systems, m
 - **[Overview](systems/Overview.md)** - Complete game overview
 - **[Game Systems](systems/)** - All 19 game systems
 - **[Glossary](GLOSSARY.md)** - Game terminology
+- **[📸 Visual Prompts](story/images/)** - AI art generation prompts
 
 ### For Developers & Modders
 - **[API Reference](api/)** - Complete API documentation
 - **[Architecture Decisions](architecture/)** - Design decisions (ADRs)
 - **[Learning Examples](examples/)** - Step-by-step tutorials
+
+### For Artists & Designers
+- **[🎨 Image Prompts Index](story/images/00_IMAGES_INDEX.md)** - Master index for all visual prompts
+- **[Faction Visual Prompts](story/images/01_FACTIONS.md)** - 25 faction-specific illustrations
+- **[World & Location Prompts](story/images/02_WORLDS_LOCATIONS.md)** - 11 environment illustrations
+- **[Story Phase Illustrations](story/images/)** - Organized by game phase (0-5)
 
 ### For Designers & Balance Team
 - **[Design Templates](design/DESIGN_TEMPLATE.md)** - How to design features

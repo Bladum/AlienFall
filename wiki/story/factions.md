@@ -1,6 +1,6 @@
 # The Factions: Detailed Analysis and Comparisons
 
-> **[← Story Index](09_LORE_INDEX.md) | [Lore Overview](00_LORE_OVERVIEW.md) | [README](README.md)**
+> **[← Story Index](09_LORE_INDEX.md) | [Lore Overview](00_LORE_OVERVIEW.md) | [🌍 World Index](10_WORLD_INDEX.md) | [README](README.md)**
 
 ---
 
@@ -20,6 +20,8 @@
 
 This document provides comprehensive information about every major faction encountered throughout the Long War, from Phase 0 through Phase V. Each faction is analyzed through the lenses of their goals, methods, strengths, weaknesses, and relationship to the central conflict.
 
+> **Geographic Reference:** For detailed terrain, biome, environmental hazards, and tactical information about each faction's territory, see **[10_WORLD_INDEX.md - The Five Factions' Territories](10_WORLD_INDEX.md#the-five-factions-territories)**.
+
 ---
 
 ## PHASE I: THE FIVE REGIONAL FACTIONS
@@ -30,6 +32,8 @@ These five factions dominate the global stage during Phase I (1996-1999), compet
 
 #### Overview
 A highly militarized consortium of mining magnates, drug lords, and resource monopolies who control approximately **80% of global rare-earth element exports**. The Cartel operates primarily from the Amazon Basin and surrounding regions, using the dense jungle terrain as both resource foundation and strategic advantage.
+
+> **Terrain & Biome Details:** See **[10_WORLD_INDEX - Condor Cartel Territory](10_WORLD_INDEX.md#1-condor-cartel-south-america-africa-partial)** for detailed biome information (Amazon Jungle, Tropical Savanna, Coastal Regions), visibility/cover mechanics, and environmental hazards.
 
 #### Strategic Goals
 - **Primary:** Monopolize all rare-earth element production and distribution to maintain economic dominance

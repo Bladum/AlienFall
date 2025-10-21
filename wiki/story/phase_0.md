@@ -1,6 +1,6 @@
 # Phase 0: The Initiation - Running Scraps and Favors (1996)
 
-> **← [Story Index](09_LORE_INDEX.md) | [Lore Overview](00_LORE_OVERVIEW.md) | [Next: Phase I →](04_PHASE_1_REGIONAL_CONFLICT.md)**
+> **← [Story Index](09_LORE_INDEX.md) | [Lore Overview](00_LORE_OVERVIEW.md) | [🌍 World Index](10_WORLD_INDEX.md) | [Next: Phase I →](04_PHASE_1_REGIONAL_CONFLICT.md)**
 
 ---
 
@@ -94,6 +94,48 @@ The organization's name—the X-Agency—is not chosen for dramatic effect. It i
 - **Support:** Minimal; mainly field medics and basic logistics
 
 Each team is semi-autonomous, capable of operating independently for weeks. No redundancy. No backup. If a team is lost, the X-Agency loses significant capability.
+
+---
+
+## The X-Agency Leadership (1996)
+
+### Director James Hawthorne
+
+**Title:** Founder and Director of X-Agency  
+**Age:** 43 (born 1953)  
+**Background:** Career military (1970s-1980s), then private military contractor  
+**Current Role:** Strategic decision-making, contract negotiation, resource allocation
+
+**Who He Is:**
+James Hawthorne is the reason the X-Agency exists. After decades in the military, watching governments make terrible decisions and good soldiers die for politics, he decided to take control of his own fate. He left the military and started as a private military contractor in the chaos of the early 1990s. By 1996, he had saved enough money and earned enough reputation to found the X-Agency—a small outfit dedicated to professional military work outside government control.
+
+Hawthorne is pragmatic to the point of ruthlessness. He doesn't ask *why* a client needs something done. He asks *how much* they'll pay and *what the risks are*. He has no ideology, no grand vision, and no desire to "save the world." He wants to keep his people alive, keep the agency operational, and maintain the freedom to choose which contracts to take.
+
+That said, he's not amoral. He has red lines: no genocide, no targeting of civilians, no slavery. He'll kill soldiers all day long, but he won't sell his agency to use as a genocide tool.
+
+**Defining Characteristic:** Strategic pragmatist. Sees the bigger picture; thinks five steps ahead.
+
+**Quote:** *"We survive by being professional. Emotion clouds judgment. Keep your emotions out of the decision-making."*
+
+---
+
+### Colonel Marcus Chen
+
+**Title:** Military Advisor to X-Agency  
+**Age:** 56 (born 1940)  
+**Background:** Career military officer, intelligence services, military strategist  
+**Current Role:** Strategic military consultant, ethical advisor
+
+**Who He Is:**
+Marcus Chen is not officially part of X-Agency hierarchy, but he advises Hawthorne on most major decisions. He's a relic of the old military order—trained in military academies, following protocols, believing in the chain of command. He and Hawthorne are polar opposites in personality, which is why Hawthorne values his counsel.
+
+Chen provides the ethical counterweight to Hawthorne's pragmatism. When Hawthorne is ready to take a contract because it pays well, Chen asks hard questions: *Is this the right thing? What will this cost us long-term? Is the profit worth the moral compromise?*
+
+Chen has a daughter (Morgan) who works in the military. She'll eventually become one of X-Agency's best operatives, creating an interesting dynamic. Chen worries about her constantly.
+
+**Defining Characteristic:** Moral compass. Always asking the ethical question.
+
+**Quote:** *"Pragmatism is wise. But pragmatism without principle is just mercenary work. We need to be better than that."*
 
 ---
 

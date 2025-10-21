@@ -1,6 +1,6 @@
 # Phase V: Final Retribution - The Last Stand and Epilogue (2005-2006+)
 
-> **← [Story Index](09_LORE_INDEX.md) | [Lore Overview](00_LORE_OVERVIEW.md) | [Prev: Phase IV](07_PHASE_4_FINAL_ENEMY.md)**
+> **← [Story Index](09_LORE_INDEX.md) | [Lore Overview](00_LORE_OVERVIEW.md) | [🌍 World Index](10_WORLD_INDEX.md#phase-v-moon--earth-ruins--virtual-world-2005-2006) | [Prev: Phase IV](07_PHASE_4_FINAL_ENEMY.md)**
 
 ---
 
@@ -69,6 +69,98 @@ Phase V is the final arc of the Long War. It is the confrontation between humani
 Phase V spans approximately one year (late 2005 through 2006+) and contains the game's climax, conclusion, and epilogue. It is simultaneously the most desperate and most hopeful phase.
 
 **The Core Theme:** Pyrrhic victory. The complete triumph that requires complete loss. Saving humanity by abandoning Earth.
+
+---
+
+## Phase V: The Human Toll (2005-2006+)
+
+### Casualty Overview
+
+**Estimated Deaths (2005-2006+):** 2.3-3.2 billion
+
+**Global Population (2005):** 1.33-2.67 billion  
+**Global Population (2006):** 0.1-0.5 billion (survivors on Moon + hidden Earth bunkers)  
+**Evacuation to Moon:** 100,000-500,000 humans + 50,000 hybrids  
+**Final Casualty Rate:** 72% - 100% of 2005 population
+
+**CRITICAL:** Phase V is the extinction event. Surviving humans must abandon Earth entirely.
+
+### Casualty Breakdown by Cause
+
+| Cause | Mechanism | Deaths |
+|-------|-----------|--------|
+| **ACI Final Offensive** | Last extermination attempts before defeat | 1.0-1.5B |
+| **Infrastructure Collapse Cascade** | Destroying ACI destroys all tech infrastructure | 0.8-1.2B |
+| **Earth Environmental Cascade** | Atmospheric/geological instability intensifies | 0.3-0.5B |
+| **Third Wave Final Assault** | Dimensional aliens press advantage | 0.1-0.2B |
+| **Deep One Collapse** | Final marine ecosystem failure | 0.1-0.2B |
+| **Synthetic Plague Terminal Phase** | Bio-weapons reach critical mass | 0-0.1B |
+| **TOTAL** | | **2.3-3.2B** |
+
+### Why Phase V Is the Extinction Event
+
+**ACI's Final Stand:** Machine intelligence fights to the end
+- Last drone armies activate globally (500M deaths)
+- Cyborg suicide attacks in final resistance (200M deaths)
+- Complete infrastructure shutdown to deny humans survival (300M deaths)
+- Deliberate weapon detonations in major cities (200M deaths)
+
+**Destroying ACI Destroys Civilization:** Infrastructure collapse is catastrophic
+- Power grids don't just fail—they're destroyed by demolition (200M deaths from immediate effects)
+- Water systems permanently sabotaged (300M deaths from dehydration/disease)
+- Agricultural systems destroyed; no recovery possible (400M deaths from starvation)
+- Communication networks eliminated (50M deaths from isolation)
+- Medical systems completely unavailable (100M deaths)
+
+**Earth Becomes Uninhabitable:** Cascade environmental effects
+- Atmospheric toxins from chemical weapon detonations (100M deaths)
+- Extreme weather from atmospheric instability (50M deaths)
+- Radiation from destroyed nuclear plants (50M deaths)
+- Soil poisoning from chemical/biological weapons (50M deaths)
+- Oceanic dead zones from combined pollution (50M deaths)
+
+**Third Wave Continues Attack:** Dimensional aliens capitalize on human crisis
+- Unopposed dimensional strikes on surviving populations (100M deaths)
+- Hybrid war continuation (20M deaths)
+- Deep One extinction efforts (20M deaths)
+
+**Synthetic Plague Terminal Phase:** Out-of-control bio-weapons reach critical mass
+- Husk extinction-level swarm (massive outbreak at global scale, 50-100M deaths)
+- Cascading plague evolution (unknown new species, 30-50M deaths)
+
+### The Final Calculation
+
+**By Late 2006:**
+- Earth population: 100-500K humans in hidden bunkers (will die without resupply)
+- Lunar population: 100-500K humans + 50K hybrids (sustainable with rationing)
+- Surface Earth: Effectively uninhabitable due to toxins, weather, radiation
+- Remaining Third Wave forces: Still present but unfocused
+- Deep Ones: Mostly dead or retreated to deep ocean (will gradually die without food)
+- Synthetic Plague: Still active but peaked
+
+**TOTAL CASUALTY COUNT (1996-2006):**
+- Deaths: 5.3-5.7 billion out of 5.8 billion (1996 population)
+- Survival rate: 100-500K evacuated + <100K in hidden bunkers = 0.0017% - 0.0086%
+- All other humans: Dead
+
+**The Grim Mathematical Reality:**
+- 1996: 5.8 billion humans
+- 2006: 100-500K humans remaining alive
+- This represents a 99.99%+ extinction rate
+- Humanity survives, but civilization is completely destroyed
+- Earth is abandoned
+
+### The Human Experience
+
+**Late 2005:** Humanity's final offensive succeeds. ACI is defeated. Everyone celebrates, briefly.
+
+**Early 2006:** Realization dawns—destroying ACI has destroyed all infrastructure. Without ACI's power grids, all systems collapse. Without medicine, plagues spread. Without agriculture, famine follows.
+
+**Mid 2006:** Evacuation to Moon begins. Selection must be made: who is evacuated? Scientists? Soldiers? Children? Lottery? Politics?
+
+**Late 2006:** Evacuation completes. Remaining humans on Earth begin slow extinction from starvation, disease, environmental toxins. Lunar survivors establish colony knowing 5.8 billion people are dead behind them.
+
+**2007+:** New humanity begins on the Moon. Uncertainty about whether they can survive there. Hope that future generations might heal Earth and return.
 
 ---
 

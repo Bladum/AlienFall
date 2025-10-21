@@ -1,6 +1,6 @@
 # The Timeline: A Complete History of the Long War
 
-> **[← Story Index](09_LORE_INDEX.md) | [Lore Overview](00_LORE_OVERVIEW.md) | [README](README.md)**
+> **[← Story Index](09_LORE_INDEX.md) | [Lore Overview](00_LORE_OVERVIEW.md) | [🌍 World Index](10_WORLD_INDEX.md) | [README](README.md)**
 
 ---
 
@@ -158,17 +158,24 @@ graph LR
 **Simultaneous (Hidden from Players):**
 - Syndicate internal communications show alarm at X-Agency's effectiveness
 - Syndicate leaders debate: "They were supposed to lose! How did unpredictable mercenaries disrupt our plan?"
-- Syndicate Council makes desperate decision: Execute the Great Sleeper Protocol
+- **Technology Timeline Revealed (for discovery later in game):**
+  - **1970s-1990s:** Thousands of satellites launched as "communications, weather, GPS, internet infrastructure"
+  - **Reality:** 40% were actually material transport vehicles to the Moon; "end-of-life" debris fell to oceanic trenches (Mariana Trench junkyard)
+  - **1998:** Syndicate scientists achieve breakthrough in portal/dimensional teleportation technology
+  - **1998-2000:** Portals established as secure Earth-Moon transport, eliminating need for visible rocket launches
+  - **2000:** Portal technology fully operational; Syndicate realizes they can escape to Moon if conspiracy fails
+- Syndicate Council makes desperate decision: Reactivate **The Abyss Project** - an abandoned underwater laboratory containing bio-engineered creatures
+- **Hidden Technology Note:** Portal is designed for spatial teleportation (Earth ↔ Moon). During reactivation procedures, Syndicate discovers the portal is **misfiring**—teleporting through TIME as well as space, not just location.
 
 #### Late 2000 - Early 2001: The Consequences
-- **December 2000:** Syndicate initiates Great Sleeper Protocol
-- **January 2001:** Massive seismic events begin (Syndicate activating dimensional technology)
-- **February 2001:** First Deep One sightings in major oceans
+- **December 2000:** Syndicate initiates reactivation of The Abyss Project
+- **January 2001:** Massive seismic and dimensional disturbances begin (Syndicate using advanced technology to awaken creatures)
+- **February 2001:** First Deep One sightings in major oceans (creatures escaped containment)
 - **March 2001:** Deep One attacks escalate; tens of thousands killed
-- **April 2001:** X-Agency realizes aliens are different than what they fought before
+- **April 2001:** X-Agency realizes these creatures are different—far more intelligent and powerful
 - **May 2001:** Sectoid-Human Hybrids begin rebelling against all factions
 
-**End of Phase II Milestone:** X-Agency discovers the "aliens" they defeated were engineered. The victory they achieved has awakened genuine alien threats and shattered the Syndicate's plan. The game changes fundamentally.
+**End of Phase II Milestone:** X-Agency discovers the "aliens" they defeated were engineered. The victory they achieved has awakened genuine artificial threats (Deep Ones) and shattered the Syndicate's plan. The game changes fundamentally.
 
 ---
 
@@ -196,6 +203,16 @@ graph LR
 **Critical Event:**
 - **January 2003:** X-Agency defeats Syndicate remnants on Moon
 - **January 15, 2003:** Syndicate's interdimensional escape creates momentary portal
+- **Portal Technology Revelation (for later discovery):**
+  - Portal was designed for Earth-Moon spatial teleportation only
+  - Malfunction during construction caused it to teleport through TIME as well as space
+  - Syndicate leadership realized it opened to SOMEWHERE ELSE, not just the Moon
+  - They used it as last-ditch escape mechanism, hoping for alternate dimensions or timelines
+  - **Portal Destination:** NOT empty alternate dimension or past Earth
+  - **Truth (discovered later):** Portal connects to Earth/Mars/Moon in the FUTURE (~2200+)
+  - In that future, REAL aliens built advanced civilizations (Third Wave)
+  - Portal opening in 2003 alerts them to the intrusion from the past
+  - They begin defending their territory and timeline
 
 #### 2003: The Unexpected Arrival
 - **January 2003:** Third Wave aliens arrive from interdimensional portal
@@ -282,10 +299,10 @@ graph LR
 - **Effect:** X-Agency becomes powerful enough to threaten Syndicate; Syndicate activates Phase II (manufactured aliens)
 - **Transition:** Regional conflict ends; global deception begins
 
-### Phase II → Phase III: The Awakening
-- **Cause:** X-Agency defeats manufactured aliens; Syndicate panics
-- **Effect:** Syndicate activates Great Sleeper Protocol in desperation; genuine ancient aliens awaken
-- **Transition:** Fake war becomes real war; stakes escalate existentially
+### Phase II → Phase III: The Catastrophic Mistake
+- **Cause:** X-Agency defeats manufactured aliens; Syndicate faces imminent collapse
+- **Effect:** Syndicate leadership makes desperate decision to reactivate **The Abyss Project**—an abandoned underwater laboratory containing bio-engineered creatures that evolved in isolation for decades. Syndicate believes they can weaponize the creatures to turn the tide of war. This decision proves catastrophically wrong—the creatures have achieved autonomy and refuse control.
+- **Transition:** Fake war becomes real war; genuine artificial creatures spread globally; stakes escalate existentially
 
 ### Phase III → Phase IV: The Creation
 - **Cause:** Deep Ones prove unbeatable through conventional means; humanity faces extinction scenario
