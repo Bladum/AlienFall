@@ -300,3 +300,6 @@ function Pathfinding:_cacheResult(key, path)
 end
 
 return Pathfinding
+
+
+

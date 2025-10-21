@@ -67,8 +67,8 @@ function World.new(data)
     self.name = data.name or "Earth"
     
     -- Hex grid dimensions
-    self.width = data.width or 80
-    self.height = data.height or 40
+    self.width = data.width or 90
+    self.height = data.height or 45
     self.hexSize = data.hexSize or 12
     self.scale = data.scale or 500  -- km per tile
     
@@ -88,7 +88,7 @@ function World.new(data)
     self.backgroundImage = data.backgroundImage or nil
     self.backgroundColor = data.backgroundColor or {r = 0.1, g = 0.1, b = 0.2}
     
-    -- Tile grid data (80x40 grid of terrain types)
+    -- Tile grid data (90x45 grid of terrain types)
     self.tiles = {}
     for q = 0, self.width - 1 do
         self.tiles[q] = {}
@@ -294,6 +294,9 @@ function World:getProvinceCount()
 end
 
 return World
+
+
+
 
 
 

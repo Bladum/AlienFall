@@ -21,7 +21,7 @@
 -- Setup package path
 package.path = package.path .. ";../../?.lua;../../engine/?.lua"
 
-local Button = require("widgets.buttons.button")
+local Button = require("gui.widgets.buttons.button")
 
 local TestButton = {}
 local testsPassed = 0
@@ -310,3 +310,6 @@ if arg and arg[0]:match("test_button%.lua$") then
 end
 
 return TestButton
+
+
+

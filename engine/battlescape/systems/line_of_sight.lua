@@ -260,3 +260,6 @@ function LineOfSight:clearCache()
 end
 
 return LineOfSight
+
+
+

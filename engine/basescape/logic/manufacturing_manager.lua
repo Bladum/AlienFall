@@ -158,3 +158,6 @@ function ManufacturingManager.printActiveManufacturing(manager)
 end
 
 return ManufacturingManager
+
+
+

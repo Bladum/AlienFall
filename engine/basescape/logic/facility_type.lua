@@ -156,3 +156,6 @@ function FacilityType:__tostring()
 end
 
 return FacilityType
+
+
+

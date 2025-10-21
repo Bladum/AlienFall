@@ -55,7 +55,7 @@
 ---@see geoscape.world.world For world entity
 ---@see geoscape.systems.hex_grid For coordinate system
 
-local Widgets = require("widgets.init")
+local Widgets = require("gui.widgets.init")
 
 local GeoscapeRenderer = {}
 
@@ -519,6 +519,9 @@ function GeoscapeRenderer:drawMissionTooltip(mission)
 end
 
 return GeoscapeRenderer
+
+
+
 
 
 

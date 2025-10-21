@@ -21,8 +21,8 @@
 ---  - getSelectedTile(): Get currently selected tile data
 ---
 ---Dependencies:
----  - require("widgets.core.base"): Base widget class
----  - require("widgets.core.theme"): UI theming system
+---  - require("gui.widgets.core.base"): Base widget class
+---  - require("gui.widgets.core.theme"): UI theming system
 ---  - require("battlescape.data.tilesets"): Tileset definitions and textures
 ---
 ---@module battlescape.ui.tile_palette
@@ -43,9 +43,9 @@
 -- Phase 5: Map Editor Enhancement
 -- Display and select individual Map Tiles from a tileset
 
-local BaseWidget = require("widgets.core.base")
-local Theme = require("widgets.core.theme")
-local Widgets = require("widgets.init")
+local BaseWidget = require("gui.widgets.core.base")
+local Theme = require("gui.widgets.core.theme")
+local Widgets = require("gui.widgets.init")
 local Tilesets = require("battlescape.data.tilesets")
 
 ---@class TilePalette
@@ -253,6 +253,9 @@ function TilePalette:isPointInside(x, y)
 end
 
 return TilePalette
+
+
+
 
 
 

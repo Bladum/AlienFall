@@ -472,3 +472,6 @@ function RelationsManager:countEntities(table)
 end
 
 return RelationsManager
+
+
+

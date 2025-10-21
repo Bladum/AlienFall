@@ -70,8 +70,8 @@ local HEX_DIRECTIONS = {
 function HexGrid.new(width, height, hexSize)
     local self = setmetatable({}, HexGrid)
     
-    self.width = width or 80
-    self.height = height or 40
+    self.width = width or 90
+    self.height = height or 45
     self.hexSize = hexSize or 12  -- Default 12 pixels for 24x24 grid alignment
     
     -- Pre-calculate layout constants
@@ -328,6 +328,9 @@ function HexGrid:getCorners(q, r)
 end
 
 return HexGrid
+
+
+
 
 
 

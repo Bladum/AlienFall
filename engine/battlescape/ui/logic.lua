@@ -58,7 +58,7 @@
 -- Contains game logic and state management
 
 local StateManager = require("core.state_manager")
-local Widgets = require("widgets.init")
+local Widgets = require("gui.widgets.init")
 local Unit = require("battlescape.combat.unit")
 local Team = require("core.team")
 local ActionSystem = require("battlescape.combat.action_system")
@@ -299,6 +299,9 @@ function BattlescapeLogic:toggleDayNight(battlescape)
 end
 
 return BattlescapeLogic
+
+
+
 
 
 

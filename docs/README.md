@@ -28,28 +28,45 @@ Everything else is in the **`wiki/`** folder:
 
 | Folder | Contents |
 |--------|----------|
-| `wiki/systems/` | Game system docs (Geoscape, Basescape, Battlescape, etc.) |
-| `wiki/api/` | API reference (CORE, GEOSCAPE, and more) |
+| `wiki/systems/` | Game system docs (19 documented systems) |
+| `wiki/api/` | API reference (ARCHITECTURE, BASESCAPE, BATTLESCAPE, ECONOMY, UNITS) |
 | `wiki/architecture/` | Architecture decisions (ADRs 1-5) |
-| `wiki/design/` | Design templates and specifications |
+| `wiki/design/` | Design guidelines and references |
 | `wiki/examples/` | Learning examples and tutorials |
 
 **Also in wiki/**:
+- `GLOSSARY.md` - Merged, authoritative game terminology reference
+- `NAVIGATION.md` - Complete documentation reference map
+- `README.md` - Game design documentation hub
+
+**In docs/ (Developer Tools)**:
 - `DOCUMENTATION_STANDARD.md` - How to write documentation
-- `NAVIGATION.md` - Complete reference map
+- `DOCS_NAVIGATION.md` - Developer guide navigation
 - `PERFORMANCE.md` - Performance optimization guide
-- `Glossary.md` - Game terminology
+- `Glossary.md` - Developer terminology reference
+- `api/README.md` - Developer API links
+
+**NEW: Implementation Status & Audits**:
+- `WIKI_ENGINE_ALIGNMENT_AUDIT.md` - Complete audit of wiki vs engine (89% aligned ✅)
+- `ENGINE_IMPLEMENTATION_STATUS.md` - Quick reference showing what's built vs planned
+- `GEOSCAPE_IMPLEMENTATION_STATUS.md` - Geoscape system status (74% complete, Relations gap identified)
 
 ---
 
 ## File Structure
 
 ```
-docs/                          ← You are here
+docs/                          ← Developer tools (You are here)
 ├── README.md                  ← This file (entry point)
+├── DOCUMENTATION_STANDARD.md  ← Documentation format standards
+├── DOCS_NAVIGATION.md         ← Developer guide navigation
 ├── CODE_STANDARDS.md          ← Code conventions
 ├── COMMENT_STANDARDS.md       ← Comment guidelines
-└── developers/                ← Developer guides
+├── PERFORMANCE.md             ← Performance optimization
+├── Glossary.md                ← Developer terminology
+├── api/
+│   └── README.md              ← Links to game APIs (wiki/api/)
+└── developers/                ← Developer setup & workflow
     ├── SETUP_WINDOWS.md       ← Start here (first time)
     ├── SETUP_LINUX.md
     ├── SETUP_MAC.md
@@ -57,16 +74,15 @@ docs/                          ← You are here
     ├── DEBUGGING.md
     └── TROUBLESHOOTING.md
 
-wiki/                          ← Full documentation
-├── systems/                   ← Game mechanics (18 docs)
-├── api/                       ← APIs & interfaces
-├── architecture/              ← Design decisions
-├── design/                    ← Templates & specs
-├── examples/                  ← Learning guides
-├── DOCUMENTATION_STANDARD.md
-├── NAVIGATION.md
-├── PERFORMANCE.md
-└── Glossary.md
+wiki/                          ← Game design documentation
+├── systems/                   ← Game mechanics (19 documented)
+├── api/                       ← Game system APIs
+├── architecture/              ← Design decisions (ADRs 1-5)
+├── design/                    ← Design guidelines & specs
+├── examples/                  ← Learning guides & tutorials
+├── README.md                  ← Game design hub
+├── NAVIGATION.md              ← Game documentation map
+├── GLOSSARY.md                ← Authoritative game terminology
 ```
 
 ---
@@ -93,10 +109,10 @@ wiki/                          ← Full documentation
 
 ## 🤖 For Everyone
 
-- **Need to know what something is?** → `wiki/Glossary.md`
-- **Want to find a specific doc?** → `wiki/NAVIGATION.md`
-- **Need documentation standards?** → `wiki/DOCUMENTATION_STANDARD.md`
-- **Performance concerns?** → `wiki/PERFORMANCE.md`
+- **Need to know what something is?** → `wiki/GLOSSARY.md` (game terms) or `Glossary.md` (developer terms)
+- **Want to find a specific doc?** → `wiki/NAVIGATION.md` (game docs) or `DOCS_NAVIGATION.md` (developer docs)
+- **Need documentation standards?** → `DOCUMENTATION_STANDARD.md`
+- **Performance concerns?** → `PERFORMANCE.md`
 
 ---
 
@@ -106,12 +122,16 @@ wiki/                          ← Full documentation
 |------|---------|
 | `CODE_STANDARDS.md` | How to write code (naming, style, organization) |
 | `COMMENT_STANDARDS.md` | How to write comments and docstrings |
-| `developers/SETUP_*.md` | Installation & environment setup |
+| `DOCUMENTATION_STANDARD.md` | How to write documentation |
+| `DOCS_NAVIGATION.md` | Developer documentation navigation guide |
+| `PERFORMANCE.md` | Performance optimization techniques |
+| `Glossary.md` | Developer and technical terminology |
+| `developers/SETUP_*.md` | Installation & environment setup (Windows, Linux, macOS) |
 | `developers/WORKFLOW.md` | Git workflow and collaboration |
 | `developers/DEBUGGING.md` | How to debug with Love2D console |
 | `developers/TROUBLESHOOTING.md` | Common issues & fixes |
 
-Everything else → `wiki/`
+Everything else → `wiki/` (Game design documentation)
 
 ---
 

@@ -497,3 +497,6 @@ function CombatFeedback:getEffectIcon(effectType)
 end
 
 return CombatFeedback
+
+
+

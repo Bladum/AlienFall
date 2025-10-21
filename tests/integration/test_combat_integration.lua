@@ -277,3 +277,6 @@ function CombatIntegrationTest.runAll()
 end
 
 return CombatIntegrationTest
+
+
+

@@ -242,3 +242,6 @@ function MockEconomy.getSalaries()
 end
 
 return MockEconomy
+
+
+

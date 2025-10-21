@@ -64,14 +64,14 @@ local StateManager = require("core.state_manager")
 
 -- Load game modules
 print("[Main] Loading Menu...")
-local Menu = require("scenes.main_menu")
+local Menu = require("gui.scenes.main_menu")
 print("[Main] Loading Geoscape...")
-local Geoscape = require("scenes.geoscape_screen")
+local Geoscape = require("gui.scenes.geoscape_screen")
 
 print("[Main] Loading Battlescape...")
 local Battlescape
 local success, err = pcall(function()
-    Battlescape = require("scenes.battlescape_screen")
+    Battlescape = require("gui.scenes.battlescape_screen")
 end)
 if not success then
     print("[ERROR] Failed to load Battlescape: " .. tostring(err))
@@ -81,19 +81,19 @@ else
 end
 
 print("[Main] Loading Basescape...")
-local Basescape = require("scenes.basescape_screen")
+local Basescape = require("gui.scenes.basescape_screen")
 
 print("[Main] Loading Tests Menu...")
-local TestsMenu = require("scenes.tests_menu")
+local TestsMenu = require("gui.scenes.tests_menu")
 
 print("[Main] Loading Widget Showcase...")
-local WidgetShowcase = require("scenes.widget_showcase")
+local WidgetShowcase = require("gui.scenes.widget_showcase")
 
 print("[Main] Loading Map Editor...")
 local MapEditor = require("battlescape.ui.map_editor")
 
 -- Load widgets system
-local Widgets = require("widgets.init")
+local Widgets = require("gui.widgets.init")
 
 -- Load asset system
 local Assets = require("core.assets")
@@ -327,6 +327,9 @@ function love.errorhandler(msg)
         love.timer.sleep(0.1)
     end
 end
+
+
+
 
 
 

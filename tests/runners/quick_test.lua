@@ -34,3 +34,5 @@ end
 function love.draw()
     love.graphics.print("Test completed - check console output", 10, 10)
 end
+
+

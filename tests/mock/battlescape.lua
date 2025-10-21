@@ -265,3 +265,6 @@ function MockBattlescape.getCombatScenario(scenario)
 end
 
 return MockBattlescape
+
+
+

@@ -5,7 +5,7 @@
 ---The cycle moves at 4 tiles per day, covering 50% of the world in daylight at any time.
 ---
 ---System Properties:
----  - worldWidth: Total width of world in hex tiles (default 80)
+---  - worldWidth: Total width of world in hex tiles (default 90)
 ---  - speed: Tiles per day the cycle moves (default 4)
 ---  - coverage: Percentage of world in daylight (default 0.5)
 ---  - offset: Current position of day/night terminator
@@ -48,14 +48,14 @@ local DayNightCycle = {}
 DayNightCycle.__index = DayNightCycle
 
 ---Create a new day/night cycle system
----@param worldWidth number Width of world in hex tiles (default 80)
+---@param worldWidth number Width of world in hex tiles (default 90)
 ---@param speed number Tiles per day the cycle moves (default 4)
 ---@param coverage number Percentage of world in daylight (default 0.5)
 ---@return table DayNightCycle instance
 function DayNightCycle.new(worldWidth, speed, coverage)
     local self = setmetatable({}, DayNightCycle)
     
-    self.worldWidth = worldWidth or 80
+    self.worldWidth = worldWidth or 90
     self.speed = speed or 4  -- tiles per day
     self.coverage = coverage or 0.5  -- 50% day, 50% night
     
@@ -64,7 +64,7 @@ function DayNightCycle.new(worldWidth, speed, coverage)
     self.position = 0  -- Start at left edge
     
     -- Calculate cycle duration (full rotation)
-    self.cycleDuration = self.worldWidth / self.speed  -- 80 / 4 = 20 days
+    self.cycleDuration = self.worldWidth / self.speed  -- 90 / 4 = 22.5 days
     
     -- Transition zone width (smooth gradient between day and night)
     self.transitionWidth = 2  -- tiles
@@ -196,6 +196,9 @@ function DayNightCycle.getTimeOfDay(lightLevel)
 end
 
 return DayNightCycle
+
+
+
 
 
 

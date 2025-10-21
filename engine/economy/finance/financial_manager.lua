@@ -271,3 +271,6 @@ function FinancialManager:deserialize(data)
 end
 
 return FinancialManager
+
+
+

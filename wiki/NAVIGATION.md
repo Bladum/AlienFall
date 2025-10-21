@@ -44,23 +44,23 @@ docs/README.md (START HERE)
 
 | System | Player Doc | Developer Doc | Designer Doc |
 |--------|-----------|---------------|--------------|
-| **3D Rendering** | [3D.md](systems/3D.md) | [api/CORE.md](api/CORE.md) | - |
-| **AI Systems** | [AI Systems.md](systems/AI%20Systems.md) | [api/CORE.md](api/CORE.md) | [design/BALANCE_REFERENCE.md](design/BALANCE_REFERENCE.md) |
-| **Analytics** | [Analytics.md](systems/Analytics.md) | [api/CORE.md](api/CORE.md) | - |
-| **Assets** | [Assets.md](systems/Assets.md) | [api/CORE.md](api/CORE.md) | - |
+| **3D Rendering** | [3D.md](systems/3D.md) | [api/ARCHITECTURE.md](api/ARCHITECTURE.md) | - |
+| **AI Systems** | [AI Systems.md](systems/AI%20Systems.md) | [api/ARCHITECTURE.md](api/ARCHITECTURE.md) | [design/BALANCE_REFERENCE.md](design/BALANCE_REFERENCE.md) |
+| **Analytics** | [Analytics.md](systems/Analytics.md) | [api/ARCHITECTURE.md](api/ARCHITECTURE.md) | - |
+| **Assets** | [Assets.md](systems/Assets.md) | [api/ARCHITECTURE.md](api/ARCHITECTURE.md) | - |
 | **Base Management** | [Basescape.md](systems/Basescape.md) | [api/BASESCAPE.md](api/BASESCAPE.md) | [examples/ADDING_RESEARCH.md](examples/ADDING_RESEARCH.md) |
 | **Tactical Combat** | [Battlescape.md](systems/Battlescape.md) | [api/BATTLESCAPE.md](api/BATTLESCAPE.md) | [design/BALANCE_REFERENCE.md](design/BALANCE_REFERENCE.md) |
 | **Aircraft** | [Crafts.md](systems/Crafts.md) | [api/GEOSCAPE.md](api/GEOSCAPE.md) | [design/BALANCE_REFERENCE.md](design/BALANCE_REFERENCE.md) |
-| **Economy** | [Economy.md](systems/Economy.md) | [api/CORE.md](api/CORE.md) | [design/BALANCE_REFERENCE.md](design/BALANCE_REFERENCE.md) |
-| **Finance** | [Finance.md](systems/Finance.md) | [api/CORE.md](api/CORE.md) | [design/BALANCE_REFERENCE.md](design/BALANCE_REFERENCE.md) |
-| **Strategy Layer** | [Geoscape.md](systems/Geoscape.md) | [api/GEOSCAPE.md](api/GEOSCAPE.md) | [design/BALANCE_REFERENCE.md](design/BALANCE_REFERENCE.md) |
-| **System Integration** | [Integration.md](systems/Integration.md) | [architecture/SYSTEM_INTERACTION.md](architecture/SYSTEM_INTERACTION.md) | - |
-| **Air Combat** | [Interception.md](systems/Interception.md) | [api/GEOSCAPE.md](api/GEOSCAPE.md) | [design/BALANCE_REFERENCE.md](design/BALANCE_REFERENCE.md) |
+| **Economy** | [Economy.md](systems/Economy.md) | [api/ECONOMY.md](api/ECONOMY.md) | [design/BALANCE_REFERENCE.md](design/BALANCE_REFERENCE.md) |
+| **Finance** | [Finance.md](systems/Finance.md) | [api/ECONOMY.md](api/ECONOMY.md) | [design/BALANCE_REFERENCE.md](design/BALANCE_REFERENCE.md) |
+| **Strategy Layer** | [Geoscape.md](systems/Geoscape.md) | [api/ARCHITECTURE.md](api/ARCHITECTURE.md) | [design/BALANCE_REFERENCE.md](design/BALANCE_REFERENCE.md) |
+| **System Integration** | [Integration.md](systems/Integration.md) | [api/ARCHITECTURE.md](api/ARCHITECTURE.md) | - |
+| **Air Combat** | [Interception.md](systems/Interception.md) | [api/ARCHITECTURE.md](api/ARCHITECTURE.md) | [design/BALANCE_REFERENCE.md](design/BALANCE_REFERENCE.md) |
 | **Equipment** | [Items.md](systems/Items.md) | [api/BATTLESCAPE.md](api/BATTLESCAPE.md) | [design/BALANCE_REFERENCE.md](design/BALANCE_REFERENCE.md) |
-| **Story & Lore** | [Lore.md](systems/Lore.md) | [api/CORE.md](api/CORE.md) | - |
-| **Politics** | [Politics.md](systems/Politics.md) | [api/GEOSCAPE.md](api/GEOSCAPE.md) | [design/BALANCE_REFERENCE.md](design/BALANCE_REFERENCE.md) |
+| **Story & Lore** | [Lore.md](systems/Lore.md) | [api/ARCHITECTURE.md](api/ARCHITECTURE.md) | - |
+| **Politics** | [Politics.md](systems/Politics.md) | [api/ARCHITECTURE.md](api/ARCHITECTURE.md) | [design/BALANCE_REFERENCE.md](design/BALANCE_REFERENCE.md) |
 | **Characters & Units** | [Units.md](systems/Units.md) | [api/UNITS.md](api/UNITS.md) | [design/BALANCE_REFERENCE.md](design/BALANCE_REFERENCE.md) |
-| **UI Systems** | [Gui.md](systems/Gui.md) | [api/CORE.md](api/CORE.md) | - |
+| **UI Systems** | [Gui.md](systems/Gui.md) | [api/ARCHITECTURE.md](api/ARCHITECTURE.md) | - |
 
 ### Developer Documentation
 
@@ -78,10 +78,11 @@ developers/
 
 ```
 api/
-├── CORE.md ................... Main engine & lifecycle
-├── GEOSCAPE.md ............... Strategic layer APIs
+├── README.md ................. API index & quick links
+├── ARCHITECTURE.md ........... Core architecture APIs
 ├── BASESCAPE.md .............. Base management APIs
 ├── BATTLESCAPE.md ............ Tactical combat APIs
+├── ECONOMY.md ................ Economy & finance APIs
 └── UNITS.md .................. Unit system APIs
 ```
 
@@ -90,8 +91,6 @@ api/
 ```
 architecture/
 ├── README.md ................. Index of ADRs
-├── SYSTEM_INTERACTION.md ..... System flow diagrams
-├── DATA_FLOW.md .............. Data movement patterns
 ├── ADR-001-HEXGRID.md ........ Hexagonal grid decision
 ├── ADR-002-TURNBASED.md ...... Turn-based vs real-time
 ├── ADR-003-MODULES.md ........ Module separation
@@ -114,7 +113,7 @@ examples/
 
 ```
 design/
-├── DESIGN_TEMPLATE.md ........ Template for all designs
+├── README.md ................ Design documentation index
 ├── BALANCE_REFERENCE.md ...... Balance parameters
 ├── TESTING_METHODOLOGY.md .... How to test mechanics
 └── DESIGNER_QUICKREF.md ...... One-page cheat sheet
@@ -123,15 +122,25 @@ design/
 ### Core Reference
 
 ```
-docs/
-├── README.md ................. Documentation hub (START HERE)
+wiki/
+├── README.md ................. Game design documentation hub (START HERE)
+├── NAVIGATION.md ............ This file
+├── GLOSSARY.md ............... Game terminology (merged reference)
+├── systems/ .................. All 19 game systems
+├── api/ ...................... API references
+├── architecture/ ............ Design decisions & ADRs
+├── design/ ................... Design documentation
+└── examples/ ................. Learning examples
+
+docs/ (Developer Tools)
+├── README.md ................. Developer documentation hub
+├── DOCS_NAVIGATION.md ........ Developer guide navigation
 ├── DOCUMENTATION_STANDARD.md . Standards & conventions
-├── NAVIGATION.md ............. This file
 ├── CODE_STANDARDS.md ......... Code style & naming
 ├── COMMENT_STANDARDS.md ...... Comment conventions
 ├── PERFORMANCE.md ............ Performance & optimization
-├── Glossary.md ............... Game terminology
-└── DOCUMENTATION_STANDARD.md . Style & format rules
+├── Glossary.md ............... Developer terminology
+└── api/README.md ............ Developer API links
 ```
 
 ---
@@ -141,7 +150,7 @@ docs/
 ### Geoscape (Strategic Layer)
 
 **Mechanics Overview**: [Geoscape.md](systems/Geoscape.md)
-**API Reference**: [api/GEOSCAPE.md](api/GEOSCAPE.md)
+**API Reference**: [api/ARCHITECTURE.md](api/ARCHITECTURE.md)
 **Example Implementation**: [examples/ADDING_MISSION.md](examples/ADDING_MISSION.md)
 **Balance Parameters**: [design/BALANCE_REFERENCE.md](design/BALANCE_REFERENCE.md)
 **Related Systems**: [Crafts.md](systems/Crafts.md), [Interception.md](systems/Interception.md), [Economy.md](systems/Economy.md)
@@ -196,14 +205,14 @@ docs/
 ### New Developers
 1. [Setup Guide (Windows)](developers/SETUP_WINDOWS.md) - Get running
 2. [Development Workflow](developers/WORKFLOW.md) - How to work
-3. [Project Structure](../wiki/PROJECT_STRUCTURE.md) - Where things are
-4. [Code Standards](CODE_STANDARDS.md) - How to code
-5. [System Architecture](architecture/SYSTEM_INTERACTION.md) - How systems fit together
-6. [Debugging Guide](developers/DEBUGGING.md) - How to debug
+3. [Code Standards](../docs/CODE_STANDARDS.md) - How to code
+4. [System Architecture](architecture/README.md) - How systems fit together
+5. [Debugging Guide](developers/DEBUGGING.md) - How to debug
+6. [API Reference](api/README.md) - Available APIs
 7. Relevant API docs for your task
 
 ### Game Designers
-1. [Design Template](design/DESIGN_TEMPLATE.md) - For planning features
+1. [Design Template](design/README.md) - Design documentation index
 2. [Balance Reference](design/BALANCE_REFERENCE.md) - Current parameters
 3. System mechanics docs: [Geoscape](systems/Geoscape.md), [Basescape](systems/Basescape.md), [Battlescape](systems/Battlescape.md)
 4. [Testing Methodology](design/TESTING_METHODOLOGY.md) - How to verify balance
@@ -211,47 +220,64 @@ docs/
 
 ### Modders
 1. [Mod Creation Guide](../mods/README.md) - Get started
-2. [API Reference](api/CORE.md) - What you can use
-3. [Code Standards](CODE_STANDARDS.md) - Conventions
+2. [API Reference](api/README.md) - What you can use
+3. [Code Standards](../docs/CODE_STANDARDS.md) - Conventions
 4. System docs as needed
-5. [Design System](design/DESIGN_TEMPLATE.md) - How customization works
+5. [Design System](design/README.md) - How customization works
 
 ---
 
 ## Dependency Graph
 
 ```
-Documentation Hub (README.md)
+Game Design Hub (wiki/README.md)
 ├── Audience Paths
 │   ├── Players → Overview → Glossary → System Docs
 │   ├── Developers → Setup → Workflow → Code Standards → API Docs
 │   ├── Designers → Design Template → Balance Reference → System Docs
 │   └── Modders → Mod Guide → API Reference
-├── System Docs (Geoscape, Basescape, Battlescape, etc.)
+├── System Docs (19 systems documented)
 │   └── Link to: API Docs, Architecture, Balance Params
-├── Developer Docs
-│   ├── Setup → Workflow → Debugging
-│   ├── Code Standards → Comment Standards
-│   └── Project Structure
 ├── API Docs
-│   ├── Core → State Management
-│   ├── Geoscape → Interception, Crafts
-│   ├── Basescape → Items, Research
-│   └── Battlescape → Units, Combat
+│   ├── Architecture → State Management & Core
+│   ├── Basescape → Items, Research, Facilities
+│   ├── Battlescape → Units, Combat, Weapons
+│   ├── Economy → Finance & Trading
+│   └── Units → Unit progression & classes
 ├── Architecture
-│   ├── System Interaction → All systems
-│   ├── Data Flow → All systems
-│   └── ADRs → Design decisions
+│   ├── ADRs → Design decisions
+│   │   ├── ADR-001: Hexgrid decision
+│   │   ├── ADR-002: Turn-based vs real-time
+│   │   ├── ADR-003: Module separation
+│   │   ├── ADR-004: Data persistence
+│   │   └── ADR-005: AI decision-making
 ├── Examples
 │   ├── Adding Unit → Units API
 │   ├── Adding Weapon → Battlescape API
 │   ├── Adding Research → Basescape API
-│   ├── Adding Mission → Geoscape API
-│   └── Adding UI → Core API
+│   ├── Adding Mission → Geoscape/Architecture
+│   └── Adding UI → Architecture
 └── Design Docs
-    ├── Template → Design process
     ├── Balance Reference → System docs
-    └── Methodology → Testing
+    ├── Testing Methodology → Testing
+    └── Designer Quick Reference → Cheat sheet
+
+Developer Tools Hub (docs/README.md)
+├── Setup Guides
+│   ├── SETUP_WINDOWS.md
+│   └── SETUP_LINUX.md
+├── Workflow Docs
+│   ├── WORKFLOW.md → Git & collaboration
+│   ├── DEBUGGING.md → Debugging techniques
+│   └── TROUBLESHOOTING.md → Common issues
+├── Standards
+│   ├── CODE_STANDARDS.md
+│   ├── COMMENT_STANDARDS.md
+│   └── DOCUMENTATION_STANDARD.md
+├── Reference
+│   ├── PERFORMANCE.md
+│   ├── Glossary.md (developer terms)
+│   └── DOCS_NAVIGATION.md
 ```
 
 ---
@@ -262,16 +288,16 @@ Documentation Hub (README.md)
 
 | If you want to find... | Look here... |
 |----------------------|-------------|
-| A game mechanic | System docs (Geoscape.md, etc.) or Glossary |
-| An API function | api/CORE.md, api/GEOSCAPE.md, etc. |
+| A game mechanic | System docs (Geoscape.md, etc.) or GLOSSARY.md |
+| An API function | api/README.md, api/ARCHITECTURE.md, etc. |
 | How to do something | examples/ folder or relevant API docs |
 | A design decision | architecture/ folder (ADRs) |
 | Balance parameters | design/BALANCE_REFERENCE.md |
-| A term definition | Glossary.md |
-| Setup help | developers/SETUP_*.md |
-| Troubleshooting | developers/TROUBLESHOOTING.md |
-| Code style rules | CODE_STANDARDS.md or COMMENT_STANDARDS.md |
-| How to write docs | DOCUMENTATION_STANDARD.md |
+| A term definition | GLOSSARY.md or docs/Glossary.md |
+| Setup help | docs/developers/SETUP_*.md |
+| Troubleshooting | docs/developers/TROUBLESHOOTING.md |
+| Code style rules | docs/CODE_STANDARDS.md or docs/COMMENT_STANDARDS.md |
+| How to write docs | docs/DOCUMENTATION_STANDARD.md |
 
 ---
 
@@ -337,23 +363,23 @@ Documents include status in their footer:
 ### Most-Used Links
 
 **For Players**
-- [Overview](Overview.md)
-- [Glossary](Glossary.md)
+- [Overview](systems/Overview.md)
+- [GLOSSARY](GLOSSARY.md)
 - [FAQ](../README.md#faq)
 
 **For Developers**
-- [Setup (Windows)](developers/SETUP_WINDOWS.md)
-- [Workflow](developers/WORKFLOW.md)
-- [API Reference](api/CORE.md)
+- [Setup (Windows)](../docs/developers/SETUP_WINDOWS.md)
+- [Workflow](../docs/developers/WORKFLOW.md)
+- [API Reference](api/README.md)
 
 **For Designers**
-- [Design Template](design/DESIGN_TEMPLATE.md)
 - [Balance Reference](design/BALANCE_REFERENCE.md)
-- [System Docs](Geoscape.md)
+- [Testing Methodology](design/TESTING_METHODOLOGY.md)
+- [System Docs](systems/)
 
 **For Modders**
 - [Mod Guide](../mods/README.md)
-- [API Reference](api/CORE.md)
+- [API Reference](api/README.md)
 - [Examples](examples/)
 
 ---

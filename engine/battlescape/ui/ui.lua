@@ -56,7 +56,7 @@
 -- Battlescape UI Module
 -- Handles UI initialization and management
 
-local Widgets = require("widgets.init")
+local Widgets = require("gui.widgets.init")
 
 local BattlescapeUI = {}
 
@@ -257,6 +257,9 @@ function BattlescapeUI:handleActionButton(battlescape, buttonIndex)
 end
 
 return BattlescapeUI
+
+
+
 
 
 

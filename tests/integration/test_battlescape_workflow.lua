@@ -291,3 +291,6 @@ function TestBattlescapeIntegration.runAll()
 end
 
 return TestBattlescapeIntegration
+
+
+

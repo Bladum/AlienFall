@@ -211,3 +211,6 @@ function CapacityManager:getAllAvailable()
 end
 
 return CapacityManager
+
+
+

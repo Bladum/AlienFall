@@ -136,3 +136,6 @@ function ManufacturingProject.getInfo(project)
 end
 
 return ManufacturingProject
+
+
+

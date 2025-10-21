@@ -163,3 +163,6 @@ function LandingZoneSelector._generateSpawnPoints()
 end
 
 return LandingZoneSelector
+
+
+

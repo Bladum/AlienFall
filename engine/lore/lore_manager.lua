@@ -269,3 +269,6 @@ function LoreManager._countTable(tbl)
 end
 
 return LoreManager
+
+
+

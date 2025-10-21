@@ -22,8 +22,8 @@
 -- Setup package path
 package.path = package.path .. ";../../?.lua;../../engine/?.lua"
 
-local BaseWidget = require("widgets.core.base")
-local Grid = require("widgets.core.grid")
+local BaseWidget = require("gui.widgets.core.base")
+local Grid = require("gui.widgets.core.grid")
 
 local TestBaseWidget = {}
 local testsPassed = 0
@@ -333,3 +333,6 @@ if arg and arg[0]:match("test_base_widget%.lua$") then
 end
 
 return TestBaseWidget
+
+
+

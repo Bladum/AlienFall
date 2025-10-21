@@ -135,3 +135,6 @@ function ResearchEntry.getUnlockedResearch(entry)
 end
 
 return ResearchEntry
+
+
+

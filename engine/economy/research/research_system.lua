@@ -37,7 +37,7 @@
 ---@license Open Source
 ---
 ---@usage
----  local ResearchSystem = require("economy.research.research_system")
+---  local ResearchSystem = require("basescape.research.research_system")
 ---  local research = ResearchSystem.new()
 ---  research:startResearch("laser_weapons", 5)  -- 5 scientists
 ---  research:updateProgress(24)  -- Advance 24 hours
@@ -355,6 +355,9 @@ function ResearchSystem:initializeDefaultProjects()
 end
 
 return ResearchSystem
+
+
+
 
 
 

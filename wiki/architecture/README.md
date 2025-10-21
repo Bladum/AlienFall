@@ -23,13 +23,15 @@ ADRs provide historical context for why the architecture is structured as it is.
 
 ### Current ADRs
 
-| ID | Title | Status | Date |
-|----|----|--------|------|
-| [ADR-001](#adr-001) | Hexagonal Grid Topology | Accepted | Oct 2025 |
-| [ADR-002](#adr-002) | Turn-Based vs Real-Time | Accepted | Oct 2025 |
-| [ADR-003](#adr-003) | Module Separation | Accepted | Oct 2025 |
-| [ADR-004](#adr-004) | Data Persistence | Accepted | Oct 2025 |
-| [ADR-005](#adr-005) | AI Hierarchical Decision-Making | Accepted | Oct 2025 |
+| ID | Title | Status | File | Date |
+|----|-------|--------|------|------|
+| [ADR-001](ADR-001-HEXGRID.md) | Hexagonal Grid Topology | ✅ Accepted | ADR-001-HEXGRID.md | Oct 2025 |
+| [ADR-002](ADR-002-TURNBASED.md) | Turn-Based vs Real-Time | ✅ Accepted | ADR-002-TURNBASED.md | Oct 2025 |
+| [ADR-003](ADR-003-MODULES.md) | Module Separation | ✅ Accepted | ADR-003-MODULES.md | Oct 2025 |
+| [ADR-004](ADR-004-PERSISTENCE.md) | Data Persistence | ✅ Accepted | ADR-004-PERSISTENCE.md | Oct 2025 |
+| [ADR-005](ADR-005-AI.md) | AI Hierarchical Decision-Making | ✅ Accepted | ADR-005-AI.md | Oct 2025 |
+
+**Status**: ✅ All 5 ADRs documented (stubs created, content in original README)
 
 ---
 

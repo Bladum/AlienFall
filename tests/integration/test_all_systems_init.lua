@@ -28,7 +28,7 @@ function Tests.runAllInitTests()
     
     -- Test 2: Research System
     print("[TEST 2] Research System Initialization")
-    local ResearchManager = require("geoscape.logic.research_manager")
+    local ResearchManager = require("basescape.research.research_manager")
     
     ResearchManager.initialize()
     local proj1, err = ResearchManager.startResearch("basic_research", 10)
@@ -113,3 +113,6 @@ function Tests.runAllInitTests()
 end
 
 return Tests.runAllInitTests()
+
+
+

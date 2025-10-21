@@ -240,3 +240,6 @@ function DifficultyManager:getSaveData()
 end
 
 return DifficultyManager
+
+
+

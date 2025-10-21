@@ -1,0 +1,37 @@
+[mod]
+# Minimal Example Mod - Simplest possible mod structure
+id = "example_minimal"
+name = "Minimal Example Mod"
+version = "1.0.0"
+description = "Bare-bones example mod demonstrating minimal modding requirements for AlienFall."
+author = "AlienFall Development Team"
+
+[metadata]
+category = "example"
+tags = ["example", "minimal", "starter"]
+documentation = "README.md"
+
+[settings]
+enabled = true
+load_order = 101  # Load after complete mod
+
+# No specific content paths - all inline
+
+[dependencies]
+core = { version = ">=1.0.0", required = true }
+
+[compatibility]
+min_game_version = "1.0.0"
+max_game_version = "2.0.0"
+
+# Minimal content
+[content]
+weapons = 1
+units = 1
+
+[hooks]
+on_load = "init.lua"
+
+[features]
+custom_weapons = true
+custom_units = true

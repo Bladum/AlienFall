@@ -273,3 +273,6 @@ function NarrativeHooks:getSaveData()
 end
 
 return NarrativeHooks
+
+
+

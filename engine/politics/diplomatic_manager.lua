@@ -407,3 +407,6 @@ function DiplomaticManager:deserialize(data)
 end
 
 return DiplomaticManager
+
+
+

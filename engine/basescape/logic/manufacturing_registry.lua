@@ -219,3 +219,6 @@ function ManufacturingRegistry.printEntries()
 end
 
 return ManufacturingRegistry
+
+
+

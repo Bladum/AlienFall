@@ -51,6 +51,26 @@ local ModManager = require("mods.mod_manager")
 --- @field economy table Economy data with utility functions
 local DataLoader = {}
 
+--- Helper: Build a file path with correct path separators for the platform.
+--- Combines a directory path and filename(s) with consistent separators.
+---
+--- @param basePath string Base directory path
+--- @param ... string One or more filename/subdirectory components
+--- @return string Full path with consistent separators
+local function buildPath(basePath, ...)
+    -- Detect if we're on Windows (basePath contains backslashes)
+    local isWindows = basePath:find("\\") ~= nil
+    local separator = isWindows and "\\" or "/"
+    
+    local fullPath = basePath
+    for i, component in ipairs({...}) do
+        -- Normalize component separators to match platform
+        component = component:gsub("/", separator):gsub("\\", separator)
+        fullPath = fullPath .. separator .. component
+    end
+    return fullPath
+end
+
 --- Load all game data from TOML files.
 ---
 --- Calls individual loader functions for all 13 content types.
@@ -170,7 +190,7 @@ end
 ---
 --- @return table Weapons table with utility functions
 function DataLoader.loadWeapons()
-    local path = ModManager.getContentPath("rules", "item/weapons.toml")
+    local path = ModManager.getContentPath("rules", "items/weapons.toml")
     if not path then
         print("[DataLoader] ERROR: Could not get weapons path from mod")
         return {}
@@ -183,9 +203,18 @@ function DataLoader.loadWeapons()
     end
 
     -- Convert TOML structure to Lua table with functions
+    -- TOML uses [[weapon]] arrays which parse to data.weapon = {...}
+    local weaponsArray = data.weapon or data.weapons or {}
     local weapons = {
-        weapons = data.weapons or {}
+        weapons = {}
     }
+    
+    -- Convert array to indexed table by ID
+    for _, weapon in ipairs(weaponsArray) do
+        if weapon.id then
+            weapons.weapons[weapon.id] = weapon
+        end
+    end
 
     -- Add utility functions
     function weapons.get(weaponId)
@@ -229,7 +258,7 @@ end
 ---
 --- @return table Armours table with utility functions
 function DataLoader.loadArmours()
-    local path = ModManager.getContentPath("rules", "item/armours.toml")
+    local path = ModManager.getContentPath("rules", "items/armours.toml")
     if not path then
         print("[DataLoader] ERROR: Could not get armours path from mod")
         return {}
@@ -242,9 +271,18 @@ function DataLoader.loadArmours()
     end
 
     -- Convert TOML structure to Lua table with functions
+    -- TOML uses [[armour]] arrays which parse to data.armour = {...}
+    local armoursArray = data.armour or data.armours or {}
     local armours = {
-        armours = data.armours or {}
+        armours = {}
     }
+    
+    -- Convert array to indexed table by ID
+    for _, armour in ipairs(armoursArray) do
+        if armour.id then
+            armours.armours[armour.id] = armour
+        end
+    end
 
     -- Add utility functions
     function armours.get(armourId)
@@ -287,7 +325,7 @@ end
 ---
 --- @return table Skills table with utility functions
 function DataLoader.loadSkills()
-    local path = ModManager.getContentPath("rules", "item/skills.toml")
+    local path = ModManager.getContentPath("rules", "items/skills.toml")
     if not path then
         print("[DataLoader] ERROR: Could not get skills path from mod")
         return {}
@@ -299,9 +337,19 @@ function DataLoader.loadSkills()
         return {}
     end
 
+    -- Convert TOML structure to Lua table with functions
+    -- TOML uses [[skill]] arrays which parse to data.skill = {...}
+    local skillsArray = data.skill or data.skills or {}
     local skills = {
-        skills = data.skills or {}
+        skills = {}
     }
+    
+    -- Convert array to indexed table by ID
+    for _, skill in ipairs(skillsArray) do
+        if skill.id then
+            skills.skills[skill.id] = skill
+        end
+    end
 
     function skills.get(skillId)
         return skills.skills[skillId]
@@ -339,7 +387,7 @@ end
 ---
 --- @return table Unit classes table with utility functions
 function DataLoader.loadUnitClasses()
-    local path = ModManager.getContentPath("rules", "unit/classes.toml")
+    local path = ModManager.getContentPath("rules", "units/classes.toml")
     if not path then
         print("[DataLoader] ERROR: Could not get unit classes path from mod")
         return {}
@@ -410,7 +458,7 @@ function DataLoader.loadUnits()
     local totalLoaded = 0
     
     for _, filename in ipairs(unitFiles) do
-        local fullPath = path .. "/" .. filename
+        local fullPath = buildPath(path, filename)
         local data = TOML.load(fullPath)
         if data and data.unit then
             for _, unit in ipairs(data.unit) do
@@ -483,7 +531,7 @@ function DataLoader.loadFacilities()
     local totalLoaded = 0
     
     for _, filename in ipairs(facilityFiles) do
-        local fullPath = path .. "/" .. filename
+        local fullPath = buildPath(path, filename)
         local data = TOML.load(fullPath)
         if data and data.facility then
             for _, facility in ipairs(data.facility) do
@@ -547,7 +595,7 @@ function DataLoader.loadMissions()
     local totalLoaded = 0
     
     for _, filename in ipairs(missionFiles) do
-        local fullPath = path .. "/" .. filename
+        local fullPath = buildPath(path, filename)
         local data = TOML.load(fullPath)
         if data and data.mission then
             for _, mission in ipairs(data.mission) do
@@ -911,3 +959,6 @@ function DataLoader.validateTOML(data, expectedKeys)
 end
 
 return DataLoader
+
+
+

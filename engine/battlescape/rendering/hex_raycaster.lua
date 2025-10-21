@@ -329,3 +329,6 @@ function HexRaycaster:_rotateVector(vec, axis, angle)
 end
 
 return HexRaycaster
+
+
+

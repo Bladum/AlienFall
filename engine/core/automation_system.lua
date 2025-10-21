@@ -224,3 +224,6 @@ function AutomationSystem:isAvailable(progressionLevel)
 end
 
 return AutomationSystem
+
+
+

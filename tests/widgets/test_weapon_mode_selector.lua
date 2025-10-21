@@ -3,7 +3,7 @@
 -- Add engine path for requires
 package.path = package.path .. ";../engine/?.lua;../engine/?/init.lua"
 
-local WeaponModeSelector = require("widgets.combat.weapon_mode_selector")
+local WeaponModeSelector = require("gui.widgets.combat.weapon_mode_selector")
 
 local function test_creation()
     print("[TEST] Creating weapon mode selector...")
@@ -184,6 +184,9 @@ return {
     test_weapon_update = test_weapon_update,
     test_callback = test_callback
 }
+
+
+
 
 
 

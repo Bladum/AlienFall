@@ -431,3 +431,5 @@ function Pathfinding.findPath(grid, startX, startY, goalX, goalY)
 end
 
 return Pathfinding
+
+

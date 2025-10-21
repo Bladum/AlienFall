@@ -68,6 +68,7 @@
 local DamageTypes = require("battlescape.combat.damage_types")
 local DamageModels = require("battlescape.combat.damage_models")
 local MoraleSystem = require("battlescape.combat.morale_system")
+local FlankingSystem = require("battlescape.combat.flanking_system")
 
 local DamageSystem = {}
 DamageSystem.__index = DamageSystem
@@ -80,23 +81,33 @@ DamageSystem.WOUND_BLEED_DAMAGE = 1
 
 --- Create a new damage system instance
 -- @param moraleSystem table Optional morale system instance
+-- @param flankingSystem table Optional flanking system instance
 -- @return table New DamageSystem instance
-function DamageSystem.new(moraleSystem)
+function DamageSystem.new(moraleSystem, flankingSystem)
     print("[DamageSystem] Initializing damage system")
     
     local self = setmetatable({}, DamageSystem)
     
     self.moraleSystem = moraleSystem or MoraleSystem.new()
+    self.flankingSystem = flankingSystem or self:createFlankingSystem()
     self.damageLog = {}  -- Log of recent damage events
     
     return self
 end
 
+--- Create flanking system if not provided
+-- @return table FlankingSystem instance
+function DamageSystem:createFlankingSystem()
+    local HexMath = require("battlescape.battle_ecs.hex_math")
+    return FlankingSystem.new(HexMath)
+end
+
 --- Resolve damage from a projectile impact
 -- @param projectile table Projectile that hit
 -- @param targetUnit table Unit that was hit
+-- @param attackerUnit table Optional attacker unit for flanking calculation
 -- @return table Damage result with breakdown
-function DamageSystem:resolveDamage(projectile, targetUnit)
+function DamageSystem:resolveDamage(projectile, targetUnit, attackerUnit)
     print("[DamageSystem] Resolving damage: power=" .. projectile.power .. 
           ", type=" .. projectile.damageClass .. ", target=" .. (targetUnit.name or "Unknown"))
     
@@ -114,6 +125,23 @@ function DamageSystem:resolveDamage(projectile, targetUnit)
           ", resistance=" .. resistance .. ", effective=" .. effectivePower .. 
           ", armor=" .. armorValue .. ", final=" .. finalDamage)
     
+    -- NEW: Calculate flanking status and apply modifiers
+    local flankingStatus = "front"  -- Default
+    if attackerUnit then
+        flankingStatus = self.flankingSystem:getFlankingStatus(attackerUnit, targetUnit)
+        print("[DamageSystem] Flanking status: " .. flankingStatus)
+        
+        -- Apply flanking damage multiplier
+        local flankingMultiplier = self.flankingSystem:getDamageMultiplier(flankingStatus)
+        finalDamage = finalDamage * flankingMultiplier
+        print("[DamageSystem] Damage after flanking multiplier: " .. finalDamage)
+        
+        -- Apply cover reduction (considering flanking)
+        local coverReduction = self:calculateCoverReduction(targetUnit, flankingStatus)
+        finalDamage = finalDamage * (1.0 - coverReduction)
+        print("[DamageSystem] Damage after cover reduction: " .. finalDamage)
+    end
+    
     -- Step 4: Check for critical hit
     local isCritical = self:rollCriticalHit()
     if isCritical then
@@ -123,6 +151,11 @@ function DamageSystem:resolveDamage(projectile, targetUnit)
     
     -- Step 5: Distribute damage to pools
     local damageResult = self:distributeDamage(targetUnit, projectile, finalDamage, isCritical)
+    
+    -- NEW: Apply flanking morale modifier
+    if attackerUnit then
+        self:applyFlankingMoraleModifier(targetUnit, flankingStatus)
+    end
     
     -- Step 6: Apply morale loss from taking damage
     if damageResult.healthDamage > 0 then
@@ -138,7 +171,8 @@ function DamageSystem:resolveDamage(projectile, targetUnit)
         timestamp = love.timer.getTime(),
         target = targetUnit.name or "Unknown",
         damage = damageResult,
-        critical = isCritical
+        critical = isCritical,
+        flanking = flankingStatus
     })
     
     return damageResult
@@ -480,7 +514,68 @@ function DamageSystem:clearDamageLog()
     self.damageLog = {}
 end
 
+--- Calculate cover damage reduction based on flanking status
+-- @param target table Target unit at cover position
+-- @param flankingStatus string Flanking status (front/side/rear)
+-- @return number Cover reduction factor (0.0 - 1.0)
+function DamageSystem:calculateCoverReduction(target, flankingStatus)
+    -- Check if we have battlefield reference for tile cover data
+    if not self.battlefield then
+        return 0.0  -- No cover if no battlefield reference
+    end
+    
+    -- Get target's tile
+    local tile = self.battlefield:getTile(target.x, target.y)
+    if not tile then
+        return 0.0
+    end
+    
+    -- Get cover value from tile (0.0 - 1.0)
+    local coverValue = tile:getCover()
+    
+    -- Get flanking cover multiplier (how effective cover is from this position)
+    local coverMultiplier = self.flankingSystem:getCoverMultiplier(flankingStatus)
+    
+    -- Combined effect: cover effectiveness reduced by flanking
+    -- Example: Full cover (1.0) × rear flanking (0.0) = 0.0 (no protection)
+    -- Example: Full cover (1.0) × side flanking (0.5) = 0.5 (half protection)
+    local reduction = coverValue * coverMultiplier
+    
+    if reduction > 0 then
+        print(string.format("[DamageSystem] Cover reduction: %.1f (cover %.1f × flank multiplier %.1f)",
+              reduction, coverValue, coverMultiplier))
+    end
+    
+    return reduction
+end
+
+--- Apply flanking morale modifier to target
+-- Rear attacks cause psychological impact, side attacks cause minor morale loss
+-- @param target table Target unit
+-- @param flankingStatus string Flanking status (front/side/rear)
+function DamageSystem:applyFlankingMoraleModifier(target, flankingStatus)
+    if not self.moraleSystem then
+        return
+    end
+    
+    -- Get additional morale damage from flanking position
+    local flankingMoraleModifier = self.flankingSystem:getMoraleModifier(flankingStatus)
+    
+    if flankingMoraleModifier > 0 then
+        -- Calculate additional morale loss (base 50 morale damage)
+        local additionalMorale = math.floor(50 * flankingMoraleModifier)
+        
+        self.moraleSystem:applyMoraleLoss(target, additionalMorale)
+        
+        print(string.format("[DamageSystem] Applied %d flanking morale damage (status: %s, modifier: %.0f%%)",
+              additionalMorale, flankingStatus, flankingMoraleModifier * 100))
+    end
+end
+
 return DamageSystem
+
+
+
 
 
 

@@ -21,7 +21,7 @@
 -- Setup package path
 package.path = package.path .. ";../../?.lua;../../engine/?.lua"
 
-local ResearchSystem = require("economy.research.research_system")
+local ResearchSystem = require("basescape.research.research_system")
 local MockEconomy = require("tests.mock.economy")
 
 local TestResearchSystem = {}
@@ -438,3 +438,6 @@ if arg and arg[0]:match("test_research_system%.lua$") then
 end
 
 return TestResearchSystem
+
+
+

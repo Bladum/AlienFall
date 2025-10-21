@@ -21,8 +21,8 @@
 ---  - getSelectedTileset(): Get currently selected tileset
 ---
 ---Dependencies:
----  - require("widgets.core.base"): Base widget class
----  - require("widgets.core.theme"): UI theming system
+---  - require("gui.widgets.core.base"): Base widget class
+---  - require("gui.widgets.core.theme"): UI theming system
 ---  - require("battlescape.data.tilesets"): Tileset definitions
 ---
 ---@module battlescape.ui.tileset_browser
@@ -44,9 +44,9 @@
 -- Phase 5: Map Editor Enhancement
 -- Browse and select tilesets for map editing
 
-local BaseWidget = require("widgets.core.base")
-local Theme = require("widgets.core.theme")
-local Widgets = require("widgets.init")
+local BaseWidget = require("gui.widgets.core.base")
+local Theme = require("gui.widgets.core.theme")
+local Widgets = require("gui.widgets.init")
 
 local TilesetBrowser = setmetatable({}, {__index = BaseWidget})
 TilesetBrowser.__index = TilesetBrowser
@@ -185,6 +185,9 @@ function TilesetBrowser:isPointInside(x, y)
 end
 
 return TilesetBrowser
+
+
+
 
 
 

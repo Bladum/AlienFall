@@ -72,12 +72,21 @@ ModManager.modOrder = {}
 ---
 --- @return table Array of mod config tables
 function ModManager.scanMods()
-    local modsPath = "../mods"  -- Project root mods directory
+    local modsPath = "mods"  -- Mods directory relative to game root
     local modList = {}
     
     -- Use io to list directories (since love.filesystem can't access outside game tree)
     local items = {}
-    local pfile = io.popen('dir "' .. love.filesystem.getSourceBaseDirectory() .. '\\..\\mods" /b /ad 2>nul')
+    local sourceDir = love.filesystem.getSourceBaseDirectory()
+    print("[ModManager] Source directory: " .. sourceDir)
+    
+    -- Try both possible locations for mods
+    local modsFullPath1 = sourceDir .. "\\mods"  -- If running from Projects or engine
+    local modsFullPath2 = sourceDir .. "\\..\\mods"  -- If running from somewhere else
+    
+    -- Try mods directory first
+    local pfile = io.popen('dir "' .. modsFullPath1 .. '" /b /ad 2>nul')
+    local modsFullPath = modsFullPath1
     if pfile then
         for dirname in pfile:lines() do
             table.insert(items, dirname)
@@ -85,22 +94,51 @@ function ModManager.scanMods()
         pfile:close()
     end
     
-    print(string.format("[ModManager] Scanning %d items in %s directory", #items, modsPath))
+    -- If that didn't work, try parent directory
+    if #items == 0 then
+        print("[ModManager] Mods not found in sourceDir, trying parent...")
+        pfile = io.popen('dir "' .. modsFullPath2 .. '" /b /ad 2>nul')
+        modsFullPath = modsFullPath2
+        if pfile then
+            for dirname in pfile:lines() do
+                table.insert(items, dirname)
+            end
+            pfile:close()
+        end
+    end
+    
+    -- Fallback: manually check for known mod directories if dir didn't work
+    if #items == 0 then
+        print("[ModManager] WARNING: Dir command returned 0 items, trying fallback...")
+        local knownMods = {"core", "xcom_simple", "new"}
+        for _, modName in ipairs(knownMods) do
+            local testPath = modsFullPath .. "\\" .. modName .. "\\mod.toml"
+            print("[ModManager] Checking fallback path: " .. testPath)
+            local testFile = io.open(testPath, "r")
+            if testFile then
+                table.insert(items, modName)
+                testFile:close()
+                print("[ModManager] Fallback found mod directory: " .. modName)
+            end
+        end
+    end
+    
+    print("[ModManager] Full mods path: " .. modsFullPath)
+    print(string.format("[ModManager] Scanning %d items in directory", #items))
     for i, item in ipairs(items) do
         print(string.format("[ModManager] Item %d: %s", i, item))
         
-        -- Check if directory contains mod.toml
-        local modDir = love.filesystem.getSourceBaseDirectory() .. "/../mods/" .. item
-        local tomlPath = modDir .. "/mod.toml"
+        -- Check if directory contains mod.toml (use same modsFullPath for consistency)
+        local modDir = modsFullPath .. "\\" .. item
+        local tomlPath = modDir .. "\\mod.toml"
         local file = io.open(tomlPath, "r")
         if file then
             print(string.format("[ModManager] Found mod.toml in %s", item))
             file:close()
             
-            -- Mount the mod directory for love.filesystem access
-            local mountPath = "mod_" .. item
-            local success = love.filesystem.mount(modDir, mountPath)
-            print(string.format("[ModManager] Mounted mod %s at %s (success: %s)", item, mountPath, tostring(success)))
+            -- DON'T mount to love.filesystem - just store the physical path
+            -- This works better on Windows where mounting can have issues
+            local physicalPath = modDir
             
             -- Load TOML using io
             local tomlContent = ""
@@ -112,9 +150,12 @@ function ModManager.scanMods()
             
             local success, modConfig = pcall(TOML.parse, tomlContent)
             if success and modConfig and modConfig.mod then
-                modConfig.mod.path = mountPath  -- Use mounted path
+                modConfig.mod.path = physicalPath  -- Store physical path instead of mounted path
                 modConfig.mod.folder = item
                 table.insert(modList, modConfig)
+                print(string.format("[ModManager] Loaded mod config: %s", tostring(modConfig.mod.name)))
+            else
+                print(string.format("[ModManager] ERROR: Failed to parse TOML for %s", item))
             end
         end
     end
@@ -209,9 +250,18 @@ function ModManager.getContentPath(contentType, subpath)
         return nil
     end
     
-    local fullPath = basePath .. "/" .. contentPath
+    -- Build full path with consistent separators
+    -- Detect if we're on Windows (basePath contains backslashes)
+    local isWindows = basePath:find("\\") ~= nil
+    local separator = isWindows and "\\" or "/"
+    
+    -- Start with base path + content type
+    local fullPath = basePath .. separator .. contentPath
+    
     if subpath then
-        fullPath = fullPath .. "/" .. subpath
+        -- Normalize subpath separators to match the platform
+        subpath = subpath:gsub("/", separator):gsub("\\", separator)
+        fullPath = fullPath .. separator .. subpath
     end
     
     return fullPath
@@ -243,7 +293,7 @@ end
 --- Initialize mod system and load all mods.
 ---
 --- Scans mods/ directory, loads mod.toml files, and sets default active mod.
---- Tries 'core', 'xcom_simple', or 'new' in that order. Errors if no mods found.
+--- Tries 'core' first for complete test data. Falls back to xcom_simple or new if core unavailable.
 --- Should be called once during game startup.
 ---
 --- @error If no mods found in mods/ directory
@@ -252,12 +302,12 @@ function ModManager.init()
     print("[ModManager] Initializing mod system...")
     ModManager.loadMods()
     
-    -- Try to load 'core' mod as default
+    -- Try to load 'core' mod as default (has complete game data structure)
     local defaultModLoaded = false
     if ModManager.isModLoaded("core") then
         ModManager.setActiveMod("core")
         defaultModLoaded = true
-        print("[ModManager] Default mod 'core' loaded successfully")
+        print("[ModManager] Default mod 'core' loaded successfully (complete test data)")
     elseif ModManager.isModLoaded("xcom_simple") then
         ModManager.setActiveMod("xcom_simple")
         defaultModLoaded = true
@@ -406,6 +456,9 @@ function ModManager.getModInfo()
 end
 
 return ModManager
+
+
+
 
 
 

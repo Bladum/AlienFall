@@ -14,7 +14,7 @@ package.path = package.path .. ";../engine/?.lua;../engine/?/init.lua"
 package.path = package.path .. ";../engine/?.lua;../engine/?/init.lua"
 
 local TestFramework = require("tests.widgets.widget_test_framework")
-local Widgets = require("widgets.init")
+local Widgets = require("gui.widgets.init")
 
 local AllWidgetTests = {}
 
@@ -288,6 +288,9 @@ function AllWidgetTests.runAll()
 end
 
 return AllWidgetTests
+
+
+
 
 
 

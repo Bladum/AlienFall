@@ -477,3 +477,6 @@ function BaseManager:deserialize(data)
 end
 
 return BaseManager
+
+
+

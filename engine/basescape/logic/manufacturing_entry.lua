@@ -126,3 +126,6 @@ function ManufacturingEntry.calculateSellPrice(entry, itemPrices)
 end
 
 return ManufacturingEntry
+
+
+

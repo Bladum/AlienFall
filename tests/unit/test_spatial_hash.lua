@@ -249,3 +249,6 @@ function TestSpatialHash.runAll()
 end
 
 return TestSpatialHash
+
+
+

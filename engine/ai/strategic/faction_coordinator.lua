@@ -264,3 +264,6 @@ function FactionCoordinator.getDebugInfo()
 end
 
 return FactionCoordinator
+
+
+

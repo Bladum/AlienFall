@@ -164,3 +164,6 @@ function FactionSystem:advanceCampaignPhase(factionId, newPhase)
 end
 
 return FactionSystem
+
+
+

@@ -302,3 +302,6 @@ function CombatMechanics:applyAreaDamage(centerHex, radius, damage, units)
 end
 
 return CombatMechanics
+
+
+

@@ -13,8 +13,8 @@ local TilesetBrowser = require("battlescape.ui.tileset_browser")
 local TilePalette = require("battlescape.ui.tile_palette")
 local Tilesets = require("battlescape.data.tilesets")
 local MapBlockLoader = require("battlescape.map.mapblock_loader_v2")
-local Widgets = require("widgets.init")
-local Theme = require("widgets.core.theme")
+local Widgets = require("gui.widgets.init")
+local Theme = require("gui.widgets.core.theme")
 
 local MapEditorApp = {}
 
@@ -291,6 +291,9 @@ function MapEditorApp.keypressed(key)
 end
 
 return MapEditorApp
+
+
+
 
 
 

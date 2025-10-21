@@ -350,3 +350,6 @@ function KarmaSystem:deserialize(data)
 end
 
 return KarmaSystem
+
+
+

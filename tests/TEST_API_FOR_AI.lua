@@ -431,3 +431,6 @@ ERROR DETAILS
         coverage = "High - Core systems, combat, base management, geoscape"
     }
 }
+
+
+

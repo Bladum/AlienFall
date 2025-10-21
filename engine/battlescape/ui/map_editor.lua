@@ -55,7 +55,7 @@
 -- Phase 5: Map Editor Enhancement
 -- Allows visual editing of Map Blocks with paint/erase tools
 
-local Widgets = require("widgets.init")
+local Widgets = require("gui.widgets.init")
 local Tilesets = require("battlescape.data.tilesets")
 local MapBlockLoader = require("battlescape.maps.mapblock_loader_v2")
 
@@ -419,3 +419,6 @@ function MapEditor:save(filepath)
 end
 
 return MapEditor
+
+
+

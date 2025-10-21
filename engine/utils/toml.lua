@@ -53,6 +53,20 @@ function TOML.parse(content)
             goto continue
         end
         
+        -- Array-of-tables header: [[array]] or [[parent.array]]
+        local arraySection = line:match("^%[%[(.+)%]%]$")
+        if arraySection then
+            -- Create array structure if it doesn't exist
+            if not data[arraySection] then
+                data[arraySection] = {}
+            end
+            -- Add new table to array
+            local newTable = {}
+            table.insert(data[arraySection], newTable)
+            currentSection = newTable
+            goto continue
+        end
+        
         -- Section header: [section] or [section.subsection]
         local section = line:match("^%[(.+)%]$")
         if section then
@@ -127,7 +141,14 @@ function TOML.load(filepath)
     end
     
     -- Fall back to io.open (for absolute paths)
+    -- Normalize path separators - try both backslash and forward slash versions
     local file = io.open(filepath, "r")
+    if not file then
+        -- Try converting backslashes to forward slashes
+        local altpath = filepath:gsub("\\", "/")
+        file = io.open(altpath, "r")
+    end
+    
     if not file then
         print(string.format("[TOML] ERROR: Cannot open file: %s", filepath))
         return nil
@@ -136,6 +157,7 @@ function TOML.load(filepath)
     local content = file:read("*all")
     file:close()
     
+    print(string.format("[TOML] Loaded via io.open: %s (%d bytes)", filepath, #content))
     return TOML.parse(content)
 end
 
@@ -181,6 +203,9 @@ function TOML.save(filepath, data)
 end
 
 return TOML
+
+
+
 
 
 

@@ -271,3 +271,6 @@ function AlienDirector:_calculateRewards(threat, missionType)
 end
 
 return AlienDirector
+
+
+

@@ -232,3 +232,6 @@ function PathfindingTest.runAll()
 end
 
 return PathfindingTest
+
+
+

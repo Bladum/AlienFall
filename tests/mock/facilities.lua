@@ -291,3 +291,6 @@ function MockFacilities.getDamagedFacility(facilityType, damagePercent)
 end
 
 return MockFacilities
+
+
+

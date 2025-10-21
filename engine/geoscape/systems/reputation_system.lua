@@ -395,3 +395,6 @@ function ReputationSystem:deserialize(data)
 end
 
 return ReputationSystem
+
+
+

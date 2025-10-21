@@ -44,12 +44,40 @@ Base construction is a capital-intensive decision that gates player expansion. B
 | Large | 6×6 | 36 | 400K | 60 days | +2 | 24-28 | Regional hubs, manufacturing centers |
 | Huge | 7×7 | 49 | 600K | 90 days | +3 (if allied) | 35-40 | Strategic strongholds, capitols |
 
-**Base Expansion**
-- Bases can expand by adding rows/columns (not just size upgrades)
-- Expansion cost: 50K per new row/column + terrain penalties
-- Expansion time: 15-30 days per row/column added
-- Expanded bases maintain original facilities + gain new slots
-- Maximum expansion: Typically limited by province terrain (expansion restricted in some biomes)
+**Base Expansion System**
+
+Bases can expand to larger sizes following a strict progression path. Each base starts at a selected size and can expand sequentially through the size progression (Small → Medium → Large → Huge). Expansions preserve all existing facilities while adding new available slots.
+
+**Expansion Implementation**
+The Basescape Expansion System (`engine/basescape/systems/expansion_system.lua`) provides complete expansion lifecycle management:
+
+**Key Functions**:
+- `getCurrentSize(base)` - Get current base size designation
+- `canExpand(base, targetSize, gameState)` - Verify expansion prerequisites and return success/error
+- `expandBase(base, targetSize, callback)` - Execute expansion, preserve facilities, add new slots
+- `validateExpansionPrerequisites(base, targetSize, gameState)` - Full validation against all requirements
+- `getExpansionInfo(base)` - Get status: current size, target size, remaining time, cost
+
+**Expansion Costs & Time**
+- **Small (4×4)**: Starting size, no expansion needed
+- **Medium (5×5)**: 250K cost, 45 days build time
+- **Large (6×6)**: 400K cost, 60 days build time  
+- **Huge (7×7)**: 600K cost, 90 days build time
+
+**Expansion Prerequisites**
+Each size requires specific gates to prevent early dominance:
+- **Technology**: Facilities available for size level
+- **Relations**: Must maintain positive relations with country (see size requirements in table above)
+- **Economy**: Credits available for expansion cost
+- **Current Size**: Must follow sequential progression (cannot skip sizes)
+- **Facility Preservation**: All existing facilities preserved and remain operational after expansion
+
+**Strategic Implications**
+- Expansion provides new facility slots without requiring relocation
+- Costs and times scale to prevent rapid expansion across multiple bases simultaneously
+- Expansion blocks base from deployment during construction phase
+- Relation gates on Large/Huge ensure diplomatic cost to expansion
+- Sequential progression creates meaningful long-term planning requirement
 
 **Construction Gate Mechanics**
 Base construction and size are gated by multiple factors, preventing early continental dominance:
@@ -89,40 +117,87 @@ Tech Bonus: Advanced construction research provides -10% to -20% time reduction
 ## Facility Grid System
 
 **Overview**
-Base facilities exist on a hexagonal grid, creating a two-dimensional strategic layout. The hex grid creates a balanced topology where each facility touches six neighbors (not four as in square grids), encouraging diverse placement strategies and requiring careful planning.
+Base facilities exist on a **square grid**, creating a two-dimensional strategic layout. The square grid creates a simple, predictable topology where each facility touches up to 4 neighbors (cardinal directions), enabling straightforward placement strategies and predictable spatial planning. This grid system provides clear positioning logic and ensures all facility placement is unambiguous.
 
 **Grid Architecture**
-- **Grid Type**: Hexagonal (H-axis linear, V-axis diagonal)
-- **Neighbor Topology**: Each facility connects to 6 adjacent hexes (N, NE, SE, S, SW, NW)
-- **Layout Pattern**: Creates diamond/rhombus-shaped base perimeter
-- **Rotation**: Facilities are rotatable within their footprint for optimization
-- **Visual Clarity**: Grid prevents ambiguous positioning; all placement clear and unambiguous
+- **Grid Type**: Orthogonal Square (x-axis horizontal, y-axis vertical)
+- **Base Grid Dimensions**: 40 tiles wide × 60 tiles tall (typical base maximum size)
+- **Neighbor Topology**: Each facility connects to 4 adjacent squares (North, South, East, West) or 8 including diagonals (N, NE, E, SE, S, SW, W, NW)
+- **Layout Pattern**: Creates rectangular base perimeter with predictable geometry
+- **Coordinate System**: (X, Y) where X=0-39 (horizontal), Y=0-59 (vertical), origin at top-left
+- **Rotation**: Facilities are **not rotatable** (fixed orientation on grid)
+- **Visual Clarity**: Square grid prevents ambiguous positioning; all placement clear and unambiguous
+
+**Grid Scale Reference**
+- **Base Dimensions by Size**:
+  - Small (4×4): 16 tiles (centered in 40×60 grid)
+  - Medium (5×5): 25 tiles (centered in 40×60 grid)
+  - Large (6×6): 36 tiles (centered in 40×60 grid)
+  - Huge (7×7): 49 tiles (centered in 40×60 grid)
+- **Tile Visual Size**: In-game rendering uses 24×24 pixel squares (scaled from 12×12 base sprites)
+- **Base Viewport**: Full 40×60 grid displays as 960×1440 pixels unscaled (would be 960×720 with 2× downscale)
 
 **Facility Dimensions**
 
-| Size | Footprint | Grid Space | Typical Facilities |
+| Size | Footprint | Grid Cells | Typical Facilities |
 |------|-----------|-----------|---|
-| 1×1 | Single hex | 1 tile | Power Plant, Barracks (small), Storage (small) |
-| 2×2 | 4-hex cluster | 4 tiles | Lab, Workshop, Academy, Hospital, Garage, Radar, Turret |
-| 3×3 | 9-hex cluster | 9 tiles | Hangar (large), Prison, Temple |
+| 1×1 | Single square | 1 tile | Power Plant, Barracks (small), Storage (small) |
+| 2×2 | 2×2 square | 4 tiles | Lab, Workshop, Academy, Hospital, Garage, Radar, Turret |
+| 3×3 | 3×3 square | 9 tiles | Hangar (large), Prison, Temple |
+
+**Placement Grid Coordinates (Example)**
+```
+Base Grid (40×60 typical, example showing 8×8 visible section):
+
+  0 1 2 3 4 5 6 7
+0 . . . . . . . .
+1 . . P P . . . .    P = Power Plant (2×2 at coords 1,1)
+2 . . P P . . . .
+3 . . . . L L . .    L = Lab (2×2 at coords 4,3)
+4 . . . . L L . .
+5 . B B . . . . .    B = Barracks (2×2 at coords 1,5)
+6 . B B . . . . .
+7 . . . . . . . .
+
+Facility placement uses top-left corner for origin:
+- Power Plant: top-left at (1,1), occupies (1,1), (2,1), (1,2), (2,2)
+- Lab: top-left at (4,3), occupies (4,3), (5,3), (4,4), (5,4)
+- Barracks: top-left at (1,5), occupies (1,5), (2,5), (1,6), (2,6)
+```
 
 **Placement Restrictions**
-- Facilities must be placed within base grid bounds
-- Overlapping facility footprints are prohibited
-- Some facilities require specific neighboring facilities (power-dependent facilities need Power Plant adjacent or connected)
-- Edges of base grid cannot house certain facilities (need internal positioning)
+- Facilities must be placed within base grid bounds (0,0 to base_width-1, 0 to base_height-1)
+- Overlapping facility footprints are strictly prohibited
+- **All facilities must be orthogonally adjacent** (touching on cardinal edges: N, S, E, W) to the main base cluster to be active
+- Some facilities require specific neighboring facilities via adjacency (power-dependent facilities need Power Plant adjacent or connected via Corridor)
+- **No diagonal adjacency counts** - only cardinal (4-directional) connections are recognized for adjacency bonuses
 
 **Connection Requirements**
-- **Mandatory Adjacency**: Facilities must be connected (touching) to be active
-- **Isolated Facilities**: Any facility without adjacent facility neighbors is offline
-- **Power Chain**: Power plant must be within 2-hex distance of consuming facilities
-- **Corridor Bridges**: Corridors can bridge disconnected sections (1×1 connecting facilities)
+- **Mandatory Adjacency**: All facilities must be connected to the main cluster via orthogonal adjacency (4-directional only)
+- **Isolated Facilities**: Any facility not orthogonally connected to power/core facilities is offline
+- **Power Chain**: Power Plant must have unbroken orthogonal connection to all power-consuming facilities
+- **Corridor Bridges**: Corridors (1×1) can bridge disconnected sections by acting as connecting intermediaries
+- **Example Valid Connection**:
+  ```
+  Power Plant → Corridor → Lab
+  (adjacent)   (adjacent) (adjacent to corridor)
+  All connected and operational
+  ```
+- **Example Invalid Connection**:
+  ```
+  Power Plant . Lab
+  (diagonal connection - NOT VALID)
+  Lab will be offline despite proximity
+  ```
 
 **Strategic Grid Implications**
-- Dense clustering: Creates efficiency bonuses but reduces flexibility
-- Spread layout: Maximizes adjacency options but loses bonuses
-- Barrier placement: Corridors create defensive positions in Battlescape
-- Expansion planning: Layout must allow room for future expansion
+- **Compact Layouts**: 4-directional connectivity rewards tight clustering for efficiency bonuses but reduces overall facility count
+- **Linear Chains**: Can create long chains of facilities (power → corridor → lab → workshop) but maximum reach before requiring additional power plants
+- **Rectangular Patterns**: Square grid naturally encourages rectangular/grid-aligned facility arrangements
+- **Expansion Planning**: Must plan for future facility additions while maintaining orthogonal connectivity
+- **Diagonal Gap Problem**: Diagonally-separated facilities do NOT benefit from adjacency bonuses and are treated as offline
+- **Corridor Efficiency**: Corridors are cheap (1×1) and provide essential connectivity but occupy valuable grid space
+- **Power Distribution**: Multiple Power Plants may be needed for large bases to avoid long connection chains that consume grid space
 
 ---
 
@@ -384,6 +459,181 @@ Repair Cost = (Damage Taken / Max HP) × (50% of Build Cost)
 - **Mid Game**: Established defense (4-6 turrets, radar coverage)
 - **Late Game**: Heavy defense (8+ turrets, multiple radars, defensive layout)
 - **Specialization**: Can prioritize offense or defense based on playstyle
+
+---
+
+## Adjacency Bonus System
+
+**Overview**
+Facilities grouped strategically provide efficiency bonuses when positioned adjacent to complementary facilities. The Adjacency Bonus System (`engine/basescape/systems/adjacency_bonus_system.lua`) calculates and applies these bonuses automatically, rewarding compact, synergistic base layouts.
+
+**Bonus Mechanics**
+- **Trigger**: Facilities detect adjacent facilities of complementary types
+- **Range**: Cardinal adjacency only (North, South, East, West) - diagonals do NOT count
+- **Stacking**: Multiple bonuses can apply to same facility (limited to 3-4 per facility to prevent overpowered clustering)
+- **Efficiency Multiplier**: Bonuses apply multiplicative efficiency increases (ranges 1.0x to 2.0x) rather than flat additions
+- **Dynamic Recalculation**: Bonuses update whenever facility is placed, moved, or removed
+
+**Seven Bonus Types**
+
+| Pairing | Bonus Type | Requirements | Effect |
+|--------|-----------|---|---|
+| **Lab + Workshop** | Research & Manufacturing Synergy | Adjacent (1 tile touching) | +10% research speed, +10% manufacturing speed |
+| **Workshop + Storage** | Material Supply Chain | Adjacent | -10% material cost for manufacturing |
+| **Hospital + Barracks** | Medical Support | Adjacent | All personnel in Barracks: +1 HP/week, +1 Sanity/week recovery |
+| **Garage + Hangar** | Craft Logistics | Adjacent | +15% craft repair speed |
+| **Power Plant + Lab/Workshop** | Power Efficiency | Within 2-hex distance | +10% research/manufacturing efficiency (longer range) |
+| **Radar + Turret** | Fire Control | Adjacent | +10% targeting accuracy (+10% hit chance) |
+| **Academy + Barracks** | Training Synergy | Adjacent | +1 XP/week gain for all personnel in Barracks |
+
+**Bonus Calculation System**
+```
+Adjusted Efficiency = Base Efficiency × Bonus Multiplier
+
+Example - Lab with Research + Manufacturing Synergy:
+Base Research Rate: 10 man-days/week
+Adjacent Workshop Bonus: 1.10× (10% increase)
+Adjusted Rate: 10 × 1.10 = 11 man-days/week
+
+Multiple Bonuses Stack:
+Lab + Workshop (+10%) AND Power Plant within range (+10%):
+Final Multiplier: 1.10 × 1.10 = 1.21× (21% total bonus)
+```
+
+**Adjacency Display Information**
+- `getAdjacencyInfo(base, facilityType, x, y)` - Returns human-readable summary
+- **Bonus Summary**: Which bonuses apply to position
+- **Missing Bonuses**: Which complementary facilities nearby would enable additional bonuses
+- **Placement Recommendations**: Optimal adjacent facility suggestions
+
+**Strategic Adjacency Patterns**
+
+**Research-Focused Layout**:
+```
+Lab ← Lab (2×2) ← Storage
+  ↓       ↓
+Power - Workshop (2×2)
+Plant    ↓
+       Storage
+```
+- Lab + Workshop (+10% research & manufacturing)
+- Workshop + Storage (-10% material cost)
+- Power Plant ± Lab (-+ efficiency) 
+- Result: Efficient research & manufacturing hub
+
+**Defense-Focused Layout**:
+```
+Radar (2×2) - Turret (2×2)
+                  ↓
+             Turret (2×2)
+```
+- Radar + Turret (+10% accuracy)
+- Multiple turrets clustered
+- Result: Concentrated defensive firepower
+
+**Personnel-Focused Layout**:
+```
+Academy (2×2) - Barracks (2×2)
+     ↓                ↓
+   Temple        Hospital (2×2)
+```
+- Academy + Barracks (+1 XP/week)
+- Hospital + Barracks (+1 HP/week, +1 Sanity/week)
+- Temple provides additional +1 Sanity/week (stacks)
+- Result: Elite personnel development
+
+---
+
+## Power Management System
+
+**Overview**
+The Power Management System (`engine/basescape/systems/power_management_system.lua`) handles facility power distribution, shortage resolution, and emergency power-down procedures. Power is a critical resource; insufficient power cascades facility offline according to priority hierarchy.
+
+**Power Generation & Consumption**
+
+**Power Generation** - Power Plants provide power supply:
+- **Power Plant (Standard)**: +50 power per plant
+- **Multiple Plants**: Additive (+100 power for 2 plants, +150 for 3, etc.)
+
+**Power Consumption** - Facilities consume power when operational:
+- **1×1 Facilities**: 2-5 power each (Corridor: 2, Radar: 8-12, Power Plant: 10 self)
+- **2×2 Facilities**: 5-15 power each (Lab: 15, Workshop: 15, Hospital: 10, Academy: 8, Garage: 12, Hangar: 15, Radar: 8-12, Turret: 15)
+- **3×3 Facilities**: 8-35 power each (Prison: 12, Temple: 8, Hangar Large: 30, Lab Large: 30, Workshop Large: 30, Turret Large: 35)
+- **Barracks**: 5 power (1×1) to 10 power (2×2)
+- **Storage**: 2 power (1×1) to 8 power (3×3)
+
+**Power Status Calculation**
+```lua
+local status = powerSystem:getPowerStatus(base)
+-- Returns table with:
+status.available      -- Total power generated
+status.consumed       -- Total power consumed  
+status.shortage       -- Amount of power deficit (0 if surplus)
+status.ratio          -- Percentage utilization (0.0-1.0+)
+status.isPowered      -- Boolean, true if sufficient power
+status.surplus        -- Amount of power above minimum (0 if shortage)
+```
+
+**Power Priority Distribution**
+
+When power shortage occurs, facilities go offline according to priority hierarchy (highest priority stays on):
+
+| Priority | Level | Facilities | Notes |
+|----------|-------|-----------|-------|
+| **100** | Critical | Power Plants | Always maintain power generation capability |
+| **90** | Essential | Headquarters | Command center operations |
+| **80** | Medical | Hospital, Temple | Personnel recovery critical |
+| **70** | Military | Barracks, Academy | Unit housing and training |
+| **60** | Logistics | Hangar, Garage | Craft operations and repair |
+| **50** | Production | Workshop, Lab | Research and manufacturing (priority order) |
+| **40** | Storage | Storage facilities | Item preservation (low priority) |
+| **30** | Defense | Radar, Turret | Detection and defense (online if possible) |
+| **20** | Support | Corridor, Barracks | Structural connectivity |
+| **5** | Minimum | Prison | Prisoner containment (very low priority) |
+
+**Shortage Resolution Logic**
+```lua
+-- When power deficit occurs:
+local shortage = consumedPower - generatedPower
+
+-- System takes offline lower-priority facilities until:
+-- (available power) >= (remaining consumption)
+
+-- Example: 50 power available, 120 power needed, 70 shortage
+-- 1. Keep Power Plants (priority 100): -10 power
+-- 2. Keep Headquarters (priority 90): -5 power
+-- 3. Keep Hospital (priority 80): -10 power
+-- 4. Keep Barracks (priority 70): -10 power
+-- 5. Keep Hangar (priority 60): -15 power
+-- 6. Offline Lab (priority 50): -20 power (still short 10 power)
+-- 7. Offline Workshop (priority 50): -30 power (now balanced)
+-- Result: Lab and Workshop offline, others operational
+```
+
+**Manual Facility Control**
+- `toggleFacilityPower(base, x, y)` - Player can manually disable facility
+- Returns: `{bool success, string message}` 
+- Rationale: Player optimization during shortage or to reduce maintenance cost
+- Facility remains offline until player re-enables or power restored
+
+**Emergency Power-Down**
+- `emergencyPowerdown(base)` - Offline all non-critical systems
+- Keeps online: Power Plants, Headquarters, Hospital, Barracks
+- Puts offline: Everything else
+- Use case: Severe crisis, maximize personnel survival
+
+**Efficiency Calculation**
+- Offline facilities: 0% efficiency
+- Manual disable: 0% efficiency  
+- Damaged facilities: 50-90% efficiency (based on damage)
+- Online healthy: 100% efficiency (with adjacency bonuses applied)
+- Method: `getFacilityEfficiency(base, facility)` returns 0.0-1.0 efficiency ratio
+
+**Power Event Notifications**
+- **Shortage Alert**: When first shortfall detected
+- **Offline Notification**: When facilities go offline
+- **Restoration Alert**: When power deficit resolved
+- **Manual Disable**: Confirmation when player toggles facility
 
 ---
 

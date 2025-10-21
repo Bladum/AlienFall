@@ -348,3 +348,6 @@ function TeamPlacement:selectUnitType(team, difficulty)
 end
 
 return TeamPlacement
+
+
+

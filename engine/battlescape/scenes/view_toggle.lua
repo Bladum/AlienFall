@@ -400,3 +400,6 @@ function ViewToggle:_savePreference(viewType)
 end
 
 return ViewToggle
+
+
+

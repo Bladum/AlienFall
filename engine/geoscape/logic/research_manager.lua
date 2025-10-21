@@ -10,8 +10,8 @@
 ---@module geoscape.logic.research_manager
 ---@author AlienFall Development Team
 
-local ResearchEntry = require("geoscape.logic.research_entry")
-local ResearchProject = require("geoscape.logic.research_project")
+local ResearchEntry = require("basescape.research.research_entry")
+local ResearchProject = require("basescape.research.research_project")
 local TechTree = require("geoscape.logic.tech_tree")
 
 local ResearchManager = {}
@@ -320,3 +320,6 @@ function ResearchManager.printActiveResearch()
 end
 
 return ResearchManager
+
+
+
