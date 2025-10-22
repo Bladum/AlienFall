@@ -124,6 +124,319 @@ Specialized weapons operate on craft and bases but not individual soldiers:
 
 ---
 
+### Hit Chance Calculation (Core Combat Formula)
+
+The hit chance determines whether a weapon successfully strikes its target. All weapons use the same calculation system:
+
+```
+Final Hit Chance = Base Accuracy - Distance Penalty - Target Evasion + Modifiers
+Clamped to 5%-95% (no guaranteed hits or misses)
+
+Where:
+- Base Accuracy: Weapon accuracy rating (50%-95% typical)
+- Distance Penalty: -(Range - Optimal Range) × 2% per hex beyond optimal
+- Target Evasion: Target's evasion maneuver stat (0-30%)
+- Modifiers: Environmental/status effects (±5-15%)
+```
+
+#### Base Accuracy by Weapon Type
+
+| Weapon Type | Base Accuracy | Optimal Range |
+|---|---|---|
+| **Point Defense** | 85% | 5 hexes |
+| **Main Cannon** | 75% | 8 hexes |
+| **Missile Pod** | 80% | 10 hexes |
+| **Laser Array** | 70% | 12 hexes |
+| **Plasma Caster** | 65% | 8 hexes |
+| **Torpedo** | 75% | 6 hexes |
+
+#### Distance Penalty Calculation
+
+For shots beyond optimal range:
+
+```
+Distance Penalty = (Current Range - Optimal Range) × 2% per hex
+
+Example: Missile at 10 hex range (optimal 10) = 0% penalty
+         Missile at 12 hex range (optimal 10) = -4% penalty
+         Missile at 15 hex range (optimal 10) = -10% penalty
+```
+
+**Maximum Range:** Weapons cannot fire beyond 1.5× optimal range (beyond that range, distance penalty drops accuracy below 5% minimum)
+
+#### Evasion Modifier
+
+Evasion maneuvers reduce incoming hit chance:
+
+| Evasion Level | Defensive Bonus | Cost |
+|---|---|---|
+| **None** | 0% | — |
+| **Light Evasion** | -10% | 5 AP + 5 EP |
+| **Full Evasion** | -20% | 1 AP + 15 EP |
+| **Emergency Dodge** | -30% | 2 AP + 25 EP |
+
+**Duration:** Evasion modifiers persist until disabled or new action taken
+
+#### Hit Chance Example
+
+```
+Scenario: Player fires Missile Pod at UFO
+
+Weapon: Missile Pod
+- Base Accuracy: 80%
+- Optimal Range: 10 hexes
+
+Target: UFO
+- Current Range: 12 hexes
+- Evasion Active: -15% bonus (Light evasion)
+- Environmental Modifier: +5% (favorable wind)
+
+Calculation:
+Base = 80%
+Distance = -(12 - 10) × 2% = -4%
+Evasion = -15%
+Environment = +5%
+Final = 80 - 4 - 15 + 5 = 66%
+
+Player fires with 66% hit chance
+```
+
+#### Accuracy Modifiers
+
+These factors apply modifiers to hit chance:
+
+| Modifier | Effect | Source |
+|---|---|---|
+| **Stability Bonus** | +5-10% | Standing still 1+ turn |
+| **Burst Penalty** | -5-15% | Firing rapidly without pause |
+| **Environmental Cover** | -5-20% | Target partially obscured |
+| **Weapon Damage Focus** | -10% | Dedicating high AP to weapon attack |
+| **Stabilization Systems** | +10-15% | Craft technology/addon |
+| **Sensor Malfunction** | -20-30% | Electronic warfare active |
+
+---
+
+### Damage Calculation (Core Combat Formula)
+
+Damage determines health loss from successful hits. Unlike hit chance, damage is deterministic with minimal variance:
+
+```
+Final Damage = Base Damage × (1 + Variance) × (1 + Critical Bonus)
+No armor reduction multipliers (intentional design choice)
+
+Where:
+- Base Damage: Weapon's damage rating
+- Variance: ±5-10% random spread (weapon-dependent)
+- Critical Bonus: 0% (no critical hits in Interception)
+```
+
+#### Base Damage by Weapon Type
+
+| Weapon Type | Damage Range | Variance | Notes |
+|---|---|---|---|
+| **Point Defense** | 15-25 | ±5% | Fast firing |
+| **Main Cannon** | 40-60 | ±10% | Balanced |
+| **Missile Pod** | 50-80 | ±8% | Explosive |
+| **Laser Array** | 60-90 | ±5% | Energy-based |
+| **Plasma Caster** | 70-120 | ±10% | Exotic |
+| **Torpedo** | 60-100 | ±8% | Water-specialized |
+
+#### Damage Variance Example
+
+```
+Scenario: Point Defense cannon fires
+
+Weapon: Point Defense
+- Base Damage: 20
+- Variance: ±5%
+
+Damage Roll:
+Random = -3% (within ±5% range)
+Final = 20 × (1 - 0.03) = 20 × 0.97 = 19.4 ≈ 19 damage
+
+Next Shot:
+Random = +5% (at variance limit)
+Final = 20 × (1 + 0.05) = 20 × 1.05 = 21 damage
+```
+
+#### No Armor Reduction
+
+**Design Note:** Interception intentionally excludes armor reduction mechanics:
+
+- **Why:** Simplifies combat outcomes and reduces formula complexity
+- **Effect:** All damage applies uniformly regardless of target armor rating
+- **Consequence:** Armor serves as cosmetic/narrative element only
+- **Strategic Impact:** Player focuses on tactical positioning rather than armor type selection
+
+#### Damage Application
+
+When hit resolves:
+1. Check if attack hits (using hit chance roll)
+2. If hit: Roll damage (using variance calculation)
+3. Apply damage to target's health (subtract from HP)
+4. Check if target deactivated (see Object Deactivation section)
+5. If target destroyed (HP = 0): Remove from combat
+
+---
+
+### Thermal/Heat System (Weapon Stability)
+
+Extended combat generates heat buildup in weapons and systems. Heat can cause weapon jams and reduced combat efficiency:
+
+#### Heat Generation
+
+| Action | Heat Generated | Notes |
+|---|---|---|
+| **Single Shot** | +5 heat | Standard weapon fire |
+| **Burst Fire** | +15 heat | Rapid multi-shot volley |
+| **Sustained Beam** | +3 per turn | Laser weapons |
+| **Overcharge Shot** | +20 heat | Forced extra damage with penalty |
+| **Weapon Jam** | 0 heat | Already jammed, cannot fire |
+
+#### Heat Dissipation
+
+| Unit Type | Base Dissipation | Modifier |
+|---|---|---|
+| **Bases** | -15 heat/turn | Fast cooling (stationary) |
+| **Large Craft** | -10 heat/turn | Medium cooling |
+| **Small Craft** | -5 heat/turn | Limited cooling capacity |
+| **Environmental** | ±5 heat | Ocean (-5, favorable), Desert (+5, unfavorable) |
+
+#### Heat Threshold & Effects
+
+| Heat Level | Effect | Status |
+|---|---|---|
+| **0-50 heat** | No penalty | Normal operation |
+| **51-100 heat** | -10% accuracy on next shot | Warning state |
+| **101+ heat** | Weapon JAMMED; cannot fire | Jam state |
+
+**Heat Resolution:**
+1. Weapon fires (adds heat)
+2. Check if heat > 100 (jam check)
+3. If jammed: Weapon disabled until heat < 50
+4. During jam: Weapon cannot fire, but heat dissipates at x2 rate
+5. Once < 50 heat: Weapon automatically unjams and resumes fire
+
+#### Heat Example Scenario
+
+```
+Turn 1: Cannon fires single shot
+- Heat: 0 + 5 = 5
+- Accuracy penalty: 0%
+- Weapon status: Operational
+
+Turn 2: Cannon fires burst
+- Heat: 5 + 15 = 20
+- Accuracy penalty: 0%
+- Weapon status: Operational
+
+Turn 3: Cannon fires burst again + takes environmental penalty
+- Heat: 20 + 15 + 5 (desert) = 40
+- Accuracy penalty: 0%
+- Weapon status: Operational
+
+Turn 4: No action, cooling only
+- Heat: 40 - 10 (dissipation) = 30
+- Weapon status: Operational
+
+Turn 5: Overcharge shot (intentional high damage)
+- Heat: 30 + 20 = 50
+- Accuracy penalty: 0% (still at warning threshold)
+- Weapon status: Operational (barely)
+
+Turn 6: Single shot
+- Heat: 50 + 5 = 55
+- Accuracy penalty: -10% (warning state)
+- Check jam: 55 < 101, no jam yet
+- Weapon status: Warning (degraded accuracy)
+
+Turn 7: Single shot again
+- Heat: 55 + 5 = 60
+- Accuracy penalty: -10% (still warning)
+- Weapon status: Warning
+
+Turn 8: Player attempts burst fire
+- Heat before: 60
+- Burst would add: +15
+- Heat would be: 75
+- Accuracy: -10% penalty applies
+- Weapon fires (successfully)
+- Heat: 75
+
+Turn 9: Another burst
+- Heat before: 75 + (-10 dissipation) = 65
+- Burst adds: +15
+- Heat would be: 80
+- Weapon fires
+- Heat: 80
+
+Turn 10: One more burst (pushing it)
+- Heat before: 80 + (-10 dissipation) = 70
+- Burst adds: +15
+- Heat would be: 85
+- Weapon fires
+- Heat: 85
+
+Turn 11: Overcharge attempt
+- Heat before: 85 + (-10 dissipation) = 75
+- Overcharge would add: +20
+- Heat would be: 95
+- STILL not jammed, but very close
+- Weapon fires
+- Heat: 95
+
+Turn 12: Single shot
+- Heat before: 95 + (-10 dissipation) = 85
+- Single shot adds: +5
+- Heat would be: 90
+- Weapon fires
+- Heat: 90
+
+Turn 13: Burst fire (final push)
+- Heat before: 90 + (-10 dissipation) = 80
+- Burst adds: +15
+- Heat would be: 95
+- Weapon fires
+- Heat: 95
+
+Turn 14: Another shot attempt
+- Heat before: 95 + (-10 dissipation) = 85
+- Single shot adds: +5
+- Heat would be: 90
+- Weapon fires
+- Heat: 90
+
+Turn 15: Burst fire (this does it)
+- Heat before: 90 + (-10 dissipation) = 80
+- Burst adds: +15
+- Heat would be: 95
+- Still firing...
+
+Turn 16: Overcharge attempt (finally exceeds threshold)
+- Heat before: 95 + (-10 dissipation) = 85
+- Overcharge adds: +20
+- Heat = 105: JAMMED!
+- Weapon JAMS and cannot fire
+
+Turn 17-20: Cooling phase (2× rate while jammed)
+- Turn 17: 105 - 20 (2× dissipation) = 85
+- Turn 18: 85 - 20 = 65
+- Turn 19: 65 - 20 = 45 (UNJAM! <50 threshold)
+- Weapon automatically resets
+- Ready to fire again
+```
+
+#### Heat Addiction Prevention
+
+Heat accumulation discourages sustained high-damage output:
+
+- Players must manage cooling between burst attacks
+- Overuse of high-damage weapons risks jamming
+- Strategic decision: Continue high damage (risk jam) vs. cool down (lose turn)
+- Environmental factors reward or punish thermal management
+
+---
+
 ## Action Point System
 
 **Action Point Mechanics**

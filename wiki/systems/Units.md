@@ -133,10 +133,35 @@ All units are defined by a core set of **stats** that determine combat effective
 ### Combat Statistics
 
 #### Action Points (AP)
-- **Base**: 4 per turn (fixed across all units)
+- **Base**: 4 per turn (fixed across all units in Battlescape)
+- **Valid Range**: 1-4 AP per turn after all modifiers applied
+  - **Minimum**: 1 AP (guaranteed, even at critical status)
+  - **Maximum**: 5 AP (with positive modifiers - rare, exceptional)
+- **Reduction Sources**:
+  - Health <50%: -1 AP
+  - Health <25%: -2 AP (cumulative with above)
+  - Morale = 0 (panicked): -1 AP
+  - Sanity <50%: -1 AP
+  - Stun effect: -2 AP (loses entire turn)
+- **Bonus Sources**:
+  - Agile trait: +1 AP (requires Rank 2+)
+  - Heroic Stimulant item: +1 AP (one-time use, risky)
+  - Leadership aura: No direct bonus, but nearby allies inherit +1 morale
 - **Modifiers**: Some traits, equipment, and special abilities impact AP
-- **Usage**: Each action (move, shoot, throw, use item) costs AP
-- **Scope**: Battlefield-specific resource, resets each turn
+- **Usage**: Each action (move, shoot, throw, use item) costs AP (typically 1-2 AP per action)
+- **Scope**: Battlefield-specific resource, resets each turn at Battlescape phase start
+- **Edge Case**: If all penalty sources apply (panicked, low health, low sanity, stunned), total could drop below 1 - clamped to minimum 1 AP
+
+**AP Calculation Example:**
+```
+Base AP: 4
+- Health 40% (not <25%): -1 AP = 3 AP
+- Morale 0 (panicked): -1 AP = 2 AP
+- Sanity 60%: no penalty
+- Special: Agile trait not equipped
+
+Final AP: 2 AP per turn (within 1-4 range)
+```
 
 #### Movement Points
 - **Base**: AP × Speed stat
@@ -471,12 +496,30 @@ Different armor types provide varying resistances to damage types:
 ### Trait Mechanics
 
 **Trait Point Value**:
-- Each trait has a value (typically 1-3 points)
-- Units can accumulate traits up to a **total value of 2-4 points**
-- Positive traits (speed +2, strong +2) cost points
-- Negative traits (fragile -1 HP, clumsy -1 accuracy) refund points
+- Each trait has a point cost (positive traits cost 1-2 points, negative traits refund 1-2 points)
+- **Units have exactly 4 trait points available** to spend on positive traits or save via negative traits
+  - Starting trait points: 4 (all units recruit at full allocation)
+  - Minimum: Units can drop to 0 points by taking enough negative traits
+  - Maximum: 4 points (fixed cap, cannot exceed)
+- Positive traits (speed +2, strong +2) **consume points** from the 4-point pool
+- Negative traits (fragile -1 HP, clumsy -1 accuracy) **refund points** back into the pool (up to 4 max)
+- Example builds:
+  - Tank: Fast (1) + Strong (1) + Brave (2) = 4 points used
+  - Scout: Fast (1) + Sharp Eyes (1) + Lucky (1) + Stupid (-1 refunded) = 3 points used, 1 point available
+  - Budget: Coward (-1 refunded) + Fragile (-1 refunded) + Stupid (-1 refunded) = 6 points available but still capped at 4 max
 
-**Scope**: Traits affect both base stats and equipment interactions
+**Scope**: Traits are assigned at unit recruitment and cannot be changed without special interventions (transformation, research)
+
+**Trait Point Constraints by Rank**:
+- **Rank 0 (Recruit):** 4 points available, can only pick traits without rank requirement
+- **Rank 2+:** Unlock Rank 2 traits (e.g., Agile, Leader, Brave)
+- **Rank 4+:** Unlock Rank 4 traits (e.g., Legendary traits - if implemented)
+
+**Trait Synergies & Conflicts**:
+- Smart + Stupid: **Mutually exclusive** (cannot have both)
+- Leader + Brave: Strong synergy (creates squad anchor unit)
+- Psychic + Research: Psionic requires both trait purchase AND "Psionic Research" tech unlock
+
 
 ### Positive Traits
 

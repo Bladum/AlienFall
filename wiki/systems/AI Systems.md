@@ -281,6 +281,60 @@ Individual units operate through discrete states:
 | **Suppressed** | Take cover, return fire only | → Move when exposed enemy flees |
 | **Reaction Fire** | Fire on newly visible enemy | → Suppress or Continue action |
 
+##### Unit Confidence & Behavioral Modulation
+
+Units maintain an internal confidence level affecting aggression, accuracy, and tactical decisions:
+
+**Confidence System Mechanics:**
+
+```
+Base Confidence: 60% (all units start at moderate confidence)
+Range: 0-100% (0% = cowardly retreat, 100% = reckless aggression)
+
+Confidence Decay (per turn without combat success):
+- -5% per friendly unit casualty
+- -3% per suppression effect
+- -2% per mission turn elapsed (time pressure)
+
+Confidence Gain (per success):
+- +3% per successful hit on enemy
+- +5% per enemy unit eliminated
+- +2% per objective completed
+- +1% per allied unit nearby (morale boost)
+
+Confidence Floor: 10% (units retain some tactical capability even when routing)
+Confidence Ceiling: 95% (prevents pure recklessness even with massive advantage)
+```
+
+**Behavioral Effects of Confidence:**
+
+| Confidence Level | Behavior | Combat Approach | Accuracy Effect |
+|---|---|---|---|
+| 0-20% | Terrified | Immediate retreat/surrender | -30% accuracy (panic fire) |
+| 21-40% | Frightened | Defensive, seek cover, suppress | -15% accuracy (cautious) |
+| 41-60% | Normal | Balanced tactics, coordinated | No modifier |
+| 61-80% | Aggressive | Advance, close distance, suppress | +10% accuracy (focused fire) |
+| 81-100% | Dominant | Frontal assault, risk-taking | +20% accuracy (overconfidence) |
+
+**Confidence and Decision-Making:**
+
+```
+Unit Movement Decision:
+- Low Confidence (0-40%): Move toward squad, away from enemy
+- Moderate Confidence (41-60%): Standard tactical movement
+- High Confidence (61-100%): Advance toward enemy, seek combat
+
+Unit Combat Decision:
+- Low Confidence: Prefer defense, use cover defensively
+- Moderate Confidence: Balanced offense/defense
+- High Confidence: Aggressive tactics, minimal cover usage
+
+Unit Retreat Decision:
+- Low Confidence: Retreat at 40% HP
+- Moderate Confidence: Retreat at 25% HP (standard)
+- High Confidence: Retreat only at <10% HP
+```
+
 **Unit Target Selection Algorithm**
 ```
 For Each Visible Enemy:
@@ -297,6 +351,52 @@ For Each Visible Enemy:
     - Damage = Weapon_Damage × (Crit_Chance + Body_Part_Modifier)
 ```
 
+**Threat Assessment Scoring Formula**
+
+Target priority is calculated using a weighted threat assessment system:
+
+```
+Threat Score = (Threat_Level × 0.5) + (Distance_Factor × 0.3) + (Exposure_Factor × 0.2)
+
+Where:
+- Threat_Level (0-100): Calculated from enemy weapon damage, armor, and unit type
+  - Grunt: 30
+  - Warrior: 50
+  - Specialist: 70
+  - Heavy: 90
+  - Officer/Elite: 100
+
+- Distance_Factor (0-100): Inverse relationship to proximity
+  - Within 2 hexes: 100 (critical threat)
+  - 3-5 hexes: 70 (high threat)
+  - 6-10 hexes: 50 (medium threat)
+  - 11+ hexes: 20 (low threat)
+
+- Exposure_Factor (0-100): Cover status significantly increases priority
+  - No cover: 100 (critical priority)
+  - Partial cover: 60 (medium priority)
+  - Full cover: 30 (lower priority)
+  - In smoke/obscured: 20 (lowest priority)
+
+Final Threat Score Range: 0-100
+- Score < 20: Ignore unless no other targets
+- Score 20-50: Secondary targets, prioritize only if closer threats neutralized
+- Score 50-80: Primary targets, allocate firepower accordingly
+- Score > 80: Immediate priority, all available firepower focused
+```
+
+**Formation-Based Targeting Priority**
+
+Different squad formations adjust targeting emphasis:
+
+| Formation | Primary Target | Secondary Target | Rationale |
+|-----------|-----------------|------------------|-----------|
+| Line | Closest enemy | Most exposed | Maximize firepower density |
+| Column | Furthest enemy | Ambush flanks | Suppress distant threats |
+| Wedge | Highest threat | Flanking units | Balanced threat management |
+| Cluster | Area effect (grenades) | Exposed units | Group vulnerability forces area tactics |
+| Dispersed | Isolated units | Any threat | Divide & conquer approach |
+
 **Pathfinding & Movement**
 
 Units use A* pathfinding with obstacle avoidance:
@@ -310,6 +410,51 @@ Pathfinding Heuristic:
 
 Movement Cost = Base_Cost + Terrain_Modifier + Cover_Bonus - Squad_Cohesion_Penalty
 ```
+
+##### Action Point System
+
+All units operate on a turn-based Action Point (AP) economy determining available actions per turn:
+
+**Base Action Points:**
+- Base AP per turn: **4** (fixed across all unit types and difficulty levels)
+
+**Action Point Range After Modifiers:**
+- Minimum AP: **1** (guaranteed action even at critical status)
+- Maximum AP: **5** (after positive modifiers)
+- Valid range: **1-5 AP per turn**
+
+**AP Reduction Sources:**
+- Health Status: Up to -2 AP when below 25% health
+- Morale Status: Up to -2 AP when panicked (morale ≤ 0)
+- Sanity Status: Up to -1 AP when heavily traumatized
+- Stun Effect: -2 AP (subject to stun effect for 1 turn)
+- Suppressed: No AP reduction, but limited to defensive actions only
+
+**AP Stacking Rules:**
+- All modifiers stack additively: Final AP = 4 + Bonuses - Penalties
+- Example: Base 4 - 1 (health penalty) - 1 (morale penalty) = 2 AP minimum
+- Absolute floor: 1 AP guaranteed (unit can always perform 1 action minimum)
+
+**Difficulty Scaling:**
+- Easy difficulty: +1 AP bonus for player units, no change for enemies
+- Normal difficulty: No modifiers
+- Hard difficulty: -1 AP for player units, +1 AP for enemies
+- Impossible difficulty: -2 AP for player units, +2 AP for enemies
+
+**Action Point Costs:**
+
+| Action | AP Cost | Notes |
+|--------|---------|-------|
+| Move 1 hex | 1 AP | Standard movement in any direction |
+| Move (tactical) | 1-2 AP | 2 AP for moving through rough terrain |
+| Attack (snap) | 1 AP | Quick shot, -5% accuracy |
+| Attack (aimed) | 2 AP | Careful shot, +15% accuracy |
+| Attack (burst) | 2 AP | 3-round burst, balanced |
+| Attack (overwatch) | 2 AP | Reaction shot if enemy moves |
+| Use item | 1 AP | Activate grenade, medikit, etc. |
+| Reload | 1 AP | Switch ammunition or recharge weapon |
+| Take cover | 1 AP | Change cover position (passive benefit) |
+| Rest | 1 AP | Recover morale +1 per turn spent resting |
 
 ---
 

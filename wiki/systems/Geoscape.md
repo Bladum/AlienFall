@@ -85,6 +85,30 @@ A World is a complete strategic map represented as a 2D hexagonal grid. Earth is
 **World Transitions**
 - Players can switch between active worlds via portals
 - Day/night cycle synchronized across all worlds
+  
+#### Day/Night Cycle Effects
+
+**Time of Day**: 30-turn day cycle (turns 0-29)
+
+| Time Period | Turn Range | Visibility Range | Radar Effectiveness | Mission Difficulty |
+|---|---|---|---|---|
+| **Night** | 0-5, 24-29 | 10 hexes | 70% | Normal |
+| **Dawn** | 6-8 | 12 hexes | 80% | Slightly Favored |
+| **Day** | 9-19 | 20 hexes | 100% | Favorable |
+| **Dusk** | 20-23 | 15 hexes | 85% | Slightly Unfavored |
+
+**Effects on Gameplay:**
+- **Visibility Range:** Determines maximum hex range for detecting UFO signatures and missions
+- **Radar Effectiveness:** Adjusts craft radar accuracy and detection probability
+- **Mission Difficulty:** Time of day can affect enemy alert levels and reinforcements
+- **Night Operations:** Reduced visibility favors player stealth operations
+- **Daylight Operations:** Increased visibility allows more aggressive positioning
+
+**Strategic Implications:**
+- Night missions: 50% reduction in effective radar range (10 hexes)
+- Day missions: Maximum radar effectiveness (20 hexes)
+- Dusk/Dawn: Compromise between night and day (12-15 hexes)
+
 - Calendar events apply globally even when on different worlds
 - Campaign generation happens independently per world
 

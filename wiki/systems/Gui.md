@@ -43,26 +43,31 @@ Player communication layer providing accessible, intuitive interaction with all 
 
 ## Widget System
 **Interactive Components**:
-- Buttons (clickable actions)
-- Panels (content containers)
-- Labels (text display)
-- Text Boxes (input fields)
-- Toggles (binary selection)
-- Sliders (continuous values)
-- Dropdowns (option selection)
-- Lists (scrollable item selection)
-- Grids (multi-column layout)
-- Scroll Views (overflow handling)
+- **Buttons** (clickable actions, multi-state: normal/hover/pressed/disabled)
+- **Panels** (content containers, support scrolling, resizing, dragging)
+- **Labels** (text display, single/multi-line, word wrap)
+- **Text Boxes** (input fields, validation, placeholder support)
+- **Toggles** (binary selection, visual indicator)
+- **Sliders** (continuous values, min/max range, step increments)
+- **Dropdowns** (option selection, searchable, multi-select variant)
+- **Lists** (scrollable item selection, sortable, multi-select)
+- **Grids** (multi-column layout, row highlighting, column resizing)
+- **Scroll Views** (overflow handling, custom scrollbars, momentum scrolling)
+- **Tabs** (multi-pane interface, lazy loading)
+- **Progress Bars** (visual progress, color coding, ETA display)
+- **Input Validators** (real-time validation feedback, error messages)
 
 **Unified Properties**:
-- Position/Size (screen coordinates)
-- Visibility (display toggle)
-- Enabled State (interaction availability)
-- Callbacks (event handlers)
-- Style (appearance settings)
-- Hierarchy (parent-child relationships)
-- Tooltips (help text)
-- Constraints (sizing rules)
+- Position/Size (screen coordinates or relative units)
+- Visibility (display toggle, fade animations)
+- Enabled State (interaction availability, disabled appearance)
+- Callbacks (event handlers for all interactions)
+- Style (appearance settings, theme support)
+- Hierarchy (parent-child relationships, depth layering)
+- Tooltips (help text, hover delay, word wrap)
+- Constraints (sizing rules, maintain aspect ratio)
+- Animation (state transitions, tweening support)
+- Input Focus (keyboard navigation, tab order)
 
 ## Layout Systems
 
@@ -105,23 +110,137 @@ Player communication layer providing accessible, intuitive interaction with all 
 ## UI Themes
 
 **Consistency Modes**:
-- Light
-- Dark
-- High Contrast (Accessibility)
-- Pixel Art (Retro aesthetic)
+- **Light** (bright backgrounds, dark text, ideal for diurnal play)
+- **Dark** (dark backgrounds, light text, reduces eye strain)
+- **High Contrast** (maximum readability, accessibility-focused)
+- **Pixel Art** (retro aesthetic, chunky fonts, bright colors)
+- **Monochrome** (colorblind-friendly, grayscale with patterns)
 
 **Theme Components**:
-- Color Scheme (palette mapping)
-- Typography (font selection)
-- Spacing (default margins/padding)
-- Borders/Shadows (visual depth)
-- Icons (visual communication)
+- **Color Scheme** (palette mapping for all UI elements)
+  - Primary (actions, highlights)
+  - Secondary (information, status)
+  - Success (positive results, +values)
+  - Warning (cautions, time-sensitive)
+  - Danger (errors, destructive actions)
+  - Neutral (backgrounds, disabled states)
+- **Typography** (font selection, sizes, weights)
+  - Header font (16px/20px/24px)
+  - Body font (12px standard)
+  - Monospace font (code/numbers)
+- **Spacing** (default margins/padding: 4px grid)
+- **Borders/Shadows** (visual depth, element separation)
+- **Icons** (visual communication, consistency)
+- **Animations** (fade/slide/scale timing, easing functions)
 
 **Persistence**:
-- Player preference saved
+- Player preference saved to game configuration
 - Auto-loaded on application start
+- Can be changed mid-game with immediate refresh
+- Per-scene theme overrides supported
 
-## Scene-Specific Layouts
+**Advanced Theme Features**:
+- **Dynamic Theming**: Color adjustments based on game state (night/day cycle affects UI)
+- **Theme Inheritance**: UI elements inherit parent theme settings
+- **Custom Palettes**: Players can create/import custom color schemes
+- **Font Scaling**: Adjust all font sizes for accessibility (0.8× to 1.5×)
+
+---
+
+## Advanced UI Patterns
+
+### Modal Dialogs
+
+**Types**:
+- **Confirmation** (Yes/No/Cancel)
+- **Input** (Text entry with validation)
+- **Selection** (Choose from list)
+- **Alert** (Information/Warning/Error message)
+- **Progress** (Long-running operation)
+
+**Behavior**:
+- Blocks interaction with background scene
+- Darkened background reduces distraction
+- Keyboard support (ESC to cancel, Enter to confirm)
+- Multiple dialogs supported (stack behavior)
+
+### Context Menus
+
+**Implementation**:
+- Right-click trigger on interactive elements
+- Position near cursor
+- Auto-adjust to stay on-screen
+- Fade with click outside or selection
+
+**Common Actions**:
+- Inspect/Details
+- Edit/Modify
+- Delete/Remove
+- Transfer/Move
+- Cancel/Close
+
+### Drag & Drop System
+
+**Behavior**:
+- Click and hold to initiate
+- Visual preview while dragging
+- Drop zone highlighting (valid/invalid)
+- Auto-scroll when near list edges
+- Undo on invalid drop
+
+**Use Cases**:
+- Equipment loadout management (drag items between slots)
+- Base facility construction (drag facilities to grid)
+- Mission assignment (drag units to craft/team)
+- Inventory management (drag items between bases/slots)
+
+### Notification System
+
+**Notification Types**:
+- **Info** (Blue, general information)
+- **Success** (Green, action completed)
+- **Warning** (Yellow, caution needed)
+- **Error** (Red, action failed)
+- **Alert** (Flashing red, urgent attention)
+
+**Display**:
+- Toast notifications (corner of screen, 3-5s duration)
+- Notification feed (persistent, scrollable)
+- Modal alerts (important messages, require acknowledgment)
+- Icon badges (number indicators on UI elements)
+
+**Examples**:
+- "Mission completed successfully" (Green toast, 3s)
+- "Insufficient credits" (Red modal, requires OK)
+- "Research complete: Plasma Weapons" (Green notification feed)
+- "Base under attack!" (Red flashing alert)
+
+### Viewport & Scaling
+
+**Resolution Support**:
+- Minimum: 800×600
+- Standard: 960×720 (12×12 pixel grid, 24×24 displayed)
+- HD: 1920×1440
+- 4K: 3840×2880
+
+**Scaling Strategy**:
+- All measurements in logical pixels (960×720 base)
+- Automatic scaling to device resolution
+- UI elements snap to 24×24 grid
+- Text scales with viewport
+
+**Aspect Ratio Adaptation**:
+- **Wide (16:9, 16:10)**: Horizontal UI emphasis
+  - Panels arrange left/right
+  - Bottom HUD bar compressed
+- **Tall (9:16, 4:3)**: Vertical UI emphasis
+  - Panels stack top/bottom
+  - Side HUD bars removed
+- **Auto-adjustment**: Responsive layout changes based on detected ratio
+
+---
+
+
 
 ### Geoscape Scene
 

@@ -325,6 +325,115 @@ Crafts receive **inherent bonuses** to equipped weapons based on craft specializ
 
 ---
 
+## Craft Statistics Reference (By Size)
+
+### Health Points (HP) Range
+
+| Craft Size | Classification | HP Range | Examples | Notes |
+|---|---|---|---|---|
+| **Small** | Scout, Interceptor | 100-150 HP | Scout (120), Interceptor (140) | Fast, fragile |
+| **Medium** | Transport, Fighter | 200-300 HP | Transport (240), Fighter (280) | Balanced |
+| **Large** | Heavy Fighter, Bomber | 350-450 HP | Heavy Fighter (380), Bomber (420) | Slow, tanky |
+| **Extra Large** | Battleship, Command | 500-600 HP | Battleship (550), Mobile Base (600) | Very durable |
+
+**Progression:** Crafts gain +1-2 HP per rank (rank 0-6 can add 0-12 HP)
+
+### Fuel Capacity (Range)
+
+| Craft Size | Fuel Tank Capacity | Geoscape Range | Fuel Consumption | Notes |
+|---|---|---|---|---|
+| **Small** | 500-800 units | 5,000-8,000 km | 1 fuel/hex | Quick operations |
+| **Medium** | 1,500-2,500 units | 15,000-25,000 km | 2-3 fuel/hex | Balanced range |
+| **Large** | 3,000-5,000 units | 30,000-50,000 km | 3-5 fuel/hex | Long missions |
+| **Extra Large** | 6,000-8,000 units | 60,000-80,000 km | 4-6 fuel/hex | Intercontinental |
+
+**Fuel Tank Addon:** Each addon +1,000 range (stack up to 2 addon slots max +2,000 additional range)
+
+**Fuel Consumption Formula:** 1 fuel + (fuel_per_hex × distance_in_hexes × cargo_weight_modifier)
+
+### Speed (Movement Rate)
+
+| Craft Class | Geoscape Speed | Interception Speed | Combat AP | Notes |
+|---|---|---|---|---|
+| **Scout** | 4 hexes/turn | 4 action points | 4 AP | Fastest, high mobility |
+| **Interceptor** | 3-4 hexes/turn | 3 action points | 3 AP | Combat optimized |
+| **Transport** | 1-2 hexes/turn | 1 action point | 2 AP | Slow but steady |
+| **Fighter** | 3 hexes/turn | 3-4 action points | 3 AP | Balanced |
+| **Heavy Fighter** | 2-3 hexes/turn | 2-3 action points | 3 AP | Slower, powerful |
+| **Bomber** | 2 hexes/turn | 2 action points | 2 AP | Deliberate strikes |
+| **Battleship** | 1 hex/turn | 1 action point | 3 AP | Slow, durable |
+
+**Speed Modifiers:**
+- Cargo weight: -1 hex if fully loaded
+- Damage: -1 hex if HP < 50%
+- Afterburner addon: +1 hex/turn
+- Fuel consumption: +25% when using speed bonus
+
+### Crew Capacity (Unit Slots)
+
+| Craft Size | Base Capacity | Maximum (with addons) | Addon Cost |
+|---|---|---|---|
+| **Small** | 1-2 units | 3-4 units | Crew Cabin (+2 slots, 1 addon) |
+| **Medium** | 4-6 units | 8-10 units | 2 Crew Cabins max |
+| **Large** | 8-10 units | 12-14 units | 2 Crew Cabins max |
+| **Extra Large** | 12-20 units | 20-24 units | 2 Crew Cabins max |
+
+**Size Calculation:** Each unit occupies slots equal to their size rating (Small unit = 1 slot, Large unit = 4 slots)
+
+### Cargo Capacity (Equipment Weight)
+
+| Craft Class | Base Cargo | Max with Addon | Equipment Types | Notes |
+|---|---|---|---|---|
+| **Scout** | 500-1,000 kg | 1,500-2,000 kg | Light weapons, armor | Limited loadout |
+| **Interceptor** | 1,000-1,500 kg | 2,000-3,000 kg | Medium weapons, armor | Combat focus |
+| **Transport** | 3,000-5,000 kg | 5,000-7,000 kg | Heavy weapons, multiple sets | Maximum capacity |
+| **Fighter** | 1,500-2,500 kg | 2,500-4,000 kg | Medium-heavy weapons | Weapon focus |
+| **Heavy Fighter** | 2,000-3,000 kg | 3,000-4,500 kg | Heavy weapons, armor | Mixed load |
+| **Bomber** | 2,500-4,000 kg | 4,000-6,000 kg | Missiles, bombs, armor | Payload focus |
+| **Battleship** | 4,000-8,000 kg | 8,000-10,000 kg | Multiple weapon sets | Strategic cargo |
+
+**Cargo Bay Addon:** Each addon +500 kg capacity (max 2 addons = +1,000 kg additional)
+
+**Weight Scaling:**
+- Light weapons: 200-400 kg
+- Medium weapons: 500-800 kg
+- Heavy weapons: 1,000-1,500 kg
+- Unit armor sets: 300-600 kg
+- Equipment: 100-200 kg per item
+
+### Armor Rating
+
+| Craft Class | Base Armor | Max with Addon | Armor Effect |
+|---|---|---|---|
+| **Scout** | 2-4 | 6-8 | Minimal protection |
+| **Interceptor** | 4-6 | 8-10 | Light armor |
+| **Transport** | 3-5 | 7-9 | Light-medium armor |
+| **Fighter** | 5-7 | 9-11 | Medium armor |
+| **Heavy Fighter** | 7-9 | 11-13 | Medium-heavy armor |
+| **Bomber** | 6-8 | 10-12 | Medium-heavy armor |
+| **Battleship** | 10-15 | 15-20 | Heavy armor |
+
+**Armor Addon (Metal Plating):** Each addon +4 armor (max 2 addons = +8 armor additional)
+
+**Armor Effectiveness:** Reduces incoming damage by 10% per armor point (e.g., 5 armor = 50% damage reduction, capped at 80% max)
+
+### Radar & Detection
+
+| Craft Class | Base Radar Power | Detection Range | With Booster Addon |
+|---|---|---|---|
+| **Scout** | 8 | 2,000 km | 2,500 km (+2 power) |
+| **Interceptor** | 6 | 1,800 km | 2,300 km (+2 power) |
+| **Transport** | 4 | 1,500 km | 2,000 km (+2 power) |
+| **Fighter** | 6 | 1,800 km | 2,300 km |
+| **Heavy Fighter** | 5 | 1,600 km | 2,100 km |
+| **Bomber** | 4 | 1,500 km | 2,000 km |
+| **Battleship** | 7 | 1,900 km | 2,400 km |
+| **Stealth Craft** | 2 | 1,000 km | 1,500 km |
+
+**Radar Booster Addon:** +2 radar power, +500 km range (max 1 addon per craft)
+
+---
+
 ## Craft Weapons
 
 ### Weapon Categories
@@ -447,45 +556,105 @@ Crafts have **2 addon slots** for specialized equipment:
 
 Crafts gain experience independently from carried units:
 
-#### Passive Gain
-- **Base Training**: +1 XP per week in storage (no fuel/cost)
-- **Repeatable**: Accumulates continuously when in base
+#### Experience Sources & Values
 
-#### Combat Gain
-- **Per Interception Mission**: +5 XP
-- **Per Enemy Intercepted**: +2 XP (e.g., 3 UFO interceptions = +6 XP)
-- **Victory Bonus**: +10 XP if mission objective achieved
+| Source | XP Amount | Conditions | Frequency |
+|---|---|---|---|
+| **Base Training** | +1 XP | In storage, per week | Weekly |
+| **Geoscape Travel** | +1 XP | Per hex traveled | Per movement |
+| **Interception Mission** | +5 XP | Participate in interception | Per battle |
+| **Enemy Intercepted** | +2 XP | Per unique UFO/enemy craft spotted | Per detection |
+| **Victory Bonus** | +10 XP | Achieve mission objective | Per completion |
+| **Kill Enemy Craft** | +20 XP | Destroy UFO or enemy interceptor | Per kill |
+| **Survive Damage** | +0.5 XP | Per 10 damage taken (not destroyed) | Per battle |
+| **Detect Enemy** | +2 XP | Spot new enemy craft | Per unique |
+| **Destroy UFO** | +25 XP | Complete mission destroying UFO | Bonus |
+| **Successful Patrol** | +3 XP | Complete patrol mission | Per patrol |
 
-#### Travel Gain
-- **Per Geoscape Travel**: +1 XP
-- **Distances**: Long-range missions grant bonus XP
-- **Example**: Scout mission across 10 hexes = +10 XP total
+**Example:** Scout interceptor completes patrol (3 XP), detects 2 UFOs (+4 XP), travels 8 hexes (+8 XP) = 15 XP total
 
 #### Combat Experience Calculation
-- Kill enemy craft: +20 XP
-- Survive damage (per 10 damage taken): +0.5 XP
-- Spot enemy (per unique craft detected): +2 XP
-- Destroy UFO: +25 XP (mission completion bonus)
 
-### Rank Progression
+**Mission XP Formula:**
+```
+total_xp = mission_xp + kills_xp + damage_xp + objective_xp
 
-**Promotion System**:
-- Crafts follow **identical rank progression** as units (Rank 0-6)
-- XP thresholds are **identical to units** (100, 300, 600, 1,000, 1,500, 2,100)
-- Promotion unlocks:
-  - Stat improvements (+1 to core stats per rank)
-  - Access to better weapon/addon configurations
-  - Specialized abilities (e.g., evasive maneuvers for Rank 4 scouts)
+Where:
+- mission_xp: Base mission participation (+5 XP)
+- kills_xp: +20 XP per enemy craft destroyed
+- damage_xp: +0.5 XP per 10 damage taken (rounded up)
+- objective_xp: +10 XP for objective completion bonus
+```
 
-**Design Note**: It is often more economical to unlock new technology and manufacture an upgraded craft than to grind experience with the current craft. Experience provides incremental stat growth; technology research provides significant capability jumps.
+**Example Calculation:**
+- Base mission: +5 XP
+- Destroy 1 UFO: +20 XP
+- Take 45 damage: +2.25 XP (rounds to +2)
+- Objective completed: +10 XP
+- **Total:** 37 XP from this mission
+
+### Rank Progression (Craft Experience Tiers)
+
+Crafts use **identical rank progression as units** (Rank 0-6):
+
+#### Rank Advancement Table
+
+| Rank | Total XP Req. | XP to Next | Stat Bonus | Ability Unlock | Notes |
+|---|---|---|---|---|---|
+| **0** | 0 | 100 | — | — | Base rank, freshly manufactured |
+| **1** | 100 | 200 | +1 HP, +1 Armor | Evasive Maneuvers (Scout only) | First promotion |
+| **2** | 300 | 300 | +2 HP, +1 Armor | Precision Targeting (+5% accuracy) | Combat veteran |
+| **3** | 600 | 400 | +3 HP, +2 Armor | Enhanced Weapons (+10% damage) | Experienced |
+| **4** | 1,000 | 500 | +4 HP, +2 Armor | Advanced Tactics (special move set) | Veteran |
+| **5** | 1,500 | 600 | +5 HP, +3 Armor | Mastery Bonus (+20% all stats) | Master rank |
+| **6** | 2,100 | — | +6 HP, +3 Armor | Peak Performance (max effectiveness) | Legendary status |
+
+**Cumulative Stat Growth by Rank:**
+- Rank 0→6 progression: 0, +1, +3, +6, +10, +15, +21 HP total
+- Armor follows same progression: 0 to +21 armor by rank 6
+- Stat bonuses are **permanent** and persist after promotion
+
+#### Stat Improvement Per Rank
+Each rank provides **+1 base stat per tier**, applied to craft properties:
+
+| Stat | Rank 0 | Rank 1 | Rank 2 | Rank 3 | Rank 4 | Rank 5 | Rank 6 |
+|---|---|---|---|---|---|---|---|
+| **HP** | Base | +1 | +2 | +3 | +4 | +5 | +6 |
+| **Armor** | Base | +1 | +1 | +2 | +2 | +3 | +3 |
+| **Speed** | Base | — | — | +1* | +1 | +1 | +2* |
+| **Accuracy** | Base | — | +2% | +3% | +5% | +5% | +10% |
+| **Dodge** | Base | — | +2% | +3% | +5% | +5% | +10% |
+| **Radar** | Base | — | — | — | +1 | +1 | +2 |
+
+*Speed bonuses only apply in Interception combat (Geoscape speed unaffected)
+
+#### Promotion Mechanics
+- **Automatic:** XP accumulates automatically; no manual promotion required
+- **Threshold:** Once total XP exceeds next tier threshold, craft immediately ranks up
+- **Stat Increase:** New stats applied instantly (no downtime)
+- **Notification:** Player receives notification when craft ranks up
+
+#### Upgrade vs. Experience Trade-off
+
+**Design Note:** It is often more economical to unlock new technology and manufacture an upgraded craft than to grind experience with the current craft:
+
+- **Tier 1 Scout:** Rank 0-6 = 1-21 HP gain total
+- **Tier 2 Interceptor:** Rank 0 = 140 HP (immediately stronger than Rank 6 Scout at 121 HP)
+- **Research Cost:** 5,000 credits + materials
+- **Build Time:** 1-2 weeks
+
+**Player Strategy:**
+- Early game: Build experience with early craft (economical)
+- Mid game: Research new tier (better investment than grinding)
+- Late game: Maintain elite craft through promotion (no time for rebuilds)
 
 ### No Traits, Medals, or Transformations
 
 Crafts do **not** possess:
-- **Traits**: Crafts have fixed stat lines; no randomization
-- **Medals**: Commendations system reserved for units
+- **Traits**: Crafts have fixed stat lines; no randomization or special traits
+- **Medals**: Commendations system reserved for units only
 - **Transformations**: Upgrades handled through addons and manufacturing
-- **Races**: Craft types are technology-specific, not faction-cultural
+- **Races/Culture**: Craft types are technology-specific, not faction-cultural
 
 ---
 

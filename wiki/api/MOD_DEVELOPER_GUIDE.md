@@ -1,3 +1,4 @@
+````markdown
 # Mod Developer Guide: Complete Tutorial
 
 **Version**: 1.0.0  
@@ -756,12 +757,13 @@ Use **semantic versioning**:
 ### Quick Links
 
 **API Documentation**:
-- [Weapons & Armor](../api/API_WEAPONS_AND_ARMOR.md)
-- [Units & Classes](../api/API_UNITS_AND_CLASSES.md)
-- [Facilities](../api/API_FACILITIES.md)
-- [Research & Manufacturing](../api/API_RESEARCH_AND_MANUFACTURING.md)
-- [Missions](../api/API_MISSIONS.md)
-- [Economy & Items](../api/API_ECONOMY_AND_ITEMS.md)
+- [Weapons & Armor](WEAPONS_AND_ARMOR.md)
+- [Units & Classes](UNITS.md)
+- [Facilities](FACILITIES.md)
+- [Research & Manufacturing](RESEARCH_AND_MANUFACTURING.md)
+- [Missions](MISSIONS.md)
+- [Economy & Items](ECONOMY.md)
+- [TOML Schema Reference](TOML_SCHEMA_REFERENCE.md)
 
 **Example Mods**:
 - [Complete Example Mod](../../mods/examples/complete/)
@@ -987,10 +989,12 @@ Congratulations! You now have a comprehensive understanding of AlienFall modding
 
 ## Additional Resources
 
-- **API Documentation**: `wiki/api/`
+- **API Documentation**: See other files in `wiki/api2/`
 - **Example Mods**: `mods/examples/`
 - **Test Suite**: `tests/`
 - **Tools**: `tools/`
 - **Community Forums**: [Link to community]
 - **Bug Reports**: [Link to issue tracker]
 
+
+````

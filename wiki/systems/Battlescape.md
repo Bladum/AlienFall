@@ -1777,6 +1777,132 @@ Some missions feature a concealment mechanic where the player has a limited "ste
 
 ---
 
+### Concealment Detection System (Core Mechanic)
+
+**Note:** Concealment is a core system that affects tactical depth. Units can hide using cover, terrain, and stealth abilities, creating information asymmetry against enemy forces.
+
+#### Detection Formula
+
+The probability of an enemy detecting a concealed unit uses a weighted formula:
+
+```
+detection_chance = base_detection_rate 
+                 × distance_modifier 
+                 × (1 - concealment_level)
+                 × light_modifier
+                 × unit_size_modifier
+                 × noise_modifier
+
+Where:
+- base_detection_rate = 10% per turn at base range
+- distance_modifier = max(0, 1 - (distance / max_range)) where max_range = 15 hexes
+- concealment_level = 0.0-1.0 (higher = harder to detect)
+- light_modifier = 0.5-2.0 (night=0.5, day=1.0, bright light=2.0)
+- unit_size_modifier = 0.5-2.0 (small=0.5, medium=1.0, large=2.0)
+- noise_modifier = 1.0-3.0 (based on actions taken)
+
+Final probability always clamped to 0.0-0.95 (never guaranteed detection).
+```
+
+#### Detection Ranges by Visibility
+
+Detection range varies by environmental factors and concealment type:
+
+| Concealment Type | Day Range | Dusk Range | Night Range |
+|---|---|---|---|
+| **Fully Exposed** | 25 hexes | 15 hexes | 8 hexes |
+| **Partial Cover** | 18 hexes | 12 hexes | 6 hexes |
+| **Full Cover** | 12 hexes | 8 hexes | 4 hexes |
+| **Stealth Ability** | 6 hexes | 4 hexes | 2 hexes |
+| **Combined Stealth** | 3 hexes | 2 hexes | 1 hex |
+
+#### Sight Point Costs (Actions that Risk Detection)
+
+Actions generate "sight points" that can break concealment:
+
+| Action | Sight Cost | Notes |
+|---|---|---|
+| **Normal movement (per hex)** | 1 point | Standard stealth movement |
+| **Careful movement (per hex)** | 0.5 points | Slow, deliberate movement |
+| **Running/dashing (per hex)** | 3 points | Fast, loud movement |
+| **Firing weapon** | 5-10 points | Automatic detection |
+| **Using offensive ability** | 3-5 points | Magical/special actions |
+| **Throwing item** | 2-3 points | Grenade, explosive |
+| **Interacting with object** | 1 point | Opening door, etc. |
+| **Staying still** | 0 points | Concealment maintained |
+
+**Sight Point Threshold:** Concealment breaks when accumulated points exceed 20-30 (varies by enemy perception).
+
+#### Concealment Sources & Stacking
+
+Concealment is provided by multiple sources that stack multiplicatively:
+
+| Source | Concealment Boost | Notes |
+|---|---|---|
+| **Terrain cover** | +0.2 | Bushes, trees, rocks |
+| **Combat cover** | +0.3 | Walls, sandbags |
+| **Stealth ability** | +0.4-0.5 | Unit skill or equipment |
+| **Smoke cloud** | +0.4-0.8 | Environmental effect |
+| **Darkness** | +0.2-0.4 | Night/shadow modifier |
+
+**Example:** Unit in bushes (0.2) + stealth ability (0.4) = 0.6 concealment level (60% harder to detect)
+
+#### Break Conditions
+
+Concealment breaks in these situations:
+
+1. **Fire weapon:** Automatic break + 5-10 sight points
+2. **Take damage:** Break + 5 turn penalty
+3. **Use offensive ability:** Automatic break
+4. **Exceed sight threshold:** 20-30 accumulated sight points
+5. **Line-of-sight from enemy:** Triggers detection roll (not automatic)
+6. **Noise threshold exceeded:** If noise_level > 0.7, detection attempt
+
+#### Regaining Concealment
+
+After breaking concealment, units can regain it through:
+
+1. **Regain time:** 3-5 turns of no hostile action
+2. **Movement requirements:**
+   - Move at least 1 hex away from last detected position
+   - Move to cover or concealment source
+   - Cannot have line-of-sight from known enemies
+   - Can only move carefully (no running)
+
+#### Stealth Abilities (Specialized Units)
+
+Units with stealth training can deploy special abilities:
+
+| Ability | Cost | Effect | Duration |
+|---|---|---|---|
+| **Smokescreen** | 2 AP | Create 3-4 hex area of concealment | 2-3 turns |
+| **Silent Move** | 2 AP | Move without generating sight points | 1 move action |
+| **Camouflage** | 1 AP | Blend with terrain (+40% concealment) | Until action taken |
+| **Invisibility** | 4 AP | Full concealment (+100%) | 1-2 turns |
+| **Radar Jammer** | 3 AP | Interfere with detection (8 hex radius) | Until jammer destroyed |
+
+#### Environmental Factors
+
+**Ambient Light:**
+- **Full daylight:** 1.0 light modifier (baseline)
+- **Dusk/dawn:** 0.8 light modifier (dimmer)
+- **Night:** 0.5 light modifier (darkest, +50% concealment)
+- **Bright artificial light:** 1.5-2.0 light modifier (detection easier)
+
+**Unit Size:**
+- **Small units:** 0.5 modifier (soldiers, scouts)
+- **Medium units:** 1.0 modifier (baseline)
+- **Large units:** 2.0 modifier (armor, vehicles - harder to hide)
+
+**Noise Generation:**
+- **Staying still:** 0.0 noise
+- **Normal movement:** 1.0 noise
+- **Running:** 2.0 noise
+- **Firing:** 3.0 noise
+- **Explosives:** 3.0+ noise
+
+---
+
 ## Future Enhancements
 
 ### Directional Sight (Unit Facing)

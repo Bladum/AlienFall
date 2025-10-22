@@ -5,6 +5,8 @@
 - [Overview](#overview)
 - [Item Categories](#item-categories)
 - [Item Properties & Statistics](#item-properties--statistics)
+- [Item Durability System](#item-durability-system)
+- [Item Modification System](#item-modification-system)
 - [Item Acquisition & Usage](#item-acquisition--usage)
 - [Resources System](#resources-system)
 - [Unit Equipment](#unit-equipment)
@@ -315,6 +317,179 @@ Items are gated behind research milestones:
 - Some items auto-research when prerequisites complete
 - Others require direct research investment after prerequisites
 - Special items may require story progression or rare components
+
+---
+
+## Item Durability System
+
+All equipment items degrade through use during combat missions. Durability represents the condition and functionality of equipment, affecting its effectiveness in battle.
+
+### Durability Mechanics
+
+**Durability Range**: 0-100 (represents percentage of original condition)
+
+| Condition | Durability Range | Effect | Repair Cost |
+|-----------|------------------|--------|------------|
+| Pristine | 100-75% | Full effectiveness, peak performance | N/A |
+| Worn | 74-50% | No functionality penalty, cosmetic wear | 25% base cost |
+| Damaged | 49-25% | -10% effectiveness (accuracy/damage) | 50% base cost |
+| Critical | 24-1% | -30% effectiveness, unreliable operation | 75% base cost |
+| Destroyed | 0% | Non-functional, item lost permanently | N/A |
+
+**Degradation Rates by Item Type**:
+- **Weapons**: -5 durability per mission use (regardless of shots fired)
+- **Armor**: -3 durability per hit taken (stacks with multiple hits)
+- **Consumables**: Consumed completely on use (grenades, medkits)
+- **Equipment/Tools**: -2 durability per mission
+
+**Example Timeline**:
+- Rifle starts at 100 durability (pristine)
+- After 5 missions: 75 durability (worn)
+- After 10 missions: 50 durability (worn)
+- After 15 missions: 25 durability (damaged, -10% accuracy)
+- After 20 missions: 0 durability (destroyed, item lost)
+
+### Repair System
+
+**Repair Locations**:
+- Base workshop (primary repair facility)
+- Marketplace suppliers (emergency repair service)
+- Field medic cannot repair weapons/armor (only heal units)
+
+**Repair Mechanics**:
+- 1 durability point costs 1% of base item purchase price to restore
+- Restoring from 25→50 durability costs 25% of base item cost
+- Repairs take 1 day per 10 durability points at base
+- Emergency repairs at marketplace cost 50% premium but happen instantly
+
+**Strategic Implications**:
+- High-value items (Plasma Weapons, Heavy Armor) have expensive maintenance budgets
+- Frequent missions mean constant repair costs eat into economy
+- Choice: Keep elite equipment and pay repair costs, or use cheaper items
+- Breaking expensive weapons is costly and wasteful
+
+**Restrictions**:
+- Completely destroyed items (0 durability) cannot be repaired—item is permanently lost
+- No in-field repairs possible; must return to base after missions
+
+### Durability Factors
+
+**Mission Environment**:
+- Volcanic terrain: +2 durability loss per mission (heat damage)
+- Underwater: +1 durability loss per mission (corrosion)
+- Urban/Standard: Normal degradation
+- Arctic: No additional degradation (cold preserves materials)
+
+**Unit Class Impact**:
+- Specialist units cause +1 durability loss (intense weapon usage)
+- Support units cause -1 durability loss (gentler equipment handling)
+- Standard units cause normal degradation
+
+**Armor Durability Special Rules**:
+- Armor loses durability when hit, not per mission
+- Heavy Assault Armor loses durability 50% slower (better craftsmanship)
+- Stealth Suit loses durability 50% faster (delicate construction)
+
+---
+
+## Item Modification System
+
+Equipment can be enhanced with modifications (attachments, upgrades, enhancements) providing stat bonuses and special tactical abilities. Modifications are permanent installations that affect equipment capability.
+
+### Modification Slots
+
+Each item type has specific modification slots available:
+
+| Item Type | Slots | Capacity | Notes |
+|-----------|-------|----------|-------|
+| Weapons | 2 slots | Firearm specific | Scope, barrel, magazine, stock |
+| Armor | 1 slot | Single enhancement | Plating, padding, camouflage |
+| Utility/Tools | 1 slot | Single enhancement | Varies by tool type |
+| Consumables | 0 slots | N/A | Grenades, medkits cannot be modified |
+| Resources | 0 slots | N/A | Fuel, materials cannot be modified |
+
+**Modification Architecture**:
+- Each item maintains independent modification list
+- Modifications stack multiplicatively (not additively) for accuracy/damage
+- Modifications are reusable if removed before item destruction
+- Destroying an item destroys all its modifications permanently
+
+### Modification Categories & Effects
+
+**Weapon Modifications**:
+
+| Modification | Slot | Cost | Effect | Research Required |
+|--------------|------|------|--------|-------------------|
+| Scope | Firearm | 5K | +15% accuracy, +1 sight range | Advanced Targeting |
+| Laser Sight | Firearm | 6K | +10% accuracy (close range only) | Laser Technology |
+| Extended Magazine | Firearm | 3K | +50% ammo capacity (grenades/missiles) | Engineering |
+| Armor-Piercing Rounds | Firearm | 4K | +20% damage vs armored targets | Advanced Ammunition |
+| Silencer | Firearm | 4K | Silent shots, no detection radius | Stealth Technology |
+| Stock Enhancement | Firearm | 2K | -1 AP cost for aimed shots | Gunsmithing |
+| Rapid-Fire Module | Firearm | 7K | +1 extra burst shot (burst fire only) | Advanced Firearms |
+
+**Armor Modifications**:
+
+| Modification | Slot | Cost | Effect | Research Required |
+|--------------|------|------|--------|-------------------|
+| Ceramic Plating | Armor | 8K | +5 armor value, -2% movement speed | Advanced Armor |
+| Lightweight Alloy | Armor | 6K | -10% movement penalty | Materials Engineering |
+| Reactive Plating | Armor | 10K | +40% explosive resistance | Specialized Defense |
+| Camouflage Overlay | Armor | 5K | +15% stealth effectiveness | Camouflage Tech |
+| Thermal Lining | Armor | 4K | +100% heat/cold resistance | Environmental Tech |
+
+**Utility/Tool Modifications**:
+
+| Modification | Slot | Cost | Effect | Research Required |
+|--------------|------|------|--------|-------------------|
+| Night Vision Upgrade | Scanner | 3K | +3 hex night vision | Optics Research |
+| Extended Battery | Tool | 2K | +50% uses (doubled charge count) | Power Systems |
+| Sensor Boost | Tool | 5K | +100% detection range | Advanced Sensors |
+
+### Modification Restrictions
+
+**Mutually Exclusive Modifications**:
+- **Scope** ↔ **Laser Sight**: Cannot have both (sight system conflict)
+- **Silencer** ↔ **Rapid-Fire Module**: Cannot have both (noise vs fire rate conflict)
+- **Armor Plating** ↔ **Lightweight Alloy**: Cannot have both (weight tradeoff conflict)
+
+**Item Condition Restrictions**:
+- Cannot install modifications on Damaged/Critical/Destroyed items
+- Only Pristine or Worn condition items accept modifications
+- Installation damage: Item loses 5 durability during modification (installation risk)
+
+### Modification Installation & Removal
+
+**Installation Process**:
+- Location: Base workshop (requires Engineering facility)
+- Cost: 10% of base modification cost + 5 durability loss
+- Time: 1 day per modification installed
+- Prerequisite: Modification research must be completed
+
+**Removal Process**:
+- Location: Base workshop
+- Cost: Free (modifications are reusable)
+- Time: Instant (remove during loadout prep)
+- Result: Modification stored in inventory for reuse
+
+**Strategic Implications**:
+- High-value weapon modifications (Armor-Piercing, Rapid-Fire) worth preserving across items
+- Budget decisions: Equip 1 elite modified weapon or 2 standard weapons
+- Late-game synergies: Heavily modified veteran equipment becomes irreplaceable
+- Loadout planning: Swap modifications between missions for tactical optimization
+
+### Modification Synergies
+
+**Weapon Examples**:
+- **Precision Build**: Scope + Laser Sight (can't combine) or Scope + Stock Enhancement
+- **Silent Assassin**: Silencer + Camouflage Armor + Stealth Suit
+- **Rapid Suppression**: Rapid-Fire Module + Extended Magazine (tactical overload)
+- **Armor Penetrator**: Armor-Piercing Rounds + Heavy Weapon targeting
+
+**Armor Examples**:
+- **Tank Build**: Ceramic Plating + Reactive Plating (maximum defense)
+- **Scout Build**: Lightweight Alloy + Camouflage Overlay (speed + stealth)
+- **Environmental Specialist**: Thermal Lining + relevant mission environment
 
 ---
 
