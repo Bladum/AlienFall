@@ -1,0 +1,797 @@
+# GAME_API.toml - Master API Schema Definition
+# Version: 1.0.0
+# Last Updated: October 24, 2025
+# Purpose: Defines structure, types, and constraints for ALL mod TOML configurations
+#
+# This file serves as the single source of truth for:
+# - Data structure and field names for all entities
+# - Type constraints (string, integer, float, boolean, enum, array, table)
+# - Required vs optional fields
+# - Default values
+# - Min/Max constraints for numeric values
+# - ENUM values for restricted fields
+# - Cross-references and foreign keys
+#
+# Format Notes:
+# - Each section represents an entity type or category
+# - Fields are documented with type, requirement, and constraints
+# - Examples show typical usage
+# - All field names use snake_case
+# - Enum values use UPPERCASE
+
+################################################################################
+# METADATA AND VERSIONING
+################################################################################
+
+[_meta]
+api_version = "1.0.0"
+schema_version = "1.0.0"
+description = "Game API Schema - defines structure for all mod content"
+last_updated = "2025-10-24"
+author = "AlienFall Development Team"
+
+# Schema documentation references
+documentation = "api/GAME_API_GUIDE.md"
+synchronization = "api/SYNCHRONIZATION_GUIDE.md"
+modding_guide = "api/MODDING_GUIDE.md"
+
+# Compatibility
+min_engine_version = "1.0.0"
+min_lua_version = "5.1"
+toml_parser_required = "lua-toml"
+
+################################################################################
+# CROSS-REFERENCE MAPPINGS
+# Maps API sections to engine modules and mod file paths
+################################################################################
+
+[_mappings]
+
+[_mappings.units]
+api_section = "api.units"
+engine_modules = ["engine/battlescape/units", "engine/basescape/personnel"]
+mod_path = "mods/*/rules/units/*.toml"
+config_files = ["unit_classes.toml", "units.toml", "ranks.toml", "skills.toml", "traits.toml", "perks.toml"]
+validator = "tools/validators/validate_units.lua"
+
+[_mappings.items]
+api_section = "api.items"
+engine_modules = ["engine/content/items"]
+mod_path = "mods/*/rules/items/*.toml"
+config_files = ["items.toml", "weapons.toml", "armor.toml", "equipment.toml"]
+validator = "tools/validators/validate_items.lua"
+
+[_mappings.crafts]
+api_section = "api.crafts"
+engine_modules = ["engine/geoscape/crafts", "engine/interception"]
+mod_path = "mods/*/rules/crafts/*.toml"
+config_files = ["craft_types.toml", "craft_weapons.toml", "craft_addons.toml"]
+validator = "tools/validators/validate_crafts.lua"
+
+[_mappings.facilities]
+api_section = "api.facilities"
+engine_modules = ["engine/basescape/facilities"]
+mod_path = "mods/*/rules/facilities/*.toml"
+config_files = ["base_facilities.toml", "research_facilities.toml"]
+validator = "tools/validators/validate_facilities.lua"
+
+[_mappings.research]
+api_section = "api.research"
+engine_modules = ["engine/research"]
+mod_path = "mods/*/rules/research/*.toml"
+config_files = ["tech_tree.toml", "research_projects.toml"]
+validator = "tools/validators/validate_research.lua"
+
+[_mappings.manufacturing]
+api_section = "api.manufacturing"
+engine_modules = ["engine/basescape/manufacturing"]
+mod_path = "mods/*/rules/manufacturing/*.toml"
+config_files = ["manufacturing.toml", "production_costs.toml"]
+validator = "tools/validators/validate_manufacturing.lua"
+
+[_mappings.geoscape]
+api_section = "api.geoscape"
+engine_modules = ["engine/geoscape"]
+mod_path = "mods/*/rules/geoscape/*.toml"
+config_files = ["regions.toml", "countries.toml", "ufos.toml"]
+validator = "tools/validators/validate_geoscape.lua"
+
+[_mappings.missions]
+api_section = "api.missions"
+engine_modules = ["engine/missions"]
+mod_path = "mods/*/rules/missions/*.toml"
+config_files = ["mission_types.toml", "battlescape_maps.toml"]
+validator = "tools/validators/validate_missions.lua"
+
+[_mappings.economy]
+api_section = "api.economy"
+engine_modules = ["engine/economy"]
+mod_path = "mods/*/rules/economy/*.toml"
+config_files = ["prices.toml", "costs.toml", "finances.toml"]
+validator = "tools/validators/validate_economy.lua"
+
+[_mappings.aliens]
+api_section = "api.aliens"
+engine_modules = ["engine/content/aliens"]
+mod_path = "mods/*/rules/aliens/*.toml"
+config_files = ["races.toml", "alien_units.toml"]
+validator = "tools/validators/validate_aliens.lua"
+
+[_mappings.lore]
+api_section = "api.lore"
+engine_modules = ["engine/lore"]
+mod_path = "mods/*/rules/lore/*.toml"
+config_files = ["lore.toml", "story.toml"]
+validator = "tools/validators/validate_lore.lua"
+
+################################################################################
+# ENUMERATIONS - Predefined value lists for restricted fields
+################################################################################
+
+[_enums]
+
+# Unit types
+unit_types = ["soldier", "alien", "civilian", "hybrid", "mechanical", "pilot"]
+
+# Unit statuses
+unit_statuses = ["healthy", "wounded", "critical", "unconscious", "dead", "panicked", "controlled"]
+
+# Ranks/Promotion levels
+ranks = ["rookie", "squaddie", "corporal", "sergeant", "lieutenant", "captain", "major"]
+
+# Specializations
+specializations = ["rifleman", "assault", "sniper", "medic", "support", "heavy", "specialist", "psion"]
+
+# Item types
+item_types = ["weapon", "armor", "consumable", "resource", "lore", "equipment", "ammo"]
+
+# Item categories
+item_categories = ["primary_weapon", "secondary_weapon", "melee_weapon", "grenade", "armor_torso", "armor_head", "armor_legs", "armor_feet", "medical", "consumable", "resource", "craft_weapon", "craft_addon"]
+
+# Damage types
+damage_types = ["kinetic", "energy", "explosive", "psionic", "hazard", "incendiary", "acid", "cold"]
+
+# Craft types
+craft_types = ["transport", "interceptor", "gunship", "assault", "scout", "bomber"]
+
+# Facility types
+facility_types = ["command", "residential", "manufacturing", "storage", "power", "detection", "medical", "research", "defense"]
+
+# Facility specializations
+facility_specializations = ["general", "armor", "ammunition", "weapons", "research"]
+
+# Tech levels
+tech_levels = ["conventional", "plasma", "laser", "alien", "advanced", "exotic"]
+
+# Armor classes
+armor_classes = ["light", "medium", "heavy", "power", "alien", "hazmat", "stealth"]
+
+# Status effects
+status_effects = ["bleeding", "stunned", "panicked", "poisoned", "burning", "unconscious", "frozen", "petrified", "confused", "controlled"]
+
+# Mission types
+mission_types = ["terror", "abduction", "resource", "ufo_defense", "rescue", "research", "infiltration", "assault", "capture"]
+
+# Damage reduction types
+resistances = ["fire", "cold", "poison", "acid", "energy", "psionic", "mechanical"]
+
+# Availability types
+availability_types = ["default", "research", "craft_only", "special_event", "limited_edition"]
+
+# Rarity levels
+rarities = ["common", "uncommon", "rare", "epic", "legendary", "exotic"]
+
+# Stat types
+stat_types = ["strength", "dexterity", "constitution", "intelligence", "perception", "will", "speed", "aim", "reaction"]
+
+################################################################################
+# UNITS ENTITY SCHEMA
+################################################################################
+
+[api.units]
+description = "Unit and personnel definitions"
+file_location = "mods/*/rules/units/*.toml"
+
+# Unit class configuration
+[api.units.unit_class]
+description = "Templates for unit types/specializations"
+required_fields = ["id", "name", "type", "hp_base", "stat_requirements"]
+
+[api.units.unit_class.fields]
+id = { type = "string", required = true, pattern = "^[a-z0-9_]+$", description = "Unique class identifier (e.g., 'rifleman', 'sectoid')" }
+name = { type = "string", required = true, description = "Display name (e.g., 'Rifleman', 'Sectoid')" }
+description = { type = "string", required = false, description = "Flavor text describing the class" }
+unit_type = { type = "enum", required = true, values = ["soldier", "alien", "civilian", "pilot"], description = "Base unit type" }
+
+# Stats
+hp_base = { type = "integer", required = true, min = 1, max = 999, description = "Base health points" }
+accuracy_base = { type = "integer", required = false, default = 70, min = 0, max = 100, description = "Base accuracy 0-100" }
+strength_base = { type = "integer", required = false, default = 10, min = 1, max = 20, description = "Base strength stat" }
+reaction_base = { type = "integer", required = false, default = 70, min = 0, max = 100, description = "Base reaction time" }
+fire_rate_base = { type = "float", required = false, default = 1.0, min = 0.5, max = 3.0, description = "Base attacks per turn" }
+armor_class = { type = "integer", required = false, default = 0, min = 0, max = 50, description = "Base damage reduction %" }
+
+# Equipment
+starting_weapon = { type = "string", required = false, references = "items.id", description = "Default equipped weapon ID" }
+starting_armor = { type = "string", required = false, references = "items.id", description = "Default equipped armor ID" }
+weapon_types_preferred = { type = "array[string]", required = false, description = "Preferred weapon types" }
+
+# Progression
+xp_to_level_up = { type = "integer", required = false, default = 100, min = 10, max = 1000, description = "XP required per level" }
+promotion_requirement = { type = "integer", required = false, default = 500, min = 100, max = 5000, description = "XP for rank promotion" }
+
+# Abilities
+abilities = { type = "array[string]", required = false, description = "Initial abilities/skills IDs" }
+class_abilities = { type = "array[string]", required = false, description = "Available abilities at each rank" }
+
+# Traits
+required_trait = { type = "string", required = false, description = "Trait required to be this class" }
+
+[api.units.traits]
+description = "Unit characteristics affecting capabilities"
+required_fields = ["id", "name", "is_positive"]
+
+[api.units.traits.fields]
+id = { type = "string", required = true, pattern = "^[a-z0-9_]+$", description = "Trait ID (e.g., 'brave', 'smart')" }
+name = { type = "string", required = true, description = "Display name" }
+description = { type = "string", required = false, description = "Effect description" }
+is_positive = { type = "boolean", required = true, description = "Positive trait?" }
+is_negative = { type = "boolean", required = true, description = "Negative trait?" }
+is_neutral = { type = "boolean", required = false, description = "Neutral trait?" }
+
+# Stat modifiers
+stat_modifiers = { type = "table[string -> float]", required = false, description = "Stat multipliers {stat: 1.2}" }
+ability_bonus = { type = "array[string]", required = false, description = "Bonus abilities granted" }
+weakness = { type = "string", required = false, description = "Paired weakness trait ID" }
+
+[api.units.ranks]
+description = "Rank definitions for progression"
+
+[api.units.ranks.fields]
+rank_id = { type = "integer", required = true, min = 0, max = 20, description = "Rank number (0=rookie)" }
+name = { type = "string", required = true, description = "Rank display name" }
+xp_required = { type = "integer", required = true, min = 0, description = "Total XP needed to reach" }
+stat_bonuses = { type = "table", required = false, description = "Stat increases at this rank" }
+ability_unlocks = { type = "array[string]", required = false, description = "Abilities unlocked at rank" }
+
+[api.units.perks]
+description = "Unit perks/special abilities"
+required_fields = ["id", "name", "category"]
+
+[api.units.perks.fields]
+id = { type = "string", required = true, pattern = "^[a-z0-9_]+$", description = "Perk ID" }
+name = { type = "string", required = true, description = "Display name" }
+description = { type = "string", required = false, description = "Effect description" }
+category = { type = "enum", required = true, values = ["basic", "combat", "movement", "defense", "special", "resistance", "skill", "trait"], description = "Perk category" }
+enabled = { type = "boolean", required = false, default = true, description = "Is perk active?" }
+
+# Optional modifiers
+accuracy_bonus = { type = "integer", required = false, description = "Accuracy bonus %" }
+damage_bonus = { type = "integer", required = false, description = "Damage bonus %" }
+damage_reduction = { type = "integer", required = false, description = "Damage reduction %" }
+ap_bonus = { type = "integer", required = false, description = "AP bonus" }
+movement_bonus = { type = "integer", required = false, description = "Movement bonus %" }
+
+[api.units.pilots]
+description = "Pilot-specific unit configuration"
+
+[api.units.pilots.fields]
+class_id = { type = "string", required = true, references = "units.unit_class.id", description = "Pilot class (e.g., 'fighter_pilot')" }
+base_stats = { type = "table", required = true, description = "Aviation-focused base stats" }
+speed = { type = "integer", required = true, min = 1, max = 20, description = "Reaction time stat" }
+aim = { type = "integer", required = true, min = 1, max = 20, description = "Shooting accuracy stat" }
+reaction = { type = "integer", required = true, min = 1, max = 20, description = "Response time stat" }
+rank_system = { type = "table", required = false, description = "Rank-specific bonuses" }
+
+################################################################################
+# ITEMS ENTITY SCHEMA
+################################################################################
+
+[api.items]
+description = "Items, equipment, weapons, and armor"
+file_location = "mods/*/rules/items/*.toml"
+
+[api.items.base_item]
+description = "Base item definition"
+required_fields = ["id", "name", "type"]
+
+[api.items.base_item.fields]
+id = { type = "string", required = true, pattern = "^[a-z0-9_]+$", description = "Item ID (e.g., 'rifle_standard')" }
+name = { type = "string", required = true, description = "Display name" }
+description = { type = "string", required = false, description = "Item description" }
+type = { type = "enum", required = true, values = ["weapon", "armor", "consumable", "resource", "lore", "equipment"], description = "Item type" }
+category = { type = "enum", required = false, values = ["primary_weapon", "secondary_weapon", "melee_weapon", "grenade", "armor_torso", "armor_head", "armor_legs", "armor_feet", "medical", "consumable", "resource"], description = "Item category" }
+rarity = { type = "enum", required = false, default = "common", values = ["common", "uncommon", "rare", "epic", "legendary", "exotic"], description = "Rarity level" }
+tier = { type = "integer", required = false, default = 1, min = 1, max = 5, description = "Tech tier requirement" }
+
+# Physical Properties
+weight = { type = "float", required = false, default = 1.0, min = 0.0, description = "Weight in kg" }
+bulk = { type = "integer", required = false, default = 1, min = 1, max = 8, description = "Grid size for inventory" }
+durability = { type = "integer", required = false, default = 100, min = 0, max = 999, description = "Max durability 0-100" }
+value = { type = "integer", required = false, default = 100, min = 0, max = 999999, description = "Sale price in credits" }
+
+# Stacking
+max_stack_size = { type = "integer", required = false, default = 1, min = 1, max = 999, description = "Max items per stack" }
+is_stackable = { type = "boolean", required = false, default = false, description = "Can items stack?" }
+is_consumable = { type = "boolean", required = false, default = false, description = "Consumed on use?" }
+
+# Availability
+is_craftable = { type = "boolean", required = false, default = false, description = "Can be crafted?" }
+craft_components = { type = "table[string -> integer]", required = false, description = "Crafting materials needed {item_id: quantity}" }
+craft_time = { type = "integer", required = false, description = "Turns to craft" }
+availability = { type = "enum", required = false, default = "default", values = ["default", "research", "craft_only", "special_event", "limited_edition"], description = "How to obtain" }
+required_tech = { type = "string", required = false, references = "research.id", description = "Required research tech" }
+
+[api.items.weapons]
+description = "Weapon item definitions"
+parent = "items.base_item"
+
+[api.items.weapons.fields]
+type = { type = "enum", required = true, values = ["weapon"], description = "Must be weapon type" }
+damage = { type = "integer", required = true, min = 1, max = 150, description = "Base damage" }
+accuracy = { type = "integer", required = false, default = 70, min = 0, max = 100, description = "Accuracy 0-100" }
+range = { type = "integer", required = false, default = 15, min = 1, max = 100, description = "Range in hexes" }
+ammo_type = { type = "string", required = false, references = "items.id", description = "Ammunition type used" }
+fire_rate = { type = "float", required = false, default = 1.0, min = 0.5, max = 5.0, description = "Shots per turn" }
+ap_cost = { type = "integer", required = false, default = 2, min = 1, max = 5, description = "Action points to fire" }
+crit_chance = { type = "float", required = false, default = 0.05, min = 0.0, max = 1.0, description = "Critical chance 0-1.0" }
+damage_type = { type = "enum", required = false, default = "kinetic", values = ["kinetic", "energy", "explosive", "psionic", "hazard"], description = "Damage type" }
+
+[api.items.armor]
+description = "Armor item definitions"
+parent = "items.base_item"
+
+[api.items.armor.fields]
+type = { type = "enum", required = true, values = ["armor"], description = "Must be armor type" }
+armor_value = { type = "integer", required = true, min = 0, max = 30, description = "Damage reduction" }
+armor_class = { type = "enum", required = false, values = ["light", "medium", "heavy", "power", "alien", "hazmat", "stealth"], description = "Armor classification" }
+mobility_penalty = { type = "integer", required = false, default = 0, min = -30, max = 30, description = "AP penalty %" }
+sight_penalty = { type = "integer", required = false, default = 0, min = -50, max = 50, description = "Vision penalty %" }
+fire_resistance = { type = "integer", required = false, default = 0, min = 0, max = 100, description = "Fire damage reduction %" }
+acid_resistance = { type = "integer", required = false, default = 0, min = 0, max = 100, description = "Acid damage reduction %" }
+
+[api.items.consumables]
+description = "Consumable item definitions"
+parent = "items.base_item"
+
+[api.items.consumables.fields]
+type = { type = "enum", required = true, values = ["consumable"], description = "Must be consumable type" }
+uses_per_unit = { type = "integer", required = false, default = 1, min = 1, max = 100, description = "Uses per item" }
+effect = { type = "string", required = false, description = "Effect when used" }
+healing_amount = { type = "integer", required = false, description = "HP restored" }
+duration = { type = "integer", required = false, description = "Effect duration in turns" }
+
+[api.items.resources]
+description = "Resource/material item definitions"
+parent = "items.base_item"
+
+[api.items.resources.fields]
+type = { type = "enum", required = true, values = ["resource"], description = "Must be resource type" }
+resource_type = { type = "string", required = false, description = "Resource category (metal, fuel, etc)" }
+
+################################################################################
+# CRAFTS ENTITY SCHEMA
+################################################################################
+
+[api.crafts]
+description = "Aircraft and spacecraft definitions"
+file_location = "mods/*/rules/crafts/*.toml"
+
+[api.crafts.craft_type]
+description = "Blueprint for aircraft model"
+required_fields = ["id", "name", "type"]
+
+[api.crafts.craft_type.fields]
+id = { type = "string", required = true, pattern = "^[a-z0-9_]+$", description = "Craft type ID (e.g., 'skyranger', 'lightning')" }
+name = { type = "string", required = true, description = "Display name" }
+description = { type = "string", required = false, description = "Craft description" }
+type = { type = "enum", required = true, values = ["transport", "interceptor", "gunship", "assault", "scout", "bomber"], description = "Craft type" }
+classification = { type = "string", required = false, description = "Specialization (e.g., 'fighter', 'heavy_transport')" }
+
+# Specifications
+crew_capacity = { type = "integer", required = true, min = 1, max = 20, description = "Max personnel" }
+cargo_capacity = { type = "integer", required = false, default = 0, min = 0, max = 1000, description = "Max cargo weight (kg)" }
+
+# Movement
+speed = { type = "integer", required = true, min = 1, max = 30, description = "Hexes per turn" }
+fuel_capacity = { type = "integer", required = true, min = 100, max = 50000, description = "Max fuel" }
+fuel_consumption = { type = "float", required = false, default = 1.0, min = 0.1, max = 10.0, description = "Fuel per hex" }
+range = { type = "integer", required = false, description = "Total range km" }
+
+# Combat
+hp_max = { type = "integer", required = true, min = 50, max = 500, description = "Max hit points" }
+armor_class = { type = "integer", required = false, default = 0, min = 0, max = 50, description = "Defense value" }
+armor_rating = { type = "integer", required = false, default = 0, min = 0, max = 30, description = "Armor protection" }
+
+# Equipment
+weapon_slots = { type = "integer", required = false, default = 0, min = 0, max = 10, description = "Weapon hardpoints" }
+default_weapons = { type = "array[string]", required = false, description = "Default weapon IDs" }
+compatible_addons = { type = "array[string]", required = false, description = "Addon IDs supported" }
+
+# Construction & Economics
+cost = { type = "integer", required = true, min = 1000, max = 9999999, description = "Build cost in credits" }
+build_time = { type = "integer", required = false, default = 30, min = 1, max = 365, description = "Build time in days" }
+maintenance_cost = { type = "integer", required = false, default = 0, min = 0, max = 100000, description = "Monthly upkeep" }
+availability = { type = "enum", required = false, default = "default", values = ["default", "research"], description = "How to obtain" }
+
+[api.crafts.craft_weapon]
+description = "Weapon mounted on craft"
+required_fields = ["id", "name", "damage"]
+
+[api.crafts.craft_weapon.fields]
+id = { type = "string", required = true, pattern = "^[a-z0-9_]+$", description = "Weapon ID" }
+name = { type = "string", required = true, description = "Display name" }
+type = { type = "enum", required = false, values = ["ballistic", "energy", "missile", "cannon"], description = "Weapon type" }
+damage = { type = "integer", required = true, min = 1, max = 999, description = "Damage per hit" }
+damage_base = { type = "integer", required = false, description = "Alias for damage" }
+accuracy = { type = "float", required = false, default = 0.75, min = 0.0, max = 1.0, description = "Hit chance 0-1.0" }
+ap_cost = { type = "integer", required = false, default = 2, min = 1, max = 5, description = "Action points" }
+cooldown = { type = "integer", required = false, default = 0, min = 0, max = 10, description = "Turns between shots" }
+range = { type = "integer", required = false, default = 15, min = 1, max = 100, description = "Range in hexes" }
+ammo_capacity = { type = "integer", required = false, default = 100, min = 1, max = 9999, description = "Total ammo" }
+area_effect = { type = "boolean", required = false, default = false, description = "AOE damage?" }
+aoe_radius = { type = "integer", required = false, description = "AOE radius in hexes" }
+
+[api.crafts.craft_addon]
+description = "Upgrade module for craft"
+required_fields = ["id", "name"]
+
+[api.crafts.craft_addon.fields]
+id = { type = "string", required = true, pattern = "^[a-z0-9_]+$", description = "Addon ID" }
+name = { type = "string", required = true, description = "Display name" }
+description = { type = "string", required = false, description = "Addon description" }
+type = { type = "enum", required = false, values = ["armor", "engine", "fuel", "sensor", "system", "weapon"], description = "Addon type" }
+
+# Effects
+hp_bonus = { type = "integer", required = false, default = 0, min = 0, max = 500, description = "Health bonus" }
+speed_bonus = { type = "integer", required = false, default = 0, min = -10, max = 10, description = "Speed bonus" }
+fuel_bonus = { type = "integer", required = false, default = 0, min = 0, max = 10000, description = "Fuel capacity bonus" }
+armor_bonus = { type = "integer", required = false, default = 0, min = 0, max = 50, description = "Armor bonus" }
+detection_bonus = { type = "integer", required = false, default = 0, min = -50, max = 500, description = "Detection range bonus" }
+
+# Properties
+cost = { type = "integer", required = false, default = 0, min = 0, description = "Addon cost" }
+research_required = { type = "string", required = false, references = "research.id", description = "Required technology" }
+weight_penalty = { type = "float", required = false, default = 0.0, min = 0.0, max = 1.0, description = "Performance penalty %" }
+
+################################################################################
+# FACILITIES ENTITY SCHEMA
+################################################################################
+
+[api.facilities]
+description = "Base facility definitions"
+file_location = "mods/*/rules/facilities/*.toml"
+
+[api.facilities.facility]
+description = "Base facility definition"
+required_fields = ["id", "name", "type", "cost"]
+
+[api.facilities.facility.fields]
+id = { type = "string", required = true, pattern = "^[a-z0-9_]+$", description = "Facility ID (e.g., 'command_center')" }
+name = { type = "string", required = true, description = "Display name" }
+description = { type = "string", required = false, description = "Facility description" }
+type = { type = "enum", required = true, values = ["command", "residential", "manufacturing", "storage", "power", "detection", "medical", "research", "defense"], description = "Facility type" }
+
+# Grid & Construction
+width = { type = "integer", required = true, min = 1, max = 5, description = "Grid width (hexes)" }
+height = { type = "integer", required = true, min = 1, max = 5, description = "Grid height (hexes)" }
+cost = { type = "integer", required = true, min = 100, max = 999999, description = "Build cost" }
+time_to_build = { type = "integer", required = false, default = 10, min = 1, max = 365, description = "Build time (days)" }
+maintenance_cost = { type = "integer", required = false, default = 0, min = 0, max = 10000, description = "Monthly upkeep" }
+
+# Capacity
+capacity = { type = "integer", required = false, default = 0, min = 0, max = 9999, description = "Storage/personnel capacity" }
+
+# Production
+production_rate = { type = "float", required = false, default = 1.0, min = 0.5, max = 3.0, description = "Production speed multiplier" }
+specialization = { type = "enum", required = false, values = ["general", "armor", "ammunition", "weapons", "research"], description = "Workshop specialization" }
+
+# Power
+power_generation = { type = "integer", required = false, default = 0, min = 0, max = 100, description = "Power produced" }
+power_consumption = { type = "integer", required = false, default = 0, min = 0, max = 100, description = "Power consumed" }
+
+# Detection
+detection_radius = { type = "integer", required = false, default = 0, min = 0, max = 999999, description = "Radar range (km)" }
+
+# Effects & Bonuses
+effect = { type = "string", required = false, description = "Special effect ID" }
+adjacency_bonus_type = { type = "enum", required = false, values = ["research", "manufacturing", "military"], description = "Adjacency synergy type" }
+
+################################################################################
+# RESEARCH ENTITY SCHEMA
+################################################################################
+
+[api.research]
+description = "Technology and research definitions"
+file_location = "mods/*/rules/research/*.toml"
+
+[api.research.tech]
+description = "Research technology definition"
+required_fields = ["id", "name", "cost"]
+
+[api.research.tech.fields]
+id = { type = "string", required = true, pattern = "^[a-z0-9_]+$", description = "Tech ID (e.g., 'plasma_technology')" }
+name = { type = "string", required = true, description = "Display name" }
+description = { type = "string", required = false, description = "Tech description" }
+category = { type = "string", required = false, description = "Research category (e.g., 'weapons')" }
+
+# Economics
+cost = { type = "integer", required = true, min = 100, max = 99999, description = "Research cost" }
+time = { type = "integer", required = false, default = 30, min = 1, max = 365, description = "Research time (days)" }
+
+# Prerequisites
+requires = { type = "array[string]", required = false, description = "Required tech IDs" }
+
+# Unlocks
+unlocks_items = { type = "array[string]", required = false, description = "Items unlocked" }
+unlocks_facilities = { type = "array[string]", required = false, description = "Facilities unlocked" }
+unlocks_crafts = { type = "array[string]", required = false, description = "Crafts unlocked" }
+unlocks_techs = { type = "array[string]", required = false, description = "Technologies unlocked" }
+
+################################################################################
+# MISSIONS ENTITY SCHEMA
+################################################################################
+
+[api.missions]
+description = "Mission and battlescape definitions"
+file_location = "mods/*/rules/missions/*.toml"
+
+[api.missions.mission_type]
+description = "Mission type definition"
+required_fields = ["id", "name"]
+
+[api.missions.mission_type.fields]
+id = { type = "string", required = true, pattern = "^[a-z0-9_]+$", description = "Mission type ID" }
+name = { type = "string", required = true, description = "Display name" }
+description = { type = "string", required = false, description = "Mission description" }
+category = { type = "enum", required = false, values = ["terror", "abduction", "resource", "ufo_defense", "rescue", "research", "infiltration", "assault", "capture"], description = "Mission category" }
+
+# Rewards
+reward_money = { type = "integer", required = false, default = 0, min = 0, max = 999999, description = "Money reward" }
+reward_xp = { type = "integer", required = false, default = 0, min = 0, max = 99999, description = "XP reward" }
+
+# Difficulty
+difficulty = { type = "integer", required = false, default = 5, min = 1, max = 10, description = "Difficulty 1-10" }
+
+################################################################################
+# GEOSCAPE ENTITY SCHEMA
+################################################################################
+
+[api.geoscape]
+description = "Geoscape region and world definitions"
+file_location = "mods/*/rules/geoscape/*.toml"
+
+[api.geoscape.region]
+description = "Geoscape region definition"
+required_fields = ["id", "name"]
+
+[api.geoscape.region.fields]
+id = { type = "string", required = true, pattern = "^[a-z0-9_]+$", description = "Region ID" }
+name = { type = "string", required = true, description = "Display name" }
+description = { type = "string", required = false, description = "Region description" }
+terrain_type = { type = "string", required = false, description = "Terrain type (forest, desert, etc)" }
+biome = { type = "string", required = false, description = "Biome type" }
+
+# Strategic value
+funding = { type = "integer", required = false, default = 0, min = 0, max = 999999, description = "Monthly funding" }
+ufo_activity = { type = "float", required = false, default = 1.0, min = 0.1, max = 10.0, description = "UFO spawn rate multiplier" }
+
+################################################################################
+# ECONOMY ENTITY SCHEMA
+################################################################################
+
+[api.economy]
+description = "Economic system definitions"
+file_location = "mods/*/rules/economy/*.toml"
+
+[api.economy.pricing]
+description = "Item pricing definitions"
+
+[api.economy.pricing.fields]
+item_id = { type = "string", required = true, references = "items.id", description = "Item being priced" }
+base_price = { type = "integer", required = true, min = 1, max = 999999, description = "Base sale price" }
+buy_price_multiplier = { type = "float", required = false, default = 1.5, min = 0.1, max = 10.0, description = "Buy price multiplier" }
+sell_price_multiplier = { type = "float", required = false, default = 0.5, min = 0.1, max = 1.0, description = "Sell price multiplier" }
+
+################################################################################
+# ALIENS ENTITY SCHEMA
+################################################################################
+
+[api.aliens]
+description = "Alien species and unit definitions"
+file_location = "mods/*/rules/aliens/*.toml"
+
+[api.aliens.race]
+description = "Alien species definition"
+required_fields = ["id", "name"]
+
+[api.aliens.race.fields]
+id = { type = "string", required = true, pattern = "^[a-z0-9_]+$", description = "Race ID" }
+name = { type = "string", required = true, description = "Display name" }
+description = { type = "string", required = false, description = "Species description" }
+
+# Characteristics
+strength_base = { type = "integer", required = false, default = 10, min = 1, max = 30, description = "Base strength" }
+intelligence_base = { type = "integer", required = false, default = 10, min = 1, max = 30, description = "Base intelligence" }
+armor_natural = { type = "integer", required = false, default = 0, min = 0, max = 50, description = "Natural armor %" }
+
+################################################################################
+# LORE ENTITY SCHEMA
+################################################################################
+
+[api.lore]
+description = "Lore and story definitions"
+file_location = "mods/*/rules/lore/*.toml"
+
+[api.lore.lore_entry]
+description = "Lore item definition"
+required_fields = ["id", "title"]
+
+[api.lore.lore_entry.fields]
+id = { type = "string", required = true, pattern = "^[a-z0-9_]+$", description = "Lore entry ID" }
+title = { type = "string", required = true, description = "Title" }
+content = { type = "string", required = false, description = "Lore text" }
+category = { type = "string", required = false, description = "Lore category" }
+
+################################################################################
+# MANUFACTURING ENTITY SCHEMA
+################################################################################
+
+[api.manufacturing]
+description = "Manufacturing and production definitions"
+file_location = "mods/*/rules/manufacturing/*.toml"
+
+[api.manufacturing.recipe]
+description = "Manufacturing recipe"
+required_fields = ["id", "output_item", "components"]
+
+[api.manufacturing.recipe.fields]
+id = { type = "string", required = true, pattern = "^[a-z0-9_]+$", description = "Recipe ID" }
+output_item = { type = "string", required = true, references = "items.id", description = "Output item ID" }
+output_quantity = { type = "integer", required = false, default = 1, min = 1, max = 9999, description = "Quantity produced" }
+
+# Requirements
+components = { type = "table[string -> integer]", required = true, description = "Input items {item_id: quantity}" }
+time = { type = "integer", required = false, default = 10, min = 1, max = 365, description = "Production time (days)" }
+cost = { type = "integer", required = false, default = 0, min = 0, max = 999999, description = "Production cost" }
+required_facility = { type = "string", required = false, references = "facilities.id", description = "Facility type required" }
+
+################################################################################
+# GLOBAL CONSTRAINTS AND VALIDATION RULES
+################################################################################
+
+[_validation]
+description = "Global validation rules for all entities"
+
+# ID format requirements
+id_pattern = "^[a-z0-9_]+$"
+id_min_length = 1
+id_max_length = 50
+
+# Name/description requirements
+name_min_length = 1
+name_max_length = 100
+description_max_length = 1000
+
+# Numeric constraints
+integer_min = -999999
+integer_max = 999999
+float_min = -999999.99
+float_max = 999999.99
+
+# Cost validation
+cost_min = 0
+cost_max = 99999999
+
+# Health/durability
+health_min = 1
+health_max = 9999
+durability_min = 0
+durability_max = 100
+
+# String field validation
+disallowed_characters = ["<", ">", "\"", "'", "{", "}"]
+
+# Required field validation
+every_entity_requires = ["id", "name"]
+every_toml_requires = ["description"]
+
+################################################################################
+# PERFORMANCE GUIDELINES
+################################################################################
+
+[_performance]
+description = "Performance optimization recommendations"
+
+# Entity count guidelines
+small_mod = { entity_count_max = 500 }
+medium_mod = { entity_count_max = 2000 }
+large_mod = { entity_count_max = 10000 }
+
+# Memory considerations
+json_parsing_overhead_bytes = 1024  # Per entity
+lua_table_overhead_bytes = 256
+average_entity_size_bytes = 2048
+
+# Load time targets
+load_time_target_ms = 500          # All mod data load
+validation_time_target_ms = 100     # Schema validation
+search_operation_target_ms = 10     # Index lookup
+
+################################################################################
+# DOCUMENTATION AND EXAMPLES
+################################################################################
+
+[_examples]
+description = "Example configurations for each entity type"
+
+# Unit example
+example_unit_class = """
+[[unit_class]]
+id = "rifleman"
+name = "Rifleman"
+unit_type = "soldier"
+hp_base = 65
+accuracy_base = 70
+strength_base = 10
+reaction_base = 70
+fire_rate_base = 0.9
+armor_class = 8
+starting_weapon = "rifle"
+starting_armor = "light_armor"
+xp_to_level_up = 100
+"""
+
+# Item example
+example_weapon = """
+[[weapon]]
+id = "rifle_standard"
+name = "Rifle"
+type = "weapon"
+damage = 25
+accuracy = 70
+range = 25
+ammo_type = "rifle_ammo"
+fire_rate = 1
+ap_cost = 3
+cost = 800
+"""
+
+# Facility example
+example_facility = """
+[[facility]]
+id = "workshop"
+name = "Workshop"
+type = "manufacturing"
+width = 2
+height = 2
+cost = 1500
+time_to_build = 8
+maintenance_cost = 30
+production_rate = 1.2
+power_consumption = 10
+specialization = "general"
+"""
+
+################################################################################
+# VERSION HISTORY
+################################################################################
+
+[_version_history]
+description = "Schema version tracking and changes"
+
+[_version_history.v1_0_0]
+version = "1.0.0"
+released = "2025-10-24"
+author = "AlienFall Development Team"
+description = "Initial comprehensive schema covering units, items, crafts, facilities, research, missions, geoscape, economy, aliens, lore, and manufacturing"
+breaking_changes = []
+new_features = ["Complete entity schema", "Cross-reference mappings", "Enum definitions", "Validation rules"]
+
+################################################################################
+# END OF SCHEMA
+################################################################################
+
+# This schema is the authoritative source for all mod TOML configurations.
+# For questions or updates, see api/GAME_API_GUIDE.md
+# For integration with engine code, see api/SYNCHRONIZATION_GUIDE.md

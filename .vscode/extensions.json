@@ -1,0 +1,8 @@
+{
+  "recommendations": [
+    "tamasfe.even-better-toml",
+    "sumneko.lua",
+    "ms-vscode.cpptools",
+    "redhat.vscode-yaml"
+  ]
+}

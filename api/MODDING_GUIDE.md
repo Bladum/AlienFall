@@ -6,6 +6,28 @@
 
 ---
 
+## Quick Start: IDE Setup
+
+**Recommended:** Use VS Code with TOML support for the best development experience.
+
+### Setup (5 minutes)
+
+1. Install VS Code: https://code.visualstudio.com/
+2. Open this project: `code .`
+3. Install recommended extensions (VS Code will prompt)
+4. Done! Syntax highlighting and formatting now work
+
+**Next:** See `docs/IDE_SETUP.md` for complete setup guide.
+
+### Key Features
+
+- ✅ **Syntax Highlighting:** Color-coded TOML files
+- ✅ **Auto-Formatting:** Press **Shift+Alt+F** to format
+- ✅ **Validation:** Run validators from VS Code tasks
+- ✅ **Navigation:** Jump to definitions with **F12**
+
+---
+
 ## Overview
 
 AlienFall supports extensive modding through the mod system. Modders can create custom campaigns, factions, missions, and game content by leveraging the Mod Manager and content system.

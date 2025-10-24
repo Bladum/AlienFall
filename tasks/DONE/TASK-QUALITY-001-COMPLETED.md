@@ -69,7 +69,7 @@ lua tools/qa_system/qa_runner.lua engine text
 # JSON output
 lua tools/qa_system/qa_runner.lua engine json
 
-# HTML report  
+# HTML report
 lua tools/qa_system/qa_runner.lua engine html
 ```
 

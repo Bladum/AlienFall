@@ -23,13 +23,13 @@ print("═" .. string.rep("═", 69) .. "═")
 local ok1, result1 = pcall(function()
   local ContentLoader = require("engine.content.content_loader")
   local content = ContentLoader.loadAll()
-  
+
   print("")
   print("✓ Content Loader loaded successfully")
   print("  - Factions loaded: " .. tostring(type(content.factions) == "table"))
   print("  - Missions loaded: " .. tostring(type(content.missions) == "table"))
   print("  - Events loaded: " .. tostring(type(content.events) == "table"))
-  
+
   if content.factions.insectoids then
     print("  - Insectoid faction: ✓")
   end
@@ -42,7 +42,7 @@ local ok1, result1 = pcall(function()
   if content.missions.base_defense then
     print("  - Base Defense mission: ✓")
   end
-  
+
   print("")
   print("✓ TASK-033 Status: FOUNDATION COMPLETE (30%)")
   return true
@@ -65,11 +65,11 @@ print("═" .. string.rep("═", 69) .. "═")
 local ok2, result2 = pcall(function()
   local YAMLParser = require("tests.framework.yaml_parser")
   local UITestEngine = require("tests.framework.ui_test_engine")
-  
+
   print("")
   print("✓ YAML Parser loaded successfully")
   print("✓ UI Test Engine loaded successfully")
-  
+
   -- Test YAML parsing
   local test_yaml = [[
 name: "Test Suite"
@@ -79,18 +79,18 @@ tests:
       - action: "launch"
         scene: "main"
   ]]
-  
+
   local script = YAMLParser.parseTestScript(test_yaml)
   if script and script.name == "Test Suite" then
     print("✓ YAML parsing works correctly")
   end
-  
+
   -- Test action execution
   local ok, msg = UITestEngine:executeAction({action = "launch", args = {scene = "test"}})
   if ok then
     print("✓ Action execution works")
   end
-  
+
   print("")
   print("✓ TASK-TESTING-002 Status: FOUNDATION COMPLETE (35%)")
   return true
@@ -113,25 +113,25 @@ print("═" .. string.rep("═", 69) .. "═")
 local ok3, result3 = pcall(function()
   local Assertions = require("tests.framework.assertions")
   local TestSuite = require("tests.framework.test_suite")
-  
+
   print("")
   print("✓ Assertions library loaded successfully")
   print("✓ Test Suite class loaded successfully")
-  
+
   -- Create test suite
   local suite = TestSuite:new("Test Framework Validation")
-  
+
   suite:test("assertion works", function()
     Assertions.assertEqual(1 + 1, 2)
   end)
-  
+
   -- Run test
   local success = suite:run()
-  
+
   if success then
     print("✓ Test execution works")
   end
-  
+
   print("")
   print("✓ TASK-TESTING-001 Status: CORE COMPLETE (60%)")
   return true
@@ -153,7 +153,7 @@ print("═" .. string.rep("═", 69) .. "═")
 
 local ok4, result4 = pcall(function()
   local QAEngine = require("tools.qa_system.qa_engine") or {}
-  
+
   if QAEngine and QAEngine.config then
     print("")
     print("✓ QA Engine loaded successfully")
@@ -211,4 +211,3 @@ if all_ok then
 end
 
 os.exit(all_ok and 0 or 1)
-

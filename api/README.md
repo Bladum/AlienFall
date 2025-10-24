@@ -6,6 +6,32 @@ The API folder contains comprehensive documentation of game systems, entities, a
 
 ## Content
 
+### Master Schema & Guides (NEW!)
+
+**Foundation for all API documentation:**
+
+- **GAME_API.toml** - ⭐ Master API schema definition file
+  - Single source of truth for ALL mod TOML configurations
+  - Defines every entity type, field, type constraint, and validation rule
+  - Used by validators, tools, and IDE plugins
+  - See [GAME_API_GUIDE.md](GAME_API_GUIDE.md) for usage
+
+- **GAME_API_GUIDE.md** - Complete guide to using the schema
+  - How to read field definitions
+  - Type reference and constraints
+  - Enum values and cross-references
+  - Examples for each entity type
+  - Troubleshooting common errors
+
+- **SYNCHRONIZATION_GUIDE.md** - Keep engine, schema, and docs in sync
+  - Process for updating API when code changes
+  - Synchronization checklist
+  - Version management and deprecation
+  - Tools and validation
+  - Automation opportunities
+
+### System Documentation
+
 API documentation files for each major game system:
 
 - **AI_SYSTEMS.md** - AI decision-making, tactical behaviors, strategic planning

@@ -9,19 +9,19 @@ local UITestEngine = require("tests.framework.ui_test_engine")
 -- Load a test script from file
 function UITestRunner.loadScript(file_path)
   print("[UITestRunner] Loading test script: " .. file_path)
-  
+
   local ok, content = pcall(love.filesystem.read, file_path)
-  
+
   if not ok or not content then
     error("Failed to load test script: " .. file_path)
   end
-  
+
   -- Parse YAML
   local script = YAMLParser.parseTestScript(content)
-  
+
   print("[UITestRunner] ✓ Loaded script: " .. script.name)
   print("[UITestRunner]   Tests: " .. (script.tests and table.count(script.tests) or 0))
-  
+
   return script
 end
 
@@ -34,31 +34,31 @@ end
 -- Load and run all test scripts in a directory
 function UITestRunner.runDirectory(directory)
   print("[UITestRunner] Loading test scripts from: " .. directory)
-  
+
   local ok, files = pcall(love.filesystem.getDirectoryItems, directory)
-  
+
   if not ok or not files then
     error("Failed to read directory: " .. directory)
   end
-  
+
   local test_count = 0
   local success_count = 0
-  
+
   for _, file in ipairs(files) do
     if file:match("%.yaml$") then
       test_count = test_count + 1
       local file_path = directory .. "/" .. file
-      
+
       local ok, result = pcall(function()
         return UITestRunner.runScript(file_path)
       end)
-      
+
       if ok and result then
         success_count = success_count + 1
       end
     end
   end
-  
+
   print("")
   print("[UITestRunner] ========================================")
   print("[UITestRunner] Summary:")
@@ -66,7 +66,7 @@ function UITestRunner.runDirectory(directory)
   print("[UITestRunner]   Successful: " .. success_count)
   print("[UITestRunner]   Failed: " .. (test_count - success_count))
   print("[UITestRunner] ========================================")
-  
+
   return success_count == test_count
 end
 
