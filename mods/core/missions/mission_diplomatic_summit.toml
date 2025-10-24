@@ -1,0 +1,73 @@
+# Mission: Diplomatic Summit
+# Negotiate with alien faction representatives
+
+[mission]
+id = "mission_diplomatic_summit"
+name = "Diplomatic Summit"
+description = "Opportunity to negotiate directly with alien faction leadership. Attempt diplomatic breakthrough to reduce hostilities or secure alliance."
+category = "diplomatic"
+difficulty = 2
+priority = "medium"
+
+[objectives]
+primary = [
+    "achieve_treaty",
+    "establish_dialogue"
+]
+secondary = [
+    "gather_intelligence",
+    "secure_trade_agreement"
+]
+optional = [
+    "military_demonstration",
+    "hostage_exchange"
+]
+
+[forces]
+enemy_count_min = 0
+enemy_count_max = 4
+enemy_types = ["alien_ambassador", "alien_envoy"]
+boss_type = "alien_commander"
+boss_count = 1
+hostile_only_if_failed = true
+
+[rewards]
+science_points_base = 200
+money_base = 300
+reputation = 15
+panic_reduction = 1
+diplomatic_points = 50
+faction_relation_boost = 20
+
+[map]
+terrain_type = "neutral_ground"
+map_size = "small"
+indoor_outdoor_ratio = 0.8
+min_elevation_change = 0
+max_elevation_change = 1
+
+[tactics]
+alien_tactics = "negotiation"
+civilian_placement = "none"
+reinforcements = false
+time_limit_turns = 10
+
+[availability]
+active_in_phases = ["phase1_sky_war", "phase2_deep_war"]
+rarity = 0.12
+min_campaign_turn = 15
+alien_preference = "any"
+requires_prior_contact = true
+
+[gameplay]
+supplies_limit = 0
+squad_size = 4
+turnlimit_turns = 10
+casualties_acceptable = 0
+victory_conditions = "diplomatic_agreement_reached"
+
+[strategic_impact]
+panic_reduction = 3
+relations_boost = 25
+threat_level = "low"
+faction_relation_change = 30

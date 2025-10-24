@@ -68,7 +68,7 @@ MapEditor.__index = MapEditor
 ---@return MapEditor
 function MapEditor.new(width, height)
     local self = setmetatable({}, MapEditor)
-    
+
     self.width = width or 15
     self.height = height or 15
     self.grid = {}
@@ -80,7 +80,7 @@ function MapEditor.new(width, height)
         author = "Unknown",
         difficulty = 1
     }
-    
+
     self.selectedTileset = nil
     self.selectedTile = nil
     self.tool = "paint"
@@ -90,7 +90,7 @@ function MapEditor.new(width, height)
     self.historyIndex = 0
     self.dirty = false
     self.isDirty = false  -- Alias for tests
-    
+
     -- Initialize empty grid
     for y = 0, self.height - 1 do
         for x = 0, self.width - 1 do
@@ -98,10 +98,10 @@ function MapEditor.new(width, height)
             self.grid[key] = "EMPTY"
         end
     end
-    
+
     -- Save initial state
     self:saveHistory()
-    
+
     print("[MapEditor] Created " .. width .. "x" .. height .. " editor")
     return self
 end
@@ -142,7 +142,7 @@ function MapEditor:paintTile(x, y)
         print("[MapEditor] No tile selected")
         return
     end
-    
+
     self:setTile(x, y, self.selectedTile)
     self:saveHistory()
 end
@@ -202,24 +202,24 @@ function MapEditor:saveHistory()
     while #self.history > self.historyIndex do
         table.remove(self.history)
     end
-    
+
     -- Deep copy current grid
     local state = {
         grid = {},
         metadata = {}
     }
-    
+
     for key, value in pairs(self.grid) do
         state.grid[key] = value
     end
-    
+
     for key, value in pairs(self.metadata) do
         state.metadata[key] = value
     end
-    
+
     table.insert(self.history, state)
     self.historyIndex = #self.history
-    
+
     -- Limit history to 50 states
     if #self.history > 50 then
         table.remove(self.history, 1)
@@ -232,18 +232,18 @@ function MapEditor:undo()
     if self.historyIndex > 1 then
         self.historyIndex = self.historyIndex - 1
         local state = self.history[self.historyIndex]
-        
+
         -- Restore grid
         self.grid = {}
         for key, value in pairs(state.grid) do
             self.grid[key] = value
         end
-        
+
         -- Restore metadata
         for key, value in pairs(state.metadata) do
             self.metadata[key] = value
         end
-        
+
         self.dirty = true
         print("[MapEditor] Undo")
     else
@@ -256,18 +256,18 @@ function MapEditor:redo()
     if self.historyIndex < #self.history then
         self.historyIndex = self.historyIndex + 1
         local state = self.history[self.historyIndex]
-        
+
         -- Restore grid
         self.grid = {}
         for key, value in pairs(state.grid) do
             self.grid[key] = value
         end
-        
+
         -- Restore metadata
         for key, value in pairs(state.metadata) do
             self.metadata[key] = value
         end
-        
+
         self.dirty = true
         print("[MapEditor] Redo")
     else
@@ -311,7 +311,7 @@ function MapEditor:new_blank(width, height)
     self.historyIndex = 0
     self.dirty = false
     self.isDirty = false
-    
+
     -- Initialize empty grid
     for y = 0, self.height - 1 do
         for x = 0, self.width - 1 do
@@ -319,7 +319,7 @@ function MapEditor:new_blank(width, height)
             self.grid[key] = "EMPTY"
         end
     end
-    
+
     self:saveHistory()
     print(string.format("[MapEditor] New blank map: %dx%d", self.width, self.height))
 end
@@ -333,11 +333,11 @@ function MapEditor:load(filepath)
         print(string.format("[MapEditor] Failed to load: %s", filepath))
         return false
     end
-    
+
     -- Resize if needed
     self.width = block.width
     self.height = block.height
-    
+
     -- Load grid
     self.grid = {}
     for y = 0, self.height - 1 do
@@ -346,7 +346,7 @@ function MapEditor:load(filepath)
             self.grid[key] = block.tiles[key] or "EMPTY"
         end
     end
-    
+
     -- Load metadata
     self.metadata = {
         id = block.id,
@@ -356,12 +356,12 @@ function MapEditor:load(filepath)
         author = block.author or "Unknown",
         difficulty = block.difficulty or 1
     }
-    
+
     self.dirty = false
     self.history = {}
     self.historyIndex = 0
     self:saveHistory()
-    
+
     print(string.format("[MapEditor] Loaded: %s", filepath))
     return true
 end
@@ -375,7 +375,7 @@ function MapEditor:save(filepath)
         print("[MapEditor] Cannot save: ID is required")
         return false
     end
-    
+
     -- Build TOML content
     local toml = {}
     table.insert(toml, "[metadata]")
@@ -390,7 +390,7 @@ function MapEditor:save(filepath)
     table.insert(toml, string.format('difficulty = %d', self.metadata.difficulty))
     table.insert(toml, "")
     table.insert(toml, "[tiles]")
-    
+
     -- Add tiles (skip EMPTY)
     for y = 0, self.height - 1 do
         for x = 0, self.width - 1 do
@@ -401,24 +401,57 @@ function MapEditor:save(filepath)
             end
         end
     end
-    
+
     -- Write to file
     local file = io.open(filepath, "w")
     if not file then
         print(string.format("[MapEditor] Cannot write file: %s", filepath))
         return false
     end
-    
+
     file:write(table.concat(toml, "\n"))
     file:close()
-    
+
     self.dirty = false
     self.isDirty = false
     print(string.format("[MapEditor] Saved: %s", filepath))
     return true
 end
 
+---Get map statistics
+---@return table statistics {totalTiles, filledTiles, uniqueTiles, fillPercentage}
+function MapEditor:getStats()
+    local totalTiles = self.width * self.height
+    local filledTiles = 0
+    local uniqueTiles = {}
+
+    -- Count filled tiles and track unique tiles
+    for y = 0, self.height - 1 do
+        for x = 0, self.width - 1 do
+            local key = string.format("%d_%d", x, y)
+            local tileKey = self.grid[key]
+            if tileKey and tileKey ~= "EMPTY" then
+                filledTiles = filledTiles + 1
+                uniqueTiles[tileKey] = true
+            end
+        end
+    end
+
+    -- Count unique tiles
+    local uniqueCount = 0
+    for _ in pairs(uniqueTiles) do
+        uniqueCount = uniqueCount + 1
+    end
+
+    -- Calculate percentage
+    local fillPercentage = (filledTiles / totalTiles) * 100
+
+    return {
+        totalTiles = totalTiles,
+        filledTiles = filledTiles,
+        uniqueTiles = uniqueCount,
+        fillPercentage = fillPercentage
+    }
+end
+
 return MapEditor
-
-
-

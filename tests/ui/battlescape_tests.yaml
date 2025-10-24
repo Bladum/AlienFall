@@ -1,0 +1,57 @@
+# Battlescape UI Tests
+# Automated tests for tactical combat interface
+
+battlescape_unit_selection:
+  description: "Verify unit can be selected in battlescape"
+  category: "ui_acceptance"
+  steps:
+    - click("unit_slot_1")
+    - wait(100)
+  assertions:
+    - visible("unit_slot_1")
+    - enabled("unit_slot_1")
+
+battlescape_action_panel:
+  description: "Verify action panel displays available actions"
+  category: "ui_integration"
+  steps:
+    - click("unit_slot_1")
+    - wait(200)
+  assertions:
+    - visible("action_move")
+    - visible("action_shoot")
+    - visible("action_item")
+    - enabled("action_move")
+
+battlescape_weapon_selection:
+  description: "Test weapon mode selection in combat"
+  category: "ui_acceptance"
+  steps:
+    - click("weapon_selector")
+    - wait(100)
+    - select("weapon_selector", "aimed_shot")
+    - wait(500)
+  assertions:
+    - text("weapon_selector", "aimed_shot")
+    - visible("accuracy_indicator")
+
+battlescape_end_turn:
+  description: "Test end turn functionality"
+  category: "ui_integration"
+  steps:
+    - click("end_turn_button")
+    - wait(1000)
+  assertions:
+    - enabled("end_turn_button")
+    - visible("turn_indicator")
+
+battlescape_ui_overlay:
+  description: "Verify UI overlay elements are properly positioned"
+  category: "ui_unit"
+  steps:
+    - wait(500)
+  assertions:
+    - visible("hud_top_panel")
+    - visible("action_panel")
+    - visible("mini_map")
+    - visible("turn_indicator")

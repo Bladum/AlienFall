@@ -1,0 +1,67 @@
+# Basescape UI Tests
+# Automated tests for base management interface
+
+basescape_facility_construction:
+  description: "Test facility construction UI"
+  category: "ui_acceptance"
+  steps:
+    - click("construction_button")
+    - wait(300)
+    - click("facility_list_1")
+    - wait(200)
+    - click("build_button")
+    - wait(1000)
+  assertions:
+    - visible("construction_button")
+    - visible("facility_list")
+    - enabled("build_button")
+
+basescape_personnel_management:
+  description: "Test personnel assignment UI"
+  category: "ui_integration"
+  steps:
+    - click("personnel_tab")
+    - wait(300)
+    - click("unit_slot_1")
+    - wait(200)
+  assertions:
+    - visible("personnel_tab")
+    - visible("unit_slot_1")
+    - visible("personnel_info")
+
+basescape_inventory:
+  description: "Test base inventory management"
+  category: "ui_unit"
+  steps:
+    - click("inventory_button")
+    - wait(400)
+  assertions:
+    - visible("inventory_panel")
+    - visible("weapon_slots")
+    - visible("armor_slots")
+
+basescape_research_queue:
+  description: "Verify research queue display"
+  category: "ui_integration"
+  steps:
+    - click("research_tab")
+    - wait(300)
+  assertions:
+    - visible("research_queue")
+    - visible("research_items")
+    - visible("progress_bars")
+
+basescape_craft_management:
+  description: "Test craft assignment and management"
+  category: "ui_acceptance"
+  steps:
+    - click("craft_tab")
+    - wait(300)
+    - click("craft_1")
+    - wait(200)
+    - click("assign_pilot_button")
+    - wait(500)
+  assertions:
+    - visible("craft_list")
+    - visible("craft_details")
+    - enabled("assign_pilot_button")

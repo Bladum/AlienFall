@@ -76,22 +76,6 @@ end
 
 ---
 
-## MANDATORY: Task Management System
-
-**You MUST create comprehensive task documentation for any planned work.**
-
-1. **Copy template:** `tasks/TASK_TEMPLATE.md → tasks/TODO/TASK-XXX-description.md`
-2. **Fill in ALL sections:** Overview, Requirements, Detailed Plan, Implementation, Testing, Documentation Updates, Review Checklist
-3. **Update `tasks/tasks.md`:** Add entry with Task ID, Name, Status, Priority, Files affected
-4. **Track progress:** Move from TODO → IN_PROGRESS → TESTING → DONE folders, update status in tasks.md
-
-**Agent Responsibilities:**
-- **Before work:** Create task document, break down steps, identify files, document testing
-- **During work:** Update task status, log progress, run game to verify
-- **After completion:** Verify acceptance criteria, run tests, update docs, move to DONE
-
----
-
 ## Project Structure and Navigation
 
 ### Key Directories
@@ -210,12 +194,10 @@ c:\Users\tombl\Documents\Projects\
 - **Coding**: Follow Code Standards. Run with Love2D console: `lovec "engine"`
 - **Testing**: Keep tests up-to-date. Run tests regularly with `run_tests.bat`
 - **Documentation**: Update relevant docs in `api/`, `docs/`, `architecture/`, `design/` when making changes
-- **Task Management**: Create task documents before starting work using `tasks/TASK_TEMPLATE.md`
 - **Version Control**: Use branches and frequent commits
 
 ## AI Assistant Guidelines
 
-- **Task Management**: Always create task documents before starting work. Update tasks.md throughout
 - **Temporary Files**: Always use project's `temp/` directory - never create temp files elsewhere
 - **Documentation**: Update relevant docs in `api/`, `docs/`, `architecture/`, `design/` when making changes
 - **Testing**: Always run with Love2D console enabled. Keep tests up-to-date with code changes
@@ -233,8 +215,8 @@ c:\Users\tombl\Documents\Projects\
 ## CRITICAL: FILE ORGANIZATION & WORKFLOW
 
 ### ❌ NEVER Create Status/Summary Files
-**NO** `*_SUMMARY.md`, `*_STATUS.md`, `*_COMPLETE.md`, `*_REPORT.md` files anywhere  
-**NO** random documentation in workspace root  
+**NO** `*_SUMMARY.md`, `*_STATUS.md`, `*_COMPLETE.md`, `*_REPORT.md` files anywhere
+**NO** random documentation in workspace root
 **NO** progress tracking files
 
 Only output status directly in chat, never as files.
@@ -300,11 +282,6 @@ Only output status directly in chat, never as files.
 lovec "engine"
 ```
 
-### Create Task
-```bash
-copy tasks\TASK_TEMPLATE.md tasks\TODO\TASK-XXX-name.md
-```
-
 ### Get Temp Dir
 ```lua
 local temp = "temp"
@@ -320,4 +297,3 @@ print("[ModuleName] Message: " .. tostring(value))
 local ok, err = pcall(func, args)
 if not ok then print("[ERROR] " .. err) end
 ```
-

@@ -61,7 +61,7 @@ local function buildPath(basePath, ...)
     -- Detect if we're on Windows (basePath contains backslashes)
     local isWindows = basePath:find("\\") ~= nil
     local separator = isWindows and "\\" or "/"
-    
+
     local fullPath = basePath
     for i, component in ipairs({...}) do
         -- Normalize component separators to match platform
@@ -80,11 +80,12 @@ end
 --- @return boolean True if all data loaded successfully
 function DataLoader.load()
     print("[DataLoader] Starting to load all game data...")
-    
+
     DataLoader.terrainTypes = DataLoader.loadTerrainTypes()
     DataLoader.weapons = DataLoader.loadWeapons()
     DataLoader.armours = DataLoader.loadArmours()
     DataLoader.skills = DataLoader.loadSkills()
+    DataLoader.perks = DataLoader.loadPerks()
     DataLoader.unitClasses = DataLoader.loadUnitClasses()
     DataLoader.units = DataLoader.loadUnits()
     DataLoader.facilities = DataLoader.loadFacilities()
@@ -96,7 +97,7 @@ function DataLoader.load()
     DataLoader.geoscape = DataLoader.loadGeoscape()
     DataLoader.economy = DataLoader.loadEconomy()
 
-    print("[DataLoader] ✓ Successfully loaded all game data (13 content types)")
+    print("[DataLoader] ✓ Successfully loaded all game data (14 content types)")
     return true
 end
 
@@ -119,7 +120,7 @@ function DataLoader.loadTerrainTypes()
         print("[DataLoader] ERROR: Could not get terrain types path from mod")
         return {}
     end
-    
+
     print(string.format("[DataLoader] Loading terrain types from: %s", path))
     local data = TOML.load(path)
     if not data then
@@ -195,7 +196,7 @@ function DataLoader.loadWeapons()
         print("[DataLoader] ERROR: Could not get weapons path from mod")
         return {}
     end
-    
+
     local data = TOML.load(path)
     if not data then
         print("[DataLoader] ERROR: Failed to load weapons")
@@ -208,7 +209,7 @@ function DataLoader.loadWeapons()
     local weapons = {
         weapons = {}
     }
-    
+
     -- Convert array to indexed table by ID
     for _, weapon in ipairs(weaponsArray) do
         if weapon.id then
@@ -263,7 +264,7 @@ function DataLoader.loadArmours()
         print("[DataLoader] ERROR: Could not get armours path from mod")
         return {}
     end
-    
+
     local data = TOML.load(path)
     if not data then
         print("[DataLoader] ERROR: Failed to load armours")
@@ -276,7 +277,7 @@ function DataLoader.loadArmours()
     local armours = {
         armours = {}
     }
-    
+
     -- Convert array to indexed table by ID
     for _, armour in ipairs(armoursArray) do
         if armour.id then
@@ -330,7 +331,7 @@ function DataLoader.loadSkills()
         print("[DataLoader] ERROR: Could not get skills path from mod")
         return {}
     end
-    
+
     local data = TOML.load(path)
     if not data then
         print("[DataLoader] ERROR: Failed to load skills")
@@ -343,7 +344,7 @@ function DataLoader.loadSkills()
     local skills = {
         skills = {}
     }
-    
+
     -- Convert array to indexed table by ID
     for _, skill in ipairs(skillsArray) do
         if skill.id then
@@ -377,6 +378,72 @@ function DataLoader.loadSkills()
     return skills
 end
 
+--- Load perk definitions from TOML file.
+---
+--- Loads perk data from mods/*/content/rules/unit/perks.toml.
+--- Returns table with perk data and utility functions:
+---   - get(id): Get perk by ID
+---   - getAllIds(): Get array of all perk IDs
+---   - getByCategory(category): Get perks in category
+---
+--- @return table Perks table with utility functions
+function DataLoader.loadPerks()
+    local path = ModManager.getContentPath("rules", "unit/perks.toml")
+    if not path then
+        print("[DataLoader] ERROR: Could not get perks path from mod")
+        return {}
+    end
+
+    local data = TOML.load(path)
+    if not data then
+        print("[DataLoader] ERROR: Failed to load perks")
+        return {}
+    end
+
+    -- Convert TOML structure to Lua table with functions
+    -- TOML uses [[perks]] arrays which parse to data.perks = {...}
+    local perksArray = data.perks or {}
+    local perks = {
+        perks = {}
+    }
+
+    -- Convert array to indexed table by ID
+    for _, perk in ipairs(perksArray) do
+        if perk.id then
+            perks.perks[perk.id] = perk
+        end
+    end
+
+    function perks.get(perkId)
+        return perks.perks[perkId]
+    end
+
+    function perks.getAllIds()
+        local ids = {}
+        for id, _ in pairs(perks.perks) do
+            table.insert(ids, id)
+        end
+        return ids
+    end
+
+    function perks.getByCategory(category)
+        local result = {}
+        for id, perk in pairs(perks.perks) do
+            if perk.category == category then
+                table.insert(result, id)
+            end
+        end
+        return result
+    end
+
+    function perks.getAll()
+        return perksArray
+    end
+
+    print(string.format("[DataLoader] ✓ Loaded %d perks", #perks.getAllIds()))
+    return perks
+end
+
 --- Load unit class definitions from TOML file.
 ---
 --- Loads unit class data from mods/*/content/rules/unit/classes.toml.
@@ -387,20 +454,31 @@ end
 ---
 --- @return table Unit classes table with utility functions
 function DataLoader.loadUnitClasses()
-    local path = ModManager.getContentPath("rules", "units/classes.toml")
+    local path = ModManager.getContentPath("rules", "unit/classes.toml")
     if not path then
         print("[DataLoader] ERROR: Could not get unit classes path from mod")
         return {}
     end
-    
+
     local data = TOML.load(path)
     if not data then
         print("[DataLoader] ERROR: Failed to load unit classes")
         return {}
     end
 
+    -- Convert array format [[unit_classes]] to indexed table by ID
+    local classesArray = data.unit_classes or {}
+    local classesById = {}
+
+    for _, classData in ipairs(classesArray) do
+        if classData.id then
+            classesById[classData.id] = classData
+        end
+    end
+
     local unitClasses = {
-        classes = data.classes or {}
+        classes = classesById,
+        raw = classesArray  -- Keep original array for iteration
     }
 
     function unitClasses.get(classId)
@@ -415,14 +493,16 @@ function DataLoader.loadUnitClasses()
         return ids
     end
 
+    function unitClasses.getAll()
+        return unitClasses.raw or {}
+    end
+
     function unitClasses.getBySide(side)
         local result = {}
-        if side == "human" then
-            result = {"soldier", "heavy", "sniper", "scout", "medic", "engineer", "tank"}
-        elseif side == "alien" then
-            result = {"sectoid", "muton", "chryssalid"}
-        elseif side == "civilian" then
-            result = {"civilian"}
+        for _, class in ipairs(unitClasses.raw) do
+            if class.type == side then
+                table.insert(result, class.id)
+            end
         end
         return result
     end
@@ -448,15 +528,15 @@ function DataLoader.loadUnits()
         print("[DataLoader] ERROR: Could not get units path from mod")
         return {}
     end
-    
+
     local units = {
         units = {}
     }
-    
+
     -- Load all unit TOML files from units directory
     local unitFiles = {"soldiers.toml", "aliens.toml", "civilians.toml"}
     local totalLoaded = 0
-    
+
     for _, filename in ipairs(unitFiles) do
         local fullPath = buildPath(path, filename)
         local data = TOML.load(fullPath)
@@ -521,15 +601,15 @@ function DataLoader.loadFacilities()
         print("[DataLoader] ERROR: Could not get facilities path from mod")
         return {}
     end
-    
+
     local facilities = {
         facilities = {}
     }
-    
+
     -- Load all facility TOML files
     local facilityFiles = {"base_facilities.toml", "research_facilities.toml", "manufacturing.toml", "defense.toml"}
     local totalLoaded = 0
-    
+
     for _, filename in ipairs(facilityFiles) do
         local fullPath = buildPath(path, filename)
         local data = TOML.load(fullPath)
@@ -585,15 +665,15 @@ function DataLoader.loadMissions()
         print("[DataLoader] ERROR: Could not get missions path from mod")
         return {}
     end
-    
+
     local missions = {
         missions = {}
     }
-    
+
     -- Load all mission TOML files
     local missionFiles = {"tactical_missions.toml", "strategic_missions.toml"}
     local totalLoaded = 0
-    
+
     for _, filename in ipairs(missionFiles) do
         local fullPath = buildPath(path, filename)
         local data = TOML.load(fullPath)
@@ -648,19 +728,19 @@ function DataLoader.loadCampaigns()
         print("[DataLoader] ERROR: Could not get campaigns path from mod")
         return {}
     end
-    
+
     local campaigns = {
         campaigns = {},
         timeline = {}
     }
-    
+
     -- Load campaign timeline
     local timelinePath = path .. "/campaign_timeline.toml"
     local timelineData = TOML.load(timelinePath)
     if timelineData then
         campaigns.timeline = timelineData.milestone or {}
     end
-    
+
     -- Load campaign phase definitions
     local campaignFiles = {
         "phase0_shadow_war.toml",
@@ -669,7 +749,7 @@ function DataLoader.loadCampaigns()
         "phase3_dimensional_war.toml"
     }
     local totalLoaded = 0
-    
+
     for _, filename in ipairs(campaignFiles) do
         local fullPath = path .. "/" .. filename
         local data = TOML.load(fullPath)
@@ -715,11 +795,11 @@ function DataLoader.loadFactions()
         print("[DataLoader] ERROR: Could not get factions path from mod")
         return {}
     end
-    
+
     local factions = {
         factions = {}
     }
-    
+
     -- Load all faction TOML files
     local factionFiles = {
         "faction_sectoids.toml",
@@ -727,7 +807,7 @@ function DataLoader.loadFactions()
         "faction_ethereals.toml"
     }
     local totalLoaded = 0
-    
+
     for _, filename in ipairs(factionFiles) do
         local fullPath = path .. "/" .. filename
         local data = TOML.load(fullPath)
@@ -785,11 +865,11 @@ function DataLoader.loadTechnology()
         print("[DataLoader] ERROR: Could not get technology path from mod")
         return {}
     end
-    
+
     local technology = {
         techs = {}
     }
-    
+
     -- Technology will be loaded from files when they exist
     -- For now, return empty with utility functions
 
@@ -823,11 +903,11 @@ function DataLoader.loadNarrative()
         print("[DataLoader] ERROR: Could not get narrative path from mod")
         return {}
     end
-    
+
     local narrative = {
         events = {}
     }
-    
+
     -- Narrative will be loaded from files when they exist
     -- For now, return empty with utility functions
 
@@ -861,12 +941,12 @@ function DataLoader.loadGeoscape()
         print("[DataLoader] ERROR: Could not get geoscape path from mod")
         return {}
     end
-    
+
     local geoscape = {
         countries = {},
         regions = {}
     }
-    
+
     -- Geoscape will be loaded from files when they exist
     -- For now, return empty with utility functions
 
@@ -896,12 +976,12 @@ function DataLoader.loadEconomy()
         print("[DataLoader] ERROR: Could not get economy path from mod")
         return {}
     end
-    
+
     local economy = {
         marketplace = {},
         funding = {}
     }
-    
+
     -- Economy will be loaded from files when they exist
     -- For now, return empty with utility functions
 
@@ -926,13 +1006,13 @@ function DataLoader.loadTOML(filepath)
         print("[DataLoader] ERROR: No filepath provided to loadTOML")
         return nil
     end
-    
+
     local success, data = pcall(TOML.load, filepath)
     if not success then
         print(string.format("[DataLoader] ERROR: Failed to load TOML file '%s': %s", filepath, tostring(data)))
         return nil
     end
-    
+
     return data
 end
 
@@ -945,7 +1025,7 @@ function DataLoader.validateTOML(data, expectedKeys)
     if not data then
         return false
     end
-    
+
     if expectedKeys then
         for _, key in ipairs(expectedKeys) do
             if not data[key] then
@@ -954,11 +1034,8 @@ function DataLoader.validateTOML(data, expectedKeys)
             end
         end
     end
-    
+
     return true
 end
 
 return DataLoader
-
-
-

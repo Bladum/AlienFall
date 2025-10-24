@@ -1,0 +1,74 @@
+# Mission: Survival Rescue
+# Rescue stranded soldiers/civilians from hostile territory
+
+[mission]
+id = "mission_survival_rescue"
+name = "Survival Rescue"
+description = "Friendly forces are stranded in alien-controlled territory. Launch a rescue operation to extract survivors before they're captured or eliminated."
+category = "combat"
+difficulty = 4
+priority = "high"
+
+[objectives]
+primary = [
+    "rescue_survivors",
+    "extract_safely"
+]
+secondary = [
+    "eliminate_alien_patrols",
+    "gather_survivor_intelligence"
+]
+optional = [
+    "minimize_survivor_casualties",
+    "recover_military_equipment"
+]
+
+[forces]
+enemy_count_min = 6
+enemy_count_max = 10
+enemy_types = ["sectoid_soldier", "floater", "muton"]
+boss_type = "sectoid_leader"
+boss_count = 0
+
+[rewards]
+science_points_base = 250
+money_base = 400
+artifacts = [1, 2]
+reputation = 12
+panic_reduction = 2
+survivor_recruitment_chance = 0.6
+
+[map]
+terrain_type = "wilderness"
+map_size = "large"
+indoor_outdoor_ratio = 0.2
+min_elevation_change = 1
+max_elevation_change = 4
+special_features = ["forest_cover", "alien_patrols", "safe_zone"]
+
+[tactics]
+alien_tactics = "patrol_hunt"
+civilian_placement = "stranded_survivors"
+reinforcements = true
+reinforcement_waves = 1
+reinforcement_delay_turns = 10
+time_limit_turns = 20
+
+[availability]
+active_in_phases = ["phase1_sky_war", "phase2_deep_war", "phase3_dimensional_war"]
+rarity = 0.20
+min_campaign_turn = 10
+alien_preference = "any"
+
+[gameplay]
+supplies_limit = 120
+squad_size = 5
+turnlimit_turns = 20
+casualties_acceptable = 1
+victory_conditions = "all_survivors_extracted_safely"
+
+[strategic_impact]
+panic_reduction = 3
+relations_boost = 8
+threat_level = "moderate"
+morale_bonus = 15

@@ -1,0 +1,69 @@
+# Mission: Alien Harvesting Operation
+# Aliens conducting mass abductions of civilians
+
+[mission]
+id = "mission_alien_harvesting"
+name = "Alien Harvesting Operation"
+description = "Aliens conducting mass civilian abductions. Intercept and eliminate the harvesting team before they escape."
+category = "combat"
+difficulty = 3
+priority = "high"
+
+[objectives]
+primary = [
+    "eliminate_alien_squad",
+    "protect_civilians"
+]
+secondary = [
+    "capture_artifacts",
+    "gather_intelligence"
+]
+optional = [
+    "minimalize_casualties",
+    "recover_equipment"
+]
+
+[forces]
+enemy_count_min = 8
+enemy_count_max = 12
+enemy_types = ["sectoid_soldier", "sectoid_leader", "floater"]
+boss_type = "sectoid_leader"
+boss_count = 1
+
+[rewards]
+science_points_base = 300
+money_base = 500
+artifacts = [2, 4]
+reputation = 10
+panic_reduction = 2
+
+[map]
+terrain_type = "urban"
+map_size = "medium"
+indoor_outdoor_ratio = 0.6
+min_elevation_change = 2
+max_elevation_change = 4
+
+[tactics]
+alien_tactics = "defensive_extraction"
+civilian_placement = "captured_civilians"
+reinforcements = false
+time_limit_turns = 15
+
+[availability]
+active_in_phases = ["phase1_sky_war", "phase2_deep_war"]
+rarity = 0.25
+min_campaign_turn = 5
+alien_preference = "faction_sectoids"
+
+[gameplay]
+supplies_limit = 100
+squad_size = 4
+turnlimit_turns = 15
+casualties_acceptable = 0
+victory_conditions = "aliens_eliminated_and_civilians_saved"
+
+[strategic_impact]
+panic_reduction = 2
+relations_boost = 5
+threat_level = "moderate"

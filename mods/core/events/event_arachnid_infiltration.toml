@@ -1,0 +1,60 @@
+# Campaign Event: Arachnid Web Infiltration
+# Arachnids establishing covert network and communication
+
+[event]
+id = "event_arachnid_infiltration"
+name = "Arachnid Web Infiltration"
+description = "Arachnid intelligence networks have infiltrated civilian communications. Security breaches exposing military positions and research progress."
+type = "negative"
+category = "intelligence_threat"
+rarity = 0.22
+
+[triggers]
+condition_type = "faction_activity"
+required_faction = "faction_arachnids"
+minimum_turns_active = 8
+
+[effects]
+[[effects.items]]
+type = "research_slowdown"
+multiplier = 0.8
+duration_turns = 15
+
+[[effects.items]]
+type = "intel_leak"
+severity = "moderate"
+missions_affected = 2
+
+[[effects.items]]
+type = "mission_trigger"
+mission_id = "mission_research_facility_defense"
+frequency = "increased"
+
+[[effects.items]]
+type = "panic_increase"
+target = "major_cities"
+amount = 2
+
+[[effects.items]]
+type = "notification"
+message = "SECURITY ALERT: Arachnid infiltration detected in civilian networks. Research compromised."
+
+[consequences]
+panic_change = 2
+relations_change = -2
+intel_security = -2
+research_progress = -15
+
+[duration]
+persistent = true
+expires_after_turns = 18
+
+[gameplay]
+is_blockable = true
+player_choice = false
+affects_difficulty = true
+
+[mitigation]
+blockable_by = "security_upgrade"
+blockable_by_facility = "cyber_defense_center"
+blockable_action = "launch_cyber_countermeasure"

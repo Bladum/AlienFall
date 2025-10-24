@@ -1,0 +1,73 @@
+# Mission: UFO Crash Recovery
+# Investigate and salvage a crashed alien UFO
+
+[mission]
+id = "mission_ufo_crash_recovery"
+name = "UFO Crash Recovery"
+description = "An alien UFO has crashed in remote terrain. Secure the crash site, eliminate survivors, and salvage advanced technology."
+category = "salvage"
+difficulty = 4
+priority = "critical"
+
+[objectives]
+primary = [
+    "secure_crash_site",
+    "eliminate_survivors",
+    "recover_technology"
+]
+secondary = [
+    "gather_artifacts",
+    "study_wreckage"
+]
+optional = [
+    "preserve_hull_integrity",
+    "capture_alien_alive"
+]
+
+[forces]
+enemy_count_min = 10
+enemy_count_max = 15
+enemy_types = ["sectoid_soldier", "ethereal", "floater", "muton"]
+boss_type = "ethereal"
+boss_count = 1
+
+[rewards]
+science_points_base = 500
+money_base = 1500
+artifacts = [3, 6]
+alien_alloy = [2, 4]
+elerium = [1, 3]
+reputation = 20
+panic_reduction = 3
+
+[map]
+terrain_type = "alien_crash_site"
+map_size = "large"
+indoor_outdoor_ratio = 0.4
+min_elevation_change = 3
+max_elevation_change = 6
+special_features = ["crashed_ufo_hull", "debris_field", "exotic_crystals"]
+
+[tactics]
+alien_tactics = "defend_salvage"
+alien_reinforcement_waves = 2
+time_limit_turns = 20
+environmental_hazards = ["energy_discharge", "radiation"]
+
+[availability]
+active_in_phases = ["phase1_sky_war", "phase2_deep_war"]
+rarity = 0.10
+min_campaign_turn = 10
+alien_preference = "any_faction"
+
+[gameplay]
+supplies_limit = 120
+squad_size = 6
+turnlimit_turns = 20
+casualties_acceptable = 2
+victory_conditions = "crash_site_secured_technology_recovered"
+
+[strategic_impact]
+science_boost = 50
+technology_unlock = true
+threat_level = "high"

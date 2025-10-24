@@ -1,0 +1,75 @@
+# Mission: Artifact Extraction
+# Recover ancient alien artifacts for research and strategic advantage
+
+[mission]
+id = "mission_artifact_extraction"
+name = "Artifact Extraction"
+description = "Ancient alien artifacts have been located. Secure and extract them before alien forces retrieve them for strategic purposes."
+category = "recovery"
+difficulty = 4
+priority = "medium"
+
+[objectives]
+primary = [
+    "locate_artifacts",
+    "secure_extraction"
+]
+secondary = [
+    "eliminate_alien_defense",
+    "gather_artifact_data"
+]
+optional = [
+    "capture_alien_scientists",
+    "prevent_alien_activation"
+]
+
+[forces]
+enemy_count_min = 10
+enemy_count_max = 15
+enemy_types = ["sectoid_soldier", "sectoid_leader", "floater", "muton"]
+boss_type = "sectoid_leader"
+boss_count = 1
+
+[rewards]
+science_points_base = 500
+money_base = 800
+artifacts = [5, 8]
+artifact_research_boost = 0.4
+reputation = 16
+panic_reduction = 1
+
+[map]
+terrain_type = "ancient_site"
+map_size = "large"
+indoor_outdoor_ratio = 0.4
+min_elevation_change = 2
+max_elevation_change = 5
+special_features = ["artifact_chamber", "ancient_structures", "alien_defense_grid"]
+
+[tactics]
+alien_tactics = "defensive_position"
+civilian_placement = "none"
+reinforcements = true
+reinforcement_waves = 2
+reinforcement_delay_turns = 12
+time_limit_turns = 22
+
+[availability]
+active_in_phases = ["phase2_deep_war", "phase3_dimensional_war"]
+rarity = 0.15
+min_campaign_turn = 25
+alien_preference = "any"
+
+[gameplay]
+supplies_limit = 130
+squad_size = 6
+turnlimit_turns = 25
+casualties_acceptable = 2
+victory_conditions = "all_artifacts_secured_and_extracted"
+
+[strategic_impact]
+panic_reduction = 1
+relations_boost = 3
+threat_level = "high"
+technology_unlock_chance = 0.35
+science_boost = 0.5

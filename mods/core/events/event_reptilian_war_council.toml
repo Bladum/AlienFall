@@ -1,0 +1,58 @@
+# Campaign Event: Reptilian War Council
+# Reptilians strategizing major military campaign
+
+[event]
+id = "event_reptilian_war_council"
+name = "Reptilian War Council"
+description = "Intelligence intercepts indicate Reptilians are convening a war council. Major offensive expected within the coming turns."
+type = "negative"
+category = "military_intelligence"
+rarity = 0.18
+
+[triggers]
+condition_type = "faction_activity"
+required_faction = "faction_reptilians"
+minimum_turns_active = 15
+
+[effects]
+[[effects.items]]
+type = "mission_difficulty_increase"
+amount = 2
+duration_turns = 15
+
+[[effects.items]]
+type = "alert_status"
+level = "critical"
+
+[[effects.items]]
+type = "panic_increase"
+target = "affected_regions"
+amount = 2
+
+[[effects.items]]
+type = "mission_trigger"
+mission_id = "mission_alien_base_assault"
+frequency = "increased"
+
+[[effects.items]]
+type = "notification"
+message = "CRITICAL: Reptilian war council activity detected. Major offensive imminent."
+
+[consequences]
+panic_change = 2
+relations_change = -3
+threat_level = "extreme"
+mission_unlock = true
+
+[duration]
+persistent = true
+expires_after_turns = 20
+
+[gameplay]
+is_blockable = false
+player_choice = true
+affects_difficulty = true
+
+[mitigation]
+preventable_by = "preemptive_strike"
+preventable_mission = "mission_alien_base_assault"

@@ -1,0 +1,60 @@
+# Campaign Event: Government Funding Increase
+# Nations increase military budget and support
+
+[event]
+id = "event_government_funding"
+name = "Government Funding Increase"
+description = "Impressed by military victories, world governments are increasing budget allocation for the anti-alien effort."
+type = "positive"
+category = "economic_opportunity"
+rarity = 0.18
+
+[triggers]
+condition_type = "military_success"
+required_fields = ["missions_completed", "enemies_defeated"]
+missions_completed_min = 3
+enemies_defeated_min = 20
+
+[effects]
+[[effects.items]]
+type = "budget_increase"
+monthly_increase = 2000
+duration_turns = 30
+
+[[effects.items]]
+type = "morale_boost"
+target = "global"
+amount = 8
+
+[[effects.items]]
+type = "panic_decrease"
+target = "global"
+amount = 2
+
+[[effects.items]]
+type = "facility_discount"
+discount_percent = 15
+duration_turns = 20
+
+[[effects.items]]
+type = "notification"
+message = "Excellent news! World governments have approved increased funding for military operations."
+
+[consequences]
+panic_change = -2
+relations_change = 3
+economic_advantage = 2
+construction_speed = 0.2
+
+[duration]
+persistent = true
+expires_after_turns = 30
+
+[gameplay]
+is_blockable = false
+player_choice = false
+affects_difficulty = false
+
+[rewards]
+money = 5000
+monthly_bonus = 2000

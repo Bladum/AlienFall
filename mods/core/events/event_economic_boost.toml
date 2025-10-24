@@ -1,0 +1,51 @@
+# Campaign Event: Economic Boost
+# Trade opportunity or resource discovery
+
+[event]
+id = "event_economic_boost"
+name = "Economic Opportunity"
+description = "A valuable trade opportunity has emerged. Resources and funding are flowing in."
+type = "positive"
+category = "economy"
+rarity = 0.12
+
+[triggers]
+condition_type = "economy_stable"
+required_fields = ["economy_health_min", "turn_min"]
+economy_health_min = 0.5
+turn_min = 10
+
+[effects]
+[[effects.items]]
+type = "money_gain"
+amount = 2000
+
+[[effects.items]]
+type = "resources_gain"
+resource_type = "supplies"
+amount = 100
+
+[[effects.items]]
+type = "morale_boost"
+target = "global"
+amount = 5
+
+[[effects.items]]
+type = "relations_change"
+faction = "trade_partner"
+amount = 3
+
+[consequences]
+economy_boost = 1.2
+panic_change = -1
+military_capability = 1
+
+[duration]
+persistent = true
+expires_after_turns = 5
+
+[gameplay]
+is_blockable = false
+player_choice = false
+affects_difficulty = false
+economy_benefit = true

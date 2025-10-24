@@ -63,69 +63,69 @@ function Menu:enter()
     local buttonX = 16 * 24      -- Center horizontally: (40 - 8) / 2 * 24 = 16 * 24 = 384
     local startY = 13 * 24       -- Center vertically: 360 - 48 = 312, 312/24 = 13
     local spacing = 3 * 24       -- 3 grid cells = 72 pixels
-    
+
     self.buttons = {}
-    
-    -- Geoscape button
+
+    -- New Campaign button
     table.insert(self.buttons, Widgets.Button.new(
         buttonX,
         startY,
         buttonWidth,
         buttonHeight,
-        "GEOSCAPE"
+        "NEW CAMPAIGN"
     ))
     self.buttons[#self.buttons].onClick = function()
-        StateManager.switch("geoscape")
+        StateManager.switch("new_campaign_wizard")
     end
-    
-    -- Battlescape button
+
+    -- Load Game button
     table.insert(self.buttons, Widgets.Button.new(
         buttonX,
         startY + spacing,
         buttonWidth,
         buttonHeight,
-        "BATTLESCAPE DEMO"
+        "LOAD GAME"
     ))
     self.buttons[#self.buttons].onClick = function()
-        StateManager.switch("battlescape")
+        StateManager.switch("load_game")
     end
-    
+
     -- Basescape button
     table.insert(self.buttons, Widgets.Button.new(
         buttonX,
         startY + spacing * 2,
         buttonWidth,
         buttonHeight,
-        "BASESCAPE"
+        "CAMPAIGN STATS"
     ))
     self.buttons[#self.buttons].onClick = function()
-        StateManager.switch("basescape")
+        StateManager.switch("campaign_stats")
     end
-    
-    -- Tests button
+
+    -- Settings button
     table.insert(self.buttons, Widgets.Button.new(
         buttonX,
         startY + spacing * 3,
         buttonWidth,
         buttonHeight,
-        "TESTS"
+        "SETTINGS"
     ))
     self.buttons[#self.buttons].onClick = function()
-        StateManager.switch("tests_menu")
+        StateManager.switch("settings")
     end
-    
-    -- Map Editor button
+
+    -- Tests button
     table.insert(self.buttons, Widgets.Button.new(
         buttonX,
         startY + spacing * 4,
         buttonWidth,
         buttonHeight,
-        "MAP EDITOR"
+        "DEMO MODES"
     ))
     self.buttons[#self.buttons].onClick = function()
-        StateManager.switch("map_editor")
+        StateManager.switch("tests_menu")
     end
-    
+
     -- Quit button
     table.insert(self.buttons, Widgets.Button.new(
         buttonX,
@@ -137,7 +137,7 @@ function Menu:enter()
     self.buttons[#self.buttons].onClick = function()
         love.event.quit()
     end
-    
+
     -- Version label (positioned at bottom-right, grid-aligned)
     self.versionLabel = Widgets.Label.new(
         36 * 24,  -- 36 grid cells = 864 pixels (leave some margin)
@@ -168,7 +168,7 @@ function Menu:update(dt)
     for _, button in ipairs(self.buttons) do
         button:update(dt)
     end
-    
+
     -- Update version label
     self.versionLabel:update(dt)
 end
@@ -180,35 +180,35 @@ end
 function Menu:draw()
     -- Clear background
     love.graphics.clear(0.05, 0.05, 0.1)
-    
+
     local windowWidth = love.graphics.getWidth()
     local windowHeight = love.graphics.getHeight()
-    
+
     -- Draw title
     love.graphics.setColor(0.2, 0.6, 0.9)
     local titleFont = love.graphics.newFont(48)
     love.graphics.setFont(titleFont)
     local titleWidth = titleFont:getWidth(self.title)
     love.graphics.print(self.title, (windowWidth - titleWidth) / 2, 100)
-    
+
     -- Draw subtitle
     love.graphics.setColor(0.7, 0.7, 0.8)
     local subtitleFont = love.graphics.newFont(20)
     love.graphics.setFont(subtitleFont)
     local subtitleWidth = subtitleFont:getWidth(self.subtitle)
     love.graphics.print(self.subtitle, (windowWidth - subtitleWidth) / 2, 160)
-    
+
     -- Reset to default font for buttons
     love.graphics.setFont(love.graphics.newFont(18))
-    
+
     -- Draw all buttons
     for _, button in ipairs(self.buttons) do
         button:draw()
     end
-    
+
     -- Draw version label
     self.versionLabel:draw()
-    
+
     -- Draw instructions
     love.graphics.setColor(0.5, 0.5, 0.5)
     love.graphics.setFont(love.graphics.newFont(14))
@@ -276,28 +276,3 @@ function Menu:mousereleased(x, y, button, istouch, presses)
 end
 
 return Menu
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

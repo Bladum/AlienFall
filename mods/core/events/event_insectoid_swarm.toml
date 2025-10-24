@@ -1,0 +1,54 @@
+# Campaign Event: Insectoid Swarm Alert
+# Insectoids discovered conducting mass reproduction
+
+[event]
+id = "event_insectoid_swarm"
+name = "Insectoid Swarm Alert"
+description = "Intelligence reports indicate Insectoid forces are conducting accelerated breeding operations. Enemy unit counts expected to increase dramatically."
+type = "negative"
+category = "military_threat"
+rarity = 0.20
+
+[triggers]
+condition_type = "faction_activity"
+required_faction = "faction_insectoids"
+minimum_turns_active = 10
+
+[effects]
+[[effects.items]]
+type = "enemy_reinforcement"
+amount = 3
+duration_turns = 20
+
+[[effects.items]]
+type = "panic_increase"
+target = "global"
+amount = 3
+
+[[effects.items]]
+type = "mission_trigger"
+mission_id = "mission_alien_harvesting"
+frequency = "increased"
+
+[[effects.items]]
+type = "notification"
+message = "WARNING: Insectoid swarm reproduction detected. Prepare for increased enemy activity."
+
+[consequences]
+panic_change = 3
+relations_change = -2
+threat_level = "high"
+mission_difficulty_increase = 1
+
+[duration]
+persistent = true
+expires_after_turns = 25
+
+[gameplay]
+is_blockable = true
+player_choice = false
+affects_difficulty = true
+
+[mitigation]
+blockable_by = "research_achievement"
+blockable_by_tech = "genetic_inhibitor"

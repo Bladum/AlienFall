@@ -200,16 +200,16 @@ function BiomeSystem:generateMap(width, height, seed)
     for idx = 1, width * height do
         local value = noise_map[idx]
 
-        -- Thresholds for 5 biome types
+        -- Thresholds for 5 biome types (adjusted for reasonable distribution)
         local biome = "urban"
 
-        if value < 1.0 then
+        if value < 0.8 then
             biome = "water"
-        elseif value < 1.8 then
+        elseif value < 1.4 then
             biome = "arctic"
-        elseif value < 2.5 then
+        elseif value < 2.0 then
             biome = "desert"
-        elseif value < 3.8 then
+        elseif value < 3.2 then
             biome = "forest"
         else
             biome = "urban"

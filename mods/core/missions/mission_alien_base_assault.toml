@@ -1,0 +1,75 @@
+# Mission: Alien Base Assault
+# Direct strike against alien underground installation
+
+[mission]
+id = "mission_alien_base_assault"
+name = "Alien Base Assault"
+description = "Intelligence indicates an alien base installation. Launch a direct assault to destroy alien command center and research facilities."
+category = "combat"
+difficulty = 5
+priority = "critical"
+
+[objectives]
+primary = [
+    "destroy_command_center",
+    "eliminate_base_commander"
+]
+secondary = [
+    "disable_defense_systems",
+    "rescue_prisoners"
+]
+optional = [
+    "capture_research_data",
+    "secure_alien_technology"
+]
+
+[forces]
+enemy_count_min = 15
+enemy_count_max = 20
+enemy_types = ["sectoid_soldier", "sectoid_leader", "sectoid_commander", "floater", "muton"]
+boss_type = "sectoid_commander"
+boss_count = 1
+
+[rewards]
+science_points_base = 1000
+money_base = 2000
+artifacts = [4, 8]
+research_breakthrough_chance = 0.4
+reputation = 25
+panic_reduction = 5
+
+[map]
+terrain_type = "underground"
+map_size = "large"
+indoor_outdoor_ratio = 1.0
+min_elevation_change = 3
+max_elevation_change = 6
+special_features = ["alien_architecture", "defense_turrets", "research_pods"]
+
+[tactics]
+alien_tactics = "total_defense"
+civilian_placement = "prisoner_cells"
+reinforcements = true
+reinforcement_waves = 2
+reinforcement_delay_turns = 8
+time_limit_turns = 25
+
+[availability]
+active_in_phases = ["phase2_deep_war", "phase3_dimensional_war"]
+rarity = 0.08
+min_campaign_turn = 30
+alien_preference = "faction_sectoids"
+faction_relation_threshold = -50
+
+[gameplay]
+supplies_limit = 150
+squad_size = 6
+turnlimit_turns = 30
+casualties_acceptable = 2
+victory_conditions = "command_center_destroyed_and_commander_eliminated"
+
+[strategic_impact]
+panic_reduction = 8
+relations_boost = 15
+threat_level = "extreme"
+technology_unlock_chance = 0.3

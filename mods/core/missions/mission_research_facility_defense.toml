@@ -1,0 +1,72 @@
+# Mission: Research Facility Defense
+# Defend civilian research facility from alien assault
+
+[mission]
+id = "mission_research_facility_defense"
+name = "Research Facility Defense"
+description = "Aliens are attacking a vital civilian research facility. Deploy forces to defend the facility and its personnel from destruction."
+category = "defense"
+difficulty = 3
+priority = "high"
+
+[objectives]
+primary = [
+    "protect_facility",
+    "eliminate_alien_squad"
+]
+secondary = [
+    "preserve_research_data",
+    "protect_personnel"
+]
+optional = [
+    "capture_alien_specimens",
+    "recover_crashed_ufo_parts"
+]
+
+[forces]
+enemy_count_min = 8
+enemy_count_max = 14
+enemy_types = ["sectoid_soldier", "floater", "muton_soldier"]
+boss_type = "floater_leader"
+boss_count = 1
+
+[rewards]
+science_points_base = 350
+money_base = 600
+artifacts = [2, 3]
+research_boost = 0.15
+reputation = 14
+panic_reduction = 3
+
+[map]
+terrain_type = "research_complex"
+map_size = "medium"
+indoor_outdoor_ratio = 0.7
+min_elevation_change = 1
+max_elevation_change = 3
+special_features = ["facility_core", "lab_sections", "evacuation_zone"]
+
+[tactics]
+alien_tactics = "assault"
+civilian_placement = "facility_personnel"
+reinforcements = false
+time_limit_turns = 18
+
+[availability]
+active_in_phases = ["phase1_sky_war", "phase2_deep_war"]
+rarity = 0.18
+min_campaign_turn = 12
+alien_preference = "faction_sectoids"
+
+[gameplay]
+supplies_limit = 110
+squad_size = 5
+turnlimit_turns = 20
+casualties_acceptable = 1
+victory_conditions = "facility_protected_and_aliens_eliminated"
+
+[strategic_impact]
+panic_reduction = 2
+relations_boost = 6
+threat_level = "moderate"
+technology_unlock_chance = 0.2

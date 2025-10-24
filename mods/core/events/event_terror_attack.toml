@@ -1,0 +1,61 @@
+# Campaign Event: Terror Attack
+# Alien faction conducts a terror attack on a city
+
+[event]
+id = "event_terror_attack"
+name = "Terror Attack"
+description = "A major alien terror attack has been detected! Multiple cities are under assault. Panic is spreading."
+type = "negative"
+category = "military"
+rarity = 0.20
+
+[triggers]
+condition_type = "alien_activity"
+required_fields = ["turn_min", "alien_sightings_min"]
+turn_min = 5
+alien_sightings_min = 3
+
+[effects]
+[[effects.items]]
+type = "panic_increase"
+target = "global"
+amount = 3
+
+[[effects.items]]
+type = "casualties"
+civilian = 500
+military = 50
+
+[[effects.items]]
+type = "relations_change"
+faction = "global"
+amount = -2
+
+[[effects.items]]
+type = "mission_trigger"
+mission_id = "mission_terror_response"
+immediate = true
+
+[[effects.items]]
+type = "notification"
+message = "ALERT: Major terror attack reported in multiple cities! Casualties mounting!"
+
+[consequences]
+panic_change = 3
+military_damage = 2
+economic_damage = 1
+threat_level = "critical"
+
+[duration]
+persistent = false
+expires_after_turns = 3
+
+[gameplay]
+is_blockable = false
+player_choice = false
+affects_difficulty = true
+triggers_counterattack = true
+
+[chaining]
+chains_to_event = "event_panic_spiral"
+chain_probability = 0.5

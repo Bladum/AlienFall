@@ -1,0 +1,102 @@
+# Faction: Reptilian Dominion
+# Cold-blooded, militaristic reptile aliens
+
+[faction]
+id = "faction_reptilians"
+name = "Reptilian Dominion"
+description = "Cold-blooded, militaristic reptiloid aliens with strict hierarchical command structure"
+type = "alien"
+tags = ["alien", "military", "terrestrial", "hierarchical"]
+active_phases = ["phase2_deep_war", "phase3_dimensional_war"]
+tech_level = "plasma_advanced"
+
+[characteristics]
+psionic = false
+aquatic = true
+dimensional = false
+primary_trait = "military_discipline"
+special_mechanics = ["thermal_adaptation", "command_hierarchy"]
+
+[relationships]
+allies = ["faction_mutons"]
+enemies = ["xcom", "faction_ethereals", "faction_insectoids"]
+neutral = ["faction_sectoids"]
+
+[[units]]
+type = "reptilian_soldier"
+name = "Reptilian Soldier"
+count_per_squad = 2
+spawn_weight = 12
+health = 35
+armor = 8
+will = 70
+reaction = 50
+shooting = 60
+throwing = 40
+strength = 55
+psionic_power = 0
+psionic_defense = 35
+abilities = ["thermal_vision", "disciplined_fire", "cold_blood"]
+equipment_primary = "plasma_rifle"
+
+[[units]]
+type = "reptilian_elite"
+name = "Reptilian Elite"
+count_per_squad = 1
+spawn_weight = 8
+health = 50
+armor = 12
+will = 80
+reaction = 60
+shooting = 70
+throwing = 50
+strength = 65
+psionic_power = 0
+psionic_defense = 40
+abilities = ["thermal_vision", "disciplined_fire", "heavy_weapon_mastery", "command_boost"]
+equipment_primary = "plasma_cannon"
+
+[[units]]
+type = "reptilian_commander"
+name = "Reptilian Commander"
+count_per_squad = 1
+spawn_weight = 4
+health = 60
+armor = 15
+will = 90
+reaction = 65
+shooting = 75
+throwing = 55
+strength = 70
+psionic_power = 10
+psionic_defense = 50
+abilities = ["command_structure", "tactical_overview", "devastating_fire", "unit_coordination"]
+equipment_primary = "plasma_cannon"
+
+[technology]
+tech_tree = [
+    "plasma_weapons_advanced",
+    "thermal_targeting",
+    "reptilian_armor",
+    "command_network",
+    "advanced_tactics"
+]
+research_speed = 1.1
+
+[gameplay]
+squad_composition = "2-3 soldiers + 1 elite + optional commander"
+tactics = "disciplined_formation"
+difficulty_modifier = 1.2
+appearance_frequency = "moderate"
+special_rules = [
+    "units_follow_commander",
+    "formation_bonuses",
+    "coordinated_fire_increased_accuracy"
+]
+
+[campaign_impact]
+panic_per_attack = 2.0
+destruction_level = "high"
+civilian_casualties = "moderate"
+military_casualties = "very_high"
+challenge_level = "very_hard"

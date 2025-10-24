@@ -1,0 +1,48 @@
+# Campaign Event: Research Breakthrough
+# Scientists unlock new technology
+
+[event]
+id = "event_research_breakthrough"
+name = "Research Breakthrough"
+description = "Scientists have achieved a major breakthrough! A new technology has been unlocked."
+type = "positive"
+category = "research"
+rarity = 0.15
+
+[triggers]
+condition_type = "research_milestone"
+required_fields = ["research_points_min"]
+research_points_min = 1000
+
+[effects]
+[[effects.items]]
+type = "tech_unlock"
+tech_id = "plasma_weapons_advanced"
+quantity = 1
+
+[[effects.items]]
+type = "morale_boost"
+target = "global"
+amount = 10
+
+[[effects.items]]
+type = "science_points_gain"
+amount = 500
+
+[[effects.items]]
+type = "notification"
+message = "Scientists have made a major breakthrough! New technology available."
+
+[consequences]
+panic_change = -1
+relations_change = 2
+military_advantage = 1
+
+[duration]
+persistent = true
+expires_after_turns = 0
+
+[gameplay]
+is_blockable = false
+player_choice = false
+affects_difficulty = true

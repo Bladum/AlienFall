@@ -1,0 +1,57 @@
+# Campaign Event: Alien Defector
+# Alien individual seeks asylum and provides intelligence
+
+[event]
+id = "event_alien_defector"
+name = "Alien Defector"
+description = "An alien individual has sought asylum and is willing to provide strategic intelligence. Gain valuable information about alien operations and plans."
+type = "positive"
+category = "intelligence_opportunity"
+rarity = 0.12
+
+[triggers]
+condition_type = "combat_encounter"
+required_fields = ["alien_captured", "interrogation_success"]
+
+[effects]
+[[effects.items]]
+type = "intelligence_gain"
+intelligence_value = 500
+duration_turns = 0
+
+[[effects.items]]
+type = "tech_unlock"
+tech_id = "alien_language_translation"
+quantity = 1
+
+[[effects.items]]
+type = "mission_intel"
+missions_revealed = 2
+
+[[effects.items]]
+type = "morale_boost"
+target = "military"
+amount = 15
+
+[[effects.items]]
+type = "notification"
+message = "Alien defector has provided valuable intelligence. New information available about enemy operations."
+
+[consequences]
+panic_change = -1
+relations_change = 1
+intel_advantage = 2
+tech_advancement = 1
+
+[duration]
+persistent = true
+expires_after_turns = 0
+
+[gameplay]
+is_blockable = false
+player_choice = false
+affects_difficulty = false
+
+[rewards]
+science_points = 300
+diplomatic_points = 25

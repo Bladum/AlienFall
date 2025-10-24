@@ -1,0 +1,57 @@
+# Campaign Event: Alien Technology Cache Discovery
+# Crash site yields valuable alien technology
+
+[event]
+id = "event_tech_cache_discovery"
+name = "Alien Technology Cache Discovery"
+description = "A crash site has yielded an intact alien technology cache. Research teams are analyzing advanced alien weapons and systems."
+type = "positive"
+category = "research_opportunity"
+rarity = 0.14
+
+[triggers]
+condition_type = "crash_site_recovery"
+required_fields = ["ufo_intact", "artifacts_recovered"]
+artifacts_recovered_min = 3
+
+[effects]
+[[effects.items]]
+type = "tech_unlock"
+tech_id = "plasma_weapons_basic"
+quantity = 1
+
+[[effects.items]]
+type = "research_boost"
+multiplier = 1.5
+duration_turns = 15
+
+[[effects.items]]
+type = "science_points_gain"
+amount = 1000
+
+[[effects.items]]
+type = "manufacturing_unlock"
+item_id = "plasma_rifle"
+
+[[effects.items]]
+type = "notification"
+message = "Technology cache has been analyzed! New research opportunities and manufacturing capabilities available."
+
+[consequences]
+panic_change = -1
+relations_change = 2
+research_advancement = 3
+technology_progression = 2
+
+[duration]
+persistent = true
+expires_after_turns = 0
+
+[gameplay]
+is_blockable = false
+player_choice = false
+affects_difficulty = false
+
+[rewards]
+science_points = 1000
+artifacts = 5

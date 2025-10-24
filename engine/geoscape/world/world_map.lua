@@ -23,9 +23,12 @@ function WorldMap.new(width, height)
     width = width or 80
     height = height or 40
 
+    local total = width * height
+
     local self = {
         width = width,
         height = height,
+        total = total,
         provinces = {},     -- 1D array of Province objects
         biomes = {},        -- Biome type per province (string)
         elevation = {},     -- Height per province (0-1)
@@ -35,7 +38,6 @@ function WorldMap.new(width, height)
     }
 
     -- Pre-allocate arrays for all provinces
-    local total = width * height
     for i = 1, total do
         self.provinces[i] = nil
         self.biomes[i] = "unknown"
@@ -231,13 +233,12 @@ function WorldMap:getNeighbors(x, y, distance)
 
                 if isValidCoord(nx, ny, self.width, self.height) then
                     local province = self:getProvince(nx, ny)
-                    if province then
-                        table.insert(neighbors, {
-                            x = nx,
-                            y = ny,
-                            province = province,
-                        })
-                    end
+                    -- Include neighbor even if province is nil (uninitialized)
+                    table.insert(neighbors, {
+                        x = nx,
+                        y = ny,
+                        province = province,
+                    })
                 end
             end
         end
@@ -387,6 +388,12 @@ function WorldMap:debug()
         local pct = (count / stats.total_provinces) * 100
         print(string.format("    %s: %d (%.1f%%)", control, count, pct))
     end
+end
+
+---Get statistics about the world (alias for getStatistics)
+---@return table Statistics
+function WorldMap:getStats()
+    return self:getStatistics()
 end
 
 return WorldMap

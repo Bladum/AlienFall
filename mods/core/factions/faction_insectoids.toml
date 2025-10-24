@@ -1,0 +1,100 @@
+# Faction: Insectoid Collective
+# Hive-minded bug-like aliens with rapid reproduction
+
+[faction]
+id = "faction_insectoids"
+name = "Insectoid Collective"
+description = "Hive-minded arthropod aliens with telepathic coordination and rapid reproduction"
+type = "alien"
+tags = ["alien", "hive_mind", "terrestrial", "fast_reproduction"]
+active_phases = ["phase1_sky_war", "phase2_deep_war"]
+tech_level = "plasma"
+
+[characteristics]
+psionic = false
+aquatic = false
+dimensional = false
+primary_trait = "hive_coordination"
+special_mechanics = ["fast_reproduction", "telepathic_link"]
+
+[relationships]
+allies = ["faction_sectoids"]
+enemies = ["xcom", "faction_ethereals"]
+neutral = ["faction_mutons"]
+
+[[units]]
+type = "insectoid_drone"
+name = "Insectoid Drone"
+count_per_squad = 3
+spawn_weight = 15
+health = 25
+armor = 5
+will = 50
+reaction = 45
+shooting = 35
+throwing = 30
+strength = 40
+psionic_power = 0
+psionic_defense = 40
+abilities = ["coordinated_swarm", "rapid_strike"]
+equipment_primary = "plasma_pistol"
+
+[[units]]
+type = "insectoid_warrior"
+name = "Insectoid Warrior"
+count_per_squad = 2
+spawn_weight = 10
+health = 40
+armor = 10
+will = 60
+reaction = 55
+shooting = 50
+throwing = 45
+strength = 65
+psionic_power = 0
+psionic_defense = 45
+abilities = ["coordinated_swarm", "melee_swarm", "heavy_strike"]
+equipment_primary = "plasma_rifle"
+
+[[units]]
+type = "insectoid_queen"
+name = "Insectoid Queen"
+count_per_squad = 1
+spawn_weight = 3
+health = 60
+armor = 15
+will = 80
+reaction = 50
+shooting = 40
+throwing = 35
+strength = 70
+psionic_power = 20
+psionic_defense = 60
+abilities = ["spawn_drones", "hive_command", "reproductive_surge"]
+equipment_primary = "plasma_rifle"
+
+[technology]
+tech_tree = [
+    "plasma_weapons",
+    "chitin_armor",
+    "hive_mind_amplification",
+    "rapid_reproduction_tech"
+]
+research_speed = 1.3
+
+[gameplay]
+squad_composition = "3-4 drones + 1-2 warriors + optional queen"
+tactics = "swarm_assault"
+difficulty_modifier = 1.0
+appearance_frequency = "frequent"
+special_rules = [
+    "drones_heal_near_queen",
+    "queens_spawn_new_drones",
+    "telepathic_coordination_bonus"
+]
+
+[campaign_impact]
+panic_per_attack = 1.5
+destruction_level = "moderate"
+civilian_casualties = "high"
+reproduction_rate = 1.5

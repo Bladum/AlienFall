@@ -1,0 +1,103 @@
+# Faction: Arachnid Swarm
+# Spider-like aliens that use toxins and webs
+
+[faction]
+id = "faction_arachnids"
+name = "Arachnid Swarm"
+description = "Spider-like arthropod aliens that coordinate through pheromones and biotoxins"
+type = "alien"
+tags = ["alien", "swarm", "terrestrial", "toxic"]
+active_phases = ["phase2_deep_war", "phase3_dimensional_war"]
+tech_level = "plasma_bio"
+
+[characteristics]
+psionic = false
+aquatic = false
+dimensional = false
+primary_trait = "pheromone_coordination"
+special_mechanics = ["web_traps", "toxic_abilities", "aerial_mobility"]
+
+[relationships]
+allies = ["faction_insectoids"]
+enemies = ["xcom", "faction_ethereals"]
+neutral = ["faction_sectoids", "faction_mutons", "faction_reptilians"]
+
+[[units]]
+type = "arachnid_scout"
+name = "Arachnid Scout"
+count_per_squad = 3
+spawn_weight = 14
+health = 28
+armor = 3
+will = 55
+reaction = 65
+shooting = 45
+throwing = 50
+strength = 35
+psionic_power = 0
+psionic_defense = 40
+abilities = ["aerial_mobility", "web_trap", "toxin_spray"]
+equipment_primary = "toxic_projectile"
+
+[[units]]
+type = "arachnid_warrior"
+name = "Arachnid Warrior"
+count_per_squad = 2
+spawn_weight = 11
+health = 42
+armor = 8
+will = 65
+reaction = 58
+shooting = 55
+throwing = 60
+strength = 60
+psionic_power = 0
+psionic_defense = 45
+abilities = ["aerial_mobility", "web_trap", "toxin_cloud", "melee_strike"]
+equipment_primary = "plasma_pistol"
+
+[[units]]
+type = "arachnid_matriarch"
+name = "Arachnid Matriarch"
+count_per_squad = 1
+spawn_weight = 3
+health = 55
+armor = 12
+will = 85
+reaction = 60
+shooting = 50
+throwing = 65
+strength = 70
+psionic_power = 0
+psionic_defense = 60
+abilities = ["pheromone_command", "web_fortress", "toxin_amplification", "spawn_web_guardians"]
+equipment_primary = "plasma_rifle"
+
+[technology]
+tech_tree = [
+    "plasma_weapons",
+    "toxic_biotech",
+    "web_generation",
+    "pheromone_amplification",
+    "aerospace_adaptation"
+]
+research_speed = 1.15
+
+[gameplay]
+squad_composition = "2-3 scouts + 1-2 warriors + optional matriarch"
+tactics = "aerial_swarm_toxin"
+difficulty_modifier = 1.0
+appearance_frequency = "frequent"
+special_rules = [
+    "scouts_create_web_traps",
+    "toxin_damage_stacking",
+    "matriarch_coordinates_swarm",
+    "aerial_combat_advantage"
+]
+
+[campaign_impact]
+panic_per_attack = 1.7
+destruction_level = "moderate"
+civilian_casualties = "very_high"
+environmental_damage = "chemical_toxin"
+infection_risk = "high"
