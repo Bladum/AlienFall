@@ -56,36 +56,36 @@ Craft.__index = Craft
 ---@return table Craft instance
 function Craft.new(data)
     local self = setmetatable({}, Craft)
-    
+
     -- Core identification
     self.id = data.id or error("Craft requires id")
     self.name = data.name or "Unnamed Craft"
     self.type = data.type or "interceptor"
-    
+
     -- Current location
     self.provinceId = data.provinceId or nil  -- Current province ID
     self.baseId = data.baseId or nil  -- Home base ID
-    
+
     -- Travel state
     self.isDeployed = false
     self.path = {}  -- List of province IDs to travel through
     self.pathIndex = 0  -- Current position in path
     self.travelTime = 0  -- Days to reach next province
-    
+
     -- Stats
     self.speed = data.speed or 1  -- Provinces per day
     self.range = data.range or 10  -- Max travel distance
     self.fuelCapacity = data.fuelCapacity or 100
     self.currentFuel = data.currentFuel or self.fuelCapacity
     self.fuelConsumption = data.fuelConsumption or 1  -- Fuel per province traveled
-    
+
     -- Loadout
     self.soldiers = data.soldiers or {}
     self.items = data.items or {}
-    
+
     print(string.format("[Craft] Created '%s' (%s) at province %s",
         self.name, self.type, tostring(self.provinceId)))
-    
+
     return self
 end
 
@@ -96,7 +96,7 @@ function Craft:deploy(path)
     if #path < 2 then
         return false  -- Need at least start and end
     end
-    
+
     -- Calculate fuel required
     local fuelRequired = (#path - 1) * self.fuelConsumption
     if fuelRequired > self.currentFuel then
@@ -104,12 +104,12 @@ function Craft:deploy(path)
             self.name, fuelRequired, self.currentFuel))
         return false
     end
-    
+
     self.path = path
     self.pathIndex = 1
     self.travelTime = 1 / self.speed  -- Days to next province
     self.isDeployed = true
-    
+
     print(string.format("[Craft] %s deployed with path of %d provinces", self.name, #path))
     return true
 end
@@ -120,18 +120,18 @@ function Craft:updateTravel()
     if not self.isDeployed or #self.path == 0 then
         return false
     end
-    
+
     -- Reduce travel time
     self.travelTime = self.travelTime - 1
-    
+
     if self.travelTime <= 0 then
         -- Move to next province
         self.pathIndex = self.pathIndex + 1
-        
+
         if self.pathIndex <= #self.path then
             self.provinceId = self.path[self.pathIndex]
             self.currentFuel = self.currentFuel - self.fuelConsumption
-            
+
             if self.pathIndex < #self.path then
                 -- Still traveling
                 self.travelTime = 1 / self.speed
@@ -143,7 +143,7 @@ function Craft:updateTravel()
             end
         end
     end
-    
+
     return false
 end
 
@@ -154,7 +154,7 @@ function Craft:returnToBase(provinceGraph)
     if not self.baseId or not self.provinceId then
         return false
     end
-    
+
     -- Find base province
     local baseProvince = nil
     for _, province in pairs(provinceGraph:getAllProvinces()) do
@@ -163,17 +163,17 @@ function Craft:returnToBase(provinceGraph)
             break
         end
     end
-    
+
     if not baseProvince then
         return false
     end
-    
+
     -- Find path back to base
     local path = provinceGraph:findPath(self.provinceId, baseProvince.id)
     if path then
         return self:deploy(path)
     end
-    
+
     return false
 end
 
@@ -184,10 +184,10 @@ function Craft:getOperationalRange(provinceGraph)
     if not self.provinceId then
         return {}
     end
-    
+
     local maxRange = math.floor(self.currentFuel / self.fuelConsumption)
     maxRange = math.min(maxRange, self.range)
-    
+
     return provinceGraph:getRange(self.provinceId, maxRange)
 end
 
@@ -207,6 +207,12 @@ function Craft:getFuelPercentage()
     return self.currentFuel / self.fuelCapacity
 end
 
+---Get fuel percentage (0-1 ratio, alias for getFuelPercentage)
+---@return number Fuel percentage 0-1
+function Craft:getFuelPercent()
+    return self:getFuelPercentage()
+end
+
 ---Check if craft can reach a province
 ---@param provinceGraph table Province graph
 ---@param targetProvinceId string Target province ID
@@ -216,12 +222,12 @@ function Craft:canReach(provinceGraph, targetProvinceId)
     if not self.provinceId then
         return false, nil
     end
-    
+
     local path, cost = provinceGraph:findPath(self.provinceId, targetProvinceId)
     if not path then
         return false, nil
     end
-    
+
     local fuelRequired = cost * self.fuelConsumption
     return fuelRequired <= self.currentFuel and cost <= self.range, fuelRequired
 end
@@ -270,28 +276,3 @@ function Craft:serialize()
 end
 
 return Craft
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

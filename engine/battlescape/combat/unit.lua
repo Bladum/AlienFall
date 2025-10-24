@@ -12,6 +12,7 @@
 ---   print(soldier.health)
 
 local DataLoader = require("core.data_loader")
+local PerkSystem = require("battlescape.systems.perks_system")
 
 --- Unit entity representing a character in combat.
 ---
@@ -35,6 +36,7 @@ local DataLoader = require("core.data_loader")
 --- @field right_weapon string|nil Right hand weapon ID
 --- @field armour string|nil Armor ID
 --- @field skill string|nil Skill ID
+--- @field perks table Unit perks (trait flags) from class definition
 --- @field energy_regen_rate number Energy regeneration per turn
 --- @field weapon_cooldowns table Weapon cooldown tracking
 --- @field statusEffects table Active status effects
@@ -70,7 +72,7 @@ function Unit.new(classId, team, x, y)
     print(string.format("[Unit] Creating unit %s", classId))
     local self = setmetatable({}, Unit)
     print("[Unit] Metatable set")
-    
+
     -- Basic properties
     self.id = nil  -- Set by battlefield when added
     self.classId = classId
@@ -79,11 +81,11 @@ function Unit.new(classId, team, x, y)
     self.x = x or 1
     self.y = y or 1
     self.alive = true
-    
+
     -- Animation properties
     self.animX = x or 1
     self.animY = y or 1
-    
+
     -- Performance optimization: dirty flag for visibility recalculation
     self.visibilityDirty = true  -- Needs LOS recalculation
 
@@ -109,10 +111,10 @@ function Unit.new(classId, team, x, y)
     self.right_weapon = classDef.defaultWeapon2
     self.armour = classDef.defaultArmour
     self.skill = nil  -- No default skill
-    
+
     -- Energy system
     self.energy_regen_rate = 5  -- Energy per turn
-    
+
     -- Weapon cooldown tracking
     self.weapon_cooldowns = {}
 
@@ -130,7 +132,7 @@ function Unit.new(classId, team, x, y)
     self.maxHealth = self.stats.health
     self.energy = self.stats.energy
     self.maxEnergy = self.stats.energy
-    
+
     -- Psi energy system
     -- Psi energy is used for psionic abilities and regenerates 5 points per turn
     -- Based on psi skill: units with psi skill > 0 get psi energy pool
@@ -138,13 +140,23 @@ function Unit.new(classId, team, x, y)
     if psiSkill > 0 then
         self.psiEnergy = 100  -- Start at full psi energy
         self.maxPsiEnergy = 100  -- Standard max for all psionic units
-        print(string.format("[Unit] %s initialized with psi energy: %d (psi skill: %d)", 
+        print(string.format("[Unit] %s initialized with psi energy: %d (psi skill: %d)",
             self.name or "Unknown", self.maxPsiEnergy, psiSkill))
     else
         self.psiEnergy = 0
         self.maxPsiEnergy = 0
     end
     self.psiEnergyRegen = 5  -- Regeneration per turn
+
+    -- Initialize perks from class definition
+    self.perks = {}
+    if classDef.perks and classDef.perks.default then
+        for _, perkId in ipairs(classDef.perks.default) do
+            self.perks[perkId] = true
+        end
+        print(string.format("[Unit] Initialized %d perks for %s",
+            #classDef.perks.default, classId))
+    end
 
     -- Status effects
     self.statusEffects = {}
@@ -251,13 +263,13 @@ function Unit:updateStats()
     self.stats.health = math.max(1, self.stats.health)
     self.stats.sight = math.max(1, self.stats.sight)
     self.stats.sense = math.max(0, self.stats.sense)
-    
+
     -- Ensure psychological stats are initialized (6-12 range for humans)
     self.stats.melee = self.stats.melee or 9  -- Melee effectiveness (6-12 range)
     self.stats.bravery = self.stats.bravery or 9  -- Morale buffer stat (6-12 range)
     self.stats.sanity = self.stats.sanity or 9  -- Psychological stability (6-12 range)
     self.stats.psi = self.stats.psi or 0  -- Psionic power (0-20 range)
-    
+
     -- Ensure psychological stats stay in valid ranges
     self.stats.melee = math.max(1, math.min(12, self.stats.melee))
     self.stats.bravery = math.max(1, math.min(12, self.stats.bravery))
@@ -538,7 +550,7 @@ end
 --- @return nil
 function Unit:regenerateEnergy()
     self.energy = math.min(self.maxEnergy, self.energy + self.energy_regen_rate)
-    print(string.format("[Unit] Regenerated %d energy for %s, now at %d/%d", 
+    print(string.format("[Unit] Regenerated %d energy for %s, now at %d/%d",
         self.energy_regen_rate, self.name, self.energy, self.maxEnergy))
 end
 
@@ -551,11 +563,11 @@ end
 function Unit:consumeEnergy(amount)
     if self.energy >= amount then
         self.energy = self.energy - amount
-        print(string.format("[Unit] Consumed %d energy for %s, remaining %d/%d", 
+        print(string.format("[Unit] Consumed %d energy for %s, remaining %d/%d",
             amount, self.name, self.energy, self.maxEnergy))
         return true
     else
-        print(string.format("[Unit] Insufficient energy for %s: need %d, have %d", 
+        print(string.format("[Unit] Insufficient energy for %s: need %d, have %d",
             self.name, amount, self.energy))
         return false
     end
@@ -577,7 +589,7 @@ end
 function Unit:setWeaponCooldown(weaponId, turns)
     self.weapon_cooldowns[weaponId] = turns
     if turns > 0 then
-        print(string.format("[Unit] Set cooldown for %s on %s: %d turns", 
+        print(string.format("[Unit] Set cooldown for %s on %s: %d turns",
             weaponId, self.name, turns))
     end
 end
@@ -591,7 +603,7 @@ function Unit:reduceWeaponCooldowns()
     for weaponId, cooldown in pairs(self.weapon_cooldowns) do
         if cooldown > 0 then
             self.weapon_cooldowns[weaponId] = cooldown - 1
-            print(string.format("[Unit] Reduced cooldown for %s on %s: %d turns remaining", 
+            print(string.format("[Unit] Reduced cooldown for %s on %s: %d turns remaining",
                 weaponId, self.name, self.weapon_cooldowns[weaponId]))
         end
     end
@@ -671,28 +683,3 @@ Unit.DIRECTIONS = {
 }
 
 return Unit
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -1,0 +1,264 @@
+# Pilot Unit Definitions
+# Aircraft/spacecraft pilot units for XCOM organization
+# Pilots are specialized soldiers trained for craft operation
+# Gain XP only from interception combat, not ground battles
+# Progress through 3 ranks: Rookie → Veteran → Ace
+
+[[unit]]
+id = "pilot_rookie"
+name = "Rookie Pilot"
+description = "Newly trained aircraft pilot, still learning craft operation"
+type = "pilot"
+faction = "xcom"
+side = "human"
+image = "units/pilot.png"
+rank = "rookie"
+class = "pilot"
+pilot_rank = 0
+pilot_xp = 0
+
+[unit.stats]
+health = 50
+armor = 0
+will = 65
+reaction = 80
+shooting = 60
+throwing = 40
+strength = 55
+psionic_power = 0
+psionic_defense = 45
+
+# Pilot-specific stats (used for craft bonuses)
+[unit.pilot_stats]
+speed = 6
+aim = 6
+reaction = 8
+strength = 5
+energy = 6
+wisdom = 6
+psi = 4
+
+[unit.equipment]
+primary = "pistol"
+secondary = "none"
+armor = "pilot_suit"
+grenades = []
+
+[unit.perks]
+default = ["can_move", "can_run", "can_shoot", "can_melee", "no_morale_penalty"]
+
+[[unit]]
+id = "pilot_veteran"
+name = "Veteran Pilot"
+description = "Experienced pilot with proven craft operation skills"
+type = "pilot"
+faction = "xcom"
+side = "human"
+image = "units/pilot.png"
+rank = "veteran"
+class = "pilot"
+pilot_rank = 1
+pilot_xp = 100
+
+[unit.stats]
+health = 55
+armor = 0
+will = 70
+reaction = 85
+shooting = 65
+throwing = 45
+strength = 60
+psionic_power = 0
+psionic_defense = 50
+
+[unit.pilot_stats]
+speed = 7
+aim = 8
+reaction = 9
+strength = 6
+energy = 7
+wisdom = 7
+psi = 4
+
+[unit.equipment]
+primary = "pistol"
+secondary = "none"
+armor = "pilot_suit"
+grenades = []
+
+[unit.perks]
+default = ["can_move", "can_run", "can_shoot", "can_melee", "no_morale_penalty"]
+
+[[unit]]
+id = "pilot_ace"
+name = "Ace Pilot"
+description = "Elite pilot with exceptional craft handling and combat experience"
+type = "pilot"
+faction = "xcom"
+side = "human"
+image = "units/pilot.png"
+rank = "ace"
+class = "pilot"
+pilot_rank = 2
+pilot_xp = 300
+
+[unit.stats]
+health = 60
+armor = 0
+will = 75
+reaction = 90
+shooting = 70
+throwing = 50
+strength = 65
+psionic_power = 0
+psionic_defense = 55
+
+[unit.pilot_stats]
+speed = 8
+aim = 10
+reaction = 10
+strength = 7
+energy = 8
+wisdom = 8
+psi = 4
+
+[unit.equipment]
+primary = "pistol"
+secondary = "none"
+armor = "pilot_suit"
+grenades = []
+
+[unit.perks]
+default = ["can_move", "can_run", "can_shoot", "can_melee", "no_morale_penalty"]
+
+# Specialized Pilot Types
+
+[[unit]]
+id = "pilot_fighter_rookie"
+name = "Fighter Pilot (Rookie)"
+description = "Rookie fighter pilot specialized in interceptor combat"
+type = "pilot"
+faction = "xcom"
+side = "human"
+image = "units/pilot_fighter.png"
+rank = "rookie"
+class = "fighter_pilot"
+pilot_rank = 0
+pilot_xp = 0
+specialist_class = "fighter"
+
+[unit.stats]
+health = 48
+armor = 0
+will = 70
+reaction = 85
+shooting = 70
+throwing = 35
+strength = 60
+psionic_power = 0
+psionic_defense = 40
+
+[unit.pilot_stats]
+speed = 7
+aim = 8
+reaction = 9
+strength = 6
+energy = 7
+wisdom = 5
+psi = 3
+
+[unit.equipment]
+primary = "pistol"
+secondary = "none"
+armor = "pilot_suit"
+grenades = []
+
+[unit.perks]
+default = ["can_move", "can_run", "can_shoot", "can_melee", "no_morale_penalty"]
+
+[[unit]]
+id = "pilot_bomber_rookie"
+name = "Bomber Pilot (Rookie)"
+description = "Rookie heavy bomber pilot trained in transport and bombardment"
+type = "pilot"
+faction = "xcom"
+side = "human"
+image = "units/pilot_bomber.png"
+rank = "rookie"
+class = "bomber_pilot"
+pilot_rank = 0
+pilot_xp = 0
+specialist_class = "bomber"
+
+[unit.stats]
+health = 55
+armor = 0
+will = 60
+reaction = 70
+shooting = 50
+throwing = 50
+strength = 65
+psionic_power = 0
+psionic_defense = 50
+
+[unit.pilot_stats]
+speed = 5
+aim = 5
+reaction = 6
+strength = 7
+energy = 8
+wisdom = 7
+psi = 4
+
+[unit.equipment]
+primary = "rifle"
+secondary = "none"
+armor = "pilot_suit"
+grenades = []
+
+[unit.perks]
+default = ["can_move", "can_run", "can_shoot", "can_melee", "no_morale_penalty"]
+
+[[unit]]
+id = "pilot_helicopter_rookie"
+name = "Helicopter Pilot (Rookie)"
+description = "Rookie helicopter pilot specialized in tactical insertion and hover operations"
+type = "pilot"
+faction = "xcom"
+side = "human"
+image = "units/pilot_helicopter.png"
+rank = "rookie"
+class = "helicopter_pilot"
+pilot_rank = 0
+pilot_xp = 0
+specialist_class = "helicopter"
+
+[unit.stats]
+health = 52
+armor = 0
+will = 65
+reaction = 80
+shooting = 55
+throwing = 45
+strength = 58
+psionic_power = 0
+psionic_defense = 48
+
+[unit.pilot_stats]
+speed = 7
+aim = 6
+reaction = 8
+strength = 6
+energy = 6
+wisdom = 6
+psi = 4
+
+[unit.equipment]
+primary = "rifle"
+secondary = "pistol"
+armor = "pilot_suit"
+grenades = ["hand_grenade"]
+
+[unit.perks]
+default = ["can_move", "can_run", "can_shoot", "can_melee", "no_morale_penalty"]
+

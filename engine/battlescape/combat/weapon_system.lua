@@ -413,7 +413,122 @@ function WeaponSystem.isModeAvailable(weaponId, mode)
     return false
 end
 
+--- ========== DUAL-WIELD SYSTEM ==========
+
+--- Check if unit can perform dual-wield attack
+---
+--- Validates:
+--- - Unit has two_weapon_proficiency perk
+--- - Both weapon slots filled with compatible weapons
+--- - Both weapons are identical (same ID)
+--- - Unit has sufficient AP
+---
+--- @param unit table Unit entity
+--- @return boolean Can perform dual-wield
+--- @return string|nil Reason if cannot
+function WeaponSystem.canDualWield(unit)
+    if not unit then
+        return false, "Unit is nil"
+    end
+    
+    -- Check if unit has dual-wield perk
+    local PerkSystem = require("battlescape.systems.perks_system")
+    if not PerkSystem.hasPerk(unit.id, "two_weapon_proficiency") then
+        return false, "Unit lacks two_weapon_proficiency perk"
+    end
+    
+    -- Check if both weapon slots are filled
+    if not unit.left_weapon or not unit.right_weapon then
+        return false, "Both weapon slots must be filled"
+    end
+    
+    -- Check if weapons are identical
+    if unit.left_weapon ~= unit.right_weapon then
+        return false, "Weapons must be identical for dual-wield"
+    end
+    
+    -- Check if unit has enough AP for dual-wield (1 AP)
+    if unit.actionPointsLeft < 1 then
+        return false, "Insufficient AP for dual-wield attack (need 1)"
+    end
+    
+    return true, nil
+end
+
+--- Get accuracy penalty for dual-wield
+---
+--- Dual-wield attack has -10% accuracy penalty vs single weapon
+---
+--- @return number Accuracy penalty percentage
+function WeaponSystem.getDualWieldAccuracyPenalty()
+    return -10  -- -10% accuracy for dual-wield
+end
+
+--- Calculate dual-wield attack properties
+---
+--- - Weapon cost: 1 AP (same as single attack)
+--- - Accuracy: -10% penalty
+--- - Energy: 2× energy cost (both weapons)
+--- - Damage: Sum of both weapon damages
+---
+--- @param unit table Unit entity
+--- @param weaponId string Weapon ID
+--- @return table|nil Stats table or nil on error
+--- @return string|nil Error message
+function WeaponSystem.calculateDualWieldStats(unit, weaponId)
+    if not unit then
+        return {}, "Unit is nil"
+    end
+    
+    local weapon = WeaponSystem.getWeapon(weaponId)
+    if not weapon then
+        return {}, "Weapon not found: " .. weaponId
+    end
+    
+    local canDW, reason = WeaponSystem.canDualWield(unit)
+    if not canDW then
+        return {}, reason
+    end
+    
+    local stats = {
+        ap_cost = 1,                                          -- 1 AP for both weapons
+        accuracy_penalty = WeaponSystem.getDualWieldAccuracyPenalty(),  -- -10%
+        energy_cost = (weapon.ep_cost or 1) * 2,            -- 2× energy
+        total_damage = (weapon.damage or 1) * 2              -- Sum damage from both
+    }
+    
+    return stats, nil
+end
+
+--- Format dual-wield info for display
+---
+--- @param unit table Unit entity
+--- @return string Formatted dual-wield info
+function WeaponSystem.formatDualWieldInfo(unit)
+    local canDW, reason = WeaponSystem.canDualWield(unit)
+    
+    if not canDW then
+        return "Cannot dual-wield: " .. (reason or "Unknown reason")
+    end
+    
+    local weapon = WeaponSystem.getWeapon(unit.left_weapon)
+    if not weapon then
+        return "Dual-wield ready (weapon not found)"
+    end
+    
+    local stats = WeaponSystem.calculateDualWieldStats(unit, unit.left_weapon)
+    if not stats then
+        return "Error calculating dual-wield"
+    end
+    
+    return string.format("Dual-Wield: 1 AP | Dmg: %d | Acc: %d%% | EP: %d",
+        stats.total_damage,
+        WeaponSystem.getBaseAccuracy(unit.left_weapon) + stats.accuracy_penalty,
+        stats.energy_cost)
+end
+
 return WeaponSystem
+
 
 
 

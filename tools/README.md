@@ -1,10 +1,22 @@
-# Development Tools
+# XCOM Simple - Development Tools
 
-External utilities for XCOM Simple development. Each tool is a standalone Love2D application that references the main engine code.
+Collection of standalone utilities for managing game assets, validating code, and editing game content. Each tool is independent but designed to work together for a complete development workflow.
 
-## Tools Overview
+## Quick Navigation
 
-### 1. Map Editor (`map_editor/`)
+Looking for a specific tool? Jump to its documentation:
+
+- 🗺️ **[Map Editor](map_editor/README.md)** - Create and edit tactical maps
+- ✅ **[Asset Verification](asset_verification/README.md)** - Verify all game assets exist
+- 🎨 **[Spritesheet Generator](spritesheet_generator/README.md)** - Create sprite sheets
+- 🔍 **[Import Scanner](import_scanner/README.md)** - Validate Lua requires
+- 📚 **[Docs Validator](docs_validator/README.md)** - Verify documentation links
+
+---
+
+## Tool Overview
+
+### 1. Map Editor 🗺️
 
 Visual editor for creating and modifying tactical maps.
 

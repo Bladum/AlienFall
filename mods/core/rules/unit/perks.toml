@@ -1,0 +1,366 @@
+# Perk System Configuration
+# Boolean trait flags for unit customization and specialization
+# Perks are categorized and can be toggled on/off per unit
+# Each perk affects unit capabilities and behavior
+
+# ========== BASIC ABILITIES (Core Movement & Actions) ==========
+
+[[perks]]
+id = "can_move"
+name = "Can Move"
+description = "Unit can move during its turn. Disabling prevents all movement."
+category = "basic"
+enabled_by_default = true
+
+[[perks]]
+id = "can_run"
+name = "Can Run"
+description = "Unit can run to move extra distance (double movement, half accuracy)"
+category = "basic"
+enabled_by_default = true
+
+[[perks]]
+id = "can_shoot"
+name = "Can Shoot"
+description = "Unit can fire ranged weapons"
+category = "basic"
+enabled_by_default = true
+
+[[perks]]
+id = "can_melee"
+name = "Can Melee"
+description = "Unit can perform melee attacks with close combat weapons"
+category = "basic"
+enabled_by_default = true
+
+[[perks]]
+id = "can_throw"
+name = "Can Throw"
+description = "Unit can throw grenades and thrown weapons"
+category = "basic"
+enabled_by_default = true
+
+[[perks]]
+id = "can_climb"
+name = "Can Climb"
+description = "Unit can climb terrain and obstacles"
+category = "basic"
+enabled_by_default = true
+
+# ========== MOVEMENT (Special Movement Types) ==========
+
+[[perks]]
+id = "can_swim"
+name = "Can Swim"
+description = "Unit can move through water terrain"
+category = "movement"
+enabled_by_default = false
+
+[[perks]]
+id = "can_fly"
+name = "Can Fly"
+description = "Unit can move through air, ignoring ground terrain"
+category = "movement"
+enabled_by_default = false
+
+[[perks]]
+id = "high_jump"
+name = "High Jump"
+description = "Unit can jump to high elevations and platforms"
+category = "movement"
+enabled_by_default = false
+
+[[perks]]
+id = "hover"
+name = "Hover"
+description = "Unit can hover in place without moving"
+category = "movement"
+enabled_by_default = false
+
+[[perks]]
+id = "terrain_immunity"
+name = "Terrain Immunity"
+description = "Unit ignores difficult terrain movement penalties"
+category = "movement"
+enabled_by_default = false
+
+[[perks]]
+id = "swimming_speed"
+name = "Swimming Speed"
+description = "Unit moves at normal speed through water"
+category = "movement"
+enabled_by_default = false
+
+# ========== COMBAT (Combat & Weapon Skills) ==========
+
+[[perks]]
+id = "two_weapon_proficiency"
+name = "Two-Weapon Proficiency"
+description = "Unit can fire two identical weapons in one action (1 AP, 2x energy, -10% accuracy)"
+category = "combat"
+enabled_by_default = false
+
+[[perks]]
+id = "can_use_psionic"
+name = "Can Use Psionic"
+description = "Unit can cast psionic abilities and powers"
+category = "combat"
+enabled_by_default = false
+
+[[perks]]
+id = "can_fire_heavy"
+name = "Can Fire Heavy"
+description = "Unit can fire heavy weapons like machine guns and cannons"
+category = "combat"
+enabled_by_default = false
+
+[[perks]]
+id = "quickdraw"
+name = "Quickdraw"
+description = "Unit can swap weapons as a free action"
+category = "combat"
+enabled_by_default = false
+
+[[perks]]
+id = "ambidextrous"
+name = "Ambidextrous"
+description = "Unit has no accuracy penalty for two-weapon fighting"
+category = "combat"
+enabled_by_default = false
+
+[[perks]]
+id = "sniper_focus"
+name = "Sniper Focus"
+description = "Unit has +20% accuracy with sniper rifles"
+category = "combat"
+enabled_by_default = false
+
+# ========== SENSES (Perception & Detection) ==========
+
+[[perks]]
+id = "darkvision"
+name = "Darkvision"
+description = "Unit can see in darkness without penalty"
+category = "senses"
+enabled_by_default = false
+
+[[perks]]
+id = "thermal_vision"
+name = "Thermal Vision"
+description = "Unit can see heat signatures through walls (limited range)"
+category = "senses"
+enabled_by_default = false
+
+[[perks]]
+id = "x_ray_vision"
+name = "X-Ray Vision"
+description = "Unit can see through walls and obstacles"
+category = "senses"
+enabled_by_default = false
+
+[[perks]]
+id = "keen_eyes"
+name = "Keen Eyes"
+description = "Unit can see further and spot enemies at greater distance"
+category = "senses"
+enabled_by_default = false
+
+[[perks]]
+id = "danger_sense"
+name = "Danger Sense"
+description = "Unit gets bonus dodge against attacks"
+category = "senses"
+enabled_by_default = false
+
+# ========== DEFENSE (Protection & Resistance) ==========
+
+[[perks]]
+id = "regeneration"
+name = "Regeneration"
+description = "Unit heals 5 HP at the end of each turn"
+category = "defense"
+enabled_by_default = false
+
+[[perks]]
+id = "poison_immunity"
+name = "Poison Immunity"
+description = "Unit is immune to poison and toxin effects"
+category = "defense"
+enabled_by_default = false
+
+[[perks]]
+id = "fire_immunity"
+name = "Fire Immunity"
+description = "Unit is immune to fire and burn damage"
+category = "defense"
+enabled_by_default = false
+
+[[perks]]
+id = "fear_immunity"
+name = "Fear Immunity"
+description = "Unit is immune to fear and panic effects"
+category = "defense"
+enabled_by_default = false
+
+[[perks]]
+id = "shock_immunity"
+name = "Shock Immunity"
+description = "Unit is immune to electrical and EMP damage"
+category = "defense"
+enabled_by_default = false
+
+[[perks]]
+id = "hardened"
+name = "Hardened"
+description = "Unit takes 25% less damage from all sources"
+category = "defense"
+enabled_by_default = false
+
+[[perks]]
+id = "shield_user"
+name = "Shield User"
+description = "Unit can equip and use shields for additional protection"
+category = "defense"
+enabled_by_default = false
+
+[[perks]]
+id = "damage_reflection"
+name = "Damage Reflection"
+description = "Unit reflects 25% of incoming damage back to attacker"
+category = "defense"
+enabled_by_default = false
+
+# ========== SURVIVAL (Morale & Resilience) ==========
+
+[[perks]]
+id = "no_morale_penalty"
+name = "No Morale Penalty"
+description = "Unit is not affected by morale/panic effects"
+category = "survival"
+enabled_by_default = true
+
+[[perks]]
+id = "iron_will"
+name = "Iron Will"
+description = "Unit has increased willpower and resistance to mind control"
+category = "survival"
+enabled_by_default = false
+
+[[perks]]
+id = "evasion"
+name = "Evasion"
+description = "Unit has +30% dodge chance against attacks"
+category = "survival"
+enabled_by_default = false
+
+[[perks]]
+id = "thick_skin"
+name = "Thick Skin"
+description = "Unit has innate 5 point armor bonus"
+category = "survival"
+enabled_by_default = false
+
+[[perks]]
+id = "adrenaline_rush"
+name = "Adrenaline Rush"
+description = "Unit can spend 1 AP to gain +25% damage for one turn"
+category = "survival"
+enabled_by_default = false
+
+# ========== SOCIAL (Leadership & Interaction) ==========
+
+[[perks]]
+id = "leadership"
+name = "Leadership"
+description = "Unit provides +10% accuracy bonus to nearby allies"
+category = "social"
+enabled_by_default = false
+
+[[perks]]
+id = "inspire"
+name = "Inspire"
+description = "Unit can spend an action to restore morale to nearby allies"
+category = "social"
+enabled_by_default = false
+
+[[perks]]
+id = "mentor"
+name = "Mentor"
+description = "Unit grants +5 XP to nearby allies on kills"
+category = "social"
+enabled_by_default = false
+
+# ========== SPECIAL (Unique & Rare Abilities) ==========
+
+[[perks]]
+id = "stealth"
+name = "Stealth"
+description = "Unit can move invisibly (breaks on attack)"
+category = "special"
+enabled_by_default = false
+
+[[perks]]
+id = "camouflage"
+name = "Camouflage"
+description = "Unit is harder to see and hit when stationary"
+category = "special"
+enabled_by_default = false
+
+[[perks]]
+id = "self_destruct"
+name = "Self Destruct"
+description = "Unit can detonate itself for massive AoE damage"
+category = "special"
+enabled_by_default = false
+
+[[perks]]
+id = "mind_control"
+name = "Mind Control"
+description = "Unit can take control of enemy units temporarily"
+category = "special"
+enabled_by_default = false
+
+[[perks]]
+id = "shapeshift"
+name = "Shapeshift"
+description = "Unit can change form to gain different abilities"
+category = "special"
+enabled_by_default = false
+
+# ========== FLIGHT (Pilot & Aircraft Specific) ==========
+
+[[perks]]
+id = "skilled_pilot"
+name = "Skilled Pilot"
+description = "Pilot has +10% accuracy in craft combat"
+category = "flight"
+enabled_by_default = false
+
+[[perks]]
+id = "precision_landing"
+name = "Precision Landing"
+description = "Pilot can land with reduced damage"
+category = "flight"
+enabled_by_default = false
+
+[[perks]]
+id = "aerobatic_maneuvers"
+name = "Aerobatic Maneuvers"
+description = "Pilot can perform evasive maneuvers (+20% dodge in craft)"
+category = "flight"
+enabled_by_default = false
+
+[[perks]]
+id = "fuel_efficiency"
+name = "Fuel Efficiency"
+description = "Craft uses 25% less fuel with this pilot"
+category = "flight"
+enabled_by_default = false
+
+[[perks]]
+id = "weapon_specialist"
+name = "Weapon Specialist"
+description = "Craft weapons have +15% accuracy with this pilot"
+category = "flight"
+enabled_by_default = false
+

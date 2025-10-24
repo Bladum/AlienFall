@@ -11,30 +11,35 @@
 
 local ResearchProject = {}
 
+-- TASK-13.1: Calendar system integration for research project dates
+local Calendar = require("engine.lore.calendar")
+
 ---Create a new research project
 ---@param data table Project data {entryId, manDaysRequired}
 ---@return table ResearchProject instance
 function ResearchProject.new(data)
+    local id = data.id or ("rproj_" .. tostring(math.random(100000, 999999)))
+
     return {
-        id = data.id or "rproj_" .. tostring(math.random(100000, 999999)),
+        id = id,
         entryId = data.entryId or "unknown",
-        
+
         -- Progress
         manDaysRequired = data.manDaysRequired or 100,
         manDaysCompleted = data.manDaysCompleted or 0,
         progress = 0,
-        
+
         -- Scientists
         scientistsAssigned = data.scientistsAssigned or 0,
-        
+
         -- Status
         status = data.status or "active",  -- active, paused, completed, cancelled
-        
+
         -- Dates
         startDate = data.startDate or {year = 1, month = 1, day = 1},
         estimatedCompletion = data.estimatedCompletion or nil,
         completedDate = data.completedDate or nil,
-        
+
         -- Special (interrogations)
         attempts = data.attempts or 0,
         succeeded = data.succeeded or false,
@@ -44,25 +49,36 @@ end
 ---Update research progress daily
 ---@param project table The research project
 ---@param daysElapsed number Days to advance (default 1)
+---@param calendar table|nil Calendar instance for date tracking
 ---@return boolean completed True if research just completed
-function ResearchProject.update(project, daysElapsed)
+function ResearchProject.update(project, daysElapsed, calendar)
     daysElapsed = daysElapsed or 1
-    
+
     if project.status == "active" then
         -- Add man-days based on scientists (1 scientist = 1 man-day per day)
         local manDaysAdded = project.scientistsAssigned * daysElapsed
         project.manDaysCompleted = project.manDaysCompleted + manDaysAdded
         project.progress = math.min(1.0, project.manDaysCompleted / project.manDaysRequired)
-        
+
         -- Check completion
         if project.manDaysCompleted >= project.manDaysRequired then
             project.status = "completed"
             project.progress = 1.0
-            project.completedDate = {year = 1, month = 1, day = 1}  -- TODO: use calendar
+
+            -- TASK-13.1: Set completion date from calendar if available
+            if calendar then
+                project.completedDate = calendar:getCurrentDate()
+                print(string.format("[ResearchProject] %s completed on %s",
+                    project.entryId, calendar:getFullDate()))
+            else
+                -- Fallback: use current date (won't be accurate without calendar)
+                project.completedDate = {year = 1, month = 1, day = 1}
+            end
+
             return true
         end
     end
-    
+
     return false
 end
 
@@ -100,7 +116,7 @@ function ResearchProject.getEstimatedDaysRemaining(project)
     if project.scientistsAssigned == 0 then
         return math.huge
     end
-    
+
     local daysRemaining = project.manDaysRequired - project.manDaysCompleted
     return math.ceil(daysRemaining / project.scientistsAssigned)
 end
@@ -111,7 +127,7 @@ end
 function ResearchProject.getInfo(project)
     local percent = math.floor(project.progress * 100)
     local remaining = ResearchProject.getEstimatedDaysRemaining(project)
-    
+
     if remaining == math.huge then
         return string.format("%s (%d%%) - No scientists assigned", project.entryId, percent)
     else
@@ -120,6 +136,3 @@ function ResearchProject.getInfo(project)
 end
 
 return ResearchProject
-
-
-

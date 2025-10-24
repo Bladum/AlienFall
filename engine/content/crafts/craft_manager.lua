@@ -452,6 +452,132 @@ function CraftManager:getStatus()
     return report
 end
 
+--- ========== PILOT REQUIREMENT VALIDATION ==========
+
+--- Get pilot requirements for craft type
+---@param craftType string Craft type ID
+---@return table Requirements {required_count, min_level, preferred_classes, allow_bomber}
+function CraftManager:getPilotRequirements(craftType)
+    -- Craft type pilot requirements
+    local requirements = {
+        interceptor = {
+            required_count = 1,
+            min_level = 0,
+            preferred_classes = {"pilot", "fighter_pilot"},
+            allow_bomber = false
+        },
+        transport = {
+            required_count = 1,
+            min_level = 0,
+            preferred_classes = {"pilot", "helicopter_pilot"},
+            allow_bomber = false
+        },
+        scout = {
+            required_count = 1,
+            min_level = 0,
+            preferred_classes = {"pilot", "fighter_pilot"},
+            allow_bomber = false
+        },
+        bomber = {
+            required_count = 2,
+            min_level = 1,
+            preferred_classes = {"bomber_pilot", "pilot"},
+            allow_bomber = true
+        },
+        sentinel = {
+            required_count = 2,
+            min_level = 2,
+            preferred_classes = {"pilot", "fighter_pilot", "bomber_pilot"},
+            allow_bomber = true
+        }
+    }
+    
+    return requirements[craftType] or requirements.interceptor
+end
+
+--- Check if pilots meet craft requirements
+---@param craftId string Craft ID
+---@param pilots table Array of pilot tables
+---@return boolean canDeploy, string reason
+function CraftManager:validatePilots(craftId, pilots)
+    local craft = self:getCraft(craftId)
+    if not craft then
+        return false, "Craft not found"
+    end
+    
+    local requirements = self:getPilotRequirements(craft.type)
+    
+    -- Check pilot count
+    if not pilots or #pilots < requirements.required_count then
+        return false, string.format(
+            "Insufficient pilots: have %d, need %d",
+            pilots and #pilots or 0,
+            requirements.required_count
+        )
+    end
+    
+    -- Check pilot levels and classes
+    for i, pilot in ipairs(pilots) do
+        if not pilot then
+            return false, string.format("Pilot %d is nil", i)
+        end
+        
+        if pilot.rank and pilot.rank < requirements.min_level then
+            return false, string.format(
+                "Pilot %d rank too low: %d (minimum: %d)",
+                i, pilot.rank, requirements.min_level
+            )
+        end
+        
+        -- Check if pilot class is allowed
+        local classAllowed = false
+        if requirements.allow_bomber or pilot.class ~= "bomber_pilot" then
+            for _, allowedClass in ipairs(requirements.preferred_classes) do
+                if pilot.class == allowedClass then
+                    classAllowed = true
+                    break
+                end
+            end
+        end
+        
+        if not classAllowed then
+            return false, string.format(
+                "Pilot %d class '%s' not compatible with %s",
+                i, pilot.class or "unknown", craft.type
+            )
+        end
+    end
+    
+    return true, "OK"
+end
+
+--- Assign pilots to craft
+---@param craftId string Craft ID
+---@param pilots table Array of pilot tables
+---@return boolean Success, string reason
+function CraftManager:assignPilots(craftId, pilots)
+    local valid, reason = self:validatePilots(craftId, pilots)
+    if not valid then
+        print(string.format("[CraftManager] Cannot assign pilots: %s", reason))
+        return false, reason
+    end
+    
+    local craft = self:getCraft(craftId)
+    if not craft then
+        print("[CraftManager] Craft not found")
+        return false, "Craft not found"
+    end
+    
+    craft.pilots = pilots
+    
+    if craft and craft.name then
+        print(string.format("[CraftManager] Assigned %d pilots to %s",
+            #pilots, craft.name))
+    end
+    
+    return true, "Pilots assigned"
+end
+
 --- Serialize for save/load
 ---@return table Serialized data
 function CraftManager:serialize()

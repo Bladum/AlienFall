@@ -59,6 +59,7 @@ local ActionSystem = require("battlescape.combat.action_system")
 local Pathfinding = require("ai.pathfinding.tactical_pathfinding")
 local LOS = require("battlescape.combat.los_optimized")  -- OPTIMIZED VERSION
 local Assets = require("core.assets")
+local View3D = require("battlescape.rendering.view_3d")
 local AnimationSystem = require("battlescape.effects.animation_system")
 
 -- Battle components
@@ -108,44 +109,58 @@ local SECTION_HEIGHT = 240  -- 10 tiles � 24px
 -- Day/Night
 Battlescape.isNight = false
 
-function Battlescape:enter()
+-- Mission tracking for campaign integration
+Battlescape.missionData = nil
+
+function Battlescape:enter(args)
     print("[Battlescape] Entering battlescape state")
-    
+
+    -- Store mission data if provided (for campaign integration)
+    if args and args.mission then
+        self.missionData = args.mission
+        print(string.format("[Battlescape] Mission data received: %s",
+            self.missionData.id or "unnamed"))
+    end
+
     -- Start profiling
     local startTime = love.timer.getTime()
     local stepStartTime = startTime
-    
+
     -- Initialize core systems
     self.actionSystem = ActionSystem.new(self.losSystem, self.animationSystem)
     self.pathfinding = Pathfinding.new()
     self.teamManager = Team.Manager.new()
     self.losSystem = LOS.new()
     self.animationSystem = AnimationSystem.new()
-    
+
     -- Initialize fire and smoke systems
     self.fireSystem = FireSystem.new()
     self.smokeSystem = SmokeSystem.new()
     print("[Battlescape] Fire and Smoke systems initialized")
-    
+
+    -- Initialize 3D viewer (disabled by default, toggle with SPACE)
+    self.view3D = View3D.new(self)
+    print("[Battlescape] 3D viewer initialized (Press SPACE to toggle 2D/3D)")
+
     -- Log optimization status
     print("[Battlescape] Using OPTIMIZED LOS system with shadow casting + caching")
-    
+
     print(string.format("[PROFILE] Core systems init: %.3f ms", (love.timer.getTime() - stepStartTime) * 1000))
     stepStartTime = love.timer.getTime()
 
     -- Initialize turn system first
     self.turnManager = TurnManager.new(self.teamManager, self.actionSystem)
-    
+
     print(string.format("[PROFILE] Turn system init: %.3f ms", (love.timer.getTime() - stepStartTime) * 1000))
     stepStartTime = love.timer.getTime()
 
     -- Initialize battlefield using MapGenerator system
     print("[Battlescape] Initializing map generation...")
-    
+
     -- Get generation method from config (can be "procedural" or "mapblock")
     local generationMethod = MapGenerator.getMethod()  -- Default: "mapblock"
     print("[Battlescape] Map generation method: " .. generationMethod)
-    
+
     -- Generate based on method
     if generationMethod == "mapblock" then
         -- Load all MapBlock templates from active mod
@@ -158,7 +173,7 @@ function Battlescape:enter()
         else
             local blockPool = MapBlock.loadAll(mapblocksPath)
             print(string.format("[Battlescape] Loaded %d MapBlock templates", #blockPool))
-            
+
             if #blockPool == 0 then
                 print("[Battlescape] WARNING: No mapblocks available, using procedural")
                 generationMethod = "procedural"
@@ -181,7 +196,7 @@ function Battlescape:enter()
             end
         end
     end
-    
+
     -- Fallback to procedural if mapblock failed or was chosen
     if generationMethod == "procedural" or not self.battlefield then
         self.battlefield = MapGenerator.generate({
@@ -191,32 +206,32 @@ function Battlescape:enter()
             seed = nil  -- Random seed
         })
     end
-    
+
     if not self.battlefield then
         print("[Battlescape] ERROR: Failed to generate battlefield")
         return
     end
-    
+
     print(string.format("[Battlescape] Generated battlefield: %dx%d tiles", self.battlefield.width, self.battlefield.height))
-    
+
     -- Initialize combat systems (requires battlefield reference)
     self.damageSystem = DamageSystem.new()
     self.explosionSystem = ExplosionSystem.new(self.battlefield, self.damageSystem, self.fireSystem, self.smokeSystem)
     self.projectileSystem = ProjectileSystem.new(self.battlefield, self.damageSystem, self.explosionSystem)
     print("[Battlescape] Combat systems initialized")
-    
+
     -- Initialize duration tracking system for temporary effects
     self.effectTracker = {}
     print("[Battlescape] Duration tracking system initialized")
-    
+
     -- Update MAP_WIDTH and MAP_HEIGHT constants for this session
     MAP_WIDTH = self.battlefield.width
     MAP_HEIGHT = self.battlefield.height
-    
+
     self.camera = Camera.new(0, 0)
     self.selection = UnitSelection.new(self.actionSystem, self.pathfinding, self.battlefield, self.turnManager, self.animationSystem, function() self:updateVisibility() end, function(unit) self:onUnitSelectionChanged(unit) end)
     self.renderer = BattlefieldRenderer.new(TILE_SIZE)
-    
+
     print(string.format("[PROFILE] Battle components init: %.3f ms", (love.timer.getTime() - stepStartTime) * 1000))
     stepStartTime = love.timer.getTime()
 
@@ -227,62 +242,98 @@ function Battlescape:enter()
     Debug.showFOW = true  -- Toggle with F8
     self.showVisibleTiles = false  -- Toggle with F3 key
     print("[Battlescape] Hex system initialized (" .. self.battlefield.width .. "x" .. self.battlefield.height .. ")")
-    
+
     print(string.format("[PROFILE] Hex system init: %.3f ms", (love.timer.getTime() - stepStartTime) * 1000))
     stepStartTime = love.timer.getTime()
 
     -- Initialize game state
     self.unitIdCounter = 1
-    
+
     -- Initialize middle mouse drag state
     self.isDraggingMap = false
     self.dragStartX = 0
     self.dragStartY = 0
     self.dragStartCameraX = 0
     self.dragStartCameraY = 0
-    
+
     self:initTeams()
-    
+
     print(string.format("[PROFILE] Teams init: %.3f ms", (love.timer.getTime() - stepStartTime) * 1000))
     stepStartTime = love.timer.getTime()
-    
+
     self:initUnits()
-    
+
     print(string.format("[PROFILE] Units init: %.3f ms", (love.timer.getTime() - stepStartTime) * 1000))
     stepStartTime = love.timer.getTime()
-    
+
     -- Initialize hover state
     self.hoveredTileX = nil
     self.hoveredTileY = nil
-    
+
     -- Initialize animation state
     self.gameTime = 0  -- For animation timing
-    
+
     -- Initialize turn system
     if self.turnManager:initialize(self.units) then
         self.turnManager:startTeamTurn(self.units)
         self:updateVisibility()
         self:centerCameraOnFirstUnit()
     end
-    
+
     print(string.format("[PROFILE] Turn system + visibility + camera: %.3f ms", (love.timer.getTime() - stepStartTime) * 1000))
     stepStartTime = love.timer.getTime()
 
     -- UI elements
     self:initUI()
-    
+
     print(string.format("[PROFILE] UI init: %.3f ms", (love.timer.getTime() - stepStartTime) * 1000))
     stepStartTime = love.timer.getTime()
 
     -- Day/night
     self.isNight = false
-    
+
     local totalTime = (love.timer.getTime() - startTime) * 1000
     print(string.format("[PROFILE] Total battlescape initialization: %.3f ms", totalTime))
 end
 
 function Battlescape:exit()
     print("[Battlescape] Exiting battlescape state")
+
+    -- Record mission outcome in campaign if mission data exists
+    if self.missionData then
+        local CampaignManager = require("lore.campaign.campaign_manager")
+        local ThreatManager = require("ai.strategic.threat_manager")
+
+        -- Determine victory: player team is still active
+        local playerTeam = self.teamManager:getTeam("team1")
+        local victory = playerTeam and playerTeam:getUnitCount() > 0
+
+        -- Get statistics
+        local kills = 0
+        local damageDelt = 0
+        local unitsLost = 0
+
+        -- Count stats from all teams
+        for _, team in ipairs(self.teamManager.teams) do
+            if team.side == Team.SIDES.PLAYER or team.side == Team.SIDES.ALLY then
+                unitsLost = unitsLost + (team:getMaxUnitCount() - team:getUnitCount())
+            end
+        end
+
+        -- Record mission in campaign and threat system
+        print(string.format("[Battlescape] Recording mission outcome: %s (%s)",
+            self.missionData.id or "unnamed",
+            victory and "VICTORY" or "DEFEAT"))
+
+        CampaignManager:recordMissionOutcome(victory, kills, damageDelt)
+        ThreatManager.recordMissionOutcome(victory)  -- Update threat based on result
+
+        -- Advance campaign time
+        CampaignManager:advanceDay()
+
+        print(string.format("[Battlescape] Campaign updated - Threat: %.1f%% | Units lost: %d",
+            ThreatManager.getThreatLevel() * 100, unitsLost))
+    end
 end
 
 function Battlescape:initTeams()
@@ -295,7 +346,7 @@ function Battlescape:initTeams()
         {name = "team5", displayName = "Purple Team", side = Team.SIDES.ENEMY, color = {1, 0, 1}},
         {name = "team6", displayName = "Cyan Team", side = Team.SIDES.ENEMY, color = {0, 1, 1}},
     }
-    
+
     for _, teamData in ipairs(teams) do
         local team = Team.new(teamData.name, teamData.displayName, teamData.side)
         team.color = teamData.color
@@ -323,7 +374,7 @@ function Battlescape:initUI()
 
     -- SECTION 2: Info Frame (Middle) - Unit Info Panel
     self.infoFrame = Widgets.FrameBox.new(guiX, SECTION_HEIGHT, 240, SECTION_HEIGHT, "Unit Info")
-    
+
     -- Create unit info panel widget
     local UnitInfoPanel = require("gui.widgets.display.unit_info_panel")
     self.unitInfoPanel = UnitInfoPanel:new({
@@ -380,20 +431,20 @@ end
 function Battlescape:initUnits()
     local unitsStartTime = love.timer.getTime()
     self.units = {}
-    
+
     -- Create spatial hash for O(1) collision detection
     local SpatialHash = require("core.spatial_hash")
     local spatialHash = SpatialHash.new(MAP_WIDTH, MAP_HEIGHT, 10)  -- 10x10 cell size
-    
+
     -- Helper function to find valid spawn position using spatial hash
     local function findValidPosition(minX, maxX, minY, maxY)
         for attempt = 1, 100 do
             local x = math.random(minX, maxX)
             local y = math.random(minY, maxY)
-            
+
             -- Check if tile is walkable (not wall)
             local walkable = self.battlefield:isWalkable(x, y)
-            
+
             if walkable then
                 -- Check if no unit already there using spatial hash (O(1) instead of O(n))
                 if not spatialHash:isOccupied(x, y) then
@@ -413,14 +464,14 @@ function Battlescape:initUnits()
         {name = "team5", spawnArea = {31, 58, 61, 88}},   -- Bottom-center
         {name = "team6", spawnArea = {61, 88, 61, 88}},   -- Bottom-right
     }
-    
+
     local totalUnits = 0
     for _, td in ipairs(teamData) do
         local team = self.teamManager:getTeam(td.name)
         if team then
             local numUnits = math.random(12, 36)  -- Random 12-36 units per team
             print(string.format("[Battlescape] Spawning %d units for %s", numUnits, td.name))
-            
+
             for i = 1, numUnits do
                 local x, y = findValidPosition(td.spawnArea[1], td.spawnArea[2], td.spawnArea[3], td.spawnArea[4])
                 if x and y then
@@ -442,15 +493,15 @@ function Battlescape:initUnits()
             end
         end
     end
-    
+
     -- Log spatial hash statistics
     local stats = spatialHash:getStats()
-    print(string.format("[SpatialHash] Stats: %d items, %.1f%% load, avg %.2f items/cell", 
+    print(string.format("[SpatialHash] Stats: %d items, %.1f%% load, avg %.2f items/cell",
         stats.totalItems, stats.loadFactor * 100, stats.avgItemsPerCell))
 
     print(string.format("[Battlescape] Initialized %d units across 6 teams", totalUnits))
-    print(string.format("[PROFILE] Unit spawning details: %.3f ms total, %.3f ms per unit", 
-          (love.timer.getTime() - unitsStartTime) * 1000, 
+    print(string.format("[PROFILE] Unit spawning details: %.3f ms total, %.3f ms per unit",
+          (love.timer.getTime() - unitsStartTime) * 1000,
           ((love.timer.getTime() - unitsStartTime) * 1000) / totalUnits))
 end
 
@@ -475,7 +526,7 @@ function Battlescape:centerCameraOnFirstUnit()
         local firstUnit = self.units[firstUnitId]
         if firstUnit then
             self.camera:centerOn(firstUnit.x, firstUnit.y, TILE_SIZE, 360, 360)
-            print(string.format("[Battlescape] Centered camera on %s at (%d, %d)", 
+            print(string.format("[Battlescape] Centered camera on %s at (%d, %d)",
                 firstUnit.name, firstUnit.x, firstUnit.y))
         end
     end
@@ -489,15 +540,15 @@ end
 
 function Battlescape:updateVisibility()
     local visStartTime = love.timer.getTime()
-    
+
     -- Calculate FOW for active team only
     local activeTeam = self.turnManager:getCurrentTeam()
     if activeTeam then
         local teamStartTime = love.timer.getTime()
-        
+
         -- Get living units from active team
         local livingUnits = activeTeam:getLivingUnits(self.units)
-        
+
         -- Count dirty units (need visibility recalculation)
         local dirtyCount = 0
         for _, unit in ipairs(livingUnits) do
@@ -505,9 +556,9 @@ function Battlescape:updateVisibility()
                 dirtyCount = dirtyCount + 1
             end
         end
-        
+
         print(string.format("[PROFILE] Get living units (%d, %d dirty): %.3f ms", #livingUnits, dirtyCount, (love.timer.getTime() - teamStartTime) * 1000))
-        
+
         local losStartTime = love.timer.getTime()
         local allVisible = {}
         local calculatedCount = 0
@@ -520,21 +571,21 @@ function Battlescape:updateVisibility()
                 local visible = self.losSystem:calculateVisibilityForUnit(unit, self.battlefield, not self.isNight, unitStartTime)
                 local unitTime = (love.timer.getTime() - unitStartTime) * 1000
                 calculatedCount = calculatedCount + 1
-                
+
                 if visible then
                     -- Cache visibility for this unit
                     unit.cachedVisibility = visible
-                    
+
                     -- Use numeric keys for better performance
                     for _, tile in ipairs(visible) do
                         local key = tile.y * MAP_WIDTH + tile.x
                         allVisible[key] = tile
                     end
                 end
-                
+
                 -- Mark unit as clean
                 unit.visibilityDirty = false
-                
+
                 if unitTime > 1.0 then  -- Log slow units
                     print(string.format("[PROFILE] Unit %s LOS (%d tiles): %.3f ms", unit.name, visible and #visible or 0, unitTime))
                 end
@@ -548,32 +599,32 @@ function Battlescape:updateVisibility()
                 end
             end
         end
-        
-        print(string.format("[PROFILE] LOS calculation for %d units (%d calculated, %d skipped): %.3f ms", 
+
+        print(string.format("[PROFILE] LOS calculation for %d units (%d calculated, %d skipped): %.3f ms",
             #livingUnits, calculatedCount, #livingUnits - calculatedCount, (love.timer.getTime() - losStartTime) * 1000))
-        
+
         local aggregateStartTime = love.timer.getTime()
         -- Convert back to array
         local visibleArray = {}
         for _, tile in pairs(allVisible) do
             table.insert(visibleArray, tile)
         end
-        
+
         print(string.format("[PROFILE] Aggregate %d visible tiles: %.3f ms", #visibleArray, (love.timer.getTime() - aggregateStartTime) * 1000))
 
         -- Update team visibility
         local updateStartTime = love.timer.getTime()
         activeTeam:updateFromUnitLOS(nil, visibleArray)
         print(string.format("[PROFILE] Update team visibility: %.3f ms", (love.timer.getTime() - updateStartTime) * 1000))
-        
+
         -- Log cache stats
         if self.losSystem.getCacheStats then
             local stats = self.losSystem:getCacheStats()
-            print(string.format("[CACHE] Hit rate: %.1f%% (Hits: %d, Misses: %d, Size: %d)", 
+            print(string.format("[CACHE] Hit rate: %.1f%% (Hits: %d, Misses: %d, Size: %d)",
                 stats.hit_rate, stats.hits, stats.misses, stats.size))
         end
     end
-    
+
     print(string.format("[PROFILE] Total updateVisibility: %.3f ms", (love.timer.getTime() - visStartTime) * 1000))
 end
 
@@ -625,86 +676,98 @@ end
 function Battlescape:update(dt)
     -- Update game time for animations
     self.gameTime = self.gameTime + dt
-    
+
     -- Update animation system
     self.animationSystem:update(dt)
-    
+
     -- Update notification panel
     if self.notificationPanel then
         self.notificationPanel:update(dt)
     end
-    
+
     -- Update projectile system
     if self.projectileSystem then
         self.projectileSystem:update(dt)
     end
-    
+
+    -- Update 3D viewer (camera rotation with WASD, etc)
+    if self.view3D then
+        self.view3D:update(dt)
+    end
+
     -- Camera has no update method, just position tracking
 end
 
 function Battlescape:draw()
     -- Get battlefield viewport (dynamically sized based on window)
     local viewX, viewY, viewWidth, viewHeight = Viewport.getBattlefieldViewport()
-    
+
     -- Set scissor for battlefield area (physical pixels)
     love.graphics.setScissor(viewX, viewY, viewWidth, viewHeight)
-    
+
     -- Draw battlefield (no scaling, just viewport)
     love.graphics.push()
     love.graphics.translate(viewX, viewY)
-    
-    -- Day/night tint
-    if self.isNight then
-        love.graphics.setColor(0.8, 0.8, 1, 1)  -- Blue tint for night (reduce R/G by 20%)
+
+    -- Check if 3D view is enabled
+    if self.view3D and self.view3D:isEnabled() then
+        -- Draw 3D first-person view
+        self.view3D:draw()
     else
-        love.graphics.setColor(1, 1, 1, 1)
+        -- Draw 2D top-down tactical view
+        -- Day/night tint
+        if self.isNight then
+            love.graphics.setColor(0.8, 0.8, 1, 1)  -- Blue tint for night (reduce R/G by 20%)
+        else
+            love.graphics.setColor(1, 1, 1, 1)
+        end
+
+        -- Draw battlefield using the correct method
+        local activeTeam = self.turnManager:getCurrentTeam()
+        self.renderer:draw(self.battlefield, self.camera, self.teamManager, activeTeam, self.isNight, viewWidth, viewHeight)
+
+        -- Draw fire and smoke effects
+        self:drawFireAndSmoke()
+
+        -- Draw units
+        self:drawUnits()
+
+        -- Draw projectiles
+        if self.projectileSystem then
+            self:drawProjectiles()
+        end
+
+        -- Draw FOW for active team
+        local activeTeam = self.turnManager:getCurrentTeam()
+        if activeTeam then
+            self:drawFogOfWar(activeTeam)
+        end
+
+        -- Draw selection
+        if self.selection.selectedUnit then
+            self.renderer:drawSelection(self.selection, self.camera, self.animationSystem, self.losSystem, not self.isNight, self.showVisibleTiles)
+        end
     end
-    
-    -- Draw battlefield using the correct method
-    local activeTeam = self.turnManager:getCurrentTeam()
-    self.renderer:draw(self.battlefield, self.camera, self.teamManager, activeTeam, self.isNight, viewWidth, viewHeight)
-    
-    -- Draw fire and smoke effects
-    self:drawFireAndSmoke()
-    
-    -- Draw units
-    self:drawUnits()
-    
-    -- Draw projectiles
-    if self.projectileSystem then
-        self:drawProjectiles()
-    end
-    
-    -- Draw FOW for active team
-    local activeTeam = self.turnManager:getCurrentTeam()
-    if activeTeam then
-        self:drawFogOfWar(activeTeam)
-    end
-    
-    -- Draw selection
-    if self.selection.selectedUnit then
-        self.renderer:drawSelection(self.selection, self.camera, self.animationSystem, self.losSystem, not self.isNight, self.showVisibleTiles)
-    end
-    
+
     love.graphics.setColor(1, 1, 1, 1)  -- Reset color
     love.graphics.pop()
-    
+
     -- Reset scissor
     love.graphics.setScissor()
-    
+
     -- Draw GUI panels (no scaling - always 240�720)
     self:drawGUI()
-    
+
     -- Draw skill selection widget if active
     if self.skillSelectionWidget then
         self.skillSelectionWidget:draw()
     end
-    
+
     -- Draw debug overlays on top of everything (after GUI)
     if Debug.showHexGrid then
         HexSystem.drawHexGrid(self.hexSystem, self.camera)
     end
-    
+
     if Debug.showVisionCones then
         local activeTeam = self.turnManager:getCurrentTeam()
         if activeTeam and activeTeam.units then
@@ -720,7 +783,7 @@ function Battlescape:draw()
             end
         end
     end
-    
+
     -- Draw debug overlay on top of everything
     if Debug.enabled then
         Debug.drawPerformanceStats()
@@ -754,29 +817,29 @@ function Battlescape:drawMinimap()
     local contentY = self.minimapContentY
     local contentW = self.minimapContentWidth
     local contentH = self.minimapContentHeight
-    
+
     -- Calculate minimap scale
     local pixelsPerTileX = contentW / MAP_WIDTH
     local pixelsPerTileY = contentH / MAP_HEIGHT
-    
+
     -- Draw minimap tiles
     local currentTeam = self.turnManager:getCurrentTeam()
-    
+
     -- Note: Removed dynamic visibility calculation during movement
     -- Minimap now only shows static team visibility, updated when movement completes
-    
+
     for y = 1, MAP_HEIGHT do
         for x = 1, MAP_WIDTH do
             local visibility = "hidden"
-            
+
             -- Use team visibility (no dynamic calculation during movement)
             if currentTeam and currentTeam.visibility[y] and currentTeam.visibility[y][x] then
                 visibility = currentTeam.visibility[y][x]
             end
-            
+
             local mx = contentX + (x - 1) * pixelsPerTileX
             local my = contentY + (y - 1) * pixelsPerTileY
-            
+
             -- Find unit at this tile
             local unitAtTile = nil
             for _, unit in pairs(self.units) do
@@ -785,7 +848,7 @@ function Battlescape:drawMinimap()
                     break
                 end
             end
-            
+
             if visibility == "hidden" then
                 -- Black for unexplored terrain
                 love.graphics.setColor(0, 0, 0, 1)
@@ -814,42 +877,42 @@ function Battlescape:drawMinimap()
                     love.graphics.setColor(0.6, 0.6, 0.6, 1)
                 end
             end
-            
+
             love.graphics.rectangle("fill", mx, my, pixelsPerTileX, pixelsPerTileY)
         end
     end
-    
+
     -- Draw minimap tiles (already shows actual visibility - no need for circular overlays)
     -- self:drawMinimapSightRanges(contentX, contentY, pixelsPerTileX, pixelsPerTileY, currentTeam)
-    
+
     -- Draw viewport rectangle
     local _, _, viewWidth, viewHeight = Viewport.getBattlefieldViewport()
     local visibleWidth = viewWidth
     local visibleHeight = viewHeight
-    
+
     -- Calculate center of viewport in tile coordinates
     local centerTileX = (viewWidth/2 - self.camera.x) / (TILE_SIZE * self.camera.zoom)
     local centerTileY = (viewHeight/2 - self.camera.y) / (TILE_SIZE * self.camera.zoom)
-    
+
     local viewportTileWidth = visibleWidth / TILE_SIZE
     local viewportTileHeight = visibleHeight / TILE_SIZE
-    
+
     local vpMinimapX = (centerTileX - viewportTileWidth/2) * pixelsPerTileX
     local vpMinimapY = (centerTileY - viewportTileHeight/2) * pixelsPerTileY
     local vpMinimapWidth = viewportTileWidth * pixelsPerTileX
     local vpMinimapHeight = viewportTileHeight * pixelsPerTileY
-    
+
     vpMinimapX = math.max(0, math.min(vpMinimapX, contentW - vpMinimapWidth))
     vpMinimapY = math.max(0, math.min(vpMinimapY, contentH - vpMinimapHeight))
-    
+
     love.graphics.setColor(1, 1, 1, 0.5)
-    love.graphics.rectangle("line", 
+    love.graphics.rectangle("line",
         contentX + vpMinimapX,
         contentY + vpMinimapY,
         vpMinimapWidth,
         vpMinimapHeight
     )
-    
+
     love.graphics.setColor(1, 1, 1, 1)
 end
 
@@ -859,38 +922,38 @@ end
 function Battlescape:drawInformation()
     -- Clear existing content
     self.infoScrollBox:clear()
-    
+
     local infoLines = {}
-    
+
     -- Active team info
     local activeTeam = self.turnManager:getCurrentTeam()
     if activeTeam then
         table.insert(infoLines, "Team: " .. activeTeam.name)
     end
-    
+
     -- Day/Night
     table.insert(infoLines, "Time: " .. (self.isNight and "Night" or "Day"))
     table.insert(infoLines, "")  -- Extra spacing
-    
+
     -- Selected unit info
     if self.selection.selectedUnit then
         table.insert(infoLines, "=== SELECTED UNIT ===")
         local unit = self.selection.selectedUnit
         table.insert(infoLines, "Unit: " .. unit.name)
-        
+
         -- Health and Energy
         local healthPercent = math.floor((unit.health / unit.maxHealth) * 100)
         table.insert(infoLines, string.format("HP: %d/%d (%d%%)", unit.health, unit.maxHealth, healthPercent))
-        
+
         if unit.energy and unit.maxEnergy then
             local energyPercent = math.floor((unit.energy / unit.maxEnergy) * 100)
             table.insert(infoLines, string.format("Energy: %d/%d (%d%%)", unit.energy, unit.maxEnergy, energyPercent))
         end
-        
+
         -- Action Points
         table.insert(infoLines, string.format("AP: %d/%d", unit.actionPointsLeft, unit.actionPoints))
         table.insert(infoLines, string.format("MP: %d/%d", unit.movementPointsLeft, unit.movementPoints))
-        
+
         -- Combat Stats
         if unit.stats then
             if unit.stats.aim then
@@ -906,23 +969,23 @@ function Battlescape:drawInformation()
                 table.insert(infoLines, string.format("Reactions: %d", unit.stats.react))
             end
         end
-        
+
         -- Position and Facing
         table.insert(infoLines, string.format("Pos: (%d, %d)", unit.x, unit.y))
         table.insert(infoLines, string.format("Facing: %d�", unit.facing or 0))
-        
+
         -- Weapon Info
         if unit.weapon1 then
             table.insert(infoLines, "Weapon: " .. unit.weapon1)
         end
-        
+
         table.insert(infoLines, "")  -- Extra spacing
     end
-    
+
     -- Hovered tile/unit info
     if self.hoveredTileX and self.hoveredTileY then
         table.insert(infoLines, "=== HOVER INFO ===")
-        
+
         local tile = self.battlefield:getTile(self.hoveredTileX, self.hoveredTileY)
         if tile then
             table.insert(infoLines, "Tile: (" .. self.hoveredTileX .. ", " .. self.hoveredTileY .. ")")
@@ -931,7 +994,7 @@ function Battlescape:drawInformation()
             local cover = math.floor(tile:getCover() * 100)
             table.insert(infoLines, "Cover: " .. cover .. "%")
         end
-        
+
         -- Check for unit at hovered position
         local hoveredUnit = self:getUnitAt(self.hoveredTileX, self.hoveredTileY)
         if hoveredUnit and hoveredUnit ~= self.selection.selectedUnit then
@@ -944,7 +1007,7 @@ function Battlescape:drawInformation()
             end
         end
     end
-    
+
     -- Create labels for each line and add to scroll box
     local y = 0
     for i, line in ipairs(infoLines) do
@@ -988,7 +1051,7 @@ function Battlescape:drawFogOfWar(team)
     -- Draw FOW overlay (respects Debug.showFOW flag)
     if not Debug.showFOW then return end
     if not team or not team.visibility then return end
-    
+
     for y = 1, MAP_HEIGHT do
         for x = 1, MAP_WIDTH do
             local state = team:getVisibility(x, y)
@@ -1003,7 +1066,7 @@ function Battlescape:drawFogOfWar(team)
             end
         end
     end
-    
+
     love.graphics.setColor(1, 1, 1, 1)
 end
 
@@ -1018,20 +1081,20 @@ function Battlescape:drawUnits()
                 local visibility = activeTeam:getVisibility(unit.x, unit.y)
                 tileVisible = (visibility == "visible")
             end
-            
+
             if tileVisible then
                 local screenX = ((unit.x - 1) * TILE_SIZE) * self.camera.zoom + self.camera.x
                 -- Offset alternate columns to simulate hex grid
                 local offsetY = (unit.x % 2 == 0) and (TILE_SIZE * self.camera.zoom * 0.5) or 0
                 local screenY = ((unit.y - 1) * TILE_SIZE) * self.camera.zoom + self.camera.y + offsetY
-            
+
             -- Get team color
             local team = self.teamManager:getTeam(unit.team)
             local color = {1, 1, 1}  -- Default white
             if team and team.color then
                 color = team.color
             end
-            
+
             -- Get unit sprite
             local sprite = Assets.get("units", "unit test")
             if sprite then
@@ -1042,13 +1105,13 @@ function Battlescape:drawUnits()
                 love.graphics.setColor(color[1], color[2], color[3], 1)
                 love.graphics.rectangle("fill", screenX, screenY, TILE_SIZE * self.camera.zoom, TILE_SIZE * self.camera.zoom)
             end
-            
+
             -- Draw health bar
             if unit.health < unit.maxHealth then
                 local barWidth = TILE_SIZE * self.camera.zoom
                 local barHeight = 3 * self.camera.zoom
                 local healthPercent = unit.health / unit.maxHealth
-                
+
                 love.graphics.setColor(1, 0, 0, 1)
                 love.graphics.rectangle("fill", screenX, screenY - 5 * self.camera.zoom, barWidth, barHeight)
                 love.graphics.setColor(0, 1, 0, 1)
@@ -1057,7 +1120,7 @@ function Battlescape:drawUnits()
             end
         end
     end
-    
+
     -- Draw unmoved unit indicators
     for _, unit in pairs(self.units) do
         if unit and unit.alive then
@@ -1067,13 +1130,13 @@ function Battlescape:drawUnits()
                 local visibility = activeTeam:getVisibility(unit.x, unit.y)
                 tileVisible = (visibility == "visible")
             end
-            
+
             if tileVisible then
                 self.renderer:drawUnmovedUnitIndicator(unit, self.camera, love.timer.getTime())
             end
         end
     end
-    
+
     love.graphics.setColor(1, 1, 1, 1)
 end
 
@@ -1084,30 +1147,30 @@ function Battlescape:drawFireAndSmoke()
             local screenX = ((fire.x - 1) * TILE_SIZE) * self.camera.zoom + self.camera.x
             local offsetY = (fire.x % 2 == 0) and (TILE_SIZE * self.camera.zoom * 0.5) or 0
             local screenY = ((fire.y - 1) * TILE_SIZE) * self.camera.zoom + self.camera.y + offsetY
-            
+
             -- Animated fire effect (flicker)
             local flicker = 0.8 + math.sin(self.gameTime * 10) * 0.2
             love.graphics.setColor(1, 0.4 * flicker, 0, 0.7)  -- Orange fire
-            love.graphics.rectangle("fill", screenX, screenY, 
+            love.graphics.rectangle("fill", screenX, screenY,
                 TILE_SIZE * self.camera.zoom, TILE_SIZE * self.camera.zoom)
         end
     end
-    
+
     -- Draw smoke tiles (gray with transparency)
     if self.smokeSystem then
         for _, smoke in ipairs(self.smokeSystem.activeSmoke) do
             local screenX = ((smoke.x - 1) * TILE_SIZE) * self.camera.zoom + self.camera.x
             local offsetY = (smoke.x % 2 == 0) and (TILE_SIZE * self.camera.zoom * 0.5) or 0
             local screenY = ((smoke.y - 1) * TILE_SIZE) * self.camera.zoom + self.camera.y + offsetY
-            
+
             -- Smoke opacity based on level (1=light, 2=medium, 3=heavy)
             local alpha = smoke.level * 0.2  -- 0.2, 0.4, 0.6
             love.graphics.setColor(0.5, 0.5, 0.5, alpha)  -- Gray smoke
-            love.graphics.rectangle("fill", screenX, screenY, 
+            love.graphics.rectangle("fill", screenX, screenY,
                 TILE_SIZE * self.camera.zoom, TILE_SIZE * self.camera.zoom)
         end
     end
-    
+
     love.graphics.setColor(1, 1, 1, 1)  -- Reset
 end
 
@@ -1116,25 +1179,35 @@ function Battlescape:keypressed(key, scancode, isrepeat)
     if self.skillSelectionWidget and self.skillSelectionWidget:keypressed(key) then
         return
     end
-    
+
+    -- SPACE: Toggle 2D/3D view
+    if key == "space" then
+        if self.view3D then
+            self.view3D:toggleMode()
+            local mode = self.view3D:isEnabled() and "3D" or "2D"
+            print("[Battlescape] Switched to " .. mode .. " mode (Press SPACE to toggle)")
+        end
+        return
+    end
+
     if key == "escape" then
         StateManager.switch("menu")
         return
     end
-    
+
     -- F4: Toggle day/night
     if key == "f4" then
         self:toggleDayNight()
         return
     end
-    
+
     -- F3: Toggle visible tile indicators
     if key == "f3" then
         self.showVisibleTiles = not self.showVisibleTiles
         print("[Battlescape] Visible tile indicators:", self.showVisibleTiles and "ON" or "OFF")
         return
     end
-    
+
     -- F5: Save map to PNG
     if key == "f5" then
         local MapSaver = require("battlescape.maps.map_saver")
@@ -1146,7 +1219,7 @@ function Battlescape:keypressed(key, scancode, isrepeat)
         end
         return
     end
-    
+
     -- F6: Start test fire at camera center
     if key == "f6" then
         if self.fireSystem then
@@ -1154,7 +1227,7 @@ function Battlescape:keypressed(key, scancode, isrepeat)
             local centerY = math.floor(-self.camera.y / (TILE_SIZE * self.camera.zoom)) + 15
             centerX = math.max(1, math.min(centerX, MAP_WIDTH))
             centerY = math.max(1, math.min(centerY, MAP_HEIGHT))
-            
+
             local success = self.fireSystem:startFire(self.battlefield, centerX, centerY)
             if success then
                 print(string.format("[Battlescape] Test fire started at (%d, %d)", centerX, centerY))
@@ -1164,7 +1237,7 @@ function Battlescape:keypressed(key, scancode, isrepeat)
         end
         return
     end
-    
+
     -- F7: Clear all fires and smoke
     if key == "f7" then
         if self.fireSystem and self.smokeSystem then
@@ -1174,33 +1247,33 @@ function Battlescape:keypressed(key, scancode, isrepeat)
         end
         return
     end
-    
+
     -- F8: Toggle FOW display
     if key == "f8" then
         Debug.toggleFOW()
         print("[Battlescape] FOW display:", Debug.showFOW and "ON" or "OFF")
         return
     end
-    
+
     -- F9: Toggle hex grid
     if key == "f9" then
         Debug.toggleHexGrid()
         print("[Battlescape] Hex grid:", Debug.showHexGrid and "ON" or "OFF")
         return
     end
-    
+
     -- F10: Toggle debug mode
     if key == "f10" then
         Debug.toggle()
         return
     end
-    
+
     -- Space: Switch team
     if key == "space" then
         self:switchTeam()
         return
     end
-    
+
     -- Arrow keys: Move camera
     local moveSpeed = TILE_SIZE * 5
     if key == "left" then
@@ -1212,17 +1285,17 @@ function Battlescape:keypressed(key, scancode, isrepeat)
     elseif key == "down" then
         self.camera.y = self.camera.y - moveSpeed
     end
-    
+
     -- Rotation keys: Q/E
     if (key == "q" or key == "e") and self.selection.selectedUnit then
         local unit = self.selection.selectedUnit
-        
+
         -- Check if unit has enough MP for rotation
         if unit.movementPointsLeft >= 1 then
             local direction = (key == "q") and -1 or 1
             unit.facing = ((unit.facing or 0) + direction) % 8
             unit.movementPointsLeft = unit.movementPointsLeft - 1
-            print(string.format("[Battlescape] %s rotated to facing %d (MP: %d)", 
+            print(string.format("[Battlescape] %s rotated to facing %d (MP: %d)",
                 unit.name, unit.facing, unit.movementPointsLeft))
         else
             print(string.format("[Battlescape] %s has no MP to rotate", unit.name))
@@ -1236,12 +1309,52 @@ function Battlescape:mousepressed(x, y, button, istouch, presses)
     if self.animationSystem:isAnimating() then
         return
     end
-    
+
     -- Handle skill selection widget input first
     if self.skillSelectionWidget and self.skillSelectionWidget:mousepressed(x, y, button) then
         return
     end
-    
+
+    -- Handle 3D mode mouse picking
+    if self.view3D and self.view3D:isEnabled() then
+        if button == 1 then
+            -- Left click in 3D: shoot if in combat, select if not
+            local activeUnit = self.selection.selectedUnit or (self.turnManager and self.turnManager:getCurrentActor())
+
+            if activeUnit and activeUnit.alive and self.turnManager and self.turnManager:getCurrentTeam() == activeUnit.team then
+                -- Try to shoot (will select target via billboards)
+                local result = self.view3D:shoot3D(
+                    x, y,
+                    activeUnit,
+                    self.targetSystem,
+                    self.losSystem,
+                    self
+                )
+
+                if result.success then
+                    print(string.format("[Battlescape] 3D shot: %s (damage: %d)",
+                        result.isHit and "HIT" or "MISS", result.damage))
+                else
+                    -- Shot failed, try to select unit instead
+                    local billboard = self.view3D.billboardRenderer:getBillboardAtPosition(x, y, 8)
+                    if billboard and billboard.unit then
+                        self:selectUnit(billboard.unit)
+                        print("[Battlescape] Selected unit via 3D picking: " .. billboard.unit.id)
+                    end
+                end
+                return
+            else
+                -- Not active unit's turn, just select
+                local billboard = self.view3D.billboardRenderer:getBillboardAtPosition(x, y, 8)
+                if billboard and billboard.unit then
+                    self:selectUnit(billboard.unit)
+                    print("[Battlescape] Selected unit via 3D picking: " .. billboard.unit.id)
+                end
+                return
+            end
+        end
+    end
+
     -- Middle mouse button: start dragging map
     if button == 3 then
         self.isDraggingMap = true
@@ -1252,7 +1365,7 @@ function Battlescape:mousepressed(x, y, button, istouch, presses)
         print("[Battlescape] Middle mouse drag started")
         return
     end
-    
+
     -- Right mouse button: execute selected action or rotate unit
     if button == 2 then
         if self.selectedAction then
@@ -1276,44 +1389,44 @@ function Battlescape:mousepressed(x, y, button, istouch, presses)
         end
         return
     end
-    
+
     -- Check minimap click
     if x >= self.minimapContentX and x <= self.minimapContentX + self.minimapContentWidth and
        y >= self.minimapContentY and y <= self.minimapContentY + self.minimapContentHeight then
         self:handleMinimapClick(x, y)
         return
     end
-    
+
     -- Check GUI button clicks
     if x < GUI_WIDTH then
         self.actionsFrame:mousepressed(x, y, button)
         return
     end
-    
+
     -- Check notification panel clicks
     if self.notificationPanel and self.notificationPanel:mousepressed(x, y, button) then
         return
     end
-    
+
     -- Battlefield click
     if button == 1 then
         -- Use viewport system to convert screen to tile coordinates
         local tileX, tileY = Viewport.screenToTile(x, y, self.camera, TILE_SIZE)
-        
+
         -- Adjust for hex offset
         if tileX % 2 == 0 then
             local bfX, bfY = Viewport.screenToBattlefield(x, y)
             local worldY = (bfY - self.camera.y) / self.camera.zoom
             tileY = math.floor((worldY - (TILE_SIZE * 0.5)) / TILE_SIZE) + 1
         end
-        
+
         self.selection:handleClick(tileX, tileY, self.battlefield, self.units)
-        
+
         -- Update visible tiles for selected unit
         if self.selection.selectedUnit then
             local visibleTiles = self.losSystem:calculateVisibilityForUnit(
-                self.selection.selectedUnit, 
-                self.battlefield, 
+                self.selection.selectedUnit,
+                self.battlefield,
                 not self.isNight
             )
             self.selection.visibleTiles = visibleTiles or {}
@@ -1327,15 +1440,15 @@ function Battlescape:handleMinimapClick(x, y)
     -- Convert minimap coordinates to world coordinates
     local relX = x - self.minimapContentX
     local relY = y - self.minimapContentY
-    
+
     -- Scale: pixels per tile on minimap
     local pixelsPerTileX = self.minimapContentWidth / MAP_WIDTH
     local pixelsPerTileY = self.minimapContentHeight / MAP_HEIGHT
-    
+
     local worldX = relX / pixelsPerTileX
     -- No Y inversion: top of minimap = top of map
     local worldY = relY / pixelsPerTileY
-    
+
     -- Center camera on clicked position (convert world coords to tile coords)
     local tileX = math.floor(worldX) + 1  -- Convert to 1-based coordinates
     local tileY = math.floor(worldY) + 1  -- Convert to 1-based coordinates
@@ -1345,7 +1458,7 @@ end
 
 function Battlescape:performAction(actionIndex)
     print(string.format("[Battlescape] Action %d triggered", actionIndex))
-    
+
     if actionIndex == 9 then
         -- End Turn button
         self:endTurn()
@@ -1354,7 +1467,7 @@ end
 
 function Battlescape:endTurn()
     print("[Battlescape] Ending turn")
-    
+
     -- Update temporary effects for all living units
     for _, unit in pairs(self.units) do
         if unit and unit.alive then
@@ -1365,18 +1478,18 @@ function Battlescape:endTurn()
             print(string.format("[Battlescape] Cleaned up effects for dead unit: %s", unit.name or "Unknown"))
         end
     end
-    
+
     -- Update fire and smoke before turn ends
     if self.fireSystem and self.smokeSystem then
         self.fireSystem:update(self.battlefield, self.units, self.smokeSystem)
         self.smokeSystem:update(self.battlefield)
-        
+
         -- Invalidate LOS cache since terrain effects changed
         if self.losSystem and self.losSystem.cache then
             self.losSystem.cache:invalidateArea(1, 1, MAP_WIDTH, MAP_HEIGHT)
         end
     end
-    
+
     if self.turnManager:endTurn(self.units) then
         self:updateVisibility()
         self:centerCameraOnFirstUnit()
@@ -1390,7 +1503,7 @@ function Battlescape:mousereleased(x, y, button, istouch, presses)
         print("[Battlescape] Middle mouse drag ended")
         return
     end
-    
+
     -- Handle UI releases
     if x < GUI_WIDTH then
         self.actionsFrame:mousereleased(x, y, button)
@@ -1402,24 +1515,24 @@ function Battlescape:mousemoved(x, y, dx, dy, istouch)
     if self.isDraggingMap then
         local deltaX = x - self.dragStartX
         local deltaY = y - self.dragStartY
-        
+
         -- Update camera position (dragging moves camera in opposite direction)
         self.camera.x = self.dragStartCameraX + deltaX
         self.camera.y = self.dragStartCameraY + deltaY
-        
+
         return
     end
-    
+
     -- Update hovered tile
     self:updateHoveredTile(x, y)
-    
+
     -- Handle UI hover
     if x < GUI_WIDTH then
         self.actionsFrame:mousemoved(x, y, dx, dy)
     else
         -- Update path preview if unit is selected and hovering battlefield
         if self.hoveredTileX and self.hoveredTileY then
-            self.selection:updateHover(self.hoveredTileX, self.hoveredTileY, 
+            self.selection:updateHover(self.hoveredTileX, self.hoveredTileY,
                 self.battlefield, self.actionSystem, self.pathfinding)
         end
     end
@@ -1432,17 +1545,17 @@ function Battlescape:updateHoveredTile(x, y)
         self.hoveredTileY = nil
         return
     end
-    
+
     -- Use viewport system to convert screen to tile coordinates
     local tileX, tileY = Viewport.screenToTile(x, y, self.camera, TILE_SIZE)
-    
+
     -- Adjust for hex offset
     if tileX % 2 == 0 then
         local bfX, bfY = Viewport.screenToBattlefield(x, y)
         local worldY = (bfY - self.camera.y) / self.camera.zoom
         tileY = math.floor((worldY - (TILE_SIZE * 0.5)) / TILE_SIZE) + 1
     end
-    
+
     -- Validate tile is within map bounds
     if tileX >= 1 and tileX <= MAP_WIDTH and tileY >= 1 and tileY <= MAP_HEIGHT then
         self.hoveredTileX = tileX
@@ -1476,33 +1589,33 @@ function Battlescape:handleUnitRotation(x, y)
     if not self.selection.selectedUnit then
         return
     end
-    
+
     -- Convert screen coordinates to tile coordinates
     local tileX, tileY = Viewport.screenToTile(x, y, self.camera, TILE_SIZE)
-    
+
     -- Adjust for hex offset
     if tileX % 2 == 0 then
         local bfX, bfY = Viewport.screenToBattlefield(x, y)
         local worldY = (bfY - self.camera.y) / self.camera.zoom
         tileY = math.floor((worldY - (TILE_SIZE * 0.5)) / TILE_SIZE) + 1
     end
-    
+
     -- Calculate direction from unit to clicked position
     local unit = self.selection.selectedUnit
     local dx = tileX - unit.x
     local dy = tileY - unit.y
-    
+
     -- Convert to hex direction (0-5, where 0 = east, increasing clockwise)
     local targetFacing = self:calculateHexFacing(dx, dy)
-    
+
     -- Rotate unit with animation
     local success = self.actionSystem:rotateUnitAnimated(unit, targetFacing, self.animationSystem, function()
         -- Update LOS after rotation completes
         self:updateVisibility()
     end)
-    
+
     if success then
-        print(string.format("[Battlescape] Rotating %s to face (%d,%d) - direction %d", 
+        print(string.format("[Battlescape] Rotating %s to face (%d,%d) - direction %d",
               unit.name, tileX, tileY, targetFacing))
     end
 end
@@ -1510,19 +1623,19 @@ end
 -- Calculate hex facing direction from delta coordinates
 function Battlescape:calculateHexFacing(dx, dy)
     -- Hex directions: 0=east, 1=southeast, 2=southwest, 3=west, 4=northwest, 5=northeast
-    
+
     -- Handle exact cardinal directions first
     if dx > 0 and dy == 0 then return 0 end      -- East
     if dx < 0 and dy == 0 then return 3 end      -- West
     if dx == 0 and dy > 0 then return 1 end      -- Southeast (assuming pointy-top hex)
     if dx == 0 and dy < 0 then return 4 end      -- Northwest
-    
+
     -- Handle diagonal directions
     if dx > 0 and dy > 0 then return 1 end       -- Southeast
     if dx > 0 and dy < 0 then return 5 end       -- Northeast
     if dx < 0 and dy > 0 then return 2 end       -- Southwest
     if dx < 0 and dy < 0 then return 4 end       -- Northwest
-    
+
     -- Default to current facing if no clear direction
     return self.selection.selectedUnit.facing or 0
 end
@@ -1534,7 +1647,7 @@ function Battlescape:performInventoryAction(action)
         print("[Battlescape] No unit selected for inventory action")
         return
     end
-    
+
     if action == "weapon_left" then
         -- Switch to left weapon
         print("[Battlescape] Switching to left weapon")
@@ -1556,7 +1669,7 @@ function Battlescape:performUnitAction(action)
         print("[Battlescape] No unit selected for action")
         return
     end
-    
+
     if action == "rest" then
         -- Unit rests (regain some AP)
         print("[Battlescape] Unit resting")
@@ -1578,7 +1691,7 @@ function Battlescape:performMovementAction(action)
         print("[Battlescape] No unit selected for movement")
         return
     end
-    
+
     if action == "walk" then
         -- Normal walking speed
         print("[Battlescape] Switching to walk mode")
@@ -1596,7 +1709,7 @@ end
 
 function Battlescape:performMapAction(action)
     print("[Battlescape] Map action: " .. action)
-    
+
     if action == "next_unit" then
         -- Select next unit in team
         self:selectNextUnit()
@@ -1615,7 +1728,7 @@ end
 function Battlescape:selectNextUnit()
     local activeTeam = self.turnManager:getCurrentTeam()
     if not activeTeam or not activeTeam.units then return end
-    
+
     -- Find current selected unit index
     local currentIndex = 0
     if self.selection.selectedUnit then
@@ -1626,13 +1739,13 @@ function Battlescape:selectNextUnit()
             end
         end
     end
-    
+
     -- Find next living unit that hasn't moved yet (has full AP)
     local nextIndex = currentIndex + 1
     if nextIndex > #activeTeam.units then
         nextIndex = 1
     end
-    
+
     for i = 1, #activeTeam.units do
         local unitId = activeTeam.units[nextIndex]
         local unit = self.units[unitId]
@@ -1647,7 +1760,7 @@ function Battlescape:selectNextUnit()
             nextIndex = 1
         end
     end
-    
+
     -- If no unmoved units found, select any living unit (fallback)
     print("[Battlescape] No unmoved units found, selecting any living unit")
     for i = 1, #activeTeam.units do
@@ -1735,16 +1848,16 @@ function Battlescape:executeWeaponAction(weaponSlot, tileX, tileY)
 
     -- Weapon firing implementation using projectile system
     print(string.format("[Battlescape] %s firing %s at (%d, %d)", unit.name, weapon.name or weaponSlot, tileX, tileY))
-    
+
     -- Get unit's current position
     local startX, startY = unit.x, unit.y
-    
+
     -- Create projectile from weapon
     if self.projectileSystem then
         local projectile = self.projectileSystem:createProjectileFromWeapon(
             weapon, unit, startX, startY, tileX, tileY
         )
-        
+
         -- Add notification
         if self.notificationPanel then
             self.notificationPanel:addNotification(
@@ -1753,7 +1866,7 @@ function Battlescape:executeWeaponAction(weaponSlot, tileX, tileY)
                 {x = tileX, y = tileY}
             )
         end
-        
+
         print("[Battlescape] Projectile created and launched")
     else
         print("[Battlescape] ERROR: Projectile system not available")
@@ -1775,14 +1888,14 @@ function Battlescape:executeArmorAction(tileX, tileY)
 
     -- Armor ability implementation based on armor type
     print(string.format("[Battlescape] %s using armor ability at (%d, %d)", unit.name, tileX, tileY))
-    
+
     -- Get armor ability effect based on armor type
     local abilityEffect = self:getArmorAbilityEffect(unit.armor)
-    
+
     -- Apply the ability effect
     if abilityEffect then
         self:applyArmorAbilityEffect(unit, abilityEffect, tileX, tileY)
-        
+
         if self.notificationPanel then
             self.notificationPanel:addNotification(
                 "armor_ability",
@@ -1995,18 +2108,18 @@ end
 
 function Battlescape:drawProjectiles()
     if not self.projectileSystem then return end
-    
+
     local projectiles = self.projectileSystem:getActiveProjectiles()
     for _, projectile in ipairs(projectiles) do
         -- Convert tile coordinates to screen coordinates
         local screenX = ((projectile.x - 1) * TILE_SIZE) * self.camera.zoom + self.camera.x
         local offsetY = (projectile.x % 2 == 0) and (TILE_SIZE * self.camera.zoom * 0.5) or 0
         local screenY = ((projectile.y - 1) * TILE_SIZE) * self.camera.zoom + self.camera.y + offsetY
-        
+
         -- Draw projectile as a colored circle
         love.graphics.setColor(projectile.color[1], projectile.color[2], projectile.color[3], 1)
         love.graphics.circle("fill", screenX + TILE_SIZE/2, screenY + TILE_SIZE/2, projectile.size or 3)
-        
+
         -- Reset color
         love.graphics.setColor(1, 1, 1, 1)
     end
@@ -2016,7 +2129,7 @@ function Battlescape:getArmorAbilityEffect(armor)
     if not armor or not armor.type then
         return nil
     end
-    
+
     -- Define ability effects based on armor type
     local abilityEffects = {
         light = {
@@ -2055,33 +2168,33 @@ function Battlescape:getArmorAbilityEffect(armor)
             duration = 1
         }
     }
-    
+
     return abilityEffects[armor.type]
 end
 
 function Battlescape:applyArmorAbilityEffect(unit, effect, tileX, tileY)
     if not effect then return end
-    
-    print(string.format("[Battlescape] Applying armor ability effect: %s (%s %+d for %d turns)", 
+
+    print(string.format("[Battlescape] Applying armor ability effect: %s (%s %+d for %d turns)",
         effect.name, effect.effect, effect.value, effect.duration))
-    
+
     -- Apply effect based on type using duration tracking system
     if effect.effect == "evasion" then
         -- Temporarily increase evasion
         self:addTemporaryEffect(unit, "evasion", effect.value, effect.duration)
-        
+
     elseif effect.effect == "defense" then
         -- Temporarily increase defense
         self:addTemporaryEffect(unit, "defense", effect.value, effect.duration)
-        
+
     elseif effect.effect == "damage_reduction" then
         -- Temporarily reduce incoming damage
         self:addTemporaryEffect(unit, "damageReduction", effect.value, effect.duration)
-        
+
     elseif effect.effect == "strength" then
         -- Temporarily increase strength
         self:addTemporaryEffect(unit, "strength", effect.value, effect.duration)
-        
+
     elseif effect.effect == "heal" then
         -- Heal the unit (not a temporary effect, so apply directly)
         if unit.health and unit.maxHealth then
@@ -2138,10 +2251,10 @@ function Battlescape:updateTemporaryEffects(unit)
     if not unit or not unit.id or not self.effectTracker[unit.id] then
         return
     end
-    
+
     local effects = self.effectTracker[unit.id]
     local effectsToRemove = {}
-    
+
     -- Decrement duration for all effects
     for effectType, effectData in pairs(effects) do
         effectData.duration = effectData.duration - 1
@@ -2165,7 +2278,7 @@ function Battlescape:updateTemporaryEffects(unit)
                 effectType, unit.name, effectData.value, newValue))
         end
     end
-    
+
     -- Remove expired effects from tracker
     for _, effectType in ipairs(effectsToRemove) do
         effects[effectType] = nil
@@ -2180,7 +2293,7 @@ function Battlescape:getEffectDuration(unit, effectType)
     if not unit or not unit.id or not self.effectTracker[unit.id] then
         return 0
     end
-    
+
     local effect = self.effectTracker[unit.id][effectType]
     return effect and effect.duration or 0
 end
@@ -2189,9 +2302,9 @@ function Battlescape:applySkillEffect(unit, skill, tileX, tileY)
     if not skill or not skill.type then
         return {message = "No skill effect"}
     end
-    
+
     print(string.format("[Battlescape] Applying skill effect: %s (type: %s)", skill.name or "Unknown", skill.type))
-    
+
     -- Apply effect based on skill type
     if skill.type == "combat" then
         return self:applyCombatSkill(unit, skill, tileX, tileY)
@@ -2269,28 +2382,3 @@ function Battlescape:applySpecialSkill(unit, skill, tileX, tileY)
 end
 
 return Battlescape
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

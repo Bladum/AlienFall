@@ -72,7 +72,7 @@ SalvageSystem.__index = SalvageSystem
 --- Create new salvage system
 function SalvageSystem.new()
     local self = setmetatable({}, SalvageSystem)
-    
+
     -- Score weights
     self.scoreWeights = {
         missionSuccess = 1000,
@@ -84,7 +84,7 @@ function SalvageSystem.new()
         turnBonus = 5,  -- Bonus per turn under par
         propertyDamage = -10,  -- Per destroyed object
     }
-    
+
     print("[SalvageSystem] Initialized")
     return self
 end
@@ -97,7 +97,7 @@ end
 ---@return SalvageResult Salvage data
 function SalvageSystem:processMissionVictory(battlefield, playerUnits, enemyUnits, objectives)
     print("[SalvageSystem] Processing victory salvage")
-    
+
     local result = {
         victory = true,
         corpses = {},
@@ -108,7 +108,7 @@ function SalvageSystem:processMissionVictory(battlefield, playerUnits, enemyUnit
         score = 0,
         scoreBreakdown = {},
     }
-    
+
     -- Collect all enemy corpses
     for _, enemy in ipairs(enemyUnits) do
         if enemy.isDead then
@@ -119,13 +119,13 @@ function SalvageSystem:processMissionVictory(battlefield, playerUnits, enemyUnit
             self:collectUnitEquipment(enemy, result)
         end
     end
-    
+
     -- Collect items from battlefield
     self:collectBattlefieldItems(battlefield, result)
-    
+
     -- Collect special salvage (UFO parts, etc.)
     self:collectSpecialSalvage(battlefield, result)
-    
+
     -- Process ally units
     for _, ally in ipairs(playerUnits) do
         if ally.isDead then
@@ -138,13 +138,13 @@ function SalvageSystem:processMissionVictory(battlefield, playerUnits, enemyUnit
             table.insert(result.unitSurvivors, ally)
         end
     end
-    
+
     -- Calculate score
     self:calculateScore(result, battlefield, objectives)
-    
-    print("[SalvageSystem] Victory: " .. #result.corpses .. " corpses, " .. 
+
+    print("[SalvageSystem] Victory: " .. #result.corpses .. " corpses, " ..
           #result.items .. " items, score: " .. result.score)
-    
+
     return result
 end
 
@@ -155,7 +155,7 @@ end
 ---@return SalvageResult Salvage data
 function SalvageSystem:processMissionDefeat(battlefield, playerUnits, landingZones)
     print("[SalvageSystem] Processing defeat")
-    
+
     local result = {
         victory = false,
         corpses = {},
@@ -166,7 +166,7 @@ function SalvageSystem:processMissionDefeat(battlefield, playerUnits, landingZon
         score = 0,
         scoreBreakdown = {},
     }
-    
+
     -- Check which units are in landing zones
     for _, unit in ipairs(playerUnits) do
         if self:isInLandingZone(unit, landingZones) then
@@ -179,16 +179,16 @@ function SalvageSystem:processMissionDefeat(battlefield, playerUnits, landingZon
             print("[SalvageSystem] " .. unit.name .. " lost (outside landing zone)")
         end
     end
-    
+
     -- No items/corpses collected on defeat
     -- Calculate score (negative)
     result.scoreBreakdown.missionFailure = self.scoreWeights.missionFailure
     result.scoreBreakdown.unitsLost = -#result.unitLosses * self.scoreWeights.allyLost
     result.score = result.scoreBreakdown.missionFailure + result.scoreBreakdown.unitsLost
-    
+
     print("[SalvageSystem] Defeat: " .. #result.unitLosses .. " units lost, " ..
           #result.unitSurvivors .. " survivors, score: " .. result.score)
-    
+
     return result
 end
 
@@ -197,7 +197,7 @@ end
 ---@param result SalvageResult Salvage result
 function SalvageSystem:collectCorpse(unit, result)
     local corpseName = "Dead " .. (unit.race or "Unknown")
-    
+
     local corpse = {
         id = "corpse_" .. unit.race,
         name = corpseName,
@@ -205,7 +205,7 @@ function SalvageSystem:collectCorpse(unit, result)
         team = unit.team,
         researchValue = unit.researchValue or 0,
     }
-    
+
     table.insert(result.corpses, corpse)
     print("[SalvageSystem] Collected corpse: " .. corpseName)
 end
@@ -218,7 +218,7 @@ function SalvageSystem:collectUnitEquipment(unit, result)
         table.insert(result.items, unit.weapon)
         print("[SalvageSystem] Collected weapon: " .. unit.weapon.name)
     end
-    
+
     if unit.inventory then
         for _, item in ipairs(unit.inventory) do
             table.insert(result.items, item)
@@ -255,7 +255,7 @@ function SalvageSystem:collectSpecialSalvage(battlefield, result)
             local tile = battlefield:getTile(x, y)
             if tile and tile.specialObject then
                 local obj = tile.specialObject
-                
+
                 if obj.salvageable and not obj.destroyed then
                     table.insert(result.specialSalvage, {
                         id = obj.salvageId,
@@ -275,10 +275,10 @@ end
 ---@param objectives table Mission objectives
 function SalvageSystem:calculateScore(result, battlefield, objectives)
     local breakdown = {}
-    
+
     -- Base mission success
     breakdown.missionSuccess = self.scoreWeights.missionSuccess
-    
+
     -- Objectives completed
     local objectivesCompleted = 0
     for _, objective in ipairs(objectives or {}) do
@@ -287,17 +287,17 @@ function SalvageSystem:calculateScore(result, battlefield, objectives)
         end
     end
     breakdown.objectives = objectivesCompleted * self.scoreWeights.objectiveComplete
-    
+
     -- Enemies killed
     breakdown.enemiesKilled = #result.corpses * self.scoreWeights.enemyKilled
-    
+
     -- Allies lost
     breakdown.alliesLost = #result.unitLosses * self.scoreWeights.allyLost
-    
+
     -- Civilians killed (tracked by battlefield)
     local civiliansKilled = battlefield.civiliansKilled or 0
     breakdown.civilians = civiliansKilled * self.scoreWeights.civilianKilled
-    
+
     -- Turn bonus (if completed faster than par)
     if battlefield.turnsPassed and battlefield.parTime then
         local turnDiff = battlefield.parTime - battlefield.turnsPassed
@@ -305,11 +305,11 @@ function SalvageSystem:calculateScore(result, battlefield, objectives)
             breakdown.turnBonus = turnDiff * self.scoreWeights.turnBonus
         end
     end
-    
+
     -- Property damage
     local propertyDamage = battlefield.objectsDestroyed or 0
     breakdown.propertyDamage = propertyDamage * self.scoreWeights.propertyDamage
-    
+
     -- Calculate total
     result.scoreBreakdown = breakdown
     result.score = 0
@@ -337,48 +337,41 @@ end
 ---@param base table Base to receive salvage
 function SalvageSystem:transferToBase(result, base)
     print("[SalvageSystem] Transferring salvage to base")
-    
+
+    local Inventory = require("engine.basescape.inventory.inventory_system")
+    local baseId = base.id or "main_base"
+
     -- Add corpses to storage
     for _, corpse in ipairs(result.corpses) do
-        base:addToInventory(corpse)
+        if Inventory and Inventory.addItem then
+            Inventory.addItem(baseId, corpse.id, 1)
+        else
+            base:addToInventory(corpse)
+        end
+        print(string.format("[SalvageSystem] Added corpse: %s", corpse.name))
     end
-    
+
     -- Add items to storage
     for _, item in ipairs(result.items) do
-        base:addToInventory(item)
+        if Inventory and Inventory.addItem then
+            Inventory.addItem(baseId, item.id, item.quantity or 1)
+        else
+            base:addToInventory(item)
+        end
+        print(string.format("[SalvageSystem] Added item: %s", item.name))
     end
-    
+
     -- Add special salvage
     for _, salvage in ipairs(result.specialSalvage) do
-        base:addToInventory(salvage)
+        if Inventory and Inventory.addItem then
+            Inventory.addItem(baseId, salvage.id, salvage.quantity or 1)
+        else
+            base:addToInventory(salvage)
+        end
+        print(string.format("[SalvageSystem] Added salvage: %s", salvage.name))
     end
-    
+
     print("[SalvageSystem] Transfer complete")
 end
 
 return SalvageSystem
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

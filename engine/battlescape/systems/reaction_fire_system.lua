@@ -21,14 +21,14 @@ ReactionFireSystem.CONFIG = {
     -- AP costs
     OVERWATCH_ENABLE_AP = 2, -- Cost to enter overwatch
     REACTION_SHOT_AP = 3, -- AP cost per reaction shot (usually SNAP)
-    
+
     -- Limits
     MAX_REACTIONS_PER_TURN = 3, -- Maximum reaction shots per turn
     MAX_WATCH_RADIUS = 15, -- Maximum overwatch radius
-    
+
     -- Accuracy modifiers
     REACTION_ACCURACY_MULT = 0.8, -- 80% accuracy for reaction shots
-    
+
     -- Trigger delays (for animation/gameplay feel)
     REACTION_DELAY = 0.2, -- seconds before reaction fires
 }
@@ -71,41 +71,41 @@ end
 function ReactionFireSystem.enterOverwatch(unitId, unit, watchQ, watchR, radius)
     local cfg = ReactionFireSystem.CONFIG
     local state = overwatchStates[unitId]
-    
+
     if not state then
         ReactionFireSystem.initUnit(unitId)
         state = overwatchStates[unitId]
     end
-    
+
     -- Check AP
     if unit.ap < cfg.OVERWATCH_ENABLE_AP then
         return false, "Not enough AP"
     end
-    
+
     -- Validate radius
     if radius > cfg.MAX_WATCH_RADIUS then
         return false, "Watch radius too large"
     end
-    
+
     -- Reserve AP for reaction shots
     local shotsAvailable = math.floor((unit.ap - cfg.OVERWATCH_ENABLE_AP) / cfg.REACTION_SHOT_AP)
     if shotsAvailable < 1 then
         return false, "Not enough AP for reaction shots"
     end
-    
+
     -- Consume overwatch activation AP
     unit.ap = unit.ap - cfg.OVERWATCH_ENABLE_AP
-    
+
     -- Set up overwatch
     state.isActive = true
     state.reservedAP = shotsAvailable * cfg.REACTION_SHOT_AP
     state.watchSectors = {{q = watchQ, r = watchR, radius = radius}}
     state.remainingShots = math.min(shotsAvailable, cfg.MAX_REACTIONS_PER_TURN)
     state.reactedThisTurn = {}
-    
-    print(string.format("[Reaction] %s entered overwatch: %d shots available, watching (%d,%d) radius %d", 
+
+    print(string.format("[Reaction] %s entered overwatch: %d shots available, watching (%d,%d) radius %d",
         unitId, state.remainingShots, watchQ, watchR, radius))
-    
+
     return true
 end
 
@@ -115,17 +115,17 @@ end
 function ReactionFireSystem.exitOverwatch(unitId, unit)
     local state = overwatchStates[unitId]
     if not state or not state.isActive then return end
-    
+
     -- Return reserved AP
     unit.ap = unit.ap + state.reservedAP
-    
+
     -- Clear overwatch
     state.isActive = false
     state.reservedAP = 0
     state.watchSectors = {}
     state.remainingShots = 0
     state.reactedThisTurn = {}
-    
+
     print(string.format("[Reaction] %s exited overwatch, returned %d AP", unitId, state.reservedAP))
 end
 
@@ -135,13 +135,13 @@ end
 function ReactionFireSystem.setTriggers(unitId, triggers)
     local state = overwatchStates[unitId]
     if not state then return end
-    
+
     for k, v in pairs(triggers) do
         state.triggerConditions[k] = v
     end
-    
-    print(string.format("[Reaction] %s triggers: movement=%s, shooting=%s, doors=%s", 
-        unitId, 
+
+    print(string.format("[Reaction] %s triggers: movement=%s, shooting=%s, doors=%s",
+        unitId,
         tostring(state.triggerConditions.movement),
         tostring(state.triggerConditions.shooting),
         tostring(state.triggerConditions.opening_door)))
@@ -153,7 +153,7 @@ end
 function ReactionFireSystem.setFireMode(unitId, fireMode)
     local state = overwatchStates[unitId]
     if not state then return end
-    
+
     state.fireMode = fireMode
     print(string.format("[Reaction] %s reaction mode: %s", unitId, fireMode))
 end
@@ -168,33 +168,33 @@ end
 function ReactionFireSystem.checkTrigger(observerUnitId, targetUnitId, actionType, targetQ, targetR)
     local state = overwatchStates[observerUnitId]
     if not state or not state.isActive then return false end
-    
+
     -- Check if we have shots remaining
     if state.remainingShots <= 0 then return false end
-    
+
     -- Check if already reacted to this unit this turn
     for _, reactedId in ipairs(state.reactedThisTurn) do
         if reactedId == targetUnitId then
             return false
         end
     end
-    
+
     -- Check if this action type triggers reaction
     if not state.triggerConditions[actionType] then return false end
-    
+
     -- Check if target is in watched sector
     for _, sector in ipairs(state.watchSectors) do
         local distance = ReactionFireSystem.calculateDistance(
             sector.q, sector.r, targetQ, targetR
         )
-        
+
         if distance <= sector.radius then
-            print(string.format("[Reaction] %s triggered by %s %s at (%d,%d)", 
+            print(string.format("[Reaction] %s triggered by %s %s at (%d,%d)",
                 observerUnitId, targetUnitId, actionType, targetQ, targetR))
             return true
         end
     end
-    
+
     return false
 end
 
@@ -206,35 +206,35 @@ end
 function ReactionFireSystem.executeReaction(observerUnit, targetUnit, shootingSystem)
     local cfg = ReactionFireSystem.CONFIG
     local state = overwatchStates[observerUnit.id]
-    
+
     if not state or not state.isActive or state.remainingShots <= 0 then
         return false, nil
     end
-    
+
     -- Consume reaction shot
     state.remainingShots = state.remainingShots - 1
     state.reservedAP = state.reservedAP - cfg.REACTION_SHOT_AP
-    
+
     -- Mark this target as reacted to
     table.insert(state.reactedThisTurn, targetUnit.id)
-    
-    print(string.format("[Reaction] %s firing reaction at %s (shots remaining: %d)", 
+
+    print(string.format("[Reaction] %s firing reaction at %s (shots remaining: %d)",
         observerUnit.id, targetUnit.id, state.remainingShots))
-    
+
     -- Fire shot with accuracy penalty
     local result = shootingSystem.shoot(
-        observerUnit, 
-        targetUnit, 
+        observerUnit,
+        targetUnit,
         state.fireMode,
         cfg.REACTION_ACCURACY_MULT -- Accuracy modifier
     )
-    
+
     -- Check if out of shots - exit overwatch
     if state.remainingShots <= 0 then
         print(string.format("[Reaction] %s out of reaction shots, exiting overwatch", observerUnit.id))
         ReactionFireSystem.exitOverwatch(observerUnit.id, observerUnit)
     end
-    
+
     return true, result
 end
 
@@ -253,9 +253,29 @@ function ReactionFireSystem.processMovementTrigger(movingUnit, fromQ, fromR, toQ
             local shouldReact = ReactionFireSystem.checkTrigger(
                 unit.id, movingUnit.id, "movement", toQ, toR
             )
-            
+
             if shouldReact then
-                -- TODO: Add interrupt/pause for reaction animation
+                -- TASK-14.2: Reaction fire animation interrupt system
+                -- Pause game to show reaction animation
+                local animationDuration = 0.5 -- seconds
+                local reactionData = {
+                    type = "reaction_fire",
+                    source = unit.id,
+                    target = movingUnit.id,
+                    duration = animationDuration,
+                    isPaused = true,
+                    canInterrupt = false
+                }
+
+                -- Store reaction animation state for rendering layer to handle
+                if not unit.reactionAnimations then
+                    unit.reactionAnimations = {}
+                end
+                table.insert(unit.reactionAnimations, reactionData)
+
+                print(string.format("[Reaction] %s interrupted by %s, animation queued (%.1f sec)",
+                    movingUnit.id, unit.id, animationDuration))
+
                 ReactionFireSystem.executeReaction(unit, movingUnit, shootingSystem)
             end
         end
@@ -273,7 +293,7 @@ function ReactionFireSystem.processShootingTrigger(shootingUnit, allUnits, shoot
             local shouldReact = ReactionFireSystem.checkTrigger(
                 unit.id, shootingUnit.id, "shooting", shootingUnit.q, shootingUnit.r
             )
-            
+
             if shouldReact then
                 ReactionFireSystem.executeReaction(unit, shootingUnit, shootingSystem)
             end
@@ -286,12 +306,12 @@ end
 function ReactionFireSystem.resetForNewTurn(unitId)
     local state = overwatchStates[unitId]
     if not state then return end
-    
+
     -- Reset reaction counter
     local cfg = ReactionFireSystem.CONFIG
     state.remainingShots = cfg.MAX_REACTIONS_PER_TURN
     state.reactedThisTurn = {}
-    
+
     print(string.format("[Reaction] %s overwatch reset for new turn", unitId))
 end
 
@@ -341,28 +361,3 @@ function ReactionFireSystem.reset()
 end
 
 return ReactionFireSystem
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

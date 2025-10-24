@@ -27,33 +27,33 @@ Base.__index = Base
 ---@return Base base New base instance
 function Base.new(config)
     local self = setmetatable({}, Base)
-    
+
     -- Identity
     self.id = config.id or error("Base requires id")
     self.name = config.name or self.id
     self.description = config.description or ""
-    
+
     -- Location
     self.provinceId = config.provinceId or error("Base requires provinceId")
     self.regionId = config.regionId or nil
-    
+
     -- Infrastructure
     self.grid = BaseGrid.new(self.id)
     self.capacityManager = CapacityManager.new(self.id)
     self.capacityManager:setGrid(self.grid)
-    
+
     -- Services
     self.services = {}  -- Set of service tags available
-    
+
     -- Finance
     self.credits = config.credits or 0
     self.monthlyMaintenance = 0
-    
+
     -- Metadata
     self.foundedDate = config.foundedDate or 0
     self.isVisible = config.isVisible or false  -- To geoscape
     self.defenders = config.defenders or {}  -- Unit IDs assigned to defend base
-    
+
     return self
 end
 
@@ -65,7 +65,7 @@ function Base:buildHQ()
         print("[Base] ERROR: HQ facility type not found")
         return false
     end
-    
+
     local hq = Facility.new({
         id = self.id .. "_hq",
         typeId = "hq",
@@ -79,7 +79,7 @@ function Base:buildHQ()
         armor = hqType.armor,
         totalDaysToBuild = 0,
     })
-    
+
     local success, _ = self.grid:placeFacility(hq, 2, 2)
     if success then
         hq.constructionProgress = 1.0
@@ -104,24 +104,24 @@ function Base:startConstruction(facilityTypeId, gridX, gridY)
         print(string.format("[Base] ERROR: Facility type not found: %s", facilityTypeId))
         return nil
     end
-    
+
     -- Validate prerequisites
     local valid, reason = self:canBuildFacility(facilityTypeId, gridX, gridY)
     if not valid then
         print(string.format("[Base] Cannot build %s: %s", facilityTypeId, reason))
         return nil
     end
-    
+
     -- Check funds
     local buildCost = facilityType.buildCost.credits or 0
     if self.credits < buildCost then
         print(string.format("[Base] Insufficient credits: need %d, have %d", buildCost, self.credits))
         return nil
     end
-    
+
     -- Deduct cost
     self.credits = self.credits - buildCost
-    
+
     -- Create facility
     local facility = Facility.new({
         id = self.id .. "_fac_" .. facilityTypeId .. "_" .. gridX .. "_" .. gridY,
@@ -136,7 +136,7 @@ function Base:startConstruction(facilityTypeId, gridX, gridY)
         armor = facilityType.armor,
         totalDaysToBuild = facilityType.buildTime,
     })
-    
+
     -- Place on grid
     local success, _ = self.grid:placeFacility(facility, gridX, gridY)
     if success then
@@ -159,17 +159,17 @@ function Base:canBuildFacility(facilityTypeId, gridX, gridY)
     if not facilityType then
         return false, "Unknown facility type"
     end
-    
+
     -- Check coordinates valid
     if not self.grid:isInBounds(gridX, gridY) then
         return false, "Coordinates out of bounds"
     end
-    
+
     -- Check cell available
     if not self.grid:isCellAvailable(gridX, gridY) then
         return false, "Cell already occupied"
     end
-    
+
     -- Check tech prerequisites
     for _, techId in ipairs(facilityType.requiredTech) do
         -- TODO: Check research system
@@ -177,19 +177,19 @@ function Base:canBuildFacility(facilityTypeId, gridX, gridY)
         --     return false, "Missing tech: " .. techId
         -- end
     end
-    
+
     -- Check facility prerequisites
     local existingFacilityTypes = {}
     for _, facility in ipairs(self.grid:getAllFacilities()) do
         existingFacilityTypes[facility.typeId] = true
     end
-    
+
     for _, requiredFacility in ipairs(facilityType.requiredFacilities) do
         if not existingFacilityTypes[requiredFacility] then
             return false, "Missing prerequisite facility: " .. requiredFacility
         end
     end
-    
+
     -- Check max per base
     if facilityType.maxPerBase then
         local count = #self.grid:getFacilitiesByType(facilityTypeId)
@@ -197,7 +197,7 @@ function Base:canBuildFacility(facilityTypeId, gridX, gridY)
             return false, "Already at maximum: " .. facilityType.maxPerBase
         end
     end
-    
+
     return true
 end
 
@@ -222,7 +222,7 @@ end
 ---Recalculate available services
 function Base:recalculateServices()
     self.services = {}
-    
+
     for _, facility in ipairs(self.grid:getAllFacilities()) do
         if facility:isOperational() then
             for _, service in ipairs(facility.type.servicesProvided) do
@@ -230,7 +230,7 @@ function Base:recalculateServices()
             end
         end
     end
-    
+
     -- Check service requirements
     for _, facility in ipairs(self.grid:getAllFacilities()) do
         if facility.type then
@@ -241,20 +241,20 @@ function Base:recalculateServices()
             end
         end
     end
-    
+
     print(string.format("[Base] Services available: %d", self:getServiceCount()))
 end
 
 ---Recalculate maintenance costs
 function Base:recalculateMaintenance()
     self.monthlyMaintenance = 0
-    
+
     for _, facility in ipairs(self.grid:getAllFacilities()) do
         if facility.state == Facility.STATE.OPERATIONAL then
             self.monthlyMaintenance = self.monthlyMaintenance + facility.type.maintenanceCost
         end
     end
-    
+
     print(string.format("[Base] Monthly maintenance: %d credits", self.monthlyMaintenance))
 end
 
@@ -263,13 +263,143 @@ end
 function Base:deductMonthlyMaintenance()
     if self.credits >= self.monthlyMaintenance then
         self.credits = self.credits - self.monthlyMaintenance
+        print(string.format("[Base] Maintenance paid: $%d", self.monthlyMaintenance))
+
+        -- Restore facilities that may have been offline due to maintenance
+        self:restoreMaintenanceOfflineFacilities()
+
         return true
     else
+        -- Cannot afford maintenance - facilities go offline progressively
         print(string.format("[Base] ALERT: Cannot afford maintenance (%d needed, %d available)",
             self.monthlyMaintenance, self.credits))
-        -- TODO: Facilities should go offline due to lack of maintenance
+
+        self:processMaintenanceDeficiency()
         return false
     end
+end
+
+--- Process progressive maintenance deficiency penalties
+-- Facilities go offline based on debt level
+function Base:processMaintenanceDeficiency()
+    local maintenanceDebt = self.monthlyMaintenance - self.credits
+    local debtRatio = math.min(1.0, maintenanceDebt / self.monthlyMaintenance)
+
+    -- Store maintenance debt for tracking
+    self.maintenanceDebt = (self.maintenanceDebt or 0) + maintenanceDebt
+
+    print(string.format("[Base] Maintenance debt ratio: %.1f%% (debt: $%d)",
+          debtRatio * 100, self.maintenanceDebt))
+
+    -- Calculate how many facilities should go offline
+    local allFacilities = self.grid:getAllFacilities()
+    local operationalCount = 0
+    for _, facility in ipairs(allFacilities) do
+        if facility.state == Facility.STATE.OPERATIONAL then
+            operationalCount = operationalCount + 1
+        end
+    end
+
+    -- Number of facilities to offline based on debt ratio
+    local facilitiesToOffline = math.ceil(operationalCount * debtRatio)
+
+    if facilitiesToOffline > 0 then
+        print(string.format("[Base] Taking %d facilities offline due to maintenance", facilitiesToOffline))
+
+        -- Sort facilities by priority (power plants first, then by maintenance cost)
+        local sortedFacilities = {}
+        for _, facility in ipairs(allFacilities) do
+            if facility.state == Facility.STATE.OPERATIONAL and facility.typeId ~= "hq" then
+                table.insert(sortedFacilities, facility)
+            end
+        end
+
+        -- Sort by maintenance cost (highest first - expensive facilities go offline first)
+        table.sort(sortedFacilities, function(a, b)
+            return a.type.maintenanceCost > b.type.maintenanceCost
+        end)
+
+        -- Take facilities offline
+        for i = 1, math.min(facilitiesToOffline, #sortedFacilities) do
+            local facility = sortedFacilities[i]
+            facility:setOffline(string.format("Maintenance debt: $%d", self.maintenanceDebt))
+            print(string.format("[Base] %s taken offline", facility.typeId))
+        end
+
+        self:recalculateCapacities()
+    end
+end
+
+--- Restore facilities that were offline due to maintenance
+-- Called when maintenance debt is paid
+function Base:restoreMaintenanceOfflineFacilities()
+    if not self.maintenanceDebt or self.maintenanceDebt <= 0 then
+        return
+    end
+
+    -- Check if debt is paid off
+    if self.maintenanceDebt > 0 then
+        self.maintenanceDebt = 0
+        print("[Base] Maintenance debt cleared, restoring offline facilities")
+
+        local allFacilities = self.grid:getAllFacilities()
+        for _, facility in ipairs(allFacilities) do
+            if facility.state == Facility.STATE.OFFLINE then
+                -- Check if offline reason is maintenance-related
+                if facility.offlineReason and string.find(facility.offlineReason, "Maintenance debt") then
+                    facility:setOperational()
+                    print(string.format("[Base] %s restored to operational", facility.typeId))
+                end
+            end
+        end
+
+        self:recalculateCapacities()
+    end
+end
+
+--- Track days without full maintenance payment
+-- Called periodically to accumulate penalties
+function Base:applyMaintenancePenalty()
+    local allFacilities = self.grid:getAllFacilities()
+
+    for _, facility in ipairs(allFacilities) do
+        if facility.state == Facility.STATE.OFFLINE then
+            -- Apply degradation to offline facilities
+            facility.health = math.max(0, facility.health - (facility.maxHealth * 0.01))
+
+            -- Facilities with no maintenance can be destroyed
+            if facility.health <= 0 then
+                print(string.format("[Base] %s destroyed due to lack of maintenance", facility.typeId))
+                self.grid:removeFacility(facility.gridX, facility.gridY)
+                self:recalculateCapacities()
+                self:recalculateMaintenance()
+            end
+        end
+    end
+end
+
+--- Simulate daily maintenance subsidy (faction relations)
+-- Better relations with controllers provide maintenance subsidies
+function Base:calculateMaintenanceSubsidy()
+    local subsidyPercentage = 0
+
+    -- Check controlling nation/faction for diplomatic subsidy
+    local FactionManager = require("engine.politics.faction_manager")
+    if FactionManager and self.controlerFactionId then
+        local relation = FactionManager:getRelations(self.controlerFactionId)
+        if relation and relation.opinion > 50 then
+            subsidyPercentage = (relation.opinion - 50) * 0.005  -- Up to 0.5x cost at max relations
+        end
+    end
+
+    local subsidyAmount = math.floor(self.monthlyMaintenance * subsidyPercentage)
+
+    if subsidyAmount > 0 then
+        print(string.format("[Base] Maintenance subsidy: $%d (%.1f%%)",
+              subsidyAmount, subsidyPercentage * 100))
+    end
+
+    return subsidyAmount
 end
 
 ---Get service count
@@ -313,12 +443,9 @@ function Base:printDebug()
     print(string.format("Province: %s, Region: %s", self.provinceId, self.regionId or "N/A"))
     print(string.format("Credits: %d, Maintenance: %d/month", self.credits, self.monthlyMaintenance))
     print(string.format("Facilities: %d total, %d operational", self:getFacilityCount(), self:getOperationalCount()))
-    
+
     self.grid:printDebug()
     self.capacityManager:printDebug()
 end
 
 return Base
-
-
-

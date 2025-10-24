@@ -275,3 +275,62 @@ damage = 3
 weight = 0.3
 cost_manufacturing = 60
 description = "Energy pack for sonic weapons. Provides vibration frequency generation."
+
+[[weapon]]
+id = "magna_plasma_rifle"
+name = "Magna-Plasma Rifle"
+phase = "phase2"
+category = "magna_plasma"
+type = "hybrid"
+cost_manufacturing = 5500
+research_required = ["research_magna_plasma_technology"]
+damage = 52
+damage_type = "plasma"
+armor_penetration = 28
+accuracy = 72
+range = 32
+fire_rate = 2
+capacity = 22
+weight = 4.3
+description = "Hybrid weapon combining sonic and plasma technologies. Research achievement merging human and aquatic alien capabilities."
+
+[[weapon]]
+id = "magna_plasma_cannon"
+name = "Magna-Plasma Cannon"
+phase = "phase2"
+category = "magna_plasma_heavy"
+type = "hybrid"
+cost_manufacturing = 8500
+research_required = ["research_magna_plasma_technology"]
+damage = 68
+damage_type = "plasma"
+armor_penetration = 35
+accuracy = 68
+range = 42
+fire_rate = 1
+capacity = 18
+weight = 7.2
+description = "Heavy hybrid weapon combining sonic and plasma technologies. Devastatingly effective against both organic and armored targets."
+
+[[ammo]]
+id = "ammo_magna_plasma_charge"
+name = "Magna-Plasma Charge Pack"
+phase = "phase2"
+category = "ammunition"
+type = "hybrid"
+damage = 4
+weight = 0.6
+cost_manufacturing = 90
+description = "Energy pack for magna-plasma weapons. Combines sonic frequencies with plasma generation."
+
+[[research]]
+id = "research_magna_plasma_technology"
+name = "Magna-Plasma Technology"
+phase = "phase2"
+category = "weapons"
+description = "Hybrid fusion of sonic and plasma technologies. Combines human research with aquatic alien capabilities."
+prerequisites = ["research_sonic_technology", "research_plasma_weapons"]
+unlock_technologies = []
+unlock_items = ["magna_plasma_rifle", "magna_plasma_cannon"]
+research_cost = 3500
+research_time_days = 22

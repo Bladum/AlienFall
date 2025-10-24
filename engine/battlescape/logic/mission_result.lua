@@ -6,6 +6,7 @@
 ---  - Enemy losses
 ---  - Objectives completed
 ---  - Scoring and rewards
+---  - Property damage and destruction tracking
 ---
 ---@module battlescape.logic.mission_result
 ---@author AlienFall Development Team
@@ -19,33 +20,41 @@ function MissionResult.new(data)
     return {
         missionId = data.missionId or "mission_unknown",
         victory = data.victory or false,
-        
+
         -- Units
         unitsDeployed = data.unitsDeployed or 0,
         unitsKilled = data.unitsKilled or 0,
         unitsSurvived = data.unitsSurvived or 0,
         unitsLost = data.unitsLost or 0,  -- Lost outside landing zones on defeat
-        
+
         -- Enemies
         enemiesKilled = data.enemiesKilled or 0,
         enemiesCaptured = data.enemiesCaptured or 0,
         enemiesEscaped = data.enemiesEscaped or 0,
-        
+
         -- Civilians/Neutrals
         civiliansKilled = data.civiliansKilled or 0,
         civiliansRescued = data.civiliansRescued or 0,
         neutralsKilled = data.neutralsKilled or 0,
-        
+
         -- Objectives
         objectivesTotal = data.objectivesTotal or 0,
         objectivesCompleted = data.objectivesCompleted or 0,
-        
+
         -- Performance
         turnsElapsed = data.turnsElapsed or 0,
         accuracyPercent = data.accuracyPercent or 0,
         damageDealt = data.damageDealt or 0,
         damageTaken = data.damageTaken or 0,
-        
+
+        -- TASK-13.3: Destroyed object/property damage tracking for battle results
+        -- Property destruction tracking
+        structuresDestroyed = data.structuresDestroyed or 0,
+        structuresDamaged = data.structuresDamaged or 0,
+        vehiclesDestroyed = data.vehiclesDestroyed or 0,
+        vehiclesDamaged = data.vehiclesDamaged or 0,
+        totalPropertyDamage = data.totalPropertyDamage or 0,  -- Monetary value
+
         -- Scoring
         baseScore = 0,
         objectiveBonus = 0,
@@ -54,7 +63,7 @@ function MissionResult.new(data)
         civiliaPenalty = 0,
         propertyPenalty = 0,
         totalScore = 0,
-        
+
         -- Salvage
         salvageItems = {},  -- Items collected: {item_id, quantity}
         salvageMoney = 0,
@@ -65,14 +74,14 @@ end
 ---@param result table The mission result
 function MissionResult.calculateScore(result)
     result.baseScore = result.victory and 1000 or 0
-    
+
     -- Objective bonus (250 per completed objective)
     result.objectiveBonus = result.objectivesCompleted * 250
-    
+
     -- Speed bonus (5 points per turn saved)
     local baselineTurns = 30
     result.speedBonus = math.max(0, (baselineTurns - result.turnsElapsed) * 5)
-    
+
     -- Casualty bonus (low casualties = bonus)
     local casualtyRate = result.unitsKilled / math.max(1, result.unitsDeployed)
     if casualtyRate < 0.1 then
@@ -82,18 +91,28 @@ function MissionResult.calculateScore(result)
     else
         result.casualtyBonus = 0
     end
-    
+
     -- Civilian penalty
     result.civiliaPenalty = -(result.civiliansKilled * 100)
-    
-    -- Property penalty (per destroyed object)
-    result.propertyPenalty = 0  -- TODO: track destroyed objects
-    
-    result.totalScore = result.baseScore + result.objectiveBonus + 
-                        result.speedBonus + result.casualtyBonus + 
+
+    -- TASK-13.3: Property damage tracking and penalty calculation
+    -- Property penalty: -50 per damaged structure, -200 per destroyed structure
+    local propertyDamageCost = (result.structuresDamaged * 50) + (result.structuresDestroyed * 200)
+    local vehicleDamageCost = (result.vehiclesDamaged * 75) + (result.vehiclesDestroyed * 300)
+    result.propertyPenalty = -(propertyDamageCost + vehicleDamageCost)
+
+    -- Combine total property damage for tracking
+    result.totalPropertyDamage = propertyDamageCost + vehicleDamageCost
+
+    result.totalScore = result.baseScore + result.objectiveBonus +
+                        result.speedBonus + result.casualtyBonus +
                         result.civiliaPenalty + result.propertyPenalty
-    
+
     result.totalScore = math.max(0, result.totalScore)  -- Never negative
+
+    print(string.format("[MissionResult] Score: Base=%d, Objectives=%d, Speed=%d, Casualties=%d, Civilians=%d, Property=%d, Total=%d",
+        result.baseScore, result.objectiveBonus, result.speedBonus, result.casualtyBonus,
+        result.civiliaPenalty, result.propertyPenalty, result.totalScore))
 end
 
 ---Add salvage item
@@ -109,7 +128,7 @@ function MissionResult.addSalvageItem(result, itemId, quantity)
             break
         end
     end
-    
+
     if not found then
         table.insert(result.salvageItems, {id = itemId, quantity = quantity})
     end
@@ -137,17 +156,17 @@ end
 ---@param result table The mission result
 function MissionResult.printSummary(result)
     result:calculateScore()
-    
+
     print("\n[MissionResult] Mission " .. result.missionId)
     print("====================================")
     print("STATUS: " .. MissionResult.getStatus(result))
-    print(string.format("Units: %d deployed, %d survived, %d killed", 
+    print(string.format("Units: %d deployed, %d survived, %d killed",
         result.unitsDeployed, result.unitsSurvived, result.unitsKilled))
-    print(string.format("Enemies: %d killed, %d captured, %d escaped", 
+    print(string.format("Enemies: %d killed, %d captured, %d escaped",
         result.enemiesKilled, result.enemiesCaptured, result.enemiesEscaped))
-    print(string.format("Objectives: %d/%d completed", 
+    print(string.format("Objectives: %d/%d completed",
         result.objectivesCompleted, result.objectivesTotal))
-    print(string.format("Performance: %d turns, %.0f%% accuracy", 
+    print(string.format("Performance: %d turns, %.0f%% accuracy",
         result.turnsElapsed, result.accuracyPercent))
     print("------------------------------------")
     print(string.format("Score Breakdown:"))
@@ -157,12 +176,9 @@ function MissionResult.printSummary(result)
     print(string.format("  Casualties: +%d", result.casualtyBonus))
     print(string.format("  Civilian Penalty: %d", result.civiliaPenalty))
     print(string.format("  TOTAL: %d", result.totalScore))
-    print(string.format("Salvage: %d items, %d credits", 
+    print(string.format("Salvage: %d items, %d credits",
         #result.salvageItems, result.salvageMoney))
     print("====================================\n")
 end
 
 return MissionResult
-
-
-

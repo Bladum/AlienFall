@@ -43,7 +43,7 @@ AbilitiesSystem.ABILITIES = {
             return {success = true, healed = healAmount}
         end,
     },
-    
+
     COMBAT_MEDIC = {
         id = "COMBAT_MEDIC",
         name = "Combat Medic",
@@ -58,12 +58,12 @@ AbilitiesSystem.ABILITIES = {
             local healAmount = 10
             target.hp = math.min((target.hp or 10) + healAmount, target.maxHP or 10)
             target.wounds = {} -- Clear all wounds
-            print(string.format("[Abilities] %s used Combat Medic on %s: healed %d HP, removed wounds", 
+            print(string.format("[Abilities] %s used Combat Medic on %s: healed %d HP, removed wounds",
                 user.id, target.id, healAmount))
             return {success = true, healed = healAmount, woundsRemoved = true}
         end,
     },
-    
+
     -- ENGINEER abilities
     REPAIR = {
         id = "REPAIR",
@@ -80,7 +80,7 @@ AbilitiesSystem.ABILITIES = {
             return {success = true, repaired = true}
         end,
     },
-    
+
     BUILD_TURRET = {
         id = "BUILD_TURRET",
         name = "Build Turret",
@@ -93,11 +93,24 @@ AbilitiesSystem.ABILITIES = {
         effect = function(user, target, params)
             -- Place automated turret
             print(string.format("[Abilities] %s built turret at (%d,%d)", user.id, target.q, target.r))
-            -- TODO: Create turret unit
-            return {success = true, turretPlaced = true}
+            -- Create turret unit
+            local TurretUnit = require("engine.battlescape.entities.turret")
+            local turret = TurretUnit.new({
+                id = "turret_" .. user.id .. "_" .. os.time(),
+                position = {q = target.q, r = target.r},
+                team = user.team or "allies",
+                owner = user.id,
+                health = 20,
+                maxHealth = 20,
+                armor = 2,
+                weapons = {{type = "turret_gun"}},
+                duration = 3  -- Lasts 3 turns
+            })
+            print(string.format("[Abilities] Turret created: %s at position (%d,%d)", turret.id, target.q, target.r))
+            return {success = true, turretPlaced = true, turretId = turret.id}
         end,
     },
-    
+
     -- SCOUT abilities
     REVEAL_AREA = {
         id = "REVEAL_AREA",
@@ -111,12 +124,12 @@ AbilitiesSystem.ABILITIES = {
         effect = function(user, target, params)
             -- Reveal fog of war in radius
             local radius = 8 + (user.level or 1)
-            print(string.format("[Abilities] %s revealed area at (%d,%d), radius %d", 
+            print(string.format("[Abilities] %s revealed area at (%d,%d), radius %d",
                 user.id, target.q, target.r, radius))
             return {success = true, radius = radius}
         end,
     },
-    
+
     MARK_TARGET = {
         id = "MARK_TARGET",
         name = "Mark Target",
@@ -129,11 +142,13 @@ AbilitiesSystem.ABILITIES = {
         effect = function(user, target, params)
             -- Mark enemy for bonus accuracy
             print(string.format("[Abilities] %s marked %s (+20%% accuracy for allies)", user.id, target.id))
-            -- TODO: Apply marked status effect
-            return {success = true, accuracyBonus = 20}
+            -- Apply marked status effect
+            local StatusEffects = require("engine.battlescape.systems.status_effects_system")
+            StatusEffects.applyEffect(target.id, "MARKED", 2, 5, user.id)
+            return {success = true, accuracyBonus = 20, targetId = target.id}
         end,
     },
-    
+
     -- ASSAULT abilities
     RUSH = {
         id = "RUSH",
@@ -151,7 +166,7 @@ AbilitiesSystem.ABILITIES = {
             return {success = true, apBonus = 4}
         end,
     },
-    
+
     SUPPRESSING_FIRE = {
         id = "SUPPRESSING_FIRE",
         name = "Suppressing Fire",
@@ -164,11 +179,19 @@ AbilitiesSystem.ABILITIES = {
         effect = function(user, target, params)
             -- Apply suppression debuff to area
             print(string.format("[Abilities] %s suppressed area at (%d,%d)", user.id, target.q, target.r))
-            -- TODO: Apply suppression status effect to enemies in area
-            return {success = true, enemiesSuppressed = 0}
+            -- Apply suppression status effect to enemies in area
+            local StatusEffects = require("engine.battlescape.systems.status_effects_system")
+            local suppressedCount = 0
+            -- In real implementation, would get units in area
+            -- For now, apply to target if it's an enemy unit
+            if target.id and target.team ~= user.team then
+                StatusEffects.applyEffect(target.id, "SUPPRESSED", 2, 3, user.id)
+                suppressedCount = 1
+            end
+            return {success = true, enemiesSuppressed = suppressedCount}
         end,
     },
-    
+
     -- SNIPER abilities
     PRECISION_SHOT = {
         id = "PRECISION_SHOT",
@@ -185,7 +208,7 @@ AbilitiesSystem.ABILITIES = {
             return {success = true, guaranteedCrit = true}
         end,
     },
-    
+
     HEADSHOT = {
         id = "HEADSHOT",
         name = "Headshot",
@@ -201,7 +224,7 @@ AbilitiesSystem.ABILITIES = {
             return {success = true, instantKill = true}
         end,
     },
-    
+
     -- HEAVY abilities
     ROCKET_LAUNCHER = {
         id = "ROCKET_LAUNCHER",
@@ -218,7 +241,7 @@ AbilitiesSystem.ABILITIES = {
             return {success = true, damage = 40, radius = 3}
         end,
     },
-    
+
     FORTIFY = {
         id = "FORTIFY",
         name = "Fortify",
@@ -231,11 +254,13 @@ AbilitiesSystem.ABILITIES = {
         effect = function(user, target, params)
             -- Damage reduction buff
             print(string.format("[Abilities] %s fortified (-50%% damage for 2 turns)", user.id))
-            -- TODO: Apply fortify status effect
+            -- Apply fortify status effect
+            local StatusEffects = require("engine.battlescape.systems.status_effects_system")
+            StatusEffects.applyEffect(user.id, "FORTIFIED", 2, 5, user.id)
             return {success = true, damageReduction = 0.5, duration = 2}
         end,
     },
-    
+
     -- PSYCHIC abilities
     MIND_FRAY = {
         id = "MIND_FRAY",
@@ -265,7 +290,7 @@ local abilityStates = {} -- unitId -> UnitAbilityState
 ---@param level number|nil Starting level (default 1)
 function AbilitiesSystem.initUnit(unitId, class, level)
     level = level or 1
-    
+
     local state = {
         unitId = unitId,
         class = class,
@@ -273,7 +298,7 @@ function AbilitiesSystem.initUnit(unitId, class, level)
         unlockedAbilities = {},
         cooldowns = {},
     }
-    
+
     -- Unlock abilities for current level
     for abilityId, ability in pairs(AbilitiesSystem.ABILITIES) do
         if ability.class == class and ability.unlockLevel <= level then
@@ -281,10 +306,10 @@ function AbilitiesSystem.initUnit(unitId, class, level)
             state.cooldowns[abilityId] = 0
         end
     end
-    
+
     abilityStates[unitId] = state
-    
-    print(string.format("[Abilities] Initialized %s (%s, level %d): %d abilities unlocked", 
+
+    print(string.format("[Abilities] Initialized %s (%s, level %d): %d abilities unlocked",
         unitId, class, level, #state.unlockedAbilities))
 end
 
@@ -300,15 +325,15 @@ end
 function AbilitiesSystem.levelUp(unitId, newLevel)
     local state = abilityStates[unitId]
     if not state then return end
-    
+
     local oldLevel = state.level
     state.level = newLevel
-    
+
     -- Unlock new abilities
     local newAbilities = 0
     for abilityId, ability in pairs(AbilitiesSystem.ABILITIES) do
-        if ability.class == state.class and 
-           ability.unlockLevel <= newLevel and 
+        if ability.class == state.class and
+           ability.unlockLevel <= newLevel and
            ability.unlockLevel > oldLevel then
             table.insert(state.unlockedAbilities, abilityId)
             state.cooldowns[abilityId] = 0
@@ -316,9 +341,9 @@ function AbilitiesSystem.levelUp(unitId, newLevel)
             print(string.format("[Abilities] %s unlocked %s (level %d)", unitId, ability.name, newLevel))
         end
     end
-    
+
     if newAbilities > 0 then
-        print(string.format("[Abilities] %s leveled up to %d, unlocked %d new abilities", 
+        print(string.format("[Abilities] %s leveled up to %d, unlocked %d new abilities",
             unitId, newLevel, newAbilities))
     end
 end
@@ -333,7 +358,7 @@ function AbilitiesSystem.canUseAbility(unitId, abilityId, unit)
     if not state then
         return false, "No ability state"
     end
-    
+
     -- Check if unlocked
     local unlocked = false
     for _, id in ipairs(state.unlockedAbilities) do
@@ -345,22 +370,22 @@ function AbilitiesSystem.canUseAbility(unitId, abilityId, unit)
     if not unlocked then
         return false, "Ability not unlocked"
     end
-    
+
     -- Check cooldown
     if state.cooldowns[abilityId] and state.cooldowns[abilityId] > 0 then
         return false, string.format("On cooldown (%d turns)", state.cooldowns[abilityId])
     end
-    
+
     -- Check AP
     local ability = AbilitiesSystem.ABILITIES[abilityId]
     if not ability then
         return false, "Unknown ability"
     end
-    
+
     if unit.ap < ability.apCost then
         return false, string.format("Not enough AP (%d required, %d available)", ability.apCost, unit.ap)
     end
-    
+
     return true
 end
 
@@ -376,22 +401,22 @@ function AbilitiesSystem.useAbility(unitId, abilityId, user, target)
         print(string.format("[Abilities] %s cannot use %s: %s", unitId, abilityId, reason or "unknown"))
         return false, nil
     end
-    
+
     local ability = AbilitiesSystem.ABILITIES[abilityId]
     local state = abilityStates[unitId]
-    
+
     -- Consume AP
     user.ap = user.ap - ability.apCost
-    
+
     -- Execute ability effect
     local result = ability.effect(user, target, {})
-    
+
     -- Set cooldown
     state.cooldowns[abilityId] = ability.cooldown
-    
-    print(string.format("[Abilities] %s used %s (cooldown: %d turns)", 
+
+    print(string.format("[Abilities] %s used %s (cooldown: %d turns)",
         unitId, ability.name, ability.cooldown))
-    
+
     return true, result
 end
 
@@ -400,7 +425,7 @@ end
 function AbilitiesSystem.processTurnEnd(unitId)
     local state = abilityStates[unitId]
     if not state then return end
-    
+
     for abilityId, cooldown in pairs(state.cooldowns) do
         if cooldown > 0 then
             state.cooldowns[abilityId] = cooldown - 1
@@ -414,7 +439,7 @@ end
 function AbilitiesSystem.getUnlockedAbilities(unitId)
     local state = abilityStates[unitId]
     if not state then return {} end
-    
+
     local abilities = {}
     for _, abilityId in ipairs(state.unlockedAbilities) do
         local ability = AbilitiesSystem.ABILITIES[abilityId]
@@ -428,7 +453,7 @@ function AbilitiesSystem.getUnlockedAbilities(unitId)
             })
         end
     end
-    
+
     return abilities
 end
 
@@ -446,28 +471,3 @@ function AbilitiesSystem.reset()
 end
 
 return AbilitiesSystem
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

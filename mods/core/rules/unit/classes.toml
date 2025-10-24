@@ -1,0 +1,452 @@
+# Unit Classes Configuration
+# Defines soldier and unit classes with base stats, default perks, and progression
+
+# ========== ROOKIE SOLDIER (Entry-level) ==========
+[[unit_classes]]
+id = "rookie"
+name = "Rookie"
+type = "soldier"
+description = "Untrained recruit with basic combat training"
+tier = 1
+
+# Base stats
+health = 50
+strength = 5
+speed = 6
+aim = 6
+reaction = 8
+energy = 10
+wisdom = 5
+psi = 0
+
+# Default perks available to all rookies
+[unit_classes_1.perks]
+default = [
+    "can_move",           # Basic movement
+    "can_run",            # Sprint movement
+    "can_shoot",          # Ranged attack
+    "can_melee",          # Melee attack
+    "can_throw",          # Throw grenades
+    "can_climb"           # Climb terrain
+]
+
+# ========== ASSAULT SOLDIER (Close-range combatant) ==========
+[[unit_classes]]
+id = "assault"
+name = "Assault Soldier"
+type = "soldier"
+description = "Aggressive close-range fighter with heavy weapons training"
+tier = 2
+
+# Base stats
+health = 60
+strength = 8      # Higher strength for heavy weapons
+speed = 5
+aim = 4
+reaction = 6
+energy = 12
+wisdom = 5
+psi = 0
+
+# Default perks
+[unit_classes_2.perks]
+default = [
+    "can_move",
+    "can_run",
+    "can_shoot",
+    "can_melee",
+    "can_throw",
+    "can_fire_heavy",     # Can use heavy weapons
+    "thick_skin"          # Damage resistance
+]
+
+# ========== SHARPSHOOTER (Ranged specialist) ==========
+[[unit_classes]]
+id = "sharpshooter"
+name = "Sharpshooter"
+type = "soldier"
+description = "Precision marksman trained for long-range engagements"
+tier = 2
+
+# Base stats
+health = 45
+strength = 4
+speed = 6
+aim = 10          # Very high aim
+reaction = 9      # High reaction
+energy = 10
+wisdom = 7
+psi = 0
+
+# Default perks
+[unit_classes_3.perks]
+default = [
+    "can_move",
+    "can_run",
+    "can_shoot",
+    "can_melee",
+    "can_throw",
+    "sniper_focus",       # Bonus for aimed shots
+    "keen_eyes"           # Better visibility
+]
+
+# ========== SUPPORT (Combat medic/Engineer) ==========
+[[unit_classes]]
+id = "support"
+name = "Support Specialist"
+type = "soldier"
+description = "Medic or engineer providing battlefield support and repairs"
+tier = 2
+
+# Base stats
+health = 50
+strength = 5
+speed = 7         # Higher mobility
+aim = 5
+reaction = 7
+energy = 15       # Higher energy for abilities
+wisdom = 9        # Higher wisdom
+psi = 0
+
+# Default perks
+[unit_classes_4.perks]
+default = [
+    "can_move",
+    "can_run",
+    "can_shoot",
+    "can_melee",
+    "can_throw",
+    "no_morale_penalty",  # Better morale
+    "iron_will"           # Mental resilience
+]
+
+# ========== PSI OPERATIVE (Psion) ==========
+[[unit_classes]]
+id = "psi_operative"
+name = "Psi Operative"
+type = "soldier"
+description = "Trained psion with telepathic and telekinetic abilities"
+tier = 3
+
+# Base stats
+health = 45
+strength = 3
+speed = 6
+aim = 6
+reaction = 7
+energy = 20       # Very high energy for psi
+wisdom = 12       # High wisdom
+psi = 15          # Very high psi
+
+# Default perks
+[unit_classes_5.perks]
+default = [
+    "can_move",
+    "can_run",
+    "can_shoot",
+    "can_throw",
+    "can_use_psionic",    # Can use psi abilities
+    "evasion",            # Mental evasion
+    "mind_control"        # Psi ability
+]
+
+# ========== HEAVY WEAPONS SPECIALIST ==========
+[[unit_classes]]
+id = "heavy_weapons"
+name = "Heavy Weapons Specialist"
+type = "soldier"
+description = "Expert in heavy machine guns and armor-piercing weapons"
+tier = 2
+
+# Base stats
+health = 70       # Highest health
+strength = 9      # Highest strength
+speed = 4         # Lowest speed (heavy)
+aim = 3
+reaction = 5
+energy = 14
+wisdom = 4
+psi = 0
+
+# Default perks
+[unit_classes_6.perks]
+default = [
+    "can_move",
+    "can_run",
+    "can_shoot",
+    "can_melee",
+    "can_throw",
+    "can_fire_heavy",     # Can use heavy weapons
+    "hardened"            # Damage reduction
+]
+
+# ========== INFILTRATOR (Stealth specialist) ==========
+[[unit_classes]]
+id = "infiltrator"
+name = "Infiltrator"
+type = "soldier"
+description = "Stealth-focused operative trained in infiltration and sabotage"
+tier = 3
+
+# Base stats
+health = 40
+strength = 5
+speed = 8         # Highest speed
+aim = 8
+reaction = 10     # Highest reaction
+energy = 10
+wisdom = 6
+psi = 0
+
+# Default perks
+[unit_classes_7.perks]
+default = [
+    "can_move",
+    "can_run",
+    "can_shoot",
+    "can_melee",
+    "can_throw",
+    "can_climb",
+    "stealth",            # Stealth/invisibility
+    "camouflage"          # Environmental blending
+]
+
+# ========== OFFICER (Leader/Commander) ==========
+[[unit_classes]]
+id = "officer"
+name = "Officer"
+type = "soldier"
+description = "Trained leader with command abilities and tactical experience"
+tier = 3
+
+# Base stats
+health = 55
+strength = 6
+speed = 6
+aim = 7
+reaction = 8
+energy = 12
+wisdom = 11       # High wisdom
+psi = 5
+
+# Default perks
+[unit_classes_8.perks]
+default = [
+    "can_move",
+    "can_run",
+    "can_shoot",
+    "can_melee",
+    "can_throw",
+    "leadership",         # Command ability
+    "inspire"             # Morale boost
+]
+
+# ========== PILOT (Standard craft pilot) ==========
+[[unit_classes]]
+id = "pilot"
+name = "Pilot"
+type = "soldier"
+description = "Standard aircraft pilot trained for craft operations and combat"
+tier = 2
+
+# Base stats (Focused on speed, aim, and reaction for piloting)
+health = 50
+strength = 5
+speed = 8         # HIGH: Quick reflexes for flying
+aim = 7           # Decent accuracy with weapons
+reaction = 8      # HIGH: Fast reaction for combat
+energy = 10
+wisdom = 6
+psi = 0
+
+# Default perks
+[unit_classes_9.perks]
+default = [
+    "can_move",
+    "can_run",
+    "can_shoot",
+    "can_melee",
+    "can_throw",
+    "skilled_pilot"       # Craft bonuses
+]
+
+# ========== FIGHTER PILOT (Elite interceptor specialist) ==========
+[[unit_classes]]
+id = "fighter_pilot"
+name = "Fighter Pilot"
+type = "soldier"
+description = "Elite aircraft combat pilot specialized for interceptor craft operations"
+tier = 3
+
+# Base stats (Maximum speed and aim for dogfighting)
+health = 55
+strength = 6
+speed = 9         # HIGHEST: Maximum maneuverability
+aim = 8           # High accuracy for targeting
+reaction = 9      # HIGHEST: Fastest reflexes for combat
+energy = 10
+wisdom = 7
+psi = 0
+
+# Default perks
+[unit_classes_10.perks]
+default = [
+    "can_move",
+    "can_run",
+    "can_shoot",
+    "can_melee",
+    "can_throw",
+    "skilled_pilot",
+    "ace_pilot",          # Advanced piloting bonuses
+    "sharpshooter"        # Better accuracy
+]
+
+# ========== BOMBER PILOT (Transport & heavy craft specialist) ==========
+[[unit_classes]]
+id = "bomber_pilot"
+name = "Bomber Pilot"
+type = "soldier"
+description = "Transport and heavy craft specialist with focus on endurance and control"
+tier = 2
+
+# Base stats (Higher health and strength for heavy aircraft)
+health = 60
+strength = 7      # HIGHEST: Power for heavy aircraft control
+speed = 7         # Moderate speed
+aim = 6           # Lower accuracy (bombing, not dogfighting)
+reaction = 7      # Moderate reaction
+energy = 12       # Higher energy for long missions
+wisdom = 7
+psi = 0
+
+# Default perks
+[unit_classes_11.perks]
+default = [
+    "can_move",
+    "can_run",
+    "can_shoot",
+    "can_melee",
+    "can_throw",
+    "skilled_pilot",
+    "steady_hand",        # Reduced accuracy loss
+    "iron_constitution"   # Better health
+]
+
+# ========== HELICOPTER PILOT (VTOL specialist) ==========
+[[unit_classes]]
+id = "helicopter_pilot"
+name = "Helicopter Pilot"
+type = "soldier"
+description = "Vertical takeoff/landing specialist for hover and precision operations"
+tier = 2
+
+# Base stats (High reaction and wisdom for precision hovering)
+health = 55
+strength = 5
+speed = 7         # Good maneuverability
+aim = 7           # Good accuracy
+reaction = 9      # HIGHEST: Precise control
+energy = 10
+wisdom = 8        # HIGHER: Better spatial awareness
+psi = 0
+
+# Default perks
+[unit_classes_12.perks]
+default = [
+    "can_move",
+    "can_run",
+    "can_shoot",
+    "can_melee",
+    "can_throw",
+    "skilled_pilot",
+    "precision_control",  # Hover bonuses
+    "steady_aim"          # Better accuracy while hovering
+]
+
+# ========== ALIEN - SECTOID ==========
+[[unit_classes]]
+id = "sectoid"
+name = "Sectoid"
+type = "alien"
+description = "Small psionic alien with telepathic abilities"
+tier = 1
+
+# Base stats
+health = 30
+strength = 4
+speed = 5
+aim = 4
+reaction = 6
+energy = 15       # High energy for psi
+wisdom = 12       # High wisdom for psi
+psi = 20          # Very high psi
+
+# Default alien perks
+[unit_classes_13.perks]
+default = [
+    "can_move",
+    "can_shoot",
+    "can_melee",
+    "can_use_psionic",
+    "mind_control",
+    "evasion"
+]
+
+# ========== ALIEN - FLOATER ==========
+[[unit_classes]]
+id = "floater"
+name = "Floater"
+type = "alien"
+description = "Airborne alien with flight capabilities"
+tier = 1
+
+# Base stats
+health = 35
+strength = 6
+speed = 7         # High mobility
+aim = 5
+reaction = 7      # Good reaction
+energy = 12
+wisdom = 5
+psi = 0
+
+# Default alien perks
+[unit_classes_14.perks]
+default = [
+    "can_move",
+    "can_run",
+    "can_shoot",
+    "can_melee",
+    "can_fly",            # Flight capability
+    "hover"               # Hover in place
+]
+
+# ========== ALIEN - ETHEREAL ==========
+[[unit_classes]]
+id = "ethereal"
+name = "Ethereal"
+type = "alien"
+description = "Advanced alien with powerful psionic abilities"
+tier = 3
+
+# Base stats
+health = 50
+strength = 5
+speed = 6
+aim = 7
+reaction = 8
+energy = 25       # Very high energy
+wisdom = 16       # Very high wisdom
+psi = 25          # Very high psi
+
+# Default alien perks
+[unit_classes_15.perks]
+default = [
+    "can_move",
+    "can_shoot",
+    "can_melee",
+    "can_use_psionic",
+    "mind_control",
+    "shapeshift",         # Form change
+    "evasion"
+]

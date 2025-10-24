@@ -1,0 +1,35 @@
+{
+	"editor.formatOnSave": false,
+	"editor.tabSize": 4,
+	"editor.insertSpaces": true,
+	"editor.trimAutoWhitespace": true,
+	"files.trimTrailingWhitespace": true,
+	"files.insertFinalNewline": true,
+	"files.trimFinalNewlines": true,
+	"files.exclude": {
+		"**/.DS_Store": true,
+		"**/Thumbs.db": true,
+		"**/node_modules": true,
+		"**/.git": true,
+		"temp/**": false
+	},
+	"search.exclude": {
+		"**/node_modules": true,
+		"**/dist": true,
+		"**/build": true,
+		"**/.git": true,
+		"temp/**": false
+	},
+	"[lua]": {
+		"editor.defaultFormatter": "sumneko.lua",
+		"editor.formatOnSave": false
+	},
+	"Lua.diagnostics.globals": [
+		"love",
+		"print",
+		"tostring",
+		"tonumber"
+	],
+	"Lua.runtime.version": "Lua 5.1",
+	"workbench.startupEditor": "none"
+}

@@ -1,140 +1,91 @@
-# AlienFall Documentation
+# Documentation Standards & Development Guides
 
-Welcome to the AlienFall documentation for developers.
+## Goal / Purpose
 
----
+The Docs folder contains development guidelines, code standards, and best practices for contributing to the AlienFall project. It defines how developers should write code, document their work, and maintain consistency across the codebase.
 
-## Quick Start
+## Content
 
-**First Time Setup?**
-- [Setup Guide (Windows)](developers/SETUP_WINDOWS.md) - 30-45 minutes
-- [Setup Guide (Linux)](developers/SETUP_LINUX.md) 
-- [Setup Guide (macOS)](developers/SETUP_MAC.md)
+- **CODE_STANDARDS.md** - Lua coding standards and conventions
+- **COMMENT_STANDARDS.md** - How to write effective comments and documentation
+- **DOCUMENTATION_STANDARD.md** - Documentation format and requirements
+- **API_UPDATES_PILOTS_PERKS.md** - Pilot system API updates and perks documentation
 
-**Then Read:**
-- [Development Workflow](developers/WORKFLOW.md) - Git, branching, contributing
-- [Code Standards](CODE_STANDARDS.md) - Naming, style, organization
-- [Comment Standards](COMMENT_STANDARDS.md) - How to write good comments
+## Features
 
-**When You Need Help:**
-- [Debugging Guide](developers/DEBUGGING.md) - Console debugging
-- [Troubleshooting](developers/TROUBLESHOOTING.md) - Common issues
+- **Code Quality Guidelines**: Standards for writing clean, maintainable code
+- **Naming Conventions**: Consistent naming for files, functions, variables
+- **Comment Best Practices**: How to document code effectively
+- **Documentation Format**: Consistent documentation structure
+- **Examples**: Sample code following standards
+- **Tools & Linting**: Integration with code analysis tools
+- **Review Checklist**: What to check during code review
 
----
+## Integrations with Other Systems
 
-## Full Documentation
+### Architecture & Design
+- Standards support architectural patterns
+- Documentation standards ensure design consistency
+- Code quality enables future modifications
 
-Everything else is in the **`wiki/`** folder:
+### API Documentation
+- Standards ensure API docs are consistent and complete
+- Comment standards produce better API references
+- Documentation standards define API format
 
-| Folder | Contents |
-|--------|----------|
-| `wiki/systems/` | Game system docs (19 documented systems) |
-| `wiki/api/` | API reference (ARCHITECTURE, BASESCAPE, BATTLESCAPE, ECONOMY, UNITS) |
-| `wiki/architecture/` | Architecture decisions (ADRs 1-5) |
-| `wiki/design/` | Design guidelines and references |
-| `wiki/examples/` | Learning examples and tutorials |
+### Engine Implementation
+- All engine code follows these standards
+- Consistency enables team collaboration
+- Quality standards reduce bugs and maintenance
 
-**Also in wiki/**:
-- `GLOSSARY.md` - Merged, authoritative game terminology reference
-- `NAVIGATION.md` - Complete documentation reference map
-- `README.md` - Game design documentation hub
+### Testing
+- Code standards make tests easier to write
+- Well-documented code is easier to test
+- Standards include testing requirements
 
-**In docs/ (Developer Tools)**:
-- `DOCUMENTATION_STANDARD.md` - How to write documentation
-- `DOCS_NAVIGATION.md` - Developer guide navigation
-- `PERFORMANCE.md` - Performance optimization guide
-- `Glossary.md` - Developer terminology reference
-- `api/README.md` - Developer API links
+### Modding & Community
+- Clear standards help modders contribute
+- Documentation helps modders understand systems
+- Consistent code enables mod compatibility
 
-**NEW: Implementation Status & Audits**:
-- `WIKI_ENGINE_ALIGNMENT_AUDIT.md` - Complete audit of wiki vs engine (89% aligned ✅)
-- `ENGINE_IMPLEMENTATION_STATUS.md` - Quick reference showing what's built vs planned
-- `GEOSCAPE_IMPLEMENTATION_STATUS.md` - Geoscape system status (74% complete, Relations gap identified)
+## Key Standards
 
----
+### Code Style
+- Lua 5.1 syntax compliance
+- Snake_case for files and functions
+- PascalCase for classes/modules
+- camelCase for variables
+- Comments for complex logic
+- Avoid global variables
 
-## File Structure
+### Documentation Requirements
+- Module-level documentation at file top
+- Function documentation with parameters/returns
+- Comments for non-obvious logic
+- Examples for complex systems
+- Links to related systems
 
-```
-docs/                          ← Developer tools (You are here)
-├── README.md                  ← This file (entry point)
-├── DOCUMENTATION_STANDARD.md  ← Documentation format standards
-├── DOCS_NAVIGATION.md         ← Developer guide navigation
-├── CODE_STANDARDS.md          ← Code conventions
-├── COMMENT_STANDARDS.md       ← Comment guidelines
-├── PERFORMANCE.md             ← Performance optimization
-├── Glossary.md                ← Developer terminology
-├── api/
-│   └── README.md              ← Links to game APIs (wiki/api/)
-└── developers/                ← Developer setup & workflow
-    ├── SETUP_WINDOWS.md       ← Start here (first time)
-    ├── SETUP_LINUX.md
-    ├── SETUP_MAC.md
-    ├── WORKFLOW.md            ← Then read this
-    ├── DEBUGGING.md
-    └── TROUBLESHOOTING.md
+### Quality Metrics
+- No compiler errors
+- No luacheck warnings (with exceptions documented)
+- Test coverage for critical paths
+- Performance benchmarks
+- Documentation completeness
 
-wiki/                          ← Game design documentation
-├── systems/                   ← Game mechanics (19 documented)
-├── api/                       ← Game system APIs
-├── architecture/              ← Design decisions (ADRs 1-5)
-├── design/                    ← Design guidelines & specs
-├── examples/                  ← Learning guides & tutorials
-├── README.md                  ← Game design hub
-├── NAVIGATION.md              ← Game documentation map
-├── GLOSSARY.md                ← Authoritative game terminology
-```
+## Contributing Guide
 
----
+1. **Read the standards** in this folder
+2. **Follow code style** guidelines
+3. **Document your code** with comments and examples
+4. **Write tests** for new functionality
+5. **Update API docs** if changing interfaces
+6. **Get code review** from team members
+7. **Address feedback** before merging
 
-## 👨‍💻 For Developers
+## See Also
 
-1. **Set up your environment** → `developers/SETUP_WINDOWS.md` (or your OS)
-2. **Learn the workflow** → `developers/WORKFLOW.md`
-3. **Write code** → Reference `CODE_STANDARDS.md` and `COMMENT_STANDARDS.md`
-4. **Debug issues** → Use `developers/DEBUGGING.md` + console
-5. **Explore systems** → Check `wiki/systems/` and `wiki/api/` for details
-6. **Find architecture** → Read `wiki/architecture/README.md` for ADRs
-
----
-
-## 🎮 For Game Designers
-
-1. Read game system docs in `wiki/systems/`
-2. Use design template in `wiki/design/DESIGN_TEMPLATE.md`
-3. Check balance reference in `wiki/design/BALANCE_REFERENCE.md` (when available)
-4. Test using methodology in `wiki/design/TESTING_METHODOLOGY.md` (when available)
-
----
-
-## 🤖 For Everyone
-
-- **Need to know what something is?** → `wiki/GLOSSARY.md` (game terms) or `Glossary.md` (developer terms)
-- **Want to find a specific doc?** → `wiki/NAVIGATION.md` (game docs) or `DOCS_NAVIGATION.md` (developer docs)
-- **Need documentation standards?** → `DOCUMENTATION_STANDARD.md`
-- **Performance concerns?** → `PERFORMANCE.md`
-
----
-
-## Key Files in This Folder
-
-| File | Purpose |
-|------|---------|
-| `CODE_STANDARDS.md` | How to write code (naming, style, organization) |
-| `COMMENT_STANDARDS.md` | How to write comments and docstrings |
-| `DOCUMENTATION_STANDARD.md` | How to write documentation |
-| `DOCS_NAVIGATION.md` | Developer documentation navigation guide |
-| `PERFORMANCE.md` | Performance optimization techniques |
-| `Glossary.md` | Developer and technical terminology |
-| `developers/SETUP_*.md` | Installation & environment setup (Windows, Linux, macOS) |
-| `developers/WORKFLOW.md` | Git workflow and collaboration |
-| `developers/DEBUGGING.md` | How to debug with Love2D console |
-| `developers/TROUBLESHOOTING.md` | Common issues & fixes |
-
-Everything else → `wiki/` (Game design documentation)
-
----
-
-**Last Updated**: October 2025  
-**Status**: Clean, focused, minimal
-
+- [Code Standards](./CODE_STANDARDS.md) - Lua coding conventions
+- [Comment Standards](./COMMENT_STANDARDS.md) - Documentation guidelines
+- [Documentation Standard](./DOCUMENTATION_STANDARD.md) - Doc format
+- [Architecture](../architecture/README.md) - System design patterns
+- [API Documentation](../api/README.md) - System interfaces

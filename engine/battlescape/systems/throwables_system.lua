@@ -86,7 +86,7 @@ function ThrowablesSystem.throwGrenade(throwerUnit, grenadeType, targetQ, target
         print("[Throwables] Unknown grenade type: " .. grenadeType)
         return nil
     end
-    
+
     -- Create throwable
     local throwable = {
         id = "throwable_" .. nextId,
@@ -102,13 +102,13 @@ function ThrowablesSystem.throwGrenade(throwerUnit, grenadeType, targetQ, target
         bounces = grenadeDef.bounces,
         state = "flying",
     }
-    
+
     nextId = nextId + 1
     table.insert(activeThrowables, throwable)
-    
-    print(string.format("[Throwables] %s threw %s to (%d,%d)", 
+
+    print(string.format("[Throwables] %s threw %s to (%d,%d)",
         throwerUnit.id, grenadeType, targetQ, targetR))
-    
+
     return throwable.id
 end
 
@@ -130,23 +130,85 @@ end
 ---@param targetQ number Target Q
 ---@param targetR number Target R
 ---@param maxRange number|nil Maximum throw range (default 8)
+---@param map table|nil Map for obstacle checking
 ---@return boolean valid, string|nil reason
-function ThrowablesSystem.canThrow(unit, targetQ, targetR, maxRange)
+function ThrowablesSystem.canThrow(unit, targetQ, targetR, maxRange, map)
     maxRange = maxRange or 8
-    
+
     local distance = ThrowablesSystem.calculateDistance(unit.q, unit.r, targetQ, targetR)
-    
+
     if distance > maxRange then
         return false, "Out of range"
     end
-    
+
     if distance == 0 then
         return false, "Cannot throw at self"
     end
-    
-    -- TODO: Check for obstacles/ceiling in arc path
-    
+
+    -- Check for obstacles/ceiling in arc path
+    -- TASK-11.1: Obstacle detection for throwables
+    -- Generate arc path from thrower to target
+    local arcPath = ThrowablesSystem.generateArcPath(unit.q, unit.r, targetQ, targetR)
+
+    if map and map.terrain then
+        -- Check each hex in the arc for obstacles/ceiling
+        for _, hex in ipairs(arcPath) do
+            local terrain = map.terrain[hex.q] and map.terrain[hex.q][hex.r]
+
+            -- Block throw if ceiling exists at full height (blocks all throws)
+            if terrain and terrain.hasFullCeiling then
+                print(string.format("[Throwables] Throw blocked by ceiling at (%d,%d)", hex.q, hex.r))
+                return false, "Ceiling blocks throw"
+            end
+
+            -- Check for obstacles - grenade can bounce over low obstacles (height < 3)
+            if terrain and terrain.obstacleHeight then
+                if terrain.obstacleHeight >= 3 then
+                    -- Can potentially bounce over
+                    if (hex.q == targetQ and hex.r == targetR) then
+                        -- Landing spot blocked
+                        return false, "Target blocked by obstacle"
+                    end
+                    -- Arc path will naturally go up and over lower obstacles
+                end
+            end
+        end
+    end
+
     return true
+end
+
+---Generate arc path from source to target (simplified parabolic trajectory)
+---@param startQ number Start Q
+---@param startR number Start R
+---@param endQ number End Q
+---@param endR number End R
+---@return table path List of {q, r} hexes in arc trajectory
+function ThrowablesSystem.generateArcPath(startQ, startR, endQ, endR)
+    local path = {}
+    local steps = 8 -- Arc resolution
+
+    for i = 0, steps do
+        local t = i / steps
+
+        -- Interpolate position with parabolic arc
+        local q = startQ + (endQ - startQ) * t
+        local r = startR + (endR - startR) * t
+
+        -- Add parabolic peak (arc height)
+        local arcHeight = 2 * math.sin(t * math.pi) -- Peaks at t=0.5
+
+        -- Round to nearest hex
+        local hexQ = math.floor(q + 0.5)
+        local hexR = math.floor(r + 0.5)
+
+        -- Avoid duplicates
+        if #path == 0 or path[#path].q ~= hexQ or path[#path].r ~= hexR then
+            table.insert(path, {q = hexQ, r = hexR, arcHeight = arcHeight})
+        end
+    end
+
+    return path
 end
 
 ---Process throwable bouncing
@@ -155,11 +217,11 @@ end
 function ThrowablesSystem.processBounce(throwable, map)
     if throwable.bounces <= 0 then
         throwable.state = "resting"
-        print(string.format("[Throwables] %s came to rest at (%d,%d)", 
+        print(string.format("[Throwables] %s came to rest at (%d,%d)",
             throwable.id, throwable.currentQ, throwable.currentR))
         return
     end
-    
+
     -- Bounce to random adjacent hex
     local neighbors = {
         {1, 0}, {1, -1}, {0, -1}, {-1, 0}, {-1, 1}, {0, 1}
@@ -168,10 +230,10 @@ function ThrowablesSystem.processBounce(throwable, map)
     throwable.currentQ = throwable.currentQ + bounce[1]
     throwable.currentR = throwable.currentR + bounce[2]
     throwable.bounces = throwable.bounces - 1
-    
-    print(string.format("[Throwables] %s bounced to (%d,%d)", 
+
+    print(string.format("[Throwables] %s bounced to (%d,%d)",
         throwable.id, throwable.currentQ, throwable.currentR))
-    
+
     if throwable.bounces <= 0 then
         throwable.state = "resting"
     end
@@ -184,14 +246,14 @@ end
 function ThrowablesSystem.detonate(throwable, map, units)
     local grenadeDef = ThrowablesSystem.GRENADE_TYPES[throwable.type]
     if not grenadeDef then return end
-    
+
     local q, r = throwable.currentQ, throwable.currentR
-    
+
     print(string.format("[Throwables] %s detonated at (%d,%d)", throwable.id, q, r))
-    
+
     -- Get affected tiles in radius
     local affectedTiles = ThrowablesSystem.getHexesInRadius(q, r, grenadeDef.radius)
-    
+
     -- Apply effects
     for _, effect in ipairs(grenadeDef.effects) do
         if effect == "explosion" then
@@ -206,7 +268,7 @@ function ThrowablesSystem.detonate(throwable, map, units)
             ThrowablesSystem.applyEMP(affectedTiles, units, grenadeDef)
         end
     end
-    
+
     throwable.state = "detonated"
 end
 
@@ -220,7 +282,7 @@ function ThrowablesSystem.applyExplosionDamage(throwable, tiles, units, grenadeD
         -- Distance falloff
         local falloff = 1.0 - (tile.distance / grenadeDef.radius)
         local damage = math.floor(grenadeDef.damage * falloff)
-        
+
         -- Find units on this tile
         for _, unit in ipairs(units) do
             if unit.q == tile.q and unit.r == tile.r then
@@ -237,7 +299,7 @@ end
 ---@param grenadeDef table Grenade definition
 function ThrowablesSystem.createSmoke(tiles, map, grenadeDef)
     if not map.smoke then map.smoke = {} end
-    
+
     for _, tile in ipairs(tiles) do
         local key = tile.q .. "," .. tile.r
         map.smoke[key] = {
@@ -245,7 +307,7 @@ function ThrowablesSystem.createSmoke(tiles, map, grenadeDef)
             duration = grenadeDef.smokeDuration,
         }
     end
-    
+
     print(string.format("[Throwables] Created smoke cloud at %d tiles", #tiles))
 end
 
@@ -255,7 +317,7 @@ end
 ---@param grenadeDef table Grenade definition
 function ThrowablesSystem.createFire(tiles, map, grenadeDef)
     if not map.fire then map.fire = {} end
-    
+
     for _, tile in ipairs(tiles) do
         local key = tile.q .. "," .. tile.r
         map.fire[key] = {
@@ -263,7 +325,7 @@ function ThrowablesSystem.createFire(tiles, map, grenadeDef)
             duration = grenadeDef.fireDuration,
         }
     end
-    
+
     print(string.format("[Throwables] Created fire at %d tiles", #tiles))
 end
 
@@ -272,11 +334,32 @@ end
 ---@param units table List of units
 ---@param grenadeDef table Grenade definition
 function ThrowablesSystem.applyStun(tiles, units, grenadeDef)
-    -- Requires status effects system integration
-    print(string.format("[Throwables] Stun effect on %d tiles (duration %d)", 
-        #tiles, grenadeDef.stunDuration or 2))
-    
-    -- TODO: Apply STUNNED status effect to units in affected tiles
+    -- TASK-11.2: Stun status effect for throwables
+    local StatusEffects = require("engine.battlescape.systems.status_effects_system")
+
+    local affectedUnits = 0
+
+    -- Apply STUNNED status effect to all units in affected tiles
+    for _, unit in ipairs(units or {}) do
+        -- Check if unit is in one of the affected hexes
+        for _, tile in ipairs(tiles) do
+            if unit.q == tile.q and unit.r == tile.r then
+                -- Apply stun effect: intensity scales with distance (closer = stronger)
+                local intensity = math.max(1, math.ceil(grenadeDef.radius - tile.distance))
+                local duration = grenadeDef.stunDuration or 2
+
+                StatusEffects.applyEffect(unit.id, "STUNNED", duration, intensity, "flashbang_" .. grenadeDef.name)
+
+                affectedUnits = affectedUnits + 1
+                print(string.format("[Throwables] Unit %s stunned by flashbang (intensity=%d, duration=%d)",
+                    unit.id, intensity, duration))
+                break -- Unit affected once per grenade
+            end
+        end
+    end
+
+    print(string.format("[Throwables] Stun effect applied to %d units on %d tiles",
+        affectedUnits, #tiles))
 end
 
 ---Apply EMP effect
@@ -284,10 +367,45 @@ end
 ---@param units table List of units
 ---@param grenadeDef table Grenade definition
 function ThrowablesSystem.applyEMP(tiles, units, grenadeDef)
-    print(string.format("[Throwables] EMP effect on %d tiles (duration %d)", 
-        #tiles, grenadeDef.empDuration or 3))
-    
-    -- TODO: Disable robotic units, electronics
+    -- TASK-11.3: EMP effect for disabling robotic units
+    local affectedUnits = 0
+
+    -- Disable robotic units and electronics in affected area
+    for _, unit in ipairs(units or {}) do
+        -- Check if unit is in one of the affected hexes
+        for _, tile in ipairs(tiles) do
+            if unit.q == tile.q and unit.r == tile.r then
+                -- Check if unit is robotic/electronic (unit type flag)
+                if unit.isRobotic or unit.class == "SECTOID" or unit.class == "FLOATER" or
+                   string.find((unit.name or ""), "Robot") or
+                   string.find((unit.name or ""), "Drone") or
+                   (unit.traits and (unit.traits.mechanical or unit.traits.electronic)) then
+
+                    -- Apply EMP disabling effect: STUNNED status + mechanical damage
+                    local StatusEffects = require("engine.battlescape.systems.status_effects_system")
+                    local empDuration = grenadeDef.empDuration or 3
+                    local intensity = 8 -- Full disable intensity
+
+                    StatusEffects.applyEffect(unit.id, "STUNNED", empDuration, intensity, "emp_grenade")
+
+                    -- Additional EMP damage to mechanical units
+                    if unit.isRobotic then
+                        unit.hp = (unit.hp or 20) - 5 -- Additional 5 damage to robots
+                        print(string.format("[Throwables] EMP damaged mechanical unit %s (-5 HP)",
+                            unit.id))
+                    end
+
+                    affectedUnits = affectedUnits + 1
+                    print(string.format("[Throwables] Unit %s disabled by EMP (duration=%d)",
+                        unit.id, empDuration))
+                end
+                break -- Unit processed once per grenade
+            end
+        end
+    end
+
+    print(string.format("[Throwables] EMP effect applied to %d robotic units on %d tiles",
+        affectedUnits, #tiles))
 end
 
 ---Get all hexes within radius
@@ -297,7 +415,7 @@ end
 ---@return table hexes List of {q, r, distance}
 function ThrowablesSystem.getHexesInRadius(centerQ, centerR, radius)
     local hexes = {}
-    
+
     for q = centerQ - radius, centerQ + radius do
         for r = centerR - radius, centerR + radius do
             local distance = ThrowablesSystem.calculateDistance(centerQ, centerR, q, r)
@@ -306,7 +424,7 @@ function ThrowablesSystem.getHexesInRadius(centerQ, centerR, radius)
             end
         end
     end
-    
+
     return hexes
 end
 
@@ -316,7 +434,7 @@ end
 function ThrowablesSystem.processTurnEnd(map, units)
     for i = #activeThrowables, 1, -1 do
         local throwable = activeThrowables[i]
-        
+
         if throwable.state == "flying" then
             -- Land immediately (simplified - no multi-turn flight)
             if throwable.bounces > 0 then
@@ -336,7 +454,7 @@ function ThrowablesSystem.processTurnEnd(map, units)
                 end
             end
         end
-        
+
         -- Remove detonated throwables
         if throwable.state == "detonated" then
             table.remove(activeThrowables, i)
@@ -358,28 +476,3 @@ function ThrowablesSystem.reset()
 end
 
 return ThrowablesSystem
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

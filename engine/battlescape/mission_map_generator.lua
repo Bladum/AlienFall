@@ -92,14 +92,14 @@ function MissionMapGenerator.initialize(modManager)
     if MissionMapGenerator.instance then
         return MissionMapGenerator.instance
     end
-    
+
     print("[MissionMapGenerator] Initializing...")
-    
+
     -- Create components
     local terrainSelector = TerrainSelector.new(Biomes, Terrains)
     local mapScriptSelector = MapScriptSelector.new(MapScripts)
     local mapBlockLoader = MapBlockLoader.new(modManager)
-    
+
     -- Load MapBlocks from mods
     local blockCount = mapBlockLoader:loadAll()
     if blockCount == 0 then
@@ -112,7 +112,7 @@ function MissionMapGenerator.initialize(modManager)
         mockBlock = MapBlockLoader.createMockBlock("test_plains", {"plains", "grass"})
         mapBlockLoader:registerBlock(mockBlock)
     end
-    
+
     -- Create pipeline
     local pipeline = MapGenerationPipeline.new({
         biomes = Biomes,
@@ -122,13 +122,13 @@ function MissionMapGenerator.initialize(modManager)
         mapScriptSelector = mapScriptSelector,
         mapBlockLoader = mapBlockLoader
     })
-    
+
     MissionMapGenerator.instance = {
         pipeline = pipeline,
         mapBlockLoader = mapBlockLoader,
         initialized = true
     }
-    
+
     print("[MissionMapGenerator] Initialized successfully")
     return MissionMapGenerator.instance
 end
@@ -147,23 +147,23 @@ end
 ---@return GeneratedMap? map Generated map or nil on failure
 function MissionMapGenerator.generateForMission(mission)
     local instance = MissionMapGenerator.getInstance()
-    
+
     print(string.format("\n[MissionMapGenerator] Generating map for mission: %s", mission.type or "unknown"))
-    
+
     -- Extract mission parameters
     local biomeId = mission.biome or mission.province and mission.province.biome or "forest"
     local difficulty = mission.difficulty or 3
     local missionType = mission.type or "patrol"
-    
+
     -- Generate map using pipeline
     local options = {
         biomeId = biomeId,
         difficulty = difficulty,
         missionType = missionType
     }
-    
+
     local map = instance.pipeline:generate(options)
-    
+
     if map then
         instance.pipeline:printMapInfo(map)
         return map
@@ -178,19 +178,19 @@ end
 ---@return GeneratedMap? map Generated map or nil on failure
 function MissionMapGenerator.generateUFOCrash(mission)
     local instance = MissionMapGenerator.getInstance()
-    
+
     local biomeId = mission.biome or mission.province and mission.province.biome or "forest"
     local difficulty = mission.difficulty or 4
     local ufoSize = mission.ufoSize or "small"
-    
+
     print(string.format("\n[MissionMapGenerator] Generating UFO crash site: %s UFO", ufoSize))
-    
+
     local map = instance.pipeline:generateUFOCrash(ufoSize, biomeId, difficulty)
-    
+
     if map then
         instance.pipeline:printMapInfo(map)
     end
-    
+
     return map
 end
 
@@ -199,19 +199,19 @@ end
 ---@return GeneratedMap? map Generated map or nil on failure
 function MissionMapGenerator.generateUFOLanding(mission)
     local instance = MissionMapGenerator.getInstance()
-    
+
     local biomeId = mission.biome or mission.province and mission.province.biome or "forest"
     local difficulty = mission.difficulty or 5
     local ufoSize = mission.ufoSize or "small"
-    
+
     print(string.format("\n[MissionMapGenerator] Generating UFO landing site: %s UFO", ufoSize))
-    
+
     local map = instance.pipeline:generateUFOLanding(ufoSize, biomeId, difficulty)
-    
+
     if map then
         instance.pipeline:printMapInfo(map)
     end
-    
+
     return map
 end
 
@@ -220,17 +220,17 @@ end
 ---@return GeneratedMap? map Generated map or nil on failure
 function MissionMapGenerator.generateBaseDefense(mission)
     local instance = MissionMapGenerator.getInstance()
-    
+
     local difficulty = mission.difficulty or 7
-    
+
     print("\n[MissionMapGenerator] Generating XCOM base defense map")
-    
+
     local map = instance.pipeline:generateBaseDefense(difficulty)
-    
+
     if map then
         instance.pipeline:printMapInfo(map)
     end
-    
+
     return map
 end
 
@@ -242,7 +242,7 @@ end
 function MissionMapGenerator.generateWithTeams(mission, teamSizes, battlefield)
     -- Generate base map
     local map
-    
+
     if mission.type == "crash" then
         map = MissionMapGenerator.generateUFOCrash(mission)
     elseif mission.type == "landing" then
@@ -252,21 +252,48 @@ function MissionMapGenerator.generateWithTeams(mission, teamSizes, battlefield)
     else
         map = MissionMapGenerator.generateForMission(mission)
     end
-    
+
     if not map then
         return nil
     end
-    
+
     -- Place teams if battlefield provided
     if battlefield and teamSizes then
-        -- TODO: Implement team placement
-        -- local teamPlacement = TeamPlacement.new(battlefield)
-        -- local placementResults = teamPlacement:placeAllTeams(map.spawnZones, teamSizes)
-        -- TeamPlacement.printStatistics(placementResults)
-        -- map.placementResults = placementResults
-        print("[MissionMapGenerator] Team placement not yet implemented")
+        -- Implement team placement algorithm
+        local alliedUnits = teamSizes.allies or {}
+        local enemyUnits = teamSizes.enemies or {}
+
+        -- Find spawn zones from map
+        local allySpawnZone = (map.spawnZones and map.spawnZones.allies) or {{q=1, r=1}, {q=2, r=1}, {q=1, r=2}}
+        local enemySpawnZone = (map.spawnZones and map.spawnZones.enemies) or {{q=88, r=44}, {q=87, r=44}, {q=88, r=43}}
+
+        -- Place allied units
+        local units = {}
+        for i, unit in ipairs(alliedUnits) do
+            local spawnPos = allySpawnZone[(i % #allySpawnZone) + 1] or {q=1, r=1}
+            unit.position = spawnPos
+            unit.team = "allies"
+            table.insert(units, unit)
+        end
+
+        -- Place enemy units
+        for i, unit in ipairs(enemyUnits) do
+            local spawnPos = enemySpawnZone[(i % #enemySpawnZone) + 1] or {q=88, r=44}
+            unit.position = spawnPos
+            unit.team = "enemies"
+            table.insert(units, unit)
+        end
+
+        map.placementResults = {
+            alliedCount = #alliedUnits,
+            enemyCount = #enemyUnits,
+            totalUnits = #alliedUnits + #enemyUnits,
+            success = true,
+            units = units
+        }
+        print(string.format("[MissionMapGenerator] Placed %d allies + %d enemies", #alliedUnits, #enemyUnits))
     end
-    
+
     return map
 end
 
@@ -280,18 +307,18 @@ function MissionMapGenerator.validateMission(mission)
     if not biomeId then
         return false, "Mission has no biome"
     end
-    
+
     local biome = Biomes.get(biomeId)
     if not biome then
         return false, string.format("Unknown biome: %s", biomeId)
     end
-    
+
     -- Check difficulty is valid
     local difficulty = mission.difficulty or 3
     if difficulty < 1 or difficulty > 10 then
         return false, string.format("Invalid difficulty: %d (must be 1-10)", difficulty)
     end
-    
+
     return true, nil
 end
 
@@ -299,7 +326,7 @@ end
 ---@return table stats Block statistics {total, byTag, byMod}
 function MissionMapGenerator.getMapBlockStats()
     local instance = MissionMapGenerator.getInstance()
-    
+
     return {
         total = instance.mapBlockLoader:getCount(),
         tags = instance.mapBlockLoader:getAllTags(),
@@ -310,51 +337,26 @@ end
 ---Print generator statistics
 function MissionMapGenerator.printStatistics()
     local instance = MissionMapGenerator.getInstance()
-    
+
     print("\n[MissionMapGenerator] Statistics")
     print("========================================")
-    
+
     print("\nBiomes:")
     local biomes = Biomes.getAllIds()
     print(string.format("  Total: %d", #biomes))
-    
+
     print("\nTerrains:")
     local terrains = Terrains.getAllIds()
     print(string.format("  Total: %d", #terrains))
-    
+
     print("\nMapScripts:")
     local mapScripts = MapScripts.getAllIds()
     print(string.format("  Total: %d", #mapScripts))
-    
+
     print("\nMapBlocks:")
     instance.mapBlockLoader:printStatistics()
-    
+
     print("========================================\n")
 end
 
 return MissionMapGenerator
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

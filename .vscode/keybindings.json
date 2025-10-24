@@ -1,0 +1,26 @@
+[
+	{
+		"key": "f5",
+		"command": "workbench.action.tasks.runTask",
+		"args": "🎮 RUN: Game with Debug Console",
+		"when": "!inDebugMode"
+	},
+	{
+		"key": "shift+f5",
+		"command": "workbench.action.tasks.runTask",
+		"args": "🎮 RUN: Game (Release - No Debug)",
+		"when": "!inDebugMode"
+	},
+	{
+		"key": "f9",
+		"command": "workbench.action.tasks.runTask",
+		"args": "🧪 TEST: All Tests",
+		"when": "!inDebugMode"
+	},
+	{
+		"key": "f10",
+		"command": "workbench.action.tasks.runTask",
+		"args": "🧪 TEST: All Tests with Coverage",
+		"when": "!inDebugMode"
+	}
+]

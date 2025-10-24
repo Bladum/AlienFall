@@ -57,25 +57,25 @@
 --[[
     Detection Manager
     Manages radar scanning from bases and crafts to detect hidden missions.
-    
+
     Core Responsibilities:
     - Perform daily radar scans from all player bases
     - Perform daily radar scans from all player crafts
     - Calculate radar power and range from facilities/equipment
     - Reduce mission cover based on radar effectiveness
     - Track detection events
-    
+
     Radar Mechanics:
     - Each base/craft has radar power and range
     - Radar effectiveness decreases with distance
     - Cover reduction = radar power × distance effectiveness
     - When mission cover reaches 0, it's detected
-    
+
     Base Radar Types:
     - Small Radar: Power 20, Range 5 provinces
     - Large Radar: Power 50, Range 10 provinces
     - Hyperwave Decoder: Power 100, Range 20 provinces
-    
+
     Craft Radar Types:
     - Basic Radar: Power 10, Range 3 provinces
     - Advanced Radar: Power 25, Range 7 provinces
@@ -88,19 +88,19 @@ local DetectionManager = {}
 ]]
 function DetectionManager:init()
     print("[Detection] Initializing Detection Manager...")
-    
+
     self.scanHistory = {}  -- Track scan results by day
     self.totalScansPerformed = 0
     self.totalMissionsDetected = 0
     self.debugMode = false
-    
+
     print("[Detection] Detection Manager ready")
 end
 
 --[[
     Perform daily radar scans from all bases and crafts
     Called once per turn by Geoscape or CampaignManager
-    
+
     @param campaignManager CampaignManager instance
     @param baseManager BaseManager instance (optional, for future integration)
     @param craftManager CraftManager instance (optional, for future integration)
@@ -108,59 +108,85 @@ end
 ]]
 function DetectionManager:performDailyScans(campaignManager, baseManager, craftManager)
     print("[Detection] Performing daily radar scans...")
-    
+
     local results = {
         scansPerformed = 0,
         missionsDetected = 0,
         newDetections = {},
     }
-    
+
     -- Get active missions
     local missions = campaignManager:getActiveMissions()
     if #missions == 0 then
         print("[Detection] No active missions to scan for")
         return results
     end
-    
-    -- For now, simulate scanning until BaseManager/CraftManager exist
-    -- TODO: Replace with actual base/craft scanning when those systems are ready
-    local mockBases = self:getMockBases()
-    local mockCrafts = self:getMockCrafts()
-    
-    -- Scan from bases
-    for _, base in ipairs(mockBases) do
-        local detected = self:scanFromBase(base, missions, campaignManager.currentDay)
-        results.scansPerformed = results.scansPerformed + 1
-        results.missionsDetected = results.missionsDetected + detected.count
-        
-        for _, mission in ipairs(detected.missions) do
-            table.insert(results.newDetections, mission)
+
+    -- Try to get from actual base/craft managers
+    local baseSensors, craftSensors = self:getActualSensorSources()
+
+    if baseSensors and #baseSensors > 0 then
+        -- Use actual base sensors
+        for _, base in ipairs(baseSensors) do
+            local detected = self:scanFromBase(base, missions, campaignManager.currentDay)
+            results.scansPerformed = results.scansPerformed + 1
+            results.missionsDetected = results.missionsDetected + detected.count
+
+            for _, mission in ipairs(detected.missions) do
+                table.insert(results.newDetections, mission)
+            end
+        end
+    else
+        -- Fallback: use mock bases
+        local mockBases = self:getMockBases()
+        for _, base in ipairs(mockBases) do
+            local detected = self:scanFromBase(base, missions, campaignManager.currentDay)
+            results.scansPerformed = results.scansPerformed + 1
+            results.missionsDetected = results.missionsDetected + detected.count
+
+            for _, mission in ipairs(detected.missions) do
+                table.insert(results.newDetections, mission)
+            end
         end
     end
-    
-    -- Scan from crafts
-    for _, craft in ipairs(mockCrafts) do
-        local detected = self:scanFromCraft(craft, missions, campaignManager.currentDay)
-        results.scansPerformed = results.scansPerformed + 1
-        results.missionsDetected = results.missionsDetected + detected.count
-        
-        for _, mission in ipairs(detected.missions) do
-            table.insert(results.newDetections, mission)
+
+    if craftSensors and #craftSensors > 0 then
+        -- Use actual craft sensors
+        for _, craft in ipairs(craftSensors) do
+            local detected = self:scanFromCraft(craft, missions, campaignManager.currentDay)
+            results.scansPerformed = results.scansPerformed + 1
+            results.missionsDetected = results.missionsDetected + detected.count
+
+            for _, mission in ipairs(detected.missions) do
+                table.insert(results.newDetections, mission)
+            end
+        end
+    else
+        -- Fallback: use mock crafts
+        local mockCrafts = self:getMockCrafts()
+        for _, craft in ipairs(mockCrafts) do
+            local detected = self:scanFromCraft(craft, missions, campaignManager.currentDay)
+            results.scansPerformed = results.scansPerformed + 1
+            results.missionsDetected = results.missionsDetected + detected.count
+
+            for _, mission in ipairs(detected.missions) do
+                table.insert(results.newDetections, mission)
+            end
         end
     end
-    
+
     self.totalScansPerformed = self.totalScansPerformed + results.scansPerformed
     self.totalMissionsDetected = self.totalMissionsDetected + #results.newDetections
-    
-    print(string.format("[Detection] Scans: %d, New detections: %d", 
+
+    print(string.format("[Detection] Scans: %d, New detections: %d",
         results.scansPerformed, #results.newDetections))
-    
+
     return results
 end
 
 --[[
     Scan for missions from a base
-    
+
     @param base table Base with radar facilities
     @param missions table List of missions to scan
     @param currentDay number Current game day
@@ -169,22 +195,22 @@ end
 function DetectionManager:scanFromBase(base, missions, currentDay)
     local radarPower = self:getBaseRadarPower(base)
     local radarRange = self:getBaseRadarRange(base)
-    
+
     if radarPower == 0 or radarRange == 0 then
         return {count = 0, missions = {}}
     end
-    
+
     if self.debugMode then
-        print(string.format("[Detection] Base '%s': Power %d, Range %d", 
+        print(string.format("[Detection] Base '%s': Power %d, Range %d",
             base.name, radarPower, radarRange))
     end
-    
+
     return self:performScan(base.position, radarPower, radarRange, missions, currentDay, "base")
 end
 
 --[[
     Scan for missions from a craft
-    
+
     @param craft table Craft with radar equipment
     @param missions table List of missions to scan
     @param currentDay number Current game day
@@ -193,22 +219,22 @@ end
 function DetectionManager:scanFromCraft(craft, missions, currentDay)
     local radarPower = self:getCraftRadarPower(craft)
     local radarRange = self:getCraftRadarRange(craft)
-    
+
     if radarPower == 0 or radarRange == 0 then
         return {count = 0, missions = {}}
     end
-    
+
     if self.debugMode then
-        print(string.format("[Detection] Craft '%s': Power %d, Range %d", 
+        print(string.format("[Detection] Craft '%s': Power %d, Range %d",
             craft.name, radarPower, radarRange))
     end
-    
+
     return self:performScan(craft.position, radarPower, radarRange, missions, currentDay, "craft")
 end
 
 --[[
     Perform radar scan from a position
-    
+
     @param scannerPosition table Position {x, y}
     @param radarPower number Radar power value
     @param radarRange number Maximum range in distance units
@@ -222,58 +248,129 @@ function DetectionManager:performScan(scannerPosition, radarPower, radarRange, m
         count = 0,
         missions = {},
     }
-    
+
     for _, mission in ipairs(missions) do
         -- Skip already detected missions
         if not mission.detected then
             -- Calculate distance to mission
             local distance = self:calculateDistance(scannerPosition, mission.position)
-            
+
             -- Check if mission is in range
             if distance <= radarRange then
                 -- Calculate cover reduction based on distance effectiveness
                 local coverReduction = self:calculateCoverReduction(radarPower, distance, radarRange)
-                
+
                 -- Apply reduction to mission
                 local previousCover = mission.coverValue
                 mission:reduceCover(coverReduction)
-                
+
                 -- Check if mission was newly detected
                 if mission.detected and previousCover > 0 then
                     detected.count = detected.count + 1
                     table.insert(detected.missions, mission)
-                    
-                    print(string.format("[Detection] %s detected mission '%s' at distance %.1f", 
+
+                    print(string.format("[Detection] %s detected mission '%s' at distance %.1f",
                         scannerType, mission.name, distance))
                 elseif self.debugMode and mission.coverValue < previousCover then
-                    print(string.format("[Detection] Reduced cover of '%s' from %d to %d (distance %.1f)", 
+                    print(string.format("[Detection] Reduced cover of '%s' from %d to %d (distance %.1f)",
                         mission.name, previousCover, mission.coverValue, distance))
                 end
             end
         end
     end
-    
+
     return detected
 end
 
 --[[
-    Calculate distance between two positions
-    
-    @param pos1 table Position {x, y}
-    @param pos2 table Position {x, y}
-    @return number Distance
+    Calculate distance between two positions using province graph pathfinding
+    Follows actual province connectivity instead of straight lines
+
+    @param pos1 table Position {x, y} or province ID
+    @param pos2 table Position {x, y} or province ID
+    @return number Distance in province steps
 ]]
 function DetectionManager:calculateDistance(pos1, pos2)
-    -- Simple Euclidean distance
-    -- TODO: Replace with province graph pathfinding when World system exists
-    local dx = pos1.x - pos2.x
-    local dy = pos1.y - pos2.y
+    -- Try to use actual province graph pathfinding
+    local pathDistance = self:calculateProvinceDistance(pos1, pos2)
+
+    if pathDistance then
+        return pathDistance
+    end
+
+    -- Fallback: Euclidean distance when province system unavailable
+    local dx = (pos1.x or 0) - (pos2.x or 0)
+    local dy = (pos1.y or 0) - (pos2.y or 0)
     return math.sqrt(dx * dx + dy * dy)
 end
 
 --[[
+    Calculate distance using province graph A* pathfinding
+    Uses actual province connectivity for UFO movement simulation
+
+    @param pos1 table Position/province
+    @param pos2 table Position/province
+    @return number Distance in steps, or nil if unavailable
+]]
+function DetectionManager:calculateProvinceDistance(pos1, pos2)
+    -- Try to load province graph system
+    local ProvinceGraph = require("geoscape.logic.province_graph")
+    if not ProvinceGraph then
+        return nil
+    end
+
+    -- Convert positions to province IDs if needed
+    local startProvinceId = self:getProvinceId(pos1)
+    local endProvinceId = self:getProvinceId(pos2)
+
+    if not startProvinceId or not endProvinceId then
+        return nil
+    end
+
+    -- Find path using A* on province graph
+    local path = ProvinceGraph:findPath(startProvinceId, endProvinceId)
+
+    if path and #path > 0 then
+        -- Path length = number of steps, roughly equivalent to distance
+        return #path - 1  -- -1 because path includes start position
+    end
+
+    return nil
+end
+
+--[[
+    Convert position/province to province ID for pathfinding
+
+    @param pos table Position {x, y} or string province ID
+    @return string Province ID or nil
+]]
+function DetectionManager:getProvinceId(pos)
+    -- If already a string (province ID), return it
+    if type(pos) == "string" then
+        return pos
+    end
+
+    -- If position table, try to convert to province ID
+    if type(pos) == "table" and (pos.x or pos.id) then
+        -- If has id field, use it
+        if pos.id then
+            return pos.id
+        end
+
+        -- Try to calculate province from coordinates
+        if pos.x and pos.y then
+            -- Convert hex coordinates to province ID
+            -- Format: "province_X_Y"
+            return string.format("province_%d_%d", pos.x, pos.y)
+        end
+    end
+
+    return nil
+end
+
+--[[
     Calculate cover reduction based on radar power and distance
-    
+
     @param radarPower number Radar power
     @param distance number Distance to target
     @param maxRange number Maximum radar range
@@ -283,26 +380,26 @@ function DetectionManager:calculateCoverReduction(radarPower, distance, maxRange
     -- Radar effectiveness decreases linearly with distance
     local effectiveness = 1.0 - (distance / maxRange)
     effectiveness = math.max(0, effectiveness)
-    
+
     -- Cover reduction = power × effectiveness
     local reduction = radarPower * effectiveness
-    
+
     return reduction
 end
 
 --[[
     Get total radar power from base facilities
-    
+
     @param base table Base with facilities list
     @return number Total radar power
 ]]
 function DetectionManager:getBaseRadarPower(base)
     local totalPower = 0
-    
+
     if not base.facilities then
         return 0
     end
-    
+
     -- Sum power from all radar facilities
     for _, facility in ipairs(base.facilities) do
         if facility.type == "radar_small" then
@@ -313,23 +410,23 @@ function DetectionManager:getBaseRadarPower(base)
             totalPower = totalPower + 100
         end
     end
-    
+
     return totalPower
 end
 
 --[[
     Get maximum radar range from base facilities
-    
+
     @param base table Base with facilities list
     @return number Maximum radar range
 ]]
 function DetectionManager:getBaseRadarRange(base)
     local maxRange = 0
-    
+
     if not base.facilities then
         return 0
     end
-    
+
     -- Take maximum range from all radar facilities
     for _, facility in ipairs(base.facilities) do
         if facility.type == "radar_small" then
@@ -340,23 +437,23 @@ function DetectionManager:getBaseRadarRange(base)
             maxRange = math.max(maxRange, 20)
         end
     end
-    
+
     return maxRange
 end
 
 --[[
     Get total radar power from craft equipment
-    
+
     @param craft table Craft with equipment list
     @return number Total radar power
 ]]
 function DetectionManager:getCraftRadarPower(craft)
     local totalPower = 0
-    
+
     if not craft.equipment then
         return 0
     end
-    
+
     -- Sum power from radar equipment
     for _, item in ipairs(craft.equipment) do
         if item.type == "craft_radar_basic" then
@@ -365,23 +462,23 @@ function DetectionManager:getCraftRadarPower(craft)
             totalPower = totalPower + 25
         end
     end
-    
+
     return totalPower
 end
 
 --[[
     Get maximum radar range from craft equipment
-    
+
     @param craft table Craft with equipment list
     @return number Maximum radar range
 ]]
 function DetectionManager:getCraftRadarRange(craft)
     local maxRange = 0
-    
+
     if not craft.equipment then
         return 0
     end
-    
+
     -- Take maximum range from radar equipment
     for _, item in ipairs(craft.equipment) do
         if item.type == "craft_radar_basic" then
@@ -390,14 +487,14 @@ function DetectionManager:getCraftRadarRange(craft)
             maxRange = math.max(maxRange, 7)
         end
     end
-    
+
     return maxRange
 end
 
 --[[
     Get mock bases for testing until BaseManager exists
     TODO: Remove when BaseManager is implemented
-    
+
     @return table List of mock bases
 ]]
 function DetectionManager:getMockBases()
@@ -415,7 +512,7 @@ end
 --[[
     Get mock crafts for testing until CraftManager exists
     TODO: Remove when CraftManager is implemented
-    
+
     @return table List of mock crafts
 ]]
 function DetectionManager:getMockCrafts()
@@ -432,7 +529,7 @@ end
 
 --[[
     Get detection statistics
-    
+
     @return table Statistics
 ]]
 function DetectionManager:getStatistics()
@@ -443,18 +540,84 @@ function DetectionManager:getStatistics()
 end
 
 --[[
+    Get actual sensor sources from SensorSystem and BaseManager/CraftManager
+    Tries to load real systems, falls back to nil if unavailable
+
+    @return table, table Arrays of (bases with sensors, crafts with sensors) or (nil, nil)
+]]
+function DetectionManager:getActualSensorSources()
+    -- Try to load SensorSystem
+    local SensorSystem = require("geoscape.systems.sensor_system")
+    if not SensorSystem then
+        return nil, nil
+    end
+
+    local baseSensors = {}
+    local craftSensors = {}
+
+    -- Query SensorSystem for actual bases with sensors
+    -- This assumes SensorSystem has baseSensors table populated from BaseManager
+    if SensorSystem.baseSensors then
+        for baseId, sensors in pairs(SensorSystem.baseSensors) do
+            if #sensors > 0 then
+                -- Get power and range from SensorSystem
+                local power = SensorSystem:getBaseSensorPower(baseId)
+                local range = SensorSystem:calculateDetectionRange(power)
+                local reliability = SensorSystem:getBaseSensorReliability(baseId)
+
+                table.insert(baseSensors, {
+                    id = baseId,
+                    position = {x = 0, y = 0},  -- Would come from BaseManager
+                    radarPower = power,
+                    radarRange = range,
+                    radarReliability = reliability,
+                    name = "Base " .. baseId,
+                })
+            end
+        end
+    end
+
+    -- Query SensorSystem for actual crafts with sensors
+    if SensorSystem.craftSensors then
+        for craftId, sensors in pairs(SensorSystem.craftSensors) do
+            if #sensors > 0 then
+                -- Get power and range from SensorSystem
+                local power = SensorSystem:getCraftSensorPower(craftId)
+                local range = SensorSystem:calculateDetectionRange(power)
+                local reliability = SensorSystem:getCraftSensorReliability(craftId)
+
+                table.insert(craftSensors, {
+                    id = craftId,
+                    position = {x = 0, y = 0},  -- Would come from CraftManager
+                    radarPower = power,
+                    radarRange = range,
+                    radarReliability = reliability,
+                    name = "Craft " .. craftId,
+                })
+            end
+        end
+    end
+
+    if #baseSensors > 0 or #craftSensors > 0 then
+        return baseSensors, craftSensors
+    end
+
+    return nil, nil
+end
+
+--[[
     Print detection status to console
 ]]
 function DetectionManager:printStatus()
     local stats = self:getStatistics()
-    print(string.format("[Detection] Total scans: %d, Total detections: %d", 
+    print(string.format("[Detection] Total scans: %d, Total detections: %d",
         stats.totalScansPerformed, stats.totalMissionsDetected))
 end
 
 --[[
     Draw radar coverage visualization (for Geoscape debug view)
     TODO: Implement when Geoscape rendering is integrated
-    
+
     @param bases table List of bases
     @param crafts table List of crafts
 ]]
@@ -462,7 +625,7 @@ function DetectionManager:drawRadarCoverage(bases, crafts)
     if not self.debugMode then
         return
     end
-    
+
     -- Draw base radar ranges
     love.graphics.setColor(0, 1, 0, 0.2)
     for _, base in ipairs(bases) do
@@ -473,7 +636,7 @@ function DetectionManager:drawRadarCoverage(bases, crafts)
             love.graphics.circle("fill", x, y, radius)
         end
     end
-    
+
     -- Draw craft radar ranges
     love.graphics.setColor(0, 0, 1, 0.2)
     for _, craft in ipairs(crafts) do
@@ -487,28 +650,3 @@ function DetectionManager:drawRadarCoverage(bases, crafts)
 end
 
 return DetectionManager
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -343,3 +343,62 @@ damage = 10
 weight = 0.9
 cost_manufacturing = 180
 description = "Hybrid human-alien plasma ammunition. Maximum fusion efficiency."
+
+[[weapon]]
+id = "vortex_cannon"
+name = "Vortex Cannon"
+phase = "phase3"
+category = "vortex"
+type = "vortex"
+cost_manufacturing = 9500
+research_required = ["research_vortex_weapons"]
+damage = 80
+damage_type = "vortex"
+armor_penetration = 55
+accuracy = 60
+range = 38
+fire_rate = 1
+capacity = 8
+weight = 8.5
+description = "Advanced dimensional vortex weapon that tears through reality itself. Creates localized singularity effects. Extreme power, extreme resource cost."
+
+[[weapon]]
+id = "vortex_rifle"
+name = "Vortex Rifle"
+phase = "phase3"
+category = "vortex"
+type = "vortex"
+cost_manufacturing = 7000
+research_required = ["research_vortex_weapons"]
+damage = 55
+damage_type = "vortex"
+armor_penetration = 48
+accuracy = 65
+range = 30
+fire_rate = 1
+capacity = 12
+weight = 5.8
+description = "Handheld vortex generator weapon. Creates dimensional instabilities that destroy targets at molecular level."
+
+[[ammo]]
+id = "ammo_vortex_core"
+name = "Vortex Core Charge"
+phase = "phase3"
+category = "ammunition"
+type = "vortex"
+damage = 9
+weight = 1.2
+cost_manufacturing = 250
+description = "Dimensional singularity core for vortex weapons. Extremely unstable and dangerous to manufacture."
+
+[[research]]
+id = "research_vortex_weapons"
+name = "Vortex Weapon Technology"
+phase = "phase3"
+category = "weapons"
+description = "Weaponization of dimensional vortex phenomena. Creates controlled singularities for devastating effect. Most destructive human weapon ever created."
+prerequisites = ["research_dimensional_weapons", "research_dimensional_theory"]
+unlock_technologies = []
+unlock_items = ["vortex_cannon", "vortex_rifle"]
+research_cost = 5500
+research_time_days = 30

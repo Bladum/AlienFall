@@ -37,7 +37,7 @@ SoundDetectionSystem.CONFIG = {
         grenade = 18,
         explosion = 20,
     },
-    
+
     -- Hearing ranges by alert level
     HEARING_RANGE = {
         unaware = 8,
@@ -45,10 +45,10 @@ SoundDetectionSystem.CONFIG = {
         alert = 15,
         combat = 20,
     },
-    
+
     -- Alert decay
     ALERT_DECAY_TURNS = 5, -- Turns without sound to decay
-    
+
     -- Stealth modifiers
     CROUCH_SOUND_MULT = 0.5, -- 50% sound when crouched
     SPRINT_SOUND_MULT = 2.0, -- 200% sound when sprinting
@@ -84,14 +84,19 @@ end
 ---@param soundType string Sound type (gunshot, explosion, etc.)
 ---@param intensity number|nil Sound intensity (default from weapon type)
 ---@param faction string|nil Faction that created sound
+---@param currentTurn number|nil Current battle turn number
 ---@return string soundId
-function SoundDetectionSystem.createSound(sourceQ, sourceR, soundType, intensity, faction)
+function SoundDetectionSystem.createSound(sourceQ, sourceR, soundType, intensity, faction, currentTurn)
     local cfg = SoundDetectionSystem.CONFIG
-    
+
     -- Determine radius from sound type
     local radius = cfg.WEAPON_NOISE[soundType] or 5
     intensity = intensity or 5
-    
+
+    -- TASK-14.3: Sound detection turn tracking integration
+    -- Get current turn from turn manager if available
+    local soundTurn = currentTurn or 0
+
     local sound = {
         id = "sound_" .. nextSoundId,
         type = soundType,
@@ -99,16 +104,16 @@ function SoundDetectionSystem.createSound(sourceQ, sourceR, soundType, intensity
         sourceR = sourceR,
         radius = radius,
         intensity = intensity,
-        turn = 0, -- TODO: Get from turn manager
+        turn = soundTurn,
         faction = faction,
     }
-    
+
     nextSoundId = nextSoundId + 1
     table.insert(activeSounds, sound)
-    
-    print(string.format("[Sound] Created %s at (%d,%d), radius=%d, intensity=%d", 
-        soundType, sourceQ, sourceR, radius, intensity))
-    
+
+    print(string.format("[Sound] Created %s at (%d,%d), radius=%d, intensity=%d, turn=%d",
+        soundType, sourceQ, sourceR, radius, intensity, soundTurn))
+
     return sound.id
 end
 
@@ -122,20 +127,20 @@ function SoundDetectionSystem.processSoundDetection(units)
             SoundDetectionSystem.initUnit(unit.id)
             alertState = alertStates[unit.id]
         end
-        
+
         for _, sound in ipairs(activeSounds) do
             -- Calculate distance
             local distance = SoundDetectionSystem.calculateDistance(
                 unit.q, unit.r, sound.sourceQ, sound.sourceR
             )
-            
+
             -- Check if sound is audible
             if distance <= sound.radius and distance <= alertState.hearingRange then
                 SoundDetectionSystem.hearSound(unit, sound, distance)
             end
         end
     end
-    
+
     -- Clear old sounds (sounds only last 1 turn)
     activeSounds = {}
 end
@@ -147,27 +152,27 @@ end
 function SoundDetectionSystem.hearSound(unit, sound, distance)
     local alertState = alertStates[unit.id]
     if not alertState then return end
-    
+
     -- Different faction = enemy sound
     if sound.faction and sound.faction ~= unit.faction then
-        print(string.format("[Sound] %s heard enemy %s at distance %d", 
+        print(string.format("[Sound] %s heard enemy %s at distance %d",
             unit.id, sound.type, distance))
-        
+
         -- Add known enemy position
         table.insert(alertState.knownEnemyPositions, {
             q = sound.sourceQ,
             r = sound.sourceR,
             turn = sound.turn,
         })
-        
+
         -- Escalate alert level
         SoundDetectionSystem.escalateAlert(unit.id, sound.type, distance)
     else
         -- Friendly sound
-        print(string.format("[Sound] %s heard friendly %s at distance %d", 
+        print(string.format("[Sound] %s heard friendly %s at distance %d",
             unit.id, sound.type, distance))
     end
-    
+
     alertState.lastSoundHeard = sound.turn
 end
 
@@ -178,9 +183,9 @@ end
 function SoundDetectionSystem.escalateAlert(unitId, soundType, distance)
     local alertState = alertStates[unitId]
     if not alertState then return end
-    
+
     local oldLevel = alertState.alertLevel
-    
+
     -- Determine new alert level based on sound type and distance
     if soundType == "gunshot" or soundType == "explosion" then
         if distance <= 5 then
@@ -197,11 +202,11 @@ function SoundDetectionSystem.escalateAlert(unitId, soundType, distance)
             alertState.alertLevel = "suspicious"
         end
     end
-    
+
     -- Update hearing range based on new alert level
     local cfg = SoundDetectionSystem.CONFIG
     alertState.hearingRange = cfg.HEARING_RANGE[alertState.alertLevel] or 8
-    
+
     if oldLevel ~= alertState.alertLevel then
         print(string.format("[Sound] %s alert: %s -> %s", unitId, oldLevel, alertState.alertLevel))
     end
@@ -213,14 +218,14 @@ end
 function SoundDetectionSystem.processAlertDecay(unitId, currentTurn)
     local alertState = alertStates[unitId]
     if not alertState then return end
-    
+
     local cfg = SoundDetectionSystem.CONFIG
     local turnsSinceSound = currentTurn - alertState.lastSoundHeard
-    
+
     if turnsSinceSound >= cfg.ALERT_DECAY_TURNS then
         -- Decay alert level
         local oldLevel = alertState.alertLevel
-        
+
         if alertState.alertLevel == "combat" then
             alertState.alertLevel = "alert"
         elseif alertState.alertLevel == "alert" then
@@ -228,11 +233,11 @@ function SoundDetectionSystem.processAlertDecay(unitId, currentTurn)
         elseif alertState.alertLevel == "suspicious" then
             alertState.alertLevel = "unaware"
         end
-        
+
         if oldLevel ~= alertState.alertLevel then
-            print(string.format("[Sound] %s alert decayed: %s -> %s", 
+            print(string.format("[Sound] %s alert decayed: %s -> %s",
                 unitId, oldLevel, alertState.alertLevel))
-            
+
             -- Update hearing range
             local cfg = SoundDetectionSystem.CONFIG
             alertState.hearingRange = cfg.HEARING_RANGE[alertState.alertLevel] or 8
@@ -247,7 +252,7 @@ end
 function SoundDetectionSystem.getMovementSound(unit, movementType)
     local baseRadius = 4 -- Base footstep radius
     local cfg = SoundDetectionSystem.CONFIG
-    
+
     if movementType == "crouch" then
         return baseRadius * cfg.CROUCH_SOUND_MULT
     elseif movementType == "sprint" then
@@ -282,21 +287,23 @@ end
 ---Get known enemy positions for a unit
 ---@param unitId string Unit ID
 ---@param maxAge number|nil Maximum age in turns (default 3)
+---@param currentTurn number|nil Current battle turn (for comparison)
 ---@return table positions List of {q, r, turn}
-function SoundDetectionSystem.getKnownEnemyPositions(unitId, maxAge)
+function SoundDetectionSystem.getKnownEnemyPositions(unitId, maxAge, currentTurn)
     local alertState = alertStates[unitId]
     if not alertState then return {} end
-    
+
     maxAge = maxAge or 3
-    local currentTurn = 0 -- TODO: Get from turn manager
+    -- TASK-14.3: Sound detection turn tracking - get turn from parameter or default to 0
+    currentTurn = currentTurn or 0
     local recent = {}
-    
+
     for _, pos in ipairs(alertState.knownEnemyPositions) do
         if (currentTurn - pos.turn) <= maxAge then
             table.insert(recent, pos)
         end
     end
-    
+
     return recent
 end
 
@@ -308,10 +315,10 @@ function SoundDetectionSystem.isStealthy(unit)
     -- 1. Crouching
     -- 2. Low alert level
     -- 3. Not recently fired weapon
-    
+
     local alertState = alertStates[unit.id]
     if not alertState then return false end
-    
+
     return unit.stance == "crouch" and alertState.alertLevel == "unaware"
 end
 
@@ -322,12 +329,12 @@ end
 ---@return number detectionChance Percentage (0-100)
 function SoundDetectionSystem.calculateDetectionChance(observer, target, distance)
     local baseChance = 100 - (distance * 5) -- -5% per hex
-    
+
     -- Stealth modifier
     if SoundDetectionSystem.isStealthy(target) then
         baseChance = baseChance * 0.5 -- 50% reduction
     end
-    
+
     -- Alert level modifier
     local alertState = alertStates[observer.id]
     if alertState then
@@ -335,7 +342,7 @@ function SoundDetectionSystem.calculateDetectionChance(observer, target, distanc
             baseChance = baseChance * 1.5 -- 50% increase when alert
         end
     end
-    
+
     return math.max(0, math.min(100, baseChance))
 end
 
@@ -372,28 +379,3 @@ function SoundDetectionSystem.reset()
 end
 
 return SoundDetectionSystem
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

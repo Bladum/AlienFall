@@ -1,0 +1,190 @@
+# Alien Director Configuration
+# Strategic AI parameters and tuning
+
+# Threat Level Configuration
+[threat]
+# Base threat levels per phase
+base_threat_phase_0 = 10    # Shadow War: minimal alien activity
+base_threat_phase_1 = 40    # Sky War: escalating invasion
+base_threat_phase_2 = 60    # Deep War: two-front pressure
+base_threat_phase_3 = 85    # Dimensional War: existential crisis
+
+# Threat escalation
+threat_per_week = 2         # Natural threat increase per week
+threat_per_month = 15       # Natural threat increase per month
+threat_per_alien_success = 5    # Alien mission success
+threat_per_alien_failure = -10  # Alien mission failure
+
+# Threat multipliers for player performance
+win_rate_threshold_easy = 0.75      # Win rate above this = reduce threat
+win_rate_threshold_hard = 0.40      # Win rate below this = increase threat
+threat_adjustment_easy = -0.05      # Reduce threat when winning
+threat_adjustment_hard = 0.10       # Increase threat when losing
+
+# Faction Configuration
+[factions]
+
+[[faction]]
+id = "terrestrial_aliens"
+name = "Terrestrial Aliens (Sectoids, Mutons, Ethereals)"
+phase_introduced = 0
+priority = 100
+activity_level_base = 0.3
+
+[[faction]]
+id = "reticulan_cabal"
+name = "Reticulan Cabal (Human-Alien Hybrids)"
+phase_introduced = 1
+priority = 80
+activity_level_base = 0.2
+
+[[faction]]
+id = "aquatic_species"
+name = "Aquatic Species (Gill-Men, Tentaculat, Tasoth)"
+phase_introduced = 2
+priority = 90
+activity_level_base = 0.4
+
+[[faction]]
+id = "dimensional_beings"
+name = "Dimensional Beings (TDV, Ethereals, Cult)"
+phase_introduced = 3
+priority = 100
+activity_level_base = 0.6
+
+# UFO Configuration
+[ufo_waves]
+# Wave frequency based on threat level
+threat_multiplier = 1.0         # UFO waves scale with threat
+base_wave_size = 2              # Minimum UFOs per wave
+wave_size_threshold_low = 3     # At threat 0.3
+wave_size_threshold_medium = 5  # At threat 0.6
+wave_size_threshold_high = 8    # At threat 0.9
+
+# Wave timing
+days_between_waves_min = 7      # Minimum days between waves
+days_between_waves_max = 21     # Maximum days between waves
+wave_intensity_variance = 0.3   # Randomness in wave composition
+
+# Mission Configuration
+[missions]
+# Mission frequency per threat level
+mission_frequency_low = 1       # missions per week at threat 0.3
+mission_frequency_medium = 3    # missions per week at threat 0.6
+mission_frequency_high = 7      # missions per week at threat 0.9
+
+# Mission type distribution by phase
+[mission_distribution]
+phase_0 = { investigation = 0.5, supernatural = 0.3, recovery = 0.2 }
+phase_1 = { terror_mission = 0.3, ufo_crash_recovery = 0.3, alien_base_assault = 0.2, interception = 0.2 }
+phase_2 = { terror_mission = 0.25, ufo_crash_recovery = 0.2, alien_base_assault = 0.25, deep_sea_infiltration = 0.2, interception = 0.1 }
+phase_3 = { dimensional_breach = 0.3, nexus_assault = 0.2, alien_base_assault = 0.2, terror_mission = 0.15, interception = 0.15 }
+
+# Terror Attack Configuration
+[terror_attacks]
+terror_frequency_phase_0 = 0        # No terror in Phase 0
+terror_frequency_phase_1 = 0.2      # Terror every 5 weeks average
+terror_frequency_phase_2 = 0.3      # Terror every 3 weeks average
+terror_frequency_phase_3 = 0.5      # Terror every 2 weeks average
+
+terror_casualty_min = 100
+terror_casualty_max = 500
+terror_panic_increase = 25
+
+# Alien Base Configuration
+[alien_bases]
+# Base construction rates
+base_construction_time_phase_1 = 60  # days to build base in Phase 1
+base_construction_time_phase_2 = 45  # days (aquatic adaptation)
+base_construction_time_phase_3 = 30  # days (accelerated)
+
+bases_active_phase_1_early = 1      # Bases early Phase 1
+bases_active_phase_1_late = 2       # Bases late Phase 1
+bases_active_phase_2 = 3            # Bases Phase 2 (land + aquatic)
+bases_active_phase_3 = 4            # Bases Phase 3 (dimensional rifts)
+
+# Player Base Defense
+base_assault_probability_low_threat = 0.01     # per week at threat 0.3
+base_assault_probability_high_threat = 0.15    # per week at threat 0.9
+base_assault_min_casualty = 50
+base_assault_max_casualty = 200
+
+# Adaptive Difficulty
+[difficulty_adaptation]
+# How aggressively AI scales difficulty
+difficulty_learning_rate = 0.05     # How fast AI learns player skill
+
+# Player skill detection
+player_win_rate_moving_average = 10  # missions to average over
+skill_assessment_interval = 20       # missions to reassess difficulty
+
+# Difficulty scaling thresholds
+very_easy_threshold = 0.85           # Win rate above 85% = too easy
+easy_threshold = 0.70                # Win rate above 70% = easy
+medium_threshold = 0.50              # Around 50% = perfect balance
+hard_threshold = 0.30                # Win rate below 30% = hard
+very_hard_threshold = 0.15           # Win rate below 15% = too hard
+
+# Adjustment magnitudes
+difficulty_increase_major = 0.15     # Increase threat significantly
+difficulty_increase_minor = 0.05     # Increase threat slightly
+difficulty_decrease_minor = -0.05    # Decrease threat slightly
+difficulty_decrease_major = -0.15    # Decrease threat significantly
+
+# Strategic Pauses
+[strategic_pauses]
+# When threat gets too high, give player a breather
+threat_pause_threshold = 0.95        # Pause difficulty when this high
+pause_duration_days = 14             # Give player 2 weeks relief
+pause_conditions = ["no_major_losses", "base_still_standing"]
+
+# Research Detection
+[research_detection]
+# Aliens notice when player researches certain tech
+research_threat_increase = { research_plasma_weapons = 10, research_dimensional_theory = 30, research_ethereal_autopsy = 25, research_psionic_defense = 15 }
+
+# Campaign Milestones
+[milestones]
+
+[[milestone]]
+phase = 1
+trigger = "first_contact"
+threat_jump = 30
+description = "First alien engagement - threat escalates"
+
+[[milestone]]
+phase = 1
+trigger = "cydonia_offensive"
+threat_reset = 50
+description = "Major battle - threat resets to mid-level"
+
+[[milestone]]
+phase = 2
+trigger = "aquatic_discovery"
+threat_jump = 20
+description = "Aquatic species discovered - new threat"
+
+[[milestone]]
+phase = 2
+trigger = "tleth_defeated"
+threat_reset = 60
+description = "Aquatic mastermind defeated - Phase 2 success"
+
+[[milestone]]
+phase = 3
+trigger = "dimensional_breach"
+threat_jump = 40
+description = "Dimensional rifts appear - catastrophic threat"
+
+[[milestone]]
+phase = 3
+trigger = "nexus_assault"
+threat_peak = 100
+description = "Final battle - maximum threat"
+
+# Debug Configuration
+[debug]
+log_threat_changes = true           # Log all threat adjustments
+log_mission_generation = true       # Log mission creation
+log_faction_activities = true       # Log faction actions
+threat_change_threshold = 5         # Only log changes > 5%

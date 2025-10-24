@@ -1,0 +1,182 @@
+# Craft Types Configuration
+# Defines all available aircraft with stats, capabilities, and pilot requirements
+
+# ========== INTERCEPTOR (Combat Aircraft) ==========
+[[craft_types]]
+id = "interceptor"
+name = "Lightning"
+type = "interceptor"
+description = "High-speed interceptor optimized for UFO combat"
+cost = 75000
+
+# Combat stats
+max_hp = 150
+armor_class = 15
+speed = 4  # Hexes/turn
+fuel_capacity = 800
+sensor_range = 800
+
+# Crew requirements
+crew_capacity = 2
+
+# PILOT REQUIREMENTS
+[craft_types_1.pilots]
+required_count = 1
+min_level = 0  # Can use Rookie pilots
+preferred_classes = ["pilot", "fighter_pilot"]
+allow_bomber = false
+
+# Capacity distribution (3-tier system)
+[craft_types_1.capacity]
+pilots = 1      # PILOT tier - actual pilots
+crew = 1        # CREW tier - gunners/engineers
+cargo = 10      # CARGO tier (kg) - ammo and supplies
+
+# Weapons and equipment
+weapon_slots = 2
+default_weapons = ["craft_machine_gun"]
+compatible_addons = ["armor_plating", "extended_fuel_tank"]
+
+# ========== TRANSPORT (Troop Transport) ==========
+[[craft_types]]
+id = "transport"
+name = "Skyranger"
+type = "transport"
+description = "Rugged transport craft for squad deployment"
+cost = 50000
+
+# Combat stats
+max_hp = 200
+armor_class = 10
+speed = 2  # Hexes/turn
+fuel_capacity = 500
+sensor_range = 600
+
+# Crew requirements
+crew_capacity = 12
+
+# PILOT REQUIREMENTS
+[craft_types_2.pilots]
+required_count = 1
+min_level = 0  # Can use any pilot level
+preferred_classes = ["pilot", "helicopter_pilot"]
+allow_bomber = false
+
+# Capacity distribution (3-tier system)
+[craft_types_2.capacity]
+pilots = 1      # PILOT tier
+crew = 10       # CREW tier - squad and support
+cargo = 50      # CARGO tier (kg)
+
+# Weapons and equipment
+weapon_slots = 2
+default_weapons = []
+compatible_addons = ["armor_plating", "extended_fuel_tank", "advanced_sensors"]
+
+# ========== SCOUT (Reconnaissance) ==========
+[[craft_types]]
+id = "scout"
+name = "Condor"
+type = "scout"
+description = "Fast reconnaissance aircraft for surveillance missions"
+cost = 55000
+
+# Combat stats
+max_hp = 100
+armor_class = 12
+speed = 5  # Hexes/turn (fastest)
+fuel_capacity = 600
+sensor_range = 1000  # Best sensors
+
+# Crew requirements
+crew_capacity = 3
+
+# PILOT REQUIREMENTS
+[craft_types_3.pilots]
+required_count = 1
+min_level = 0  # Rookie or higher
+preferred_classes = ["pilot", "fighter_pilot"]
+allow_bomber = false
+
+# Capacity distribution (3-tier system)
+[craft_types_3.capacity]
+pilots = 1      # PILOT tier
+crew = 2        # CREW tier - scanner operators
+cargo = 20      # CARGO tier (kg)
+
+# Weapons and equipment
+weapon_slots = 1
+default_weapons = []
+compatible_addons = ["advanced_sensors", "extended_fuel_tank"]
+
+# ========== BOMBER (Heavy Weapons Platform) ==========
+[[craft_types]]
+id = "bomber"
+name = "Avenger"
+type = "bomber"
+description = "Heavy weapons platform for major offensive operations"
+cost = 100000
+
+# Combat stats
+max_hp = 250
+armor_class = 8
+speed = 1  # Hexes/turn (slowest)
+fuel_capacity = 1000
+sensor_range = 700
+
+# Crew requirements
+crew_capacity = 6
+
+# PILOT REQUIREMENTS
+[craft_types_4.pilots]
+required_count = 2  # Requires 2 pilots (pilot + co-pilot)
+min_level = 1  # Minimum Veteran rank (needs experienced pilots)
+preferred_classes = ["bomber_pilot", "pilot"]
+allow_bomber = true
+
+# Capacity distribution (3-tier system)
+[craft_types_4.capacity]
+pilots = 2      # PILOT tier - pilot + co-pilot
+crew = 3        # CREW tier - weapons operators
+cargo = 100     # CARGO tier (kg) - heavy ordnance
+
+# Weapons and equipment
+weapon_slots = 4  # Multiple weapon points
+default_weapons = ["craft_cannon"]
+compatible_addons = ["armor_plating", "heavy_ordnance_mount", "extended_fuel_tank"]
+
+# ========== SENTINEL (Elite Multi-Role) ==========
+[[craft_types]]
+id = "sentinel"
+name = "Sentinel"
+type = "sentinel"
+description = "Elite multi-role platform combining speed, armor, and firepower"
+cost = 150000
+
+# Combat stats
+max_hp = 200
+armor_class = 20
+speed = 3  # Hexes/turn
+fuel_capacity = 900
+sensor_range = 850
+
+# Crew requirements
+crew_capacity = 8
+
+# PILOT REQUIREMENTS
+[craft_types_5.pilots]
+required_count = 2  # 2 pilots for redundancy
+min_level = 2  # Requires Ace rank pilots
+preferred_classes = ["pilot", "fighter_pilot", "bomber_pilot"]
+allow_bomber = true
+
+# Capacity distribution (3-tier system)
+[craft_types_5.capacity]
+pilots = 2      # PILOT tier
+crew = 5        # CREW tier
+cargo = 75      # CARGO tier (kg)
+
+# Weapons and equipment
+weapon_slots = 3
+default_weapons = ["craft_machine_gun", "craft_cannon"]
+compatible_addons = ["armor_plating", "advanced_sensors", "extended_fuel_tank", "heavy_ordnance_mount"]

@@ -27,13 +27,13 @@ function SalvageProcessor.processVictorySalvage(missionId, killedUnits, aliveEne
         enemiesKilled = #killedUnits,
         enemiesCaptured = #aliveEnemies,
     })
-    
+
     -- Process killed enemy units -> corpses + equipment
     for _, unit in ipairs(killedUnits) do
         -- Generate corpse item (e.g., "dead_sectoid")
         local corpseId = "dead_" .. (unit.type or "alien")
         result:addSalvageItem(corpseId, 1)
-        
+
         -- Collect equipment
         if unit.equipment then
             for _, item in ipairs(unit.equipment) do
@@ -41,7 +41,7 @@ function SalvageProcessor.processVictorySalvage(missionId, killedUnits, aliveEne
             end
         end
     end
-    
+
     -- Process alive enemies (captured)
     for _, unit in ipairs(aliveEnemies) do
         if unit.equipment then
@@ -50,15 +50,15 @@ function SalvageProcessor.processVictorySalvage(missionId, killedUnits, aliveEne
             end
         end
     end
-    
+
     -- Collect battlefield items
     for _, item in ipairs(fieldItems) do
         result:addSalvageItem(item.id, item.quantity or 1)
-        
+
         -- Items have a resale value
         result:addSalvageMoney(item.value or 100)
     end
-    
+
     return result
 end
 
@@ -74,10 +74,10 @@ function SalvageProcessor.processDefeatSalvage(missionId, unitsLost, unitsSurviv
         unitsKilled = unitsLost,
         unitsSurvived = unitsSurvived,
     })
-    
+
     -- On defeat: no salvage, units lost
     -- (salvageItems and salvageMoney remain empty/0)
-    
+
     return result
 end
 
@@ -88,13 +88,13 @@ end
 function SalvageProcessor.generateCorpse(unitType, unitRank)
     local baseValue = 500
     local rankMultiplier = 1.0
-    
+
     if unitRank == "commander" then
         rankMultiplier = 2.0
     elseif unitRank == "soldier" then
         rankMultiplier = 1.5
     end
-    
+
     return {
         id = "dead_" .. unitType,
         name = "Dead " .. string.upper(unitType),
@@ -111,32 +111,32 @@ end
 function SalvageProcessor.filterByLandingZone(unitPositions, landingZones)
     local inZone = {}
     local outside = {}
-    
+
     for _, unitPos in ipairs(unitPositions) do
         local isInZone = false
-        
+
         for _, zone in ipairs(landingZones) do
             -- Simple distance check: within zone area
             for _, spawnPoint in ipairs(zone.spawnPoints) do
-                local dist = math.abs(unitPos.x - spawnPoint.x) + 
+                local dist = math.abs(unitPos.x - spawnPoint.x) +
                             math.abs(unitPos.y - spawnPoint.y)
-                
+
                 if dist < 5 then  -- 5 tiles = "in landing zone"
                     isInZone = true
                     break
                 end
             end
-            
+
             if isInZone then break end
         end
-        
+
         if isInZone then
             table.insert(inZone, unitPos.unit_id)
         else
             table.insert(outside, unitPos.unit_id)
         end
     end
-    
+
     return inZone, outside
 end
 
@@ -146,16 +146,28 @@ end
 ---@return boolean success True if applied
 function SalvageProcessor.applyRewards(result, playerBase)
     -- Add items to base inventory
+    local Inventory = require("engine.basescape.inventory.inventory_system")
+
     for _, item in ipairs(result.salvageItems) do
-        -- TODO: Add to base inventory
-        -- playerBase.inventory.add(item.id, item.quantity)
-        print(string.format("[SalvageProcessor] Added %d x %s", item.quantity, item.id))
+        -- Add salvage items to inventory
+        if Inventory and Inventory.addItem then
+            Inventory.addItem(playerBase.id, item.id, item.quantity)
+        else
+            print(string.format("[SalvageProcessor] WARNING: Cannot add to inventory - %d x %s",
+                  item.quantity, item.id))
+        end
+        print(string.format("[SalvageProcessor] Added %d x %s to inventory", item.quantity, item.id))
     end
-    
+
     -- Add money to base
-    playerBase.credits = playerBase.credits + result.salvageMoney
+    local Finance = require("engine.basescape.finance.finance_system")
+    if Finance and Finance.addCredits then
+        Finance.addCredits(playerBase.id, result.salvageMoney)
+    else
+        playerBase.credits = playerBase.credits + result.salvageMoney
+    end
     print(string.format("[SalvageProcessor] Added %d credits", result.salvageMoney))
-    
+
     return true
 end
 
@@ -164,28 +176,25 @@ end
 function SalvageProcessor.printSalvageSummary(result)
     print("\n[SalvageProcessor] Salvage Summary")
     print("====================================")
-    
+
     if result.victory then
         print("STATUS: VICTORY - Collecting Salvage")
         print(string.format("Enemies Killed: %d", result.enemiesKilled))
         print(string.format("Enemies Captured: %d", result.enemiesCaptured))
         print(string.format("Items Collected: %d", #result.salvageItems))
-        
+
         for _, item in ipairs(result.salvageItems) do
             print(string.format("  + %d x %s", item.quantity, item.id))
         end
-        
+
         print(string.format("Credits: %d", result.salvageMoney))
     else
         print("STATUS: DEFEAT - No Salvage")
         print(string.format("Units Lost: %d", result.unitsKilled))
         print(string.format("Units Escaped: %d", result.unitsSurvived))
     end
-    
+
     print("====================================\n")
 end
 
 return SalvageProcessor
-
-
-
