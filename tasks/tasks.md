@@ -2,10 +2,10 @@
 
 This file tracks all tasks for the Alien Fall project.
 
-**Last Updated:** October 24, 2025 (TASK-028 COMPLETE + TASK-025 PHASE 5 COMPLETE)
-**Status:** ✅ TASK-028 COMPLETE (50 Tasks, 14,600+ LOC) + ✅ TASK-025 PHASE 5 COMPLETE (450L production, 22/22 tests)
-**Active Tasks:** TASK-025 Phase 5 Complete, Phase 6 Rendering & UI ready to start
-**Next Priority:** TASK-025 Phase 6 (Rendering & UI - 25 hours estimated, 500+ lines)
+**Last Updated:** October 24, 2025 (TASK-029 through TASK-033 Detailed Plans Created)
+**Status:** ✅ TASK-025 COMPLETE (Campaign System, 10 phases, 9,250+ LOC) + ✅ TASK-029/030/031/032/033 DETAILED PLANS CREATED
+**Active Tasks:** TASK-025 Complete + Next 5 Priority Tasks Documented with Detailed Implementation Plans
+**Next Priority:** TASK-029 (Battlescape Integration - 44 hours estimated, 6 phases - HIGHEST PRIORITY)
 
 ---
 
@@ -810,6 +810,114 @@ This file tracks all development tasks for the Alien Fall project.
 - `SESSION_SUMMARY_OCT_23_2025_PART2.md` (comprehensive session report)
 
 **Next Priority:** Implement structural improvements (content/core separation, research consolidation)
+
+---
+
+## 🎯 NEXT 5 PRIORITY TASKS - Detailed Implementation Plans Created
+
+### 🆕 TASK-029: Battlescape Integration - Campaign to Tactical Bridge (TODO)
+**Priority:** CRITICAL (Highest) | **Created:** October 24, 2025 | **Status:** TODO | **Plan:** COMPLETE
+**Description:** Connect campaign orchestrator to tactical battlescape, creating mission data flow and outcome feedback loop. Bridge the gap between strategic and tactical gameplay.
+**Files:** Tasks/TODO/TASK-029-battlescape-integration.md (600+ lines, detailed 6-phase plan)
+**Time Estimate:** 44 hours (5.5 days) | **Phases:** 6 implementation phases
+**Key Components:** MissionTransitionHandler, MissionContext, DifficultyScaler, OutcomeCalculator, CampaignProcessor
+**Blockers:** None - TASK-025 (Campaign) complete ✅
+**Implementation Phases:**
+1. Mission data structure (8h)
+2. Mission briefing UI (6h)
+3. Difficulty scaling (7h)
+4. Outcome calculation (9h)
+5. State synchronization (6h)
+6. Testing & integration (8h)
+**Task Document:** [tasks/TODO/TASK-029-battlescape-integration.md](TODO/TASK-029-battlescape-integration.md)
+
+### 🆕 TASK-030: Main Menu & UX - Campaign Entry Point (TODO)
+**Priority:** CRITICAL (Second) | **Created:** October 24, 2025 | **Status:** TODO | **Plan:** COMPLETE
+**Description:** Create comprehensive main menu system with campaign start, load, settings, and stats interfaces. Serves as the player's entry point to the game.
+**Files:** Tasks/TODO/TASK-030-main-menu-ux.md (600+ lines, detailed 7-phase plan)
+**Time Estimate:** 40 hours (5 days) | **Phases:** 7 implementation phases
+**Key Components:** MainMenuScreen, NewCampaignWizard, LoadGameScreen, SettingsScreen, CampaignStatsScreen
+**Blockers:** None - SaveGameManager (TASK-025 Phase 10) complete ✅
+**Implementation Phases:**
+1. Menu layout & navigation (5h)
+2. Campaign wizard (8h)
+3. Load interface (7h)
+4. Stats display (4h)
+5. Settings integration (5h)
+6. System integration (6h)
+7. Testing & polish (5h)
+**Task Document:** [tasks/TODO/TASK-030-main-menu-ux.md](TODO/TASK-030-main-menu-ux.md)
+
+### 🆕 TASK-031: Audio Implementation - Campaign Sounds & Music (TODO)
+**Priority:** HIGH (Third) | **Created:** October 24, 2025 | **Status:** TODO | **Plan:** COMPLETE
+**Description:** Add comprehensive sound effects and music to campaign events, creating immersive audio experience. Includes audio management, event system integration, and settings controls.
+**Files:** Tasks/TODO/TASK-031-audio-implementation.md (500+ lines, detailed 7-phase plan)
+**Time Estimate:** 35 hours (4.5 days) | **Phases:** 7 implementation phases
+**Key Components:** AudioManager, MusicPlayer, CampaignAudioEvents, SoundLoader, Settings integration
+**Blockers:** None - Event system (existing) verified functional ✅
+**Implementation Phases:**
+1. Audio architecture (4h)
+2. Sound organization (3h)
+3. Event integration (8h)
+4. Music management (6h)
+5. Settings system (4h)
+6. Placeholder generation (5h)
+7. Testing & polish (5h)
+**Task Document:** [tasks/TODO/TASK-031-audio-implementation.md](TODO/TASK-031-audio-implementation.md)
+
+### 🆕 TASK-032: Advanced Modding - Mod Loading & Validation (TODO)
+**Priority:** MEDIUM (Fourth) | **Created:** October 24, 2025 | **Status:** TODO | **Plan:** COMPLETE
+**Description:** Enable modders to create custom campaign content through mod loading system, validation framework, and compatibility layer. Creates community-driven content expansion.
+**Files:** Tasks/TODO/TASK-032-advanced-modding.md (600+ lines, detailed 8-phase plan)
+**Time Estimate:** 50 hours (6-7 days) | **Phases:** 8 implementation phases
+**Key Components:** CampaignModManager, CampaignModLoader, CampaignModValidator, CompatibilityChecker, ModConflictResolver
+**Blockers:** None - Mod system (existing) has foundation ✅
+**Implementation Phases:**
+1. Mod system architecture (6h)
+2. Validation framework (7h)
+3. Compatibility & versioning (5h)
+4. Mod loading integration (8h)
+5. Settings UI (5h)
+6. Modding API documentation (6h)
+7. Example mods (6h)
+8. Integration testing (7h)
+**Task Document:** [tasks/TODO/TASK-032-advanced-modding.md](TODO/TASK-032-advanced-modding.md)
+
+### 🆕 TASK-033: Content Expansion - New Aliens, Missions & Events (TODO)
+**Priority:** MEDIUM (Fifth) | **Created:** October 24, 2025 | **Status:** TODO | **Plan:** COMPLETE
+**Description:** Expand campaign content with 6 new alien factions, 20 mission types, 30 events, dynamic mission generation, and event chains. Transforms limited scenarios into diverse replayable experiences.
+**Files:** Tasks/TODO/TASK-033-content-expansion.md (650+ lines, detailed 9-phase plan)
+**Time Estimate:** 65 hours (8-9 days) | **Phases:** 9 implementation phases
+**Key Components:** ContentDatabase, MissionGenerator, EventChainManager, FactionDefinitions, TechTrees
+**Blockers:** None - Campaign system (TASK-025) provides foundation ✅
+**Implementation Phases:**
+1. Content database structure (5h)
+2. 6 new alien factions (8h)
+3. 20 mission templates (10h)
+4. 30 campaign events (9h)
+5. Event chain system (6h)
+6. Mission generator (7h)
+7. Tech trees & progression (6h)
+8. Content balance & polish (6h)
+9. Integration testing (8h)
+**Task Document:** [tasks/TODO/TASK-033-content-expansion.md](TODO/TASK-033-content-expansion.md)
+
+---
+
+## Summary of Next 5 Priority Tasks
+
+| Task | Priority | Estimate | Status | Document |
+|------|----------|----------|--------|----------|
+| TASK-029 | CRITICAL | 44h | TODO | [Plan](TODO/TASK-029-battlescape-integration.md) |
+| TASK-030 | CRITICAL | 40h | TODO | [Plan](TODO/TASK-030-main-menu-ux.md) |
+| TASK-031 | HIGH | 35h | TODO | [Plan](TODO/TASK-031-audio-implementation.md) |
+| TASK-032 | MEDIUM | 50h | TODO | [Plan](TODO/TASK-032-advanced-modding.md) |
+| TASK-033 | MEDIUM | 65h | TODO | [Plan](TODO/TASK-033-content-expansion.md) |
+| **TOTAL** | - | **234h** | **ALL PLANNED** | **All detailed** |
+
+**Total Estimated Work:** 234 hours (6+ weeks of focused development)
+**Critical Path:** TASK-029 → TASK-030 (unlocks full gameplay loop)
+**Can Parallelize:** TASK-031, TASK-032, TASK-033 (independent systems)
 
 ---
 
