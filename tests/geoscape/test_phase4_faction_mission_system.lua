@@ -5,7 +5,7 @@
 -- Run: lovec tests/runners geoscape
 
 local AlienFaction = require("engine.geoscape.factions.alien_faction")
-local MissionSystem = require("engine.geoscape.missions.mission_system")
+local MissionSystem = require("engine.lore.missions.geoscape_mission_system")
 local TerrorSystem = require("engine.geoscape.terror.terror_system")
 local EventSystem = require("engine.core.event_system")
 

@@ -337,4 +337,3 @@ function MissionSystem.deserialize(data)
 end
 
 return MissionSystem
-

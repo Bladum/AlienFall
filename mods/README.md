@@ -16,7 +16,7 @@ Directory for new mod development and testing.
 Mods are loaded by the mod manager:
 
 ```lua
-local ModManager = require("systems.mod_manager")
+local ModManager = require("core.mod_manager")
 
 -- Load all available mods
 ModManager:loadMods()
