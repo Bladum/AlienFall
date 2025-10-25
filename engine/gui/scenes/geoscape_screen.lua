@@ -42,7 +42,7 @@
 ---@see lore.campaign.campaign_manager For campaign management
 ---@see scenes.battlescape_screen For tactical missions
 
-local StateManager = require("core.state_manager")
+local StateManager = require("core.state.state_manager")
 local Widgets = require("gui.widgets.init")
 
 -- New hex-based systems
@@ -270,6 +270,7 @@ function Geoscape:initTestProvinces()
 end
 
 return Geoscape
+
 
 
 

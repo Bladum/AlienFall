@@ -7,7 +7,7 @@
 --- utility functions for easy access.
 ---
 --- Example usage:
----   local DataLoader = require("core.data_loader")
+---   local DataLoader = require("core.data.data_loader")
 ---   DataLoader.load()
 ---   local weapon = DataLoader.weapons.get("rifle")
 ---   local terrain = DataLoader.terrainTypes.get("grass")
@@ -403,6 +403,7 @@ function DataLoader.validateTOML(data, expectedKeys)
 end
 
 return DataLoader
+
 
 
 

@@ -48,7 +48,7 @@
 -- Battlescape Input Module
 -- Handles all user input for the battlescape
 
-local StateManager = require("core.state_manager")
+local StateManager = require("core.state.state_manager")
 
 local BattlescapeInput = {}
 
@@ -293,6 +293,7 @@ function BattlescapeInput:cycleUnitSelection(battlescape)
 end
 
 return BattlescapeInput
+
 
 
 

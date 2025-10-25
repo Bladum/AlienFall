@@ -29,7 +29,7 @@
 ---@license Open Source
 ---
 ---@usage
----  local SaveSystem = require("core.save_system")
+---  local SaveSystem = require("core.systems.save_system")
 ---  local saveSystem = SaveSystem.new()
 ---  saveSystem:save(1, gameState)  -- Manual save to slot 1
 ---  local loaded = saveSystem:load(1)  -- Load from slot 1
@@ -340,6 +340,7 @@ function SaveSystem:quickLoad()
 end
 
 return SaveSystem
+
 
 
 

@@ -4,8 +4,8 @@
 print("=== STARTING MAPBLOCK VALIDATION ===")
 
 local ModManager = require("core.mod_manager")
-local DataLoader = require("core.data_loader")
-local MapblockValidator = require("core.mapblock_validator")
+local DataLoader = require("core.data.data_loader")
+local MapblockValidator = require("core.data.mapblock_validator")
 
 print("Starting Mapblock Validation...")
 print("This will scan all mapblocks and verify tile references.")
@@ -29,6 +29,8 @@ print("  Invalid mapblocks: " .. #results.invalidMapblocks)
 print("  Total tiles checked: " .. results.totalTiles)
 print("  Invalid tile references: " .. results.invalidTiles)
 print("  Total issues: " .. #results.issues)
+
+
 
 
 

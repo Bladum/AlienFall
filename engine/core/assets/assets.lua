@@ -25,7 +25,7 @@
 ---@license Open Source
 ---
 ---@usage
----  local Assets = require("core.assets")
+---  local Assets = require("core.assets.assets")
 ---  Assets.load()
 ---  local soldierImage = Assets.images["units"]["soldier.png"]
 ---  love.graphics.draw(soldierImage, x, y)
@@ -220,6 +220,7 @@ function Assets.exists(folder, name)
 end
 
 return Assets
+
 
 
 

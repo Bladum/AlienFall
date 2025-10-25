@@ -20,7 +20,7 @@
 ---@copyright 2025 AlienFall Project
 ---@license Open Source
 
-local StateManager = require("core.state_manager")
+local StateManager = require("core.state.state_manager")
 
 local CampaignStatsScreen = {}
 
@@ -190,4 +190,5 @@ function CampaignStatsScreen:keypressed(key, scancode, isrepeat)
 end
 
 return CampaignStatsScreen
+
 

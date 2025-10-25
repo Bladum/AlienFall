@@ -63,7 +63,7 @@
 -- Provides both procedural and mapblock-based map generation
 -- Unified interface for battlescape map creation
 
-local DataLoader = require("core.data_loader")
+local DataLoader = require("core.data.data_loader")
 local Battlefield = require("battlescape.battlefield.battlefield")
 local BattleTile = require("battlescape.combat.battle_tile")
 
@@ -467,6 +467,7 @@ function MapGenerator.generateFromMapScript(mapScriptId, seed)
 end
 
 return MapGenerator
+
 
 
 

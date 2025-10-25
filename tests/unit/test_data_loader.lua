@@ -5,7 +5,7 @@ local DataLoaderTest = {}
 
 -- Test data loader creation
 function DataLoaderTest.testCreate()
-    local DataLoader = require("core.data_loader")
+    local DataLoader = require("core.data.data_loader")
     
     -- DataLoader is typically a module, not an instance
     assert(DataLoader ~= nil, "DataLoader module should exist")
@@ -243,6 +243,7 @@ function DataLoaderTest.runAll()
 end
 
 return DataLoaderTest
+
 
 
 

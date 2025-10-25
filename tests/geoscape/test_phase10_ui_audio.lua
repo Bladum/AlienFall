@@ -283,7 +283,7 @@ end
 function tests.test_audio_system_exists()
     print("\n[TEST 11] Audio system module exists")
 
-    local AudioSystem = require("core.audio_system")
+    local AudioSystem = require("core.audio.audio_system")
 
     assert_true(AudioSystem ~= nil, "Audio system should exist")
     assert_true(AudioSystem.new ~= nil, "Audio system should have new() function")
@@ -295,7 +295,7 @@ end
 function tests.test_audio_system_creation()
     print("\n[TEST 12] Audio system creation")
 
-    local AudioSystem = require("core.audio_system")
+    local AudioSystem = require("core.audio.audio_system")
     local audio = AudioSystem.new()
 
     assert_true(audio ~= nil, "Audio system should be created")
@@ -437,3 +437,4 @@ function tests.run_all()
 end
 
 return tests
+

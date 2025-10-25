@@ -11,7 +11,7 @@
 ---   soldier:takeDamage(20)
 ---   print(soldier.health)
 
-local DataLoader = require("core.data_loader")
+local DataLoader = require("core.data.data_loader")
 local PerkSystem = require("battlescape.systems.perks_system")
 
 --- Unit entity representing a character in combat.
@@ -683,4 +683,5 @@ Unit.DIRECTIONS = {
 }
 
 return Unit
+
 

@@ -50,7 +50,7 @@
 -- Basescape State
 -- Base management with facilities, personnel, research, and manufacturing
 
-local StateManager = require("core.state_manager")
+local StateManager = require("core.state.state_manager")
 local Widgets = require("gui.widgets.init")
 
 local Basescape = {}
@@ -517,6 +517,7 @@ function Basescape:formatNumber(num)
 end
 
 return Basescape
+
 
 
 

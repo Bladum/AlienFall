@@ -29,7 +29,7 @@
 ---@license Open Source
 ---
 ---@usage
----  local AudioSystem = require("core.audio_system")
+---  local AudioSystem = require("core.audio.audio_system")
 ---  local audio = AudioSystem.new()
 ---  audio:playMusic("mission_theme")
 ---  audio:playSound("laser_fire")
@@ -272,6 +272,7 @@ function AudioSystem:loadSettings(settings)
 end
 
 return AudioSystem
+
 
 
 

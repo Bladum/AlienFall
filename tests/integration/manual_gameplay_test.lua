@@ -68,7 +68,7 @@ function Tests.testCoreSystemsLoading()
     local success = true
     
     -- Test DataLoader
-    local DataLoader = require("core.data_loader")
+    local DataLoader = require("core.data.data_loader")
     if DataLoader then
         testPass("DataLoader", "Module loaded")
         -- Try to load data
@@ -100,7 +100,7 @@ function Tests.testCoreSystemsLoading()
     end
     
     -- Test StateManager
-    local StateManager = require("core.state_manager")
+    local StateManager = require("core.state.state_manager")
     if StateManager then
         testPass("StateManager", "Module loaded")
     else
@@ -257,7 +257,7 @@ function Tests.testDataIntegrity()
     print("TEST SEQUENCE 6: Data Integrity")
     print(string.rep("=", 60) .. "\n")
     
-    local DataLoader = require("core.data_loader")
+    local DataLoader = require("core.data.data_loader")
     local success = true
     
     -- Check terrain types
@@ -358,6 +358,8 @@ function Tests.runAll()
 end
 
 return Tests
+
+
 
 
 

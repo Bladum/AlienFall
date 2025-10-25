@@ -21,7 +21,7 @@
 ---@copyright 2025 AlienFall Project
 ---@license Open Source
 
-local StateManager = require("core.state_manager")
+local StateManager = require("core.state.state_manager")
 local Widgets = require("gui.widgets.init")
 local CampaignOrchestrator = require("engine.geoscape.managers.campaign_orchestrator")
 
@@ -429,5 +429,6 @@ function NewCampaignWizard:mousepressed(x, y, button, istouch, presses)
 end
 
 return NewCampaignWizard
+
 
 

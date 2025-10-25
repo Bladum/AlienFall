@@ -37,7 +37,7 @@
 ---@see scenes.geoscape_screen For strategic layer
 ---@see scenes.battlescape_screen For tactical combat
 
-local StateManager = require("core.state_manager")
+local StateManager = require("core.state.state_manager")
 local Widgets = require("gui.widgets.init")
 
 local Menu = {}
@@ -276,4 +276,5 @@ function Menu:mousereleased(x, y, button, istouch, presses)
 end
 
 return Menu
+
 

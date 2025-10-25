@@ -56,7 +56,7 @@
 -- Weapon system for managing weapon definitions and properties
 -- Loads weapon data from TOML files and provides weapon information
 
-local DataLoader = require("core.data_loader")
+local DataLoader = require("core.data.data_loader")
 
 local WeaponSystem = {}
 
@@ -528,6 +528,7 @@ function WeaponSystem.formatDualWieldInfo(unit)
 end
 
 return WeaponSystem
+
 
 
 

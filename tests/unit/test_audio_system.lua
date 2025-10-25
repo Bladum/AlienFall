@@ -5,7 +5,7 @@ local AudioSystemTest = {}
 
 -- Test audio system creation
 function AudioSystemTest.testCreate()
-    local AudioSystem = require("core.audio_system")
+    local AudioSystem = require("core.audio.audio_system")
     
     local audio = AudioSystem.new()
     
@@ -19,7 +19,7 @@ end
 
 -- Test volume settings
 function AudioSystemTest.testVolume()
-    local AudioSystem = require("core.audio_system")
+    local AudioSystem = require("core.audio.audio_system")
     
     local audio = AudioSystem.new()
     
@@ -45,7 +45,7 @@ end
 
 -- Test volume categories
 function AudioSystemTest.testCategories()
-    local AudioSystem = require("core.audio_system")
+    local AudioSystem = require("core.audio.audio_system")
     
     local audio = AudioSystem.new()
     
@@ -63,7 +63,7 @@ end
 
 -- Test muting
 function AudioSystemTest.testMute()
-    local AudioSystem = require("core.audio_system")
+    local AudioSystem = require("core.audio.audio_system")
     
     local audio = AudioSystem.new()
     
@@ -83,7 +83,7 @@ end
 
 -- Test update function
 function AudioSystemTest.testUpdate()
-    local AudioSystem = require("core.audio_system")
+    local AudioSystem = require("core.audio.audio_system")
     
     local audio = AudioSystem.new()
     
@@ -101,7 +101,7 @@ end
 
 -- Test invalid category handling
 function AudioSystemTest.testInvalidCategory()
-    local AudioSystem = require("core.audio_system")
+    local AudioSystem = require("core.audio.audio_system")
     
     local audio = AudioSystem.new()
     
@@ -117,7 +117,7 @@ end
 
 -- Test volume mixing
 function AudioSystemTest.testVolumeMixing()
-    local AudioSystem = require("core.audio_system")
+    local AudioSystem = require("core.audio.audio_system")
     
     local audio = AudioSystem.new()
     
@@ -148,6 +148,7 @@ function AudioSystemTest.runAll()
 end
 
 return AudioSystemTest
+
 
 
 

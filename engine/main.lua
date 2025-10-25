@@ -60,7 +60,7 @@
 local ModManager = require("mods.mod_manager")
 
 -- Load state manager
-local StateManager = require("core.state_manager")
+local StateManager = require("core.state.state_manager")
 
 -- Load game modules
 print("[Main] Loading Menu...")
@@ -108,10 +108,10 @@ local SettingsScreen = require("gui.scenes.settings_screen")
 local Widgets = require("gui.widgets.init")
 
 -- Load asset system
-local Assets = require("core.assets")
+local Assets = require("core.assets.assets")
 
 -- Load data loader system
-local DataLoader = require("core.data_loader")
+local DataLoader = require("core.data.data_loader")
 
 -- Load viewport system for dynamic resolution
 local Viewport = require("utils.viewport")

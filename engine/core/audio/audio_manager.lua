@@ -54,7 +54,7 @@
 ---@license Open Source
 ---
 ---@usage
----  local AudioManager = require("core.audio_manager")
+---  local AudioManager = require("core.audio.audio_manager")
 ---  local audio = AudioManager.new()
 ---
 ---  -- Load all sounds
@@ -444,4 +444,5 @@ function AudioManager:getStatus()
 end
 
 return AudioManager
+
 

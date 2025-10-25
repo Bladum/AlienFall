@@ -58,8 +58,8 @@
 -- Battle Tile System
 -- Enhanced tile structure for tactical combat
 
-local DataLoader = require("core.data_loader")
-local Assets = require("core.assets")
+local DataLoader = require("core.data.data_loader")
+local Assets = require("core.assets.assets")
 
 local BattleTile = {}
 BattleTile.__index = BattleTile
@@ -333,6 +333,8 @@ function BattleTile.fromLegacy(legacyTile, x, y)
 end
 
 return BattleTile
+
+
 
 
 

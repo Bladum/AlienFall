@@ -145,7 +145,7 @@ function ModSystemTests.testDataLoader()
     print("�         TESTING DATA LOADER                              �")
     print("L===========================================================-")
     
-    local DataLoader = require("core.data_loader")
+    local DataLoader = require("core.data.data_loader")
     
     TestFramework.runTest("DataLoader - Load TOML file", function()
         TestFramework.assertNotNil(DataLoader, "DataLoader not loaded")
@@ -165,7 +165,7 @@ function ModSystemTests.testAssetSystem()
     print("�         TESTING ASSET SYSTEM                             �")
     print("L===========================================================-")
     
-    local Assets = require("core.assets")
+    local Assets = require("core.assets.assets")
     
     TestFramework.runTest("Assets - Load placeholder", function()
         TestFramework.assertNotNil(Assets, "Assets system not loaded")
@@ -385,6 +385,8 @@ function ModSystemTests.runAll()
 end
 
 return ModSystemTests
+
+
 
 
 

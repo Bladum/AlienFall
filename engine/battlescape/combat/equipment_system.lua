@@ -11,7 +11,7 @@
 ---       EquipmentSystem.equipSkill(unit, "marksman")
 ---   end
 
-local DataLoader = require("core.data_loader")
+local DataLoader = require("core.data.data_loader")
 
 local EquipmentSystem = {}
 
@@ -201,6 +201,7 @@ function EquipmentSystem.getSkillEffectValue(unit, effectName)
 end
 
 return EquipmentSystem
+
 
 
 

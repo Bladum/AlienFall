@@ -365,7 +365,7 @@ function ModManager.getTerrainTypes()
     end
     
     -- Try to load from DataLoader first (TOML-based)
-    local DataLoader = require("core.data_loader")
+    local DataLoader = require("core.data.data_loader")
     if DataLoader and DataLoader.terrainTypes then
         return DataLoader.terrainTypes
     end
@@ -456,6 +456,7 @@ function ModManager.getModInfo()
 end
 
 return ModManager
+
 
 
 

@@ -6,7 +6,7 @@
 --- enter(...), exit(), update(dt), draw(), keypressed(), mousepressed(), etc.
 ---
 --- Example usage:
----   local StateManager = require("core.state_manager")
+---   local StateManager = require("core.state.state_manager")
 ---   StateManager.register("menu", MenuState)
 ---   StateManager.switch("menu")
 ---
@@ -216,6 +216,7 @@ function StateManager.countStates()
 end
 
 return StateManager
+
 
 
 

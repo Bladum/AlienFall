@@ -24,7 +24,7 @@
 ---
 ---Dependencies:
 ---  - require("battlescape.combat.battle_tile"): Tile data structure
----  - require("core.data_loader"): Asset loading utilities
+---  - require("core.data.data_loader"): Asset loading utilities
 ---
 ---@module battlescape.battlefield.battlefield
 ---@author AlienFall Development Team
@@ -44,7 +44,7 @@
 -- Manages the tactical battle map, tiles, and spatial operations
 
 local BattleTile = require("battlescape.combat.battle_tile")
-local DataLoader = require("core.data_loader")
+local DataLoader = require("core.data.data_loader")
 
 --- @class Battlefield
 --- Manages the tactical battle map with terrain generation, tile management, and spatial operations.
@@ -497,6 +497,7 @@ function Battlefield:getEuclideanDistance(x1, y1, x2, y2)
 end
 
 return Battlefield
+
 
 
 

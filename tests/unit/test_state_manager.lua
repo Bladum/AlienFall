@@ -43,7 +43,7 @@ end
 
 -- Test state registration
 function StateManagerTest.testRegisterState()
-    local StateManager = require("core.state_manager")
+    local StateManager = require("core.state.state_manager")
     StateManager.reset() -- Clear any existing states
     
     local testState = MockState.new("TestState")
@@ -57,7 +57,7 @@ end
 
 -- Test state switching
 function StateManagerTest.testSwitchState()
-    local StateManager = require("core.state_manager")
+    local StateManager = require("core.state.state_manager")
     StateManager.reset()
     
     local state1 = MockState.new("State1")
@@ -82,7 +82,7 @@ end
 
 -- Test state push/pop
 function StateManagerTest.testPushPopState()
-    local StateManager = require("core.state_manager")
+    local StateManager = require("core.state.state_manager")
     StateManager.reset()
     
     local state1 = MockState.new("State1")
@@ -109,7 +109,7 @@ end
 
 -- Test update and draw forwarding
 function StateManagerTest.testUpdateDraw()
-    local StateManager = require("core.state_manager")
+    local StateManager = require("core.state.state_manager")
     StateManager.reset()
     
     local state = MockState.new("TestState")
@@ -129,7 +129,7 @@ end
 
 -- Test invalid state handling
 function StateManagerTest.testInvalidState()
-    local StateManager = require("core.state_manager")
+    local StateManager = require("core.state.state_manager")
     StateManager.reset()
     
     local success, err = pcall(function()
@@ -143,7 +143,7 @@ end
 
 -- Test state with data passing
 function StateManagerTest.testStateData()
-    local StateManager = require("core.state_manager")
+    local StateManager = require("core.state.state_manager")
     StateManager.reset()
     
     local state = MockState.new("DataState")
@@ -177,6 +177,7 @@ function StateManagerTest.runAll()
 end
 
 return StateManagerTest
+
 
 
 

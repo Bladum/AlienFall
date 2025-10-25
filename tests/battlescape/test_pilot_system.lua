@@ -9,7 +9,7 @@
 
 local TestFramework = require("tests.test_framework")
 local Unit = require("battlescape.combat.unit")
-local DataLoader = require("core.data_loader")
+local DataLoader = require("core.data.data_loader")
 
 local PilotSystemTests = {}
 
@@ -121,3 +121,4 @@ if arg and arg[0]:match("test_pilot_system") then
 end
 
 return PilotSystemTests
+

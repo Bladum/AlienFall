@@ -26,7 +26,7 @@
 ---@license Open Source
 ---
 ---@usage
----  local SpatialHash = require("core.spatial_hash")
+---  local SpatialHash = require("core.spatial.spatial_hash")
 ---  local grid = SpatialHash.new(100, 100, 10)  -- 100x100 map, 10 tile cells
 ---  grid:insert(unit, unit.x, unit.y)
 ---  local nearby = grid:query(player.x, player.y, 5)  -- 5 tile radius
@@ -254,6 +254,7 @@ function SpatialHash:debugPrint()
 end
 
 return SpatialHash
+
 
 
 

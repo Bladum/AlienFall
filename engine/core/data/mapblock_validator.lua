@@ -29,7 +29,7 @@
 ---@license Open Source
 ---
 ---@usage
----  local Validator = require("core.mapblock_validator")
+---  local Validator = require("core.data.mapblock_validator")
 ---  Validator.validateAll()
 ---  Validator.printReport()
 ---  if #Validator.results.invalidMapblocks > 0 then
@@ -41,7 +41,7 @@
 
 local TOML = require("utils.toml")
 local ModManager = require("mods.mod_manager")
-local DataLoader = require("core.data_loader")
+local DataLoader = require("core.data.data_loader")
 
 local MapblockValidator = {}
 
@@ -286,6 +286,8 @@ function MapblockValidator.run()
 end
 
 return MapblockValidator
+
+
 
 
 

@@ -39,7 +39,7 @@ function TestSuite.runAll()
 
     -- Initialize required systems for tests
     print("--- Initializing Test Environment ---")
-    local DataLoader = require("core.data_loader")
+    local DataLoader = require("core.data.data_loader")
     local ModManager = require("core.mod_manager")
     
     -- Initialize mod manager (needed for DataLoader)
@@ -419,6 +419,7 @@ function TestSuite.testTurnManager()
 end
 
 return TestSuite
+
 
 
 

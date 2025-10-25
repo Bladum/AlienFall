@@ -41,7 +41,7 @@
 ---@see widgets.core.grid For grid system
 ---@see scenes.tests_menu For test menu
 
-local StateManager = require("core.state_manager")
+local StateManager = require("core.state.state_manager")
 local Widgets = require("gui.widgets.init")
 
 local WidgetShowcase = {}
@@ -300,6 +300,7 @@ function WidgetShowcase:mousemoved(x, y, dx, dy, istouch)
 end
 
 return WidgetShowcase
+
 
 
 
