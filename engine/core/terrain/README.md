@@ -1,5 +1,7 @@
 # Core Terrain
 
+**Status:** [PLACEHOLDER - Structure ready, content loading]
+
 ## Goal / Purpose
 Manages terrain system data and utilities including terrain types, properties, movement costs, and visual representations for both battlescape and geoscape.
 

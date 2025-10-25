@@ -1,5 +1,7 @@
 # Geoscape Data
 
+**Status:** [PLACEHOLDER - Data structure ready, content in progress]
+
 ## Goal / Purpose
 Stores configuration data for geoscape systems including world settings, region definitions, location data, and geoscape-specific game rules.
 

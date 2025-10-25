@@ -228,16 +228,33 @@ function Army:generateSpritesheet()
     local config = self.config
     local cols = config.print.grid.columns
     local rows = config.print.grid.rows
-    local cell_size = 70
-    local spacing = 8
-    local border = 4
 
-    -- Calculate canvas size
-    local canvas_width = cols * cell_size + (cols - 1) * spacing + (2 * border)
-    local canvas_height = rows * cell_size + (rows - 1) * spacing + (2 * border)
+    -- Layout rules requested:
+    -- image_size: 72px (actual graphic)
+    -- frame_total: 8px total (so 4px padding on each side)
+    -- cell: image_size + frame_total = 80px -> units placed every 80px
+    -- sheet for 10x15 -> 800x1200
+    local image_size = 72
+    local frame_total = 8
+    local padding_each = frame_total / 2
+    local cell = image_size + frame_total
 
-    -- Create canvas
-    local canvas = love.graphics.newCanvas(canvas_width, canvas_height)
+    -- No extra spacing between cells for strict 80px grid
+    local spacing = 0
+
+    -- Minimal outer border (user requested overall sheet 800x1200)
+    local outer_border = 0
+
+    -- Calculate canvas size (exact 80px grid)
+    local canvas_width = cols * cell + (outer_border * 2)
+    local canvas_height = rows * cell + (outer_border * 2)
+
+    -- Create canvas with explicit settings
+    local canvas = love.graphics.newCanvas(canvas_width, canvas_height, {
+        format = "normal",
+        msaa = 0,
+        dpiscale = 1
+    })
 
     -- Draw on canvas
     love.graphics.setCanvas(canvas)
@@ -255,40 +272,39 @@ function Army:generateSpritesheet()
 
         -- Draw as many repetitions as configured
         for rep = 1, reps do
-            local x = current_col * (cell_size + spacing) + border
-            local y = current_row * (cell_size + spacing) + border
+            -- position on strict 80px grid
+            local x = current_col * (cell + spacing) + outer_border
+            local y = current_row * (cell + spacing) + outer_border
 
             if graphic then
-                -- Draw actual graphic
+                -- Draw outer frame (gray) filling the whole cell
+                love.graphics.setColor(0.8, 0.8, 0.8, 1) -- gray frame
+                love.graphics.rectangle("fill", x, y, cell, cell)
+
+                -- Draw inner background (white) where the image will sit
                 love.graphics.setColor(1, 1, 1, 1)
-                love.graphics.rectangle("fill", x, y, cell_size, cell_size)
+                love.graphics.rectangle("fill", x + padding_each, y + padding_each, image_size, image_size)
 
-                -- Draw graphic centered
-                local center_x = x + cell_size / 2
-                local center_y = y + cell_size / 2
-
-                local scale_x = cell_size / graphic.width
-                local scale_y = cell_size / graphic.height
-                local scale = math.min(scale_x, scale_y)
-
+                -- Draw the actual graphic at top-left inside the inner rect (no scaling)
                 love.graphics.setColor(1, 1, 1, 1)
                 love.graphics.draw(
                     graphic.image,
-                    center_x,
-                    center_y,
+                    x + padding_each,
+                    y + padding_each,
                     0,
-                    scale,
-                    scale,
-                    graphic.width / 2,
-                    graphic.height / 2
+                    1,
+                    1,
+                    0,
+                    0
                 )
             else
-                -- Draw placeholder (gray background with question mark)
-                love.graphics.setColor(0.5, 0.5, 0.5, 1)
-                love.graphics.rectangle("fill", x, y, cell_size, cell_size)
-
+                -- Draw placeholder cell frame + inner placeholder
+                love.graphics.setColor(0.8, 0.8, 0.8, 1)
+                love.graphics.rectangle("fill", x, y, cell, cell)
                 love.graphics.setColor(1, 1, 1, 1)
-                love.graphics.print("?", x + cell_size / 2 - 4, y + cell_size / 2 - 6)
+                love.graphics.rectangle("fill", x + padding_each, y + padding_each, image_size, image_size)
+                love.graphics.setColor(0.5, 0.5, 0.5, 1)
+                love.graphics.print("?", x + padding_each + image_size/2 - 4, y + padding_each + image_size/2 - 6)
             end
 
             -- Move to next cell
@@ -326,7 +342,35 @@ function Army:saveSpritesheetToFile(canvas, output_dir)
     local filepath = output_dir .. "/" .. filename
 
     local save_success, err = pcall(function()
-        local image_data = love.graphics.readbackTexture(canvas)
+        -- Scale canvas 400% (4x) with nearest neighbor scaling
+        local original_width = canvas:getWidth()
+        local original_height = canvas:getHeight()
+        local scaled_width = original_width * 4
+        local scaled_height = original_height * 4
+
+        -- Create scaled canvas
+        local scaled_canvas = love.graphics.newCanvas(scaled_width, scaled_height, {
+            format = "normal",
+            msaa = 0,
+            dpiscale = 1
+        })
+
+        -- Draw on scaled canvas
+        love.graphics.setCanvas(scaled_canvas)
+        love.graphics.clear(0, 0, 0, 1)
+
+        -- Set nearest neighbor filter for pixel-perfect scaling
+        canvas:setFilter("nearest", "nearest")
+
+        -- Draw original canvas scaled 4x
+        love.graphics.setColor(1, 1, 1, 1)
+        love.graphics.draw(canvas, 0, 0, 0, 4, 4)
+
+        love.graphics.setCanvas()
+
+        -- Now save the scaled canvas
+        local image_data = love.graphics.readbackTexture(scaled_canvas)
+
         -- Use image_data:encode with a file stream
         -- Create a ByteBuffer using a temporary file approach
         local temp_path = "temp_" .. filename

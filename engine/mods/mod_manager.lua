@@ -74,16 +74,16 @@ ModManager.modOrder = {}
 function ModManager.scanMods()
     local modsPath = "mods"  -- Mods directory relative to game root
     local modList = {}
-    
+
     -- Use io to list directories (since love.filesystem can't access outside game tree)
     local items = {}
     local sourceDir = love.filesystem.getSourceBaseDirectory()
     print("[ModManager] Source directory: " .. sourceDir)
-    
+
     -- Try both possible locations for mods
     local modsFullPath1 = sourceDir .. "\\mods"  -- If running from Projects or engine
     local modsFullPath2 = sourceDir .. "\\..\\mods"  -- If running from somewhere else
-    
+
     -- Try mods directory first
     local pfile = io.popen('dir "' .. modsFullPath1 .. '" /b /ad 2>nul')
     local modsFullPath = modsFullPath1
@@ -93,7 +93,7 @@ function ModManager.scanMods()
         end
         pfile:close()
     end
-    
+
     -- If that didn't work, try parent directory
     if #items == 0 then
         print("[ModManager] Mods not found in sourceDir, trying parent...")
@@ -106,7 +106,7 @@ function ModManager.scanMods()
             pfile:close()
         end
     end
-    
+
     -- Fallback: manually check for known mod directories if dir didn't work
     if #items == 0 then
         print("[ModManager] WARNING: Dir command returned 0 items, trying fallback...")
@@ -122,12 +122,12 @@ function ModManager.scanMods()
             end
         end
     end
-    
+
     print("[ModManager] Full mods path: " .. modsFullPath)
     print(string.format("[ModManager] Scanning %d items in directory", #items))
     for i, item in ipairs(items) do
         print(string.format("[ModManager] Item %d: %s", i, item))
-        
+
         -- Check if directory contains mod.toml (use same modsFullPath for consistency)
         local modDir = modsFullPath .. "\\" .. item
         local tomlPath = modDir .. "\\mod.toml"
@@ -135,11 +135,11 @@ function ModManager.scanMods()
         if file then
             print(string.format("[ModManager] Found mod.toml in %s", item))
             file:close()
-            
+
             -- DON'T mount to love.filesystem - just store the physical path
             -- This works better on Windows where mounting can have issues
             local physicalPath = modDir
-            
+
             -- Load TOML using io
             local tomlContent = ""
             file = io.open(tomlPath, "r")
@@ -147,7 +147,7 @@ function ModManager.scanMods()
                 tomlContent = file:read("*all")
                 file:close()
             end
-            
+
             local success, modConfig = pcall(TOML.parse, tomlContent)
             if success and modConfig and modConfig.mod then
                 modConfig.mod.path = physicalPath  -- Store physical path instead of mounted path
@@ -159,7 +159,7 @@ function ModManager.scanMods()
             end
         end
     end
-    
+
     return modList
 end
 
@@ -171,14 +171,14 @@ end
 --- @return nil
 function ModManager.loadMods()
     local modList = ModManager.scanMods()
-    
+
     for _, modConfig in ipairs(modList) do
         local enabled = modConfig.settings and modConfig.settings.enabled
         if enabled == nil or enabled == true then
             ModManager.registerMod(modConfig)
         end
     end
-    
+
     print(string.format("[ModManager] Loaded %d mods", #ModManager.modOrder))
 end
 
@@ -189,8 +189,8 @@ function ModManager.registerMod(modConfig)
     local modId = modConfig.mod.id
     ModManager.mods[modId] = modConfig
     table.insert(ModManager.modOrder, modId)
-    
-    print(string.format("[ModManager] Registered mod: %s (%s)", 
+
+    print(string.format("[ModManager] Registered mod: %s (%s)",
         modConfig.mod.name, modId))
 end
 
@@ -206,9 +206,9 @@ function ModManager.setActiveMod(modId)
         print(string.format("[ModManager] ERROR: Mod '%s' not found", modId))
         return false
     end
-    
+
     ModManager.activeMod = modId
-    print(string.format("[ModManager] Active mod set to: %s", 
+    print(string.format("[ModManager] Active mod set to: %s",
         ModManager.mods[modId].mod.name))
     return true
 end
@@ -241,29 +241,29 @@ function ModManager.getContentPath(contentType, subpath)
         print("[ModManager] ERROR: No active mod set")
         return nil
     end
-    
+
     local basePath = mod.mod.path
     local contentPath = mod.paths[contentType]
-    
+
     if not contentPath then
         print(string.format("[ModManager] ERROR: Content type '%s' not found in mod", contentType))
         return nil
     end
-    
+
     -- Build full path with consistent separators
     -- Detect if we're on Windows (basePath contains backslashes)
     local isWindows = basePath:find("\\") ~= nil
     local separator = isWindows and "\\" or "/"
-    
+
     -- Start with base path + content type
     local fullPath = basePath .. separator .. contentPath
-    
+
     if subpath then
         -- Normalize subpath separators to match the platform
         subpath = subpath:gsub("/", separator):gsub("\\", separator)
         fullPath = fullPath .. separator .. subpath
     end
-    
+
     return fullPath
 end
 
@@ -280,13 +280,13 @@ function ModManager.getContent(contentType)
         print("[ModManager] ERROR: No active mod set")
         return nil
     end
-    
+
     -- Check if mod provides this content
     if not mod.content[contentType] then
         print(string.format("[ModManager] Mod does not provide '%s' content", contentType))
         return nil
     end
-    
+
     return mod
 end
 
@@ -301,7 +301,7 @@ end
 function ModManager.init()
     print("[ModManager] Initializing mod system...")
     ModManager.loadMods()
-    
+
     -- Try to load 'core' mod as default (has complete game data structure)
     local defaultModLoaded = false
     if ModManager.isModLoaded("core") then
@@ -317,7 +317,7 @@ function ModManager.init()
         defaultModLoaded = true
         print("[ModManager] Default mod 'new' loaded successfully")
     end
-    
+
     -- Fallback to first available mod if default not found
     if not defaultModLoaded and #ModManager.modOrder > 0 then
         ModManager.setActiveMod(ModManager.modOrder[1])
@@ -326,7 +326,7 @@ function ModManager.init()
         print("[ModManager] ERROR: No mods found!")
         error("[ModManager] Cannot start game without a mod. Please ensure mods/new/ exists with mod.toml")
     end
-    
+
     print("[ModManager] Mod system initialized")
 end
 
@@ -363,13 +363,13 @@ function ModManager.getTerrainTypes()
         print("[ModManager] ERROR: No active mod set")
         return {}
     end
-    
+
     -- Try to load from DataLoader first (TOML-based)
     local DataLoader = require("core.data.data_loader")
     if DataLoader and DataLoader.terrainTypes then
         return DataLoader.terrainTypes
     end
-    
+
     return {}
 end
 
@@ -385,12 +385,12 @@ function ModManager.getMapblocks()
         print("[ModManager] ERROR: No active mod set")
         return {}
     end
-    
+
     local mapblocksPath = ModManager.getContentPath("mapblocks")
     if not mapblocksPath then
         return {}
     end
-    
+
     -- Load all mapblock files from directory
     local mapblocks = {}
     local items = love.filesystem.getDirectoryItems(mapblocksPath)
@@ -405,7 +405,7 @@ function ModManager.getMapblocks()
             end
         end
     end
-    
+
     return mapblocks
 end
 
@@ -420,12 +420,12 @@ function ModManager.loadMod(modId)
     -- For now, just call loadMods which loads all mods
     -- In the future, this could be enhanced to load specific mods
     ModManager.loadMods()
-    
+
     -- Try to set the requested mod as active if it was loaded
     if ModManager.isModLoaded(modId) then
         return ModManager.setActiveMod(modId)
     end
-    
+
     return false
 end
 
@@ -448,38 +448,11 @@ function ModManager.getModInfo()
     if not mod then
         return "No active mod"
     end
-    
-    return string.format("%s v%s by %s", 
-        mod.mod.name, 
-        mod.mod.version, 
+
+    return string.format("%s v%s by %s",
+        mod.mod.name,
+        mod.mod.version,
         mod.mod.author or "Unknown")
 end
 
 return ModManager
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

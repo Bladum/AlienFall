@@ -1,5 +1,7 @@
 # Basescape Base System
 
+**Status:** [PLACEHOLDER - Structure ready, implementation in progress]
+
 ## Goal / Purpose
 The Base System manages the physical and operational structure of player bases. It handles base construction, facility placement, layout management, and base state persistence.
 

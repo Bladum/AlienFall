@@ -22,60 +22,66 @@ print:
 units:
   - name: "archer"
     file: "red_archer.png"
-    repetitions: 25
-    width: 70
-    height: 70
+    repetitions: 20
+    width: 72
+    height: 72
 
   - name: "balista"
     file: "red_balista.png"
     repetitions: 10
-    width: 70
-    height: 70
+    width: 72
+    height: 72
 
   - name: "cavalery"
     file: "red_cavalery.png"
-    repetitions: 15
-    width: 70
-    height: 70
+    repetitions: 20
+    width: 72
+    height: 72
 
   - name: "dragon"
     file: "red_dragon.png"
     repetitions: 10
-    width: 70
-    height: 70
+    width: 72
+    height: 72
 
   - name: "footman"
     file: "red_footman.png"
-    repetitions: 25
-    width: 70
-    height: 70
+    repetitions: 20
+    width: 72
+    height: 72
 
   - name: "frog"
     file: "red_frog.png"
     repetitions: 10
-    width: 70
-    height: 70
+    width: 72
+    height: 72
 
   - name: "harpy"
     file: "red_harpy.png"
     repetitions: 10
-    width: 70
-    height: 70
+    width: 72
+    height: 72
 
   - name: "kraken"
     file: "red_kraken.png"
     repetitions: 10
-    width: 70
-    height: 70
+    width: 72
+    height: 72
 
   - name: "pikeman"
     file: "red_pikeman.png"
-    repetitions: 25
-    width: 70
-    height: 70
+    repetitions: 20
+    width: 72
+    height: 72
 
   - name: "worker"
     file: "red_worker.png"
-    repetitions: 15
-    width: 70
-    height: 70
+    repetitions: 10
+    width: 72
+    height: 72
+
+  - name: "dog"
+    file: "red_dog.png"
+    repetitions: 10
+    width: 72
+    height: 72

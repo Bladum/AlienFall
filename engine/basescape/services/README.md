@@ -1,5 +1,7 @@
 # Basescape Services
 
+**Status:** [PLACEHOLDER - Services framework ready, implementation pending]
+
 ## Goal / Purpose
 Provides utility services and helper systems for basescape operations including data queries, calculations, and common functionality used across basescape modules.
 

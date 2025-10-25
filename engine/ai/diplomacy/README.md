@@ -1,5 +1,7 @@
 # Diplomacy AI
 
+**Status:** [NOT YET IMPLEMENTED] (Placeholder - Planned for Phase 3+)
+
 ## Goal / Purpose
 
 The Diplomacy AI folder contains artificial intelligence systems for managing NPC diplomatic interactions, faction relationships, and political decision-making. This includes diplomatic negotiation logic, relationship tracking, and faction-based AI decision trees.

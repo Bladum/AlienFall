@@ -1,5 +1,7 @@
 # Core Facilities
 
+**Status:** [PLACEHOLDER - Utilities framework structure in place]
+
 ## Goal / Purpose
 Contains core facility system utilities and data supporting facility operations across all game layers including basescape and other systems.
 

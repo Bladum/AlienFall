@@ -1,5 +1,7 @@
 # Sounds Assets
 
+**Status:** [PLACEHOLDER - Awaiting sound files]
+
 ## Goal / Purpose
 Storage and management of all audio assets including music, sound effects, and ambient sounds used throughout the game.
 

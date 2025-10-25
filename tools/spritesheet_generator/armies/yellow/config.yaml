@@ -23,65 +23,65 @@ units:
   - name: "archer"
     file: "yellow_archer.png"
     repetitions: 20
-    width: 70
-    height: 70
+    width: 72
+    height: 72
 
   - name: "balista"
     file: "yellow_balista.png"
     repetitions: 10
-    width: 70
-    height: 70
+    width: 72
+    height: 72
 
   - name: "cavalery"
     file: "yellow_cavalery.png"
     repetitions: 20
-    width: 70
-    height: 70
+    width: 72
+    height: 72
 
   - name: "dragon"
     file: "yellow_dragon.png"
     repetitions: 10
-    width: 70
-    height: 70
+    width: 72
+    height: 72
 
   - name: "footman"
     file: "yellow_footman.png"
     repetitions: 20
-    width: 70
-    height: 70
+    width: 72
+    height: 72
 
   - name: "frog"
     file: "yellow_frog.png"
     repetitions: 10
-    width: 70
-    height: 70
+    width: 72
+    height: 72
 
   - name: "harpy"
     file: "yellow_harpy.png"
     repetitions: 10
-    width: 70
-    height: 70
+    width: 72
+    height: 72
 
   - name: "kraken"
     file: "yellow_kraken.png"
     repetitions: 10
-    width: 70
-    height: 70
+    width: 72
+    height: 72
 
   - name: "pikeman"
     file: "yellow_pikeman.png"
     repetitions: 20
-    width: 70
-    height: 70
+    width: 72
+    height: 72
 
   - name: "worker"
     file: "yellow_worker.png"
     repetitions: 10
-    width: 70
-    height: 70
+    width: 72
+    height: 72
 
   - name: "dog"
     file: "yellow_dog.png"
     repetitions: 10
-    width: 70
-    height: 70
+    width: 72
+    height: 72

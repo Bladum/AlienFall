@@ -1,5 +1,7 @@
 # Battlescape Battle System
 
+**Status:** [PARTIAL IMPLEMENTATION - Turn system ready, advanced features in progress]
+
 ## Goal / Purpose
 The core battle system manages turn-based combat execution including turn order, action resolution, damage calculation, and combat state transitions. It orchestrates the battlescape gameplay loop.
 

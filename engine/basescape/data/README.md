@@ -1,5 +1,7 @@
 # Basescape Data
 
+**Status:** [PLACEHOLDER - Data structure ready, content in progress]
+
 ## Goal / Purpose
 Stores configuration data and lookup tables for basescape systems including facility definitions, costs, requirements, and basescape-specific game rules.
 

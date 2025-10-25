@@ -1,5 +1,7 @@
 # Geoscape Screens
 
+**Status:** [PLACEHOLDER - Framework ready, UI implementation in progress]
+
 ## Goal / Purpose
 Manages different screen views and interfaces within geoscape including base selection, mission briefing, research status, and strategic information displays.
 
