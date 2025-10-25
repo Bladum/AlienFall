@@ -14,7 +14,7 @@ package.path = package.path .. ";engine/?.lua;engine/?/init.lua"
 -- Load required modules
 print("[TEST] Loading modules...")
 local MapBlockLoader = require("battlescape.map.mapblock_loader_v2")
-local MapScriptsV2 = require("battlescape.data.mapscripts_v2")
+local MapScripts = require("battlescape.mapscripts.mapscripts")
 local MapScriptExecutor = require("battlescape.logic.mapscript_executor")
 local MapBlockSystem = require("battlescape.map.mapblock_system")
 local MapGenerator = require("battlescape.map.map_generator")
@@ -80,11 +80,11 @@ test("Load Map Blocks", function()
 end)
 
 test("Load Map Scripts", function()
-    local count = MapScriptsV2.loadAll("mods/core/mapscripts")
+    local count = MapScripts.loadAll("mods/core/mapscripts")
     print(string.format("  Loaded %d Map Scripts", count))
     
     -- List available scripts
-    local scripts = MapScriptsV2.getAll()
+    local scripts = MapScripts.getAll()
     print("  Available Map Scripts:")
     for id, script in pairs(scripts) do
         print(string.format("    - %s: %s", id, script.name or "Unnamed"))
@@ -98,7 +98,7 @@ print("PHASE 2: Test MapScriptExecutor")
 print("=======================================================")
 
 test("Execute urban_patrol MapScript", function()
-    local script = MapScriptsV2.get("urban_patrol")
+    local script = MapScripts.get("urban_patrol")
     assert_not_nil(script, "urban_patrol MapScript should exist")
     
     -- Type assertion for linter
@@ -123,11 +123,11 @@ test("Execute urban_patrol MapScript", function()
 end)
 
 test("Execute forest_patrol MapScript", function()
-    local script = MapScriptsV2.get("forest_patrol")
+    local script = MapScripts.get("forest_patrol")
     assert_not_nil(script, "forest_patrol MapScript should exist")
     
     -- Type assertion for linter
-    ---@cast script MapScriptV2
+    ---@cast script MapScript
     
     print(string.format("  MapScript: %s", script.name or "Unnamed"))
     
@@ -141,11 +141,11 @@ test("Execute forest_patrol MapScript", function()
 end)
 
 test("Execute ufo_crash_scout MapScript", function()
-    local script = MapScriptsV2.get("ufo_crash_scout")
+    local script = MapScripts.get("ufo_crash_scout")
     assert_not_nil(script, "ufo_crash_scout MapScript should exist")
     
     -- Type assertion for linter
-    ---@cast script MapScriptV2
+    ---@cast script MapScript
     
     print(string.format("  MapScript: %s", script.name or "Unnamed"))
     
