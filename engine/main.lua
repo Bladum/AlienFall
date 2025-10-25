@@ -343,4 +343,3 @@ function love.errorhandler(msg)
         love.timer.sleep(0.1)
     end
 end
-

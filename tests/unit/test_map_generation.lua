@@ -307,5 +307,3 @@ end
 
 -- Export for external usage
 return TestMapGeneration
-
-
