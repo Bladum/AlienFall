@@ -136,3 +136,4 @@ function ResearchProject.getInfo(project)
 end
 
 return ResearchProject
+

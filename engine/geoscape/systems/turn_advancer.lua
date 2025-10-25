@@ -318,3 +318,4 @@ function TurnAdvancer.deserialize(data)
 end
 
 return TurnAdvancer
+

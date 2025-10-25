@@ -108,3 +108,4 @@ function AICoordinator:getThreatAssessment()
 end
 
 return AICoordinator
+

@@ -304,3 +304,4 @@ function CampaignAudioEvents:setVolume(category, volume)
 end
 
 return CampaignAudioEvents
+

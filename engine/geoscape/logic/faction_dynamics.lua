@@ -440,3 +440,4 @@ function FactionDynamicsSystem:deserialize(data)
 end
 
 return FactionDynamicsSystem
+

@@ -218,3 +218,4 @@ function InterceptionSystem:formatBattleSummary(battle, results)
 end
 
 return InterceptionSystem
+

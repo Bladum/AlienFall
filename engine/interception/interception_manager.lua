@@ -98,3 +98,4 @@ function InterceptionManager:getActiveInterceptions()
 end
 
 return InterceptionManager
+

@@ -81,3 +81,4 @@ function MetricsCollector:getStatistics()
 end
 
 return MetricsCollector
+

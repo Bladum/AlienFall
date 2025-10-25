@@ -23,7 +23,7 @@
 
 local StateManager = require("core.state_manager")
 local Widgets = require("gui.widgets.init")
-local CampaignOrchestrator = require("engine.geoscape.campaign_orchestrator")
+local CampaignOrchestrator = require("engine.geoscape.managers.campaign_orchestrator")
 
 local NewCampaignWizard = {}
 
@@ -429,3 +429,5 @@ function NewCampaignWizard:mousepressed(x, y, button, istouch, presses)
 end
 
 return NewCampaignWizard
+
+

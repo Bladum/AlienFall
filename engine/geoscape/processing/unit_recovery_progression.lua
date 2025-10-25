@@ -390,3 +390,4 @@ function UnitRecoveryProgression.calculatePromotionThreshold(currentRank)
 end
 
 return UnitRecoveryProgression
+

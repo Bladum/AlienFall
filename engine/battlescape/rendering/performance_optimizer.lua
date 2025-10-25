@@ -371,3 +371,4 @@ function PerformanceOptimizer:drawPoolStats(x, y)
 end
 
 return PerformanceOptimizer
+

@@ -383,3 +383,4 @@ function StatusEffectsSystem.reset()
 end
 
 return StatusEffectsSystem
+

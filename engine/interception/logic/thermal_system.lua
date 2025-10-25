@@ -491,3 +491,4 @@ function ThermalSystem:getThermalReport()
 end
 
 return ThermalSystem
+

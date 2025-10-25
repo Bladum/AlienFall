@@ -79,3 +79,4 @@ function EconomyManager:synchronize()
 end
 
 return EconomyManager
+

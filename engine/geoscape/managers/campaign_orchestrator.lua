@@ -46,17 +46,17 @@ function CampaignOrchestrator:initializeAllSystems()
     print("[Orchestrator] Initializing all campaign systems...")
 
     -- Phase 6-7 Core Systems
-    local MissionOutcomeProcessor = require("engine.geoscape.mission_outcome_processor")
-    local CraftReturnSystem = require("engine.geoscape.craft_return_system")
+    local MissionOutcomeProcessor = require("engine.geoscape.logic.mission_outcome_processor")
+    local CraftReturnSystem = require("engine.geoscape.systems.craft_return_system")
     local UnitRecoveryProgression = require("engine.geoscape.unit_recovery_progression")
-    local DifficultyEscalation = require("engine.geoscape.difficulty_escalation")
-    local SalvageProcessor = require("engine.geoscape.salvage_processor")
+    local DifficultyEscalation = require("engine.geoscape.logic.difficulty_escalation")
+    local SalvageProcessor = require("engine.geoscape.processing.salvage_processor")
 
     -- Phase 9 Advanced Systems
-    local AlienResearchSystem = require("engine.geoscape.alien_research_system")
-    local BaseExpansionSystem = require("engine.geoscape.base_expansion_system")
-    local FactionDynamicsSystem = require("engine.geoscape.faction_dynamics")
-    local CampaignEventsSystem = require("engine.geoscape.campaign_events_system")
+    local AlienResearchSystem = require("engine.geoscape.systems.alien_research_system")
+    local BaseExpansionSystem = require("engine.geoscape.systems.base_expansion_system")
+    local FactionDynamicsSystem = require("engine.geoscape.logic.faction_dynamics")
+    local CampaignEventsSystem = require("engine.geoscape.processing.campaign_events_system")
     local DifficultyRefinementsSystem = require("engine.geoscape.difficulty_refinements")
 
     self.systems = {
@@ -647,3 +647,5 @@ function CampaignOrchestrator:getOrchestrationMetrics()
 end
 
 return CampaignOrchestrator
+
+

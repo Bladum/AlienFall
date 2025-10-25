@@ -351,3 +351,4 @@ function UFOAIBehavior:predictUFOAction(ufo, craft, history)
 end
 
 return UFOAIBehavior
+

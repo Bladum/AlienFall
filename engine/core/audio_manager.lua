@@ -444,3 +444,4 @@ function AudioManager:getStatus()
 end
 
 return AudioManager
+

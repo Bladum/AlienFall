@@ -52,3 +52,4 @@ local EtherealFaction = {
 }
 
 return EtherealFaction
+

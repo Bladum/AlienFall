@@ -357,3 +357,4 @@ function DamagedFacilityOps:emergencyRepair(facilityId, credits)
 end
 
 return DamagedFacilityOps
+

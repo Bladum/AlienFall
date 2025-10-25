@@ -300,3 +300,4 @@ function PilotProgression.reset()
 end
 
 return PilotProgression
+

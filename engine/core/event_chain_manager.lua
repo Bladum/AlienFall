@@ -275,3 +275,4 @@ function table.countKeys(tbl)
 end
 
 return EventChainManager
+

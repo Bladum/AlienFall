@@ -437,3 +437,4 @@ function ConcealmentDetection:_getNoiseModifier(unit)
 end
 
 return ConcealmentDetection
+

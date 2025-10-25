@@ -416,3 +416,4 @@ function CampaignEventsSystem:deserialize(data)
 end
 
 return CampaignEventsSystem
+

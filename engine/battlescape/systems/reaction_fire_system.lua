@@ -361,3 +361,4 @@ function ReactionFireSystem.reset()
 end
 
 return ReactionFireSystem
+

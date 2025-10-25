@@ -404,3 +404,4 @@ function SaveGameManager:deserialize(data)
 end
 
 return SaveGameManager
+

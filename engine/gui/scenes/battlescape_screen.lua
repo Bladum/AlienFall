@@ -2382,3 +2382,4 @@ function Battlescape:applySpecialSkill(unit, skill, tileX, tileY)
 end
 
 return Battlescape
+

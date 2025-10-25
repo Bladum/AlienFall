@@ -407,3 +407,4 @@ function DifficultyRefinementsSystem:deserialize(data)
 end
 
 return DifficultyRefinementsSystem
+

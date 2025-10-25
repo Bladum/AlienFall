@@ -316,3 +316,4 @@ function AlienFaction.deserialize(data)
 end
 
 return AlienFaction
+

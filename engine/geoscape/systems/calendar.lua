@@ -242,3 +242,4 @@ function Calendar.deserialize(data)
 end
 
 return Calendar
+

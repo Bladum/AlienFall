@@ -417,3 +417,4 @@ function CampaignManager.load(data)
 end
 
 return CampaignManager
+

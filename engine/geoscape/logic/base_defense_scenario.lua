@@ -417,3 +417,4 @@ function BaseDefenseScenario:simulateTurnCombat()
 end
 
 return BaseDefenseScenario
+

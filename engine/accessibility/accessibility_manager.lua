@@ -102,3 +102,4 @@ function AccessibilityManager:getConfig()
 end
 
 return AccessibilityManager
+

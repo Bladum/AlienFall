@@ -218,3 +218,4 @@ function CraftPilotSystem.getBonusDescription(pilotCount, bonuses)
 end
 
 return CraftPilotSystem
+

@@ -406,3 +406,4 @@ return SquadManagementUIIntegration
 
 
 
+

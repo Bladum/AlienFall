@@ -49,3 +49,4 @@ function ColorblindMode:convertColor(r, g, b)
 end
 
 return ColorblindMode
+

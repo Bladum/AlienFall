@@ -487,3 +487,4 @@ function UIIntegrationLayer:deserialize(data)
 end
 
 return UIIntegrationLayer
+

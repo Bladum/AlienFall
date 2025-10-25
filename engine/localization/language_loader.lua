@@ -69,3 +69,4 @@ function LanguageLoader:switchLanguage(languageCode)
 end
 
 return LanguageLoader
+

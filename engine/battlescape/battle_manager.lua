@@ -118,3 +118,4 @@ function BattleManager:endBattle(result, data)
 end
 
 return BattleManager
+

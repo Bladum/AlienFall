@@ -273,3 +273,4 @@ function EventScheduler.deserialize(data)
 end
 
 return EventScheduler
+

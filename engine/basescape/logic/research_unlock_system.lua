@@ -419,3 +419,4 @@ function ResearchUnlocks:getStatistics()
 end
 
 return ResearchUnlocks
+

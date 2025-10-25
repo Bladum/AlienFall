@@ -67,3 +67,4 @@ function StringTable:setLanguage(language)
 end
 
 return StringTable
+

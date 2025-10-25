@@ -308,3 +308,4 @@ function MissionFactionPanel:deserialize(state)
 end
 
 return MissionFactionPanel
+

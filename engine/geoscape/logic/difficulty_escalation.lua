@@ -1,6 +1,6 @@
 ---
 -- Campaign Difficulty Escalation System
--- @module engine.geoscape.difficulty_escalation
+-- @module engine.geoscape.logic.difficulty_escalation
 -- @author Copilot
 -- @license MIT
 --
@@ -319,3 +319,4 @@ function DifficultyEscalation._calculateEnemyDifficulty(threatLevel)
 end
 
 return DifficultyEscalation
+

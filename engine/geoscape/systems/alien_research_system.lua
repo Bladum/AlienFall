@@ -389,3 +389,4 @@ function AlienResearchSystem:deserialize(data)
 end
 
 return AlienResearchSystem
+

@@ -480,3 +480,4 @@ function DurabilitySystem:_getConditionDescription(condition)
 end
 
 return DurabilitySystem
+

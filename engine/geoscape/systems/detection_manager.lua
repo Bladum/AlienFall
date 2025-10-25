@@ -650,3 +650,4 @@ function DetectionManager:drawRadarCoverage(bases, crafts)
 end
 
 return DetectionManager
+

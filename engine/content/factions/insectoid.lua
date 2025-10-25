@@ -52,3 +52,4 @@ local InsectoidFaction = {
 }
 
 return InsectoidFaction
+

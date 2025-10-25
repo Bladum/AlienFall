@@ -20,13 +20,13 @@
 --- - aborted: Player aborted mission
 ---
 --- Usage:
----   local MissionManager = require("engine.geoscape.mission_manager")
+---   local MissionManager = require("engine.geoscape.managers.mission_manager")
 ---   local manager = MissionManager:new()
 ---   local mission = manager:createMission(missionData)
 ---   manager:activateMission("mission_1")
 ---   manager:completeMission("mission_1", rewards)
 ---
---- @module engine.geoscape.mission_manager
+--- @module engine.geoscape.managers.mission_manager
 --- @author AlienFall Development Team
 
 local MissionManager = {}
@@ -553,6 +553,8 @@ function MissionManager:deserialize(data)
 end
 
 return MissionManager
+
+
 
 
 

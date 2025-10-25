@@ -182,3 +182,4 @@ function MissionResult.printSummary(result)
 end
 
 return MissionResult
+

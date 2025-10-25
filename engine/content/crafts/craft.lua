@@ -276,3 +276,4 @@ function Craft:serialize()
 end
 
 return Craft
+

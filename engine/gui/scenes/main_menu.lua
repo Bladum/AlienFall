@@ -276,3 +276,4 @@ function Menu:mousereleased(x, y, button, istouch, presses)
 end
 
 return Menu
+

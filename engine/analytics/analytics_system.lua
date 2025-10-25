@@ -385,3 +385,4 @@ function AnalyticsSystem:saveToFile(filename)
 end
 
 return AnalyticsSystem
+

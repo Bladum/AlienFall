@@ -244,3 +244,4 @@ function SoundEffectsLoader:getStatus()
 end
 
 return SoundEffectsLoader
+

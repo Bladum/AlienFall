@@ -65,3 +65,4 @@ function EventTracker:flush()
 end
 
 return EventTracker
+

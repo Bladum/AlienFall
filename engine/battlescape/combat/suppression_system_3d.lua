@@ -372,3 +372,4 @@ function SuppressionSystem:getSuppressionAIAction(unit)
 end
 
 return SuppressionSystem
+

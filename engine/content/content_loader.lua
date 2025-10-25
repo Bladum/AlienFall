@@ -145,3 +145,4 @@ function table.count(t)
 end
 
 return ContentLoader
+

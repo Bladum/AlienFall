@@ -360,3 +360,4 @@ function MissionMapGenerator.printStatistics()
 end
 
 return MissionMapGenerator
+

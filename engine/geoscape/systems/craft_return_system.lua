@@ -1,6 +1,6 @@
 ---
 -- Craft Return & Damage System
--- @module engine.geoscape.craft_return_system
+-- @module engine.geoscape.systems.craft_return_system
 -- @author Copilot
 -- @license MIT
 --
@@ -306,3 +306,5 @@ function CraftReturnSystem._recordPilotFatigue(craftId, pilotId, missionDuration
 end
 
 return CraftReturnSystem
+
+

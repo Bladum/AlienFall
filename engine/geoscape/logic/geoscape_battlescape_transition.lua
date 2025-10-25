@@ -272,3 +272,4 @@ function GeoscapeBattlescapeTransition:deserialize(data)
 end
 
 return GeoscapeBattlescapeTransition
+

@@ -300,3 +300,4 @@ function MissionHandler:deserialize(data)
 end
 
 return MissionHandler
+

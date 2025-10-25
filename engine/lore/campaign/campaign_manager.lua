@@ -744,3 +744,4 @@ function CampaignManager:selectProvinceByRelations(factionId)
 end
 
 return CampaignManager
+

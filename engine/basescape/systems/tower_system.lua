@@ -531,3 +531,4 @@ function TowerSystem:getBaseTowerCosts(baseId)
 end
 
 return TowerSystem
+

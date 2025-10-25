@@ -446,3 +446,4 @@ function MoraleBreakSystem:getBerserkDetails(unitId)
 end
 
 return MoraleBreakSystem
+

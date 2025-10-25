@@ -190,3 +190,4 @@ function CampaignStatsScreen:keypressed(key, scancode, isrepeat)
 end
 
 return CampaignStatsScreen
+

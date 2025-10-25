@@ -4,7 +4,7 @@
   Orchestrates all Phase 6 rendering and UI components for the strategic map view.
   Integrates: renderer, calendar display, mission panel, input handler, region detail, craft indicators.
 
-  @module engine.geoscape.geoscape_state
+  @module engine.geoscape.state.geoscape_state
   @author AI Assistant
   @license MIT
 ]]
@@ -301,3 +301,4 @@ function GeoscapeState:deserialize(state)
 end
 
 return GeoscapeState
+

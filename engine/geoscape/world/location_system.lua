@@ -364,3 +364,4 @@ function LocationSystem:generateLocations(region_count)
 end
 
 return LocationSystem
+

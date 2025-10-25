@@ -395,3 +395,4 @@ function CampaignGeoscapeIntegration:deserialize(data)
 end
 
 return CampaignGeoscapeIntegration
+

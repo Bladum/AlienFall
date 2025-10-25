@@ -44,3 +44,4 @@ function BattlescapeTutorial:cleanup()
 end
 
 return BattlescapeTutorial
+

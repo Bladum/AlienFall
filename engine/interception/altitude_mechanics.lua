@@ -307,3 +307,4 @@ function AltitudeMechanics:getAltitudeRecommendation(craft, target)
 end
 
 return AltitudeMechanics
+

@@ -1,6 +1,6 @@
 ---
 -- Base Inventory & Salvage Processing System
--- @module engine.geoscape.salvage_processor
+-- @module engine.geoscape.processing.salvage_processor
 -- @author Copilot
 -- @license MIT
 --
@@ -340,3 +340,4 @@ function countTable(tbl)
 end
 
 return SalvageProcessor
+

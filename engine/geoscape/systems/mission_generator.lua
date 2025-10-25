@@ -243,3 +243,4 @@ function table.countKeys(tbl)
 end
 
 return MissionGenerator
+

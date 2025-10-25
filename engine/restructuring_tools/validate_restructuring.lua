@@ -44,3 +44,4 @@ return {
     validate_imports = validate_imports,
     generate_report = generate_report,
 }
+

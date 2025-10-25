@@ -455,3 +455,4 @@ function MapEditor:getStats()
 end
 
 return MapEditor
+

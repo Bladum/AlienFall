@@ -324,3 +324,4 @@ function RegionDetailPanel:deserialize(state)
 end
 
 return RegionDetailPanel
+

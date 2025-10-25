@@ -432,3 +432,4 @@ function ObjectivesSystem.createAssassinationObjective(team, targetUnitId)
 end
 
 return ObjectivesSystem
+

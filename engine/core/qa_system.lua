@@ -500,3 +500,4 @@ function QASystem.getQualityScore()
 end
 
 return QASystem
+

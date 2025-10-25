@@ -49,3 +49,4 @@ function UIScaling:scaleValue(value)
 end
 
 return UIScaling
+

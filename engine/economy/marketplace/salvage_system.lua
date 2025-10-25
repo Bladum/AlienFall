@@ -375,3 +375,4 @@ function SalvageSystem:transferToBase(result, base)
 end
 
 return SalvageSystem
+

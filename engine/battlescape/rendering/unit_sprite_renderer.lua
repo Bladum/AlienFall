@@ -533,3 +533,4 @@ function UnitSpriteRenderer:removeUnit(unitId)
 end
 
 return UnitSpriteRenderer
+

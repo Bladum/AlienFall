@@ -397,3 +397,4 @@ function SensorSystem:getCraftDebugInfo(craftId)
 end
 
 return SensorSystem
+

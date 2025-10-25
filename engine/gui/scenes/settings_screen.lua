@@ -373,3 +373,4 @@ function SettingsScreen:mousepressed(x, y, button, istouch, presses)
 end
 
 return SettingsScreen
+

@@ -1,6 +1,6 @@
 ---
 -- Mission Outcome Processor
--- @module engine.geoscape.mission_outcome_processor
+-- @module engine.geoscape.logic.mission_outcome_processor
 -- @author Copilot
 -- @license MIT
 --
@@ -274,3 +274,4 @@ function countTable(tbl)
 end
 
 return MissionOutcomeProcessor
+

@@ -366,3 +366,4 @@ function InterceptionCombatUI:handleInput(key)
 end
 
 return InterceptionCombatUI
+

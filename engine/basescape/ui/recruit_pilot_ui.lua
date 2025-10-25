@@ -258,3 +258,4 @@ function RecruitmentUI:getAvailableFunds()
 end
 
 return RecruitmentUI
+

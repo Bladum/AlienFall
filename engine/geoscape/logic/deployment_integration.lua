@@ -366,3 +366,4 @@ function DeploymentIntegration:deserialize(data)
 end
 
 return DeploymentIntegration
+
