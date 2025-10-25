@@ -1,7 +1,7 @@
 # Government System (Future Feature)
 
-**Status:** [NOT YET IMPLEMENTED] - Placeholder  
-**Priority:** Low  
+**Status:** [NOT YET IMPLEMENTED] - Placeholder
+**Priority:** Low
 **Planned For:** Phase 4+ Development
 
 ---

@@ -12,7 +12,7 @@
 
 ### OPTIONAL DELETE
 ```
-❌ design/gaps/ 
+❌ design/gaps/
    Reason: Historical cleanup log (task complete Oct 23)
    Risk: Low (keeps git history)
    Time: 1 minute
@@ -84,7 +84,7 @@ tests/frameworks/          # MERGE into tests/framework/
 | **API** | System contracts & interfaces | `api/` | `api/UNITS.md` |
 | **IMPLEMENTATION** | Actual built content | `mods/core/rules/units/` | `mods/core/rules/units/units.toml` |
 
-**Current State:** Many duplicate docs in all three tiers  
+**Current State:** Many duplicate docs in all three tiers
 **Target State:** Single file per system per tier, cross-referenced
 
 ### Audit These Overlaps
@@ -93,7 +93,7 @@ Units:
   - design/mechanics/Units.md
   - api/UNITS.md
   - mods/core/rules/units/ (TOML files)
-  
+
 Crafts:
   - design/mechanics/Crafts.md
   - api/CRAFTS.md
@@ -146,7 +146,7 @@ For each, add to README.md:
 
 **If you have 1 hour:**
 1. Delete 1 empty folder
-2. Archive 3 placeholder folders  
+2. Archive 3 placeholder folders
 3. Mark 15 README-only folders with status
 4. (Skip doc consolidation - keeping /docs/ as-is)
 

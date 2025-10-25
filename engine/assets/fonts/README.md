@@ -1,6 +1,6 @@
 # Fonts Assets
 
-**Status:** [PLACEHOLDER - Awaiting font files] 
+**Status:** [PLACEHOLDER - Awaiting font files]
 
 ## Goal / Purpose
 Storage and management of all font files used in the game interface, including UI text, dialogue, and localized character sets for multi-language support.

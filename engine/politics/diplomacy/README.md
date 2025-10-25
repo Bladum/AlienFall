@@ -1,7 +1,7 @@
 # Diplomacy System (Future Feature)
 
-**Status:** [NOT YET IMPLEMENTED] - Placeholder  
-**Priority:** Medium  
+**Status:** [NOT YET IMPLEMENTED] - Placeholder
+**Priority:** Medium
 **Planned For:** Phase 3+ Development
 
 ---

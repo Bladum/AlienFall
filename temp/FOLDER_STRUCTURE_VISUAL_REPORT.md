@@ -124,7 +124,7 @@ Large folders (50+):         60 (watch for monoliths)
 ```
 1. Delete tools/spritesheet_generator/cfg/
    Time: 1 min | Risk: None
-   
+
 2. Mark placeholder folders with [PLACEHOLDER] status
    Time: 20 min | Risk: None
    Doc-only, no code changes
@@ -135,7 +135,7 @@ Large folders (50+):         60 (watch for monoliths)
 3. Archive engine/network/ and engine/portal/
    Time: 10 min | Risk: Low
    Mark or move to separate _FUTURE folder
-   
+
 4. Keep docs/ folder as-is
    Time: 0 min | Risk: None
    Intentional separation from api/
@@ -272,6 +272,6 @@ Quality: 7.5/10
 
 ---
 
-**Analysis Generated:** October 25, 2025  
-**Scope:** Full recursive directory audit (249 folders)  
+**Analysis Generated:** October 25, 2025
+**Scope:** Full recursive directory audit (249 folders)
 **Methodology:** Automated PowerShell-based analysis with manual review
