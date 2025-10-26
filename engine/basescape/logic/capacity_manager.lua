@@ -1,5 +1,4 @@
----CapacityManager - Capacity Aggregation and Tracking
----
+---@class CapacityManager
 ---Aggregates capacities from all operational facilities in a base and tracks usage.
 ---Provides methods to check and allocate capacities.
 ---
@@ -47,21 +46,21 @@ CapacityManager.CAPACITY_TYPES = {
 
 ---Create new capacity manager for a base
 ---@param baseId string Base identifier
----@return CapacityManager manager New manager
+---@return CapacityManager New manager
 function CapacityManager.new(baseId)
     local self = setmetatable({}, CapacityManager)
-    
+
     self.baseId = baseId
     self.grid = nil  -- Set by caller
-    
+
     -- Aggregated capacities
     self.capacities = {}
     self:_initCapacities()
-    
+
     -- Usage tracking
     self.usage = {}
     self:_initUsage()
-    
+
     return self
 end
 
@@ -91,10 +90,10 @@ function CapacityManager:recalculate()
     if not self.grid then
         return
     end
-    
+
     -- Reset capacities
     self:_initCapacities()
-    
+
     -- Sum from all operational facilities
     for _, facility in ipairs(self.grid:getAllFacilities()) do
         if facility:isOperational() then
@@ -104,7 +103,7 @@ function CapacityManager:recalculate()
             end
         end
     end
-    
+
     print(string.format("[CapacityManager] Recalculated for %s", self.baseId))
 end
 
@@ -144,11 +143,11 @@ end
 function CapacityManager:allocate(capacityType, amount)
     if self:canAllocate(capacityType, amount) then
         self.usage[capacityType] = self.usage[capacityType] + amount
-        print(string.format("[CapacityManager] Allocated %d to %s (usage: %d/%d)", 
+        print(string.format("[CapacityManager] Allocated %d to %s (usage: %d/%d)",
             amount, capacityType, self.usage[capacityType], self.capacities[capacityType]))
         return true
     else
-        print(string.format("[CapacityManager] Cannot allocate %d to %s (available: %d)", 
+        print(string.format("[CapacityManager] Cannot allocate %d to %s (available: %d)",
             amount, capacityType, self:getAvailable(capacityType)))
         return false
     end
@@ -162,11 +161,11 @@ function CapacityManager:deallocate(capacityType, amount)
     local current = self.usage[capacityType]
     if current >= amount then
         self.usage[capacityType] = current - amount
-        print(string.format("[CapacityManager] Deallocated %d from %s (usage: %d/%d)", 
+        print(string.format("[CapacityManager] Deallocated %d from %s (usage: %d/%d)",
             amount, capacityType, self.usage[capacityType], self.capacities[capacityType]))
         return true
     else
-        print(string.format("[CapacityManager] Cannot deallocate %d from %s (current: %d)", 
+        print(string.format("[CapacityManager] Cannot deallocate %d from %s (current: %d)",
             amount, capacityType, current))
         return false
     end
@@ -186,13 +185,13 @@ end
 ---Print debug info
 function CapacityManager:printDebug()
     print(string.format("\n[CapacityManager %s] Capacity Report:", self.baseId))
-    
+
     for _, capType in ipairs(CapacityManager.CAPACITY_TYPES) do
         local cap = self:getCapacity(capType)
         local used = self:getUsage(capType)
         local available = self:getAvailable(capType)
         local percent = self:getUsagePercent(capType)
-        
+
         if cap > 0 then
             print(string.format("  %-30s: %5d/%5d (used: %5d, avail: %5d) [%3d%%]",
                 capType, used, cap, used, available, percent))
@@ -211,7 +210,3 @@ function CapacityManager:getAllAvailable()
 end
 
 return CapacityManager
-
-
-
-

@@ -13,7 +13,7 @@ FacilityRegistry.types = {}
 
 ---Register a facility type
 ---@param config table Facility type configuration
----@return FacilityType type Registered type
+---@return FacilityType Registered type
 function FacilityRegistry.register(config)
     local facilityType = FacilityType.new(config)
     FacilityRegistry.types[config.id] = facilityType
@@ -23,7 +23,7 @@ end
 
 ---Get facility type by ID
 ---@param id string Facility type ID
----@return FacilityType|nil type Facility type or nil
+---@return FacilityType|nil Facility type or nil
 function FacilityRegistry.get(id)
     return FacilityRegistry.types[id]
 end
@@ -84,7 +84,7 @@ function FacilityRegistry.loadDefaults()
         maxPerBase = 1,
         category = "command",
     })
-    
+
     -- Living Quarters
     FacilityRegistry.register({
         id = "living_quarters",
@@ -106,7 +106,7 @@ function FacilityRegistry.loadDefaults()
         armor = 5,
         category = "personnel",
     })
-    
+
     -- Power Generator
     FacilityRegistry.register({
         id = "power_generator",
@@ -125,7 +125,7 @@ function FacilityRegistry.loadDefaults()
         armor = 3,
         category = "power",
     })
-    
+
     -- Laboratory
     FacilityRegistry.register({
         id = "laboratory",
@@ -147,7 +147,7 @@ function FacilityRegistry.loadDefaults()
         armor = 5,
         category = "research",
     })
-    
+
     -- Manufacturing Workshop
     FacilityRegistry.register({
         id = "workshop",
@@ -169,7 +169,7 @@ function FacilityRegistry.loadDefaults()
         armor = 8,
         category = "manufacturing",
     })
-    
+
     -- Hangar (Craft storage)
     FacilityRegistry.register({
         id = "hangar",
@@ -191,7 +191,7 @@ function FacilityRegistry.loadDefaults()
         armor = 10,
         category = "hangars",
     })
-    
+
     -- Medical Bay
     FacilityRegistry.register({
         id = "medical_bay",
@@ -213,7 +213,7 @@ function FacilityRegistry.loadDefaults()
         armor = 5,
         category = "medical",
     })
-    
+
     -- Containment Cell (Prisoner storage)
     FacilityRegistry.register({
         id = "containment",
@@ -234,7 +234,7 @@ function FacilityRegistry.loadDefaults()
         armor = 8,
         category = "containment",
     })
-    
+
     -- Storage Depot (Item storage)
     FacilityRegistry.register({
         id = "storage_depot",
@@ -255,7 +255,7 @@ function FacilityRegistry.loadDefaults()
         armor = 3,
         category = "storage",
     })
-    
+
     -- Radar Installation
     FacilityRegistry.register({
         id = "radar",
@@ -276,7 +276,7 @@ function FacilityRegistry.loadDefaults()
         armor = 5,
         category = "radar",
     })
-    
+
     -- Defense Tower
     FacilityRegistry.register({
         id = "defense_tower",
@@ -298,13 +298,9 @@ function FacilityRegistry.loadDefaults()
         defenseUnits = {"defense_drone"},  -- Units that spawn in base defense
         category = "defense",
     })
-    
-    print(string.format("[FacilityRegistry] Loaded %d default facility types", 
+
+    print(string.format("[FacilityRegistry] Loaded %d default facility types",
         FacilityRegistry.getCount()))
 end
 
 return FacilityRegistry
-
-
-
-

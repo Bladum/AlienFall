@@ -85,13 +85,13 @@ DamageSystem.WOUND_BLEED_DAMAGE = 1
 -- @return table New DamageSystem instance
 function DamageSystem.new(moraleSystem, flankingSystem)
     print("[DamageSystem] Initializing damage system")
-    
+
     local self = setmetatable({}, DamageSystem)
-    
+
     self.moraleSystem = moraleSystem or MoraleSystem.new()
     self.flankingSystem = flankingSystem or self:createFlankingSystem()
     self.damageLog = {}  -- Log of recent damage events
-    
+
     return self
 end
 
@@ -108,64 +108,64 @@ end
 -- @param attackerUnit table Optional attacker unit for flanking calculation
 -- @return table Damage result with breakdown
 function DamageSystem:resolveDamage(projectile, targetUnit, attackerUnit)
-    print("[DamageSystem] Resolving damage: power=" .. projectile.power .. 
+    print("[DamageSystem] Resolving damage: power=" .. projectile.power ..
           ", type=" .. projectile.damageClass .. ", target=" .. (targetUnit.name or "Unknown"))
-    
+
     -- Step 1: Get armor resistance for damage type
     local resistance = self:getArmorResistance(targetUnit, projectile.damageClass)
-    
+
     -- Step 2: Apply resistance (divide by resistance value)
     local effectivePower = DamageTypes.applyResistance(projectile.power, resistance)
-    
+
     -- Step 3: Get armor value and subtract it
     local armorValue = self:getArmorValue(targetUnit)
     local finalDamage = DamageTypes.applyArmorAbsorption(effectivePower, armorValue)
-    
-    print("[DamageSystem] Damage calculation: base=" .. projectile.power .. 
-          ", resistance=" .. resistance .. ", effective=" .. effectivePower .. 
+
+    print("[DamageSystem] Damage calculation: base=" .. projectile.power ..
+          ", resistance=" .. resistance .. ", effective=" .. effectivePower ..
           ", armor=" .. armorValue .. ", final=" .. finalDamage)
-    
+
     -- NEW: Calculate flanking status and apply modifiers
     local flankingStatus = "front"  -- Default
     if attackerUnit then
         flankingStatus = self.flankingSystem:getFlankingStatus(attackerUnit, targetUnit)
         print("[DamageSystem] Flanking status: " .. flankingStatus)
-        
+
         -- Apply flanking damage multiplier
         local flankingMultiplier = self.flankingSystem:getDamageMultiplier(flankingStatus)
         finalDamage = finalDamage * flankingMultiplier
         print("[DamageSystem] Damage after flanking multiplier: " .. finalDamage)
-        
+
         -- Apply cover reduction (considering flanking)
         local coverReduction = self:calculateCoverReduction(targetUnit, flankingStatus)
         finalDamage = finalDamage * (1.0 - coverReduction)
         print("[DamageSystem] Damage after cover reduction: " .. finalDamage)
     end
-    
+
     -- Step 4: Check for critical hit
     local isCritical = self:rollCriticalHit()
     if isCritical then
         finalDamage = finalDamage * 1.5  -- 50% bonus damage
         print("[DamageSystem] CRITICAL HIT! Damage increased to " .. finalDamage)
     end
-    
+
     -- Step 5: Distribute damage to pools
     local damageResult = self:distributeDamage(targetUnit, projectile, finalDamage, isCritical)
-    
+
     -- NEW: Apply flanking morale modifier
     if attackerUnit then
         self:applyFlankingMoraleModifier(targetUnit, flankingStatus)
     end
-    
+
     -- Step 6: Apply morale loss from taking damage
     if damageResult.healthDamage > 0 then
         local moraleLoss = self.moraleSystem:calculateDamageMoraleLoss(targetUnit, damageResult.healthDamage)
         self.moraleSystem:applyMoraleLoss(targetUnit, moraleLoss)
     end
-    
+
     -- Step 7: Check for death/unconsciousness
     self:checkVitals(targetUnit)
-    
+
     -- Log damage event
     table.insert(self.damageLog, {
         timestamp = love.timer.getTime(),
@@ -174,7 +174,7 @@ function DamageSystem:resolveDamage(projectile, targetUnit, attackerUnit)
         critical = isCritical,
         flanking = flankingStatus
     })
-    
+
     return damageResult
 end
 
@@ -186,7 +186,7 @@ function DamageSystem:getArmorResistance(unit, damageType)
     if not unit.armor or not unit.armor.resistances then
         return 1.0  -- No armor = no resistance
     end
-    
+
     return DamageTypes.getResistance(unit.armor.resistances, damageType)
 end
 
@@ -197,7 +197,7 @@ function DamageSystem:getArmorValue(unit)
     if not unit.armor then
         return 0
     end
-    
+
     return unit.armor.value or 0
 end
 
@@ -207,25 +207,25 @@ end
 -- @return boolean True if critical hit
 function DamageSystem:rollCriticalHit(weapon, attacker)
     local baseCritChance = DamageSystem.BASE_CRITICAL_HIT_CHANCE
-    
+
     -- Add weapon crit chance if available
     if weapon and weapon.critChance then
         baseCritChance = baseCritChance + weapon.critChance
     end
-    
+
     -- Add unit class crit bonus if available
     if attacker and attacker.critBonus then
         baseCritChance = baseCritChance + attacker.critBonus
     end
-    
+
     local roll = math.random()
     local isCrit = roll < baseCritChance
-    
+
     if isCrit then
-        print("[DamageSystem] CRITICAL HIT! Roll: " .. string.format("%.3f", roll) .. 
+        print("[DamageSystem] CRITICAL HIT! Roll: " .. string.format("%.3f", roll) ..
               " < " .. string.format("%.3f", baseCritChance))
     end
-    
+
     return isCrit
 end
 
@@ -236,43 +236,32 @@ end
 -- @param isCritical boolean Is this a critical hit
 -- @return table Damage breakdown
 function DamageSystem:distributeDamage(unit, projectile, totalDamage, isCritical)
-    -- Get damage model distribution
-    local damageModel = projectile.damageModel or "hurt"
-    local distribution = DamageModels.getDistribution(damageModel)
-    
-    -- Calculate damage for each pool based on damage model
-    local healthDamage = math.floor(totalDamage * distribution.health)
-    local stunDamage = math.floor(totalDamage * distribution.stun)
-    local moraleDamage = math.floor(totalDamage * distribution.morale)
-    local energyDamage = math.floor(totalDamage * distribution.energy)
-    
-    print("[DamageSystem] Damage distribution (" .. damageModel .. " model): HP=" .. healthDamage .. 
-          ", Stun=" .. stunDamage .. ", Morale=" .. moraleDamage .. ", Energy=" .. energyDamage)
+    -- Calculate damage for each pool based on projectile ratios
     local healthDamage = math.floor(totalDamage * projectile.healthRatio)
     local stunDamage = math.floor(totalDamage * projectile.stunRatio)
     local moraleDamage = math.floor(totalDamage * projectile.moraleRatio)
     local energyDamage = math.floor(totalDamage * projectile.energyRatio)
-    
-    print("[DamageSystem] Damage distribution: HP=" .. healthDamage .. 
+
+    print("[DamageSystem] Damage distribution: HP=" .. healthDamage ..
           ", Stun=" .. stunDamage .. ", Morale=" .. moraleDamage .. ", Energy=" .. energyDamage)
-    
+
     -- Apply damage to pools
     if healthDamage > 0 then
         self:applyHealthDamage(unit, healthDamage)
     end
-    
+
     if stunDamage > 0 then
         self:applyStunDamage(unit, stunDamage)
     end
-    
+
     if moraleDamage > 0 then
         self.moraleSystem:applyMoraleLoss(unit, moraleDamage)
     end
-    
+
     if energyDamage > 0 then
         self:applyEnergyDamage(unit, energyDamage)
     end
-    
+
     -- Apply wound if critical hit
     local woundApplied = false
     if isCritical then
@@ -286,7 +275,7 @@ function DamageSystem:distributeDamage(unit, projectile, totalDamage, isCritical
         self:applyWound(unit, woundSource)
         woundApplied = true
     end
-    
+
     return {
         totalDamage = totalDamage,
         healthDamage = healthDamage,
@@ -306,14 +295,14 @@ function DamageSystem:applyHealthDamage(unit, amount)
         unit.health = 100  -- Initialize if not set
         unit.maxHealth = 100
     end
-    
+
     unit.health = unit.health - amount
-    
+
     if unit.health < 0 then
         unit.health = 0
     end
-    
-    print("[DamageSystem] Unit " .. (unit.name or "Unknown") .. " health: " .. 
+
+    print("[DamageSystem] Unit " .. (unit.name or "Unknown") .. " health: " ..
           unit.health .. "/" .. unit.maxHealth)
 end
 
@@ -325,10 +314,10 @@ function DamageSystem:applyStunDamage(unit, amount)
         unit.stun = 0
         unit.maxStun = 100
     end
-    
+
     unit.stun = unit.stun + amount
-    
-    print("[DamageSystem] Unit " .. (unit.name or "Unknown") .. " stun: " .. 
+
+    print("[DamageSystem] Unit " .. (unit.name or "Unknown") .. " stun: " ..
           unit.stun .. "/" .. unit.maxStun)
 end
 
@@ -340,14 +329,14 @@ function DamageSystem:applyEnergyDamage(unit, amount)
         unit.energy = 100
         unit.maxEnergy = 100
     end
-    
+
     unit.energy = unit.energy - amount
-    
+
     if unit.energy < 0 then
         unit.energy = 0
     end
-    
-    print("[DamageSystem] Unit " .. (unit.name or "Unknown") .. " energy: " .. 
+
+    print("[DamageSystem] Unit " .. (unit.name or "Unknown") .. " energy: " ..
           unit.energy .. "/" .. unit.maxEnergy)
 end
 
@@ -358,13 +347,13 @@ function DamageSystem:applyWound(unit, source)
     if not unit.wounds then
         unit.wounds = 0
     end
-    
+
     if not unit.woundList then
         unit.woundList = {}
     end
-    
+
     unit.wounds = unit.wounds + 1
-    
+
     -- Track wound source for medical treatment and UI display
     local woundInfo = {
         id = unit.wounds,  -- Wound number
@@ -375,9 +364,9 @@ function DamageSystem:applyWound(unit, source)
         bleedRate = DamageSystem.WOUND_BLEED_DAMAGE,
         stabilized = false
     }
-    
+
     table.insert(unit.woundList, woundInfo)
-    
+
     print(string.format("[DamageSystem] Unit %s now has %d wound(s) - latest from %s (%s damage)",
           unit.name or "Unknown", unit.wounds, woundInfo.weaponId, woundInfo.damageType))
 end
@@ -388,11 +377,11 @@ function DamageSystem:processBleedingDamage(unit)
     if not unit.wounds or unit.wounds <= 0 then
         return
     end
-    
+
     -- Calculate total bleed damage from all wounds
     local totalBleedDamage = 0
     local activeWounds = 0
-    
+
     if unit.woundList then
         for _, wound in ipairs(unit.woundList) do
             if not wound.stabilized then
@@ -405,11 +394,11 @@ function DamageSystem:processBleedingDamage(unit)
         totalBleedDamage = unit.wounds * DamageSystem.WOUND_BLEED_DAMAGE
         activeWounds = unit.wounds
     end
-    
+
     if totalBleedDamage > 0 then
         print(string.format("[DamageSystem] Unit %s bleeding %d HP from %d active wound(s) (total: %d wounds)",
               unit.name or "Unknown", totalBleedDamage, activeWounds, unit.wounds))
-        
+
         self:applyHealthDamage(unit, totalBleedDamage)
         self:checkVitals(unit)
     end
@@ -423,9 +412,9 @@ function DamageSystem:stabilizeWound(unit, woundId)
     if not unit.woundList or #unit.woundList == 0 then
         return false
     end
-    
+
     local woundToStabilize = nil
-    
+
     if woundId then
         -- Find specific wound
         for _, wound in ipairs(unit.woundList) do
@@ -443,14 +432,14 @@ function DamageSystem:stabilizeWound(unit, woundId)
             end
         end
     end
-    
+
     if woundToStabilize and not woundToStabilize.stabilized then
         woundToStabilize.stabilized = true
         print(string.format("[DamageSystem] Wound #%d stabilized for unit %s",
               woundToStabilize.id, unit.name or "Unknown"))
         return true
     end
-    
+
     return false
 end
 
@@ -464,21 +453,21 @@ function DamageSystem:checkVitals(unit)
         print("[DamageSystem] Unit " .. (unit.name or "Unknown") .. " has DIED")
         return
     end
-    
+
     -- Check for unconsciousness from stun
     if unit.stun and unit.stun >= unit.maxStun then
         unit.isUnconscious = true
         print("[DamageSystem] Unit " .. (unit.name or "Unknown") .. " is UNCONSCIOUS from stun")
         return
     end
-    
+
     -- Check for unconsciousness from morale
     if self.moraleSystem:isUnconscious(unit) then
         unit.isUnconscious = true
         print("[DamageSystem] Unit " .. (unit.name or "Unknown") .. " is UNCONSCIOUS from morale")
         return
     end
-    
+
     -- Unit is alive and conscious
     unit.isUnconscious = false
 end
@@ -488,14 +477,14 @@ end
 -- @param witnesses table Array of witnessing units
 function DamageSystem:notifyDeathWitnesses(deceased, witnesses)
     print("[DamageSystem] Processing death witnesses for " .. (deceased.name or "Unknown"))
-    
+
     for _, witness in ipairs(witnesses) do
         if not witness.isDead and not witness.isUnconscious then
             -- Calculate distance
             local dx = witness.x - deceased.x
             local dy = witness.y - deceased.y
             local distance = math.sqrt(dx * dx + dy * dy)
-            
+
             -- Apply morale loss
             local moraleLoss = self.moraleSystem:calculateDeathWitnessMoraleLoss(witness, deceased, distance)
             self.moraleSystem:applyMoraleLoss(witness, moraleLoss)
@@ -523,29 +512,29 @@ function DamageSystem:calculateCoverReduction(target, flankingStatus)
     if not self.battlefield then
         return 0.0  -- No cover if no battlefield reference
     end
-    
+
     -- Get target's tile
     local tile = self.battlefield:getTile(target.x, target.y)
     if not tile then
         return 0.0
     end
-    
+
     -- Get cover value from tile (0.0 - 1.0)
     local coverValue = tile:getCover()
-    
+
     -- Get flanking cover multiplier (how effective cover is from this position)
     local coverMultiplier = self.flankingSystem:getCoverMultiplier(flankingStatus)
-    
+
     -- Combined effect: cover effectiveness reduced by flanking
     -- Example: Full cover (1.0) × rear flanking (0.0) = 0.0 (no protection)
     -- Example: Full cover (1.0) × side flanking (0.5) = 0.5 (half protection)
     local reduction = coverValue * coverMultiplier
-    
+
     if reduction > 0 then
         print(string.format("[DamageSystem] Cover reduction: %.1f (cover %.1f × flank multiplier %.1f)",
               reduction, coverValue, coverMultiplier))
     end
-    
+
     return reduction
 end
 
@@ -557,45 +546,19 @@ function DamageSystem:applyFlankingMoraleModifier(target, flankingStatus)
     if not self.moraleSystem then
         return
     end
-    
+
     -- Get additional morale damage from flanking position
     local flankingMoraleModifier = self.flankingSystem:getMoraleModifier(flankingStatus)
-    
+
     if flankingMoraleModifier > 0 then
         -- Calculate additional morale loss (base 50 morale damage)
         local additionalMorale = math.floor(50 * flankingMoraleModifier)
-        
+
         self.moraleSystem:applyMoraleLoss(target, additionalMorale)
-        
+
         print(string.format("[DamageSystem] Applied %d flanking morale damage (status: %s, modifier: %.0f%%)",
               additionalMorale, flankingStatus, flankingMoraleModifier * 100))
     end
 end
 
 return DamageSystem
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

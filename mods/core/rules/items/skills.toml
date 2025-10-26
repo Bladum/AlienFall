@@ -1,0 +1,107 @@
+# Skill Definitions
+# Defines skills that units can equip
+
+[metadata]
+version = "1.0"
+description = "Skill definitions for XCOM Simple"
+author = "AI Assistant"
+last_updated = "2025-10-13"
+
+# Skill structure:
+# id: Unique identifier
+# name: Display name
+# type: "combat", "utility", "passive", "special"
+# description: Human-readable description
+# ap_cost: Action points to use (0 for passive skills)
+# ep_cost: Energy points to use (0 for passive skills)
+# cooldown: Turns before can use again (0 = no cooldown)
+# statMods: Stat modifications when equipped (as table)
+# effects: Special effects or abilities
+
+[[skill]]
+id = "marksman"
+name = "Marksman"
+type = "passive"
+description = "Increases accuracy with ranged weapons"
+ap_cost = 0
+ep_cost = 0
+cooldown = 0
+statMods = {accuracy = 10}
+effects = {}
+
+[[skill]]
+id = "close_combat"
+name = "Close Combat Specialist"
+type = "passive"
+description = "Increases accuracy and damage with melee weapons"
+ap_cost = 0
+ep_cost = 0
+cooldown = 0
+statMods = {melee_accuracy = 15, melee_damage = 2}
+effects = {}
+
+[[skill]]
+id = "heavy_weapons"
+name = "Heavy Weapons Specialist"
+type = "passive"
+description = "Reduces AP cost for heavy weapons"
+ap_cost = 0
+ep_cost = 0
+cooldown = 0
+statMods = {}
+effects = {heavy_weapon_ap_reduction = 1}
+
+[[skill]]
+id = "medic"
+name = "Medic"
+type = "utility"
+description = "Can heal other units"
+ap_cost = 1
+ep_cost = 2
+cooldown = 0
+statMods = {}
+effects = {can_heal = true, heal_amount = 4}
+
+[[skill]]
+id = "engineer"
+name = "Engineer"
+type = "utility"
+description = "Can repair vehicles and disable enemy equipment"
+ap_cost = 1
+ep_cost = 1
+cooldown = 0
+statMods = {}
+effects = {can_repair = true, can_disable = true}
+
+[[skill]]
+id = "scout"
+name = "Scout"
+type = "passive"
+description = "Increases sight range and movement speed"
+ap_cost = 0
+ep_cost = 0
+cooldown = 0
+statMods = {sight = 2, speed = 1}
+effects = {}
+
+[[skill]]
+id = "leadership"
+name = "Leadership"
+type = "passive"
+description = "Increases morale and combat effectiveness of nearby allies"
+ap_cost = 0
+ep_cost = 0
+cooldown = 0
+statMods = {}
+effects = {leadership_radius = 5, leadership_bonus = 10}
+
+[[skill]]
+id = "psionic"
+name = "Psionic"
+type = "special"
+description = "Can use psionic powers like mind control and telekinesis"
+ap_cost = 2
+ep_cost = 3
+cooldown = 1
+statMods = {}
+effects = {psionic_powers = true}

@@ -23,7 +23,6 @@
 ---@license Open Source
 
 local StateManager = require("core.state.state_manager")
-local SaveGameManager = require("engine.geoscape.state.save_game_manager")
 
 local LoadGameScreen = {}
 
@@ -407,5 +406,3 @@ function LoadGameScreen:wheelmoved(x, y)
 end
 
 return LoadGameScreen
-
-

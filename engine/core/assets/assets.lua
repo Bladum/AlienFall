@@ -51,22 +51,22 @@ local Assets = {}
 ---   -- Assets now available in Assets.images table
 function Assets.load()
     Assets.images = {}
-    
+
     -- Get assets path from active mod
     local imagesPath = ModManager.getContentPath("assets")
     if not imagesPath then
         print("[Assets] ERROR: Could not get assets path from mod")
         return
     end
-    
+
     local items = love.filesystem.getDirectoryItems(imagesPath)
-    
+
     for _, folder in ipairs(items) do
         local folderPath = imagesPath .. "/" .. folder
         local info = love.filesystem.getInfo(folderPath)
         if info and info.type == "directory" then
             Assets.images[folder] = {}
-            
+
             -- Get all files in folder
             local files = love.filesystem.getDirectoryItems(folderPath)
             for _, file in ipairs(files) do
@@ -83,14 +83,14 @@ function Assets.load()
                             local tiles = {}
                             local tilesX = math.floor(width / 24)
                             local tilesY = math.floor(height / 24)
-                            
+
                             for y = 0, tilesY - 1 do
                                 for x = 0, tilesX - 1 do
                                     local quad = love.graphics.newQuad(x * 24, y * 24, 24, 24, width, height)
                                     table.insert(tiles, quad)
                                 end
                             end
-                            
+
                             Assets.images[folder][imageName] = {
                                 image = image,
                                 quads = tiles,
@@ -113,7 +113,7 @@ function Assets.load()
             end
         end
     end
-    
+
     print("[Assets] Loaded " .. Assets.count() .. " images")
 end
 
@@ -124,8 +124,8 @@ end
 ---
 --- @param folder string Asset subfolder name (e.g., "units", "terrain")
 --- @param name string Asset filename without extension (e.g., "soldier")
---- @return Image|nil Love2D Image object, or nil if not found
---- @return Quad|nil First quad if tile variation, nil otherwise
+--- @return love.Image|nil Love2D Image object, or nil if not found
+--- @return love.Quad|nil First quad if tile variation, nil otherwise
 --- @return boolean True if asset has multiple tile quads
 --- @usage
 ---   local image, quad, isTiled = Assets.get("units", "soldier")
@@ -137,7 +137,7 @@ function Assets.get(folder, name)
         local asset = Assets.images[folder][name]
         return asset.image, asset.quads and asset.quads[1] or nil, asset.isTileVariation
     end
-    return nil
+    return nil, nil, false
 end
 
 --- Get a specific quad from a tile variation asset.
@@ -148,8 +148,8 @@ end
 --- @param folder string Asset subfolder name
 --- @param name string Asset filename without extension
 --- @param quadIndex number 1-based index of quad to retrieve
---- @return Image|nil Love2D Image object
---- @return Quad|nil Specific quad at index
+--- @return love.Image|nil Love2D Image object
+--- @return love.Quad|nil Specific quad at index
 --- @usage
 ---   -- Get 3rd tile variation
 ---   local image, quad = Assets.getQuad("terrain", "grass", 3)
@@ -185,7 +185,7 @@ end
 --- asset cannot be found. Placeholder is created once and cached.
 --- Magenta color makes missing assets visually obvious.
 ---
---- @return Image Love2D Image object (24×24 magenta square)
+--- @return love.Image Love2D Image object (24×24 magenta square)
 --- @usage
 ---   local image = Assets.get("units", "missing") or Assets.getPlaceholder()
 function Assets.getPlaceholder()
@@ -220,29 +220,3 @@ function Assets.exists(folder, name)
 end
 
 return Assets
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

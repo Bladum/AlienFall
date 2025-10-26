@@ -70,7 +70,7 @@ function HexSystem.new(width, height, hexSize)
         tiles = {},  -- [q_r] = {q, r, terrain, blocking, etc}
         units = {}   -- [unitId] = {transform, ...components}
     }
-    
+
     -- Initialize tiles
     for col = 0, self.width - 1 do
         for row = 0, self.height - 1 do
@@ -88,7 +88,7 @@ function HexSystem.new(width, height, hexSize)
             }
         end
     end
-    
+
     Debug.print("HexSystem", string.format("Initialized %dx%d hex grid", width, height))
     return self
 end
@@ -165,27 +165,27 @@ end
 -- Draw hex grid overlay (for debug)
 function HexSystem.drawHexGrid(self, camera)
     if not Debug.showHexGrid then return end
-    
+
     Debug.print("HexSystem", "Drawing hex grid overlay")
-    
+
     love.graphics.push()
     love.graphics.setColor(0, 1, 0, 0.8)  -- Green overlay - increased opacity
     love.graphics.setLineWidth(2)  -- Thicker lines
-    
+
     -- Draw actual hexagons at hex positions
     for q = -15, 15 do
         for r = -15, 15 do
             -- Convert hex coordinates to pixel position
             local x, y = HexMath.hexToPixel(q, r, self.hexSize)
-            
+
             -- Apply camera offset (same as battlefield)
             local screenX = x + camera.x
             local screenY = y + camera.y
-            
+
             -- Only draw if on screen (with some margin)
             if screenX > -self.hexSize and screenX < 720 + self.hexSize and
                screenY > -self.hexSize and screenY < 720 + self.hexSize then
-                
+
                 -- Draw hexagon
                 local points = {}
                 for i = 0, 5 do
@@ -195,41 +195,15 @@ function HexSystem.drawHexGrid(self, camera)
                     table.insert(points, px)
                     table.insert(points, py)
                 end
-                
+
                 if #points >= 6 then
                     love.graphics.polygon("line", points)
                 end
             end
         end
     end
-    
+
     love.graphics.pop()
 end
 
 return HexSystem
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

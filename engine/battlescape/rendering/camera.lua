@@ -182,7 +182,7 @@ end
 function Camera:getVisibleBounds(screenWidth, screenHeight, tileSize, mapWidth, mapHeight)
     local worldLeft, worldTop = self:screenToWorld(0, 0)
     local worldRight, worldBottom = self:screenToWorld(screenWidth, screenHeight)
-    
+
     return {
         minX = math.max(1, math.floor(worldLeft / tileSize) + 1),
         minY = math.max(1, math.floor(worldTop / tileSize) + 1),
@@ -208,29 +208,3 @@ function Camera:handleKeyboard(dt)
 end
 
 return Camera
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -55,7 +55,7 @@
 -- hex_math.lua
 -- Pure functional hexagonal grid mathematics using cube coordinates
 -- Part of ECS architecture for battle system
--- 
+--
 -- Coordinate System: Even-Q vertical offset (even columns shifted down)
 -- Cube coordinates: (q, r, s) where q + r + s = 0
 -- Axial coordinates: (q, r) - stored form
@@ -128,7 +128,7 @@ end
 function HexMath.getDirection(q1, r1, q2, r2)
     local dq = q2 - q1
     local dr = r2 - r1
-    
+
     for i = 0, 5 do
         local dir = HexMath.DIRECTIONS[i + 1]
         if dir.q == dq and dir.r == dr then
@@ -155,7 +155,7 @@ function HexMath.isInFrontArc(sourceQ, sourceR, sourceFacing, targetQ, targetR)
         end
         return false
     end
-    
+
     -- Check if adjacent hex is in front arc
     local leftDir = (sourceFacing - 1) % 6
     local rightDir = (sourceFacing + 1) % 6
@@ -168,33 +168,33 @@ function HexMath.hexLine(q1, r1, q2, r2)
     if distance == 0 then
         return {{q = q1, r = r1}}
     end
-    
+
     local results = {}
     for i = 0, distance do
         local t = i / distance
         local q = q1 + (q2 - q1) * t
         local r = r1 + (r2 - r1) * t
         local s = -q - r
-        
+
         -- Round to nearest hex
         local rq = math.floor(q + 0.5)
         local rr = math.floor(r + 0.5)
         local rs = math.floor(s + 0.5)
-        
+
         -- Correct rounding if sum != 0
         local qDiff = math.abs(rq - q)
         local rDiff = math.abs(rr - r)
         local sDiff = math.abs(rs - s)
-        
+
         if qDiff > rDiff and qDiff > sDiff then
             rq = -rr - rs
         elseif rDiff > sDiff then
             rr = -rq - rs
         end
-        
+
         table.insert(results, {q = rq, r = rr})
     end
-    
+
     return results
 end
 
@@ -228,22 +228,22 @@ function HexMath.pixelToHex(x, y, hexSize)
     local q = (2/3 * x) / hexSize
     local r = (-1/3 * x + math.sqrt(3)/3 * y) / hexSize
     local s = -q - r
-    
+
     -- Round to nearest hex
     local rq = math.floor(q + 0.5)
     local rr = math.floor(r + 0.5)
     local rs = math.floor(s + 0.5)
-    
+
     local qDiff = math.abs(rq - q)
     local rDiff = math.abs(rr - r)
     local sDiff = math.abs(rs - s)
-    
+
     if qDiff > rDiff and qDiff > sDiff then
         rq = -rr - rs
     elseif rDiff > sDiff then
         rr = -rq - rs
     end
-    
+
     return rq, rr
 end
 
@@ -258,29 +258,3 @@ function HexMath.rotationToFace(currentFacing, targetFacing)
 end
 
 return HexMath
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

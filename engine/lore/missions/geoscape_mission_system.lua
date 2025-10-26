@@ -11,39 +11,39 @@ MissionSystem.__index = MissionSystem
 
 --- Mission type configurations
 local MISSION_TEMPLATES = {
-  infiltration = {
-    weight = 40,
-    duration_min = 5,
-    duration_max = 10,
-    control_loss_per_turn = 0.05,
-    threat_multiplier = 0.8,
-    reward_control = 5,
-  },
-  terror = {
-    weight = 30,
-    duration_min = 2,
-    duration_max = 4,
-    morale_loss = 20,
-    population_loss = 0.10,
-    threat_multiplier = 1.2,
-    reward_control = 10,
-  },
-  research = {
-    weight = 20,
-    duration_min = 10,
-    duration_max = 15,
-    tech_progress_per_turn = 0.05,
-    threat_multiplier = 0.6,
-    reward_tech = 10,
-  },
-  supply = {
-    weight = 10,
-    duration_min = 3,
-    duration_max = 7,
-    economy_loss_per_turn = 0.05,
-    threat_multiplier = 0.5,
-    reward_control = 3,
-  },
+    infiltration = {
+        weight = 40,
+        duration_min = 5,
+        duration_max = 10,
+        control_loss_per_turn = 0.05,
+        threat_multiplier = 0.8,
+        reward_control = 5,
+    },
+    terror = {
+        weight = 30,
+        duration_min = 2,
+        duration_max = 4,
+        morale_loss = 20,
+        population_loss = 0.10,
+        threat_multiplier = 1.2,
+        reward_control = 10,
+    },
+    research = {
+        weight = 20,
+        duration_min = 10,
+        duration_max = 15,
+        tech_progress_per_turn = 0.05,
+        threat_multiplier = 0.6,
+        reward_tech = 10,
+    },
+    supply = {
+        weight = 10,
+        duration_min = 3,
+        duration_max = 7,
+        economy_loss_per_turn = 0.05,
+        threat_multiplier = 0.5,
+        reward_control = 3,
+    },
 }
 
 --- Create new mission system
@@ -66,19 +66,25 @@ end
 -- @param threat_level number - Base threat level (0-100)
 -- @return table - Generated mission data
 function MissionSystem:generateMission(faction, region_id, mission_type, threat_level)
-  local mission_id = self.mission_id_counter
-  self.mission_id_counter = self.mission_id_counter + 1
+    -- Validate inputs
+    if not faction or not region_id then
+        error("[MissionSystem] generateMission: faction and region_id required")
+    end
 
-  -- Determine mission type if not specified
-  if not mission_type then
-    mission_type = self:selectMissionType()
-  end
+    local mission_id = self.mission_id_counter
+    self.mission_id_counter = self.mission_id_counter + 1
 
-  local template = MISSION_TEMPLATES[mission_type]
-  if not template then
-    mission_type = "infiltration"
-    template = MISSION_TEMPLATES[mission_type]
-  end
+    -- Determine mission type if not specified
+    if not mission_type then
+        mission_type = self:selectMissionType()
+    end
+
+    local template = MISSION_TEMPLATES[mission_type]
+    if not template then
+        print(string.format("[MissionSystem] WARNING: Unknown mission type '%s', using 'infiltration'", mission_type))
+        mission_type = "infiltration"
+        template = MISSION_TEMPLATES[mission_type]
+    end
 
   -- Calculate mission duration (random within range)
   local duration = math.random(template.duration_min, template.duration_max)
@@ -114,22 +120,17 @@ end
 --- Select random mission type based on weighted distribution
 -- @return string - Mission type
 function MissionSystem:selectMissionType()
-  local roll = math.random(100)
-  local total_weight = 0
+    local roll = math.random(100)
+    local cumulative = 0
 
-  for mission_type, template in pairs(MISSION_TEMPLATES) do
-    total_weight = total_weight + template.weight
-  end
-
-  local cumulative = 0
-  for mission_type, template in pairs(MISSION_TEMPLATES) do
-    cumulative = cumulative + template.weight
-    if roll <= (cumulative / total_weight) * 100 then
-      return mission_type
+    for mission_type, template in pairs(MISSION_TEMPLATES) do
+        cumulative = cumulative + template.weight
+        if roll <= cumulative then
+            return mission_type
+        end
     end
-  end
 
-  return "infiltration"
+    return "infiltration"  -- fallback
 end
 
 --- Calculate reward for stopping mission
@@ -168,27 +169,28 @@ end
 -- @param turn number - Current campaign turn
 -- @return table - Missions that completed this turn
 function MissionSystem:update(turn)
-  local completed_this_turn = {}
-  local missions_to_remove = {}
+    local completed_this_turn = {}
+    local missions_to_remove = {}
 
-  for mission_id, mission in pairs(self.active_missions) do
-    mission.turns_remaining = mission.turns_remaining - 1
+    for mission_id, mission in pairs(self.active_missions) do
+        mission.turns_remaining = mission.turns_remaining - 1
 
-    -- Check for completion
-    if mission.turns_remaining <= 0 then
-      mission.status = "completed"
-      table.insert(completed_this_turn, mission)
-      table.insert(missions_to_remove, mission_id)
+        -- Check for completion
+        if mission.turns_remaining <= 0 then
+            mission.status = "completed"
+            table.insert(completed_this_turn, mission)
+            table.insert(missions_to_remove, mission_id)
+        end
     end
-  end
 
-  -- Move completed missions out of active list
-  for _, mission_id in ipairs(missions_to_remove) do
-    self.active_missions[mission_id] = nil
-    table.insert(self.completed_missions, self.active_missions[mission_id])
-  end
+    -- Move completed missions out of active list
+    for _, mission_id in ipairs(missions_to_remove) do
+        local mission = self.active_missions[mission_id]
+        self.active_missions[mission_id] = nil
+        table.insert(self.completed_missions, mission)
+    end
 
-  return completed_this_turn
+    return completed_this_turn
 end
 
 --- Get mission by ID

@@ -1,5 +1,4 @@
----Facility - Facility Instance
----
+---@class Facility
 ---Represents a facility instance at a base. Each facility is placed on the base grid
 ---and contributes capacities and services. Facilities can be constructed, damaged,
 ---destroyed, and repaired.
@@ -29,43 +28,43 @@ Facility.STATE = {
 
 ---Create a new facility instance
 ---@param config table Facility configuration
----@return Facility facility New facility instance
+---@return Facility New facility instance
 function Facility.new(config)
     local self = setmetatable({}, Facility)
-    
+
     -- Identity
     self.id = config.id or error("Facility requires id")
     self.typeId = config.typeId or error("Facility requires typeId")
     self.baseId = config.baseId or error("Facility requires baseId")
-    
+
     -- Type reference (set by registry)
     self.type = config.type or nil
-    
+
     -- Grid position
     self.gridX = config.gridX or error("Facility requires gridX")
     self.gridY = config.gridY or error("Facility requires gridY")
-    
+
     -- State
     self.state = config.state or self.STATE.CONSTRUCTING
     self.constructionProgress = config.constructionProgress or 0
     self.daysBuilt = config.daysBuilt or 0
     self.totalDaysToBuild = config.totalDaysToBuild or 14
-    
+
     -- Health
     self.health = config.health or 100
     self.maxHealth = config.maxHealth or 100
     self.armor = config.armor or 10
-    
+
     -- Operations
     self.isConnected = config.isConnected or false
     self.isPowered = config.isPowered or false
     self.efficiency = config.efficiency or 1.0
     self.offlineReason = config.offlineReason or nil
-    
+
     -- Dates
     self.constructedDate = config.constructedDate or nil
     self.destroyedDate = config.destroyedDate or nil
-    
+
     return self
 end
 
@@ -75,15 +74,15 @@ function Facility:progressConstruction()
     if self.state ~= self.STATE.CONSTRUCTING then
         return false
     end
-    
+
     self.daysBuilt = self.daysBuilt + 1
     self.constructionProgress = self.daysBuilt / self.totalDaysToBuild
-    
+
     if self.daysBuilt >= self.totalDaysToBuild then
         self:complete()
         return true
     end
-    
+
     return false
 end
 
@@ -100,18 +99,18 @@ function Facility:takeDamage(damage)
     if self.state == self.STATE.DESTROYED then
         return
     end
-    
+
     -- Apply armor reduction
     local actualDamage = math.max(1, damage - self.armor)
     self.health = self.health - actualDamage
-    
+
     if self.health <= 0 then
         self:destroy()
     elseif self.health < self.maxHealth * 0.5 then
         self:damage()
     end
-    
-    print(string.format("[Facility] %s took %d damage, health: %d/%d", 
+
+    print(string.format("[Facility] %s took %d damage, health: %d/%d",
         self.typeId, actualDamage, self.health, self.maxHealth))
 end
 
@@ -120,7 +119,7 @@ function Facility:damage()
     if self.state == self.STATE.DAMAGED then
         return
     end
-    
+
     self.state = self.STATE.DAMAGED
     self.efficiency = 0.5
     print(string.format("[Facility] %s damaged, efficiency reduced to 50%%", self.typeId))
@@ -140,7 +139,7 @@ function Facility:repair()
     if self.state == self.STATE.OPERATIONAL then
         return false
     end
-    
+
     self.health = self.maxHealth
     self.state = self.STATE.OPERATIONAL
     self.efficiency = 1.0
@@ -171,7 +170,7 @@ function Facility:getEffectiveCapacity(capacityType)
     if not self:isOperational() or not self.type then
         return 0
     end
-    
+
     local baseCapacity = self.type:getCapacity(capacityType) or 0
     return baseCapacity * self.efficiency
 end
@@ -182,7 +181,7 @@ function Facility:getEffectiveCapacities()
     if not self:isOperational() or not self.type then
         return {}
     end
-    
+
     local result = {}
     for capacityType, amount in pairs(self.type.capacities) do
         result[capacityType] = amount * self.efficiency
@@ -235,12 +234,8 @@ end
 ---Format facility for debugging
 ---@return string formatted Formatted string
 function Facility:__tostring()
-    return string.format("Facility[%s@(%d,%d): %s]", 
+    return string.format("Facility[%s@(%d,%d): %s]",
         self.typeId, self.gridX, self.gridY, self:getStatus())
 end
 
 return Facility
-
-
-
-

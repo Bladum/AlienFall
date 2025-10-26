@@ -79,29 +79,3 @@ function Transform.copy(transform)
 end
 
 return Transform
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

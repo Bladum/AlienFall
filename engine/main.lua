@@ -300,7 +300,8 @@ function love.errorhandler(msg)
     end
 
     love.graphics.reset()
-    local font = love.graphics.setNewFont(14)
+    local font = love.graphics.newFont(14)
+    love.graphics.setFont(font)
 
     love.graphics.setBackgroundColor(0.1, 0, 0)
 

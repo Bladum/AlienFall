@@ -63,7 +63,7 @@
 
 --[[
     InventorySlot Widget
-    
+
     Displays an item slot in an inventory grid.
     Features:
     - Item icon
@@ -83,13 +83,13 @@ InventorySlot.__index = InventorySlot
 function InventorySlot.new(x, y, width, height)
     local self = BaseWidget.new(x, y, width, height, "panel")
     setmetatable(self, InventorySlot)
-    
+
     self.item = nil  -- {name, icon, count, rarity}
     self.slotIndex = 0
     self.dragging = false
     self.empty = true
     self.locked = false
-    
+
     return self
 end
 
@@ -97,7 +97,7 @@ function InventorySlot:draw()
     if not self.visible then
         return
     end
-    
+
     -- Draw slot background
     if self.locked then
         Theme.setColor(self.disabledColor)
@@ -120,7 +120,7 @@ function InventorySlot:draw()
         end
     end
     love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
-    
+
     -- Draw item if present
     if not self.empty and self.item then
         -- Draw icon
@@ -134,19 +134,21 @@ function InventorySlot:draw()
             local iconY = self.y + (self.height - self.item.icon:getHeight() * iconScale) / 2
             love.graphics.draw(self.item.icon, iconX, iconY, 0, iconScale, iconScale)
         end
-        
+
         -- Draw stack count
         if self.item.count and self.item.count > 1 then
             Theme.setFont("small")
             Theme.setColor(self.textColor)
             local countText = tostring(self.item.count)
             local font = Theme.getFont("small")
-            local textX = self.x + self.width - font:getWidth(countText) - 4
-            local textY = self.y + self.height - font:getHeight() - 4
-            love.graphics.print(countText, textX, textY)
+            if font then
+                local textX = self.x + self.width - font:getWidth(countText) - 4
+                local textY = self.y + self.height - font:getHeight() - 4
+                love.graphics.print(countText, textX, textY)
+            end
         end
     end
-    
+
     -- Draw border (highlight on hover)
     if self.hovered then
         Theme.setColor(self.hoverColor)
@@ -162,19 +164,19 @@ function InventorySlot:mousepressed(x, y, button)
     if not self.visible or not self.enabled or self.locked then
         return false
     end
-    
+
     if self:containsPoint(x, y) and button == 1 then
         if not self.empty then
             self.dragging = true
         end
-        
+
         if self.onClick then
             self.onClick(self)
         end
-        
+
         return true
     end
-    
+
     return false
 end
 
@@ -202,30 +204,3 @@ function InventorySlot:setLocked(locked)
 end
 
 return InventorySlot
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

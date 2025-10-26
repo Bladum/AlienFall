@@ -1,177 +1,411 @@
-# Craft System
+# Geoscape
 
-> **Implementation**: `engine/geoscape/crafts/`, `engine/interception/`
-> **Tests**: `tests/geoscape/`
-> **Related**: `docs/geoscape/missions.md`, `docs/battlescape/README.md`
+## Table of Contents
 
-Vehicle and aircraft systems for strategic movement, interception, and transportation.
+- [Overview](#overview)
+- [World Map System](#world-map-system)
+- [Base Management](#base-management)
+- [Craft System](#craft-system)
+- [Mission System](#mission-system)
+- [Detection & Radar](#detection--radar)
+- [Diplomacy & Relations](#diplomacy--relations)
+- [Alien Threat Escalation](#alien-threat-escalation)
+- [Interception Combat](#interception-combat)
+- [Time & Turn Management](#time--turn-management)
+- [Strategic Decision Making](#strategic-decision-making)
 
-## ✈️ Craft Architecture
+---
 
-### Craft Statistics
-Core attributes defining vehicle performance and capabilities.
+## Overview
 
-**Performance Stats:**
-- **Speed**: Movement rate and interception capability
-- **Health**: Durability and damage resistance
-- **Weapon Slots**: Available weapon attachment points
-- **Addon Slots**: Equipment and modification capacity
-- **Personnel Limit**: Maximum crew/passenger capacity
-- **Cargo Limit**: Item transportation capacity
+### System Architecture
 
-**Operational Stats:**
-- **Maintenance Cost**: Ongoing repair and upkeep expenses
-- **Fuel Type/Consumption**: Energy requirements for operation
-- **Range**: Maximum travel distance per fuel unit
-- **Craft Type**: Air, water, or land-based classification
-- **Action Points**: Tactical maneuver resource (base 4 AP)
+Geoscape is the strategic global layer where players manage their covert organization on a world scale. It operates on monthly cycles with asynchronous turn-based gameplay, where actions have realistic time delays and consequences ripple through the global theater. The system emphasizes strategic positioning, resource allocation, and long-term planning in response to escalating alien threats.
 
-**Combat Stats:**
-- **Dodge Bonus**: Evasion capability in interception
-- **Aim Bonus**: Accuracy modifiers for weapons
-- **Armor**: Damage resistance value
-- **Radar Power/Range/Stealth**: Detection capabilities
-- **Size**: Base storage space requirement (1-4+ units)
+**Design Philosophy**
 
-## 🔧 Craft Equipment
+Geoscape creates meaningful strategic depth through interconnected systems: base placement affects radar coverage and interception range; diplomatic relations influence funding and mission availability; craft positioning determines response capability. The monthly timescale encourages careful planning while maintaining engagement through procedurally generated events and escalating threats.
 
-### Equipment Slots
-Modular attachment system for weapons and special systems.
+**Core Principle**: Global strategic management with territorial control and resource optimization.
 
-**Slot Configuration:**
-- **Interception Craft**: 1-2 weapon slots, 0-1 addon slots, no personnel
-- **Transport Craft**: 0-1 weapon slots, 1-2 addon slots, personnel capacity
-- **Maximum Slots**: 3 total slots per craft (weapons/addons mixable)
+---
 
-### Encumbrance System
-Capacity limits for personnel and cargo transportation.
+## World Map System
 
-**Capacity Rules:**
-- **Personnel**: Unit size determines space requirements (1, 2, or 4 units)
-- **Cargo**: Items fit or don't fit based on craft capacity
-- **No Weight Impact**: Only size matters for fitting
-- **Equipment Scaling**: Weapons sized for different craft types
+### Hexagonal Grid
 
-## 🛰️ Craft Operations
+The world is represented as a 90×45 hexagonal grid, with each hex representing approximately 500km of Earth territory. Hexes are organized into provinces (groups of 6-12 hexes) and regions (collections of provinces sharing cultural/geographic characteristics).
 
-### Radar Coverage
-Detection and surveillance capabilities for aerial reconnaissance.
+**Hex Properties**
+- **Terrain**: Affects movement costs, base construction viability, and mission generation
+- **Population**: Influences mission frequency and diplomatic importance
+- **Resources**: Strategic materials available for base construction and research
+- **Ownership**: Country affiliation affects diplomatic relations and funding
 
-**Radar Mechanics:**
-- **Power/Range**: Detection strength and distance
-- **Stealth Interaction**: Counter-stealth capabilities
-- **Province Scanning**: Automatic detection checks when entering areas
-- **Strategic Intelligence**: Mission planning and threat assessment
+**Map Generation**
+- Procedural continent formation with realistic geography
+- Strategic choke points and defensible positions
+- Balanced resource distribution across regions
+- Cultural and political boundaries reflecting real-world divisions
 
-### Personnel Management
-Crew and passenger capacity for different craft roles.
+### Province System
 
-**Capacity Types:**
-- **Zero Capacity**: Unmanned or specialized craft
-- **Built-in Capacity**: Standard crew accommodations
-- **Addon Upgrades**: Additional space through modifications
-- **Unit Size System**: Consistent with base barracks capacity
+Provinces serve as the primary territorial unit for strategic gameplay:
 
-### Geoscape Movement
-Strategic navigation and deployment on the world map.
+**Province Control**
+- One base per province (exclusive territorial occupation)
+- Province ownership affects regional diplomacy
+- Control provides access to local resources and population
+- Loss of control triggers diplomatic penalties
 
-**Movement Process:**
-- **Province Selection**: Choose destination from current location
-- **Base Assignment**: Select originating facility
-- **Travel Execution**: Automatic movement with radar scanning
-- **Interception Decisions**: Combat engagement options upon arrival
+**Strategic Value**
+- Population density affects funding potential
+- Geographic position influences interception coverage
+- Resource availability impacts base efficiency
+- Political alignment affects mission generation
 
-## 📈 Craft Progression
+---
 
-### Experience System
-Upgrade mechanics through successful operations and accumulated experience.
+## Base Management
 
-**Experience Mechanics:**
-- **Slower Progression**: Craft leveling takes longer than units
-- **Standard Levels**: 100, 300, 600, 1000, 1500, 2100 experience thresholds
-- **Class Upgrades**: Interceptor → Interceptor II transitions
-- **Small Improvements**: Incremental stat gains between classes
+### Base Placement Strategy
 
-### Strategic Decision
-- **Upgrade vs Replace**: Compare experience investment vs new craft construction
-- **Specialization**: Focus on interception, transport, or mixed roles
-- **Resource Allocation**: Balance craft development with other systems
+Bases are permanent installations providing operational hubs for the player's organization. Strategic placement is critical for maximizing radar coverage, interception range, and resource access.
 
-## 🔧 Craft Maintenance
+**Placement Rules**
+- One base per province maximum
+- Construction requires clear hex (no mountains, cities, or alien bases)
+- Adjacent hexes provide adjacency bonuses
+- Distance from other bases affects operational efficiency
 
-### Repair System
-Restoration mechanics for damaged vehicles.
+**Base Functions**
+- **Radar Coverage**: Detection radius for UFOs and missions
+- **Craft Operations**: Launch/recovery facilities for spacecraft
+- **Resource Processing**: Salvage refinement and storage
+- **Personnel Housing**: Unit recruitment and training facilities
 
-**Repair Mechanics:**
-- **Natural Recovery**: 10% health restoration per week
-- **Facility Acceleration**: Dedicated repair facilities for faster recovery
-- **Resource Costs**: Materials and personnel for repairs
-- **Downtime Impact**: Reduced operational capacity during repairs
+### Base Expansion
 
-### Fuel System
-Energy management for craft operations and travel.
+Bases grow through facility construction and territory control:
 
-**Fuel Mechanics:**
-- **Consumption Rate**: Fuel units required per travel segment
-- **Range Calculation**: Path cost based on terrain and craft type
-- **Turn Limits**: Speed attribute determines travels per turn
-- **No Refueling**: Pay fuel cost at travel initiation
+**Growth Mechanics**
+- Initial construction establishes core facilities
+- Expansion adds specialized capabilities
+- Territory control extends operational range
+- Research unlocks advanced base technologies
 
-## ⚡ Craft Resources
+---
 
-### Action Points
-Tactical resource system for maneuvers and combat.
+## Craft System
 
-**AP System:**
-- **Turn-Based**: Replenish at the start of each turn
-- **Maneuver Costs**: Different actions consume varying AP
-- **Strategic Planning**: Balance movement and combat actions
+### Craft Types
 
-### Energy Pool
-Internal power reserve for special abilities and enhanced performance.
+Crafts are the player's mobile assets capable of global deployment, interception, and ground operations.
 
-**Energy Mechanics:**
-- **Short-term Reserve**: Battery/ammo equivalent for craft
-- **Regeneration**: Slow recovery during interception combat
-- **Ability Costs**: Special systems consume energy
-- **Capacity Limits**: Maximum energy based on craft design
+**Craft Categories**
+- **Interceptors**: Fast, lightly armed craft for air-to-air combat
+- **Transports**: Heavily armed craft for ground deployment and salvage
+- **Heavy Transports**: Large capacity craft for base construction and major operations
+- **Specialized Craft**: Research vessels, stealth craft, and experimental designs
 
-## 🎮 Player Experience
+**Craft Statistics**
+- **Speed**: Movement points per turn on geoscape
+- **Range**: Operational distance before requiring refuel
+- **Capacity**: Number of units or equipment carried
+- **Weapons**: Air-to-air combat effectiveness
+- **Armor**: Damage resistance in combat
 
-### Craft Strategy
-- **Fleet Composition**: Balance interception and transport capabilities
-- **Mission Assignment**: Match craft to appropriate operation types
-- **Maintenance Planning**: Schedule repairs and avoid operational downtime
-- **Resource Management**: Monitor fuel and personnel requirements
+### Movement & Deployment
 
-### Operational Challenges
-- **Fuel Constraints**: Limited range affects strategic flexibility
-- **Repair Downtime**: Damaged craft reduce operational capacity
-- **Capacity Limits**: Personnel and cargo restrictions
-- **Experience Investment**: Long-term commitment to craft development
+Craft movement follows realistic aviation mechanics with fuel consumption and maintenance requirements.
 
-### Craft Roles
-- **Interception**: Combat-focused craft for air defense
-- **Transport**: Personnel and cargo movement between bases
-- **Reconnaissance**: Radar-equipped craft for intelligence gathering
-- **Specialized**: Unique craft for specific mission requirements
+**Movement System**
+- Hex-based movement with terrain modifiers
+- Fuel consumption based on distance and craft type
+- Maintenance cycles requiring base downtime
+- Weather effects on operational capability
 
-## 📊 Craft Balance
+**Deployment States**
+- **Base**: Stationed at friendly base, ready for immediate launch
+- **Transit**: Moving between locations, vulnerable to interception
+- **Mission**: Engaged in active operations
+- **Recovery**: Returning to base, reduced capability
 
-### Difficulty Scaling
-- **Rookie**: Fast repairs, low fuel costs, generous capacity
-- **Veteran**: Standard craft performance and requirements
-- **Commander**: Slower repairs, higher fuel costs, limited capacity
-- **Legend**: Very slow repairs, maximum fuel costs, minimal capacity
+---
 
-### Integration Points
-- **Geoscape Synergy**: Craft enable global operations and interception
-- **Manufacturing**: Craft production requires facilities and resources
-- **Research**: Technology unlocks advanced craft capabilities
-- **Base Management**: Hangar space limits craft deployment
+## Mission System
 
-### Balance Considerations
-- **Cost Scaling**: Advanced craft require significant investment
-- **Operational Risk**: Interception combat carries loss potential
-- **Strategic Value**: Craft enable global presence and response
-- **Resource Trade-offs**: Fuel and maintenance compete with other systems
+### Mission Types
+
+Missions represent alien activities requiring player intervention, generated procedurally based on global threat levels and player actions.
+
+**Primary Mission Types**
+- **UFO Crash Recovery**: Salvage alien technology from crashed spacecraft
+- **Terror Missions**: Protect civilian populations from alien attacks
+- **Alien Base Assault**: Destroy established alien installations
+- **Research Missions**: Investigate unusual alien activities
+- **Escort Missions**: Protect VIPs or critical transports
+
+**Mission Parameters**
+- **Difficulty**: Based on alien technology level and player preparedness
+- **Time Limit**: Mission expiration affects success/failure consequences
+- **Rewards**: Salvage value, research data, diplomatic impact
+- **Risks**: Unit casualties, base damage, diplomatic penalties
+
+### Mission Generation
+
+Missions spawn based on algorithmic threat assessment:
+
+**Generation Factors**
+- **Alien Activity Level**: Higher threat increases mission frequency
+- **Player Detection**: Undetected UFOs generate crash recovery missions
+- **Geographic Factors**: Population centers attract terror missions
+- **Diplomacy Status**: Friendly nations request assistance missions
+
+---
+
+## Detection & Radar
+
+### Radar Coverage System
+
+Radar systems provide the primary method of detecting alien activity, with coverage determined by base placement and technology level.
+
+**Radar Mechanics**
+- **Coverage Radius**: Detection range in hexes from base location
+- **Detection Probability**: Chance to spot UFOs within range
+- **False Positives**: Weather and terrain affect accuracy
+- **Technology Bonuses**: Research improves detection capability
+
+**Detection States**
+- **Undetected**: UFO operates freely, may complete missions
+- **Detected**: UFO visible on geoscape, interception possible
+- **Tracked**: UFO position and trajectory known
+- **Intercepted**: Player craft engaged with UFO
+
+### Stealth & Counter-Detection
+
+Advanced alien craft employ stealth technology requiring upgraded detection systems.
+
+**Stealth Mechanics**
+- **Stealth Level**: UFO ability to avoid radar detection
+- **Detection Threshold**: Required radar technology to spot craft
+- **Jamming**: Some UFOs can temporarily disable local radar
+- **Terrain Masking**: Geographic features provide natural concealment
+
+---
+
+## Diplomacy & Relations
+
+### Country Relations System
+
+Diplomatic relations with global powers provide funding, resources, and strategic advantages.
+
+**Relation Levels**
+- **Allied**: Full funding, shared intelligence, joint operations
+- **Friendly**: Standard funding, marketplace access, mission requests
+- **Neutral**: Reduced funding, limited marketplace, occasional missions
+- **Unfriendly**: Minimal funding, restricted access, diplomatic penalties
+- **Hostile**: No funding, blocked territories, active opposition
+
+**Relation Modifiers**
+- **Mission Success**: Successful operations improve relations
+- **Alien Activity**: Failed missions damage diplomatic standing
+- **Base Placement**: Strategic positioning affects local relations
+- **Economic Support**: Funding levels influence diplomatic warmth
+
+### Funding Mechanics
+
+Countries provide monthly funding based on diplomatic relations and economic factors.
+
+**Funding Formula**
+```
+Funding = GDP × Funding_Level × Relation_Modifier × Alien_Threat_Multiplier
+```
+
+**Funding Parameters**
+- **GDP**: Country economic output (static value)
+- **Funding Level**: Government allocation to anti-alien programs
+- **Relation Modifier**: Diplomatic standing adjustment
+- **Threat Multiplier**: Increased funding during high alien activity
+
+---
+
+## Alien Threat Escalation
+
+### Threat Progression
+
+Alien activity escalates over time, increasing in frequency and sophistication.
+
+**Escalation Phases**
+- **Phase 1 (Months 1-3)**: Scouting missions, basic UFOs
+- **Phase 2 (Months 4-6)**: Terror operations, improved craft
+- **Phase 3 (Months 7-9)**: Base construction, advanced technology
+- **Phase 4 (Months 10+)**: Invasion preparation, elite units
+
+**Progression Triggers**
+- **Time-Based**: Automatic advancement every few months
+- **Activity-Based**: Accelerated by failed missions and low detection
+- **Technology-Based**: Advanced alien research unlocks new capabilities
+
+### Global Panic System
+
+Civilian populations react to alien activity with escalating panic levels.
+
+**Panic Mechanics**
+- **Local Panic**: Province-level reaction to nearby activity
+- **National Panic**: Country-wide response affecting funding
+- **Global Panic**: World-spanning events triggering major consequences
+
+**Panic Effects**
+- **Funding Reduction**: Lower government allocations
+- **Mission Generation**: Increased terror and investigation missions
+- **Diplomatic Strain**: Worsening relations with affected countries
+- **Country Collapse**: Extreme panic leads to government breakdown
+
+---
+
+## Interception Combat
+
+### Air-to-Air Combat
+
+Interception represents aerial engagements between player craft and alien UFOs.
+
+**Combat Resolution**
+- **Range Engagement**: Long-range missile combat
+- **Dogfighting**: Close-range maneuvering combat
+- **Damage Systems**: Progressive craft degradation
+- **Escape Mechanics**: UFOs may flee or self-destruct
+
+**Tactical Factors**
+- **Craft Performance**: Speed, weapons, and armor ratings
+- **Pilot Skill**: Crew experience affects combat effectiveness
+- **Technology Difference**: Equipment advantages/disadvantages
+- **Environmental Effects**: Weather impact on combat
+
+### Combat Outcomes
+
+Engagement results determine mission progression and strategic consequences.
+
+**Victory Conditions**
+- **UFO Destruction**: Full salvage recovery, research data
+- **UFO Damage**: Partial recovery, reduced rewards
+- **UFO Escape**: Mission continues, diplomatic penalties
+- **Craft Loss**: Unit casualties, equipment destruction
+
+---
+
+## Time & Turn Management
+
+### Monthly Cycle System
+
+Geoscape operates on a monthly turn structure with asynchronous action resolution.
+
+**Turn Phases**
+1. **Action Declaration**: Player commits to missions and movements
+2. **Time Advancement**: Actions resolve over days/weeks
+3. **Event Resolution**: Missions complete, funding received
+4. **Status Updates**: Relations change, panic levels adjust
+
+**Time Delays**
+- **Craft Movement**: Hours to days based on distance
+- **Mission Resolution**: Days to weeks based on complexity
+- **Base Construction**: Weeks to months for completion
+- **Research Projects**: Months for major breakthroughs
+
+### Asynchronous Gameplay
+
+Actions resolve independently, allowing strategic planning without real-time pressure.
+
+**Resolution Mechanics**
+- **Parallel Processing**: Multiple actions resolve simultaneously
+- **Interrupt Handling**: Critical events can alter planned actions
+- **Save/Load System**: Preserve game state between sessions
+- **Replay Capability**: Review past decisions and outcomes
+
+---
+
+## Strategic Decision Making
+
+### Resource Allocation
+
+Players must balance multiple competing priorities across the global theater.
+
+**Strategic Trade-offs**
+- **Coverage vs. Concentration**: Widespread bases vs. concentrated strength
+- **Offense vs. Defense**: Aggressive interception vs. base protection
+- **Research vs. Operations**: Technology investment vs. immediate threats
+- **Diplomacy vs. Action**: Political management vs. military operations
+
+### Long-term Planning
+
+Geoscape rewards strategic foresight and adaptive planning.
+
+**Planning Horizons**
+- **Tactical**: Immediate mission response and craft deployment
+- **Operational**: Base placement and radar coverage optimization
+- **Strategic**: Research priorities and diplomatic management
+- **Campaign**: Long-term victory conditions and organizational growth
+
+### Victory Conditions
+
+Open-ended gameplay allows multiple paths to success.
+
+**Potential Objectives**
+- **Elimination**: Destroy all alien threats and bases
+- **Containment**: Reduce alien activity to minimal levels
+- **Technological**: Research all available alien technology
+- **Diplomatic**: Achieve maximum funding from all nations
+- **Exploration**: Discover and investigate all alien activities
+
+---
+
+## Configuration
+
+### TOML Structure
+
+Geoscape systems are configured through TOML files in `mods/core/geoscape/`.
+
+**Key Configuration Files**
+- `world.toml`: Map generation parameters and terrain data
+- `missions.toml`: Mission types, frequencies, and rewards
+- `craft.toml`: Craft specifications and performance data
+- `radar.toml`: Detection systems and coverage calculations
+
+### Balance Parameters
+
+Critical values affecting gameplay difficulty and pacing:
+
+```toml
+[geoscape]
+monthly_cycles = true
+hex_size_km = 500
+max_bases = 12
+radar_base_range = 8
+funding_decay_rate = 0.95
+panic_threshold = 75
+```
+
+---
+
+## Integration Points
+
+### Battlescape Connection
+- Mission deployment transitions to tactical combat
+- Unit performance affects strategic outcomes
+- Salvage recovery impacts research and manufacturing
+
+### Basescape Connection
+- Base facilities provide geoscape capabilities
+- Research unlocks improved craft and detection
+- Manufacturing produces equipment for operations
+
+### Economy Integration
+- Funding provides operational budget
+- Salvage drives research and production
+- Marketplace affects equipment availability
+
+### Politics Integration
+- Diplomatic relations influence funding and access
+- Country panic affects global stability
+- International cooperation enables joint operations</content>
+<parameter name="filePath">c:\Users\tombl\Documents\Projects\design\mechanics\Geoscape.md

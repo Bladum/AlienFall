@@ -93,29 +93,3 @@ function TeamComponent.areAllies(team1, team2)
 end
 
 return TeamComponent
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -87,16 +87,16 @@ local function main()
   print("")
 
   -- Load schema
-  local schema, schemaErr = pcall(function()
+  local ok, result = pcall(function()
     return SchemaLoader.load(args.schema)
   end)
 
-  if not schema or schemaErr == true then
-    print("ERROR: Failed to load schema: " .. tostring(schemaErr))
+  if not ok then
+    print("ERROR: Failed to load schema: " .. tostring(result))
     return 1
   end
 
-  schema = schema == true and arg[1] or schema
+  local schema = result
 
   -- Scan mod folder
   local files = FileScanner.scanMod(args.modPath)

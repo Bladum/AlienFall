@@ -54,7 +54,7 @@
 
 --[[
     NotificationBanner Widget
-    
+
     Displays temporary notification messages.
     Features:
     - Auto-fade after duration
@@ -74,7 +74,7 @@ NotificationBanner.__index = NotificationBanner
 function NotificationBanner.new(x, y, width, height)
     local self = BaseWidget.new(x, y, width, height, "panel")
     setmetatable(self, NotificationBanner)
-    
+
     self.message = ""
     self.notificationType = "info"  -- info, warning, error, success
     self.duration = 3  -- seconds
@@ -82,7 +82,7 @@ function NotificationBanner.new(x, y, width, height)
     self.icon = nil
     self.alpha = 0
     self.fadeSpeed = 3
-    
+
     return self
 end
 
@@ -90,7 +90,7 @@ function NotificationBanner:draw()
     if not self.visible or self.alpha <= 0 then
         return
     end
-    
+
     -- Get color based on notification type
     local bgColor
     if self.notificationType == "error" then
@@ -102,18 +102,18 @@ function NotificationBanner:draw()
     else  -- info
         bgColor = {0.3, 0.5, 0.8}
     end
-    
+
     -- Draw background with alpha
     love.graphics.setColor(bgColor[1], bgColor[2], bgColor[3], self.alpha)
     love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
-    
+
     -- Draw border
     love.graphics.setColor(bgColor[1] * 1.2, bgColor[2] * 1.2, bgColor[3] * 1.2, self.alpha)
     love.graphics.setLineWidth(2)
     love.graphics.rectangle("line", self.x, self.y, self.width, self.height)
-    
+
     local currentX = self.x + 8
-    
+
     -- Draw icon if present
     if self.icon then
         love.graphics.setColor(1, 1, 1, self.alpha)
@@ -122,30 +122,32 @@ function NotificationBanner:draw()
         love.graphics.draw(self.icon, currentX, self.y + 8, 0, iconScale, iconScale)
         currentX = currentX + iconSize + 8
     end
-    
+
     -- Draw message text
     Theme.setFont("default")
     love.graphics.setColor(1, 1, 1, self.alpha)
     local font = Theme.getFont("default")
-    local textHeight = font:getHeight()
+    local textHeight = font and font:getHeight() or 16
     local textY = self.y + (self.height - textHeight) / 2
-    love.graphics.print(self.message, currentX, textY)
+    if font then
+        love.graphics.print(self.message, currentX, textY)
+    end
 end
 
 function NotificationBanner:update(dt)
     if not self.visible then
         return
     end
-    
+
     -- Update timer
     if self.timeRemaining > 0 then
         self.timeRemaining = self.timeRemaining - dt
-        
+
         -- Fade in
         if self.alpha < 1 then
             self.alpha = math.min(1, self.alpha + self.fadeSpeed * dt)
         end
-        
+
         -- Start fading out in last second
         if self.timeRemaining < 1 then
             self.alpha = self.timeRemaining
@@ -153,7 +155,7 @@ function NotificationBanner:update(dt)
     else
         -- Fade out
         self.alpha = math.max(0, self.alpha - self.fadeSpeed * dt)
-        
+
         if self.alpha <= 0 then
             self.visible = false
         end
@@ -174,30 +176,3 @@ function NotificationBanner:hide()
 end
 
 return NotificationBanner
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

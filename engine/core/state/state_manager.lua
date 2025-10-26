@@ -30,6 +30,9 @@ local StateManager = {}
 StateManager.current = nil
 StateManager.states = {}
 
+-- Global data storage
+StateManager.global_data = {}
+
 --- Register a new state in the state manager.
 ---
 --- Adds a state to the states table so it can be switched to later.
@@ -213,6 +216,30 @@ function StateManager.countStates()
         count = count + 1
     end
     return count
+end
+
+--- Set global data value.
+---
+--- Stores a value in the global data table that persists across state changes.
+--- Used for storing campaign data, game settings, etc.
+---
+--- @param key string Key to store data under
+--- @param value any Value to store
+--- @return nil
+function StateManager.setGlobalData(key, value)
+    StateManager.global_data[key] = value
+    print("[StateManager] Set global data: " .. key .. " = " .. tostring(value))
+end
+
+--- Get global data value.
+---
+--- Retrieves a value from the global data table.
+--- Returns nil if key doesn't exist.
+---
+--- @param key string Key to retrieve data for
+--- @return any Stored value or nil
+function StateManager.getGlobalData(key)
+    return StateManager.global_data[key]
 end
 
 return StateManager

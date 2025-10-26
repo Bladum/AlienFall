@@ -308,28 +308,3 @@ end
 print("[MoveModeSystem] Move mode system loaded with 4 modes: WALK, RUN, SNEAK, FLY")
 
 return MoveModeSystem
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

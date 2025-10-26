@@ -1,8 +1,10 @@
 ---Relations Manager System
 ---
----Tracks player relationships with countries, suppliers, and factions. Relations
----affect funding, marketplace prices, mission generation, and difficulty scaling.
----Provides central coordination for all relation-based game mechanics.
+---Tracks player relationships with suppliers and factions. Relations
+---affect marketplace prices and mission generation/difficulty scaling.
+---Provides central coordination for non-country relation-based game mechanics.
+---
+---Note: Country relations are now handled by CountryManager in geoscape.country
 ---
 ---Relation Values:
 ---  - Range: -100 (war) to +100 (allied)
@@ -10,7 +12,6 @@
 ---               Neutral (-24-24), Negative (-49--25), Hostile (-74--50), War (-100--75)
 ---
 ---Integration Points:
----  - Countries: Affects funding levels
 ---  - Suppliers: Affects marketplace prices and availability
 ---  - Factions: Affects mission generation and difficulty
 ---
@@ -25,7 +26,7 @@
 ---
 ---Relations History:
 ---  - Tracks recent changes for UI display and debugging
----  - Maintains reason for each change (mission, purchase, diplomacy, event)
+---  - Maintains reason for each change (purchase, mission, event)
 ---  - Calculates trend (improving/declining/stable)
 ---
 ---Persistence:
@@ -40,12 +41,12 @@
 ---@usage
 ---  local RelationsManager = require("geoscape.systems.relations_manager")
 ---  local manager = RelationsManager.new()
----  manager:modifyRelation("country", "usa", 5, "Mission success")
+---  manager:modifyRelation("faction", "alien_infiltrators", -10, "Mission failure")
 ---  print(manager:getRelationLabel(75))  -- "Allied"
 ---
+---@see geoscape.country.country_manager For country relations
 ---@see economy.marketplace.marketplace_system For supplier integration
 ---@see geoscape.mission_manager For faction mission generation
----@see geoscape.systems.funding_manager For country funding
 
 local RelationsManager = {}
 RelationsManager.__index = RelationsManager
@@ -65,12 +66,11 @@ RelationsManager.__index = RelationsManager
 ---@return table New manager instance
 function RelationsManager.new()
     local self = setmetatable({}, RelationsManager)
-    
-    -- Core relation storage
-    self.countryRelations = {}      -- [countryId] = {value, history, trend}
+
+    -- Core relation storage (countries removed - now in CountryManager)
     self.supplierRelations = {}     -- [supplierId] = {value, history, trend}
     self.factionRelations = {}      -- [factionId] = {value, history, trend}
-    
+
     -- Relation thresholds with colors
     self.thresholds = {
         {min = 75,  max = 100,  label = "Allied",    color = {0, 200, 0}},
@@ -81,7 +81,7 @@ function RelationsManager.new()
         {min = -74, max = -50,  label = "Hostile",   color = {200, 50, 0}},
         {min = -100, max = -75, label = "War",       color = {255, 0, 0}}
     }
-    
+
     -- Configuration
     self.config = {
         maxRelation = 100,
@@ -91,31 +91,19 @@ function RelationsManager.new()
         growthRate = 0.005,         -- Growth for positive relations (half decay)
         eventMaxDelta = 5,          -- Max change per random event
     }
-    
-    print("[RelationsManager] Initialized relations system")
-    
+
+    print("[RelationsManager] Initialized relations system (suppliers & factions only)")
+
     return self
 end
 
 ---Initialize with default entities
----@param countries table Array of country IDs
 ---@param suppliers table Array of supplier IDs
 ---@param factions table Array of faction IDs
-function RelationsManager:initializeEntities(countries, suppliers, factions)
-    print("[RelationsManager] Initializing " .. (#countries or 0) .. " countries, " ..
+function RelationsManager:initializeEntities(suppliers, factions)
+    print("[RelationsManager] Initializing " ..
           (#suppliers or 0) .. " suppliers, " .. (#factions or 0) .. " factions")
-    
-    -- Initialize countries (start at neutral)
-    if countries then
-        for _, countryId in ipairs(countries) do
-            self.countryRelations[countryId] = {
-                value = 0,
-                history = {},
-                trend = "stable"
-            }
-        end
-    end
-    
+
     -- Initialize suppliers (some start negative, some positive)
     if suppliers then
         for _, supplierId in ipairs(suppliers) do
@@ -127,7 +115,7 @@ function RelationsManager:initializeEntities(countries, suppliers, factions)
             }
         end
     end
-    
+
     -- Initialize factions (start at neutral to negative)
     if factions then
         for _, factionId in ipairs(factions) do
@@ -141,7 +129,7 @@ function RelationsManager:initializeEntities(countries, suppliers, factions)
 end
 
 ---Get current relation value
----@param entityType string "country" | "supplier" | "faction"
+---@param entityType string "supplier" | "faction"
 ---@param entityId string Entity identifier
 ---@return number|nil Relation value (-100 to +100), or nil if not found
 function RelationsManager:getRelation(entityType, entityId)
@@ -153,7 +141,7 @@ function RelationsManager:getRelation(entityType, entityId)
 end
 
 ---Set relation to exact value
----@param entityType string "country" | "supplier" | "faction"
+---@param entityType string "supplier" | "faction"
 ---@param entityId string Entity identifier
 ---@param value number Target relation (-100 to +100)
 ---@param reason string|nil Reason for change (for logging)
@@ -162,26 +150,26 @@ function RelationsManager:setRelation(entityType, entityId, value, reason)
     if not relations[entityId] then
         relations[entityId] = {value = 0, history = {}, trend = "stable"}
     end
-    
+
     value = math.max(self.config.minRelation, math.min(self.config.maxRelation, value))
-    
+
     local oldValue = relations[entityId].value
     local delta = value - oldValue
-    
+
     relations[entityId].value = value
-    
+
     -- Record in history
     self:recordChange(entityType, entityId, delta, reason or "Direct set")
-    
+
     -- Update trend
     self:updateTrend(entityType, entityId)
-    
+
     print(string.format("[RelationsManager] %s '%s' set to %d (was %d): %s",
           entityType, entityId, value, oldValue, reason or "Direct set"))
 end
 
 ---Modify relation by delta
----@param entityType string "country" | "supplier" | "faction"
+---@param entityType string "supplier" | "faction"
 ---@param entityId string Entity identifier
 ---@param delta number Change amount
 ---@param reason string|nil Reason for change (for logging)
@@ -191,23 +179,23 @@ function RelationsManager:modifyRelation(entityType, entityId, delta, reason)
     if not relations[entityId] then
         relations[entityId] = {value = 0, history = {}, trend = "stable"}
     end
-    
+
     -- Clamp delta to valid range
     local oldValue = relations[entityId].value
-    local newValue = math.max(self.config.minRelation, 
+    local newValue = math.max(self.config.minRelation,
                               math.min(self.config.maxRelation, oldValue + delta))
-    
+
     relations[entityId].value = newValue
-    
+
     -- Record in history
     self:recordChange(entityType, entityId, newValue - oldValue, reason or "Modification")
-    
+
     -- Update trend
     self:updateTrend(entityType, entityId)
-    
+
     print(string.format("[RelationsManager] %s '%s' modified: %d %c %d = %d (%s)",
           entityType, entityId, oldValue, delta >= 0 and '+' or ' ', delta, newValue, reason or ""))
-    
+
     return newValue
 end
 
@@ -221,16 +209,16 @@ function RelationsManager:recordChange(entityType, entityId, delta, reason)
     if not relations[entityId] then
         return
     end
-    
+
     local history = relations[entityId].history
-    
+
     -- Add new entry
     table.insert(history, 1, {
         delta = delta,
         reason = reason,
         timestamp = os.time()
     })
-    
+
     -- Keep only recent history
     if #history > self.config.maxHistorySize then
         table.remove(history, self.config.maxHistorySize + 1)
@@ -246,17 +234,17 @@ function RelationsManager:updateTrend(entityType, entityId)
         relations[entityId].trend = "stable"
         return
     end
-    
+
     -- Calculate average delta from recent changes
     local recentChanges = math.min(5, #relations[entityId].history)
     local totalDelta = 0
-    
+
     for i = 1, recentChanges do
         totalDelta = totalDelta + relations[entityId].history[i].delta
     end
-    
+
     local avgDelta = totalDelta / recentChanges
-    
+
     if avgDelta > 0.5 then
         relations[entityId].trend = "improving"
     elseif avgDelta < -0.5 then
@@ -294,24 +282,19 @@ end
 ---@param daysPassed number Days since last update
 function RelationsManager:updateAllRelations(daysPassed)
     daysPassed = daysPassed or 1
-    
-    -- Update countries
-    for countryId, entry in pairs(self.countryRelations) do
-        self:applyTimeDecayGrowth(entry, daysPassed)
-    end
-    
+
     -- Update suppliers
     for supplierId, entry in pairs(self.supplierRelations) do
         self:applyTimeDecayGrowth(entry, daysPassed)
     end
-    
+
     -- Update factions
     for factionId, entry in pairs(self.factionRelations) do
         self:applyTimeDecayGrowth(entry, daysPassed)
     end
-    
+
     if daysPassed > 0 then
-        print(string.format("[RelationsManager] Updated all relations after %d day(s)", daysPassed))
+        print(string.format("[RelationsManager] Updated supplier and faction relations after %d day(s)", daysPassed))
     end
 end
 
@@ -320,16 +303,16 @@ end
 ---@param daysPassed number Days since last update
 function RelationsManager:applyTimeDecayGrowth(entry, daysPassed)
     local delta = 0
-    
+
     -- Positive relations decay (but more slowly)
     if entry.value > 0 then
         delta = -math.ceil(entry.value * self.config.decayRate * daysPassed / 100)
-    
+
     -- Negative relations decay towards neutral (improve over time)
     elseif entry.value < 0 then
         delta = math.ceil(-entry.value * self.config.decayRate * daysPassed / 100)
     end
-    
+
     if delta ~= 0 then
         entry.value = math.max(self.config.minRelation,
                                math.min(self.config.maxRelation, entry.value + delta))
@@ -337,27 +320,25 @@ function RelationsManager:applyTimeDecayGrowth(entry, daysPassed)
 end
 
 ---Get all relations for an entity type
----@param entityType string "country" | "supplier" | "faction"
+---@param entityType string "supplier" | "faction"
 ---@return table Relations table
 function RelationsManager:getRelationTable(entityType)
-    if entityType == "country" then
-        return self.countryRelations
-    elseif entityType == "supplier" then
+    if entityType == "supplier" then
         return self.supplierRelations
     elseif entityType == "faction" then
         return self.factionRelations
     else
-        error("[RelationsManager] Invalid entity type: " .. entityType)
+        error("[RelationsManager] Invalid entity type: " .. entityType .. " (only 'supplier' and 'faction' supported)")
     end
 end
 
 ---Get all relations of a type with details
----@param entityType string "country" | "supplier" | "faction"
+---@param entityType string "supplier" | "faction"
 ---@return table Array of {id, value, label, color, trend}
 function RelationsManager:getAllRelations(entityType)
     local relations = self:getRelationTable(entityType)
     local result = {}
-    
+
     for entityId, entry in pairs(relations) do
         table.insert(result, {
             id = entityId,
@@ -368,7 +349,7 @@ function RelationsManager:getAllRelations(entityType)
             history = entry.history
         })
     end
-    
+
     return result
 end
 
@@ -379,17 +360,17 @@ end
 ---@return table Array of {delta, reason, timestamp}
 function RelationsManager:getHistory(entityType, entityId, maxEntries)
     maxEntries = maxEntries or 10
-    
+
     local relations = self:getRelationTable(entityType)
     if not relations[entityId] then
         return {}
     end
-    
+
     local history = {}
     for i = 1, math.min(maxEntries, #relations[entityId].history) do
         table.insert(history, relations[entityId].history[i])
     end
-    
+
     return history
 end
 
@@ -397,7 +378,6 @@ end
 ---@return table Status including all relations and trends
 function RelationsManager:getStatus()
     return {
-        countries = self:getAllRelations("country"),
         suppliers = self:getAllRelations("supplier"),
         factions = self:getAllRelations("faction"),
         timestamp = os.time()
@@ -408,9 +388,8 @@ end
 ---@return table Serialized state
 function RelationsManager:serialize()
     print("[RelationsManager] Serializing relations...")
-    
+
     return {
-        countryRelations = self.countryRelations,
         supplierRelations = self.supplierRelations,
         factionRelations = self.factionRelations,
         lastUpdate = os.time()
@@ -424,19 +403,17 @@ function RelationsManager:deserialize(data)
         print("[RelationsManager] No data to deserialize")
         return
     end
-    
-    self.countryRelations = data.countryRelations or {}
+
     self.supplierRelations = data.supplierRelations or {}
     self.factionRelations = data.factionRelations or {}
-    
+
     print("[RelationsManager] Deserialized " ..
-          (data.countryRelations and 1 or 0) .. " countries, " ..
           (data.supplierRelations and 1 or 0) .. " suppliers, " ..
           (data.factionRelations and 1 or 0) .. " factions")
 end
 
 ---Get statistics about relations
----@return table Statistics: {averageCountry, averageSupplier, averageFaction, etc}
+---@return table Statistics: {averageSupplier, averageFaction, etc}
 function RelationsManager:getStatistics()
     local function calculateAverage(table)
         local sum = 0
@@ -449,12 +426,10 @@ function RelationsManager:getStatistics()
         end
         return count > 0 and sum / count or 0
     end
-    
+
     return {
-        averageCountry = calculateAverage(self.countryRelations),
         averageSupplier = calculateAverage(self.supplierRelations),
         averageFaction = calculateAverage(self.factionRelations),
-        countryCount = self:countEntities(self.countryRelations),
         supplierCount = self:countEntities(self.supplierRelations),
         factionCount = self:countEntities(self.factionRelations)
     }
@@ -472,7 +447,3 @@ function RelationsManager:countEntities(table)
 end
 
 return RelationsManager
-
-
-
-

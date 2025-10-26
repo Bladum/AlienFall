@@ -65,23 +65,23 @@ function Health.takeDamage(health, rawDamage, damageType)
     if health.isDead then
         return 0
     end
-    
+
     -- Apply armor reduction
     local actualDamage = math.max(0, rawDamage - health.armor)
     health.currentHP = math.max(0, health.currentHP - actualDamage)
-    
+
     -- Record wound
     table.insert(health.wounds, {
         damage = actualDamage,
         type = damageType or "kinetic",
         timestamp = os.time()
     })
-    
+
     -- Check death
     if health.currentHP <= 0 then
         health.isDead = true
     end
-    
+
     return actualDamage
 end
 
@@ -90,7 +90,7 @@ function Health.heal(health, amount)
     if health.isDead then
         return 0
     end
-    
+
     local oldHP = health.currentHP
     health.currentHP = math.min(health.maxHP, health.currentHP + amount)
     return health.currentHP - oldHP
@@ -102,29 +102,3 @@ function Health.isAlive(health)
 end
 
 return Health
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

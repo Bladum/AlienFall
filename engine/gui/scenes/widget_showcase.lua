@@ -79,7 +79,7 @@ function WidgetShowcase:enter()
     currentRow = currentRow + 1
     table.insert(self.widgets, {
         name = "Label",
-        widget = Widgets.Label.new(col1X, startY + rowSpacing * currentRow, "This is a label")
+        widget = Widgets.Label.new(col1X, startY + rowSpacing * currentRow, 288, 24, "This is a label")
     })
     
     -- TextInput

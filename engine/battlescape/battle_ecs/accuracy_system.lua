@@ -147,28 +147,3 @@ function AccuracySystem.getAccuracyZoneColor(distance, maxRange)
 end
 
 return AccuracySystem
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

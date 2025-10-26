@@ -98,16 +98,16 @@ end
 -- Draw debug text on screen
 function Debug.drawText(text, x, y, color)
     if not Debug.enabled then return end
-    
+
     love.graphics.push()
     love.graphics.origin()
-    
+
     if color then
         love.graphics.setColor(color.r/255, color.g/255, color.b/255, 1)
     else
         love.graphics.setColor(1, 1, 0, 1)  -- Yellow default
     end
-    
+
     love.graphics.print(text, x, y)
     love.graphics.pop()
 end
@@ -115,14 +115,14 @@ end
 -- Draw debug rectangle
 function Debug.drawRect(mode, x, y, width, height, color)
     if not Debug.enabled then return end
-    
+
     love.graphics.push()
     if color then
         love.graphics.setColor(color.r/255, color.g/255, color.b/255, 0.5)
     else
         love.graphics.setColor(1, 0, 0, 0.5)  -- Red default
     end
-    
+
     love.graphics.rectangle(mode, x, y, width, height)
     love.graphics.pop()
 end
@@ -130,14 +130,14 @@ end
 -- Draw debug line
 function Debug.drawLine(x1, y1, x2, y2, color)
     if not Debug.enabled then return end
-    
+
     love.graphics.push()
     if color then
         love.graphics.setColor(color.r/255, color.g/255, color.b/255, 1)
     else
         love.graphics.setColor(0, 1, 0, 1)  -- Green default
     end
-    
+
     love.graphics.line(x1, y1, x2, y2)
     love.graphics.pop()
 end
@@ -145,14 +145,14 @@ end
 -- Draw debug circle
 function Debug.drawCircle(mode, x, y, radius, color)
     if not Debug.enabled then return end
-    
+
     love.graphics.push()
     if color then
         love.graphics.setColor(color.r/255, color.g/255, color.b/255, 0.5)
     else
         love.graphics.setColor(0, 0, 1, 0.5)  -- Blue default
     end
-    
+
     love.graphics.circle(mode, x, y, radius)
     love.graphics.pop()
 end
@@ -203,10 +203,10 @@ end
 -- Draw performance stats
 function Debug.drawPerformanceStats()
     if not Debug.enabled then return end
-    
+
     local fps = love.timer.getFPS()
     local memUsage = collectgarbage("count")
-    
+
     local stats = string.format(
         "FPS: %d\nMem: %.2f MB\nUpdate: %.2fms\nDraw: %.2fms",
         fps,
@@ -214,34 +214,8 @@ function Debug.drawPerformanceStats()
         Debug.updateTime or 0,
         Debug.drawTime or 0
     )
-    
+
     Debug.drawText(stats, 10, 10, {r = 255, g = 255, b = 0})
 end
 
 return Debug
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

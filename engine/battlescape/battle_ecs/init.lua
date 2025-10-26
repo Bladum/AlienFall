@@ -24,29 +24,3 @@ return {
     Renderer = require("battlescape.rendering.renderer"),
     TurnManager = require("battlescape.battlefield.turn_manager")
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

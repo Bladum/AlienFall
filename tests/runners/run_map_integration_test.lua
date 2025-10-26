@@ -102,7 +102,7 @@ test("Execute urban_patrol MapScript", function()
     assert_not_nil(script, "urban_patrol MapScript should exist")
 
     -- Type assertion for linter
-    ---@cast script MapScriptV2
+    ---@cast script MapScript
 
     local scriptName = script.name or "Unnamed"
     local scriptSize = script.mapSize or {width = 0, height = 0}

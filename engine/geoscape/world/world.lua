@@ -48,9 +48,9 @@
 ---@see geoscape.geography.province For province entity
 ---@see geoscape.systems.hex_grid For coordinate system
 
-local HexGrid = require("geoscape.systems.hex_grid")
+local HexGrid = require("geoscape.systems.grid.hex_grid")
 local ProvinceGraph = require("geoscape.geography.province_graph")
-local DayNightCycle = require("geoscape.systems.daynight_cycle")
+local DayNightCycle = require("geoscape.systems.time.daynight_cycle")
 local Calendar = require("lore.calendar")
 
 local World = {}
@@ -61,33 +61,33 @@ World.__index = World
 ---@return table World instance
 function World.new(data)
     local self = setmetatable({}, World)
-    
+
     -- Core identification
     self.id = data.id or "earth"
     self.name = data.name or "Earth"
-    
+
     -- Hex grid dimensions
     self.width = data.width or 90
     self.height = data.height or 45
     self.hexSize = data.hexSize or 12
     self.scale = data.scale or 500  -- km per tile
-    
+
     -- Create hex grid system
     self.hexGrid = HexGrid.new(self.width, self.height, self.hexSize)
-    
+
     -- Create province graph
     self.provinceGraph = ProvinceGraph.new()
-    
+
     -- Create day/night cycle
     self.dayNightCycle = DayNightCycle.new(self.width, data.dayNightSpeed or 4, data.dayNightCoverage or 0.5)
-    
+
     -- Create calendar
     self.calendar = Calendar.new()
-    
+
     -- Visual settings
     self.backgroundImage = data.backgroundImage or nil
     self.backgroundColor = data.backgroundColor or {r = 0.1, g = 0.1, b = 0.2}
-    
+
     -- Tile grid data (90x45 grid of terrain types)
     self.tiles = {}
     for q = 0, self.width - 1 do
@@ -101,13 +101,13 @@ function World.new(data)
             }
         end
     end
-    
+
     -- Inter-world portals (for multi-world support)
     self.portals = data.portals or {}
-    
+
     print(string.format("[World] Created '%s' (%dx%d hex grid, %d km/tile scale)",
         self.name, self.width, self.height, self.scale))
-    
+
     return self
 end
 
@@ -121,11 +121,11 @@ function World:setTile(q, r, terrain, cost, isLand)
     if not self.hexGrid:inBounds(q, r) then
         return
     end
-    
+
     if not self.tiles[q] then
         self.tiles[q] = {}
     end
-    
+
     self.tiles[q][r] = {
         terrain = terrain or "ocean",
         cost = cost or 1,
@@ -142,11 +142,11 @@ function World:getTile(q, r)
     if not self.hexGrid:inBounds(q, r) then
         return nil
     end
-    
+
     if not self.tiles[q] then
         return nil
     end
-    
+
     return self.tiles[q][r]
 end
 
@@ -154,7 +154,7 @@ end
 ---@param province table Province object
 function World:addProvince(province)
     self.provinceGraph:addProvince(province)
-    
+
     -- Update tile at province position to mark as land
     if province.isLand then
         self:setTile(province.q, province.r, province.biomeId, 1, true)
@@ -180,7 +180,7 @@ end
 function World:advanceDay()
     self.calendar:advanceTurn()
     self.dayNightCycle:advanceDay()
-    
+
     -- Trigger daily events
     self:processDailyEvents()
 end
@@ -294,29 +294,3 @@ function World:getProvinceCount()
 end
 
 return World
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

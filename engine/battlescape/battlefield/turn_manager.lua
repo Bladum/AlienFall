@@ -92,22 +92,22 @@ function TurnManager:startTeamTurn(units)
         local unit = units[unitId]
         if unit and unit.alive then
             self.actionSystem:resetUnit(unit)
-            
+
             -- Regenerate energy
             unit:regenerateEnergy()
-            
+
             -- Reduce weapon cooldowns
             unit:reduceWeaponCooldowns()
-            
+
             -- Apply damage model recovery
             self:applyDamageModelRecovery(unit)
-            
+
             -- Process bleeding damage from wounds
             self:processBleedingDamage(unit)
-            
+
             -- Process buff/debuff durations
             self:processStatusEffects(unit)
-            
+
             resetCount = resetCount + 1
         end
     end
@@ -133,23 +133,23 @@ function TurnManager:applyDamageModelRecovery(unit)
         local oldStun = unit.stun
         unit.stun = math.max(0, unit.stun - 2)
         if oldStun ~= unit.stun then
-            print(string.format("[TurnManager] Unit %s recovered stun: %d -> %d", 
+            print(string.format("[TurnManager] Unit %s recovered stun: %d -> %d",
                   unit.name or "Unknown", oldStun, unit.stun))
         end
     end
-    
+
     -- Morale recovery: 5 points per turn
     if unit.morale and unit.maxMorale then
         if unit.morale < unit.maxMorale then
             local oldMorale = unit.morale
             unit.morale = math.min(unit.maxMorale, unit.morale + 5)
             if oldMorale ~= unit.morale then
-                print(string.format("[TurnManager] Unit %s recovered morale: %d -> %d", 
+                print(string.format("[TurnManager] Unit %s recovered morale: %d -> %d",
                       unit.name or "Unknown", oldMorale, unit.morale))
             end
         end
     end
-    
+
     -- Energy recovery: 3 points per turn (in addition to other energy regen)
     -- This is specifically for damage model recovery
     if unit.energy and unit.maxEnergy then
@@ -157,12 +157,12 @@ function TurnManager:applyDamageModelRecovery(unit)
             local oldEnergy = unit.energy
             unit.energy = math.min(unit.maxEnergy, unit.energy + 3)
             if oldEnergy ~= unit.energy then
-                print(string.format("[TurnManager] Unit %s recovered energy (damage model): %d -> %d", 
+                print(string.format("[TurnManager] Unit %s recovered energy (damage model): %d -> %d",
                       unit.name or "Unknown", oldEnergy, unit.energy))
             end
         end
     end
-    
+
     -- Psi energy regeneration: 5 points per turn
     -- Only for psionic units (maxPsiEnergy > 0)
     if unit.psiEnergy and unit.maxPsiEnergy and unit.maxPsiEnergy > 0 then
@@ -171,7 +171,7 @@ function TurnManager:applyDamageModelRecovery(unit)
             local regenAmount = unit.psiEnergyRegen or 5
             unit.psiEnergy = math.min(unit.maxPsiEnergy, unit.psiEnergy + regenAmount)
             if oldPsiEnergy ~= unit.psiEnergy then
-                print(string.format("[TurnManager] Unit %s regenerated psi energy: %d -> %d (+%d)", 
+                print(string.format("[TurnManager] Unit %s regenerated psi energy: %d -> %d (+%d)",
                       unit.name or "Unknown", oldPsiEnergy, unit.psiEnergy, unit.psiEnergy - oldPsiEnergy))
             end
         end
@@ -188,11 +188,11 @@ function TurnManager:processBleedingDamage(unit)
     if not unit.wounds or unit.wounds <= 0 then
         return
     end
-    
+
     -- Calculate total bleed damage from all wounds
     local totalBleedDamage = 0
     local activeWounds = 0
-    
+
     if unit.woundList then
         for _, wound in ipairs(unit.woundList) do
             if not wound.stabilized then
@@ -205,18 +205,18 @@ function TurnManager:processBleedingDamage(unit)
         totalBleedDamage = unit.wounds
         activeWounds = unit.wounds
     end
-    
+
     if totalBleedDamage > 0 then
         print(string.format("[TurnManager] Unit %s bleeding %d HP from %d active wound(s)",
               unit.name or "Unknown", totalBleedDamage, activeWounds))
-        
+
         unit.health = math.max(0, (unit.health or 10) - totalBleedDamage)
-        
+
         -- Check for death
         if unit.health <= 0 then
             unit.alive = false
             unit.isDead = true
-            print(string.format("[TurnManager] Unit %s died from bleeding!", 
+            print(string.format("[TurnManager] Unit %s died from bleeding!",
                   unit.name or "Unknown"))
         end
     end
@@ -235,7 +235,7 @@ function TurnManager:processStatusEffects(unit)
     -- Process mind control duration
     if unit.mindControlled and unit.mindControlDuration then
         unit.mindControlDuration = unit.mindControlDuration - 1
-        
+
         if unit.mindControlDuration <= 0 then
             -- Mind control ends, return to original team
             unit.mindControlled = false
@@ -248,11 +248,11 @@ function TurnManager:processStatusEffects(unit)
                   unit.name or "Unknown", unit.mindControlDuration))
         end
     end
-    
+
     -- Process slow effect duration
     if unit.slowed and unit.slowDuration then
         unit.slowDuration = unit.slowDuration - 1
-        
+
         if unit.slowDuration <= 0 then
             unit.slowed = false
             unit.slowAPReduction = 0
@@ -268,11 +268,11 @@ function TurnManager:processStatusEffects(unit)
             end
         end
     end
-    
+
     -- Process haste effect duration
     if unit.hasted and unit.hasteDuration then
         unit.hasteDuration = unit.hasteDuration - 1
-        
+
         if unit.hasteDuration <= 0 then
             unit.hasted = false
             unit.hasteAPBonus = 0
@@ -289,7 +289,7 @@ function TurnManager:processStatusEffects(unit)
             end
         end
     end
-    
+
     -- Process psi critical buff (single-use)
     if unit.psiCriticalActive and unit.nextAttackCrit then
         print(string.format("[TurnManager] Unit %s has psi critical buff active",
@@ -358,12 +358,12 @@ function TurnManager:nextTeam()
         print("[TurnManager] No active teams!")
         return false
     end
-    
+
     self.currentTeamIndex = self.currentTeamIndex + 1
     if self.currentTeamIndex > #self.activeTeams then
         self.currentTeamIndex = 1
     end
-    
+
     self.currentTeam = self.activeTeams[self.currentTeamIndex]
     print(string.format("[TurnManager] Switched to %s", self.currentTeam.name))
     return true
@@ -379,44 +379,18 @@ function TurnManager:updateActiveTeams(units)
     local oldCount = #self.activeTeams
     self.activeTeams = self.teamManager:getActiveTeams(units)
     local newCount = #self.activeTeams
-    
+
     if newCount < oldCount then
         print(string.format("[TurnManager] Active teams reduced: %d -> %d", oldCount, newCount))
-        
+
         -- Ensure current team is still valid
         if self.currentTeamIndex > #self.activeTeams then
             self.currentTeamIndex = 1
             self.currentTeam = self.activeTeams[1]
         end
     end
-    
+
     return newCount > 0
 end
 
 return TurnManager
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -27,6 +27,10 @@ REM Run tests from project root
 REM Capture exit code
 set TEST_RESULT=%ERRORLEVEL%
 
+REM Force close Love2D window if still open (timeout: 2 seconds)
+timeout /t 2 /nobreak >nul 2>&1
+taskkill /IM love.exe /F >nul 2>&1
+
 echo.
 echo ============================================================
 if %TEST_RESULT% EQU 0 (

@@ -51,7 +51,7 @@
 ---@see geoscape.systems.hex_grid For pathfinding algorithm
 
 local Province = require("geoscape.geography.province")
-local HexGrid = require("geoscape.systems.hex_grid")
+local HexGrid = require("geoscape.systems.grid.hex_grid")
 
 local ProvinceGraph = {}
 ProvinceGraph.__index = ProvinceGraph
@@ -60,12 +60,12 @@ ProvinceGraph.__index = ProvinceGraph
 ---@return table ProvinceGraph instance
 function ProvinceGraph.new()
     local self = setmetatable({}, ProvinceGraph)
-    
+
     self.provinces = {}  -- Map of provinceId -> Province
     self.provincesByHex = {}  -- Map of "q,r" -> Province
-    
+
     print("[ProvinceGraph] Created empty province graph")
-    
+
     return self
 end
 
@@ -76,7 +76,7 @@ function ProvinceGraph:addProvince(province)
         print(string.format("[ProvinceGraph] Warning: Province %s already exists", province.id))
         return
     end
-    
+
     self.provinces[province.id] = province
     local hexKey = string.format("%d,%d", province.q, province.r)
     self.provincesByHex[hexKey] = province
@@ -105,13 +105,13 @@ end
 function ProvinceGraph:addConnection(provinceId1, provinceId2, cost)
     local p1 = self.provinces[provinceId1]
     local p2 = self.provinces[provinceId2]
-    
+
     if not p1 or not p2 then
         print(string.format("[ProvinceGraph] Warning: Cannot connect %s to %s - province not found",
             tostring(provinceId1), tostring(provinceId2)))
         return
     end
-    
+
     cost = cost or 1
     p1:addConnection(provinceId2, cost)
     p2:addConnection(provinceId1, cost)
@@ -125,7 +125,7 @@ function ProvinceGraph:getNeighbors(provinceId)
     if not province then
         return {}
     end
-    
+
     local neighbors = {}
     for _, conn in ipairs(province.connections) do
         local neighbor = self.provinces[conn.id]
@@ -133,7 +133,7 @@ function ProvinceGraph:getNeighbors(provinceId)
             table.insert(neighbors, neighbor)
         end
     end
-    
+
     return neighbors
 end
 
@@ -145,27 +145,27 @@ end
 function ProvinceGraph:findPath(fromId, toId)
     local startProvince = self.provinces[fromId]
     local goalProvince = self.provinces[toId]
-    
+
     if not startProvince or not goalProvince then
         return nil, nil
     end
-    
+
     if fromId == toId then
         return {fromId}, 0
     end
-    
+
     -- A* implementation
     local openSet = {fromId}
     local cameFrom = {}
     local gScore = {[fromId] = 0}
     local fScore = {[fromId] = HexGrid.distance(startProvince.q, startProvince.r, goalProvince.q, goalProvince.r)}
-    
+
     while #openSet > 0 do
         -- Find node in openSet with lowest fScore
         local current = openSet[1]
         local currentFScore = fScore[current]
         local currentIndex = 1
-        
+
         for i = 2, #openSet do
             local nodeId = openSet[i]
             if fScore[nodeId] < currentFScore then
@@ -174,7 +174,7 @@ function ProvinceGraph:findPath(fromId, toId)
                 currentIndex = i
             end
         end
-        
+
         if current == toId then
             -- Reconstruct path
             local path = {current}
@@ -184,23 +184,23 @@ function ProvinceGraph:findPath(fromId, toId)
             end
             return path, gScore[toId]
         end
-        
+
         table.remove(openSet, currentIndex)
-        
+
         -- Check all neighbors
         local currentProvince = self.provinces[current]
         for _, conn in ipairs(currentProvince.connections) do
             local neighborId = conn.id
             local neighbor = self.provinces[neighborId]
-            
+
             if neighbor then
                 local tentativeGScore = gScore[current] + conn.cost
-                
+
                 if not gScore[neighborId] or tentativeGScore < gScore[neighborId] then
                     cameFrom[neighborId] = current
                     gScore[neighborId] = tentativeGScore
                     fScore[neighborId] = tentativeGScore + HexGrid.distance(neighbor.q, neighbor.r, goalProvince.q, goalProvince.r)
-                    
+
                     -- Add to openSet if not already present
                     local inOpenSet = false
                     for _, id in ipairs(openSet) do
@@ -209,7 +209,7 @@ function ProvinceGraph:findPath(fromId, toId)
                             break
                         end
                     end
-                    
+
                     if not inOpenSet then
                         table.insert(openSet, neighborId)
                     end
@@ -217,7 +217,7 @@ function ProvinceGraph:findPath(fromId, toId)
             end
         end
     end
-    
+
     return nil, nil  -- No path found
 end
 
@@ -230,19 +230,19 @@ function ProvinceGraph:getRange(fromId, maxCost)
     if not startProvince then
         return {}
     end
-    
+
     local result = {}
     local visited = {[fromId] = {cost = 0, path = {fromId}}}
     local queue = {{id = fromId, cost = 0, path = {fromId}}}
-    
+
     while #queue > 0 do
         local current = table.remove(queue, 1)
         local currentProvince = self.provinces[current.id]
-        
+
         for _, conn in ipairs(currentProvince.connections) do
             local neighborId = conn.id
             local newCost = current.cost + conn.cost
-            
+
             if newCost <= maxCost then
                 if not visited[neighborId] or newCost < visited[neighborId].cost then
                     local newPath = {}
@@ -250,14 +250,14 @@ function ProvinceGraph:getRange(fromId, maxCost)
                         table.insert(newPath, id)
                     end
                     table.insert(newPath, neighborId)
-                    
+
                     visited[neighborId] = {cost = newCost, path = newPath}
                     table.insert(queue, {id = neighborId, cost = newCost, path = newPath})
                 end
             end
         end
     end
-    
+
     return visited
 end
 
@@ -298,29 +298,3 @@ function ProvinceGraph:clear()
 end
 
 return ProvinceGraph
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
