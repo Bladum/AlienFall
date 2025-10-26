@@ -13,8 +13,15 @@ function love.load()
     print("XCOM SIMPLE - TEST SUITE")
     print(string.rep("=", 60) .. "\n")
 
+    -- Debug: print arguments
+    print("Debug - arg table:")
+    for i, v in ipairs(arg) do
+        print("  arg[" .. i .. "] = '" .. tostring(v) .. "'")
+    end
+    print()
+
     -- Check for command line arguments
-    local category = arg[1] or "all"
+    local category = arg[2] or "all"  -- Changed from arg[1] to arg[2]
     print("Running category: " .. category .. "\n")
 
     -- Load all test modules
@@ -45,11 +52,13 @@ function love.load()
         return
     end
 
-    -- Run each test
-    for _, test in ipairs(tests) do
-        print("\n" .. string.rep("-", 60))
-        print("Running: " .. test.name)
-        print(string.rep("-", 60))
+    print("Starting test execution...\n")
+
+    -- Run each test with progress updates
+    for i, test in ipairs(tests) do
+        -- Show progress
+        local progress = string.format("[%d/%d] ", i, #tests)
+        print(progress .. "Running: " .. test.name)
 
         local success, testModule = pcall(require, test.module)
 
@@ -63,10 +72,10 @@ function love.load()
             })
 
             if testSuccess then
-                print("✓ " .. test.name .. " PASSED")
+                print(progress .. "[PASS] " .. test.name)
             else
-                print("✗ " .. test.name .. " FAILED")
-                print("  Error: " .. tostring(testError))
+                print(progress .. "[FAIL] " .. test.name)
+                print("       Error: " .. tostring(testError))
             end
         else
             table.insert(testResults, {
@@ -74,7 +83,7 @@ function love.load()
                 success = false,
                 error = "Failed to load module: " .. tostring(testModule)
             })
-            print("✗ Failed to load: " .. test.name)
+            print(progress .. "[FAIL] Failed to load: " .. test.name)
         end
     end
 
@@ -94,14 +103,15 @@ function love.load()
         end
     end
 
-    print(string.format("Total: %d", #testResults))
-    print(string.format("Passed: %d (%.1f%%)", passed, passed / #testResults * 100))
-    print(string.format("Failed: %d (%.1f%%)", failed, failed / #testResults * 100))
+    print(string.format("Total Tests: %d", #testResults))
+    print(string.format("Passed: %d", passed))
+    print(string.format("Failed: %d", failed))
+    print(string.format("Pass Rate: %.1f%%", passed / #testResults * 100))
 
     if failed == 0 then
-        print("\n✓ ALL TESTS PASSED!")
+        print("\n[PASS] ALL TESTS PASSED!")
     else
-        print("\n✗ SOME TESTS FAILED")
+        print("\n[FAIL] SOME TESTS FAILED")
         print("\nFailed tests:")
         for _, result in ipairs(testResults) do
             if not result.success then
@@ -134,10 +144,10 @@ function love.draw()
         for _, result in ipairs(testResults) do
             if result.success then
                 love.graphics.setColor(0, 1, 0)
-                love.graphics.print("✓ " .. result.name, 10, y)
+                love.graphics.print("[PASS] " .. result.name, 10, y)
             else
                 love.graphics.setColor(1, 0, 0)
-                love.graphics.print("✗ " .. result.name, 10, y)
+                love.graphics.print("[FAIL] " .. result.name, 10, y)
             end
             y = y + 20
         end

@@ -117,6 +117,8 @@ function runTests(testPath)
         modulePath = "tests2.ai"
     elseif testPath == "basescape" then
         modulePath = "tests2.basescape"
+    elseif testPath == "battlescape" then
+        modulePath = "tests2.battlescape"
     elseif testPath == "economy" then
         modulePath = "tests2.economy"
     elseif testPath == "politics" then
@@ -125,9 +127,9 @@ function runTests(testPath)
         modulePath = "tests2.lore"
     elseif testPath:match("^geoscape/") or testPath:match("mission_manager") or testPath:match("difficulty_system") or testPath:match("faction_system") or testPath:match("campaign_manager") or testPath:match("progression_manager") or testPath:match("world_system") or testPath:match("country_manager") or testPath:match("biome") or testPath:match("terror") then
         modulePath = "tests2.geoscape." .. testPath:gsub("/", ".")
-    elseif testPath:match("^ai/") or testPath:match("ai_coordinator") or testPath:match("strategic_planner") then
+    elseif testPath:match("^ai/") or testPath:match("ai_coordinator") or testPath:match("strategic_planner") or testPath:match("ai_tactical_decision") or testPath:match("advanced_ai") or testPath:match("tactical_ai") or testPath:match("faction_ai") or testPath:match("ai_tactical_planning") or testPath:match("performance_optimization") then
         modulePath = "tests2.ai." .. testPath:gsub("/", ".")
-    elseif testPath:match("^battlescape/") or testPath:match("^combat_mechanics") or testPath:match("^movement_3d") then
+    elseif testPath:match("^battlescape/") or testPath:match("^combat_mechanics") or testPath:match("^movement_3d") or testPath:match("^accuracy_system") or testPath:match("^ai_tactical_decision") or testPath:match("^combat_log") or testPath:match("^combat_resolver") or testPath:match("^combat_simulator") or testPath:match("^craft_manager") or testPath:match("^deployment_system") or testPath:match("^ecs_components") or testPath:match("^edge_case_handling") or testPath:match("^environmental_effects") or testPath:match("^interception_battle") or testPath:match("^los_fow_system") or testPath:match("^map_generator") or testPath:match("^mission_briefing") or testPath:match("^movement_system") or testPath:match("^pathfinding_movement") or testPath:match("^procedural_generation") or testPath:match("^squad_formation") or testPath:match("^squad_manager") or testPath:match("^squad_tactics") or testPath:match("^tactical_combat") or testPath:match("^tactical_objectives") or testPath:match("^unit_progression") or testPath:match("^warrior_skills") or testPath:match("^weapon_balancing") or testPath:match("^weapon_system") then
         modulePath = "tests2.battlescape." .. testPath:gsub("/", ".")
     elseif testPath:match("^basescape/") or testPath:match("base_manager") then
         modulePath = "tests2.basescape." .. testPath:gsub("/", ".")
@@ -141,7 +143,7 @@ function runTests(testPath)
         modulePath = "tests2.core." .. testPath:gsub("/", ".")
     end
 
-    if not testPath:match("_test$") and testPath ~= "geoscape" and testPath ~= "ai" and testPath ~= "basescape" and testPath ~= "economy" and testPath ~= "politics" and testPath ~= "lore" then
+    if not testPath:match("_test$") and testPath ~= "geoscape" and testPath ~= "ai" and testPath ~= "basescape" and testPath ~= "battlescape" and testPath ~= "economy" and testPath ~= "politics" and testPath ~= "lore" then
         modulePath = modulePath .. "_test"
     end
 

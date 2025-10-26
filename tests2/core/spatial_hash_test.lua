@@ -90,7 +90,7 @@ Suite:group("Grid Initialization", function()
         shared.grid = SpatialHash.new(100, 100, 10)
         Helpers.assertEqual(shared.grid.width, 100, "Width set")
         Helpers.assertEqual(shared.grid.cellSize, 10, "Cell size set")
-        print("  ✓ Grid created")
+        -- Removed manual print - framework handles this
     end)
 
     Suite:testMethod("SpatialHash grid dimensions", {description="Calculates grid dimensions", testCase="dimension", type="functional"},
@@ -99,7 +99,7 @@ Suite:group("Grid Initialization", function()
         local w, h = shared.grid:getGridDimensions()
         Helpers.assertEqual(w, 10, "Grid width = 10")
         Helpers.assertEqual(h, 10, "Grid height = 10")
-        print("  ✓ Dimensions calculated")
+        -- Removed manual print - framework handles this
     end)
 end)
 
@@ -112,7 +112,7 @@ Suite:group("Item Management", function()
         local item = {id = 1}
         shared.grid:insert(item, 25, 35)
         Helpers.assertEqual(shared.grid.itemToCell[item] ~= nil, true, "Item tracked")
-        print("  ✓ Item inserted")
+        -- Removed manual print - framework handles this
     end)
 
     Suite:testMethod("SpatialHash.remove", {description="Removes item from grid", testCase="remove", type="functional"},
@@ -121,7 +121,7 @@ Suite:group("Item Management", function()
         shared.grid:insert(item, 25, 35)
         shared.grid:remove(item)
         Helpers.assertEqual(shared.grid.itemToCell[item], nil, "Item removed")
-        print("  ✓ Item removed")
+        -- Removed manual print - framework handles this
     end)
 
     Suite:testMethod("SpatialHash.clear", {description="Clears all items", testCase="clear", type="functional"},
@@ -132,7 +132,7 @@ Suite:group("Item Management", function()
         local cellCount = 0
         for _ in pairs(shared.grid.cells) do cellCount = cellCount + 1 end
         Helpers.assertEqual(cellCount, 0, "Grid cleared")
-        print("  ✓ Grid cleared")
+        -- Removed manual print - framework handles this
     end)
 end)
 
@@ -149,7 +149,7 @@ Suite:group("Spatial Queries", function()
     function()
         local result = shared.grid:query(25, 25, 15)
         Helpers.assertEqual(result ~= nil and #result > 0, true, "Found items")
-        print("  ✓ Query returned items")
+        -- Removed manual print - framework handles this
     end)
 
     Suite:testMethod("SpatialHash query exclusion", {description="Excludes distant items", testCase="exclusion", type="functional"},
@@ -158,14 +158,14 @@ Suite:group("Spatial Queries", function()
         local hasId3 = false
         for _, item in ipairs(result) do if item.id == 3 then hasId3 = true end end
         Helpers.assertEqual(hasId3, false, "Distant item excluded")
-        print("  ✓ Distant items excluded")
+        -- Removed manual print - framework handles this
     end)
 
     Suite:testMethod("SpatialHash large radius query", {description="Finds all items in large radius", testCase="large_radius", type="functional"},
     function()
         local result = shared.grid:query(50, 50, 40)
         Helpers.assertEqual(#result >= 3, true, "Found all items")
-        print("  ✓ Large radius query works")
+        -- Removed manual print - framework handles this
     end)
 end)
 
@@ -178,7 +178,7 @@ Suite:group("Edge Cases", function()
         shared.grid:insert({id = 1}, 0, 0)
         shared.grid:insert({id = 2}, 99, 99)
         Helpers.assertEqual(shared.grid.itemToCell[{id=1}] == nil, true, "Tracked")
-        print("  ✓ Corners handled")
+        -- Removed manual print - framework handles this
     end)
 
     Suite:testMethod("SpatialHash zero radius query", {description="Queries with zero radius", testCase="zero_radius", type="functional"},
@@ -186,7 +186,7 @@ Suite:group("Edge Cases", function()
         shared.grid:insert({id = 1}, 25, 25)
         local result = shared.grid:query(25, 25, 0)
         Helpers.assertEqual(#result > 0, true, "Found item")
-        print("  ✓ Zero radius query works")
+        -- Removed manual print - framework handles this
     end)
 end)
 

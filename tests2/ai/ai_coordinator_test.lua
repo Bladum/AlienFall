@@ -82,7 +82,7 @@ Suite:group("Squad Management", function()
     function()
         shared.coord:registerSquad("squad_1", {unit1 = true, unit2 = true})
         Helpers.assertEqual(shared.coord.squads["squad_1"] ~= nil, true, "Squad registered")
-        print("  ✓ Squad registered")
+        -- Removed manual print - framework handles this
     end)
 
     Suite:testMethod("AICoordinator.getSquadStatus", {description="Gets squad status", testCase="status", type="functional"},
@@ -90,7 +90,7 @@ Suite:group("Squad Management", function()
         shared.coord:registerSquad("squad_1", {unit1 = true})
         local status = shared.coord:getSquadStatus("squad_1")
         Helpers.assertEqual(status, "idle", "Initial status idle")
-        print("  ✓ Status retrieved")
+        -- Removed manual print - framework handles this
     end)
 end)
 
@@ -104,7 +104,7 @@ Suite:group("Threat Assessment", function()
         local count = 0
         for _ in pairs(shared.coord.threats) do count = count + 1 end
         Helpers.assertEqual(count > 0, true, "Threat registered")
-        print("  ✓ Threat updated")
+        -- Removed manual print - framework handles this
     end)
 
     Suite:testMethod("AICoordinator.getThreatLevel", {description="Calculates threat level", testCase="calculation", type="functional"},
@@ -113,7 +113,7 @@ Suite:group("Threat Assessment", function()
         shared.coord:updateThreatAssessment({level = 30})
         local threat = shared.coord:getThreatLevel()
         Helpers.assertEqual(threat >= 50, true, "Threat combined correctly")
-        print("  ✓ Threat calculated")
+        -- Removed manual print - framework handles this
     end)
 
     Suite:testMethod("AICoordinator threat clamping", {description="Clamps threat to 100", testCase="clamping", type="functional"},
@@ -123,7 +123,7 @@ Suite:group("Threat Assessment", function()
         end
         local threat = shared.coord:getThreatLevel()
         Helpers.assertEqual(threat <= 100, true, "Threat clamped")
-        print("  ✓ Threat clamped")
+        -- Removed manual print - framework handles this
     end)
 end)
 
@@ -139,7 +139,7 @@ Suite:group("Decision Making", function()
         local action = shared.coord:decideSquadAction("squad_1")
         Helpers.assertEqual(action.squadId, "squad_1", "Action assigned")
         Helpers.assertEqual(action.priority >= 0, true, "Priority set")
-        print("  ✓ Decision made")
+        -- Removed manual print - framework handles this
     end)
 end)
 
@@ -154,7 +154,7 @@ Suite:group("Coordination Update", function()
     function()
         shared.coord:update(0.016)
         Helpers.assertEqual(shared.coord:getSquadStatus("squad_1"), "planning", "Status updated")
-        print("  ✓ Update applied")
+        -- Removed manual print - framework handles this
     end)
 end)
 

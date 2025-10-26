@@ -118,7 +118,7 @@ Suite:group("Initialization", function()
         Helpers.assertEqual(difficulty.missionWins, 0, "Should have no wins")
         Helpers.assertEqual(difficulty.missionLosses, 0, "Should have no losses")
 
-        print("  ✓ DifficultySystem initialized")
+        -- Removed manual print - framework handles this
     end)
 end)
 
@@ -168,7 +168,7 @@ Suite:group("Threat Calculation", function()
 
         Helpers.assertEqual(threat <= 100, true, "Threat should clamp to 100")
 
-        print("  ✓ Threat clamped to valid range")
+        -- Removed manual print - framework handles this
     end)
 end)
 
@@ -206,7 +206,7 @@ Suite:group("Mission Difficulty Scaling", function()
         Helpers.assertEqual(highThreat.scaledDifficulty > lowThreat.scaledDifficulty, true,
             "Higher threat should scale more")
 
-        print("  ✓ Scaling increases with threat")
+        -- Removed manual print - framework handles this
     end)
 end)
 
@@ -227,7 +227,7 @@ Suite:group("Enemy Composition", function()
 
         Helpers.assertEqual(composition.sectoid, 3, "Should have sectoids at low threat")
 
-        print("  ✓ Low threat composition: Sectoids")
+        -- Removed manual print - framework handles this
     end)
 
     Suite:testMethod("DifficultySystem.getEnemyComposition", {
@@ -239,7 +239,7 @@ Suite:group("Enemy Composition", function()
 
         Helpers.assertEqual(composition.ethereal_leader ~= nil, true, "Should have leaders at high threat")
 
-        print("  ✓ High threat composition: Leaders included")
+        -- Removed manual print - framework handles this
     end)
 
     Suite:testMethod("DifficultySystem.getEnemyComposition", {
@@ -252,7 +252,7 @@ Suite:group("Enemy Composition", function()
         end)
 
         Helpers.assertEqual(ok, false, "Should error on invalid threat")
-        print("  ✓ Invalid threat rejected")
+        -- Removed manual print - framework handles this
     end)
 end)
 

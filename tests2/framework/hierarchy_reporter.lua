@@ -28,24 +28,24 @@ end
 ---Get status icon/symbol
 local function getStatusIcon(status)
     if status == "excellent" or status == "passing" or status == "fully_tested" then
-        return "✓"
+        return "[PASS]"
     elseif status == "good" or status == "mostly_passing" or status == "partially_tested" then
-        return "◐"
+        return "[PART]"
     elseif status == "partial" or status == "poorly_tested" then
-        return "⚠"
+        return "[WARN]"
     else
-        return "✗"
+        return "[FAIL]"
     end
 end
 
 ---Get status color (console)
 local function getStatusColor(status)
     if status == "excellent" or status == "passing" or status == "fully_tested" then
-        return "✓"  -- Green would be nice but we use text
+        return "[PASS]"  -- Green would be nice but we use text
     elseif status == "poor" or status == "failing" or status == "not_tested" then
-        return "✗"  -- Red
+        return "[FAIL]"  -- Red
     else
-        return "◐"  -- Yellow/Orange
+        return "[PART]"  -- Yellow/Orange
     end
 end
 
@@ -97,7 +97,7 @@ function HierarchyReporter:reportModules()
 
         -- Show untested functions
         if cov.untested > 0 then
-            print(string.format("  ⚠ Missing: %d/%d functions", cov.untested, cov.total))
+            print(string.format("  [WARN] Missing: %d/%d functions", cov.untested, cov.total))
         end
     end
 
@@ -147,7 +147,7 @@ function HierarchyReporter:reportFiles()
 
         -- Show failures
         if fileCov.failed > 0 then
-            print(string.format("  ✗ Failed: %d tests", fileCov.failed))
+            print(string.format("  [FAIL] Failed: %d tests", fileCov.failed))
         end
     end
 
@@ -189,7 +189,7 @@ function HierarchyReporter:reportMethodsForModule(modulePath)
 
         -- Show test cases
         for testCase, result in pairs(cov.testCases) do
-            local testIcon = result.passed and "✓" or "✗"
+            local testIcon = result.passed and "[PASS]" or "[FAIL]"
             print(string.format("  %s %s", testIcon, testCase))
         end
     end

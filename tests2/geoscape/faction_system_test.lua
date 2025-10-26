@@ -74,7 +74,7 @@ Suite:group("Faction Management", function()
     }, function()
         local faction = shared.sys:createFaction({id = "xcom", name = "XCOM"})
         Helpers.assertEqual(faction.id, "xcom", "Should have ID")
-        print("  ✓ Faction created")
+        -- Removed manual print - framework handles this
     end)
 
     Suite:testMethod("FactionSystem.getFaction", {
@@ -85,7 +85,7 @@ Suite:group("Faction Management", function()
         shared.sys:createFaction({id = "aliens", name = "Aliens"})
         local faction = shared.sys:getFaction("aliens")
         Helpers.assertEqual(faction.name, "Aliens", "Should retrieve faction")
-        print("  ✓ Faction retrieved")
+        -- Removed manual print - framework handles this
     end)
 end)
 
@@ -124,7 +124,7 @@ Suite:group("Relations", function()
         shared.sys:updateRelation("faction1", "faction2", 25)
         local allied = shared.sys:isAllied("faction1", "faction2")
         Helpers.assertEqual(allied, true, "Should be allied at >70")
-        print("  ✓ Alliance status determined")
+        -- Removed manual print - framework handles this
     end)
 end)
 

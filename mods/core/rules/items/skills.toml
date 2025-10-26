@@ -26,7 +26,7 @@ description = "Increases accuracy with ranged weapons"
 ap_cost = 0
 ep_cost = 0
 cooldown = 0
-statMods = {accuracy = 10}
+statMods = { accuracy = 10 }
 effects = {}
 
 [[skill]]
@@ -37,7 +37,7 @@ description = "Increases accuracy and damage with melee weapons"
 ap_cost = 0
 ep_cost = 0
 cooldown = 0
-statMods = {melee_accuracy = 15, melee_damage = 2}
+statMods = { melee_accuracy = 15, melee_damage = 2 }
 effects = {}
 
 [[skill]]
@@ -49,7 +49,7 @@ ap_cost = 0
 ep_cost = 0
 cooldown = 0
 statMods = {}
-effects = {heavy_weapon_ap_reduction = 1}
+effects = { heavy_weapon_ap_reduction = 1 }
 
 [[skill]]
 id = "medic"
@@ -60,7 +60,7 @@ ap_cost = 1
 ep_cost = 2
 cooldown = 0
 statMods = {}
-effects = {can_heal = true, heal_amount = 4}
+effects = { can_heal = true, heal_amount = 4 }
 
 [[skill]]
 id = "engineer"
@@ -71,7 +71,7 @@ ap_cost = 1
 ep_cost = 1
 cooldown = 0
 statMods = {}
-effects = {can_repair = true, can_disable = true}
+effects = { can_repair = true, can_disable = true }
 
 [[skill]]
 id = "scout"
@@ -81,7 +81,7 @@ description = "Increases sight range and movement speed"
 ap_cost = 0
 ep_cost = 0
 cooldown = 0
-statMods = {sight = 2, speed = 1}
+statMods = { sight = 2, speed = 1 }
 effects = {}
 
 [[skill]]
@@ -93,7 +93,7 @@ ap_cost = 0
 ep_cost = 0
 cooldown = 0
 statMods = {}
-effects = {leadership_radius = 5, leadership_bonus = 10}
+effects = { leadership_radius = 5, leadership_bonus = 10 }
 
 [[skill]]
 id = "psionic"
@@ -104,4 +104,4 @@ ap_cost = 2
 ep_cost = 3
 cooldown = 1
 statMods = {}
-effects = {psionic_powers = true}
+effects = { psionic_powers = true }

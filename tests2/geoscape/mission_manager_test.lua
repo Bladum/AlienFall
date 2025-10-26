@@ -153,7 +153,7 @@ Suite:group("Mission Creation", function()
         Helpers.assertEqual(mission.type, "site", "Mission should have correct type")
         assert(mission.id:match("mission_"), "Mission should have ID")
 
-        print("  ✓ Mission created: " .. mission.id)
+        -- Removed manual print - framework handles this
     end)
 
     Suite:testMethod("MissionManager.createMission", {
@@ -166,7 +166,7 @@ Suite:group("Mission Creation", function()
         end)
 
         Helpers.assertEqual(ok, false, "Should error on missing name")
-        print("  ✓ Invalid mission rejected")
+        -- Removed manual print - framework handles this
     end)
 
     Suite:testMethod("MissionManager.createMission", {
@@ -181,7 +181,7 @@ Suite:group("Mission Creation", function()
         Helpers.assertEqual(m1.id ~= m2.id, true, "IDs should be unique")
         Helpers.assertEqual(m2.id ~= m3.id, true, "IDs should be unique")
 
-        print("  ✓ Multiple missions created with unique IDs")
+        -- Removed manual print - framework handles this
     end)
 end)
 
@@ -204,7 +204,7 @@ Suite:group("Mission Activation", function()
         Helpers.assertEqual(result, true, "Should return true")
         Helpers.assertEqual(shared.mission.state, "active", "Mission state should be active")
 
-        print("  ✓ Mission activated")
+        -- Removed manual print - framework handles this
     end)
 
     Suite:testMethod("MissionManager.activateMission", {
@@ -217,7 +217,7 @@ Suite:group("Mission Activation", function()
         end)
 
         Helpers.assertEqual(ok, false, "Should error on missing mission")
-        print("  ✓ Non-existent mission rejected")
+        -- Removed manual print - framework handles this
     end)
 
     Suite:testMethod("MissionManager.getActiveMissions", {
@@ -231,7 +231,7 @@ Suite:group("Mission Activation", function()
         Helpers.assertEqual(#active, 1, "Should have 1 active mission")
         Helpers.assertEqual(active[1], shared.mission.id, "Should contain mission ID")
 
-        print("  ✓ Active missions retrieved")
+        -- Removed manual print - framework handles this
     end)
 end)
 
@@ -259,7 +259,7 @@ Suite:group("Mission Completion", function()
         Helpers.assertEqual(shared.mission.state, "completed", "Mission should be completed")
         Helpers.assertEqual(shared.manager.totalRewardsEarned, 500, "Should track rewards")
 
-        print("  ✓ Mission completed with rewards")
+        -- Removed manual print - framework handles this
     end)
 
     Suite:testMethod("MissionManager.completeMission", {
@@ -274,7 +274,7 @@ Suite:group("Mission Completion", function()
         Helpers.assertEqual(stats.completed, 1, "Should have 1 completed")
         Helpers.assertEqual(stats.rewards, 100, "Should track rewards")
 
-        print("  ✓ Mission statistics tracked")
+        -- Removed manual print - framework handles this
     end)
 
     Suite:testMethod("MissionManager.failMission", {
@@ -289,7 +289,7 @@ Suite:group("Mission Completion", function()
         Helpers.assertEqual(shared.mission.state, "failed", "Mission should be failed")
         Helpers.assertEqual(stats.failed, 1, "Should have 1 failed")
 
-        print("  ✓ Mission failed and stats updated")
+        -- Removed manual print - framework handles this
     end)
 end)
 
@@ -313,7 +313,7 @@ Suite:group("Mission Queries", function()
         Helpers.assertEqual(mission.id, shared.m1.id, "Should return correct mission")
         Helpers.assertEqual(mission.name, "Mission 1", "Should have correct name")
 
-        print("  ✓ Mission retrieved")
+        -- Removed manual print - framework handles this
     end)
 
     Suite:testMethod("MissionManager.getMissionStats", {
@@ -332,7 +332,7 @@ Suite:group("Mission Queries", function()
         Helpers.assertEqual(stats.completed, 1, "Should have 1 completed")
         Helpers.assertEqual(stats.failed, 1, "Should have 1 failed")
 
-        print("  ✓ Mission statistics correct")
+        -- Removed manual print - framework handles this
     end)
 end)
 
@@ -359,7 +359,7 @@ Suite:group("Callbacks", function()
         Helpers.assertEqual(result, true, "Should register callback")
         assert(shared.manager.missionEvents["missionCompleted"] ~= nil, "Callback should be stored")
 
-        print("  ✓ Callback registered")
+        -- Removed manual print - framework handles this
     end)
 
     Suite:testMethod("MissionManager.registerCallback", {
@@ -372,7 +372,7 @@ Suite:group("Callbacks", function()
         end)
 
         Helpers.assertEqual(ok, false, "Should error on nil callback")
-        print("  ✓ Invalid callback rejected")
+        -- Removed manual print - framework handles this
     end)
 end)
 

@@ -368,6 +368,7 @@ Suite:group("Tier System", function()
         shared.wb = WeaponBalancing:new()
         shared.wb:registerWeapon("tier1", "Tier 1", "rifle", 15, 60, 15)
         shared.wb:registerWeapon("tier2", "Tier 2", "rifle", 25, 75, 20)
+        shared.wb:setTierRating("tier2", 2)  -- Set tier2 to tier 2 by default
     end)
 
     Suite:testMethod("WeaponBalancing.setTierRating", {description = "Sets tier", testCase = "set_tier", type = "functional"}, function()

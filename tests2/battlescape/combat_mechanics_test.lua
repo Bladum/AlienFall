@@ -199,7 +199,7 @@ Suite:group("Initialization", function()
         Helpers.assertEqual(combat.weaponAccuracy.rifle, 75, "Should have rifle accuracy")
         Helpers.assertEqual(combat.armorMitigation.heavy, 0.40, "Should have armor values")
 
-        print("  ✓ CombatMechanics initialized")
+        -- Removed manual print - framework handles this
     end)
 end)
 
@@ -236,7 +236,7 @@ Suite:group("Accuracy Calculation", function()
         Helpers.assertEqual(accuracy >= 5, true, "Accuracy should be at least 5%")
         Helpers.assertEqual(accuracy <= 95, true, "Accuracy should be at most 95%")
 
-        print("  ✓ Accuracy calculated: " .. accuracy .. "%")
+        -- Removed manual print - framework handles this
     end)
 
     Suite:testMethod("CombatMechanics.calculateAccuracy", {
@@ -256,7 +256,7 @@ Suite:group("Accuracy Calculation", function()
         Helpers.assertEqual(farAccuracy <= closeAccuracy, true,
             "Accuracy should be same or lower at distance")
 
-        print("  ✓ Distance modifier applied: close=" .. closeAccuracy .. "%, far=" .. farAccuracy .. "%")
+        -- Removed manual print - framework handles this
     end)
 
     Suite:testMethod("CombatMechanics.calculateAccuracy", {
@@ -269,7 +269,7 @@ Suite:group("Accuracy Calculation", function()
 
         Helpers.assertEqual(withcover < nocover, true, "Cover should reduce accuracy")
 
-        print("  ✓ Cover modifier applied: no cover=" .. nocover .. "%, with cover=" .. withcover .. "%")
+        -- Removed manual print - framework handles this
     end)
 
     Suite:testMethod("CombatMechanics.calculateAccuracy", {
@@ -287,7 +287,7 @@ Suite:group("Accuracy Calculation", function()
 
         Helpers.assertEqual(veryLow >= 5, true, "Accuracy should clamp to minimum 5%")
 
-        print("  ✓ Accuracy clamped correctly to range 5-95%")
+        -- Removed manual print - framework handles this
     end)
 end)
 
@@ -308,7 +308,7 @@ Suite:group("Damage Calculation", function()
 
         Helpers.assertEqual(damage, 30, "Damage should be unchanged without armor")
 
-        print("  ✓ Damage calculated: " .. damage .. " HP")
+        -- Removed manual print - framework handles this
     end)
 
     Suite:testMethod("CombatMechanics.calculateDamage", {
@@ -425,7 +425,7 @@ Suite:group("Attack Resolution", function()
         Helpers.assertEqual(result.hit, false, "Should miss out of range")
         assert(Helpers.tableContains(result.logs, "OUT_OF_RANGE"), "Should log out of range")
 
-        print("  ✓ Out of range attack rejected")
+        -- Removed manual print - framework handles this
     end)
 
     Suite:testMethod("CombatMechanics.resolveAttack", {
@@ -458,7 +458,7 @@ Suite:group("Attack Resolution", function()
 
         Helpers.assertEqual(ok, false, "Should throw error for nil attacker")
 
-        print("  ✓ Invalid parameters rejected with error")
+        -- Removed manual print - framework handles this
     end)
 end)
 
@@ -489,7 +489,7 @@ Suite:group("Critical Hits", function()
         Helpers.assertEqual(criticalCount > 20 and criticalCount < 80, true,
             "Critical rolls should roughly match chance")
 
-        print("  ✓ Critical roll distribution reasonable: " .. criticalCount .. "/100")
+        -- Removed manual print - framework handles this
     end)
 
     Suite:testMethod("CombatMechanics.rollCritical", {
@@ -509,7 +509,7 @@ Suite:group("Critical Hits", function()
         -- With 1% chance, should rarely crit
         Helpers.assertEqual(criticalCount < 10, true, "1% chance should rarely crit")
 
-        print("  ✓ Low critical chance respected: " .. criticalCount .. "/100")
+        -- Removed manual print - framework handles this
     end)
 end)
 
@@ -532,7 +532,7 @@ Suite:group("Hex Distance Calculation", function()
 
         Helpers.assertEqual(distance >= 0, true, "Distance should be non-negative")
 
-        print("  ✓ Hex distance calculated: " .. distance .. " hexes")
+        -- Removed manual print - framework handles this
     end)
 
     Suite:testMethod("CombatMechanics._hexDistance", {
@@ -545,7 +545,7 @@ Suite:group("Hex Distance Calculation", function()
 
         Helpers.assertEqual(distance, 0, "Distance to same hex should be 0")
 
-        print("  ✓ Same hex distance is 0")
+        -- Removed manual print - framework handles this
     end)
 end)
 

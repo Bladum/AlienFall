@@ -1,24 +1,18 @@
-# Unit Tests
+# tests/unit - Unit Tests
 
-## Goal / Purpose
+**Purpose:** Test individual functions and components in isolation
 
-The Unit folder contains unit test suites for individual components and functions. These tests verify basic functionality of isolated code components without dependencies.
+**Content:** 31 Lua test files covering core engine modules
 
-## Content
+**Features:**
+- Function-level testing without external dependencies
+- Fast execution for rapid feedback
+- Mock data integration for isolated testing
+- Coverage of critical game systems
 
-- Unit test files for core systems
-- Component testing
-- Function testing
-- Utility testing
-- Mock-based testing
+## Overview
 
-## Features
-
-- **Unit Testing**: Test individual components
-- **Isolation**: Test in isolation from dependencies
-- **Coverage**: Comprehensive code coverage
-- **Regression Prevention**: Catch component breaking changes
-- **Documentation**: Tests document expected behavior
+The Unit folder contains unit test suites for individual components and functions. These tests verify basic functionality of isolated code components without external dependencies.
 
 ## Test Categories
 

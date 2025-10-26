@@ -128,7 +128,7 @@ Suite:group("Initialization & Reset", function()
         Helpers.assertEqual(TurnManager.turnPhase, "init", "Phase should be init")
         Helpers.assertEqual(TurnManager.getUnitCount(), 0, "Units should be cleared")
 
-        print("  ✓ Turn system reset successfully")
+        -- Removed manual print - framework handles this
     end)
 
     Suite:testMethod("TurnManager.newTurn", {
@@ -142,7 +142,7 @@ Suite:group("Initialization & Reset", function()
         Helpers.assertEqual(TurnManager.getCurrentTurn(), 1, "Current turn should be 1")
         Helpers.assertEqual(TurnManager.getPhase(), "init", "Phase should be init")
 
-        print("  ✓ New turn created successfully")
+        -- Removed manual print - framework handles this
     end)
 
     Suite:testMethod("TurnManager.newTurn", {
@@ -156,7 +156,7 @@ Suite:group("Initialization & Reset", function()
 
         Helpers.assertEqual(TurnManager.getCurrentTurn(), 3, "Should have 3 turns")
 
-        print("  ✓ Turn counter incremented correctly")
+        -- Removed manual print - framework handles this
     end)
 end)
 
@@ -184,7 +184,7 @@ Suite:group("Phase Execution", function()
         Helpers.assertEqual(result, true, "Execute should return true")
         Helpers.assertEqual(TurnManager.getPhase(), "player", "Phase should be player")
 
-        print("  ✓ Phase executed successfully")
+        -- Removed manual print - framework handles this
     end)
 
     Suite:testMethod("TurnManager.execute", {
@@ -204,7 +204,7 @@ Suite:group("Phase Execution", function()
         TurnManager.execute("resolution")
         Helpers.assertEqual(TurnManager.getPhase(), "resolution")
 
-        print("  ✓ All phases cycled correctly")
+        -- Removed manual print - framework handles this
     end)
 
     Suite:testMethod("TurnManager.execute", {
@@ -219,7 +219,7 @@ Suite:group("Phase Execution", function()
         Helpers.assertEqual(ok, false, "Should throw error for empty phase")
         assert(err ~= nil and err:match("Phase cannot be empty"), "Error message should mention phase")
 
-        print("  ✓ Empty phase rejected with error")
+        -- Removed manual print - framework handles this
     end)
 
     Suite:testMethod("TurnManager.execute", {
@@ -237,7 +237,7 @@ Suite:group("Phase Execution", function()
         Helpers.assertEqual(shared.phaseCallbackCalled, true, "Callback should be called")
         Helpers.assertEqual(shared.callbackPhase, "player", "Callback should receive phase name")
 
-        print("  ✓ Phase callback executed correctly")
+        -- Removed manual print - framework handles this
     end)
 end)
 
@@ -274,7 +274,7 @@ Suite:group("Callbacks & Events", function()
         Helpers.assertEqual(shared.callbackCalled, true, "Callback should be called")
         Helpers.assertEqual(shared.callbackTurn, 1, "Callback should receive turn number")
 
-        print("  ✓ Callback registered and executed")
+        -- Removed manual print - framework handles this
     end)
 
     Suite:testMethod("TurnManager.registerCallback", {
@@ -288,7 +288,7 @@ Suite:group("Callbacks & Events", function()
 
         Helpers.assertEqual(ok, false, "Should throw error for nil callback")
 
-        print("  ✓ Invalid callback rejected")
+        -- Removed manual print - framework handles this
     end)
 
     Suite:testMethod("TurnManager.registerCallback", {
@@ -313,7 +313,7 @@ Suite:group("Callbacks & Events", function()
         Helpers.assertEqual(firstCall.count, 0, "First callback should not be called")
         Helpers.assertEqual(secondCall.count, 1, "Second callback should be called")
 
-        print("  ✓ Previous callback overwritten")
+        -- Removed manual print - framework handles this
     end)
 end)
 
@@ -337,7 +337,7 @@ Suite:group("Unit Management", function()
         Helpers.assertEqual(result, true, "Add unit should return true")
         Helpers.assertEqual(TurnManager.getUnitCount(), 1, "Should have 1 unit")
 
-        print("  ✓ Unit added successfully")
+        -- Removed manual print - framework handles this
     end)
 
     Suite:testMethod("TurnManager.addUnit", {
@@ -351,7 +351,7 @@ Suite:group("Unit Management", function()
 
         Helpers.assertEqual(TurnManager.getUnitCount(), 3, "Should have 3 units")
 
-        print("  ✓ Multiple units managed correctly")
+        -- Removed manual print - framework handles this
     end)
 
     Suite:testMethod("TurnManager.addUnit", {
@@ -367,7 +367,7 @@ Suite:group("Unit Management", function()
 
         Helpers.assertEqual(TurnManager.getUnitCount(), 1, "Should still have 1 unit")
 
-        print("  ✓ Unit replacement handled correctly")
+        -- Removed manual print - framework handles this
     end)
 end)
 
@@ -394,7 +394,7 @@ Suite:group("State Queries", function()
         TurnManager.newTurn()
         Helpers.assertEqual(TurnManager.getCurrentTurn(), 3, "After 3 newTurns should be 3")
 
-        print("  ✓ Current turn tracked correctly")
+        -- Removed manual print - framework handles this
     end)
 
     Suite:testMethod("TurnManager.getPhase", {
@@ -407,7 +407,7 @@ Suite:group("State Queries", function()
         TurnManager.execute("player")
         Helpers.assertEqual(TurnManager.getPhase(), "player", "After execute should be player")
 
-        print("  ✓ Current phase retrieved correctly")
+        -- Removed manual print - framework handles this
     end)
 end)
 

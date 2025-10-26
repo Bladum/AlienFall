@@ -61,21 +61,21 @@ Suite:group("Campaign Economy", function()
     function()
         local funds = shared.cam:addFunds(500)
         Helpers.assertEqual(funds, 1500, "Should have 1500")
-        print("  ✓ Funds added")
+        -- Removed manual print - framework handles this
     end)
 
     Suite:testMethod("CampaignManager.spendFunds", {description="Spends funds", testCase="spend", type="functional"},
     function()
         local funds = shared.cam:spendFunds(200)
         Helpers.assertEqual(funds, 800, "Should have 800")
-        print("  ✓ Funds spent")
+        -- Removed manual print - framework handles this
     end)
 
     Suite:testMethod("CampaignManager.addResearch", {description="Adds research", testCase="research", type="functional"},
     function()
         local res = shared.cam:addResearch(100)
         Helpers.assertEqual(res, 100, "Should have 100 research")
-        print("  ✓ Research added")
+        -- Removed manual print - framework handles this
     end)
 end)
 
@@ -87,7 +87,7 @@ Suite:group("Campaign Timeline", function()
     function()
         local day = shared.cam:nextDay()
         Helpers.assertEqual(day, 2, "Should be day 2")
-        print("  ✓ Day advanced")
+        -- Removed manual print - framework handles this
     end)
 
     Suite:testMethod("CampaignManager.getStatus", {description="Gets campaign status", testCase="status", type="functional"},
@@ -95,7 +95,7 @@ Suite:group("Campaign Timeline", function()
         local status = shared.cam:getStatus()
         Helpers.assertEqual(status.day, 1, "Should report day")
         Helpers.assertEqual(status.funds, 1000, "Should report funds")
-        print("  ✓ Status retrieved")
+        -- Removed manual print - framework handles this
     end)
 end)
 

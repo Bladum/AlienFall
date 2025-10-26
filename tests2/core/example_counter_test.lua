@@ -93,7 +93,7 @@ Suite:group("Initialization", function()
         assert(type(counter) == "table", "Counter should be table")
         assert(counter.value == 0, "Initial value should be 0")
 
-        print("  ✓ Counter instance created successfully")
+        -- Removed manual print - framework handles this
     end)
 
     Suite:testMethod("Counter:new", {
@@ -104,7 +104,7 @@ Suite:group("Initialization", function()
         local counter = Counter:new()
         Helpers.assertEqual(counter:getValue(), 0, "Initial value should be 0")
 
-        print("  ✓ Counter initialized with default state")
+        -- Removed manual print - framework handles this
     end)
 
 end)
@@ -135,7 +135,7 @@ Suite:group("Basic Operations", function()
         Helpers.assertEqual(result, 1, "Should return 1")
         Helpers.assertEqual(counter:getValue(), 1, "Value should be 1")
 
-        print("  ✓ Increment works correctly")
+        -- Removed manual print - framework handles this
     end)
 
     Suite:testMethod("Counter:increment", {
@@ -150,7 +150,7 @@ Suite:group("Basic Operations", function()
 
         Helpers.assertEqual(counter:getValue(), 3, "Value should be 3 after 3 increments")
 
-        print("  ✓ Multiple increments work correctly")
+        -- Removed manual print - framework handles this
     end)
 
     -- LEVEL 3: Decrement method tests
@@ -169,7 +169,7 @@ Suite:group("Basic Operations", function()
         Helpers.assertEqual(result, 1, "Should return 1")
         Helpers.assertEqual(counter:getValue(), 1, "Value should be 1")
 
-        print("  ✓ Decrement works correctly")
+        -- Removed manual print - framework handles this
     end)
 
     Suite:testMethod("Counter:decrement", {
@@ -183,7 +183,7 @@ Suite:group("Basic Operations", function()
 
         Helpers.assertEqual(counter:getValue(), -2, "Value can go negative")
 
-        print("  ✓ Decrement allows negative values")
+        -- Removed manual print - framework handles this
     end)
 
 end)
@@ -217,7 +217,7 @@ Suite:group("Advanced Operations", function()
 
         Helpers.assertEqual(counter:getValue(), 0, "Value should be 0 after reset")
 
-        print("  ✓ Reset works correctly")
+        -- Removed manual print - framework handles this
     end)
 
     -- LEVEL 3: AddValue method tests
@@ -233,7 +233,7 @@ Suite:group("Advanced Operations", function()
         Helpers.assertEqual(result, 5, "Should return 5")
         Helpers.assertEqual(counter:getValue(), 5, "Value should be 5")
 
-        print("  ✓ Adding positive value works")
+        -- Removed manual print - framework handles this
     end)
 
     Suite:testMethod("Counter:addValue", {
@@ -247,7 +247,7 @@ Suite:group("Advanced Operations", function()
 
         Helpers.assertEqual(counter:getValue(), 7, "Should be 10 - 3 = 7")
 
-        print("  ✓ Adding negative value works")
+        -- Removed manual print - framework handles this
     end)
 
     Suite:testMethod("Counter:addValue", {
@@ -260,7 +260,7 @@ Suite:group("Advanced Operations", function()
             counter:addValue("not a number")
         end, "must be number", "Should throw on string input")
 
-        print("  ✓ Validation works correctly")
+        -- Removed manual print - framework handles this
     end)
 
     Suite:testMethod("Counter:addValue", {
@@ -273,7 +273,7 @@ Suite:group("Advanced Operations", function()
             counter:addValue(nil)
         end, "must be number", "Should throw on nil input")
 
-        print("  ✓ Nil validation works correctly")
+        -- Removed manual print - framework handles this
     end)
 
 end)

@@ -115,7 +115,7 @@ Suite:group("Registration", function()
         Helpers.assertEqual(StateManager.states["test_state"], mockState, "State should be registered")
         Helpers.assertEqual(StateManager.countStates(), 1, "Should have 1 state")
 
-        print("  ✓ State registered successfully")
+        -- Removed manual print - framework handles this
     end)
 
     Suite:testMethod("StateManager.register", {
@@ -129,7 +129,7 @@ Suite:group("Registration", function()
 
         Helpers.assertEqual(StateManager.countStates(), 3, "Should have 3 states registered")
 
-        print("  ✓ Multiple states registered")
+        -- Removed manual print - framework handles this
     end)
 
     Suite:testMethod("StateManager.getStateNames", {
@@ -146,7 +146,7 @@ Suite:group("Registration", function()
         assert(Helpers.tableContains(names, "menu"), "Should contain 'menu'")
         assert(Helpers.tableContains(names, "game"), "Should contain 'game'")
 
-        print("  ✓ State names retrieved")
+        -- Removed manual print - framework handles this
     end)
 end)
 
@@ -178,7 +178,7 @@ Suite:group("State Switching", function()
         Helpers.assertEqual(StateManager.current, testState, "Current should be test state")
         Helpers.assertEqual(shared.enterCalled, true, "Enter callback should be called")
 
-        print("  ✓ State switched successfully")
+        -- Removed manual print - framework handles this
     end)
 
     Suite:testMethod("StateManager.switch", {
@@ -200,7 +200,7 @@ Suite:group("State Switching", function()
         Helpers.assertEqual(shared.exitCalled, true, "Exit should be called on previous state")
         Helpers.assertEqual(StateManager.current, state2, "Current should be state2")
 
-        print("  ✓ Exit callback called")
+        -- Removed manual print - framework handles this
     end)
 
     Suite:testMethod("StateManager.switch", {
@@ -212,7 +212,7 @@ Suite:group("State Switching", function()
             StateManager.switch("nonexistent")
         end, "does not exist", "Should throw error for non-existent state")
 
-        print("  ✓ Error thrown for invalid state")
+        -- Removed manual print - framework handles this
     end)
 
     Suite:testMethod("StateManager.switch", {
@@ -234,7 +234,7 @@ Suite:group("State Switching", function()
         Helpers.assertEqual(shared_args.arg1, "value1", "Should receive first argument")
         Helpers.assertEqual(shared_args.arg2, "value2", "Should receive second argument")
 
-        print("  ✓ Arguments passed to enter callback")
+        -- Removed manual print - framework handles this
     end)
 end)
 
@@ -266,7 +266,7 @@ Suite:group("Lifecycle Callbacks", function()
 
         Helpers.assertEqual(shared.updateCalled, true, "Update should be called")
 
-        print("  ✓ Update callback executed")
+        -- Removed manual print - framework handles this
     end)
 
     Suite:testMethod("StateManager.draw", {
@@ -283,7 +283,7 @@ Suite:group("Lifecycle Callbacks", function()
 
         Helpers.assertEqual(shared.drawCalled, true, "Draw should be called")
 
-        print("  ✓ Draw callback executed")
+        -- Removed manual print - framework handles this
     end)
 
     Suite:testMethod("StateManager.update", {
@@ -297,7 +297,7 @@ Suite:group("Lifecycle Callbacks", function()
 
         Helpers.assertEqual(StateManager.current, nil, "Current should still be nil")
 
-        print("  ✓ Handles missing current state")
+        -- Removed manual print - framework handles this
     end)
 end)
 
@@ -326,7 +326,7 @@ Suite:group("State Management", function()
         StateManager.register("game", {})
         Helpers.assertEqual(StateManager.countStates(), 2, "Should have 2 states")
 
-        print("  ✓ State count is accurate")
+        -- Removed manual print - framework handles this
     end)
 end)
 

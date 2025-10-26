@@ -137,11 +137,11 @@ Suite:group("Critical Modules (Priority 1)", function()
         type = "informational"
     }, function()
         print("\n[StateManager] Status: PARTIAL_COVERAGE")
-        print("  Path: engine/core/state/state_manager.lua")
-        print("  Functions: 6 (register, switch, update, draw, getStateNames, countStates)")
-        print("  Test File: tests2/core/state_manager_test.lua")
-        print("  Status: ✓ Tests created - 20 test cases")
-        print("  Next: Add more edge cases for state transitions")
+        -- Removed manual print - framework handles this
+        -- Removed manual print - framework handles this
+        -- Removed manual print - framework handles this
+        -- Removed manual print - framework handles this
+        -- Removed manual print - framework handles this
     end)
 
     Suite:testMethod("TurnManager", {
@@ -150,10 +150,10 @@ Suite:group("Critical Modules (Priority 1)", function()
         type = "informational"
     }, function()
         print("\n[TurnManager] Status: NO_COVERAGE")
-        print("  Path: engine/core/turn/turn_manager.lua")
-        print("  Functions: 4 (newTurn, execute, reset, getCurrentTurn)")
-        print("  Priority: HIGH - Core game mechanic")
-        print("  Action: Create tests2/core/turn_manager_test.lua")
+        -- Removed manual print - framework handles this
+        -- Removed manual print - framework handles this
+        -- Removed manual print - framework handles this
+        -- Removed manual print - framework handles this
     end)
 end)
 
@@ -168,11 +168,11 @@ Suite:group("Game Systems (Priority 2)", function()
         type = "informational"
     }, function()
         print("\n[Battlescape] Coverage Status:")
-        print("  • UnitSystem - NO_COVERAGE (4 functions)")
-        print("  • MapGenerator - NO_COVERAGE (3 functions)")
-        print("  Priority: HIGH")
-        print("  Action: Create tests2/battlescape/unit_system_test.lua")
-        print("  Action: Create tests2/battlescape/map_generator_test.lua")
+        -- Removed manual print - framework handles this
+        -- Removed manual print - framework handles this
+        -- Removed manual print - framework handles this
+        -- Removed manual print - framework handles this
+        -- Removed manual print - framework handles this
     end)
 
     Suite:testMethod("Basescape Systems", {
@@ -181,9 +181,9 @@ Suite:group("Game Systems (Priority 2)", function()
         type = "informational"
     }, function()
         print("\n[Basescape] Coverage Status:")
-        print("  • BaseManager - NO_COVERAGE (3 functions)")
-        print("  Priority: MEDIUM")
-        print("  Action: Create tests2/basescape/base_manager_test.lua")
+        -- Removed manual print - framework handles this
+        -- Removed manual print - framework handles this
+        -- Removed manual print - framework handles this
     end)
 end)
 
@@ -198,9 +198,9 @@ Suite:group("Support Systems (Priority 3)", function()
         type = "informational"
     }, function()
         print("\n[Economy] Coverage Status:")
-        print("  • Economy - NO_COVERAGE (3 functions)")
-        print("  Priority: MEDIUM")
-        print("  Functions: addFunds, spendFunds, getBalance")
+        -- Removed manual print - framework handles this
+        -- Removed manual print - framework handles this
+        -- Removed manual print - framework handles this
     end)
 
     Suite:testMethod("AI System", {
@@ -209,9 +209,9 @@ Suite:group("Support Systems (Priority 3)", function()
         type = "informational"
     }, function()
         print("\n[AI] Coverage Status:")
-        print("  • AIManager - NO_COVERAGE (3 functions)")
-        print("  Priority: MEDIUM")
-        print("  Functions: decide, evaluate, execute")
+        -- Removed manual print - framework handles this
+        -- Removed manual print - framework handles this
+        -- Removed manual print - framework handles this
     end)
 end)
 
@@ -230,20 +230,20 @@ Suite:group("Action Plan", function()
         print(string.rep("═", 70))
 
         print("\n1. TurnManager (engine/core/turn/turn_manager.lua)")
-        print("   Priority: CRITICAL | Tests: 8-10 | Time: ~30 min")
-        print("   Command: cd tests2/core && create turn_manager_test.lua")
+        -- Removed manual print - framework handles this
+        -- Removed manual print - framework handles this
 
         print("\n2. UnitSystem (engine/battlescape/unit_system.lua)")
-        print("   Priority: HIGH | Tests: 10-12 | Time: ~45 min")
-        print("   Command: cd tests2/battlescape && create unit_system_test.lua")
+        -- Removed manual print - framework handles this
+        -- Removed manual print - framework handles this
 
         print("\n3. MapGenerator (engine/battlescape/map_generator.lua)")
-        print("   Priority: HIGH | Tests: 8-10 | Time: ~40 min")
-        print("   Command: cd tests2/battlescape && create map_generator_test.lua")
+        -- Removed manual print - framework handles this
+        -- Removed manual print - framework handles this
 
         print("\n4. BaseManager (engine/basescape/base_manager.lua)")
-        print("   Priority: MEDIUM | Tests: 6-8 | Time: ~25 min")
-        print("   Command: cd tests2/basescape && create base_manager_test.lua")
+        -- Removed manual print - framework handles this
+        -- Removed manual print - framework handles this
 
         print("\n" .. string.rep("═", 70))
     end)

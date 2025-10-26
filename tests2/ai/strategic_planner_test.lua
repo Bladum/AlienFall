@@ -114,7 +114,7 @@ Suite:group("Mission Scoring", function()
         local mission = {reward = 5000, difficulty = 1, relationship_boost = 10}
         local score = shared.planner:scoreMission(mission)
         Helpers.assertEqual(score >= 0 and score <= 100, true, "Score in range")
-        print("  ✓ Mission scored")
+        -- Removed manual print - framework handles this
     end)
 
     Suite:testMethod("StrategicPlanner mission details", {description="Returns scoring details", testCase="details", type="functional"},
@@ -123,7 +123,7 @@ Suite:group("Mission Scoring", function()
         local score, details = shared.planner:scoreMission(mission)
         Helpers.assertEqual(details.reward ~= nil, true, "Reward detail")
         Helpers.assertEqual(details.risk ~= nil, true, "Risk detail")
-        print("  ✓ Details returned")
+        -- Removed manual print - framework handles this
     end)
 end)
 
@@ -143,7 +143,7 @@ Suite:group("Mission Ranking", function()
         local ranked = shared.planner:rankMissions(shared.missions)
         Helpers.assertEqual(#ranked == 3, true, "All ranked")
         Helpers.assertEqual(ranked[1].score >= ranked[2].score, true, "Sorted descending")
-        print("  ✓ Missions ranked")
+        -- Removed manual print - framework handles this
     end)
 end)
 
@@ -158,7 +158,7 @@ Suite:group("Tech Tree Planning", function()
         local plan = shared.planner:planTechTree(gameState, base)
         Helpers.assertEqual(plan.nextTechTarget, 3, "Next tech identified")
         Helpers.assertEqual(plan.estimatedTurns >= 0, true, "Timeline set")
-        print("  ✓ Tech plan created")
+        -- Removed manual print - framework handles this
     end)
 end)
 
@@ -172,7 +172,7 @@ Suite:group("Facility Analysis", function()
         local needs = shared.planner:analyzeFacilityNeeds(base)
         Helpers.assertEqual(needs.hangars, true, "Hangar needed")
         Helpers.assertEqual(needs.barracks, true, "Barracks needed")
-        print("  ✓ Needs identified")
+        -- Removed manual print - framework handles this
     end)
 end)
 
@@ -187,7 +187,7 @@ Suite:group("Resource Impact", function()
         local impact = shared.planner:evaluateResourceImpact(mission, base)
         Helpers.assertEqual(impact.netGain, 5000, "Net gain calculated")
         Helpers.assertEqual(impact.profitMargin >= 1, true, "Profitable")
-        print("  ✓ Impact evaluated")
+        -- Removed manual print - framework handles this
     end)
 
     Suite:testMethod("StrategicPlanner loss mission", {description="Handles loss missions", testCase="loss", type="functional"},
@@ -196,7 +196,7 @@ Suite:group("Resource Impact", function()
         local base = {}
         local impact = shared.planner:evaluateResourceImpact(mission, base)
         Helpers.assertEqual(impact.netGain < 0, true, "Net loss detected")
-        print("  ✓ Loss detected")
+        -- Removed manual print - framework handles this
     end)
 end)
 

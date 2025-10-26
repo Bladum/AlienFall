@@ -237,7 +237,7 @@ function HierarchicalSuite:run()
         print("\n[MODULE SETUP]")
         local ok, err = pcall(self.beforeAllFn)
         if not ok then
-            print("✗ Module setup failed: " .. tostring(err))
+            print("[FAIL] Module setup failed: " .. tostring(err))
             return false
         end
     end
@@ -266,7 +266,7 @@ function HierarchicalSuite:run()
         if beforeEachFn then
             local ok, err = pcall(beforeEachFn)
             if not ok then
-                print(string.format("  ✗ %s (setup failed)", test.description))
+                print(string.format("  [FAIL] %s (setup failed)", test.description))
                 test.status = "failed"
                 test.error = "Setup failed: " .. tostring(err)
                 self.results.failed = self.results.failed + 1
@@ -280,7 +280,7 @@ function HierarchicalSuite:run()
         test.duration = os.clock() - testStart
 
         if ok then
-            print(string.format("  ✓ %s (%.3fs)", test.description, test.duration))
+            print(string.format("  [PASS] %s (%.3fs)", test.description, test.duration))
             test.status = "passed"
             self.results.passed = self.results.passed + 1
 
@@ -290,7 +290,7 @@ function HierarchicalSuite:run()
             end
             table.insert(self.coverage.testedMethods[test.methodName], test)
         else
-            print(string.format("  ✗ %s (FAILED)", test.description))
+            print(string.format("  [FAIL] %s (FAILED)", test.description))
             print(string.format("    Error: %s", tostring(err)))
             test.status = "failed"
             test.error = tostring(err)
@@ -325,7 +325,7 @@ function HierarchicalSuite:run()
         print("\n[MODULE CLEANUP]")
         local ok, err = pcall(self.afterAllFn)
         if not ok then
-            print("✗ Module cleanup failed: " .. tostring(err))
+            print("[FAIL] Module cleanup failed: " .. tostring(err))
         end
     end
 
@@ -350,16 +350,16 @@ function HierarchicalSuite:printSummary()
     local passRate = total > 0 and (self.results.passed / total * 100) or 0
 
     print(string.format("Total Tests: %d", total))
-    print(string.format("✓ Passed: %d", self.results.passed))
-    print(string.format("✗ Failed: %d", self.results.failed))
-    print(string.format("⊗ Skipped: %d", self.results.skipped))
+    print(string.format("[PASS] Passed: %d", self.results.passed))
+    print(string.format("[FAIL] Failed: %d", self.results.failed))
+    print(string.format("[SKIP] Skipped: %d", self.results.skipped))
     print(string.format("Pass Rate: %.1f%%", passRate))
     print(string.format("Duration: %.3fs", self.results.duration))
 
     if #self.results.errors > 0 then
-        print("\n❌ FAILURES:")
+        print("\n[FAILURES]:")
         for _, err in ipairs(self.results.errors) do
-            print(string.format("  • %s (%s)", err.test, err.method))
+            print(string.format("  - %s (%s)", err.test, err.method))
         end
     end
 
@@ -371,19 +371,19 @@ function HierarchicalSuite:printCoverage()
     print("COVERAGE REPORT (METHOD LEVEL)")
     print(string.rep("-", 70))
 
-    print("\n✓ TESTED METHODS:")
+    print("\n[PASS] TESTED METHODS:")
     for methodName, tests in pairs(self.coverage.testedMethods) do
-        print(string.format("  • %s (%d tests)", methodName, #tests))
+        print(string.format("  - %s (%d tests)", methodName, #tests))
         for _, test in ipairs(tests) do
-            local status = test.status == "passed" and "✓" or "✗"
+            local status = test.status == "passed" and "[PASS]" or "[FAIL]"
             print(string.format("    %s %s [%s]", status, test.description, test.testCase))
         end
     end
 
     if #self.coverage.untestedMethods > 0 then
-        print("\n✗ NOT TESTED METHODS:")
+        print("\n[NOT TESTED] METHODS:")
         for _, methodName in ipairs(self.coverage.untestedMethods) do
-            print(string.format("  • %s", methodName))
+            print(string.format("  - %s", methodName))
         end
     end
 

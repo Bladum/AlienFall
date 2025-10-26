@@ -46,7 +46,7 @@ local UnitProgression = {
     gainExperience = function(self, unitId, amount)
         if not self.experience[unitId] then return false end
         self.experience[unitId].exp = self.experience[unitId].exp + amount
-        if self.experience[unitId].exp >= self.experience[unitId].exp_to_level then
+        while self.experience[unitId].exp >= self.experience[unitId].exp_to_level do
             self:levelUp(unitId)
         end
         return true
@@ -68,8 +68,8 @@ local UnitProgression = {
         if not self.units[unitId] then return false end
         local unit = self.units[unitId]
         unit.level = unit.level + 1
-        self.experience[unitId].exp = 0
-        self.experience[unitId].exp_to_level = math.floor(100 * (1.1 ^ unit.level))
+        self.experience[unitId].exp = self.experience[unitId].exp - self.experience[unitId].exp_to_level
+        self.experience[unitId].exp_to_level = 100  -- Fixed XP requirement per level
         return true
     end,
 

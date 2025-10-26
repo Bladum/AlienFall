@@ -67,7 +67,7 @@ Suite:group("Mod Registration", function()
     function()
         shared.mgr:addMod("core")
         Helpers.assertEqual(shared.mgr.mods["core"] ~= nil, true, "Mod should exist")
-        print("  ✓ Mod added")
+        -- Removed manual print - framework handles this
     end)
 
     Suite:testMethod("ModManager.getMods", {description="Returns all mods", testCase="query", type="functional"},
@@ -77,7 +77,7 @@ Suite:group("Mod Registration", function()
         local mods = shared.mgr:getMods()
         Helpers.assertEqual(mods["core"] ~= nil, true, "Should have core")
         Helpers.assertEqual(mods["extended"] ~= nil, true, "Should have extended")
-        print("  ✓ Mods retrieved")
+        -- Removed manual print - framework handles this
     end)
 end)
 
@@ -92,7 +92,7 @@ Suite:group("Mod Activation", function()
     function()
         shared.mgr:setActiveMod("core")
         Helpers.assertEqual(shared.mgr.activeMod ~= nil, true, "Active mod set")
-        print("  ✓ Mod activated")
+        -- Removed manual print - framework handles this
     end)
 
     Suite:testMethod("ModManager.getActiveMod", {description="Gets active mod", testCase="query", type="functional"},
@@ -100,7 +100,7 @@ Suite:group("Mod Activation", function()
         shared.mgr:setActiveMod("core")
         local active = shared.mgr:getActiveMod()
         Helpers.assertEqual(active.id, "core", "Should be core mod")
-        print("  ✓ Active mod retrieved")
+        -- Removed manual print - framework handles this
     end)
 end)
 
@@ -116,7 +116,7 @@ Suite:group("Content Resolution", function()
     function()
         local path = shared.mgr:getContentPath("rules", "battle", "terrain.toml")
         Helpers.assertEqual(path, "rules/battle/terrain.toml", "Should resolve path")
-        print("  ✓ Content path resolved")
+        -- Removed manual print - framework handles this
     end)
 
     Suite:testMethod("ModManager.getContentPath no mod", {description="Errors without active mod", testCase="error_handling", type="error"},
@@ -124,7 +124,7 @@ Suite:group("Content Resolution", function()
         local mgr = ModManager:new()
         local ok, err = pcall(function() mgr:getContentPath("rules") end)
         Helpers.assertEqual(ok, false, "Should error")
-        print("  ✓ Error handled")
+        -- Removed manual print - framework handles this
     end)
 end)
 
@@ -140,14 +140,14 @@ Suite:group("Mod Lifecycle", function()
     function()
         shared.mgr:removeMod("extended")
         Helpers.assertEqual(shared.mgr.mods["extended"], nil, "Should be removed")
-        print("  ✓ Mod removed")
+        -- Removed manual print - framework handles this
     end)
 
     Suite:testMethod("ModManager modOrder", {description="Tracks mod order", testCase="order", type="functional"},
     function()
         Helpers.assertEqual(shared.mgr.modOrder[1], "core", "First should be core")
         Helpers.assertEqual(shared.mgr.modOrder[2], "extended", "Second should be extended")
-        print("  ✓ Mod order tracked")
+        -- Removed manual print - framework handles this
     end)
 end)
 

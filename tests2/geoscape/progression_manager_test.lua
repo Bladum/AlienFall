@@ -72,14 +72,14 @@ Suite:group("Progression Leveling", function()
     function()
         local xp = shared.prog:addExperience(50)
         Helpers.assertEqual(xp, 50, "Should have 50 XP")
-        print("  ✓ XP added")
+        -- Removed manual print - framework handles this
     end)
 
     Suite:testMethod("ProgressionManager.getLevel", {description="Gets current level", testCase="level", type="functional"},
     function()
         local level = shared.prog:getLevel()
         Helpers.assertEqual(level, 1, "Should be level 1")
-        print("  ✓ Level retrieved")
+        -- Removed manual print - framework handles this
     end)
 end)
 
@@ -91,13 +91,13 @@ Suite:group("Progression Achievements", function()
     function()
         shared.prog:unlockAchievement("first_mission")
         Helpers.assertEqual(shared.prog:isAchievementUnlocked("first_mission"), true, "Should be unlocked")
-        print("  ✓ Achievement unlocked")
+        -- Removed manual print - framework handles this
     end)
 
     Suite:testMethod("ProgressionManager.isAchievementUnlocked", {description="Checks unlock status", testCase="check", type="functional"},
     function()
         Helpers.assertEqual(shared.prog:isAchievementUnlocked("locked"), false, "Should be locked")
-        print("  ✓ Status checked")
+        -- Removed manual print - framework handles this
     end)
 end)
 
@@ -109,7 +109,7 @@ Suite:group("Progression Features", function()
     function()
         shared.prog:unlockFeature("advanced_tactics")
         Helpers.assertEqual(shared.prog.unlocks["advanced_tactics"], true, "Should be unlocked")
-        print("  ✓ Feature unlocked")
+        -- Removed manual print - framework handles this
     end)
 
     Suite:testMethod("ProgressionManager.getProgress", {description="Gets full progress", testCase="progress", type="functional"},
@@ -119,7 +119,7 @@ Suite:group("Progression Features", function()
         local prog = shared.prog:getProgress()
         Helpers.assertEqual(prog.level, 1, "Should report level")
         Helpers.assertEqual(prog.achievements["victory"], true, "Should report achievements")
-        print("  ✓ Progress retrieved")
+        -- Removed manual print - framework handles this
     end)
 end)
 

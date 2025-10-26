@@ -60,7 +60,7 @@ function StateManager.switch(name, ...)
     print("[StateManager] Attempting to switch to: " .. name)
     local stateNames = StateManager.getStateNames()
     print("[StateManager] Available states: " .. table.concat(stateNames, ", "))
-    
+
     if not StateManager.states[name] then
         print("[StateManager] ERROR: State '" .. name .. "' not found in states table")
         print("[StateManager] States table contents:")
@@ -69,16 +69,16 @@ function StateManager.switch(name, ...)
         end
         error("[StateManager] State '" .. name .. "' does not exist!")
     end
-    
+
     -- Call exit on current state if it exists
     if StateManager.current and StateManager.current.exit then
         StateManager.current:exit()
     end
-    
+
     -- Switch to new state
     StateManager.current = StateManager.states[name]
     print("[StateManager] Switched to state: " .. name)
-    
+
     -- Call enter on new state if it exists
     if StateManager.current.enter then
         StateManager.current:enter(...)
@@ -243,30 +243,3 @@ function StateManager.getGlobalData(key)
 end
 
 return StateManager
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
