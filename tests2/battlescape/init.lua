@@ -20,6 +20,7 @@ battlescape.mission_briefing = require("tests2.battlescape.mission_briefing_test
 battlescape.movement_system = require("tests2.battlescape.movement_system_test")
 battlescape.pathfinding_movement = require("tests2.battlescape.pathfinding_movement_test")
 battlescape.procedural_generation = require("tests2.battlescape.procedural_generation_test")
+battlescape.range_accuracy = require("tests2.battlescape.range_accuracy_test")
 battlescape.squad_formation = require("tests2.battlescape.squad_formation_test")
 battlescape.squad_manager = require("tests2.battlescape.squad_manager_test")
 battlescape.squad_tactics = require("tests2.battlescape.squad_tactics_test")
@@ -58,6 +59,7 @@ function battlescape:run()
         "movement_system",
         "pathfinding_movement",
         "procedural_generation",
+        "range_accuracy",
         "squad_formation",
         "squad_manager",
         "squad_tactics",

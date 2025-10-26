@@ -39,7 +39,7 @@ if not exist "C:\Program Files\LOVE\lovec.exe" (
 )
 
 REM Run single test
-"C:\Program Files\LOVE\lovec.exe" "tests2/runners" run_single_test %1
+"C:\Program Files\LOVE\lovec.exe" "tests2" run %1
 
 REM Force close Love2D window if still open (timeout: 2 seconds)
 timeout /t 2 /nobreak >nul 2>&1

@@ -162,6 +162,27 @@ function Helpers.assertEqual(actual, expected, message)
     end
 end
 
+---Assert true
+function Helpers.assertTrue(condition, message)
+    if not condition then
+        error(message or "Expected true, got false")
+    end
+end
+
+---Assert false
+function Helpers.assertFalse(condition, message)
+    if condition then
+        error(message or "Expected false, got true")
+    end
+end
+
+---Assert not nil
+function Helpers.assertNotNil(value, message)
+    if value == nil then
+        error(message or "Expected non-nil value, got nil")
+    end
+end
+
 ---Assert throws
 function Helpers.assertThrows(fn, expectedError, message)
     local ok, err = pcall(fn)

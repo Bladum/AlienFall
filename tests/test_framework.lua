@@ -1,1 +1,0 @@
--- moved from core/testing/

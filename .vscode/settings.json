@@ -37,5 +37,21 @@
 	},
 	"evenBetterToml.formatter.indentTables": true,
 	"evenBetterToml.formatter.alignComments": false,
-	"workbench.startupEditor": "none"
+	"workbench.startupEditor": "none",
+	"editor.allowVariableFontsInAccessibilityMode": true,
+	"editor.aiStats.enabled": true,
+	"github.copilot.chat.codesearch.enabled": true,
+	"github.copilot.chat.agent.thinkingTool": true,
+	"github.copilot.chat.alternateGptPrompt.enabled": true,
+	"github.copilot.chat.executePrompt.enabled": true,
+	"github.copilot.chat.generateTests.codeLens": true,
+	"Lua.codeLens.enable": true,
+	"Lua.completion.callSnippet": "Both",
+	"lua.debug.settings.luaVersion": "luajit",
+	"telemetry.editStats.enabled": false,
+	"telemetry.feedback.enabled": false,
+	"scm.alwaysShowActions": true,
+	"scm.alwaysShowRepositories": true,
+	"debug.allowBreakpointsEverywhere": true,
+	"problems.defaultViewMode": "table"
 }
