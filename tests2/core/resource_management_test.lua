@@ -397,7 +397,7 @@ Suite:group("Shortage & Surplus", function()
 
     Suite:testMethod("ResourceManagement.isResourceShortage", {description = "Detects shortage", testCase = "shortage", type = "functional"}, function()
         local shortage = shared.resources:isResourceShortage("silver")
-        Helpers.assertEqual(typeof(shortage) == "boolean", true, "Is boolean")
+        Helpers.assertEqual(type(shortage) == "boolean", true, "Is boolean")
     end)
 
     Suite:testMethod("ResourceManagement.getResourceSurplus", {description = "Gets surplus", testCase = "surplus", type = "functional"}, function()

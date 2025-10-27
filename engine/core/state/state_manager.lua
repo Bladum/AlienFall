@@ -226,8 +226,8 @@ end
 --- @param key string Key to store data under
 --- @param value any Value to store
 --- @return nil
-function StateManager.setGlobalData(key, value)
-    StateManager.global_data[key] = value
+function StateManager:setGlobalData(key, value)
+    self.global_data[key] = value
     print("[StateManager] Set global data: " .. key .. " = " .. tostring(value))
 end
 
@@ -238,8 +238,8 @@ end
 ---
 --- @param key string Key to retrieve data for
 --- @return any Stored value or nil
-function StateManager.getGlobalData(key)
-    return StateManager.global_data[key]
+function StateManager:getGlobalData(key)
+    return self.global_data[key]
 end
 
 return StateManager

@@ -31,27 +31,19 @@ function MidiTestScreen:scan_midi_files()
     print("[MidiTestScreen] Scanning for MIDI files...")
     self.midi_files = {}
 
-    -- Hardcoded paths that SHOULD exist
-    local midi_paths = {
-        "MIDI TEST/Queen - Bohemian Rhapsody.mid",
-        "MIDI TEST/random_song.mid",
-        "MIDI TEST/sample.mid",
-        -- Alternative path formats
-        "MIDI_TEST/Queen - Bohemian Rhapsody.mid",
-        "../MIDI TEST/Queen - Bohemian Rhapsody.mid",
-    }
+    -- Scan the integrated MIDI directory in engine assets
+    local midi_dir = "assets/music/midi"
+    print("[MidiTestScreen] Checking directory: " .. midi_dir)
 
-    print("[MidiTestScreen] Checking known MIDI paths...")
-    for _, path in ipairs(midi_paths) do
-        print("[MidiTestScreen] Trying: " .. path)
-        if love.filesystem.getInfo(path) then
+    local files = love.filesystem.getDirectoryItems(midi_dir)
+    for _, filename in ipairs(files) do
+        if filename:match("%.mid$") or filename:match("%.midi$") then
+            local path = midi_dir .. "/" .. filename
             print("[MidiTestScreen]   ✓ FOUND: " .. path)
             table.insert(self.midi_files, {
-                name = path:match("([^/]+)$"),  -- Extract filename
+                name = filename,
                 path = path
             })
-        else
-            print("[MidiTestScreen]   ✗ Not found")
         end
     end
 

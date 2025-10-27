@@ -32,7 +32,7 @@ function DebugScreen:scanForMidiFiles()
     -- List all Love2D search paths
     self:addMessage("Love2D source dir: " .. love.filesystem.getSource())
 
-    local dirs = {"MIDI TEST", ".", "engine"}
+    local dirs = {"assets/music/midi"}
     for _, dir in ipairs(dirs) do
         local success, items = pcall(love.filesystem.getDirectoryItems, dir)
         if success then

@@ -422,12 +422,7 @@ function MidiPlayer:play(filePath)
     -- Stop any currently playing MIDI
     self:stop()
 
-    -- Convert relative path to absolute if needed
-    if not filePath:match("^%a:") then
-        ---@diagnostic disable-next-line
-        filePath = love.filesystem.getSource() .. "/" .. filePath
-    end
-
+    -- Don't convert path - Love2D filesystem handles relative paths automatically
     print("[MidiPlayer] Attempting to play: " .. filePath)
 
     -- Parse MIDI file

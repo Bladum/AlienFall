@@ -41,15 +41,9 @@ end
 function MidiTestScreen:scanForMidiFiles()
     self.midi_files = {}
 
-    -- Check multiple directories for MIDI files
+    -- Check the integrated MIDI directory in engine assets
     local search_dirs = {
-        "MIDI TEST",
-        "MIDI_TEST",
-        "midi_test",
-        "engine/audio/midi",
-        "assets/midi",
-        "mods/core/audio/midi",
-        "."  -- Check root too
+        "assets/music/midi",  -- Primary location for integrated MIDI files
     }
 
     for _, dir in ipairs(search_dirs) do

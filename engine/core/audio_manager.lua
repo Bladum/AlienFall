@@ -1,7 +1,19 @@
 -- Audio Manager for AlienFall
 -- Handles sound effects, music, and MIDI playback
 
+-- Try to load native MIDI player first (requires midi.dll)
+local MidiPlayerNative = require("audio.midi_player_native")
 local MidiPlayer = require("audio.midi_player")
+
+-- Choose which MIDI player to use
+local activeMidiPlayer = nil
+if MidiPlayerNative.available then
+    activeMidiPlayer = MidiPlayerNative
+    print("[AudioManager] Using native MIDI player (with real audio)")
+else
+    activeMidiPlayer = MidiPlayer
+    print("[AudioManager] Using fallback MIDI player (parser only - no audio)")
+end
 
 AudioManager = {
     master_volume = 1.0,
@@ -42,7 +54,7 @@ end
 -- Set MIDI volume (0-1)
 function AudioManager:setMIDIVolume(volume)
     self.midi_volume = math.max(0, math.min(1, volume))
-    MidiPlayer:setVolume(volume * self.master_volume * 1000)  -- MCI uses 0-1000
+    activeMidiPlayer:setVolume(volume * self.master_volume)
 end
 
 -- Update all volumes
@@ -51,7 +63,7 @@ function AudioManager:updateAllVolumes()
     if self.current_music then
         self.current_music:setVolume(self.music_volume * self.master_volume)
     end
-    MidiPlayer:setVolume(self.midi_volume * self.master_volume * 1000)
+    activeMidiPlayer:setVolume(self.midi_volume * self.master_volume)
 end
 
 -- Update SFX volumes
@@ -143,20 +155,23 @@ function AudioManager:playMIDI(midiName, loop)
     -- Handle both full paths and relative paths
     local path
     if midiName:match("%.mid$") or midiName:match("%.midi$") then
-        -- Already has extension, use as-is
-        path = midiName
+        -- Check if it's already a full path
+        if midiName:match("^assets/music/midi/") then
+            path = midiName
+        else
+            -- Just a filename with extension, prepend path
+            path = "assets/music/midi/" .. midiName
+        end
     else
-        -- Add .mid extension
-        path = midiName .. ".mid"
+        -- Add .mid extension and path
+        path = "assets/music/midi/" .. midiName .. ".mid"
     end
 
-    -- If path doesn't start with /, it's relative - don't modify
-    -- If it starts with /, try to use as-is (could be absolute from MIDI Test Screen)
     print("[AudioManager] Attempting to play MIDI: " .. path)
 
-    if MidiPlayer:play(path) then
+    if activeMidiPlayer:play(path) then
         self.current_midi = midiName
-        MidiPlayer:setVolume(self.midi_volume * self.master_volume)
+        activeMidiPlayer:setVolume(self.midi_volume * self.master_volume)
         print("[AudioManager] Playing MIDI: " .. midiName)
         return true
     else
@@ -175,18 +190,18 @@ end
 
 -- Stop MIDI
 function AudioManager:stopMIDI()
-    MidiPlayer:stop()
+    activeMidiPlayer:stop()
     self.current_midi = nil
 end
 
 -- Pause MIDI
 function AudioManager:pauseMIDI()
-    MidiPlayer:pause()
+    activeMidiPlayer:pause()
 end
 
 -- Resume MIDI
 function AudioManager:resumeMIDI()
-    MidiPlayer:resume()
+    activeMidiPlayer:resume()
 end
 
 -- Stop all audio
@@ -204,7 +219,7 @@ function AudioManager:pauseAll()
     if self.current_music then
         self.current_music:pause()
     end
-    MidiPlayer:stop()  -- MCI doesn't have pause, so stop
+    activeMidiPlayer:pause()
     for _, source in ipairs(self.active_sounds) do
         source:pause()
     end
@@ -237,10 +252,10 @@ function AudioManager:update(dt)
     end
 
     -- Update MIDI player for real-time playback
-    MidiPlayer:update(dt)
+    activeMidiPlayer:update(dt)
 
-    -- Handle MIDI looping if needed (MCI doesn't loop automatically)
-    local midi_playing = MidiPlayer:getIsPlaying()
+    -- Handle MIDI looping if needed
+    local midi_playing = activeMidiPlayer:getIsPlaying()
     if self.current_midi and not midi_playing then
         -- Could implement looping here if desired
     end
@@ -256,7 +271,7 @@ end
 
 -- Get current MIDI status
 function AudioManager:getMIDIStatus()
-    return MidiPlayer:getIsPlaying() and "playing" or "stopped"
+    return activeMidiPlayer:getIsPlaying() and "playing" or "stopped"
 end
 
 return AudioManager

@@ -424,7 +424,7 @@ Suite:group("Story Events", function()
     Suite:testMethod("LoreIntegration.getStoryMilestones", {description = "Gets milestones", testCase = "milestones", type = "functional"}, function()
         shared.lore:recordStoryEvent("evt4", "epic", "World changes", 60)
         local milestones = shared.lore:getStoryMilestones()
-        Helpers.assertEqual(typeof(milestones) == "table", true, "Is table")
+        Helpers.assertEqual(type(milestones) == "table", true, "Is table")
     end)
 end)
 

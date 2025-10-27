@@ -1,7 +1,9 @@
 -- Create a simple MIDI file for testing
-local file = io.open("MIDI TEST/simple.mid", "wb")
+-- Updated to use integrated MIDI location
+local file = io.open("engine/assets/music/midi/simple.mid", "wb")
 if not file then
     print("Could not create MIDI file")
+    print("Make sure engine/assets/music/midi/ directory exists")
     return
 end
 
@@ -43,4 +45,4 @@ file:write(string.char(
 ))
 
 file:close()
-print("Created simple MIDI file: MIDI TEST/simple.mid")
+print("Created simple MIDI file: engine/assets/music/midi/simple.mid")

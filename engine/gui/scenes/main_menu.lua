@@ -137,21 +137,24 @@ function Menu:enter()
     ))
     self.buttons[#self.buttons].onClick = function()
         print("[Menu] Testing MIDI playback...")
-        -- Try playing the uploaded MIDI file
-        if not AudioManager:playMIDI("MIDI TEST/Queen - Bohemian Rhapsody") then
+        -- Try playing the MIDI files from the integrated location
+        if not AudioManager:playMIDI("Queen - Bohemian Rhapsody") then
             print("[Menu] MIDI parsing failed, trying random_song.mid...")
-            if not AudioManager:playMIDI("MIDI TEST/random_song") then
-                print("[Menu] MIDI parsing failed, generating test tone...")
-                -- Generate a simple test tone as fallback
-                local toneData = love.sound.newSoundData(44100 * 2, 44100, 16, 1) -- 2 seconds
-                for i = 0, 44100 * 2 - 1 do
-                    local t = i / 44100
-                    local sample = math.sin(2 * math.pi * 440 * t) * 0.3 -- 440Hz sine wave
-                    toneData:setSample(i, sample)
+            if not AudioManager:playMIDI("random_song") then
+                print("[Menu] MIDI parsing failed, trying sample.mid...")
+                if not AudioManager:playMIDI("sample") then
+                    print("[Menu] All MIDI files failed, generating test tone...")
+                    -- Generate a simple test tone as fallback
+                    local toneData = love.sound.newSoundData(44100 * 2, 44100, 16, 1) -- 2 seconds
+                    for i = 0, 44100 * 2 - 1 do
+                        local t = i / 44100
+                        local sample = math.sin(2 * math.pi * 440 * t) * 0.3 -- 440Hz sine wave
+                        toneData:setSample(i, sample)
+                    end
+                    local source = love.audio.newSource(toneData)
+                    source:play()
+                    print("[Menu] Test tone played (440Hz for 2 seconds)")
                 end
-                local source = love.audio.newSource(toneData)
-                source:play()
-                print("[Menu] Test tone played (440Hz for 2 seconds)")
             end
         end
     end

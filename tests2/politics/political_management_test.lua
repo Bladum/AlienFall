@@ -373,7 +373,7 @@ Suite:group("Influence", function()
     Suite:testMethod("PoliticalManagement.getFactionsInRegion", {description = "Gets factions in region", testCase = "region", type = "functional"}, function()
         shared.politics:modifyFactionInfluence("fact12", "south_region", 40)
         local factions = shared.politics:getFactionsInRegion("south_region")
-        Helpers.assertEqual(typeof(factions) == "table", true, "Is table")
+        Helpers.assertEqual(type(factions) == "table", true, "Is table")
     end)
 end)
 

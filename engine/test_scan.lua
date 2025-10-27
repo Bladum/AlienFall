@@ -1,45 +1,73 @@
+---@diagnostic disable: inject-field
+---@diagnostic disable: duplicate-set-field
+
+---@class love
+---@field load fun()
+---@field keypressed fun(key: string)
+---@field draw fun()
+---@field filesystem table
+---@field graphics table
+---@field event table
+
 -- Test file scanning
-function love.load()
+local function load()
     print("[TEST] ========== FILESYSTEM DEBUG ==========")
 
-    -- List root directory
-    print("\n[TEST] Listing root directory (.)")
-    local root_items = love.filesystem.getDirectoryItems(".")
+    -- Get parent directory path (project root)
+    local source = love.filesystem.getSource()
+    local parent_path = source:match("(.*)\\[^\\]*$")  -- Remove last directory for Windows
+
+    -- List root directory using io (since love.filesystem can't access parent)
+    print("\n[TEST] Listing root directory (" .. parent_path .. ")")
+    local command = 'dir /b "' .. parent_path .. '" 2>nul'
+    local handle = io.popen(command)
+    local output = ""
+    if handle then
+        output = handle:read("*a")
+        handle:close()
+    else
+        print("[ERROR] Could not list directory")
+    end
+
+    local root_items = {}
+    for line in output:gmatch("[^\r\n]+") do
+        table.insert(root_items, line)
+    end
+
     for _, item in ipairs(root_items) do
         print("[TEST]   - " .. item)
     end
 
-    -- Try to find MIDI TEST folder (with space)
-    print("\n[TEST] Looking for MIDI TEST folder...")
-    local found = false
-    for _, item in ipairs(root_items) do
-        if string.lower(item) == "midi test" then
-            print("[TEST] FOUND: " .. item)
-            found = true
+    -- Look for integrated MIDI folder in engine
+    print("\n[TEST] Looking for assets/music/midi folder...")
+    local midi_path = "assets/music/midi"
+    local success, items = pcall(love.filesystem.getDirectoryItems, midi_path)
 
-            -- List contents
-            print("[TEST] Contents of '" .. item .. "':")
-            local midi_items = love.filesystem.getDirectoryItems(item)
-            for _, midi_file in ipairs(midi_items) do
-                print("[TEST]   - " .. midi_file)
-            end
+    if success then
+        print("[TEST] FOUND: " .. midi_path)
+        print("[TEST] Contents:")
+
+        for _, file in ipairs(items) do
+            print("[TEST]   - " .. file)
         end
-    end
-
-    if not found then
-        print("[TEST] MIDI TEST folder NOT found!")
+    else
+        print("[TEST] MIDI folder NOT found at: " .. midi_path)
     end
 
     print("\n[TEST] Press ESC to exit")
 end
 
-function love.keypressed(key)
+local function keypressed(key)
     if key == "escape" then
         love.event.quit()
     end
 end
 
-function love.draw()
+local function draw()
     love.graphics.setColor(1, 1, 1)
     love.graphics.print("[TEST] Check console output. Press ESC to exit.", 10, 10)
 end
+
+love.load = load
+love.keypressed = keypressed
+love.draw = draw

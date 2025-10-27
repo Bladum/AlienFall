@@ -448,7 +448,7 @@ Suite:group("Logging", function()
 
     Suite:testMethod("EdgeCaseHandling.getErrorLog", {description = "Gets error log", testCase = "log", type = "functional"}, function()
         local log = shared.edge:getErrorLog()
-        Helpers.assertEqual(typeof(log) == "table", true, "Is table")
+        Helpers.assertEqual(type(log) == "table", true, "Is table")
     end)
 end)
 

@@ -5,7 +5,7 @@
 print("=== TEST 1: File Reading ===")
 print("Love2D source: " .. love.filesystem.getSource())
 
-local dirs = {"MIDI TEST", ".", "engine"}
+local dirs = {"assets/music/midi"}
 for _, dir in ipairs(dirs) do
     print("Trying to read: " .. dir)
     local ok, items = pcall(love.filesystem.getDirectoryItems, dir)
@@ -23,7 +23,7 @@ end
 
 -- Test 2: Can we find MIDI file?
 print("\n=== TEST 2: Finding MIDI ===")
-local midiPath = "MIDI TEST/Queen - Bohemian Rhapsody.mid"
+local midiPath = "assets/music/midi/Queen - Bohemian Rhapsody.mid"
 print("Looking for: " .. midiPath)
 local exists = love.filesystem.getInfo(midiPath)
 if exists then
