@@ -40,3 +40,11 @@ function love.conf(t)
     -- For Love2D 12
     t.window.highdpi = true
 end
+
+-- Add parent directory to Lua module path
+-- This allows require("tests2.xxx") to work from tests2/ directory
+function love.load()
+    -- Add current dir and parent dir to module search path
+    package.path = package.path .. ";?.lua;?/init.lua"
+    package.cpath = package.cpath .. ";?.dll;?/?.dll"
+end

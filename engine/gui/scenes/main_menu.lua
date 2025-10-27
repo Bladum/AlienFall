@@ -39,6 +39,7 @@
 
 local StateManager = require("core.state.state_manager")
 local Widgets = require("gui.widgets.init")
+local AudioManager = require("core.audio_manager")
 
 local Menu = {}
 
@@ -126,10 +127,23 @@ function Menu:enter()
         StateManager.switch("tests_menu")
     end
 
-    -- Quit button
+    -- MIDI Test button
     table.insert(self.buttons, Widgets.Button.new(
         buttonX,
         startY + spacing * 5,
+        buttonWidth,
+        buttonHeight,
+        "TEST MIDI"
+    ))
+    self.buttons[#self.buttons].onClick = function()
+        print("[Menu] Testing MIDI playback...")
+        AudioManager:playMIDI("sample")
+    end
+
+    -- Quit button
+    table.insert(self.buttons, Widgets.Button.new(
+        buttonX,
+        startY + spacing * 6,
         buttonWidth,
         buttonHeight,
         "QUIT"

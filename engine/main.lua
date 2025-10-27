@@ -116,6 +116,9 @@ local DataLoader = require("core.data.data_loader")
 -- Load viewport system for dynamic resolution
 local Viewport = require("utils.viewport")
 
+-- Load audio manager
+local AudioManager = require("core.audio_manager")
+
 -- Game initialization
 function love.load()
     print("===========================================")
@@ -168,6 +171,12 @@ function love.load()
     -- Load game data from TOML files
     DataLoader.load()
 
+    -- Initialize audio manager
+    AudioManager:init()
+
+    -- Test MIDI playback
+    AudioManager:playMIDI("MIDI TEST/sample.mid")
+
     -- Register all game states
     StateManager.register("menu", Menu)
     StateManager.register("geoscape", Geoscape)
@@ -197,6 +206,9 @@ function love.update(dt)
     end
 
     StateManager.update(dt)
+
+    -- Update audio manager
+    AudioManager:update(dt)
 end
 
 -- Draw game graphics
@@ -282,6 +294,15 @@ function love.resize(w, h)
     Viewport.printInfo()
 end
 
+-- Window focus handler
+function love.focus(focused)
+    if focused then
+        AudioManager:resumeAll()
+    else
+        AudioManager:pauseAll()
+    end
+end
+
 -- Quit handler
 function love.quit()
     print("[Main] Game shutting down")
@@ -309,7 +330,17 @@ function love.errorhandler(msg)
 
     love.graphics.origin()
 
-    local function draw()
+    local error_screen = function()
+        love.event.pump()
+
+        for e, a, b, c in love.event.poll() do
+            if e == "quit" then
+                return 1
+            elseif e == "keypressed" and a == "escape" then
+                return 1
+            end
+        end
+
         love.graphics.clear(0.1, 0, 0)
         love.graphics.setColor(1, 1, 1)
         love.graphics.printf(
@@ -325,22 +356,10 @@ function love.errorhandler(msg)
             love.graphics.getWidth(),
             "center"
         )
-    end
-
-    return function()
-        love.event.pump()
-
-        for e, a, b, c in love.event.poll() do
-            if e == "quit" then
-                return 1
-            elseif e == "keypressed" and a == "escape" then
-                return 1
-            end
-        end
-
-        draw()
 
         love.graphics.present()
         love.timer.sleep(0.1)
     end
+
+    return error_screen
 end

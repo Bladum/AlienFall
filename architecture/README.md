@@ -1,19 +1,136 @@
-# Architecture
+# Architecture Documentation
 
-## Goal / Purpose
+**AlienFall Game Architecture**  
+**Date:** 2025-10-27  
+**Status:** Complete & Restructured
 
-The Architecture folder contains high-level design documentation, system integration diagrams, and technical roadmaps for the AlienFall project. It defines how major game systems interact with each other and the overall technical direction.
+---
 
-## Content
+## 📋 Overview
 
-- **01-game-structure.md** - Core game structure, state management, and scene architecture
-- **02-procedural-generation.md** - Map generation, procedural content creation algorithms
-- **03-combat-tactics.md** - Tactical combat system design and turn mechanics
-- **04-base-economy.md** - Base management and economic simulation systems
-- **INTEGRATION_FLOW_DIAGRAMS.md** - Visual diagrams showing system interactions and data flow
-- **ROADMAP.md** - Technical roadmap, planned features, and development phases
+Comprehensive architecture documentation for AlienFall (XCOM Simple), organized by system, layer, and component. All documentation features Mermaid diagrams, detailed tables, and clear visual flows.
 
-## Features
+**📖 New to architecture docs?** Read the **[Architecture Guide](ARCHITECTURE_GUIDE.md)** first - it explains how to create, manage, and maintain all diagrams and documentation.
+
+---
+
+## 📁 Directory Structure
+
+```
+architecture/
+├── README.md                          # This file
+├── ROADMAP.md                         # Development roadmap
+│
+├── core/                              # Core Engine Systems
+│   ├── STATE_MANAGEMENT.md           # State machine, transitions, lifecycle
+│   └── MOD_SYSTEM.md                 # Mod loading, validation, overrides
+│
+├── layers/                            # Game Layers
+│   ├── GEOSCAPE.md                   # Strategic world management
+│   ├── BATTLESCAPE.md                # Tactical combat
+│   └── BASESCAPE.md                  # Base management
+│
+├── systems/                           # Specialized Systems
+│   ├── AI_SYSTEMS.md                 # AI behavior, pathfinding, targeting
+│   ├── ECONOMY.md                    # Finance, marketplace, resources
+│   └── RESEARCH.md                   # Tech tree, research progression
+│
+└── legacy/                            # Legacy Files (Reference Only)
+    ├── 01-game-structure.md
+    ├── 02-procedural-generation.md
+    ├── 03-combat-tactics.md
+    ├── 04-base-economy.md
+    ├── DATA_MODELS_AND_INTEGRATION.md
+    ├── DETAILED_SYSTEM_DIAGRAMS.md
+    ├── INTEGRATION_FLOW_DIAGRAMS.md
+    └── SYSTEM_ARCHITECTURE_DIAGRAMS.md
+```
+
+---
+
+## 🎯 Quick Navigation
+
+### By System Type
+
+#### Core Engine
+- **[State Management](core/STATE_MANAGEMENT.md)** - State machine, scene transitions, global data
+- **[Mod System](core/MOD_SYSTEM.md)** - Content loading, TOML parsing, mod validation
+
+#### Game Layers
+- **[Geoscape](layers/GEOSCAPE.md)** - World map, missions, nations, time management
+- **[Battlescape](layers/BATTLESCAPE.md)** - Turn-based combat, AI, map generation
+- **[Basescape](layers/BASESCAPE.md)** - Facility management, research, manufacturing
+- **[Interception](layers/INTERCEPTION.md)** - Air combat, UFO interception, craft systems
+
+#### Specialized Systems
+- **[AI Systems](systems/AI_SYSTEMS.md)** - Behavior trees, targeting, difficulty scaling
+- **[Economy](systems/ECONOMY.md)** - Finance, marketplace, salvage, budgets
+- **[Research](systems/RESEARCH.md)** - Tech tree, unlocks, progression
+- **[Analytics](systems/ANALYTICS.md)** - Metrics, performance tracking, balance analysis
+- **[GUI & Widgets](systems/GUI_WIDGETS.md)** - UI framework, widget system, layouts
+- **[Procedural Generation](systems/PROCEDURAL_GENERATION.md)** - Map generation, mapscripts, biomes
+- **[Save & Load](systems/SAVE_LOAD.md)** - Game persistence, auto-save, validation
+- **[Data Models](systems/DATA_MODELS.md)** - Entity relationships, data structures
+- **[Modding Guide](systems/MODDING_GUIDE.md)** - Mod creation, API, workshop integration
+
+---
+
+## 📊 Documentation Features
+
+### Visual Diagrams
+- ✅ **Mermaid Flowcharts** - Process flows and pipelines
+- ✅ **State Diagrams** - State machines and transitions
+- ✅ **Sequence Diagrams** - System interactions and timing
+- ✅ **Entity Relationships** - Data models and structures
+- ✅ **Class Diagrams** - Object hierarchies
+
+### Detailed Tables
+- ✅ **Configuration Tables** - Settings, costs, modifiers
+- ✅ **Performance Metrics** - Optimization targets
+- ✅ **Feature Matrices** - System capabilities
+- ✅ **Comparison Tables** - Difficulty levels, phases
+
+---
+
+## 🔗 Related Documentation
+
+### API Documentation
+See `/api/` folder for system contracts:
+- `api/GAME_API.toml` - Master schema
+- `api/GEOSCAPE.md` - Geoscape API
+- `api/BATTLESCAPE.md` - Battlescape API
+- `api/BASESCAPE.md` - Basescape API
+
+### Engine Implementation
+See `/engine/` folder for code:
+- `engine/core/` - Core systems
+- `engine/geoscape/` - Geoscape layer
+- `engine/battlescape/` - Battlescape layer
+- `engine/basescape/` - Basescape layer
+
+### Design Documentation
+See `/design/` folder for mechanics:
+- `design/mechanics/` - Game mechanics
+- `design/gaps/` - Missing features
+
+---
+
+## 📈 Architecture Statistics
+
+| Category | Files | Diagrams | Tables | Status |
+|----------|-------|----------|--------|--------|
+| **Core Systems** | 2 | 15+ | 10+ | ✅ Complete |
+| **Game Layers** | 4 | 60+ | 30+ | ✅ Complete |
+| **Specialized Systems** | 9 | 120+ | 80+ | ✅ Complete |
+| **Legacy Reference** | 8 | 100+ | 50+ | 📚 Archived |
+| **Total** | **23** | **295+** | **170+** | **✅ Complete** |
+
+---
+
+**Last Updated:** 2025-10-27  
+**Version:** 2.0 (Restructured)  
+**Status:** ✅ Complete
+
 
 - **System Architecture**: How major systems (Geoscape, Battlescape, Basescape) are structured
 - **Integration Patterns**: How systems communicate and share data
