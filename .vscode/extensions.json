@@ -1,8 +1,21 @@
 {
   "recommendations": [
-    "tamasfe.even-better-toml",
+    "actboy168.lua-debug",
+    "bierner.markdown-mermaid",
+    "bschulte.love",
+    "github.codespaces",
+    "github.copilot",
+    "github.copilot-chat",
+    "github.vscode-github-actions",
+    "github.vscode-pull-request-github",
+    "lwz7512.love2d-made-easy",
+    "mechatroner.rainbow-csv",
+    "ms-vscode.powershell",
+    "njpwerner.autodocstring",
+    "pixelbyte-studios.pixelbyte-love2d",
+    "redhat.vscode-yaml",
     "sumneko.lua",
-    "ms-vscode.cpptools",
-    "redhat.vscode-yaml"
+    "tamasfe.even-better-toml",
+    "visualstudioexptteam.vscodeintellicode"
   ]
 }
