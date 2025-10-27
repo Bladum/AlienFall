@@ -56,9 +56,15 @@ end
 
 -- Update SFX volumes
 function AudioManager:updateSFXVolumes()
-    for _, source in ipairs(self.active_sounds) do
-        if source:isPlaying() then
-            -- Note: Volume is set when playing, but we could update here if needed
+    for i = #self.active_sounds, 1, -1 do
+        local source = self.active_sounds[i]
+        if source and type(source) == "userdata" then
+            if source:isPlaying() then
+                -- Note: Volume is set when playing, but we could update here if needed
+            end
+        elseif not source or type(source) ~= "userdata" then
+            print("[WARN] Removing invalid item from active_sounds in updateSFXVolumes: " .. type(source) .. " = " .. tostring(source))
+            table.remove(self.active_sounds, i)
         end
     end
 end
@@ -134,16 +140,29 @@ function AudioManager:playMIDI(midiName, loop)
     -- Stop current MIDI
     self:stopMIDI()
 
-    -- For testing, use the MIDI TEST folder (absolute path)
-    local projectRoot = love.filesystem.getSource():gsub("engine$", "")
-    local path = projectRoot .. "MIDI TEST/sample.mid"
+    -- Handle both full paths and relative paths
+    local path
+    if midiName:match("%.mid$") or midiName:match("%.midi$") then
+        -- Already has extension, use as-is
+        path = midiName
+    else
+        -- Add .mid extension
+        path = midiName .. ".mid"
+    end
+
+    -- If path doesn't start with /, it's relative - don't modify
+    -- If it starts with /, try to use as-is (could be absolute from MIDI Test Screen)
+    print("[AudioManager] Attempting to play MIDI: " .. path)
+
     if MidiPlayer:play(path) then
         self.current_midi = midiName
-        MidiPlayer:setVolume(self.midi_volume * self.master_volume * 1000)
+        MidiPlayer:setVolume(self.midi_volume * self.master_volume)
         print("[AudioManager] Playing MIDI: " .. midiName)
         return true
+    else
+        print("[ERROR] Failed to play MIDI: " .. path)
+        return false
     end
-    return false
 end
 
 -- Stop music
@@ -158,6 +177,16 @@ end
 function AudioManager:stopMIDI()
     MidiPlayer:stop()
     self.current_midi = nil
+end
+
+-- Pause MIDI
+function AudioManager:pauseMIDI()
+    MidiPlayer:pause()
+end
+
+-- Resume MIDI
+function AudioManager:resumeMIDI()
+    MidiPlayer:resume()
 end
 
 -- Stop all audio
@@ -196,20 +225,13 @@ end
 
 -- Update (call this in love.update)
 function AudioManager:update(dt)
-    -- Update all buttons
-    for _, button in ipairs(self.buttons) do
-        button:update(dt)
-    end
-
-    -- Update version label
-    self.versionLabel:update(dt)
-end
-
--- Update (call this in love.update)
-function AudioManager:update(dt)
     -- Remove finished sounds
     for i = #self.active_sounds, 1, -1 do
-        if not self.active_sounds[i]:isPlaying() then
+        local source = self.active_sounds[i]
+        if source and type(source) == "userdata" and not source:isPlaying() then
+            table.remove(self.active_sounds, i)
+        elseif not source or type(source) ~= "userdata" then
+            print("[WARN] Removing invalid item from active_sounds: " .. type(source) .. " = " .. tostring(source))
             table.remove(self.active_sounds, i)
         end
     end
@@ -218,7 +240,8 @@ function AudioManager:update(dt)
     MidiPlayer:update(dt)
 
     -- Handle MIDI looping if needed (MCI doesn't loop automatically)
-    if self.current_midi and not MidiPlayer:isPlaying() then
+    local midi_playing = MidiPlayer:getIsPlaying()
+    if self.current_midi and not midi_playing then
         -- Could implement looping here if desired
     end
 end
@@ -233,7 +256,7 @@ end
 
 -- Get current MIDI status
 function AudioManager:getMIDIStatus()
-    return MidiPlayer:isPlaying() and "playing" or "stopped"
+    return MidiPlayer:getIsPlaying() and "playing" or "stopped"
 end
 
 return AudioManager

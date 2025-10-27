@@ -27,6 +27,29 @@ The Economy system manages all financial transactions, trading, resource distrib
 
 ---
 
+## Implementation Status
+
+### ✅ Implemented (in engine/economy/)
+- Multi-source income system (countries, market profits, salvage)
+- Comprehensive expense tracking
+- Dynamic marketplace with price fluctuations
+- Trading partner relationships
+- Resource and item management
+- Manufacturing production queues
+- Inventory management and storage
+
+### 🚧 Partially Implemented
+- Economic events (recession, boom)
+- Advanced pricing algorithms
+- Trade route optimization
+
+### 📋 Planned
+- Economic sanctions system
+- Currency exchange mechanics
+- Advanced market speculation
+
+---
+
 ## Core Entities
 
 ### Entity: Economics
@@ -607,25 +630,8 @@ item:getQuantity() → number
 
 ---
 
-## Implementation Status
-
-### ✅ IN DESIGN (Implemented in engine/economy/)
-
-- Finance system (budget, treasury, personnel)
-- Marketplace system (trading, suppliers) 
-- Production system (manufacturing queues)
-- Research system (tech development)
-- Resource management (inventory, transfer)
-- Item management (durability, stacking)
-- Black market system (restricted trading)
-
-### 🔮 FUTURE IDEAS (Not implemented)
-
-- Dynamic economic events (recession, boom, inflation with AI)
-- Advanced market fluctuations (supply/demand simulation)
-- Economic AI (countries adjusting funding based on performance)
-- Stock market mechanics (item price speculation)
-- Economic warfare (sabotaging enemy economies)
+**Last Updated:** October 22, 2025  
+**Status:** ✅ Complete
 - Advanced transfer routing (multi-stop logistics)
 
 ---

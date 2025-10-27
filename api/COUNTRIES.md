@@ -36,6 +36,31 @@ The Country System manages all country definitions, diplomatic relationships, an
 
 ---
 
+## Implementation Status
+
+### ✅ Implemented (in engine/geoscape/country/)
+- Country manager with full state tracking (`country_manager.lua`)
+- Relations system with history and trends (`relations_manager.lua`)
+- Country loading from TOML
+- Panic and funding calculations
+- Monthly funding updates
+- Relation modification with reasons
+- All documented getter methods (100% engine alignment)
+- Country filtering by type, region, relation
+
+### 🚧 Partially Implemented
+- Mission generation based on country state
+- Country-specific events
+- Territory control mechanics
+
+### 📋 Planned (in design/)
+- Dynamic country alliances
+- Civil war mechanics
+- Economic sanctions system
+- Technology transfer between allied countries
+
+---
+
 ## Country Entity
 
 ### Country Definition
@@ -197,7 +222,162 @@ end
 ---
 
 ### CountryManager:getAllCountries()
-Get all loaded countries.
+Get all loaded countries in order.
+
+```lua
+local countries = manager:getAllCountries()
+for _, country in ipairs(countries) do
+    print(country.name .. " - Relation: " .. country.relation)
+end
+```
+
+**Returns:**
+- `table[]` - Array of all country state objects
+
+---
+
+### CountryManager:getCountriesByType(nation_type)
+Get countries filtered by nation type.
+
+```lua
+local majorPowers = manager:getCountriesByType("MAJOR")
+local minorNations = manager:getCountriesByType("MINOR")
+```
+
+**Parameters:**
+| Parameter | Type | Description |
+|---|---|---|
+| nation_type | string | "MAJOR", "SECONDARY", "MINOR", or "SUPRANATIONAL" |
+
+**Returns:**
+- `string[]` - Array of country IDs matching the type
+
+**Example:**
+```lua
+-- Get all major powers
+local majors = manager:getCountriesByType("MAJOR")
+-- Returns: {"usa", "china", "russia", "eu_federation", "india"}
+```
+
+---
+
+### CountryManager:getCountriesByRegion(region_id)
+Get countries in a specific geographic region.
+
+```lua
+local europeCountries = manager:getCountriesByRegion("europe")
+local asiaCountries = manager:getCountriesByRegion("asia_pacific")
+```
+
+**Parameters:**
+| Parameter | Type | Description |
+|---|---|---|
+| region_id | string | Region identifier (e.g., "europe", "asia_pacific", "north_america") |
+
+**Returns:**
+- `string[]` - Array of country IDs in the region
+
+**Example:**
+```lua
+-- Get all North American countries
+local northAmerica = manager:getCountriesByRegion("north_america")
+-- Returns: {"usa", "canada", "mexico"}
+```
+
+---
+
+### CountryManager:getCountriesByRelation(min_relation, max_relation)
+Get countries within a relation range.
+
+```lua
+-- Get all allied countries
+local allies = manager:getCountriesByRelation(75, 100)
+
+-- Get hostile countries
+local hostiles = manager:getCountriesByRelation(-100, -50)
+
+-- Get neutral countries
+local neutrals = manager:getCountriesByRelation(-24, 24)
+```
+
+**Parameters:**
+| Parameter | Type | Description |
+|---|---|---|
+| min_relation | number | Minimum relation value (-100 to +100) |
+| max_relation | number | Maximum relation value (-100 to +100) |
+
+**Returns:**
+- `table[]` - Array of country objects in the relation range
+
+**Useful Ranges:**
+- Allied: `(75, 100)`
+- Friendly: `(50, 74)`
+- Positive: `(25, 49)`
+- Neutral: `(-24, 24)`
+- Negative: `(-49, -25)`
+- Hostile: `(-74, -50)`
+- War: `(-100, -75)`
+
+---
+
+### CountryManager:updateCountryState(country_id, updates)
+Update country state properties.
+
+```lua
+manager:updateCountryState("usa", {
+    panic = 45,
+    funding_level = 7,
+    stability = 80
+})
+```
+
+**Parameters:**
+| Parameter | Type | Description |
+|---|---|---|
+| country_id | string | Country identifier |
+| updates | table | Properties to update `{panic, funding_level, stability}` |
+
+**Returns:**
+- `boolean` - True if successful
+
+**Updatable Properties:**
+- `panic` (number): 0-100+
+- `funding_level` (number): 1-10
+- `stability` (number): 0-100
+
+**Validation:**
+- Panic is clamped to 0-150
+- Funding level is clamped to 1-10
+- Stability is clamped to 0-100
+
+---
+
+### CountryManager:updateDailyState(days)
+Process daily updates for all countries (decay, growth, etc.).
+
+```lua
+-- Called each turn (1 turn = 1 day)
+manager:updateDailyState(1)
+```
+
+**Parameters:**
+| Parameter | Type | Description |
+|---|---|---|
+| days | number | Number of days to simulate (usually 1) |
+
+**Returns:** void
+
+**Effects:**
+- Applies relation decay/growth
+- Updates panic decay
+- Processes time-based events
+- Updates trends
+
+**Decay Rates:**
+- Relations: ~1 point per 100 days for extreme values
+- Panic: -1 point per day (configurable)
+
+---
 
 ```lua
 local countries = manager:getAllCountries()

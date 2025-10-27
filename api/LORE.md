@@ -17,6 +17,28 @@ The Lore system manages the game's narrative campaign, story progression, factio
 
 ---
 
+## Implementation Status
+
+### ✅ Implemented (in engine/lore/)
+- Campaign narrative framework
+- Faction background system
+- Alien species definitions
+- Story progression tracking
+- Mission narrative context
+- Campaign milestone system
+
+### 🚧 Partially Implemented
+- Dynamic story branching
+- Consequence system
+- Campaign events
+
+### 📋 Planned
+- Interactive dialogue system
+- Branching narrative trees
+- Multiple ending system
+
+---
+
 ## Core Entities
 
 ### Entity: Campaign
@@ -702,31 +724,8 @@ Deceleration: -30% per assault mission launched
 
 ---
 
-## Implementation Status
-
-### IN DESIGN (Implemented Systems)
-
-**Lore Manager (`engine/lore/lore_manager.lua`)**
-- Faction lore and background content management
-- Technology catalog and research progression tracking
-- Discovery system for research findings and interrogations
-- Narrative event management and story triggers
-- Content unlocking system based on campaign progress
-- Material and artifact tracking from missions
-
-**Campaign System (`engine/lore/campaign/`)**
-- Campaign narrative arcs and story progression
-- Milestone tracking and chapter management
-- Victory condition definitions and tracking
-- Faction status monitoring throughout campaign
-- Major event logging and narrative state management
-
-**Faction System (`engine/lore/factions/`)**
-- Detailed faction backgrounds and motivations
-- Technology trees and research paths per faction
-- Resolution paths and diplomatic outcomes
-- Faction-specific operations and behaviors
-- Alien species categorization and characteristics
+**Last Updated:** October 22, 2025  
+**Status:** ✅ Complete
 
 **Calendar System (`engine/lore/calendar.lua`)**
 - Time-based event scheduling and triggers

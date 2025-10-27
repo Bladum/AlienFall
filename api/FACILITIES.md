@@ -560,44 +560,469 @@ power_consumption = 8
 
 ## Adjacency Bonus System
 
-### What is an Adjacency Bonus?
+### Overview
 
-Facilities placed next to compatible facilities receive productivity bonuses:
-- Research bonuses (research facilities next to each other)
-- Manufacturing bonuses (workshops next to each other)
+Facilities grouped strategically provide efficiency bonuses when positioned adjacent to complementary facilities. The system rewards compact, synergistic base layouts with productivity multipliers.
 
-### Bonus Types
+**Key Mechanics:**
+- **Trigger:** Automatic detection of adjacent compatible facilities
+- **Range:** Cardinal adjacency only (North, South, East, West) - **diagonals do NOT count**
+- **Stacking:** Multiple bonuses can apply (limited to 3-4 per facility)
+- **Multiplier:** Bonuses are multiplicative (1.10× = +10% efficiency)
+- **Dynamic:** Recalculated when facilities are placed/moved/removed
 
+### Adjacency Rules
+
+**Valid Adjacency:**
+- ✅ North, South, East, West (cardinal directions)
+- ❌ Diagonals do NOT provide bonuses
+- ❌ Facilities separated by empty space do NOT get bonuses
+- ✅ All facilities must be connected to main cluster (no islands)
+
+**Distance Types:**
+- **Adjacent:** Directly touching (1 tile)
+- **Within Range:** 2-hex distance (for power bonuses)
+
+### Seven Bonus Types
+
+| Pairing | Bonus Type | Requirements | Effect |
+|---------|-----------|--------------|--------|
+| **Lab + Workshop** | Research & Manufacturing Synergy | Adjacent (touching) | +10% research speed, +10% manufacturing speed |
+| **Workshop + Storage** | Material Supply Chain | Adjacent | -10% material cost for manufacturing |
+| **Hospital + Barracks** | Medical Support | Adjacent | +1 HP/week, +1 Sanity/week recovery for all personnel |
+| **Garage + Hangar** | Craft Logistics | Adjacent | +15% craft repair speed |
+| **Power Plant + Lab/Workshop** | Power Efficiency | Within 2-hex distance | +10% research/manufacturing efficiency |
+| **Radar + Turret** | Fire Control | Adjacent | +10% targeting accuracy |
+| **Academy + Barracks** | Training Synergy | Adjacent | +1 XP/week gain for all personnel in Barracks |
+
+### Bonus Calculation Formula
+
+**Single Bonus:**
 ```
-adjacency_bonus_type = "research"
-→ +10-30% research speed when adjacent to other research facilities
+Adjusted Efficiency = Base Efficiency × Bonus Multiplier
 
-adjacency_bonus_type = "manufacturing"
-→ +10-30% manufacturing speed when adjacent to other workshops
+Example:
+Base Research Rate: 10 man-days/week
+Adjacent Workshop: +10% bonus (1.10×)
+Adjusted Rate: 10 × 1.10 = 11 man-days/week
 ```
 
-### Adjacency Bonus Schema
+**Multiple Bonuses (Stacking):**
+```
+Final Multiplier = Bonus1 × Bonus2 × Bonus3 × ...
+
+Example - Lab with multiple bonuses:
+1. Adjacent Workshop: 1.10× (+10%)
+2. Power Plant in range: 1.10× (+10%)
+Final: 1.10 × 1.10 = 1.21× (+21% total)
+
+Base Rate: 10 man-days/week
+Final Rate: 10 × 1.21 = 12.1 man-days/week
+```
+
+**Maximum Stacking:**
+- Limited to 3-4 bonuses per facility
+- Prevents overpowered clustering
+- Encourages strategic variety
+
+### TOML Configuration
 
 ```toml
 [[adjacency_bonus]]
-id = "research_synergy_1"
+id = "research_synergy"
 facility_type_a = "research_lab"
 facility_type_b = "research_lab"
 bonus_type = "research_speed"
-bonus_magnitude = 15
+bonus_magnitude = 10  # Percentage bonus
+
+[[adjacency_bonus]]
+id = "manufacturing_synergy"
+facility_type_a = "workshop"
+facility_type_b = "workshop"
+bonus_type = "manufacturing_speed"
+bonus_magnitude = 10
+
+[[adjacency_bonus]]
+id = "power_efficiency_lab"
+facility_type_a = "power_generator"
+facility_type_b = "research_lab"
+bonus_type = "research_speed"
+bonus_magnitude = 10
+range = 2  # Can be 2 hexes away
 ```
 
-### Bonuses Apply When
+### Usage Examples
 
-- Facilities are placed adjacent (touching)
-- Both have matching `adjacency_bonus_type`
-- Bonus is multiplicative (1.15× if 15% bonus)
+**Example 1: Research Cluster**
+```
+Layout:
+[Lab A] - [Lab B]
+           |
+        [Lab C]
+
+Result:
+- Lab A: +10% from Lab B = 1.10× efficiency
+- Lab B: +10% from Lab A, +10% from Lab C = 1.21× efficiency
+- Lab C: +10% from Lab B = 1.10× efficiency
+```
+
+**Example 2: Manufacturing Hub**
+```
+Layout:
+[Storage] - [Workshop A] - [Workshop B]
+                |
+            [Power Gen]
+
+Result:
+- Workshop A: 
+  * +10% from Workshop B (adjacent)
+  * -10% cost from Storage (adjacent)
+  * +10% from Power Gen (within range)
+  * Total: 1.10 × 1.10 = 1.21× speed, -10% costs
+
+- Workshop B:
+  * +10% from Workshop A (adjacent)
+  * Total: 1.10× speed
+```
+
+**Example 3: Invalid Diagonal**
+```
+Layout:
+[Lab A]     [Lab B]
+     (diagonal gap)
+
+Result:
+- NO BONUS - diagonals don't count
+- Both operate at base efficiency
+```
 
 ---
 
 ## Power Grid System
 
-### Power Consumption vs Production
+### Overview
+
+Facilities consume or produce power. The power grid must be balanced to keep all facilities operational. Power calculations occur per turn (daily).
+
+**Key Concepts:**
+- **Power Generation:** Power plants produce electricity
+- **Power Consumption:** Facilities consume electricity to operate
+- **Power Balance:** Total generation must meet or exceed consumption
+- **Brownout:** If generation < consumption, facilities shut down in priority order
+- **Efficiency:** Properly powered facilities operate at full capacity
+
+### Power Calculation
+
+**Formula:**
+```
+Total Power Available = Sum(all power_generation)
+Total Power Required = Sum(all power_consumption)
+
+Power Status:
+- If Available >= Required: All facilities operational
+- If Available < Required: Brownout - lowest priority facilities shut down
+```
+
+**Example:**
+```
+Power Generation:
+- Reactor: 25 units
+- Power Generator: 10 units
+- Total: 35 units
+
+Power Consumption:
+- Research Lab: 8 units
+- Workshop: 10 units
+- Living Quarters: 3 units
+- Barracks: 3 units
+- Radar: 5 units
+- Total: 29 units
+
+Result: 35 >= 29 → All facilities operational (6 units spare capacity)
+```
+
+### Brownout Priority System
+
+When power is insufficient, facilities shut down in this order (lowest priority first):
+
+1. **Non-Essential** (priority 1)
+   - Extra storage
+   - Recreational facilities
+   
+2. **Production** (priority 2)
+   - Workshops
+   - Factories
+   
+3. **Research** (priority 3)
+   - Research labs
+   - Alien containment
+   
+4. **Detection** (priority 4)
+   - Radar stations
+   
+5. **Critical** (priority 5)
+   - Medical facilities
+   - Living quarters
+   - Command center
+   
+6. **Vital** (priority 6)
+   - Power plants (never shut down)
+   - Defense systems (never shut down)
+
+**Brownout Example:**
+```
+Power Available: 20 units
+Power Required: 35 units
+Deficit: -15 units
+
+Shutdown Order:
+1. Extra Storage (-2 units) → Deficit: -13
+2. Workshop A (-10 units) → Deficit: -3
+3. Research Lab (-8 units) → Deficit: +5 (now surplus)
+
+Result: Storage and Workshop A offline, Research Lab offline, all others operational
+```
+
+### Power Efficiency Tips
+
+**Good Practices:**
+1. **Build power first** - Ensure sufficient generation before expanding
+2. **Plan for growth** - Leave 20-30% spare capacity
+3. **Use power bonuses** - Place power plants near consumers (2-hex range)
+4. **Prioritize** - Put critical facilities on dedicated power
+5. **Monitor consumption** - Track power usage per facility type
+
+**Power-to-Facility Ratios:**
+```
+Small Base (5-8 facilities):
+- 1× Reactor (25 units) OR
+- 2× Power Generator (20 units total)
+
+Medium Base (10-15 facilities):
+- 1× Reactor + 1× Power Generator (35 units)
+
+Large Base (20+ facilities):
+- 2× Reactor (50 units) OR
+- 1× Reactor + 2× Power Generator (45 units)
+```
+
+---
+
+## Personnel Efficiency System
+
+### Overview
+
+Facilities require personnel (engineers, scientists, soldiers) to operate. Personnel assignment affects facility efficiency and production output.
+
+**Key Factors:**
+- **Staffing Level:** Percentage of positions filled (0-150%)
+- **Skill Level:** Average skill of assigned personnel
+- **Morale:** Personnel morale affects productivity
+- **Fatigue:** Overworked personnel have reduced efficiency
+
+### Staffing Efficiency Formula
+
+**Base Formula:**
+```
+Efficiency = min(Staffing Level, 1.5) × Skill Multiplier × Morale Multiplier
+
+Where:
+- Staffing Level = Assigned Personnel / Required Personnel
+- Skill Multiplier = 0.5 + (Average Skill / 20)
+- Morale Multiplier = 0.5 + (Average Morale / 200)
+```
+
+**Examples:**
+
+**Understaffed:**
+```
+Research Lab:
+- Required: 10 scientists
+- Assigned: 5 scientists (50% staffed)
+- Average Skill: 10
+- Average Morale: 80
+
+Efficiency:
+= 0.5 × (0.5 + 10/20) × (0.5 + 80/200)
+= 0.5 × 1.0 × 0.9
+= 0.45 (45% efficiency)
+```
+
+**Fully Staffed:**
+```
+Research Lab:
+- Required: 10 scientists
+- Assigned: 10 scientists (100% staffed)
+- Average Skill: 15
+- Average Morale: 90
+
+Efficiency:
+= 1.0 × (0.5 + 15/20) × (0.5 + 90/200)
+= 1.0 × 1.25 × 0.95
+= 1.19 (119% efficiency)
+```
+
+**Overstaffed:**
+```
+Research Lab:
+- Required: 10 scientists
+- Assigned: 15 scientists (150% staffed)
+- Average Skill: 12
+- Average Morale: 85
+
+Efficiency:
+= 1.5 × (0.5 + 12/20) × (0.5 + 85/200)
+= 1.5 × 1.1 × 0.93
+= 1.53 (153% efficiency - maximum possible)
+```
+
+### Skill Progression
+
+Personnel gain skill over time while assigned:
+
+```
+Skill Gain = (Base Gain / Days Worked) × Facility Quality
+
+Base Gain: 1 skill point per 30 days
+Facility Quality:
+- Basic facility: 1.0×
+- Advanced facility: 1.5×
+- Cutting-edge facility: 2.0×
+```
+
+### Morale Effects
+
+**Morale Ranges:**
+- **90-100:** +50% to efficiency (morale multiplier = 1.0)
+- **70-89:** Normal efficiency (morale multiplier = 0.8-0.95)
+- **50-69:** -20% efficiency (morale multiplier = 0.65-0.85)
+- **Below 50:** -50% efficiency (morale multiplier = 0.5-0.75)
+
+**Morale Factors:**
+- Living conditions (barracks quality)
+- Recent missions (success/failure)
+- Casualties (deaths in squad)
+- Salary/payment
+- Recreation facilities
+- Commander decisions
+
+---
+
+## Placement Validation System
+
+### Placement Rules
+
+**Valid Placement Requires:**
+1. ✅ Position is within base grid bounds
+2. ✅ Position is empty (no existing facility)
+3. ✅ Facility is connected to main cluster (adjacency)
+4. ✅ Sufficient funds to build
+5. ✅ Prerequisites met (technology, other facilities)
+
+**Invalid Placement:**
+- ❌ Overlapping with existing facility
+- ❌ Outside grid boundaries
+- ❌ Creating isolated facility (no cardinal connection)
+- ❌ Insufficient funds
+- ❌ Missing prerequisite technology
+
+### Validation Function
+
+```lua
+function FacilitySystem:canPlace(facilityTypeId, x, y)
+    -- Check bounds
+    if not self:isValidPosition(x, y) then
+        return false, "Position out of bounds"
+    end
+    
+    -- Check if empty
+    if self.grid[x][y].status ~= FacilitySystem.STATUS.EMPTY then
+        return false, "Position occupied"
+    end
+    
+    -- Check adjacency (must connect to existing facilities)
+    if not self:isConnectedToCluster(x, y) then
+        return false, "Not connected to base cluster"
+    end
+    
+    -- Check prerequisites
+    local facilityDef = DataLoader.facilities.get(facilityTypeId)
+    if facilityDef.requires_tech then
+        if not ResearchSystem:hasTech(facilityDef.requires_tech) then
+            return false, "Technology not researched"
+        end
+    end
+    
+    -- Check funds
+    if self:getCurrentFunds() < facilityDef.cost then
+        return false, "Insufficient funds"
+    end
+    
+    return true, "Valid placement"
+end
+```
+
+### Connectivity Check
+
+**Algorithm:**
+```lua
+function FacilitySystem:isConnectedToCluster(x, y)
+    -- Check all 4 cardinal directions
+    local directions = {
+        {x = x, y = y - 1},  -- North
+        {x = x, y = y + 1},  -- South
+        {x = x - 1, y = y},  -- West
+        {x = x + 1, y = y},  -- East
+    }
+    
+    for _, pos in ipairs(directions) do
+        if self:isValidPosition(pos.x, pos.y) then
+            local cell = self.grid[pos.x][pos.y]
+            if cell.status == FacilitySystem.STATUS.OPERATIONAL then
+                return true  -- Connected to at least one facility
+            end
+        end
+    end
+    
+    -- Special case: First facility (HQ exists)
+    if self:hasOperationalFacilities() then
+        return false  -- Must connect to existing cluster
+    else
+        return true  -- First facility is always valid
+    end
+end
+```
+
+### Placement Examples
+
+**Valid Placements:**
+```
+Example 1: Expanding from HQ
+[HQ] - [ ]
+  |
+[Lab]
+
+Lab is adjacent to HQ (South) → VALID
+```
+
+**Invalid Placements:**
+```
+Example 2: Diagonal connection
+[HQ]     [ ]
+    (diagonal)
+         [Lab]
+
+Lab not cardinally adjacent → INVALID
+
+Example 3: Isolated facility
+[HQ] - [Lab]
+
+         [Workshop] (separated by gap)
+
+Workshop not connected → INVALID
+```
+
+---
 
 | Facility | Type | Power |
 |----------|------|-------|

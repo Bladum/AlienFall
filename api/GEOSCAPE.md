@@ -2,14 +2,34 @@
 
 **System:** Strategic Layer (Global Strategy / World Management)  
 **Module:** `engine/geoscape/`  
-**Latest Update:** October 22, 2025  
-**Status:** ✅ Complete
+**Latest Update:** 2025-10-27  
+**Status:** ✅ Core Complete | ⚠️ Some features in progress
+
+---
+
+## 📋 Scope & Related Systems
+
+**This API covers:**
+- World structure (hexagonal grid, provinces, regions)
+- Map rendering and visualization
+- Time progression (calendar, day/night cycles)
+- Craft movement and travel systems
+- Mission deployment mechanics
+- Radar detection systems
+- Supply line management
+
+**For related systems, see:**
+- **[COUNTRIES.md](COUNTRIES.md)** - Country entities, diplomatic relations, funding, panic mechanics
+- **[MISSIONS.md](MISSIONS.md)** - Mission generation, objectives, and types
+- **[CRAFTS.md](CRAFTS.md)** - Craft specifications and interception
+- **[INTERCEPTION.md](INTERCEPTION.md)** - Air combat and UFO engagement
+- **[POLITICS.md](POLITICS.md)** - Faction relations and diplomatic events
 
 ---
 
 ## Overview
 
-The Geoscape system manages the global strategic layer where players control world operations, craft deployment, mission detection, and diplomatic relations. It organizes the game world as hexagonal grid provinces, handles turn-based calendar progression, manages craft travel, and coordinates with all other systems for mission generation and threat assessment.
+The Geoscape system manages the global strategic layer where players control world operations, craft deployment, mission detection, and geographic management. It organizes the game world as hexagonal grid provinces, handles turn-based calendar progression, manages craft travel, and coordinates with all other systems for mission generation and threat assessment.
 
 **Key Responsibilities:**
 - World definition and management with hexagonal grid system
@@ -18,23 +38,22 @@ The Geoscape system manages the global strategic layer where players control wor
 - Calendar and time progression (1 turn = 1 day)
 - Day/night cycle management and visibility
 - Biome classification and terrain mechanics
-- Geographic regions and regional control
+- Geographic regions and regional grouping
 - Radar coverage detection and mission detection
 - Universe management for multi-world connectivity
-- Region management and ownership tracking
-- UFO tracking and threat assessment
-- Mission deployment and logistics
-- Supply line management between bases
 - Craft travel and interception routing
+- Supply line management between bases
+- Map rendering with multiple display modes
 
 **Integration Points:**
-- Basescape: Base locations, facility management, craft inventory
-- Battlescape: Mission generation, mission parameters, squad deployment
-- Interception: Craft combat, UFO tracking
-- Politics: Country funding, diplomatic relations, territory control
-- Economy: Resource availability by province, trade agreements
-- Calendar: Time progression and turn advancement
-- Analytics: Strategic metrics and intelligence reporting
+- **Countries** (via [COUNTRIES.md](COUNTRIES.md)): Territory ownership, country funding
+- **Basescape**: Base locations, facility management, craft inventory
+- **Battlescape**: Mission generation, mission parameters, squad deployment  
+- **Interception**: Craft combat, UFO tracking
+- **Politics**: Territory control, diplomatic events
+- **Economy**: Resource availability by province, trade agreements
+- **Calendar**: Time progression and turn advancement
+- **Analytics**: Strategic metrics and intelligence reporting
 
 ---
 

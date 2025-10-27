@@ -129,23 +129,26 @@ craft:getMovementRange() → number  -- Max hexes can travel
 -- Fuel management
 craft:getFuel() → number
 craft:getFuelCapacity() → number
-craft:getFuelPercent() → number  -- 0-100 (0.0-1.0 ratio, alias for getFuelPercentage())
-craft:getFuelPercentage() → number  -- 0-1.0 ratio (engine implementation)
+craft:getFuelPercentage() → number  -- 0.0-1.0 ratio (primary method)
+craft:getFuelPercent() → number  -- 0.0-1.0 ratio (alias for getFuelPercentage)
 craft:consumeFuel(amount) → void
 craft:refuelCraft(amount) → bool
 craft:refuelFull() → bool
 craft:needsRefuel() → bool
 
+-- Note: Despite "Percentage" name, both methods return 0.0-1.0 ratio, not 0-100.
+-- For UI display: local displayPercent = craft:getFuelPercentage() * 100
+
 -- Health & Damage
 craft:getHP() → number
 craft:getMaxHP() → number
-craft:getHPPercent() → number
-craft:getHealthPercent() → number (0.0-1.0)
+craft:getHPPercent() → number  -- 0-100 percentage
+craft:getHealthPercent() → number  -- 0.0-1.0 ratio
 craft:takeDamage(amount, damageType) → void
 craft:repairDamage(amount) → void
 craft:repairFull() → bool
 craft:repair(amount: number) → (remaining_damage: number)
-craft:getDamagePercentage() → number
+craft:getDamagePercentage() → number  -- 0-100 percentage
 craft:isOperational() → bool
 craft:canRepair(facility) → bool
 

@@ -17,6 +17,37 @@ The AI system governs enemy decision-making, strategic planning, and tactical be
 
 ---
 
+## Implementation Status
+
+### ✅ Implemented (in engine/ai/)
+
+**Strategic AI Systems (`engine/ai/strategic/`)**
+- **Alien Director**: Strategic AI orchestrator managing campaign pressure, faction coordination, and mission generation
+- **Faction Coordinator**: Multi-faction activity management with resource allocation and joint operations
+- **Threat Manager**: Campaign pressure and difficulty scaling based on player performance and time progression
+
+**Tactical AI Systems (`engine/ai/tactical/`)**
+- **Decision System**: Tactical combat AI with threat assessment, target prioritization, and action selection
+- **Pathfinding**: Navigation and tactical movement calculations
+
+**Support AI Systems**
+- **Strategic Planner**: Mission evaluation and resource-aware planning with multi-turn strategic goals
+- **Threat Assessment**: Multi-factor combat threat evaluation with damage potential and positioning analysis
+- **Squad Coordination**: Squad formations, unit roles (leader/heavy/medic/scout/support), and cohesion tracking
+- **Resource Awareness**: Ammo, energy, and budget constraint evaluation for decision-making
+
+### 🚧 Partially Implemented
+- Machine learning-based adaptation
+- Player behavior prediction
+- Dynamic difficulty adjustment
+
+### 📋 Planned
+- Advanced learning AI
+- Emergent behavior systems
+- Procedural strategy generation
+
+---
+
 ## Core Entities
 
 ### Entity: AIStrategy
@@ -730,63 +761,6 @@ end
 
 ---
 
-## Implementation Status
-
-### IN DESIGN (Implemented Systems)
-
-**Strategic AI Systems (`engine/ai/strategic/`)**
-- **Alien Director**: Strategic AI orchestrator managing campaign pressure, faction coordination, and mission generation
-- **Faction Coordinator**: Multi-faction activity management with resource allocation and joint operations
-- **Threat Manager**: Campaign pressure and difficulty scaling based on player performance and time progression
-
-**Tactical AI Systems (`engine/ai/tactical/`)**
-- **Decision System**: Tactical combat AI with threat assessment, target prioritization, and action selection
-- **Pathfinding**: Navigation and tactical movement calculations
-
-**Support AI Systems**
-- **Strategic Planner**: Mission evaluation and resource-aware planning with multi-turn strategic goals
-- **Threat Assessment**: Multi-factor combat threat evaluation with damage potential and positioning analysis
-- **Squad Coordination**: Squad formations, unit roles (leader/heavy/medic/scout/support), and cohesion tracking
-- **Resource Awareness**: Ammo, energy, and budget constraint evaluation for decision-making
-
-**AI Infrastructure**
-- Modular AI architecture with separate strategic and tactical layers
-- Threat-based difficulty scaling and adaptive behavior
-- Squad-level coordination and formation management
-- Resource-aware decision making
-
-### FUTURE IDEAS (Not Yet Implemented)
-
-**Advanced AI Behaviors**
-- Behavior trees and hierarchical decision systems
-- Learning AI with encounter recording and tactical adaptation
-- Personality-based AI behaviors with confidence decay
-- Dynamic strategy switching based on battle outcomes
-
-**Strategic Planning Features**
-- Multi-turn strategic planning (3-6 months ahead)
-- Tech tree analysis and research targeting
-- Facility needs identification and construction planning
-- Long-term campaign orchestration
-
-**Diplomatic AI**
-- Diplomatic relations management and negotiation AI
-- Alliance formation and betrayal calculations
-- Faction politics and influence systems
-
-**Advanced Tactical Features**
-- Complex squad formations and maneuver tactics
-- Environmental awareness and terrain exploitation
-- Multi-unit coordination and combined arms tactics
-- Predictive AI with player pattern recognition
-
-**TOML Configuration System**
-- Comprehensive AI behavior configuration files
-- Difficulty modifier tables and scaling parameters
-- Strategic planning templates and decision weights
-- Faction-specific AI personality profiles
-
----
 
 **Last Updated:** October 22, 2025  
 **API Status:** ✅ COMPLETE  

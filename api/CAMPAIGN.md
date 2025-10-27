@@ -23,6 +23,28 @@ The Campaign System is the strategic layer orchestrating all game events. It man
 - Faction activity and alien strategy
 - Player progression and unlocks
 
+---
+
+## Implementation Status
+
+### ✅ Implemented (in engine/campaign/)
+- Campaign manager with phase tracking
+- Threat level calculations
+- Mission generation system
+- Phase progression mechanics
+
+### 🚧 Partially Implemented
+- Advanced faction AI
+- Dynamic event generation
+- Endgame scenarios
+
+### 📋 Planned
+- Multiple campaign paths
+- Campaign modding support
+- Sandbox mode
+
+---
+
 ### Architecture
 
 ```

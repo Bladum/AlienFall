@@ -28,6 +28,26 @@
 
 ---
 
+## Implementation Status
+
+### ✅ Implemented (in engine/mods/)
+- Mod loader with priority system
+- TOML-based content definitions
+- Asset override system
+- Mod dependency management
+
+### 🚧 Partially Implemented
+- Steam Workshop integration
+- Mod conflict resolution UI
+- Live mod reloading
+
+### 📋 Planned
+- Visual mod editor
+- Mod testing framework
+- Community mod repository
+
+---
+
 ## Overview
 
 AlienFall supports extensive modding through the mod system. Modders can create custom campaigns, factions, missions, and game content by leveraging the Mod Manager and content system.

@@ -23,6 +23,29 @@ The Missions system defines all available mission types, objectives, difficulty 
 
 ---
 
+## Implementation Status
+
+### ✅ Implemented (in engine/missions/)
+- Mission definition and template system
+- Mission generation from templates
+- Objective system (rescue, assault, defense)
+- Difficulty scaling and enemy composition
+- Map generation and tactical scenarios
+- Reward calculation system
+- Mission completion tracking
+
+### 🚧 Partially Implemented
+- Dynamic mission branching
+- Consequence system
+- Advanced mission events
+
+### 📋 Planned
+- Procedural mission generation
+- Campaign mission chains
+- Multi-objective missions
+
+---
+
 ## Architecture
 
 ### Data Flow Diagram
@@ -1359,73 +1382,8 @@ size = "large"
 
 ---
 
-## See Also
-
-- **API_GEOSCAPE_EXTENDED.md** - Mission deployment and world map
-- **API_UNITS_AND_CLASSES.md** - Squad composition and unit capabilities
-- **API_BATTLESCAPE_EXTENDED.md** - Tactical combat execution
-- **API_ECONOMY_AND_ITEMS.md** - Reward calculations and finance
-- **API_POLITICS.md** - Reputation and faction impact
-
-## Related Systems
-
-- **Linked to:** Geoscape (mission deployment), Battlescape (combat), Units (squad), Economy (rewards)
-- **Depends On:** Core data loader, TOML parser, map generator
-- **Used By:** Geoscape module, Campaign system, Player interface
-
----
-
-## Implementation Status
-
-### IN DESIGN (Implemented Systems)
-
-**Mission Manager (`engine/geoscape/mission_manager.lua`)**
-- Complete mission lifecycle management (create, activate, complete, fail, abort)
-- Mission state tracking (pending, active, completed, failed, aborted)
-- Squad and craft assignment to missions
-- Objective tracking and completion
-- Basic reward distribution
-- Mission statistics and reporting
-- Event system for mission state changes
-
-**Data Loading (`engine/core/data_loader.lua`)**
-- Mission definitions loaded from TOML files (`mods/core/rules/missions/*.toml`)
-- Utility functions: `DataLoader.mission.get()`, `getAllIds()`, `getByType()`
-- Support for tactical and strategic mission types
-- Mission data includes difficulty, rewards, enemy types, time limits
-
-**Mission Types (Basic Implementation)**
-- **Tactical Missions**: Terror attacks, crash recovery, abduction sites, facility raids
-- **Strategic Missions**: Council battles, UFO interception, research expeditions, supply raids, diplomatic missions
-- Mission data includes enemy counts, squad sizes, time limits, rewards
-
-**Mission States & Tracking**
-- State management: pending → active → completed/failed/aborted
-- Assignment tracking: crafts and squad units assigned to missions
-- Progress tracking: objectives completed, casualties, turns taken
-- Historical tracking: completed missions archive
-
-### FUTURE IDEAS (Not Yet Implemented)
-
-**Procedural Mission Generation**
-- Dynamic mission creation based on geoscape state
-- Weighted random selection by mission type and location
-- Difficulty scaling algorithms with player performance modifiers
-- Map generation integration with mission templates
-
-**Advanced Difficulty Scaling**
-- Multiplier-based scaling (enemy count, quality, time limits)
-- Performance-based difficulty adjustment
-- Regional threat level integration
-- Organization level modifiers
-
-**Complex Reward Systems**
-- Performance-based multipliers (time bonuses, casualty penalties)
-- Optional objective bonuses
-- Salvage and technology rewards
-- Reputation and alliance impacts
-
-**Mission Branching & Events**
+**Last Updated:** October 22, 2025  
+**Status:** ✅ Complete
 - Dynamic events during missions (reinforcements, hazards)
 - Story-driven mission chains
 - Conditional mission outcomes

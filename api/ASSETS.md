@@ -35,6 +35,28 @@ The Assets Management System handles:
 
 ---
 
+## Implementation Status
+
+### ✅ Implemented (in engine/assets/ and engine/economy/)
+- **Assets Management System** - `engine/assets/` folder contains asset loading and management
+- **Inventory Tracking** - Core inventory system implemented
+- **Storage Management** - Base storage allocation and capacity
+- **Procurement System** - Supplier purchasing mechanics
+- **Item Categories** - Graphics, audio, data asset handling
+- **Loadout Management** - Equipment assignment system
+
+### 🚧 Partially Implemented
+- Item degradation tracking
+- Inter-base transfer logistics
+- Asset caching optimization
+
+### 📋 Planned
+- Advanced maintenance and repair system
+- Complex logistics system for transfers
+- Dynamic mod asset integration
+
+---
+
 ## Architecture
 
 ### Data Flow
@@ -869,20 +891,6 @@ print("[Assets] Main Base now has: " .. remaining.quantity .. " assault rifles")
 
 ## Related Systems
 
-### Linked to:
-- Economy (purchasing power)
-- Basescape (storage facilities)
-- Battlescape (equipment loadouts)
-- Research (prototype management)
-- Interception (captured items)
-
-### Depends On:
-- Storage system database
-- Supplier/procurement networks
-- Item templates and properties
-- Base infrastructure
-
-### Used By:
 - Mission planning
 - Squad equipment assignment
 - Base management
@@ -891,22 +899,6 @@ print("[Assets] Main Base now has: " .. remaining.quantity .. " assault rifles")
 
 ---
 
-## Implementation Status
-
-### IN DESIGN (Existing in engine/)
-- ✅ **Assets Management System** - `engine/assets/` folder contains asset loading and management
-- ✅ **Inventory Tracking** - Core inventory system implemented
-- ✅ **Storage Management** - Base storage allocation and capacity
-- ✅ **Procurement System** - Supplier purchasing mechanics
-- ✅ **Item Categories** - Graphics, audio, data asset handling
-- ✅ **Loadout Management** - Equipment assignment system
-
-### FUTURE (Not existing in engine/)
-- ❌ **Advanced Maintenance** - Item degradation and repair (planned)
-- ❌ **Inter-Base Transfers** - Complex logistics system (planned)
-- ❌ **Mod Asset Loading** - Dynamic mod asset integration (planned)
-
----
 
 **API Version:** 1.0
 **Last Updated:** October 21, 2025

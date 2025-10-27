@@ -137,7 +137,23 @@ function Menu:enter()
     ))
     self.buttons[#self.buttons].onClick = function()
         print("[Menu] Testing MIDI playback...")
-        AudioManager:playMIDI("sample")
+        -- Try playing the uploaded MIDI file
+        if not AudioManager:playMIDI("MIDI TEST/Queen - Bohemian Rhapsody") then
+            print("[Menu] MIDI parsing failed, trying random_song.mid...")
+            if not AudioManager:playMIDI("MIDI TEST/random_song") then
+                print("[Menu] MIDI parsing failed, generating test tone...")
+                -- Generate a simple test tone as fallback
+                local toneData = love.sound.newSoundData(44100 * 2, 44100, 16, 1) -- 2 seconds
+                for i = 0, 44100 * 2 - 1 do
+                    local t = i / 44100
+                    local sample = math.sin(2 * math.pi * 440 * t) * 0.3 -- 440Hz sine wave
+                    toneData:setSample(i, sample)
+                end
+                local source = love.audio.newSource(toneData)
+                source:play()
+                print("[Menu] Test tone played (440Hz for 2 seconds)")
+            end
+        end
     end
 
     -- Quit button
@@ -185,6 +201,19 @@ function Menu:update(dt)
 
     -- Update version label
     self.versionLabel:update(dt)
+
+    -- Auto-test MIDI after 2 seconds (for testing purposes)
+    if not self.autoTested then
+        self.autoTestTime = (self.autoTestTime or 0) + dt
+        if self.autoTestTime >= 2 then
+            print("[Menu] Auto-testing MIDI playback...")
+            self.autoTested = true
+            -- Simulate clicking the TEST MIDI button
+            if self.buttons[6] and self.buttons[6].text == "TEST MIDI" then
+                self.buttons[6].onClick()
+            end
+        end
+    end
 end
 
 --- Render the menu screen.
@@ -290,5 +319,3 @@ function Menu:mousereleased(x, y, button, istouch, presses)
 end
 
 return Menu
-
-

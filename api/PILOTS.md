@@ -1,8 +1,35 @@
 # Pilots API Reference
 
+**System:** Operational Layer (Personnel Management / Aircraft Crew)  
+**Module:** `engine/basescape/logic/pilot_progression.lua`  
+**Latest Update:** 2025-10-27  
+**Status:** ✅ Complete
+
+---
+
+## 📋 Scope & Related Systems
+
+**This API covers:**
+- Pilot entity structure and properties
+- Experience and rank progression system
+- Craft assignment and crew management
+- Pilot stat bonuses to craft performance
+- Pilot class specializations
+
+**For related systems, see:**
+- **[UNITS.md](UNITS.md)** - Base unit system (pilots are specialized units)
+- **[CRAFTS.md](CRAFTS.md)** - Craft entities and crew requirements
+- **[INTERCEPTION.md](INTERCEPTION.md)** - Air combat where pilots gain XP
+
+---
+
 ## Overview
 
 The Pilot system manages aircraft and spacecraft personnel who gain experience through interception combat. Unlike ground soldiers, pilots are operator specialists focused on vehicle operations with progression through ranks (Rookie → Veteran → Ace).
+
+**Layer Classification:** Operational / Personnel Management  
+**Primary Responsibility:** Pilot progression, craft crew assignment, stat bonuses to craft  
+**Integration Points:** Units (base system), Crafts (crew assignment), Interception (XP gain)
 
 **Key Characteristics:**
 - **Operator Role**: Focus on craft operation, not ground combat
@@ -13,7 +40,385 @@ The Pilot system manages aircraft and spacecraft personnel who gain experience t
 
 ---
 
-## Pilot Classes
+## Implementation Status
+
+### ✅ Implemented (in engine/basescape/logic/)
+- Pilot progression system with XP tracking (`pilot_progression.lua`)
+- Three-rank system: Rookie, Veteran, Ace
+- Automatic stat increases on rank-up
+- XP gain from interception combat
+- Rank insignia and display
+- Performance metrics tracking
+
+### 🚧 Partially Implemented
+- Craft bonus calculation from pilot stats
+- Multiple pilot assignment (for heavy craft)
+- Pilot fatigue system
+
+### 📋 Planned (in design/)
+- Pilot traits and special abilities
+- Pilot training programs
+- Crew cohesion bonuses
+- Named ace pilots with unique abilities
+
+---
+
+## Core Entities
+
+### Entity: Pilot
+
+Specialized unit focused on craft operation. Extends Unit with pilot-specific properties.
+
+**Properties:**
+```lua
+Pilot = {
+  -- Inherits all Unit properties (see UNITS.md)
+  id = number,                    -- Unit ID
+  name = string,                  -- Pilot name
+  type = "pilot",                 -- Unit type
+  class = string,                 -- "pilot", "fighter_pilot", "bomber_pilot", "helicopter_pilot"
+  faction = string,               -- "xcom", etc.
+  
+  -- Pilot-Specific Properties
+  pilot_rank = number,            -- 0 = Rookie, 1 = Veteran, 2 = Ace
+  pilot_xp = number,              -- Current XP in this rank
+  total_xp_earned = number,       -- Total XP across all ranks
+  
+  -- Pilot Stats (used for craft bonuses)
+  pilot_stats = {
+    speed = number,               -- 6-10 (affects craft dodge)
+    aim = number,                 -- 6-10 (affects craft targeting)
+    reaction = number,            -- 6-10 (affects initiative)
+    strength = number,            -- 5-8 (affects heavy craft control)
+    energy = number,              -- 6-10 (affects stamina)
+    wisdom = number,              -- 6-10 (affects decision making)
+    psi = number,                 -- 0-10 (psionic ability, rare)
+  },
+  
+  -- Assignment
+  assigned_craft = string | nil,  -- Craft ID if assigned
+  crew_position = number | nil,   -- 0 = pilot, 1 = co-pilot, 2+ = crew
+  
+  -- Performance Metrics
+  missions = number,              -- Interceptions flown
+  victories = number,             -- Successful interceptions
+  defeats = number,               -- Failed interceptions
+  kills = number,                 -- Enemy craft destroyed
+  damage_dealt = number,          -- Total damage inflicted
+  
+  -- Status
+  status = string,                -- "available", "assigned", "flying", "wounded", "deceased"
+  fatigue = number,               -- 0-100 (future feature)
+  
+  -- Timestamps
+  created_at = number,            -- Creation timestamp
+  last_mission = number | nil,    -- Last mission timestamp
+}
+```
+
+**TOML Configuration:**
+```toml
+[[unit]]
+id = "pilot_rookie"
+name = "Rookie Pilot"
+description = "Newly trained aircraft pilot"
+type = "pilot"
+faction = "xcom"
+class = "pilot"
+pilot_rank = 0
+pilot_xp = 0
+
+[unit.stats]
+health = 50
+armor = 0
+will = 65
+reaction = 80
+shooting = 60
+throwing = 40
+strength = 55
+
+[unit.pilot_stats]
+speed = 6
+aim = 6
+reaction = 8
+strength = 5
+energy = 6
+wisdom = 6
+psi = 0
+
+[unit.equipment]
+primary = "pistol"
+armor = "pilot_suit"
+
+[unit.perks]
+default = ["can_move", "can_shoot", "no_morale_penalty"]
+```
+
+---
+
+---
+
+## Functions
+
+### Pilot Progression
+
+#### PilotProgression.initializePilot(pilotId, initialRank)
+Initialize pilot progression tracking.
+
+**Parameters:**
+- `pilotId` (number) - Pilot unit ID
+- `initialRank` (number) - Starting rank (0=Rookie, 1=Veteran, 2=Ace)
+
+**Returns:** void
+
+```lua
+local PilotProgression = require("basescape.logic.pilot_progression")
+PilotProgression.initializePilot(101, 0)  -- Initialize as Rookie
+```
+
+---
+
+#### PilotProgression.gainXP(pilotId, xpAmount, source)
+Award XP to a pilot. Automatically checks for rank-up.
+
+**Parameters:**
+- `pilotId` (number) - Pilot unit ID
+- `xpAmount` (number) - XP to award
+- `source` (string) - Source description (e.g., "interception_victory")
+
+**Returns:** boolean - True if pilot ranked up
+
+```lua
+local rankedUp = PilotProgression.gainXP(101, 15, "UFO destroyed")
+if rankedUp then
+    print("Pilot achieved new rank!")
+end
+```
+
+**XP Calculation:**
+```lua
+-- From interception combat:
+local xp = math.floor(enemy_total_hp / 10)
+PilotProgression.gainXP(pilotId, xp, "interception_victory")
+```
+
+---
+
+#### PilotProgression.checkRankUp(pilotId)
+Check if pilot should rank up and process if needed.
+
+**Parameters:**
+- `pilotId` (number) - Pilot unit ID
+
+**Returns:** boolean - True if pilot ranked up
+
+```lua
+local rankedUp = PilotProgression.checkRankUp(101)
+```
+
+---
+
+#### PilotProgression.getRank(pilotId)
+Get pilot's current rank ID.
+
+**Parameters:**
+- `pilotId` (number) - Pilot unit ID
+
+**Returns:** number - Rank ID (0=Rookie, 1=Veteran, 2=Ace)
+
+```lua
+local rank = PilotProgression.getRank(101)
+-- 0 = Rookie, 1 = Veteran, 2 = Ace
+```
+
+---
+
+#### PilotProgression.getXP(pilotId)
+Get pilot's current XP in this rank.
+
+**Parameters:**
+- `pilotId` (number) - Pilot unit ID
+
+**Returns:** number - Current XP toward next rank
+
+```lua
+local xp = PilotProgression.getXP(101)  -- e.g., 45 XP toward Veteran
+```
+
+---
+
+#### PilotProgression.getTotalXP(pilotId)
+Get total XP earned by pilot across all ranks.
+
+**Parameters:**
+- `pilotId` (number) - Pilot unit ID
+
+**Returns:** number - Total XP earned
+
+```lua
+local totalXP = PilotProgression.getTotalXP(101)
+```
+
+---
+
+#### PilotProgression.getRankDef(rankId)
+Get rank definition information.
+
+**Parameters:**
+- `rankId` (number) - Rank ID (0, 1, or 2)
+
+**Returns:** table | nil - Rank definition or nil
+
+```lua
+local rankDef = PilotProgression.getRankDef(1)
+-- Returns: {id=1, name="Veteran", xp_required=100, insignia="silver", color={200,200,200}}
+```
+
+---
+
+#### PilotProgression.getRankInsignia(pilotId)
+Get rank insignia for UI display.
+
+**Parameters:**
+- `pilotId` (number) - Pilot unit ID
+
+**Returns:** table - Insignia info `{name, type, color}`
+
+```lua
+local insignia = PilotProgression.getRankInsignia(101)
+-- Returns: {name="Veteran", type="silver", color={200, 200, 200}}
+```
+
+---
+
+#### PilotProgression.getXPProgress(pilotId)
+Get XP progress to next rank as percentage.
+
+**Parameters:**
+- `pilotId` (number) - Pilot unit ID
+
+**Returns:** number - Progress percentage (0-100)
+
+```lua
+local progress = PilotProgression.getXPProgress(101)
+-- 45 XP out of 100 required = 45.0
+```
+
+---
+
+#### PilotProgression.recordMission(pilotId, victory, kills, damageDeal)
+Record mission statistics for pilot.
+
+**Parameters:**
+- `pilotId` (number) - Pilot unit ID
+- `victory` (boolean) - Whether mission was successful
+- `kills` (number) - Enemy craft destroyed
+- `damageDealt` (number) - Total damage inflicted
+
+**Returns:** void
+
+```lua
+PilotProgression.recordMission(101, true, 1, 150)
+```
+
+---
+
+#### PilotProgression.applyRankBonuses(pilotId, unit)
+Apply rank stat bonuses to unit stats (called automatically on rank-up).
+
+**Parameters:**
+- `pilotId` (number) - Pilot unit ID
+- `unit` (Unit) - Unit object to modify
+
+**Returns:** void
+
+**Rank Bonuses Per Rank:**
+- Speed: +1
+- Aim: +2
+- Reaction: +1
+
+```lua
+-- Automatically called on rank-up, but can be called manually:
+PilotProgression.applyRankBonuses(101, unitObject)
+```
+
+---
+
+### Craft Assignment
+
+#### Craft.assignPilot(craft, pilot)
+Assign a pilot to a craft.
+
+**Parameters:**
+- `craft` (Craft) - Craft object
+- `pilot` (Pilot) - Pilot unit object
+
+**Returns:** boolean - True if successful
+
+```lua
+local success = craft:assignPilot(pilotUnit)
+if success then
+    print("Pilot assigned to " .. craft.name)
+end
+```
+
+---
+
+#### Craft.removePilot(craft, pilotId)
+Remove a pilot from craft crew.
+
+**Parameters:**
+- `craft` (Craft) - Craft object
+- `pilotId` (number) - Pilot unit ID
+
+**Returns:** boolean - True if successful
+
+```lua
+craft:removePilot(101)
+```
+
+---
+
+#### Craft.getPilots(craft)
+Get all pilots assigned to craft.
+
+**Parameters:**
+- `craft` (Craft) - Craft object
+
+**Returns:** Pilot[] - Array of pilot units
+
+```lua
+local pilots = craft:getPilots()
+for _, pilot in ipairs(pilots) do
+    print(pilot.name .. " - Rank: " .. pilot.pilot_rank)
+end
+```
+
+---
+
+#### Craft.calculatePilotBonuses(craft)
+Calculate stat bonuses from assigned pilots.
+
+**Parameters:**
+- `craft` (Craft) - Craft object
+
+**Returns:** table - Bonus values `{dodge, targeting_accuracy, speed}`
+
+**Bonus Formula:**
+```lua
+-- Per pilot stat:
+bonus = (pilot_stat / 10) * 100  -- As percentage
+
+-- Example: Pilot with Speed 8 provides +80% dodge bonus
+-- Multiple pilots: bonuses are averaged
+```
+
+```lua
+local bonuses = craft:calculatePilotBonuses()
+-- Returns: {dodge = 80, targeting_accuracy = 60, speed = 70}
+```
+
+---
 
 ### PILOT (Base Class)
 Standard aircraft pilot trained for general craft operations.
@@ -110,7 +515,111 @@ Vertical takeoff/landing specialist for hover and precision operations.
 
 ---
 
-## Rank System
+---
+
+## Pilot Classes
+
+Pilots come in four specialized classes, each optimized for different craft types.
+
+### PILOT (Base Class)
+Standard aircraft pilot trained for general craft operations.
+
+**Stats:**
+- Health: 50 HP (lowest front-line value)
+- Speed: 6 (base reactivity)
+- Aim: 6 (moderate accuracy)
+- Reaction: 8 (fast reflexes)
+- Strength: 5
+- Energy: 6
+- Wisdom: 6
+- PSI: 0
+
+**Perks:**
+- `can_move` - Standard movement
+- `can_run` - Sprint capability
+- `can_shoot` - Ranged combat
+- `can_melee` - Close combat
+- `can_throw` - Grenades
+- `skilled_pilot` - Craft operation bonus
+- `no_morale_penalty` - Immune to morale penalties while piloting
+
+**Role**: General operations across all craft types  
+**Preferred Craft**: Any  
+**Specialization**: Balanced, versatile operations
+
+---
+
+### FIGHTER_PILOT (Elite Interceptor Specialist)
+Elite aircraft combat pilot specialized for dogfighting and interceptor operations.
+
+**Stats:**
+- Health: 55 HP
+- Speed: 7 (high mobility)
+- Aim: 8 (superior accuracy)
+- Reaction: 9 (fastest reflexes)
+- Strength: 6
+- Energy: 7
+- Wisdom: 7
+- PSI: 0
+
+**Perks:**
+- All PILOT perks, plus:
+- `ace_pilot` - Advanced piloting bonuses (+10% dodge)
+- `sharpshooter` - Better targeting in combat (+15% accuracy)
+
+**Role**: Interceptor craft combat and dogfighting  
+**Preferred Craft**: Lightning Interceptor, Avenger  
+**Specialization**: High-speed combat, pursuit missions
+
+---
+
+### BOMBER_PILOT (Transport & Heavy Craft Specialist)
+Transport and heavy craft specialist with focus on endurance and control.
+
+**Stats:**
+- Health: 60 HP (highest durability)
+- Speed: 6 (moderate maneuverability)
+- Aim: 6 (standard accuracy)
+- Reaction: 7 (moderate reflexes)
+- Strength: 7 (highest strength for heavy control)
+- Energy: 8 (higher endurance)
+- Wisdom: 7
+- PSI: 0
+
+**Perks:**
+- All PILOT perks, plus:
+- `steady_hand` - Reduced accuracy loss from damage
+- `iron_constitution` - Better stamina (+20% energy regen)
+
+**Role**: Transport and heavy aircraft operations  
+**Preferred Craft**: Skyranger, Avenger (as co-pilot)  
+**Specialization**: Heavy load capacity, long-range missions
+
+---
+
+### HELICOPTER_PILOT (VTOL Specialist)
+Vertical takeoff/landing specialist for hover and precision operations.
+
+**Stats:**
+- Health: 55 HP
+- Speed: 6 (good maneuverability)
+- Aim: 7 (good accuracy)
+- Reaction: 9 (precise control)
+- Strength: 5
+- Energy: 7
+- Wisdom: 8 (highest spatial awareness)
+- PSI: 0
+
+**Perks:**
+- All PILOT perks, plus:
+- `precision_control` - Hover bonuses (+25% stability)
+- `steady_aim` - Better accuracy while hovering (+10% aim)
+
+**Role**: Transport and precision operations  
+**Preferred Craft**: Skyranger, VTOL transports  
+**Specialization**: Hover capability, precision insertion/extraction
+
+---
 
 Pilots progress through three ranks based on experience gained during interception combat.
 

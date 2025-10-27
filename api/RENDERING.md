@@ -22,6 +22,29 @@ The 3D rendering system provides an alternative first-person perspective overlay
 
 ---
 
+## Implementation Status
+
+### ✅ Implemented (in engine/rendering/)
+- First-person perspective rendering
+- Real-time 3D rendering (60 FPS)
+- Perspective toggle with zero gameplay impact
+- Frustum culling optimization
+- Level-of-detail (LOD) system
+- Fog-of-war visualization
+- Atmospheric effects
+
+### 🚧 Partially Implemented
+- Advanced shader system
+- Post-processing effects
+- Dynamic lighting
+
+### 📋 Planned
+- VR support
+- Advanced particle systems
+- Screen-space effects
+
+---
+
 ## Architecture
 
 ### Rendering Pipeline
@@ -769,30 +792,5 @@ print("[EFFECT] Fired " .. weapon.name .. " at " .. firing_position)
 
 ---
 
-## Implementation Status
-
-### IN DESIGN (Existing in engine/)
-- ✅ **3D Rendering Pipeline** - Rendering code exists in `engine/geoscape/world/world_renderer.lua` and battlescape systems
-- ✅ **Camera System** - Camera controls and positioning implemented
-- ✅ **Frustum Culling** - View optimization for performance
-- ✅ **LOD System** - Level-of-detail rendering for distant objects
-- ✅ **Hex-to-3D Mapping** - Coordinate system conversion implemented
-
-### FUTURE (Not existing in engine/)
-- ❌ **Advanced Particle Effects** - Enhanced visual effects system (planned)
-- ❌ **Dynamic Lighting** - Real-time lighting calculations (planned)
-- ❌ **Post-Processing Pipeline** - Advanced visual filters (planned)
-
----
-
-## See Also
-
-- **Battlescape** (`API_BATTLESCAPE_EXTENDED.md`) - Underlying game mechanics
-- **GUI** (`API_GUI.md`) - HUD overlay system
-- **Assets** (`API_ASSETS.md`) - Texture and model management
-
----
-
 **Status:** ✅ Complete  
-**Quality:** Enterprise Grade  
 **Last Updated:** October 21, 2025

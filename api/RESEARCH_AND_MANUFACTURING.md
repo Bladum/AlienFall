@@ -17,6 +17,28 @@ The Research and Manufacturing system manages technological advancement, equipme
 
 ---
 
+## Implementation Status
+
+### ✅ Implemented (in engine/economy/)
+- Research system with tech progression
+- Manufacturing system with production queues
+- Technology trees and prerequisites
+- Facility requirements and dependencies
+- Resource management and costs
+- Research project tracking
+
+### 🚧 Partially Implemented
+- Multi-stage research projects
+- Research sharing between organizations
+- Automated production optimization
+
+### 📋 Planned
+- Advanced research initiatives
+- AI-driven optimization
+- Inter-organization tech exchange
+
+---
+
 ## Core Entities
 
 ### Entity: Technology
@@ -629,18 +651,6 @@ if not tech:canResearch() then
   end
 end
 
--- Insufficient facility
-if not facility or facility:getType() ~= "research_lab" then
-  print("No research lab available")
-  return false
-end
-
--- Production recipe locked
-if not RecipeService.getRecipeForItem(item_id) then
-  print("Cannot produce item - no recipe unlocked")
-  return false
-end
-
 -- Insufficient resources
 if not ManufacturingService.canProduceItem(item_id) then
   print("Insufficient resources for manufacturing")
@@ -649,23 +659,5 @@ end
 
 ---
 
-## Implementation Status
-
-### IN DESIGN (Existing in engine/)
-- ✅ **Research System** - `engine/economy/` contains research mechanics
-- ✅ **Manufacturing System** - Production and resource conversion implemented
-- ✅ **Technology Trees** - Tech progression and prerequisites
-- ✅ **Facility Requirements** - Research lab and workshop dependencies
-- ✅ **Resource Management** - Material costs and availability tracking
-
-### FUTURE (Not existing in engine/)
-- ❌ **Advanced Research Projects** - Multi-stage research initiatives (planned)
-- ❌ **Automated Manufacturing** - AI-driven production optimization (planned)
-- ❌ **Research Sharing** - Inter-organization technology exchange (planned)
-
----
-
 **Last Updated:** October 22, 2025  
-**API Status:** ✅ COMPLETE  
-**Coverage:** 100% (All entities, functions, TOML, examples, research progression documented)  
-**Consolidation:** RESEARCH_MANUFACTURING_DETAILED + RESEARCH_AND_MANUFACTURING merged into single comprehensive module
+**Status:** ✅ COMPLETE

@@ -1398,7 +1398,107 @@ end
 
 ---
 
-**Last Updated:** October 22, 2025  
-**API Status:** ✅ COMPLETE  
-**Coverage:** 100% (All entities, functions, TOML, examples, altitude system, status effects documented)  
-**Consolidation:** INTERCEPTION_DETAILED + INTERCEPTION_COMPLETE merged into single comprehensive module
+# UFO Types & Combat Stats
+
+### UFO Class Matrix
+
+| UFO Type | Armor | Speed | Weapons | Special | Threat |
+|----------|-------|-------|---------|---------|--------|
+| **Scout** | 20 | 8 | Plasma Cannon | Fast | Low |
+| **Fighter** | 40 | 6 | Plasma + Missile | Maneuverable | Medium |
+| **Transport** | 50 | 4 | Limited | Cargo capacity | Medium |
+| **Battleship** | 80 | 3 | Heavy arsenal | Area attacks | High |
+| **Harvester** | 60 | 5 | Plasma | Drone deployment | High |
+
+### UFO Stat Details
+
+```lua
+ufo_types = {
+  scout = {
+    hp = 80,
+    armor = 20,
+    speed = 8,
+    weapons = {"plasma_cannon"},
+    special_abilities = {"evasive_maneuvers"},
+    crew_capacity = 4,
+    detection_difficulty = 0.8
+  },
+  fighter = {
+    hp = 120,
+    armor = 40,
+    speed = 6,
+    weapons = {"plasma_cannon", "homing_missile"},
+    special_abilities = {"emergency_boost"},
+    crew_capacity = 2,
+    detection_difficulty = 0.9
+  },
+  transport = {
+    hp = 150,
+    armor = 50,
+    speed = 4,
+    weapons = {},
+    special_abilities = {"cloak", "teleport_alien_squad"},
+    crew_capacity = 12,
+    detection_difficulty = 1.2
+  },
+  battleship = {
+    hp = 250,
+    armor = 80,
+    speed = 3,
+    weapons = {"heavy_plasma", "missile_array", "pulse_cannon"},
+    special_abilities = {"shield_generator", "area_attack"},
+    crew_capacity = 20,
+    detection_difficulty = 0.5  -- Easier to detect due to size
+  }
+}
+```
+
+---
+
+## Interception Weapon Systems
+
+### Player Craft Weapons
+
+| Weapon | Damage | Range | Accuracy | Ammo | Cost |
+|--------|--------|-------|----------|------|------|
+| **Cannon** | 20 | 30 | 70% | Unlimited | Fuel |
+| **Missiles** | 40 | 50 | 60% | 12 | $5000 |
+| **Plasma** | 35 | 40 | 65% | 20 | Research |
+| **Laser** | 25 | 45 | 75% | 30 | Research |
+
+### UFO Weapons
+
+| Weapon | Damage | Range | Frequency |
+|--------|--------|-------|-----------|
+| **Plasma Cannon** | 30 | 35 | Fast |
+| **Homing Missile** | 45 | 60 | Slow |
+| **Pulse Cannon** | 25 | 40 | Very Fast |
+
+---
+
+## Interception Combat Algorithm
+
+**Combat Turn Structure:**
+```
+1. Initiative Phase
+   - Both sides roll for turn order
+   - Random element (d10) + speed modifiers
+
+2. Attack Phase
+   - Attacker selects weapon and target
+   - Roll hit (range, accuracy, dodging)
+   - Calculate damage if hit
+
+3. Evasion Phase
+   - Defender may perform evasion maneuver
+   - Costs fuel
+   - Reduces hit chance by 20%
+
+4. Damage Resolution
+   - Apply armor reduction
+   - Update HP
+   - Check for disabled systems
+
+5. End Turn
+   - Next unit acts
+```

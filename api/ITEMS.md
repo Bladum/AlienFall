@@ -17,6 +17,28 @@ The Items system manages all equipment, weapons, consumables, armor, and resourc
 
 ---
 
+## Implementation Status
+
+### ✅ Implemented (in engine/content/items/)
+- ItemDefinition entity with properties and stats
+- ItemStack entity with durability and condition tracking
+- Equipment slot system with compatibility
+- Item access and unlocking via research
+- Basic item functionality and stat bonuses
+- TOML configuration support
+
+### 🚧 Partially Implemented
+- Crafting recipe system
+- Marketplace trading
+- Stacking operations
+
+### 📋 Planned
+- Advanced item properties
+- Item degradation mechanics
+- Complex crafting chains
+
+---
+
 ## Core Entities
 
 ### Entity: ItemDefinition
@@ -897,59 +919,8 @@ specialization_bonuses = {
 
 ### Consumable Balance
 
-#### Medical & Support Items
-
-| Item | Heal Amount | Weight | Cost | Rarity | Uses |
-|---|---|---|---|---|---|
-| **Stimpack** | 25 HP | 0.5 kg | 150 | Common | 1x |
-| **Medical Kit** | 50 HP | 1.5 kg | 500 | Uncommon | 3x |
-| **Medic Pack** | 75 HP + Revive | 3 kg | 1500 | Rare | 2x |
-| **Super Stimulant** | 100 HP | 1 kg | 2000 | Rare | 1x |
-| **Nano Serum** | 150 HP | 2 kg | 3500 | Epic | 1x |
-
-#### Utility Items
-
-| Item | Effect | Duration | Weight | Cost | Uses |
-|---|---|---|---|---|---|
-| **Grenade** | 15 AOE damage | Instant | 0.3 kg | 200 | 1x |
-| **Smoke Bomb** | Obscure vision | 2 turns | 0.4 kg | 250 | 1x |
-| **Flashbang** | Stun enemies | 1 turn | 0.3 kg | 300 | 1x |
-| **Thermite** | 30 AOE damage | Instant | 0.5 kg | 400 | 1x |
-| **Stealth Field** | Invisibility | 1 turn | 1.5 kg | 800 | 1x |
-
----
-
-## Implementation Status
-
-### IN DESIGN (Existing in engine/)
-*No implemented systems yet - all features are planned*
-
-### FUTURE IDEAS (Not in engine/)
-- **ItemDefinition Entity**: Base item type definitions with properties, stats, and availability
-- **ItemStack Entity**: Instance management with durability, quantity, and condition tracking
-- **EquipmentSlot Entity**: Unit equipment slot system with compatibility and stat bonuses
-- **Item Manager Service**: Item access, availability, and unlocking via research
-- **ItemStack Service**: Stacking operations, condition management, and durability tracking
-- **Equipment Service**: Unit loadout management, stat calculation, and equipment operations
-- **Item Crafting Service**: Recipe checking, ingredient validation, and production jobs
-- **Item Marketplace Service**: Trading, pricing, and market history functionality
-- **TOML Configuration**: Weapon, armor, resource, and consumable definitions
-- **Balance Framework**: Damage progression, armor ratings, rarity bonuses, and crafting costs
-- **Integration Points**: Research unlocks, crafting production, economy pricing, and combat stats
-
----
-
-## Error Handling
-
-```lua
--- Safe item equipping
-local unit = Squad.getUnit(unit_id)
-if not unit then
-  print("[ERROR] Unit not found: " .. unit_id)
-  return false
-end
-
-local success, error = EquipmentService.equipItem(unit, "left_hand", item)
+-- Equipment operations
+EquipmentService.equipItem(unit, "left_hand", item)
 if not success then
   if error == "SLOT_FULL" then
     print("Equipment slot is full")
@@ -975,7 +946,18 @@ end
 
 ---
 
+### Consumable Balance
+
+#### Consumable Effectiveness
+
+| Type | Cost | Effect | Uses | Best For |
+|---|---|---|---|---|
+| **Medical Kit** | 200 | +25 HP | 1 | Emergency healing |
+| **Stimulant** | 300 | +20% accuracy | 1 | Critical shots |
+| **Ammo Pouch** | 150 | +30 ammo | 1 | Extended ops |
+| **Grenade** | 100 | Area damage | 1 | Crowd control |
+
+---
+
 **Last Updated:** October 22, 2025  
-**API Status:** ✅ COMPLETE  
-**Coverage:** 100% (Item definitions, stacks, equipment, crafting, marketplace)  
-**Consolidation:** ITEMS_DETAILED as comprehensive single-file module (1,250 lines)
+**Status:** ✅ Complete

@@ -23,6 +23,32 @@ The Weapons & Armor system manages all combat equipment including firearms, mele
 
 ---
 
+## Implementation Status
+
+### ✅ Implemented (in engine/)
+- Weapon definitions and data loading
+- Armor definitions and classification
+- Ammunition management
+- Equipment TOML configuration
+- Accuracy calculations with range modifiers
+- Armor damage reduction mechanics
+- Equipment usage tracking
+- Inventory management
+
+### 🚧 Partially Implemented
+- Weapon modification system
+- Advanced damage types
+- Equipment durability tracking
+- Loadout presets
+
+### 📋 Planned
+- Weapon customization and upgrades
+- Accessory slots and attachments
+- Armor degradation mechanics
+- Equipment progression system
+
+---
+
 ## Quick Start
 
 ### Loading Weapons
@@ -1957,59 +1983,8 @@ condition_penalties = {
 - Utility functions: `DataLoader.weapons.get()`, `getAllIds()`, `getByType()`
 - Utility functions: `DataLoader.armours.get()`, `getAllIds()`, `getByType()`
 
-**Weapon Types (TOML Configuration)**
-- **Firearms**: Pistols, rifles, shotguns, sniper rifles, rocket launchers
-- **Melee Weapons**: Various close-combat weapons with different damage types
-- **Heavy Weapons**: High-damage area-effect weapons
-- **Special Weapons**: Unique or experimental equipment
-
-**Armor Classes (TOML Configuration)**
-- **Light Armor**: Basic protection with mobility bonuses
-- **Medium Armor**: Balanced protection and mobility
-- **Heavy Armor**: Maximum protection with mobility penalties
-- **Special Armor**: Unique protective equipment
-
-**Combat Integration**
-- Accuracy calculations with range modifiers (test_accuracy_system.lua)
-- Armor damage reduction mechanics (test_combat_integration.lua)
-- Equipment usage tracking in analytics
-- Inventory management through base systems
-
-### FUTURE IDEAS (Not Yet Implemented)
-
-**Weapon Modification System**
-- Weapon customization and upgrades
-- Accessory slots (scopes, grips, magazines)
-- Dynamic stat modifiers from attachments
-- Weapon degradation and repair mechanics
-
-**Advanced Damage System**
-- Multiple damage types (kinetic, plasma, explosive, toxic)
-- Armor interaction matrices for different damage types
-- Critical hit systems and weak point targeting
-- Environmental damage modifiers
-
-**Equipment Management**
-- Inventory capacity and weight limits
-- Equipment durability and maintenance
-- Loadout presets and quick-switch systems
-- Equipment progression and unlocking
-
-**Armor Degradation**
-- Damage accumulation and repair requirements
-- Mobility penalties from damaged armor
-- Armor effectiveness reduction over time
-- Salvage and recycling systems
-
-**Advanced Combat Features**
-- Weapon jamming and malfunction mechanics
-- Ammunition types and special rounds
-- Environmental weapon interactions
-- Weapon-specific tactical options
-
 ---
 
 **Status:** ✅ Complete  
-**Quality:** Enterprise Grade  
 **Last Updated:** October 21, 2025
 

@@ -104,6 +104,12 @@ local CampaignStatsScreen = require("gui.scenes.campaign_stats_screen")
 print("[Main] Loading Settings Screen...")
 local SettingsScreen = require("gui.scenes.settings_screen")
 
+print("[Main] Loading MIDI Test Screen...")
+local MidiTestScreen = require("gui.scenes.midi_test_screen_fixed")
+
+print("[Main] Loading Debug Screen...")
+local DebugScreen = require("gui.scenes.debug_screen")
+
 -- Load widgets system
 local Widgets = require("gui.widgets.init")
 
@@ -174,9 +180,6 @@ function love.load()
     -- Initialize audio manager
     AudioManager:init()
 
-    -- Test MIDI playback
-    AudioManager:playMIDI("MIDI TEST/sample.mid")
-
     -- Register all game states
     StateManager.register("menu", Menu)
     StateManager.register("geoscape", Geoscape)
@@ -189,9 +192,11 @@ function love.load()
     StateManager.register("load_game", LoadGameScreen)
     StateManager.register("campaign_stats", CampaignStatsScreen)
     StateManager.register("settings", SettingsScreen)
+    StateManager.register("midi_test", MidiTestScreen)
+    StateManager.register("debug_screen", DebugScreen)
 
-    -- Start with menu
-    StateManager.switch("menu")
+    -- Start with MIDI test
+    StateManager.switch("midi_test")
 
     print("[Main] Game initialized successfully")
 end

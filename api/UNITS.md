@@ -45,6 +45,12 @@ Unit = {
   perception = number,            -- Detection range, accuracy
   will = number,                  -- Morale resistance, psi defense
   
+  -- Psychological Stats (6-12 range for humans, 0-20 for psi)
+  bravery = number,               -- Morale buffer, panic resistance (6-12)
+  sanity = number,                -- Psychological stability (6-12)
+  melee = number,                 -- Melee combat effectiveness (6-12)
+  psi = number,                   -- Psionic power (0-20, 0 = no psi)
+  
   -- Effective Stats (with equipment bonuses)
   stats = {
     accuracy = number,            -- 0-100
@@ -59,6 +65,23 @@ Unit = {
   hp_current = number,            -- Alias for health
   hp_max = number,                -- Alias for max_health
   action_points = number,         -- AP per turn (usually 4)
+  
+  -- Energy System
+  energy = number,                -- Current energy points
+  maxEnergy = number,             -- Maximum energy points
+  energy_regen_rate = number,     -- Energy regeneration per turn (default: 5)
+  
+  -- Psionic Energy (for units with psi > 0)
+  psiEnergy = number,             -- Current psi energy (0-100)
+  maxPsiEnergy = number,          -- Maximum psi energy (100 standard)
+  psiEnergyRegen = number,        -- Psi energy regen per turn (default: 5)
+  
+  -- Movement System
+  movementPoints = number,        -- Total movement points per turn (derived from AP × speed)
+  movementPointsLeft = number,    -- Remaining movement this turn
+  
+  -- Weapon Management
+  weapon_cooldowns = table,       -- {weaponId = turns_remaining}
   
   -- Equipment
   equipped_items = EquipmentSlot[],
@@ -112,10 +135,11 @@ unit:isAlive() → bool
 unit:isWounded() → bool
 
 -- Stats
-unit:getStat(stat_name: string) → number (base stat with equipment bonuses)
+unit:getStat(stat_name: string) → number  -- Base stat with equipment bonuses
+unit:updateStats() → void  -- Recalculate all stats from equipment/modifiers
 unit:getHealth() → number
 unit:getMaxHealth() → number
-unit:getHPPercent() → number
+unit:getHPPercent() → number  -- 0-100 percentage
 unit:getActionPoints() → number
 unit:getAccuracy() → number
 unit:getStrength() → number
@@ -123,6 +147,20 @@ unit:getReaction() → number
 unit:getFireRate() → number
 unit:getEffectiveStats() → table  -- With equipment bonuses
 unit:getCarryWeight() → number
+
+-- Psychological Stats (6-12 range for humans, 0-20 for psi)
+unit:getBravery() → number  -- Morale buffer stat (6-12)
+unit:getSanity() → number  -- Psychological stability (6-12)
+unit:getMelee() → number  -- Melee effectiveness (6-12)
+unit:getPsi() → number  -- Psionic power (0-20, 0 = no psi ability)
+
+-- Psionic Energy (for units with psi > 0)
+unit:getPsiEnergy() → number  -- Current psi energy (0-100)
+unit:getMaxPsiEnergy() → number  -- Maximum psi energy (100 for psionic units)
+unit:getPsiEnergyPercent() → number  -- 0-100 percentage
+unit:usePsiEnergy(amount: number) → boolean  -- Spend psi energy
+unit:regeneratePsiEnergy() → void  -- Called per turn (+5 per turn)
+unit:hasPsiAbility() → boolean  -- Check if unit has psi > 0
 
 -- Equipment
 unit:equip(slot: string, item: ItemStack) → boolean
@@ -144,6 +182,25 @@ unit:applyStatusEffect(effect: string, duration: number) → void
 unit:removeStatusEffect(effect: string) → void
 unit:getStatusEffects() → string[]
 unit:hasStatusEffect(effectName: string) → bool
+
+-- Movement System
+unit:calculateMP() → number  -- Calculate movement points from AP and speed
+unit:spendMP(amount: number) → void  -- Spend movement points
+unit:getMovementPoints() → number  -- Remaining movement this turn
+unit:canMove() → boolean  -- Check if unit has movement left
+
+-- Weapon Cooldowns
+unit:getWeaponCooldown(weaponId: string) → number  -- Turns remaining
+unit:setWeaponCooldown(weaponId: string, turns: number) → void
+unit:updateWeaponCooldowns() → void  -- Called per turn
+unit:isWeaponReady(weaponId: string) → boolean  -- Check if weapon can fire
+
+-- Energy System
+unit:getEnergy() → number  -- Current energy points
+unit:getMaxEnergy() → number  -- Maximum energy
+unit:getEnergyPercent() → number  -- 0-100 percentage
+unit:spendEnergy(amount: number) → boolean  -- Use energy for actions
+unit:regenerateEnergy() → void  -- Called per turn (+energy_regen_rate)
 
 -- Morale
 unit:getMorale() → number
