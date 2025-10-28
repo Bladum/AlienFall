@@ -1,22 +1,23 @@
 @echo off
-REM Graphics Spritesheet Generator
-REM Uruchamia Love2D do wygenerowania arkuszy A4 z grafikami
+REM Spritesheet Generator - Object-Oriented Version
+REM Generates spritesheets for multiple armies (red, yellow, blue)
 
 echo.
-echo ========== GRAPHICS SPRITESHEET GENERATOR ==========
+echo ========== SPRITESHEET GENERATOR - OOP ==========
 echo.
-echo Generowanie arkuszy A4 do drukowania...
-echo Każda grafika będzie wklejona 150 razy (10x15).
+echo Generating A4 spritesheets for all armies...
+echo - Red army
+echo - Yellow army
+echo - Blue army
 echo.
-echo Patrz konsolę Love2D dla szczegółów...
+echo Each army generates 10 unit types x 15 repetitions
 echo.
 
 cd /d "%~dp0"
 
-"C:\Program Files\LOVE\lovec.exe" "spritesheet_generator"
+"C:\Program Files\LOVE\lovec.exe" "."
 
 echo.
-echo ========== GOTOWE ==========
-echo Arkusze znajdują się w: spritesheet_generator\output_spritesheets\
+echo ========== COMPLETE ==========
+echo Output files are in: output\
 echo.
-pause

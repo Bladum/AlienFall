@@ -284,3 +284,4 @@ function CraftPilotDisplay:draw(dt)
 end
 
 return CraftPilotDisplay
+

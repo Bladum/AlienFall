@@ -379,3 +379,4 @@ function SoundDetectionSystem.reset()
 end
 
 return SoundDetectionSystem
+

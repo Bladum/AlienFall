@@ -13,7 +13,7 @@ local LandingZone = {}
 ---@return table LandingZone instance
 function LandingZone.new(data)
     return {
-        id = data.id or "lz_" .. tostring(math.random(1000, 9999)),
+        id = data.id or ("lz_" .. tostring(math.random(1000, 9999))),
         mapBlockIndex = data.mapBlockIndex or 0,
         gridPosition = data.gridPosition or {x = 0, y = 0},
         spawnPoints = data.spawnPoints or {},  -- Array of {x, y} tile positions
@@ -53,7 +53,7 @@ function LandingZone.getSpawnPoint(zone, unitIndex)
     if #zone.spawnPoints == 0 then
         return nil
     end
-    
+
     -- Round-robin distribute units across spawn points
     local spawnIndex = ((unitIndex - 1) % #zone.spawnPoints) + 1
     return zone.spawnPoints[spawnIndex]
@@ -77,11 +77,8 @@ end
 ---@param zone table The landing zone
 ---@return string info Human-readable info
 function LandingZone.getInfo(zone)
-    return string.format("Landing Zone %s: %d units, %d spawn points", 
+    return string.format("Landing Zone %s: %d units, %d spawn points",
         zone.id, #zone.assignedUnits, #zone.spawnPoints)
 end
 
 return LandingZone
-
-
-

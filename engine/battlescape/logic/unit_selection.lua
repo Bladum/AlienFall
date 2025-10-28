@@ -79,12 +79,12 @@ function UnitSelection:selectUnit(unit, battlefield)
     self.movementPath = nil
 
     print(string.format("[UnitSelection] Selected: %s", unit.name))
-    
+
     -- Notify callback if provided
     if self.onUnitSelected then
         self.onUnitSelected(unit)
     end
-    
+
     return true
 end
 
@@ -100,7 +100,7 @@ function UnitSelection:clearSelection()
     self.movementPath = nil
     self.visibleTiles = {}
     print("[UnitSelection] Cleared selection")
-    
+
     -- Notify callback if provided
     if self.onUnitSelected then
         self.onUnitSelected(nil)
@@ -218,7 +218,7 @@ function UnitSelection:handleClick(tileX, tileY, battlefield, units)
     if self.animationSystem:isAnimating() then
         return
     end
-    
+
     -- Find unit at clicked position
     local clickedUnit = nil
     for _, unit in ipairs(units) do
@@ -227,7 +227,7 @@ function UnitSelection:handleClick(tileX, tileY, battlefield, units)
             break
         end
     end
-    
+
     -- If clicking on a unit
     if clickedUnit then
         -- If clicking on already selected unit, clear selection
@@ -239,7 +239,7 @@ function UnitSelection:handleClick(tileX, tileY, battlefield, units)
         end
         return
     end
-    
+
     -- If no unit clicked and we have a selected unit
     if self.selectedUnit then
         -- Check if clicked tile is in movement range
@@ -258,7 +258,7 @@ function UnitSelection:moveSelectedUnit(targetX, targetY, battlefield, onVisibil
     if not self.selectedUnit then
         return false
     end
-    
+
     -- Find path to target
     local path = self.pathfinding:findPath(
         self.selectedUnit,
@@ -269,47 +269,22 @@ function UnitSelection:moveSelectedUnit(targetX, targetY, battlefield, onVisibil
         battlefield,
         self.actionSystem
     )
-    
+
     if path and #path > 0 then
         -- Move unit along path with animation
         local success = self.actionSystem:moveUnitAlongPath(self.selectedUnit, path, battlefield, self.animationSystem, onVisibilityUpdate)
         if success then
-            print(string.format("[UnitSelection] Started movement for %s to (%d, %d)", 
+            print(string.format("[UnitSelection] Started movement for %s to (%d, %d)",
                 self.selectedUnit.name, targetX, targetY))
             -- Clear selection after starting move (will be cleared after animation completes)
             self:clearSelection()
             return true
         end
     end
-    
-    print(string.format("[UnitSelection] Failed to move %s to (%d, %d)", 
+
+    print(string.format("[UnitSelection] Failed to move %s to (%d, %d)",
         self.selectedUnit.name, targetX, targetY))
     return false
 end
 
 return UnitSelection
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

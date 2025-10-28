@@ -526,3 +526,4 @@ function AdvancedAbilityEffects:processPersistentEffects(targets, turn)
 end
 
 return AdvancedAbilityEffects
+

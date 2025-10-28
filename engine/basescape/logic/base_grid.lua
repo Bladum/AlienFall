@@ -1,5 +1,4 @@
----BaseGrid - Facility Grid Management
----
+---@class BaseGrid
 ---Manages 5×5 facility grid for a base. Handles facility placement, removal,
 ---connectivity checking (HQ connectivity), and grid queries.
 ---
@@ -18,16 +17,16 @@ BaseGrid.__index = BaseGrid
 
 ---Create new base grid
 ---@param baseId string Base identifier
----@return BaseGrid grid New grid
+---@return BaseGrid New grid instance
 function BaseGrid.new(baseId)
     local self = setmetatable({}, BaseGrid)
-    
+
     self.baseId = baseId
     self.size = 5  -- 5×5 grid
     self.grid = {}  -- [y][x] = facility or nil
     self.facilities = {}  -- Map of facility.id -> facility
     self.hqFacility = nil  -- Reference to HQ facility
-    
+
     -- Initialize empty grid
     for y = 0, self.size - 1 do
         self.grid[y] = {}
@@ -35,7 +34,7 @@ function BaseGrid.new(baseId)
             self.grid[y][x] = nil
         end
     end
-    
+
     print(string.format("[BaseGrid] Initialized %s (5×5)", baseId))
     return self
 end
@@ -81,26 +80,26 @@ function BaseGrid:placeFacility(facility, x, y)
     if not self:isInBounds(x, y) then
         return false, "Coordinates out of bounds"
     end
-    
+
     -- Check cell is empty
     if not self:isCellAvailable(x, y) then
         return false, "Cell already occupied"
     end
-    
+
     -- Place facility
     facility.gridX = x
     facility.gridY = y
     self.grid[y][x] = facility
     self.facilities[facility.id] = facility
-    
+
     -- If HQ, mark it
     if facility.typeId == "hq" then
         self.hqFacility = facility
     end
-    
+
     -- Update connectivity
     self:updateConnectivity()
-    
+
     print(string.format("[BaseGrid] Placed %s at (%d,%d)", facility.typeId, x, y))
     return true
 end
@@ -113,25 +112,25 @@ function BaseGrid:removeFacility(x, y)
     if not self:isInBounds(x, y) then
         return false
     end
-    
+
     local facility = self.grid[y][x]
     if not facility then
         return false
     end
-    
+
     -- Cannot remove HQ
     if facility.typeId == "hq" then
         print("[BaseGrid] Cannot remove HQ!")
         return false
     end
-    
+
     -- Remove from grid
     self.grid[y][x] = nil
     self.facilities[facility.id] = nil
-    
+
     -- Update connectivity
     self:updateConnectivity()
-    
+
     print(string.format("[BaseGrid] Removed %s from (%d,%d)", facility.typeId, x, y))
     return true
 end
@@ -143,34 +142,34 @@ function BaseGrid:updateConnectivity()
         print("[BaseGrid] WARNING: No HQ facility found")
         return
     end
-    
+
     -- Mark all as disconnected
     for _, facility in pairs(self.facilities) do
         facility.isConnected = false
     end
-    
+
     -- BFS from HQ
     local queue = {}
     table.insert(queue, self.hqFacility)
     self.hqFacility.isConnected = true
-    
+
     while #queue > 0 do
         local current = table.remove(queue, 1)
         local cx, cy = current.gridX, current.gridY
-        
+
         -- Check all adjacent cells (4-directional)
         local directions = {{0, -1}, {1, 0}, {0, 1}, {-1, 0}}
         for _, dir in ipairs(directions) do
             local nx, ny = cx + dir[1], cy + dir[2]
             local neighbor = self:getFacilityAt(nx, ny)
-            
+
             if neighbor and not neighbor.isConnected then
                 neighbor.isConnected = true
                 table.insert(queue, neighbor)
             end
         end
     end
-    
+
     -- Print connectivity status
     local connected = 0
     for _, facility in pairs(self.facilities) do
@@ -178,7 +177,7 @@ function BaseGrid:updateConnectivity()
             connected = connected + 1
         end
     end
-    print(string.format("[BaseGrid] Connectivity updated: %d/%d connected", 
+    print(string.format("[BaseGrid] Connectivity updated: %d/%d connected",
         connected, self:getFacilityCount()))
 end
 
@@ -231,7 +230,7 @@ end
 function BaseGrid:printDebug()
     print(string.format("\n[BaseGrid %s] Status:", self.baseId))
     print("Facilities:")
-    
+
     for y = 0, self.size - 1 do
         local row = "  "
         for x = 0, self.size - 1 do
@@ -245,11 +244,8 @@ function BaseGrid:printDebug()
         end
         print(row)
     end
-    
+
     print(string.format("Total: %d facilities", self:getFacilityCount()))
 end
 
 return BaseGrid
-
-
-

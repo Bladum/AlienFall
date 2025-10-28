@@ -336,3 +336,4 @@ function GeoscapeInput:deserialize(state)
 end
 
 return GeoscapeInput
+

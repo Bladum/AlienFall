@@ -522,3 +522,4 @@ function EffectsRenderer:getVisibleEffects(losSystem, viewerTeam, cameraPosQ, ca
 end
 
 return EffectsRenderer
+

@@ -1,4 +1,8 @@
-# Finance
+# Finance System
+
+> **Status**: Design Document  
+> **Last Updated**: 2025-10-28  
+> **Related Systems**: Countries.md, Economy.md, Politics.md, Basescape.md
 
 ## Table of Contents
 

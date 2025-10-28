@@ -1,4 +1,8 @@
-# Politics
+# Politics System
+
+> **Status**: Design Document  
+> **Last Updated**: 2025-10-28  
+> **Related Systems**: Countries.md, DiplomaticRelations_Technical.md, Finance.md, ai_systems.md
 
 ## Table of Contents
 
@@ -112,6 +116,8 @@ Players must infer karma effects through gameplay; no explicit moral choice disp
 ---
 
 ## Relationship System
+
+**See Also**: [DiplomaticRelations_Technical.md](./DiplomaticRelations_Technical.md) for complete relationship mechanics specification
 
 **Overview**
 Relationships represent diplomatic standing with three major groups: Countries, Suppliers, and Factions. All relationships operate on a unified scale and significantly impact available options and costs. Relationships are the foundation of strategic positioning and long-term campaign success.

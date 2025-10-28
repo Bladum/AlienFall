@@ -63,14 +63,14 @@ function Vision.new(range, arc)
         visibleTiles = {},       -- Set of visible hex coordinates {x_y = true}
         canSeeUnits = {}         -- Set of visible unit IDs {id = true}
     }
-    
+
     -- Add methods to instance
     instance.clear = function(self) Vision.clear(self) end
     instance.markTileVisible = function(self, x, y) Vision.markTileVisible(self, x, y) end
     instance.canSeeTile = function(self, x, y) return Vision.canSeeTile(self, x, y) end
     instance.markUnitVisible = function(self, unitId) Vision.markUnitVisible(self, unitId) end
     instance.canSeeUnit = function(self, unitId) return Vision.canSeeUnit(self, unitId) end
-    
+
     return instance
 end
 
@@ -103,28 +103,3 @@ function Vision.canSeeUnit(vision, unitId)
 end
 
 return Vision
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

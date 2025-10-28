@@ -9,12 +9,12 @@ print("[ContentLoader] Initializing...")
 function ContentLoader.loadFactions()
   print("[ContentLoader] Loading factions...")
   local factions = {}
-  
+
   local function load_faction(file_name)
     local ok, faction = pcall(function()
       return require("engine.content.factions." .. file_name:gsub("%.lua", ""))
     end)
-    
+
     if ok and faction then
       print("[ContentLoader] ✓ Loaded faction: " .. (faction.name or file_name))
       return faction
@@ -23,7 +23,7 @@ function ContentLoader.loadFactions()
       return nil
     end
   end
-  
+
   -- Try to load faction files
   local faction_files = love.filesystem.getDirectoryItems("engine/content/factions")
   for _, file in ipairs(faction_files) do
@@ -34,7 +34,7 @@ function ContentLoader.loadFactions()
       end
     end
   end
-  
+
   print("[ContentLoader] Loaded " .. table.count(factions) .. " factions")
   return factions
 end
@@ -43,12 +43,12 @@ end
 function ContentLoader.loadMissions()
   print("[ContentLoader] Loading missions...")
   local missions = {}
-  
+
   local function load_mission(file_name)
     local ok, mission = pcall(function()
       return require("engine.content.missions." .. file_name:gsub("%.lua", ""))
     end)
-    
+
     if ok and mission then
       print("[ContentLoader] ✓ Loaded mission: " .. (mission.name or file_name))
       return mission
@@ -57,7 +57,7 @@ function ContentLoader.loadMissions()
       return nil
     end
   end
-  
+
   local mission_files = love.filesystem.getDirectoryItems("engine/content/missions")
   for _, file in ipairs(mission_files) do
     if file:match("%.lua$") then
@@ -67,21 +67,21 @@ function ContentLoader.loadMissions()
       end
     end
   end
-  
+
   print("[ContentLoader] Loaded " .. table.count(missions) .. " missions")
   return missions
 end
 
--- Load event content  
+-- Load event content
 function ContentLoader.loadEvents()
   print("[ContentLoader] Loading events...")
   local events = {}
-  
+
   local function load_events_file(file_name)
     local ok, event_list = pcall(function()
       return require("engine.content.events." .. file_name:gsub("%.lua", ""))
     end)
-    
+
     if ok and event_list then
       -- event_list might be a single event or list of events
       if event_list.id then
@@ -92,10 +92,10 @@ function ContentLoader.loadEvents()
         return event_list
       end
     end
-    
+
     return {}
   end
-  
+
   local event_files = love.filesystem.getDirectoryItems("engine/content/events")
   for _, file in ipairs(event_files) do
     if file:match("%.lua$") then
@@ -108,7 +108,7 @@ function ContentLoader.loadEvents()
       end
     end
   end
-  
+
   print("[ContentLoader] Loaded " .. table.count(events) .. " events")
   return events
 end
@@ -118,20 +118,20 @@ function ContentLoader.loadAll()
   print("[ContentLoader] ========================================")
   print("[ContentLoader] Starting complete content load...")
   print("[ContentLoader] ========================================")
-  
+
   local content = {
     factions = ContentLoader.loadFactions(),
     missions = ContentLoader.loadMissions(),
     events = ContentLoader.loadEvents(),
   }
-  
+
   print("[ContentLoader] ========================================")
   print("[ContentLoader] Content load complete!")
   print("[ContentLoader] ✓ " .. table.count(content.factions) .. " factions")
   print("[ContentLoader] ✓ " .. table.count(content.missions) .. " missions")
   print("[ContentLoader] ✓ " .. table.count(content.events) .. " events")
   print("[ContentLoader] ========================================")
-  
+
   return content
 end
 
@@ -145,3 +145,4 @@ function table.count(t)
 end
 
 return ContentLoader
+

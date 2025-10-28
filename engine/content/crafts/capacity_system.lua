@@ -289,3 +289,4 @@ function CapacitySystem:formatCapacity(craft)
 end
 
 return CapacitySystem
+

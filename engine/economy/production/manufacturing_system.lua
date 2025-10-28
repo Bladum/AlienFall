@@ -524,3 +524,4 @@ function ManufacturingSystem:initializeDefaultProjects()
 end
 
 return ManufacturingSystem
+

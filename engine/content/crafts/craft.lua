@@ -83,6 +83,21 @@ function Craft.new(data)
     self.soldiers = data.soldiers or {}
     self.items = data.items or {}
 
+    -- Crew System (NEW - pilot assignment)
+    self.crew = data.crew or {}  -- Array of unit IDs assigned as crew
+    self.required_pilots = data.required_pilots or 1  -- Minimum pilots to operate
+    self.max_crew = data.max_crew or 4  -- Maximum crew size
+    self.required_pilot_class = data.required_pilot_class  -- Required pilot class (e.g., "fighter_pilot")
+    self.required_pilot_rank = data.required_pilot_rank or 1  -- Minimum pilot rank
+    self.crew_bonuses = {  -- Bonuses from crew (calculated)
+        speed_bonus = 0,
+        accuracy_bonus = 0,
+        dodge_bonus = 0,
+        fuel_efficiency = 0,
+        initiative_bonus = 0,
+        sensor_bonus = 0,
+    }
+
     print(string.format("[Craft] Created '%s' (%s) at province %s",
         self.name, self.type, tostring(self.provinceId)))
 
@@ -248,9 +263,86 @@ function Craft:getInfo()
         speed = self.speed,
         range = self.range,
         soldiers = #self.soldiers,
-        items = #self.items
+        items = #self.items,
+        -- Crew info (NEW)
+        crew = self.crew,
+        crewCount = #self.crew,
+        requiredPilots = self.required_pilots,
+        maxCrew = self.max_crew,
+        hasRequiredCrew = #self.crew >= self.required_pilots,
+        crewBonuses = self.crew_bonuses,
     }
 end
+
+--- ============================================================================
+--- CREW MANAGEMENT FUNCTIONS (NEW)
+--- ============================================================================
+
+---Check if craft can launch (has minimum crew)
+---@return boolean True if can launch
+---@return string Reason if cannot launch
+function Craft:canLaunch()
+    if #self.crew < self.required_pilots then
+        return false, string.format("Insufficient crew: %d/%d pilots required",
+            #self.crew, self.required_pilots)
+    end
+
+    if self.currentFuel <= 0 then
+        return false, "No fuel"
+    end
+
+    return true, "Ready"
+end
+
+---Get crew bonuses
+---@return table Bonuses from crew
+function Craft:getCrewBonuses()
+    return self.crew_bonuses
+end
+
+---Recalculate crew bonuses from assigned crew
+---Should be called after crew changes
+function Craft:recalculateCrewBonuses()
+    -- Try to load CrewBonusCalculator
+    local success, calculator = pcall(require, "geoscape.logic.crew_bonus_calculator")
+    if not success then
+        -- Try alternative path
+        success, calculator = pcall(require, "engine.geoscape.logic.crew_bonus_calculator")
+    end
+
+    if success and calculator then
+        self.crew_bonuses = calculator.calculateForCraft(self)
+    else
+        -- Fallback: zero bonuses
+        print("[Craft] WARNING: CrewBonusCalculator not available, crew bonuses set to 0")
+        self.crew_bonuses = {
+            speed_bonus = 0,
+            accuracy_bonus = 0,
+            dodge_bonus = 0,
+            fuel_efficiency = 0,
+            initiative_bonus = 0,
+            sensor_bonus = 0,
+        }
+    end
+end
+
+---Get effective speed with crew bonuses
+---@return number Speed with bonuses applied
+function Craft:getEffectiveSpeed()
+    local baseSpeed = self.speed or 1
+    local speedBonus = self.crew_bonuses.speed_bonus or 0
+    return baseSpeed * (1 + speedBonus / 100)
+end
+
+---Get effective fuel consumption with crew bonuses
+---@return number Fuel consumption with efficiency applied
+function Craft:getEffectiveFuelConsumption()
+    local baseFuel = self.fuelConsumption or 1
+    local efficiency = self.crew_bonuses.fuel_efficiency or 0
+    return baseFuel * (1 - efficiency / 100)
+end
+
+--- ============================================================================
 
 ---Serialize craft for save/load
 ---@return table Craft data
@@ -264,6 +356,9 @@ function Craft:serialize()
         isDeployed = self.isDeployed,
         path = self.path,
         pathIndex = self.pathIndex,
+        -- Crew system (NEW)
+        crew = self.crew,
+        crew_bonuses = self.crew_bonuses,
         travelTime = self.travelTime,
         speed = self.speed,
         range = self.range,
@@ -276,3 +371,4 @@ function Craft:serialize()
 end
 
 return Craft
+

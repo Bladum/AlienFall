@@ -379,3 +379,4 @@ function CombatIntegration:applyCombatRound(shootingResult, shooterUnit, targetU
 end
 
 return CombatIntegration
+

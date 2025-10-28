@@ -38,7 +38,7 @@
 ---@see core.mapblock_validator For map validation
 ---@see scenes.main_menu For returning to main menu
 
-local StateManager = require("core.state_manager")
+local StateManager = require("core.state.state_manager")
 local Widgets = require("gui.widgets.init")
 
 local TestsMenu = {}
@@ -253,7 +253,7 @@ function TestsMenu:runMapblockValidation()
     self.testOutput = "Running mapblock validation...\n"
     
     local success, result = pcall(function()
-        local MapblockValidator = require("core.mapblock_validator")
+        local MapblockValidator = require("core.data.mapblock_validator")
         return MapblockValidator.run()
     end)
     
@@ -349,6 +349,9 @@ function TestsMenu:mousereleased(x, y, button, istouch, presses)
 end
 
 return TestsMenu
+
+
+
 
 
 

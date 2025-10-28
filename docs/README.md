@@ -1,91 +1,247 @@
-# Documentation Standards & Development Guides
+# Documentation Hub
 
-## Goal / Purpose
+**Purpose:** Central documentation for development practices, AI personas, prompts, and system patterns  
+**Audience:** Developers, AI agents, designers, contributors  
+**Status:** Active maintenance  
+**Last Updated:** 2025-10-28
 
-The Docs folder contains development guidelines, code standards, and best practices for contributing to the AlienFall project. It defines how developers should write code, document their work, and maintain consistency across the codebase.
+---
+
+## 📋 Table of Contents
+
+- [Overview](#overview)
+- [Folder Structure](#folder-structure)
+- [Key Features](#key-features)
+- [Content](#content)
+- [Relations to Other Modules](#relations-to-other-modules)
+- [How to Use](#how-to-use)
+- [AI Agent Instructions](#ai-agent-instructions)
+- [Quick Reference](#quick-reference)
+
+---
+
+## Overview
+
+The `docs/` folder is the **central documentation hub** containing development guides, AI agent personas, content creation templates, and universal system patterns.
+
+**Core Purpose:**
+- Provide development best practices (24 instruction guides)
+- Define AI agent personas (23 chatmodes)
+- Offer content creation templates (27 prompts)
+- Document universal system patterns (9 patterns)
+- Centralize project processes and handbook
+
+---
+
+## Folder Structure
+
+```
+docs/
+├── README.md                          ← This file
+│
+├── chatmodes/                         ← AI Agent Personas (23 files)
+│   ├── README.md
+│   ├── QUICK-REFERENCE.md
+│   └── *.chatmode.md (Strategic, Design, Implementation, Testing, Analysis, Support)
+│
+├── instructions/                      ← Development Practices (24 files)
+│   ├── README.md
+│   ├── START_HERE.md
+│   ├── INDEX_ALL_24_PRACTICES.md
+│   └── *.instructions.md (Programming, Art, Design, DevOps, Management, etc.)
+│
+├── prompts/                           ← Content Creation Templates (27 files)
+│   ├── README.md
+│   └── add_*.prompt.md (unit, item, craft, mission, facility, etc.)
+│
+├── system/                            ← Universal System Patterns (9 files + 4 creation prompts)
+│   ├── 01-09_*_SYSTEM.md
+│   └── create_*.prompt.md
+│
+├── handbook/                          ← Project Handbook
+│   └── README.md
+│
+├── processes/                         ← Development Workflows
+│   └── README.md
+│
+└── WIP/                              ← Work In Progress
+    └── README.md
+```
+
+**Total:** 23 chatmodes + 24 instructions + 27 prompts + 9 patterns + 4 creation prompts = 87 files
+
+---
+
+## Key Features
+
+- **AI Agent Personas (23):** Specialized roles for different tasks
+- **Development Practices (24):** Comprehensive guides
+- **Content Prompts (27):** Structured templates
+- **System Patterns (9):** Universal architectural patterns
+- **Creation Prompts (4):** Templates for new docs
+- **Handbook:** Project-wide conventions
+- **Processes:** Step-by-step workflows
+
+---
 
 ## Content
 
-- **CODE_STANDARDS.md** - Lua coding standards and conventions
-- **COMMENT_STANDARDS.md** - How to write effective comments and documentation
-- **DOCUMENTATION_STANDARD.md** - Documentation format and requirements
-- **API_UPDATES_PILOTS_PERKS.md** - Pilot system API updates and perks documentation
+| Type | Count | Purpose | Location |
+|------|-------|---------|----------|
+| **ChatModes** | 23 | AI agent personas | `chatmodes/` |
+| **Instructions** | 24 | Development practices | `instructions/` |
+| **Prompts** | 27 | Content creation | `prompts/` |
+| **Patterns** | 9 | System architectures | `system/` |
+| **Meta Prompts** | 4 | Create docs | `system/` |
 
-## Features
+### Documentation by Audience
 
-- **Code Quality Guidelines**: Standards for writing clean, maintainable code
-- **Naming Conventions**: Consistent naming for files, functions, variables
-- **Comment Best Practices**: How to document code effectively
-- **Documentation Format**: Consistent documentation structure
-- **Examples**: Sample code following standards
-- **Tools & Linting**: Integration with code analysis tools
-- **Review Checklist**: What to check during code review
+| Audience | Folders | Use Cases |
+|----------|---------|-----------|
+| **Developers** | instructions/, system/ | Code standards, patterns |
+| **AI Agents** | chatmodes/, prompts/, system/ | Persona selection, tasks |
+| **Designers** | instructions/, prompts/ | Design guidelines, content |
+| **Modders** | prompts/, instructions/ | Content creation |
+| **All** | handbook/, processes/ | Standards, workflows |
 
-## Integrations with Other Systems
+---
 
-### Architecture & Design
-- Standards support architectural patterns
-- Documentation standards ensure design consistency
-- Code quality enables future modifications
+## Relations to Other Modules
 
-### API Documentation
-- Standards ensure API docs are consistent and complete
-- Comment standards produce better API references
-- Documentation standards define API format
+| Module | Relationship | Details |
+|--------|--------------|---------|
+| **design/** | Reference | Instructions guide design process |
+| **api/** | Reference | Instructions for API docs |
+| **architecture/** | Reference | System patterns inform architecture |
+| **engine/** | Reference | Code standards |
+| **mods/** | Output | Prompts create content |
+| **tests2/** | Reference | Testing practices |
 
-### Engine Implementation
-- All engine code follows these standards
-- Consistency enables team collaboration
-- Quality standards reduce bugs and maintenance
+---
 
-### Testing
-- Code standards make tests easier to write
-- Well-documented code is easier to test
-- Standards include testing requirements
+## How to Use
 
-### Modding & Community
-- Clear standards help modders contribute
-- Documentation helps modders understand systems
-- Consistent code enables mod compatibility
+### For Developers
 
-## Key Standards
+```bash
+# Find guidance
+ls docs/instructions/*.md | grep -i [topic]
 
-### Code Style
-- Lua 5.1 syntax compliance
-- Snake_case for files and functions
-- PascalCase for classes/modules
-- camelCase for variables
-- Comments for complex logic
-- Avoid global variables
+# Read testing guide
+cat docs/instructions/🧪\ Testing.instructions.md
+```
 
-### Documentation Requirements
-- Module-level documentation at file top
-- Function documentation with parameters/returns
-- Comments for non-obvious logic
-- Examples for complex systems
-- Links to related systems
+**Using Instructions:**
+1. Browse `instructions/INDEX_ALL_24_PRACTICES.md`
+2. Read `instructions/START_HERE.md` if new
+3. Select relevant guide
+4. Follow best practices
+5. Reference while working
 
-### Quality Metrics
-- No compiler errors
-- No luacheck warnings (with exceptions documented)
-- Test coverage for critical paths
-- Performance benchmarks
-- Documentation completeness
+### For AI Agents
 
-## Contributing Guide
+```bash
+# Find chatmode
+cat docs/chatmodes/QUICK-REFERENCE.md
 
-1. **Read the standards** in this folder
-2. **Follow code style** guidelines
-3. **Document your code** with comments and examples
-4. **Write tests** for new functionality
-5. **Update API docs** if changing interfaces
-6. **Get code review** from team members
-7. **Address feedback** before merging
+# Load persona
+cat docs/chatmodes/engine_developer.chatmode.md
 
-## See Also
+# Use prompt
+cat docs/prompts/add_unit.prompt.md
+```
 
-- [Code Standards](./CODE_STANDARDS.md) - Lua coding conventions
-- [Comment Standards](./COMMENT_STANDARDS.md) - Documentation guidelines
-- [Documentation Standard](./DOCUMENTATION_STANDARD.md) - Doc format
-- [Architecture](../architecture/README.md) - System design patterns
-- [API Documentation](../api/README.md) - System interfaces
+### For Content Creators
+
+```bash
+# Find prompt
+ls docs/prompts/add_*.md
+
+# Read template
+cat docs/prompts/add_[type].prompt.md
+
+# Fill template → Output to mods/
+```
+
+---
+
+## AI Agent Instructions
+
+### Navigation
+
+```
+1. Identify task type:
+   - Implementation? → chatmodes/ + instructions/
+   - Content creation? → prompts/
+   - Architecture? → system/
+   - Process? → processes/
+
+2. Select documentation:
+   - ChatMode for persona
+   - Instruction for practices
+   - Prompt for creation
+   - Pattern for architecture
+
+3. Apply to task
+```
+
+### Common Workflows
+
+| Task | Documentation Path |
+|------|-------------------|
+| **Implement feature** | chatmodes/engine_developer.chatmode.md → instructions/🛠️ Love2D & Lua |
+| **Create content** | chatmodes/modder.chatmode.md → prompts/add_[type].prompt.md |
+| **Design system** | chatmodes/game_designer.chatmode.md → instructions/🎮 Game Mechanics |
+| **Write tests** | chatmodes/engine_tester.chatmode.md → instructions/🧪 Testing |
+
+---
+
+## Quick Reference
+
+### Essential Documentation
+
+| File | Purpose |
+|------|---------|
+| `chatmodes/QUICK-REFERENCE.md` | Persona selection |
+| `instructions/START_HERE.md` | Beginner guide |
+| `instructions/INDEX_ALL_24_PRACTICES.md` | Complete index |
+| `prompts/README.md` | Prompt overview |
+
+### Most Used
+
+| Guide | Audience |
+|-------|----------|
+| 🛠️ Love2D & Lua | Developers |
+| 🧪 Testing | Developers, QA |
+| 🎮 Game Mechanics | Designers |
+| 🔄 Git Workflow | All |
+| 🔌 Modding Support | Modders |
+
+### Quick Commands
+
+```bash
+# Find instruction
+grep -r "keyword" docs/instructions/
+
+# List chatmodes
+ls docs/chatmodes/*.chatmode.md
+
+# Find prompt
+ls docs/prompts/add_*.md
+
+# Read pattern
+cat docs/system/01_*.md
+```
+
+### Related Documentation
+
+- **Design:** [design/README.md](../design/README.md) - What to build
+- **API:** [api/README.md](../api/README.md) - System contracts
+- **Architecture:** [architecture/README.md](../architecture/README.md) - System architecture
+- **Tests:** [tests2/README.md](../tests2/README.md) - Testing
+
+---
+
+**Last Updated:** 2025-10-28  
+**Questions:** See [handbook/README.md](handbook/README.md) or Discord
+

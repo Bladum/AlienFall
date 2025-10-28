@@ -348,3 +348,4 @@ function FacilityIntegration:repairFacility(facilityType, repairAmount)
 end
 
 return FacilityIntegration
+

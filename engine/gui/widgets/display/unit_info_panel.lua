@@ -90,7 +90,7 @@ function UnitInfoPanel:setUnit(unit)
         -- Load face image
         self.faceImage = nil
         if unit.faceImage then
-            local Assets = require("core.assets")
+            local Assets = require("core.assets.assets")
             self.faceImage = Assets:getImage(unit.faceImage)
         end
 
@@ -206,6 +206,8 @@ function UnitInfoPanel:wrapText(text, maxWidth)
 end
 
 return UnitInfoPanel
+
+
 
 
 

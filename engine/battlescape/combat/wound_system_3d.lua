@@ -337,3 +337,4 @@ function WoundSystem:getUnitStatus(unit)
 end
 
 return WoundSystem
+

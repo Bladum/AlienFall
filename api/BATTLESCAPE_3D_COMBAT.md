@@ -6,6 +6,29 @@
 
 ---
 
+## Implementation Status
+
+### ✅ Implemented (in engine/battlescape/)
+- ShootingSystem3D with hit calculations
+- BulletTracer with projectile visualization
+- CombatIntegration3D bridging systems
+- WoundSystem3D with advanced mechanics
+- SuppressionSystem3D for morale
+- PerformanceOptimizer with culling
+- EffectsRenderer for optimized rendering
+
+### 🚧 Partially Implemented
+- Advanced physics for projectiles
+- Destructible environment integration
+- Multi-level combat
+
+### 📋 Planned (Future Feature)
+- Full 3D tactical mode
+- VR support
+- Advanced lighting and shadows
+
+---
+
 ## Quick Navigation
 
 - [ShootingSystem3D](#shootingsystem3d) - Firing, hit calculation, visual feedback

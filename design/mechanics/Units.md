@@ -1,5 +1,9 @@
 # Units System
 
+> **Status**: Design Document  
+> **Last Updated**: 2025-10-28  
+> **Related Systems**: Battlescape.md, Items.md, Crafts.md, Pilots.md, Economy.md
+
 ## Table of Contents
 
 - [Overview](#overview)
@@ -57,14 +61,15 @@ All units are categorized by **Rank**, representing their experience and special
 The class structure follows a three-tier progression within each faction:
 
 - **Rank 0**: Base unit (e.g., Sectoid for alien faction, Conscript for humans)
-- **Rank 1**: Role assignment (Soldier, Support, Leader, Scout, Specialist)
-- **Rank 2**: Role specialization (e.g., within Soldier: Rifleman, Grenadier, Gunner)
-- **Rank 3**: Specialization begins (e.g., Sniper specialist training)
-- **Rank 4**: Advanced specialization (e.g., Marksman with special abilities)
-- **Rank 5**: Master specialization (e.g., Legendary Sniper with unique bonuses)
+- **Rank 1**: Role assignment (Soldier, Support, Leader, Scout, Specialist, **Pilot**)
+- **Rank 2**: Role specialization (e.g., within Soldier: Rifleman, Grenadier, Gunner; within Pilot: Fighter Pilot, Bomber Pilot, Transport Pilot)
+- **Rank 3**: Specialization begins (e.g., Sniper specialist training; Ace Fighter for pilots)
+- **Rank 4**: Advanced specialization (e.g., Marksman with special abilities; Strategic Bomber for pilots)
+- **Rank 5**: Master specialization (e.g., Legendary Sniper with unique bonuses; Master Pilot with fleet command)
 - **Rank 6**: Hero class (e.g., Supreme Commander with faction-wide bonuses)
 
 **Class Synergy**: Equipment and abilities scale with unit class. A unit of a lower class attempting to use Rank 4+ equipment suffers -30% accuracy penalty. Units trained in a class bonus matching their equipment receive +50% effectiveness (e.g., Medic using Medikit heals for +50%).
+
 
 #### Rank Progression Requirements
 
@@ -214,6 +219,15 @@ Final AP: 2 AP per turn (within 1-4 range)
 - **Affected By**: Armor weight (-1 to -2 movement for heavy armor), status effects
 - **Bonus**: Bonus movement from traits (e.g., Fast trait +2)
 
+#### Piloting Stat
+- **Range**: 0-100 (not 6-12 like other stats)
+- **Effect**: When unit is assigned as pilot, provides bonuses to craft performance
+- **Base**: 20-40 (random at recruitment)
+- **Improved By**: XP gain (+1 per 100 XP), class bonuses, traits, equipment
+- **Bonuses**: Craft Dodge = +(Piloting/5)%, Craft Accuracy = +(Piloting/5)%
+- **See**: Pilots.md for complete piloting mechanics
+- **Note**: Any unit can pilot, but higher Piloting = better craft performance
+
 #### Sight Range
 - **Base**: 16 hexagons (day), 8 hexagons (night)
 - **Modifier**: +5 with superior optics, night vision goggles
@@ -276,6 +290,29 @@ Witnessing higher-rank unit deaths inflicts morale penalties:
 - **Equipment**: Psionic Amplifier (enables offensive psionics; +30 EP cost per use)
 - **Defense**: Uses Psi stat to resist enemy psionic effects
 - **Scaling**: Psi abilities gain +1 damage per 2 Psi points
+
+#### Piloting Stat (Vehicle Operation)
+- **Range**: 6-12 (human standard), 0-20 (alien/mechanical potential)
+- **Default**: 6 (untrained personnel), 8-10 (trained pilot classes), 12+ (ace pilots)
+- **Purpose**: Represents unit's ability to operate vehicles (crafts, tanks, aircraft) effectively
+- **Usage**: Unit can be assigned as pilot/crew to craft; piloting stat provides bonuses to craft performance
+- **Effect on Craft Performance**:
+  - **Speed Bonus**: Each point above 6 = +2% craft speed
+  - **Accuracy Bonus**: Each point above 6 = +3% craft weapon accuracy
+  - **Dodge Bonus**: Each point above 6 = +2% craft dodge chance
+  - **Fuel Efficiency**: Each point above 6 = +1% fuel efficiency
+- **Example**: Piloting 10 (4 points above base) = +8% speed, +12% accuracy, +8% dodge, +4% fuel efficiency
+- **Synergies**: 
+  - Dexterity affects craft initiative (reaction time in interception)
+  - Perception affects craft sensor range (detection radius)
+  - Intelligence affects system management (power distribution efficiency)
+- **Progression**: Increases through pilot class specialization and interception combat experience
+- **Class Requirement**: Pilot classes (Fighter Pilot, Bomber Pilot, etc.) provide +2 to +5 piloting bonuses
+- **Dual Role**: Units with high piloting can operate crafts during geoscape/interception and fight as soldiers in battlescape
+- **Fatigue Effect**: Pilot fatigue (0-100) reduces effective piloting stat by up to 50% at maximum fatigue
+- **Training**: Can be improved through base training facilities (+1 per 2 weeks in flight simulator)
+
+**Design Philosophy**: Piloting represents distinct skill set (spatial awareness, reflex coordination, mechanical understanding) separate from infantry combat. High-piloting units are valuable for craft operation but may sacrifice ground combat specialization.
 
 #### Wisdom (Intelligence)
 - **Status**: Under design (intended for future implementation)

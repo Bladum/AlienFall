@@ -1,298 +1,201 @@
----MoraleSystem - Unit Morale and Panic
----
----Handles morale loss, bravery checks, panic, and berserk states for units in tactical
----combat. Morale affects unit behavior and can cause panic (flee) or berserk (attack
----anything) states. Critical for realistic tactical combat simulation.
----
----Features:
----  - Morale tracking per unit
----  - Bravery checks against panic/berserk
----  - Panic state (flee behavior)
----  - Berserk state (attack anything)
----  - Morale recovery over time
----  - Morale loss triggers (damage, casualties, fear)
----
----Morale States:
----  - Normal: Full control (morale > 40)
----  - Panicked: Flee behavior (morale < 40, failed bravery check)
----  - Berserk: Attack anything (morale < 20, failed bravery check)
----  - Unconscious: No action (morale <= 0)
----
----Morale Thresholds:
----  - Panic threshold: 40 morale
----  - Berserk threshold: 20 morale
----  - Unconscious: 0 morale
----
----Morale Loss Triggers:
----  - Taking damage
----  - Seeing ally wounded/killed
----  - Seeing enemy (fear factor)
----  - Low health
----  - Mission failure
----
----Key Exports:
----  - MoraleSystem.new(): Creates morale system
----  - checkMorale(unit): Performs bravery check
----  - applyMoraleLoss(unit, amount, source): Reduces morale
----  - applyMoraleGain(unit, amount): Restores morale
----  - getMoraleState(unit): Returns current state
----  - isPanicked(unit): Checks panic state
----  - isBerserk(unit): Checks berserk state
----  - updateMorale(unit, dt): Processes morale recovery
----
----Dependencies:
----  - None (standalone system)
----
----@module battlescape.combat.morale_system
----@author AlienFall Development Team
----@copyright 2025 AlienFall Project
----@license Open Source
----
----@usage
----  local MoraleSystem = require("battlescape.combat.morale_system")
----  local moraleSys = MoraleSystem.new()
----  moraleSys:applyMoraleLoss(unit, 15, "ally_killed")
----  if moraleSys:isPanicked(unit) then
----    -- Unit panics and flees
----  end
----
----@see battlescape.combat.damage_system For morale damage
-
--- Morale System
--- Handles morale loss, bravery checks, panic, and berserk states
+--- Morale system for battlescape combat
+--- Handles unit morale, panic, and psychological effects
 
 local MoraleSystem = {}
 MoraleSystem.__index = MoraleSystem
 
---- Morale states
-MoraleSystem.STATES = {
-    NORMAL = "normal",
-    PANICKED = "panicked",
-    BERSERK = "berserk",
-    UNCONSCIOUS = "unconscious"
-}
+-- Morale constants
+MoraleSystem.MAX_MORALE = 100
+MoraleSystem.MIN_MORALE = 0
+MoraleSystem.BASE_MORALE = 75
 
---- Morale thresholds
-MoraleSystem.PANIC_THRESHOLD = 40      -- Below this = panic risk
-MoraleSystem.BERSERK_THRESHOLD = 20    -- Below this = berserk risk
-MoraleSystem.UNCONSCIOUS_THRESHOLD = 0 -- At or below = unconscious
+-- Morale loss multipliers
+MoraleSystem.DAMAGE_MORALE_LOSS_MULTIPLIER = 0.5  -- 0.5 morale loss per HP damage
+MoraleSystem.DEATH_WITNESS_MORALE_LOSS = 20  -- Base morale loss from seeing ally die
+MoraleSystem.DEATH_DISTANCE_MULTIPLIER = 0.1  -- Additional loss per tile distance
+
+-- Panic thresholds
+MoraleSystem.PANIC_THRESHOLD = 25  -- Morale below this = panic
+MoraleSystem.UNCONSCIOUS_THRESHOLD = 10  -- Morale below this = unconscious
 
 --- Create a new morale system instance
--- @return table New MoraleSystem instance
+---@return table New MoraleSystem instance
 function MoraleSystem.new()
-    print("[MoraleSystem] Initializing morale system")
-    
     local self = setmetatable({}, MoraleSystem)
+
+    print("[MoraleSystem] Morale system initialized")
+
     return self
 end
 
+--- Initialize morale for a unit
+---@param unit table Unit to initialize
+function MoraleSystem:initializeUnitMorale(unit)
+    if not unit.morale then
+        unit.morale = MoraleSystem.BASE_MORALE
+        unit.maxMorale = MoraleSystem.MAX_MORALE
+        unit.isPanicked = false
+        unit.isUnconscious = false
+    end
+end
+
 --- Calculate morale loss from taking damage
--- @param unit table Unit taking damage
--- @param damageAmount number Amount of damage taken
--- @return number Morale loss amount
-function MoraleSystem:calculateDamageMoraleLoss(unit, damageAmount)
-    -- Base morale loss = 10% of damage taken
-    local baseLoss = damageAmount * 0.1
-    
-    -- Bravery reduces morale loss
-    local bravery = unit.bravery or 50
-    local braveryModifier = 1.0 - (bravery / 200)  -- 50 bravery = 0.75x, 100 bravery = 0.5x
-    
-    local totalLoss = baseLoss * braveryModifier
-    
-    print("[MoraleSystem] Unit " .. (unit.name or "Unknown") .. " loses " .. 
-          math.floor(totalLoss) .. " morale from damage")
-    
-    return math.floor(totalLoss)
-end
+---@param unit table Unit that took damage
+---@param healthDamage number Amount of health damage taken
+---@return number Morale loss amount
+function MoraleSystem:calculateDamageMoraleLoss(unit, healthDamage)
+    self:initializeUnitMorale(unit)
 
---- Calculate morale loss from witnessing death
--- @param witness table Unit witnessing the death
--- @param deceased table Unit that died
--- @param distance number Distance between witness and deceased
--- @return number Morale loss amount
-function MoraleSystem:calculateDeathWitnessMoraleLoss(witness, deceased, distance)
-    -- Base loss depends on relationship
-    local baseLoss = 20
-    
-    -- Same team = higher loss
-    if witness.team == deceased.team then
-        baseLoss = 30
+    -- Base morale loss proportional to damage taken
+    local baseLoss = healthDamage * MoraleSystem.DAMAGE_MORALE_LOSS_MULTIPLIER
+
+    -- Additional loss if unit is already wounded
+    local woundMultiplier = 1.0
+    if unit.wounds and unit.wounds > 0 then
+        woundMultiplier = 1.0 + (unit.wounds * 0.25)  -- 25% extra per wound
     end
-    
-    -- Distance matters (further = less impact)
-    local distanceModifier = 1.0 / (1.0 + distance * 0.1)
-    
-    -- Bravery reduces morale loss
-    local bravery = witness.bravery or 50
-    local braveryModifier = 1.0 - (bravery / 200)
-    
-    local totalLoss = baseLoss * distanceModifier * braveryModifier
-    
-    print("[MoraleSystem] Unit " .. (witness.name or "Unknown") .. " loses " .. 
-          math.floor(totalLoss) .. " morale from witnessing death")
-    
-    return math.floor(totalLoss)
+
+    local totalLoss = math.floor(baseLoss * woundMultiplier)
+
+    print(string.format("[MoraleSystem] Damage morale loss: %d (damage: %d, wounds: %d)",
+          totalLoss, healthDamage, unit.wounds or 0))
+
+    return totalLoss
 end
 
---- Apply morale loss to unit
--- @param unit table Unit to lose morale
--- @param amount number Morale loss amount
+--- Apply morale loss to a unit
+---@param unit table Unit to affect
+---@param amount number Morale loss amount
 function MoraleSystem:applyMoraleLoss(unit, amount)
-    if not unit.morale then
-        unit.morale = 100  -- Initialize if not set
-    end
-    
+    self:initializeUnitMorale(unit)
+
     unit.morale = unit.morale - amount
-    
-    -- Morale can't go below 0
-    if unit.morale < 0 then
-        unit.morale = 0
+
+    if unit.morale < MoraleSystem.MIN_MORALE then
+        unit.morale = MoraleSystem.MIN_MORALE
     end
-    
-    print("[MoraleSystem] Unit " .. (unit.name or "Unknown") .. " morale now: " .. unit.morale)
-    
-    -- Check for state changes
-    self:updateMoraleState(unit)
+
+    -- Check for panic
+    if unit.morale <= MoraleSystem.PANIC_THRESHOLD and not unit.isPanicked then
+        unit.isPanicked = true
+        print(string.format("[MoraleSystem] Unit %s is now PANICKED (morale: %d)",
+              unit.name or "Unknown", unit.morale))
+    end
+
+    -- Check for unconsciousness from low morale
+    if unit.morale <= MoraleSystem.UNCONSCIOUS_THRESHOLD and not unit.isUnconscious then
+        unit.isUnconscious = true
+        print(string.format("[MoraleSystem] Unit %s is now UNCONSCIOUS from low morale (morale: %d)",
+              unit.name or "Unknown", unit.morale))
+    end
+
+    print(string.format("[MoraleSystem] Unit %s morale: %d/%d",
+          unit.name or "Unknown", unit.morale, unit.maxMorale))
 end
 
---- Apply morale gain to unit
--- @param unit table Unit to gain morale
--- @param amount number Morale gain amount
-function MoraleSystem:applyMoraleGain(unit, amount)
-    if not unit.morale then
-        unit.morale = 100
-    end
-    
-    unit.morale = unit.morale + amount
-    
-    -- Morale can't exceed 100
-    if unit.morale > 100 then
-        unit.morale = 100
-    end
-    
-    print("[MoraleSystem] Unit " .. (unit.name or "Unknown") .. " morale now: " .. unit.morale)
-    
-    -- Check for state changes
-    self:updateMoraleState(unit)
-end
+--- Calculate morale loss from witnessing an ally's death
+---@param witness table Witnessing unit
+---@param deceased table Unit that died
+---@param distance number Distance to death in tiles
+---@return number Morale loss amount
+function MoraleSystem:calculateDeathWitnessMoraleLoss(witness, deceased, distance)
+    self:initializeUnitMorale(witness)
 
---- Update unit morale state based on current morale
--- @param unit table Unit to update
-function MoraleSystem:updateMoraleState(unit)
-    local previousState = unit.moraleState or MoraleSystem.STATES.NORMAL
-    
-    if unit.morale <= MoraleSystem.UNCONSCIOUS_THRESHOLD then
-        unit.moraleState = MoraleSystem.STATES.UNCONSCIOUS
-    elseif unit.morale <= MoraleSystem.BERSERK_THRESHOLD then
-        -- 50% chance to go berserk instead of panic
-        if math.random() < 0.5 then
-            unit.moraleState = MoraleSystem.STATES.BERSERK
-        else
-            unit.moraleState = MoraleSystem.STATES.PANICKED
-        end
-    elseif unit.morale <= MoraleSystem.PANIC_THRESHOLD then
-        unit.moraleState = MoraleSystem.STATES.PANICKED
-    else
-        unit.moraleState = MoraleSystem.STATES.NORMAL
+    -- Base loss from seeing death
+    local baseLoss = MoraleSystem.DEATH_WITNESS_MORALE_LOSS
+
+    -- Distance modifier (closer = more impact)
+    local distanceModifier = math.max(0.1, 1.0 - (distance * MoraleSystem.DEATH_DISTANCE_MULTIPLIER))
+
+    -- Relationship modifier (same team = more impact)
+    local relationshipModifier = 1.0
+    if witness.team == deceased.team then
+        relationshipModifier = 2.0  -- Double impact for same team
     end
-    
-    -- Log state changes
-    if previousState ~= unit.moraleState then
-        print("[MoraleSystem] Unit " .. (unit.name or "Unknown") .. " state changed: " .. 
-              previousState .. " -> " .. unit.moraleState)
-    end
-end
 
---- Perform bravery check (resist panic/morale loss)
--- @param unit table Unit performing check
--- @param difficulty number Difficulty of check (default 50)
--- @return boolean True if check passed
-function MoraleSystem:braveryCheck(unit, difficulty)
-    difficulty = difficulty or 50
-    local bravery = unit.bravery or 50
-    
-    -- Roll 1d100, must be <= bravery to pass
-    local roll = math.random(1, 100)
-    local passed = roll <= bravery
-    
-    print("[MoraleSystem] Unit " .. (unit.name or "Unknown") .. " bravery check: " .. 
-          roll .. " vs " .. bravery .. " = " .. (passed and "PASS" or "FAIL"))
-    
-    return passed
-end
+    local totalLoss = math.floor(baseLoss * distanceModifier * relationshipModifier)
 
---- Check if unit is panicked
--- @param unit table Unit to check
--- @return boolean True if panicked
-function MoraleSystem:isPanicked(unit)
-    return unit.moraleState == MoraleSystem.STATES.PANICKED
-end
+    print(string.format("[MoraleSystem] Death witness morale loss: %d (distance: %.1f, same team: %s)",
+          totalLoss, distance, tostring(witness.team == deceased.team)))
 
---- Check if unit is berserk
--- @param unit table Unit to check
--- @return boolean True if berserk
-function MoraleSystem:isBerserk(unit)
-    return unit.moraleState == MoraleSystem.STATES.BERSERK
+    return totalLoss
 end
 
 --- Check if unit is unconscious from morale
--- @param unit table Unit to check
--- @return boolean True if unconscious
+---@param unit table Unit to check
+---@return boolean True if unconscious from morale
 function MoraleSystem:isUnconscious(unit)
-    return unit.moraleState == MoraleSystem.STATES.UNCONSCIOUS
+    self:initializeUnitMorale(unit)
+    return unit.morale <= MoraleSystem.UNCONSCIOUS_THRESHOLD
 end
 
---- Initialize unit morale stats
--- @param unit table Unit to initialize
--- @param initialMorale number Initial morale value (default 100)
--- @param bravery number Bravery stat (default 50)
-function MoraleSystem:initializeUnit(unit, initialMorale, bravery)
-    unit.morale = initialMorale or 100
-    unit.bravery = bravery or 50
-    unit.moraleState = MoraleSystem.STATES.NORMAL
-    
-    print("[MoraleSystem] Initialized unit " .. (unit.name or "Unknown") .. 
-          " with morale=" .. unit.morale .. ", bravery=" .. unit.bravery)
+--- Check if unit is panicked
+---@param unit table Unit to check
+---@return boolean True if panicked
+function MoraleSystem:isPanicked(unit)
+    self:initializeUnitMorale(unit)
+    return unit.morale <= MoraleSystem.PANIC_THRESHOLD
 end
 
---- Get morale state color for UI
--- @param state string Morale state
--- @return table RGB color {r, g, b}
-function MoraleSystem:getStateColor(state)
-    local colors = {
-        normal = {100, 255, 100},      -- Green
-        panicked = {255, 255, 100},    -- Yellow
-        berserk = {255, 100, 100},     -- Red
-        unconscious = {100, 100, 100}  -- Gray
-    }
-    
-    return colors[state] or {255, 255, 255}
+--- Restore morale (from medical treatment, rest, etc.)
+---@param unit table Unit to heal
+---@param amount number Morale to restore
+function MoraleSystem:restoreMorale(unit, amount)
+    self:initializeUnitMorale(unit)
+
+    unit.morale = unit.morale + amount
+
+    if unit.morale > unit.maxMorale then
+        unit.morale = unit.maxMorale
+    end
+
+    -- Clear panic if morale recovered
+    if unit.isPanicked and unit.morale > MoraleSystem.PANIC_THRESHOLD then
+        unit.isPanicked = false
+        print(string.format("[MoraleSystem] Unit %s recovered from panic",
+              unit.name or "Unknown"))
+    end
+
+    -- Clear unconsciousness if morale recovered
+    if unit.isUnconscious and unit.morale > MoraleSystem.UNCONSCIOUS_THRESHOLD then
+        unit.isUnconscious = false
+        print(string.format("[MoraleSystem] Unit %s recovered from unconsciousness",
+              unit.name or "Unknown"))
+    end
+
+    print(string.format("[MoraleSystem] Unit %s morale restored to: %d/%d",
+          unit.name or "Unknown", unit.morale, unit.maxMorale))
+end
+
+--- Process end-of-turn morale recovery
+---@param unit table Unit to process
+function MoraleSystem:processTurnRecovery(unit)
+    self:initializeUnitMorale(unit)
+
+    -- Small recovery if not panicked
+    if not unit.isPanicked and unit.morale < unit.maxMorale then
+        local recovery = 5  -- 5 morale per turn
+        self:restoreMorale(unit, recovery)
+    end
+end
+
+--- Get morale status description
+---@param unit table Unit to check
+---@return string Status description
+function MoraleSystem:getMoraleStatus(unit)
+    self:initializeUnitMorale(unit)
+
+    if unit.morale <= MoraleSystem.UNCONSCIOUS_THRESHOLD then
+        return "Unconscious"
+    elseif unit.morale <= MoraleSystem.PANIC_THRESHOLD then
+        return "Panicked"
+    elseif unit.morale <= 50 then
+        return "Shaken"
+    elseif unit.morale <= 75 then
+        return "Steady"
+    else
+        return "High"
+    end
 end
 
 return MoraleSystem
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

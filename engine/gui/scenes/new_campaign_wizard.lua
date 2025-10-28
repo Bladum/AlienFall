@@ -21,9 +21,9 @@
 ---@copyright 2025 AlienFall Project
 ---@license Open Source
 
-local StateManager = require("core.state_manager")
+local StateManager = require("core.state.state_manager")
 local Widgets = require("gui.widgets.init")
-local CampaignOrchestrator = require("engine.geoscape.campaign_orchestrator")
+local CampaignOrchestrator = require("geoscape.managers.campaign_orchestrator")
 
 local NewCampaignWizard = {}
 

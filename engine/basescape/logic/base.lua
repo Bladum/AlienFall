@@ -1,5 +1,4 @@
----Base - Base Instance
----
+---@class Base
 ---Represents a player base with facilities, capacity management, and services.
 ---Main interface for basescape operations.
 ---
@@ -24,7 +23,7 @@ Base.__index = Base
 
 ---Create new base
 ---@param config table Base configuration
----@return Base base New base instance
+---@return Base New base instance
 function Base.new(config)
     local self = setmetatable({}, Base)
 
@@ -82,8 +81,6 @@ function Base:buildHQ()
 
     local success, _ = self.grid:placeFacility(hq, 2, 2)
     if success then
-        hq.constructionProgress = 1.0
-        hq.daysBuilt = 0
         self:recalculateCapacities()
         print(string.format("[Base] HQ created at center (2,2)"))
         return true
@@ -97,7 +94,7 @@ end
 ---@param facilityTypeId string Facility type ID
 ---@param gridX number Grid X coordinate
 ---@param gridY number Grid Y coordinate
----@return Facility|nil facility Created facility or nil
+---@return Facility|nil Created facility or nil
 function Base:startConstruction(facilityTypeId, gridX, gridY)
     local facilityType = FacilityRegistry.get(facilityTypeId)
     if not facilityType then

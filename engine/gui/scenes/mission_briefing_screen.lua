@@ -314,3 +314,4 @@ function MissionBriefing:mousepressed(x, y, button)
 end
 
 return MissionBriefing
+

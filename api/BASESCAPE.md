@@ -30,6 +30,31 @@ The Basescape system manages player base construction, facility placement, grid 
 
 ---
 
+## Implementation Status
+
+### ✅ Implemented (in engine/basescape/)
+- Base manager with grid system (`base_manager.lua`)
+- Facility system with 5×5 grid (`facilities/facility_system.lua`)
+- Construction queue and progress tracking
+- Personnel assignment and management
+- Storage capacity tracking
+- Power generation and consumption
+- Manufacturing and research queues
+
+### 🚧 Partially Implemented
+- Adjacency bonus calculations (documented in FACILITIES.md)
+- Base defense during attacks
+- Advanced facility upgrades
+- Multi-level bases
+
+### 📋 Planned (in design/)
+- Dynamic base expansion beyond initial grid
+- Underground levels
+- Base interconnection system
+- Advanced automation systems
+
+---
+
 ## Architecture
 
 ### System Components

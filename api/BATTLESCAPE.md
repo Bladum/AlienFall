@@ -148,22 +148,42 @@ The final unified 2D array of battle tiles where all combat occurs.
 - All entities (units, objects, effects) exist on battlefield
 - Environment, placement, and initial effects finalized
 
-### Coordinate System
+### Coordinate System (Vertical Axial)
 
-**Hexagon Topology:**
-- Coordinate System: Q (horizontal), R (diagonal) - Odd-R horizontal layout
-- Each hex has 6 adjacent neighbors (standard hex topology)
-- Scale: Each hex represents 2-3 meters of game world space
+**UNIVERSAL HEX SYSTEM:** AlienFall uses a single, unified coordinate system across ALL game layers (Battlescape, Geoscape, Basescape). This is the **vertical axial** hex grid system.
 
-**Neighbor Calculation (Odd-R system):**
+**Coordinate Format:**
+- **Axial Coordinates:** `{q, r}` - Primary storage format (always use this)
+- **Cube Coordinates:** `{x, y, z}` where `x+y+z=0` - Internal calculations only
+- **Pixel Coordinates:** `{x, y}` - Rendering only (never store)
+
+**Hexagon Properties:**
+- **Orientation:** Flat-top hexagons (⬡ not ⬢)
+- **Scale:** Each hex represents 2-3 meters of game world space
+- **Neighbors:** Exactly 6 adjacent hexes per tile
+
+**Direction System (Vertical Axial - 6 Directions):**
 ```
-neighbors[1] = {q+1, r}     -- East
-neighbors[2] = {q+1, r-1}   -- Southeast
-neighbors[3] = {q, r-1}     -- Southwest
-neighbors[4] = {q-1, r}     -- West
-neighbors[5] = {q-1, r+1}   -- Northwest
-neighbors[6] = {q, r+1}     -- Northeast
+Direction 0 (E):  q+1, r+0  -- East
+Direction 1 (SE): q+0, r+1  -- Southeast
+Direction 2 (SW): q-1, r+1  -- Southwest
+Direction 3 (W):  q-1, r+0  -- West
+Direction 4 (NW): q+0, r-1  -- Northwest
+Direction 5 (NE): q+1, r-1  -- Northeast
 ```
+
+**Visual Layout:**
+```
+     ⬡ ⬡ ⬡
+    ⬡ ⬡ ⬡ ⬡
+   ⬡ ⬡ ⬡ ⬡ ⬡
+    ⬡ ⬡ ⬡ ⬡
+     ⬡ ⬡ ⬡
+```
+
+**Odd Column Offset:** Odd-numbered q columns (q=1, 3, 5...) are shifted down by half a hex height. This creates the characteristic "skewed" appearance seen in the images.
+
+**Design Reference:** See `design/mechanics/hex_vertical_axial_system.md` for complete specification.
 
 ---
 
@@ -1045,644 +1065,216 @@ Concealed units are detected based on visibility score vs. concealment score.
 
 ---
 
-### Explosion Damage System
+### Damage Calculation Algorithm
 
-**Explosion Propagation Formula:**
-
+**Base Damage Formula:**
 ```
-Damage at Distance = Base Damage - (Distance in Hexes × Dropoff Rate)
-Damage After Armor = Damage × (1 - (Armor Value / 100))
-Final Damage = Max(0, Damage After Armor)
-```
+Damage = Base Weapon Damage × Armor Penetration × Crit Multiplier × Status Multiplier
 
-**Explosion Types:**
-| Type | Base Damage | Dropoff Rate | Radius |
-|------|------------|-------------|--------|
-| Grenade (fragmentation) | 30 | 3 | 6 hexes |
-| Grenade (blast) | 40 | 5 | 4 hexes |
-| Mine | 50 | 4 | 5 hexes |
-| Artillery | 60 | 6 | 8 hexes |
-
-**Armor vs Force:**
-- Armor < 30: Takes 100% damage
-- Armor 30-60: Takes 80-100% damage
-- Armor 61-90: Takes 50-80% damage
-- Armor 91+: Takes 0-50% damage
-
----
-
-### Weapon Modes & Modifiers
-
-**Weapon Mode Table:**
-
-| Mode | AP Cost | Accuracy Mod | Damage Mod | Effect |
-|------|---------|------------|-----------|--------|
-| Snap | 1 | -5% | 100% | Quick shot, low accuracy |
-| Burst | 2 | ±0% | 100% | Medium burst, balanced |
-| Aim | 2 | +15% | 100% | Precise aim, high accuracy |
-| Suppression | 2 | -10% | 60% | Suppresses target (-20% accuracy) |
-| Critical | 2 | +25% | 120% | Aimed critical, 15% crit chance |
-
----
-
-### Line of Sight Costs
-
-**Sight Cost Table (terrain/obstacles):**
-
-| Terrain/Obstacle | Sight Cost |
-|-----------------|-----------|
-| Clear ground | 1 |
-| Forest/vegetation | 2 |
-| Forest (dense) | 3 |
-| Building wall (exterior) | 2 |
-| Building wall (thick) | 3 |
-| Metal barrier | 2 |
-| Concrete wall | 2 |
-| Rock/rubble | 2 |
-| Smoke (light) | 2 |
-| Smoke (heavy) | 4 |
-| Unit (small/medium) | 1 |
-| Unit (large) | 2 |
-| Water | 1 |
-| Lava | 2 |
-
-**LOS Calculations:**
-- LOS breaks if cumulative cost ≥ 10
-- Example: Through dense forest (3) + smoke (4) + wall (2) = 9 (can barely see through)
-- Each hex adds its cost to cumulative total
-- Vision range: 16 hexes (day), 8 hexes (night)
-
----
-
-### Terrain Armor & Destruction
-
-**Terrain Armor Values (vs explosions/weapons):**
-
-| Terrain Type | Armor | Destructible | Result When Destroyed |
-|-------------|-------|-------------|----------------------|
-| Grass/dirt | 0 | No | - |
-| Wood object | 5 | Yes | Rubble |
-| Brick wall | 8 | Yes | Rubble |
-| Stone wall | 10 | Yes | Rubble |
-| Metal barrier | 12 | Yes | Scrap |
-| Reinforced wall | 15 | Yes | Rubble |
-| Concrete pillar | 10 | Partial | Rubble |
-| Vehicle wreck | 8 | Yes | Destroyed |
-
-**Destruction Stages:**
-- Intact (100%): Full blocking, full armor
-- Damaged (50-99%): Reduced blocking, reduced armor
-- Rubble (1-49%): Minimal blocking, minimal armor (1-2 points)
-- Destroyed (0%): No blocking, no armor, passable
-
----
-
-## Configuration (TOML)
-
-### Battle Settings
-
-```toml
-# battlescape/battle_config.toml
-
-[combat]
-action_points_base = 4          # AP per turn for any unit
-movement_multiplier = 1         # Hexes per AP
-reaction_ap_cost = 1            # AP to make reaction
-overwatch_ap_cost = 1           # AP to set overwatch
-
-[turns]
-turn_time_seconds = 30          # Simulated time per turn
-rounds_per_full_cycle = 4       # Turns before all units act
-initiative_variance = 0.2       # ±20% of speed for initiative
-
-[difficulty_modifiers]
-[difficulty_modifiers.easy]
-enemy_accuracy = 0.7            # -30%
-enemy_ap = 3                    # -1 AP
-player_accuracy = 1.1           # +10%
-
-[difficulty_modifiers.normal]
-enemy_accuracy = 1.0
-enemy_ap = 4
-player_accuracy = 1.0
-
-[difficulty_modifiers.hard]
-enemy_accuracy = 1.3            # +30%
-enemy_ap = 5                    # +1 AP
-player_accuracy = 0.9           # -10%
-
-[difficulty_modifiers.impossible]
-enemy_accuracy = 1.6            # +60%
-enemy_ap = 6                    # +2 AP
-player_accuracy = 0.8           # -20%
+Where:
+- Base Damage = Weapon damage roll (min-max range)
+- Armor Penetration = 1.0 - (Armor Class / 100)
+- Crit Multiplier = 1.0 (normal) or 1.5 (critical)
+- Status Multiplier = Status effect bonuses/penalties
 ```
 
-### Map Generation
+**Armor Damage Reduction:**
+```
+Effective Damage = Rolled Damage × Armor Penetration
 
-```toml
-# battlescape/map_generation.toml
-
-[[terrains]]
-id = "desert_dunes"
-biome = "desert"
-map_blocks = ["dune_cluster", "canyon", "oasis"]
-features = ["sand_storm", "heat_wave"]
-difficulty_modifier = 1.0
-
-[[terrains]]
-id = "forest_dense"
-biome = "forest"
-map_blocks = ["forest_thick", "clearing", "river"]
-features = ["fog", "dense_undergrowth"]
-difficulty_modifier = 0.9
-
-[[terrains]]
-id = "urban_downtown"
-biome = "urban"
-map_blocks = ["city_block", "street", "rooftop"]
-features = ["debris", "collapsed_building"]
-difficulty_modifier = 1.1
-
-[[terrains]]
-id = "alien_hive"
-biome = "alien"
-map_blocks = ["alien_organic", "nesting_pit", "growth"]
-features = ["organic_hazard", "low_visibility"]
-difficulty_modifier = 1.3
+Example:
+- Rolled 20 damage
+- Target armor class 15 (heavy armor)
+- Armor Penetration = 1.0 - (15/100) = 0.85
+- Effective Damage = 20 × 0.85 = 17 damage taken
 ```
 
-### Hex Grid
-
-```toml
-# battlescape/hex_grid.toml
-
-[grid]
-coordinate_system = "offset_coordinates"  # Q, R (Odd-R)
-neighbor_count = 6                        # Hexagons have 6 neighbors
-diagonal_movement = false                 # Move to orthogonal only
-
-[movement]
-base_hex_distance = 2.5         # Meters per hex
-movement_cost_clear = 1         # AP to move through clear hex
-movement_cost_rough = 2         # AP through rough terrain
-movement_cost_dense = 3         # AP through dense cover
-
-[visibility]
-base_vision_range = 10          # Default hex range
-fog_of_war_enabled = true
-line_of_sight_blocked_by = ["full_cover", "terrain", "buildings"]
+**Final HP Impact:**
 ```
+HP Loss = Effective Damage - shields/buffs
 
-### Action Economy
-
-```toml
-# battlescape/action_economy.toml
-
-[action_costs]
-move_cost = 1                   # AP per hex (base)
-attack_cost = 2                 # AP to fire weapon
-reload_cost = 1                 # AP to reload
-use_item_cost = 1               # AP to use consumable
-defend_cost = 1                 # AP to take defensive stance
-overwatch_cost = 1              # AP to set overwatch
-interact_cost = 1               # AP to interact with objects
-
-[[status_effects]]
-id = "stunned"
-duration = 2
-effect = "cannot_act"
-visual = "stars"
-
-[[status_effects]]
-id = "bleeding"
-duration = 3
-damage_per_turn = 2
-visual = "blood"
-
-[[status_effects]]
-id = "burning"
-duration = 4
-damage_per_turn = 3
-visual = "fire"
-
-[[status_effects]]
-id = "suppressed"
-effect = "reduced_accuracy"
-accuracy_penalty = 0.2
-ap_penalty = 2
+Unit takes full damage if:
+1. Armor too weak for weapon
+2. No shields active
+3. No evasion successful
 ```
 
 ---
 
-## Usage Examples
+### Line of Sight (LOS) Algorithm
 
-### Example 1: Create and Start Battle
+**LOS Calculation (Bresenham's Line):**
+```
+For each hex between attacker and target:
+1. Check terrain opacity (0.0-1.0)
+2. Check unit blocking (if enemy in way)
+3. Check cover objects
+4. Sum opacity along line
 
-```lua
--- Create battle for mission
-local battle = BattleManager.createBattle(desert_mission, player_squad)
-print("Battle created: " .. battle.id)
-
--- Setup: Deploy units
-for i, unit in ipairs(player_squad) do
-  local spawn_hex = battle.battlefield.spawn_points["player"][i]
-  BattlefieldManager.placeUnit(unit, spawn_hex)
-  print("Deployed " .. unit:getName() .. " at " .. spawn_hex.q .. "," .. spawn_hex.r)
-end
-
--- Start combat
-BattleManager.startBattle(battle)
-print("Battle started - Player turn begins")
+If total opacity < 0.5:
+  LOS = TRUE (target visible)
+Else:
+  LOS = FALSE (target blocked)
 ```
 
-### Example 2: Execute Unit Turn
-
-```lua
--- Get current unit
-local unit = battle:get_current_turn_unit()
-print("Turn: " .. unit:getName())
-
--- Check available actions
-print("AP available: " .. unit:getAP())
-print("Visible enemies:")
-
-local visible = LOS.getVisibleHexes(unit)
-for _, hex in ipairs(visible) do
-  local target = BattlefieldManager.getUnitAt(hex)
-  if target then
-    print("  - " .. target:getName() .. " at " .. hex.q .. "," .. hex.r)
-  end
-end
-
--- Execute action: move
-local path = BattlefieldManager.getPath(unit:getPosition(), destination_hex)
-local success, ap_cost = CombatAction.moveUnit(unit, destination_hex)
-if success then
-  print("Moved " .. ap_cost .. " AP, " .. unit:getAP() .. " remaining")
-end
-
--- Execute action: fire
-local visible_enemies = unit:getVisibleUnits()
-if #visible_enemies > 0 then
-  local enemy = visible_enemies[1]
-  local result = CombatAction.fireWeapon(unit, unit:getEquippedWeapon(), enemy)
-  print("Shot: " .. (result.hit and "HIT!" or "MISS!"))
-  if result.hit then
-    print("  Damage: " .. result.damage_dealt)
-  end
-end
-
--- End turn
-CombatAction.endUnitTurn(unit)
+**Terrain Opacity Values:**
+```
+Terrain Type      | Opacity | Blocks LOS?
+------------------|---------|----------
+Open ground       | 0.0     | No
+Low cover         | 0.3     | Partially
+Medium cover      | 0.6     | Mostly
+Heavy cover       | 1.0     | Completely
+Wall              | 1.0     | Completely
+Dense fog         | 0.7-1.0 | Conditional
 ```
 
-### Example 3: Handle Line of Sight
-
-```lua
--- Get all visible hexes for unit
-local visible = LOS.getVisibleHexes(unit)
-print("Visible hexes: " .. #visible)
-
--- Check specific visibility
-local target = enemy_units[1]
-if LOS.canSee(unit, target) then
-  print("Can see " .. target:getName())
-
-  -- Calculate distance
-  local distance = BattlefieldManager.getDistance(unit:getPosition(), target:getPosition())
-  print("Distance: " .. distance .. " hexes")
-
-  -- Check line of sight blocking
-  local has_los = LOS.getLineOfSight(unit:getPosition(), target:getPosition())
-  if not has_los then
-    print("No direct line of sight - line blocked by terrain")
-  end
-else
-  print("Cannot see " .. target:getName())
-end
+**Cover Calculation:**
 ```
-
-### Example 4: Generate Map
-
-```lua
--- Generate battlefield for mission
-local terrain = MapGenerator.selectTerrain("desert")
-print("Selected terrain: " .. terrain)
-
-local battlefield = MapGenerator.generateBattlefield(terrain, "medium")
-print("Generated battlefield: " .. battlefield.width .. "x" .. battlefield.height)
-
--- Apply random transformation
-if math.random() > 0.5 then
-  MapGenerator.rotateBattlefield(battlefield, 90)
-  print("Rotated battlefield")
-end
-
--- Display map info
-print("Terrain: " .. battlefield.terrain_type)
-print("Weather: " .. battlefield.weather)
-print("Difficulty: " .. battlefield.difficulty)
-```
-
-### Example 5: Reaction System
-
-```lua
--- Check if unit can set reaction
-if CombatAction.canReact(unit, "overwatch") then
-  print("Can set overwatch")
-
-  -- Set overwatch on move to hex
-  local overwatch_hex = BattlefieldManager.getPath(unit:getPosition(), target_hex)[2]
-  CombatAction.performReaction(unit, "overwatch", "enemy_move_near:" .. overwatch_hex.q .. "," .. overwatch_hex.r)
-  print("Overwatch set - will react if enemy enters hex")
-end
-
--- Reaction triggered
-if unit.status == "defending" then
-  print("Reaction triggered!")
-  CombatAction.performReaction(unit, "reaction_fire", trigger_event)
-end
-```
-
-### Example 6: Environmental Hazards
-
-```lua
--- Create fire at location
-local alien_hex = {x=12, y=15}
-battle.environment:create_hazard(alien_hex, "fire", 5, function(err, hazard)
-  if err then print("Hazard creation failed: " .. err) return end
-  print("Fire created at hex " .. hazard.hex.x .. "," .. hazard.hex.y)
-end)
-
--- Get hazards at unit location
-local hazards = battle.environment:get_hazards_at(unit:getPosition(), 1)
-if #hazards > 0 then
-  print("Unit is in hazard zone:")
-  for _, h in ipairs(hazards) do
-    print("  " .. h.type .. " - " .. h.damage .. " damage/turn")
-  end
-end
-
--- Destroy object
-battle.environment:destroy_object("crate_042", function(err, loot)
-  if err then print("Destruction failed: " .. err) return end
-  print("Crate destroyed, found " .. #loot .. " items")
-end)
-```
-
-### Example 7: Round Resolution
-
-```lua
--- Resolve complete round (all units acted)
-battle:resolve_round(function(err, results)
-  if err then print("Round resolution failed: " .. err) return end
-
-  print("[ROUND " .. results.round_number .. " COMPLETE]")
-  print("  Player casualties: " .. results.player_casualties)
-  print("  Enemy casualties: " .. results.enemy_casualties)
-
-  -- Check for victory/defeat
-  local state = battle:check_victory()
-  if state == "victory" then
-    print("[VICTORY!] Mission objective complete!")
-  elseif state == "defeat" then
-    print("[DEFEAT] Mission failed!")
-  end
-end)
+If attacker can see target through cover:
+- Apply cover accuracy penalty (0.5-0.9x)
+- Reduce damage by cover rating (10-50%)
+- Allow shooting through/over cover
 ```
 
 ---
 
-## Status Effects & Morale System
+### Core Combat Formulas & Algorithms
 
-### Morale System
+### Hit Chance Calculation
 
-Morale represents unit confidence during battle. It is derived from Bravery stat and acts as a buffer during combat.
-
-#### Morale Baseline
-- **Starting morale**: Equals BRAVERY stat (6-12 range) at start of battle
-- **Minimum morale**: 0 (triggers panic mode - unit becomes inactive)
-- **Maximum morale**: Equal to BRAVERY stat (cannot exceed it)
-
-#### Morale Loss Events
-
-Units lose 1 morale when under stress:
-- Witnessing ally death nearby (within 5 hexes)
-- Taking critical damage (critical hit received)
-- Seeing enemy in superior numbers
-- Other tactical stress events
-
-#### Morale Thresholds & Effects
-
-| Morale | Effect |
-|--------|--------|
-| **6-12 (BRAVERY range)** | Normal capability, full AP available |
-| **3-5** | Stressed but functional, full AP |
-| **2** | AP modifier: −1 AP per turn |
-| **1** | AP modifier: −2 AP per turn |
-| **0** | **PANIC MODE** - Unit becomes inactive (cannot act) |
-
-#### Morale Recovery
-- **Rest action**: 2 AP → +1 morale per turn
-- **Leader aura**: +1 morale to nearby allies per turn (requires leader trait)
-- **Rally action**: 4 AP → +2 morale to self or nearby ally
-- **Post-mission**: Morale resets to base BRAVERY value
-
-### Sanity System
-
-Sanity represents psychological stability. It is a separate buffer from morale that degrades over time and intense experiences. Range: 6-12 (similar to other core stats).
-
-#### Sanity Baseline
-- **Starting sanity**: 6-12 (based on unit class/specialization)
-- **Minimum sanity**: 0 (triggers panic mode - unit becomes inactive)
-- **Maximum sanity**: Starting value for that unit
-- **Recovery**: +1 sanity per week in base (passive)
-
-#### Sanity Loss During Missions
-
-After a mission concludes, units lose sanity based on mission difficulty:
-
-| Difficulty | Sanity Loss |
-|---|---|
-| **Standard** | 0 |
-| **Moderate** | −1 |
-| **Hard** | −2 |
-| **Horror** | −3 |
-
-**Additional Penalties**:
-- **Night missions**: −1 sanity (atmospheric horror)
-- **Heavy casualties**: −1 per ally KIA
-- **Witnessing horror**: −1 per special event (specific to mission)
-
-#### Sanity Thresholds & Effects
-
-| Sanity | Effect |
-|--------|--------|
-| **6-12 (starting range)** | Normal psychological state, full AP available |
-| **3-5** | Psychological stress, full AP available |
-| **2** | AP modifier: −1 AP per turn |
-| **1** | AP modifier: −2 AP per turn |
-| **0** | **PANIC MODE** - Unit becomes inactive (cannot act), will break formation |
-
-#### Sanity Recovery
-- **Base recovery**: +1 sanity per week (automatic, passive)
-- **Hospital facility**: +1 additional sanity per week
-- **Temple facility**: +1 additional sanity per week (religious morale)
-- **Rest/downtime**: Accelerated recovery during leave periods
-
-#### Panic State
-- When morale = 0 **or** sanity = 0: Unit enters panic mode
-- Panicked unit becomes inactive (0 AP, cannot perform actions)
-- Remains panicked until morale **and** sanity both recover above 0
-
-### Bravery System
-
-Bravery is a core stat (6-12 range) that serves as the foundation for morale during battle. It determines psychological resilience and panic resistance.
-
-#### Bravery Role
-- **Morale Buffer**: BRAVERY stat determines max morale for that unit during battle
-- **Stat Definition**: Core unit stat (6-12 range like STR, React, etc.)
-- **Class-Based**: Some classes have higher/lower bravery ranges
-- **Permanent**: Does not change during mission (unlike morale/sanity)
-
-#### Bravery & Morale Connection
-- **At battle start**: Morale = BRAVERY value
-- **As battle progresses**: Morale can decrease from stress events
-- **Cannot exceed**: Morale cannot go above BRAVERY stat
-- **Represents**: How quickly unit recovers from stress
-
-#### Bravery Modifiers
-- **Unit traits**: "Brave" (+2 bravery), "Timid" (-2 bravery)
-- **Experience**: Veterans have higher bravery (+1 per rank)
-- **Equipment**: Ceremonial/officer gear can grant +1 bravery
-- **Morale boost**: Leaders can temporarily enhance nearby unit confidence (+1 morale, not bravery)
-
-#### Strategic Importance
-- Higher bravery = larger morale pool (better panic resistance)
-- Low bravery units panic more easily
-- Affects squad composition (high/low bravery units balance each other)
-- Units with 12 bravery rarely panic even under stress
-
-### Wounds System
-
-Wounds are persistent injuries that continue damaging a unit until healed.
-
-#### Wound Mechanics
-- **Infliction**: Critical hits always inflict 1 wound (see [Critical Hits](#critical-hits))
-- **Duration**: Wounds persist after mission (don't heal automatically)
-- **Damage**: Each wounded body part deals 1 HP damage per turn
-- **Stacking**: Multiple wounds deal cumulative damage
-
-#### Wound Healing
-- **Medikit use**: Each medikit use heals 1 wound
-- **Recovery time**: 4 weeks per wound (in base time units)
-- **Healing facility**: Can reduce recovery time with specialized medical care
-
-#### Wound Effects
-- As wounds accumulate, unit effectiveness decreases
-- A heavily wounded unit is nearly combat-ineffective
-- Strategic decision: Keep wounded unit in service for reduced capability, or rotate them out for healing
-
-### Critical Hits
-
-#### Triggering Critical Hits
-
-**Chance to Crit**:
-- Base weapon critical chance: 5%–15% (weapon-dependent)
-- Unit stat modifier: Aim or strength-based
-- Weapon mode modifier: Some modes increase crit chance (e.g., "critical" mode +25%)
-- Cumulative: All modifiers stack
-
-#### Critical Hit Effects
-- **Guaranteed wound**: Target automatically receives 1 wound
-- **No damage bonus**: Crit doesn't increase damage, only inflicts wound
-- **Optional additional effect**: Some weapons may add secondary effect (stun, knockback)
-
-#### Strategic Importance
-- Crits are primarily for wound infliction
-- Low crit chance means wounds are rare, requiring deliberate
-- Special units/weapons designed for wound infliction have higher crit rates
-
-### Advanced Status Effects
-
-#### Stun System
-- **Source**: Smoke, stun weapons, environmental damage
-- **Effect**: Stun accumulation, temporary incapacity
-- **Decay**: −1 stun per turn naturally
-- **Incapacitation**: When stun ≥ current max HP, unit becomes unconscious
-- **Recovery**: Rest action or time passage
-
-#### Suppression
-- **Source**: Suppress enemy action
-- **Effect**: −1 AP next turn
-- **Duration**: Next turn only
-- **Stacking**: Multiple suppressions don't stack (capped at −1 AP)
-
-#### Status Effect Types
-- **Bleeding** (from wounds): 1 HP damage per wound per turn
-- **Burning** (from fire): 1-2 HP damage per turn, spreads to adjacent
-- **Poisoned**: Damage over time, debuffs effectiveness
-- **Shocked**: Temporary stun, equipment malfunction
-- **Confused**: Unit acts unpredictably, reduced accuracy
-
-### Auras (Leader Effects)
-
-Certain unit classes can project passive auras that affect nearby allied units.
-
-#### Aura Rules
-- **Range**: Fixed distance from unit (typically 3–6 hexes)
-- **Line-of-sight**: Not required (auras pass through walls)
-- **Affected units**: All allies within range
-- **Stacking**: Multiple aura sources stack bonuses
-
-#### Standard Aura Effects
-
-| Aura | Range | Effect |
-|---|---|---|
-| **Morale Boost** | 5 hexes | +1 morale to nearby allies |
-| **Accuracy Boost** | 4 hexes | +20% accuracy to nearby allies |
-| **Sight Boost** | 6 hexes | +3 sight range to nearby allies |
-| **Fear Aura** (enemy) | 5 hexes | −1 morale to nearby enemies |
-| **Stun Aura** (enemy) | 3 hexes | +1 stun per turn to nearby enemies |
-
-#### Negative Auras
-- Some units project negative auras affecting enemies
-- Example: Terror aura (horror movie alien) inflicts morale penalties
-- Auras can be targeted by suppression/silence abilities
-
-### Reactions & Interrupt System
-
-Reaction fire allows units to attack enemies during enemy turns (not their turn).
-
-#### Triggering Reaction Fire
-
-**Overwatch Mode**:
-- **Activation**: 2 AP (standing unit can enter overwatch)
-- **Duration**: Until unit's next turn or until reaction triggered
-- **Visibility**: If overwatch is active and enemy enters line-of-sight, automatic trigger
-
-**Reaction Opportunities**:
-- Enemy moves within line-of-sight: +Suppress or fire reaction
-- Enemy performs attack action: +Counter-attack opportunity
-- Enemy approaches adjacent hex: +Melee intercept (if ready)
-
-#### Reaction Limitations
-
-- **One per Turn**: Unit can only perform 1 reaction per enemy turn
-- **AP Cost**: Reaction uses remaining AP from last turn (not replenished)
-- **Action Type**: Only ranged attacks or melee counterattacks available
-- **Movement**: Unit does not move during reaction (fired from current position)
-
-#### Reaction Modifiers
-
+**Base Formula:**
 ```
-Reaction Accuracy = Base Accuracy × 0.9 (−10% for hasty shot)
-Reaction Range = Weapon Range × 0.75 (−25% range for hasty targeting)
+Hit Chance = Base Accuracy × Range Modifier × Cover Modifier × Unit Modifiers
+
+Where:
+- Base Accuracy = Weapon base hit chance (0-100%)
+- Range Modifier = Scales based on distance from target (0.5-1.5×)
+- Cover Modifier = Target cover effectiveness (0.5-1.0×)
+- Unit Modifiers = Attacker skills, perks, status effects
 ```
 
-#### Failed Reaction
+**Distance Modifiers:**
+```
+Distance | Modifier | Notes
+---------|----------|-------
+<5 hexes | 1.0x     | Optimal range
+5-10     | 0.9x     | Medium range penalty
+10-15    | 0.8x     | Long range penalty
+15-20    | 0.7x     | Very long range
+>20      | 0.5x     | Extreme range
+```
 
-If unit lacks AP to perform reaction, can still move away (opportunity action). This ends enemy's turn movement phase.
+**Practical Example:**
+```
+Rifle shooter 80 hexes away:
+- Base Accuracy: 75%
+- Range Modifier (8 hexes): 0.9x
+- Target half-cover: 0.8x
+- Attacker +10% from rank bonus
+- Hit Chance = 75% × 0.9 × 0.8 × 1.1 = 59.4%
+```
+
+---
+
+### Combat Resolution Flow
+
+**Turn Resolution Order:**
+```
+1. START TURN
+   ├─ Remove temporary buffs that expired
+   ├─ Apply ongoing damage (poison, bleeding)
+   └─ Check status effects
+
+2. UNIT ACTION PHASE
+   ├─ Player selects action (move, shoot, etc)
+   ├─ Validate action (resources, AP, LOS)
+   ├─ Execute action
+   │  ├─ Move: Update position, apply terrain effects
+   │  ├─ Attack: Roll to-hit, resolve damage
+   │  ├─ Special: Ability-specific resolution
+   │  └─ Interaction: Object/environment interaction
+   └─ Deduct AP cost
+
+3. REACTION PHASE
+   ├─ Check for overwatch triggers
+   ├─ Resolve reaction actions
+   └─ Return to normal phase
+
+4. ENVIRONMENT PHASE
+   ├─ Apply hazard damage (fire, acid, etc)
+   ├─ Spread hazards (fire spreads)
+   └─ Update environmental state
+
+5. END TURN
+   ├─ Check for combat end conditions
+   ├─ Rotate to next unit in initiative
+   └─ If all units acted: Next round
+
+6. ROUND END
+   ├─ Update round counter
+   ├─ Check turn limit
+   ├─ Check victory/defeat conditions
+   └─ Begin next round or end combat
+```
+
+**Damage Application Order:**
+```
+1. Roll weapon damage (d6, d8, etc)
+2. Calculate armor penetration
+3. Apply armor reduction
+4. Check for critical hit
+5. Apply crit multiplier if critical
+6. Check evasion/dodge
+7. Apply status modifiers
+8. Apply shields/buffs
+9. Reduce target HP
+10. Check for knockdown/stun
+11. Apply wound (if critical)
+12. Award XP (if kill)
+```
+
+---
+
+## Testing & Validation
+
+### Combat Scenarios
+
+**Scenario 1: Long-Range Shot Through Cover**
+```
+Setup:
+- Rifleman at range 12, in open
+- Target behind half-cover at 0.8x protection
+- Rifleman accuracy 75%
+
+Calculation:
+- Range penalty (12 hexes): 0.8x
+- Cover penalty: 0.8x
+- Hit Chance = 75% × 0.8 × 0.8 = 48%
+
+Weapon damage 10-15:
+- Rolled: 12 damage
+- Armor penetration: 0.8 (light armor)
+- Final: 12 × 0.8 = 9.6 → 10 damage
+```
+
+**Scenario 2: Close Combat Melee**
+```
+Setup:
+- Soldier with sword vs alien
+- Soldier melee +20%, alien defense
+- Both at close range (adjacent)
+
+Calculation:
+- Base accuracy 60% + 20% bonus = 80%
+- Hit Chance = 80% (no range penalty at 1 hex)
+
+Sword damage 8-12:
+- Rolled: 10 damage
+- No armor (alien chitin): 1.0x penetration
+- Status: +30% from berserk buff
+- Final: 10 × 1.0 × 1.3 = 13 damage
+```
 
 ---
 

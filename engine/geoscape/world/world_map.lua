@@ -397,3 +397,4 @@ function WorldMap:getStats()
 end
 
 return WorldMap
+

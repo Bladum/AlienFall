@@ -258,6 +258,7 @@ reaction = 8      # HIGH: Fast reaction for combat
 energy = 10
 wisdom = 6
 psi = 0
+piloting = 8      # NEW: Craft operation skill (+2 bonus from rank 1 pilot)
 
 # Default perks
 [unit_classes_9.perks]
@@ -287,6 +288,7 @@ reaction = 9      # HIGHEST: Fastest reflexes for combat
 energy = 10
 wisdom = 7
 psi = 0
+piloting = 10     # NEW: Elite piloting skill (+3 bonus from rank 2 fighter pilot)
 
 # Default perks
 [unit_classes_10.perks]
@@ -308,6 +310,17 @@ name = "Bomber Pilot"
 type = "soldier"
 description = "Transport and heavy craft specialist with focus on endurance and control"
 tier = 2
+
+# Base stats (Focused on wisdom and strength for heavy craft control)
+health = 55
+strength = 7      # Higher for controlling heavy craft
+speed = 7
+aim = 7
+reaction = 7
+energy = 12       # High endurance for long missions
+wisdom = 8        # HIGH: Strategic planning
+psi = 0
+piloting = 9      # NEW: Specialized for bombers/transports
 
 # Base stats (Higher health and strength for heavy aircraft)
 health = 60
@@ -349,6 +362,7 @@ reaction = 9      # HIGHEST: Precise control
 energy = 10
 wisdom = 8        # HIGHER: Better spatial awareness
 psi = 0
+piloting = 9      # NEW: Specialized for VTOL craft
 
 # Default perks
 [unit_classes_12.perks]

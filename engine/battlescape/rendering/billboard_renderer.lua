@@ -421,3 +421,4 @@ function BillboardRenderer:clearItems()
 end
 
 return BillboardRenderer
+

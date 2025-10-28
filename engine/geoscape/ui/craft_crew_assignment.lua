@@ -219,3 +219,4 @@ function CrewAssignmentUI:formatSummary()
 end
 
 return CrewAssignmentUI
+

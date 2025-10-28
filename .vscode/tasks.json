@@ -32,7 +32,7 @@
 			"label": "🧪 TEST: All Tests",
 			"type": "shell",
 			"command": "C:\\Program Files\\LOVE\\lovec.exe",
-			"args": ["tests/runners"],
+			"args": ["tests2/runners/run_all.lua"],
 			"isBackground": false,
 			"problemMatcher": [],
 			"group": "test",

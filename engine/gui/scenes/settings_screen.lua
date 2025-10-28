@@ -20,7 +20,7 @@
 ---@copyright 2025 AlienFall Project
 ---@license Open Source
 
-local StateManager = require("core.state_manager")
+local StateManager = require("core.state.state_manager")
 
 local SettingsScreen = {}
 
@@ -373,3 +373,5 @@ function SettingsScreen:mousepressed(x, y, button, istouch, presses)
 end
 
 return SettingsScreen
+
+

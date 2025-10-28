@@ -274,3 +274,4 @@ function TargetDisplay:isTargetInFiringArc(weaponArc)
 end
 
 return TargetDisplay
+

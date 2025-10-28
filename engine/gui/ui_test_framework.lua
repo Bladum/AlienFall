@@ -498,3 +498,4 @@ function UITestFramework.generateReport()
 end
 
 return UITestFramework
+

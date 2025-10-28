@@ -2,14 +2,63 @@
 
 **System:** Strategic Layer (Global Strategy / World Management)  
 **Module:** `engine/geoscape/`  
-**Latest Update:** October 22, 2025  
-**Status:** ✅ Complete
+**Latest Update:** 2025-10-28  
+**Status:** ✅ Core Complete | ⚠️ Vertical Axial Migration Complete
+
+---
+
+## 🎯 Coordinate System - CRITICAL
+
+**UNIVERSAL HEX SYSTEM:** Geoscape uses the **same vertical axial coordinate system** as Battlescape and all other game layers. This eliminates conversion errors and ensures consistency.
+
+**Coordinate Format:**
+- **Axial:** `{q, r}` - Primary storage (ALWAYS USE THIS)
+- **Cube:** `{x, y, z}` where x+y+z=0 - Calculations only
+- **Pixel:** `{x, y}` - Rendering only (never store)
+
+**Direction System (6 Directions):**
+```
+Direction 0 (E):  q+1, r+0  -- East
+Direction 1 (SE): q+0, r+1  -- Southeast
+Direction 2 (SW): q-1, r+1  -- Southwest
+Direction 3 (W):  q-1, r+0  -- West
+Direction 4 (NW): q+0, r-1  -- Northwest
+Direction 5 (NE): q+1, r-1  -- Northeast
+```
+
+**World Map Dimensions:**
+- Width: 90 hexes (q = 0 to 89)
+- Height: 45 hexes (r = 0 to 44)
+- Total provinces: ~4050 hexes
+- Horizontal wrapping: q=90 wraps to q=0 (spherical Earth)
+
+**Design Reference:** `design/mechanics/hex_vertical_axial_system.md`
+
+---
+
+## 📋 Scope & Related Systems
+
+**This API covers:**
+- World structure (hexagonal grid, provinces, regions)
+- Map rendering and visualization
+- Time progression (calendar, day/night cycles)
+- Craft movement and travel systems
+- Mission deployment mechanics
+- Radar detection systems
+- Supply line management
+
+**For related systems, see:**
+- **[COUNTRIES.md](COUNTRIES.md)** - Country entities, diplomatic relations, funding, panic mechanics
+- **[MISSIONS.md](MISSIONS.md)** - Mission generation, objectives, and types
+- **[CRAFTS.md](CRAFTS.md)** - Craft specifications and interception
+- **[INTERCEPTION.md](INTERCEPTION.md)** - Air combat and UFO engagement
+- **[POLITICS.md](POLITICS.md)** - Faction relations and diplomatic events
 
 ---
 
 ## Overview
 
-The Geoscape system manages the global strategic layer where players control world operations, craft deployment, mission detection, and diplomatic relations. It organizes the game world as hexagonal grid provinces, handles turn-based calendar progression, manages craft travel, and coordinates with all other systems for mission generation and threat assessment.
+The Geoscape system manages the global strategic layer where players control world operations, craft deployment, mission detection, and geographic management. It organizes the game world as hexagonal grid provinces, handles turn-based calendar progression, manages craft travel, and coordinates with all other systems for mission generation and threat assessment.
 
 **Key Responsibilities:**
 - World definition and management with hexagonal grid system
@@ -18,23 +67,22 @@ The Geoscape system manages the global strategic layer where players control wor
 - Calendar and time progression (1 turn = 1 day)
 - Day/night cycle management and visibility
 - Biome classification and terrain mechanics
-- Geographic regions and regional control
+- Geographic regions and regional grouping
 - Radar coverage detection and mission detection
 - Universe management for multi-world connectivity
-- Region management and ownership tracking
-- UFO tracking and threat assessment
-- Mission deployment and logistics
-- Supply line management between bases
 - Craft travel and interception routing
+- Supply line management between bases
+- Map rendering with multiple display modes
 
 **Integration Points:**
-- Basescape: Base locations, facility management, craft inventory
-- Battlescape: Mission generation, mission parameters, squad deployment
-- Interception: Craft combat, UFO tracking
-- Politics: Country funding, diplomatic relations, territory control
-- Economy: Resource availability by province, trade agreements
-- Calendar: Time progression and turn advancement
-- Analytics: Strategic metrics and intelligence reporting
+- **Countries** (via [COUNTRIES.md](COUNTRIES.md)): Territory ownership, country funding
+- **Basescape**: Base locations, facility management, craft inventory
+- **Battlescape**: Mission generation, mission parameters, squad deployment  
+- **Interception**: Craft combat, UFO tracking
+- **Politics**: Territory control, diplomatic events
+- **Economy**: Resource availability by province, trade agreements
+- **Calendar**: Time progression and turn advancement
+- **Analytics**: Strategic metrics and intelligence reporting
 
 ---
 

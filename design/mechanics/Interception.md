@@ -1,4 +1,8 @@
-# Interception
+# Interception System
+
+> **Status**: Design Document  
+> **Last Updated**: 2025-10-28  
+> **Related Systems**: Geoscape.md, Crafts.md, PilotSystem_Technical.md, Items.md
 
 ## Table of Contents
 
@@ -618,17 +622,97 @@ Objects can become disabled through damage, creating escalating vulnerability:
 
 ## Experience & Advancement
 
-**Interception Experience**
-- **Craft Crews**: Gain experience for participation in interception
-- **Base Defenders**: Do NOT gain experience from base defense actions
-- Experience rates based on: Damage dealt, enemies defeated, mission completion
-- Crew experience improves accuracy, damage, and tactical capabilities over time
+**Pilot Experience from Interception**
 
-**Experience Applications**
-- Improved hit chances for veteran crews
-- Increased damage output
-- Reduced weapon cooldowns
-- Better energy management
+In the redesigned system, **pilots** (not crafts) gain experience from interception missions. Pilots are units assigned to crafts as crew, and they progress through pilot-specific ranks based on interception combat.
+
+### Pilot XP Gain
+
+**XP Distribution by Crew Position:**
+
+| Crew Position | XP Multiplier | Role |
+|---------------|---------------|------|
+| **Primary Pilot** | 100% | Controls craft, full XP rewards |
+| **Co-Pilot** | 50% | Assists pilot, half XP rewards |
+| **Crew Member** | 25% | Operates subsystems, quarter XP |
+| **Additional Crew** | 10% | Support roles, minimal XP |
+
+**XP Sources & Amounts:**
+
+| Action | Base Pilot XP | Co-Pilot XP | Crew XP |
+|--------|---------------|-------------|---------|
+| **Mission Participation** | +10 XP | +5 XP | +2 XP |
+| **Kill Enemy Craft** | +50 XP | +25 XP | +12 XP |
+| **Assist in Kill** | +25 XP | +12 XP | +6 XP |
+| **Survive Interception** | +10 XP | +5 XP | +2 XP |
+| **Victory (force retreat)** | +30 XP | +15 XP | +7 XP |
+| **Perfect Victory (no damage)** | +50 XP | +25 XP | +12 XP |
+| **Damage Dealt (per 100)** | +5 XP | +2 XP | +1 XP |
+| **Enemy Detected** | +5 XP | +2 XP | +1 XP |
+
+**Example Interception Mission:**
+```
+Mission: Intercept UFO over urban sector
+Crew: Alice (Pilot), Bob (Co-Pilot), Charlie (Crew)
+
+Actions:
+- UFO detected: +5 XP (pilot), +2 XP (co-pilot), +1 XP (crew)
+- 200 damage dealt: +10 XP (pilot), +5 XP (co-pilot), +2 XP (crew)
+- UFO destroyed: +50 XP (pilot), +25 XP (co-pilot), +12 XP (crew)
+- Perfect victory: +50 XP (pilot), +25 XP (co-pilot), +12 XP (crew)
+
+Total Pilot XP:
+- Alice: 115 Pilot XP
+- Bob: 57 Pilot XP
+- Charlie: 27 Pilot XP
+```
+
+### Pilot Rank Progression
+
+Pilot XP advances pilots through **pilot-specific ranks** (separate from ground combat ranks):
+
+| Rank | Pilot XP Required | Rank Name | Stat Bonuses |
+|------|------------------|-----------|--------------|
+| **0** | 0 | Rookie | Base stats |
+| **1** | 100 | Trained Pilot | Piloting +1 |
+| **2** | 300 | Veteran Pilot | Piloting +2, class specialization |
+| **3** | 600 | Ace Pilot | Piloting +3, special abilities |
+| **4** | 1,000 | Master Pilot | Piloting +4, elite bonuses |
+| **5** | 1,500 | Legendary Pilot | Piloting +5, unique abilities |
+
+**Dual Progression**: Pilots track BOTH pilot XP (from interception) AND ground combat XP (from battlescape) independently. A unit can be Rank 3 Ace Fighter Pilot + Rank 2 Rifleman simultaneously.
+
+### Pilot Stat Improvements
+
+As pilots gain ranks, their **piloting stat** increases, directly improving craft performance:
+
+**Piloting Stat Bonus → Craft Performance:**
+- **Speed**: (Piloting - 6) × 2% bonus
+- **Accuracy**: (Piloting - 6) × 3% bonus
+- **Dodge**: (Piloting - 6) × 2% bonus
+- **Fuel Efficiency**: (Piloting - 6) × 1% bonus
+
+**Example Progression:**
+```
+Rookie Pilot (Piloting 6): +0% bonuses
+Veteran Pilot (Piloting 8): +4% speed, +6% accuracy, +4% dodge
+Ace Pilot (Piloting 10): +8% speed, +12% accuracy, +8% dodge
+Legendary Pilot (Piloting 12): +12% speed, +18% accuracy, +12% dodge
+```
+
+### Crew Experience Benefits
+
+**Veteran Crews Provide:**
+1. **Higher Craft Bonuses**: Better piloting stats = better craft performance
+2. **Special Abilities**: Ace pilots unlock abilities (Evasive Maneuvers, Precision Strike)
+3. **Fatigue Resistance**: Higher-rank pilots resist fatigue better (-10% fatigue per rank)
+4. **Leadership**: Ace pilots provide morale bonuses to crew (+1 morale per rank above 2)
+
+**No Craft Experience**: Crafts themselves do NOT gain experience or ranks. All progression belongs to the pilots operating them. Swapping pilots changes craft performance immediately.
+
+### Base Defenders
+
+**Important Note**: Base defense facilities and their operators do NOT gain pilot XP from base defense actions. Pilot XP is gained only through active craft-based interception missions.
 
 ---
 

@@ -468,3 +468,4 @@ function ShootingSystem:applyCombatIntegration(shootingResult, shooterUnit, targ
 end
 
 return ShootingSystem
+

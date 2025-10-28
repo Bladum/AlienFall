@@ -90,7 +90,7 @@ function DamageTypes.getResistance(armorResistances, damageType)
     if not armorResistances then
         return 1.0  -- No armor = no resistance
     end
-    
+
     return armorResistances[damageType] or DamageTypes.DEFAULT_RESISTANCES[damageType] or 1.0
 end
 
@@ -106,7 +106,7 @@ function DamageTypes.applyResistance(basePower, resistance)
         -- Prevent division by zero, treat as no resistance
         return basePower
     end
-    
+
     return basePower / resistance
 end
 
@@ -157,7 +157,7 @@ function DamageTypes.getColor(damageType)
         fire = {255, 100, 0},         -- Orange-red
         psi = {200, 50, 200}          -- Purple
     }
-    
+
     return colors[damageType] or {255, 255, 255}
 end
 
@@ -172,28 +172,3 @@ function DamageTypes.createDefaultResistances()
 end
 
 return DamageTypes
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

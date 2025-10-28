@@ -51,14 +51,14 @@
 ---@see battlescape.combat.unit For unit system
 ---@see scenes.geoscape_screen For strategic layer
 
-local StateManager = require("core.state_manager")
+local StateManager = require("core.state.state_manager")
 local Widgets = require("gui.widgets.init")
 local Unit = require("battlescape.combat.unit")
 local Team = require("core.team")
 local ActionSystem = require("battlescape.combat.action_system")
 local Pathfinding = require("ai.pathfinding.tactical_pathfinding")
 local LOS = require("battlescape.combat.los_optimized")  -- OPTIMIZED VERSION
-local Assets = require("core.assets")
+local Assets = require("core.assets.assets")
 local View3D = require("battlescape.rendering.view_3d")
 local AnimationSystem = require("battlescape.effects.animation_system")
 
@@ -433,7 +433,7 @@ function Battlescape:initUnits()
     self.units = {}
 
     -- Create spatial hash for O(1) collision detection
-    local SpatialHash = require("core.spatial_hash")
+    local SpatialHash = require("core.spatial.spatial_hash")
     local spatialHash = SpatialHash.new(MAP_WIDTH, MAP_HEIGHT, 10)  -- 10x10 cell size
 
     -- Helper function to find valid spawn position using spatial hash
@@ -2382,3 +2382,7 @@ function Battlescape:applySpecialSkill(unit, skill, tileX, tileY)
 end
 
 return Battlescape
+
+
+
+

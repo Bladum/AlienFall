@@ -59,6 +59,7 @@ local Widgets = require("gui.widgets.init")
 local Tilesets = require("battlescape.data.tilesets")
 local MapBlockLoader = require("battlescape.maps.mapblock_loader_v2")
 
+---@class MapEditor
 local MapEditor = {}
 MapEditor.__index = MapEditor
 

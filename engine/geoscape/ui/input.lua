@@ -29,7 +29,7 @@
 ---
 ---@see geoscape.world.world_state For game state
 
-local StateManager = require("core.state_manager")
+local StateManager = require("core.state.state_manager")
 
 local GeoscapeInput = {}
 
@@ -80,6 +80,8 @@ function GeoscapeInput:wheelmoved(x, y)
 end
 
 return GeoscapeInput
+
+
 
 
 

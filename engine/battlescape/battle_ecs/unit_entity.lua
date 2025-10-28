@@ -71,11 +71,11 @@ local UnitEntity = {}
 -- @return table: Unit entity with all components
 function UnitEntity.new(params)
     params = params or {}
-    
+
     local unit = {
         id = params.id or ("unit_" .. tostring(love.timer.getTime())),
         name = params.name or "Soldier",
-        
+
         -- Components
         transform = Transform.new(params.q or 0, params.r or 0, params.facing or 0),
         movement = Movement.new(params.maxAP or 10, params.moveCost or 2, params.turnCost or 1),
@@ -83,12 +83,12 @@ function UnitEntity.new(params)
         health = Health.new(params.maxHP or 100, params.armor or 0),
         team = TeamComponent.new(params.teamId or 1, params.teamName)
     }
-    
+
     -- Additional properties
     unit.sprite = params.sprite or nil
     unit.weapons = params.weapons or {}
     unit.inventory = params.inventory or {}
-    
+
     return unit
 end
 
@@ -164,37 +164,12 @@ function UnitEntity.deserialize(data)
         armor = data.armor,
         maxAP = data.maxAP
     })
-    
+
     -- Restore current state
     unit.health.currentHP = data.currentHP or data.maxHP
     unit.movement.currentAP = data.currentAP or data.maxAP
-    
+
     return unit
 end
 
 return UnitEntity
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

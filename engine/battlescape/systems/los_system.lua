@@ -1,83 +1,20 @@
----Line of Sight (LOS) System - Vision & Fog of War
+---Line of Sight (LOS) System - Vision & Fog of War (Vertical Axial Hex)
 ---
 ---Implements hex-based line of sight using shadowcasting algorithm for tactical combat.
----Tracks visible tiles per unit, supports multi-level vision with height advantages,
----obstacle blocking, fog of war per team, and distance limits based on time of day.
+---Uses UNIVERSAL VERTICAL AXIAL coordinate system for all visibility calculations.
 ---
----Vision Algorithm:
----  - Shadowcasting: Optimized hex-grid shadowcasting for 360° vision
----  - Performance: O(n) where n = vision radius tiles (typically 10-20 hexes)
----  - Incremental: Only recalculates when units move or obstacles change
----  - Multi-Threaded: Can run vision calculations in parallel for multiple units
+---COORDINATE SYSTEM: Vertical Axial (Flat-Top Hexagons)
+---  - All positions use axial coordinates {q, r}
+---  - LOS calculation: HexMath.hexLine(q1, r1, q2, r2)
+---  - Vision range: HexMath.hexesInRange(q, r, radius)
+---  - Distance: HexMath.distance(q1, r1, q2, r2)
 ---
----Fog of War System:
----  - Per-Team: Each team has independent fog of war state
----  - Three States: Unknown (black), Explored (gray), Visible (full color)
----  - Persistent: Explored areas remain visible even when out of sight
----  - Shared Vision: Friendly units share vision within same team
----
----Height-Based Vision:
----  - High Ground Advantage: Units on higher elevation see farther
----  - Look Down: Can see over low obstacles when higher
----  - Elevation Bonus: +2 vision range per level above target
----  - Climb Penalty: Cannot see through vertical surfaces (cliffs, walls)
----
----Obstacle Blocking:
----  - Full Block: Walls, thick trees, large rocks (blocks LOS completely)
----  - Partial Block: Light cover, vegetation (+2 sight cost, doesn't block)
----  - Transparent: Windows, chain-link fence (visible but provides cover)
----  - Dynamic: Destroyed obstacles update LOS immediately
----
----Vision Range by Conditions:
----  - Day (Full Sun): 20 hex base vision range
----  - Overcast/Dusk: 15 hex base vision range
----  - Night (Moon): 10 hex base vision range
----  - Night (Dark): 5 hex base vision range
----  - Flashlight/Flare: +8 hex temporary bonus
----
----Unit Vision Modifiers:
----  - Base Vision: 20 hexes for humans in daylight
----  - Keen Eyes Trait: +5 hex vision range
----  - Night Vision Goggles: Ignore night penalties
----  - Smoke/Fog: -50% vision range in affected tiles
----  - Blinded Status: 2 hex vision range only
----
----Key Exports:
----  - calculateLOS(unit): Calculates visible tiles for unit
----  - isVisible(unit, targetTile): Checks if tile is visible to unit
----  - getVisibleUnits(unit): Returns all enemy units in LOS
----  - updateFogOfWar(team): Updates fog state for entire team
----  - hasLOS(fromTile, toTile): Raycasts LOS between two tiles
----  - getVisionRange(unit): Returns effective vision radius
----
----Performance Optimizations:
----  - Tile Caching: Caches shadowcast results until unit moves
----  - Distance Culling: Skips tiles beyond max vision range
----  - Dirty Flags: Only recalculates changed areas
----  - Spatial Hashing: Fast lookup of units in vision cone
----
----Integration:
----  - Works with movement_system.lua to trigger LOS updates
----  - Uses height map for elevation-based vision
----  - Integrates with cover_system.lua for obstacle data
----  - Connects to ui renderer for fog of war display
+---DESIGN REFERENCE: design/mechanics/hex_vertical_axial_system.md
 ---
 ---@module battlescape.systems.los_system
----@author AlienFall Development Team
----@copyright 2025 AlienFall Project
----@license Open Source
----
----@usage
----  local LOSSystem = require("battlescape.systems.los_system")
----  LOSSystem.calculateLOS(unit)
----  if LOSSystem.isVisible(unit, targetTile) then
----      -- Unit can see target
----      local visibleEnemies = LOSSystem.getVisibleUnits(unit)
----  end
----
----@see battlescape.systems.cover_system For obstacle blocking data
----@see battlescape.rendering.renderer For fog of war rendering
+---@see engine.battlescape.battle_ecs.hex_math For hex mathematics
 
+local HexMath = require("engine.battlescape.battle_ecs.hex_math")
 local LOSSystem = {}
 
 -- Configuration
@@ -439,6 +376,7 @@ function LOSSystem.visualizeVision(unitId)
 end
 
 return LOSSystem
+
 
 
 

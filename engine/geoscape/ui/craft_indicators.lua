@@ -328,3 +328,4 @@ function CraftIndicators:deserialize(state)
 end
 
 return CraftIndicators
+

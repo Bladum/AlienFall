@@ -29,6 +29,42 @@ Analytics enables data-driven game design through continuous feedback loops. Rat
 
 ---
 
+## Implementation Status
+
+### ✅ Implemented (in engine/analytics/)
+
+**Core Analytics System (`engine/analytics/analytics_system.lua`)**
+- Session tracking with unique IDs, start/end times, and duration
+- Game statistics collection (missions, casualties, kills, completion rates)
+- Economy statistics (income, expenses, funding history)
+- Combat statistics (shots, hits, damage dealt/received)
+- Unit performance tracking (kills, deaths, accuracy, damage)
+- Mission analytics (success rates, time taken, difficulty)
+- Research and technology progress tracking
+- Base facility and construction statistics
+- Data export functionality for external analysis
+
+**Statistics Categories**
+- **Session Metrics**: Game time, version tracking, platform data
+- **Mission Metrics**: Success/failure rates, completion times, difficulty analysis
+- **Combat Metrics**: Accuracy, damage, casualty tracking
+- **Economic Metrics**: Income/expense tracking, funding history
+- **Unit Metrics**: Individual performance, class effectiveness
+- **Progress Metrics**: Research completion, base development
+
+### 🚧 Partially Implemented
+- Real-time metrics aggregation
+- Custom analytics queries
+- Cross-session player progression
+
+### 📋 Planned
+- Autonomous AI simulation system
+- Parquet/SQL database integration
+- Machine learning pattern recognition
+- Performance bottleneck identification
+
+---
+
 ## Architecture
 
 ### Data Flow
@@ -633,60 +669,6 @@ end
 
 ---
 
-## Implementation Status
-
-### IN DESIGN (Implemented Systems)
-
-**Core Analytics System (`engine/analytics/analytics_system.lua`)**
-- Session tracking with unique IDs, start/end times, and duration
-- Game statistics collection (missions, casualties, kills, completion rates)
-- Economy statistics (income, expenses, funding history)
-- Combat statistics (shots, hits, damage dealt/received)
-- Unit performance tracking (kills, deaths, accuracy, damage)
-- Mission analytics (success rates, time taken, difficulty)
-- Research and technology progress tracking
-- Base facility and construction statistics
-- Data export functionality for external analysis
-
-**Statistics Categories**
-- **Session Metrics**: Game time, version tracking, platform data
-- **Mission Metrics**: Success/failure rates, completion times, difficulty analysis
-- **Combat Metrics**: Accuracy, damage, casualty tracking
-- **Economic Metrics**: Income/expense tracking, funding history
-- **Unit Metrics**: Individual performance, class effectiveness
-- **Progress Metrics**: Research completion, base development
-
-### FUTURE IDEAS (Not Yet Implemented)
-
-**Autonomous Simulation System**
-- AI-driven gameplay simulation for testing and balancing
-- Automated campaign runs with statistical analysis
-- Performance benchmarking against baseline metrics
-- Regression testing through automated playthroughs
-
-**Advanced Data Processing**
-- Real-time metrics aggregation and alerting
-- Custom analytics queries and reporting
-- Predictive modeling for player behavior
-- Machine learning integration for pattern recognition
-
-**Data Persistence & Storage**
-- Parquet/SQL database integration for large-scale data storage
-- Time-series data analysis and trending
-- Historical data archiving and retrieval
-- Cross-session analytics and player progression tracking
-
-**Performance Monitoring**
-- FPS tracking and performance bottleneck identification
-- Memory usage analysis and leak detection
-- Load time monitoring and optimization insights
-- System resource utilization tracking
-
-**Advanced Analytics Features**
-- Player behavior segmentation and clustering
-- Balance validation through statistical testing
-- Design iteration support with A/B testing frameworks
-- Custom event tracking and funnel analysis
 
 ---
 

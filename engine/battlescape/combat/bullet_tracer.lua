@@ -221,3 +221,4 @@ function BulletTracer:getActiveCount()
 end
 
 return BulletTracer
+

@@ -43,7 +43,7 @@
 ---@see geoscape.world.world For world entity
 ---@see geoscape.geography.province For province system
 
-local StateManager = require("core.state_manager")
+local StateManager = require("core.state.state_manager")
 local Widgets = require("gui.widgets.init")
 
 local GeoscapeLogic = {}
@@ -135,6 +135,8 @@ function GeoscapeLogic:update(dt)
 end
 
 return GeoscapeLogic
+
+
 
 
 

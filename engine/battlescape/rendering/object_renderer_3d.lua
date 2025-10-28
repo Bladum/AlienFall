@@ -25,7 +25,7 @@
 ---Dependencies:
 ---  - require("battlescape.rendering.billboard"): Billboard rendering system
 ---  - require("battlescape.combat.los_system"): Line-of-sight calculations
----  - require("core.assets"): Asset management for sprites
+---  - require("core.assets.assets"): Asset management for sprites
 ---
 ---@module battlescape.rendering.object_renderer_3d
 ---@author AlienFall Development Team
@@ -168,6 +168,8 @@ function ObjectRenderer3D:blocksMovement(objectId)
 end
 
 return ObjectRenderer3D
+
+
 
 
 

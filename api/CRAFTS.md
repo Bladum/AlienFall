@@ -78,17 +78,19 @@ Craft = {
   cargo = ItemStack[],            -- Equipment cargo
   cargo_capacity = number,        -- Max weight in kg
 
-  -- Crew
-  crew = Unit[],                  -- Assigned personnel
-  crew_capacity = number,         -- Max crew size
-  capacity = number,              -- Max crew size
-
-  -- Progression
-  experience = number,            -- Combat experience
-  rank = number,                  -- 0-6 (promotion ranks)
-  kills = number,                 -- Total kills (UFO/enemy)
-  missions_flown = number,        -- Total missions
-  distance_traveled = number,     -- Total hex distance
+  -- Crew System (NEW - replaces experience/rank)
+  crew = number[],                -- Array of Unit IDs assigned as crew
+  required_pilots = number,       -- Minimum pilots needed to operate (1-4)
+  crew_capacity = number,         -- Maximum crew size (1-8)
+  crew_bonuses = {                -- Calculated from crew stats
+    speed_bonus = number,         -- % bonus to speed
+    accuracy_bonus = number,      -- % bonus to weapon accuracy
+    dodge_bonus = number,         -- % bonus to dodge chance
+    initiative_bonus = number,    -- Initiative bonus
+    sensor_bonus = number,        -- Sensor range bonus
+    fuel_efficiency = number,     -- % fuel efficiency
+  },
+  can_launch = boolean,           -- True if minimum crew assigned
 
   -- Customization
   addons = Addon[],               -- Installed upgrades
@@ -129,23 +131,26 @@ craft:getMovementRange() → number  -- Max hexes can travel
 -- Fuel management
 craft:getFuel() → number
 craft:getFuelCapacity() → number
-craft:getFuelPercent() → number  -- 0-100 (0.0-1.0 ratio, alias for getFuelPercentage())
-craft:getFuelPercentage() → number  -- 0-1.0 ratio (engine implementation)
+craft:getFuelPercentage() → number  -- 0.0-1.0 ratio (primary method)
+craft:getFuelPercent() → number  -- 0.0-1.0 ratio (alias for getFuelPercentage)
 craft:consumeFuel(amount) → void
 craft:refuelCraft(amount) → bool
 craft:refuelFull() → bool
 craft:needsRefuel() → bool
 
+-- Note: Despite "Percentage" name, both methods return 0.0-1.0 ratio, not 0-100.
+-- For UI display: local displayPercent = craft:getFuelPercentage() * 100
+
 -- Health & Damage
 craft:getHP() → number
 craft:getMaxHP() → number
-craft:getHPPercent() → number
-craft:getHealthPercent() → number (0.0-1.0)
+craft:getHPPercent() → number  -- 0-100 percentage
+craft:getHealthPercent() → number  -- 0.0-1.0 ratio
 craft:takeDamage(amount, damageType) → void
 craft:repairDamage(amount) → void
 craft:repairFull() → bool
 craft:repair(amount: number) → (remaining_damage: number)
-craft:getDamagePercentage() → number
+craft:getDamagePercentage() → number  -- 0-100 percentage
 craft:isOperational() → bool
 craft:canRepair(facility) → bool
 
@@ -167,29 +172,40 @@ craft:getCargoWeight() → number
 craft:getCargoCapacity() → number
 craft:canAddCargo(item, quantity) → bool
 
--- Crew management
-craft:assignCrew(unit) → bool
-craft:addUnit(unit: Unit) → boolean
-craft:removeCrew(unitId) → bool
-craft:removeUnit(unit_id: string) → void
-craft:getCrew() → Unit[]
-craft:getUnits() → Unit[]
-craft:getCrewCount() → number
-craft:getCrewCapacity() → number
-craft:getAvailableCapacity() → number
-craft:canAddCrew(unit) → bool
+-- Crew Management (NEW - pilot assignment system)
+craft:assignCrew(unitId: string, role: string) → boolean  -- Assign unit to crew position
+craft:removeCrew(unitId: string) → boolean  -- Remove unit from crew
+craft:getCrew() → number[]  -- Get array of crew member unit IDs
+craft:getCrewMembers() → Unit[]  -- Get array of Unit objects
+craft:getCrewCount() → number  -- Current crew size
+craft:getCrewCapacity() → number  -- Maximum crew capacity
+craft:getRequiredPilots() → number  -- Minimum pilots needed
+craft:hasRequiredCrew() → boolean  -- Check if minimum crew assigned
+craft:canLaunch() → boolean  -- Check if craft can launch (crew + fuel + status)
+craft:getCrewBonuses() → table  -- Get calculated stat bonuses from crew
+craft:calculateCrewBonuses() → void  -- Recalculate crew bonuses (called when crew changes)
+craft:getCrewRole(unitId: string) → string | nil  -- Get role of crew member ("pilot", "co-pilot", "crew")
+craft:isCrewFull() → boolean  -- Check if crew at capacity
+craft:canAddCrewMember(unitId: string) → (boolean, string)  -- Check if unit can be added (returns success, error msg)
+
+-- Crew Bonus Calculation (internal)
+craft:_calculateCrewPosition(unitId: string, position: number) → table  -- Calculate bonus from crew member at position
+craft:_applyFatigueModifier(bonuses: table, averageFatigue: number) → table  -- Apply fatigue penalty
+
+-- Passenger Management (separate from crew)
+craft:addPassenger(unit: Unit) → boolean  -- Add unit as passenger (not crew)
+craft:removePassenger(unit_id: string) → void  -- Remove passenger
+craft:getPassengers() → Unit[]  -- Get transported units
+craft:getPassengerCount() → number  -- Current passengers
+craft:getPassengerCapacity() → number  -- Max passengers (different from crew)
 
 -- Missions & Combat
 craft:startInterception(target) → InterceptionSession
 craft:startMission(mission) → bool
 craft:returnToBase() → bool
-craft:getStats() → {missions, kills, distance, hp, fuel, crew}
+craft:getStats() → {missions, distance, hp, fuel, crew_count}  -- Note: kills removed (tracked per pilot now)
 
--- Experience & Progression
-craft:gainExperience(amount: number) → void
-craft:promote() → boolean (on rank-up threshold)
-craft:getRank() → number
-craft:recordKill(kill_type: string) → void
+-- NO EXPERIENCE/RANK FUNCTIONS (removed - pilots have XP, not crafts)
 
 -- Addons & Customization
 craft:installAddon(addon: Addon) → boolean
@@ -983,13 +999,104 @@ end
 
 ---
 
-## Pilot Skill Effects
+## Pilot Bonuses (Simplified System - NEW)
 
-### Pilot System Overview
+**System Redesign** (2025-10-28): The pilot system has been completely simplified.
 
-Pilots are specialized aircraft operators that provide bonuses to craft performance based on their rank and individual stats. The bonus system is **stat-based** rather than skill-based, allowing pilots to contribute across multiple craft attributes through their core aviation stats.
+### New Simple System
 
-### Pilot Rank System
+**Core Principles:**
+- Each craft needs exactly **1 pilot** (any unit)
+- Only the **pilot** provides bonuses (crew/passengers = cargo, zero bonuses)
+- Bonuses based solely on pilot's **Piloting stat** (0-100)
+- No pilot classes, no separate pilot XP, no crew bonuses
+
+**Bonus Formula:**
+```lua
+-- Simple calculation from piloting stat
+local pilot = craft:getPilot() -- Returns unit assigned to pilot slot
+if pilot then
+  local piloting = pilot.piloting or 0
+  craft.dodge_bonus = piloting / 5  -- Convert to percentage
+  craft.accuracy_bonus = piloting / 5
+end
+
+-- Example: Pilot with Piloting 60
+-- Provides +12% dodge, +12% accuracy
+```
+
+**Piloting Stat:**
+- Range: 0-100 (not 6-12 like other stats)
+- Base: 20-40 (random at recruitment)
+- Improves: +1 per 100 XP gained (from ANY source - ground or air)
+- Also improved by: Class bonuses (+10 for Scout), traits, equipment
+
+**Special Abilities** (unlock at thresholds):
+```lua
+if pilot.piloting >= 50 then
+  craft:unlockAbility("evasive_maneuvers") -- +20% dodge for 1 turn, 5 turn cooldown
+end
+if pilot.piloting >= 70 then
+  craft:unlockAbility("precision_strike") -- +30% accuracy for 1 shot, once per battle
+end
+if pilot.piloting >= 90 then
+  craft:unlockAbility("ace_maneuver") -- Perfect dodge for 1 turn, once per battle
+end
+```
+
+**No Crew Bonuses:**
+- Crew members (co-pilots, gunners, etc.) provide ZERO bonuses
+- They are passengers/cargo only
+- Simplifies system dramatically
+
+### Implementation Example
+
+```lua
+-- Assign pilot
+craft:assignPilot(unit) -- unit = any Unit object
+
+-- Calculate bonuses
+function craft:calculateBonuses()
+  local pilot = self:getPilot()
+  if not pilot then
+    self.dodge_bonus = 0
+    self.accuracy_bonus = 0
+    return
+  end
+  
+  -- Only pilot matters
+  local piloting = pilot.piloting or 0
+  self.dodge_bonus = piloting / 5
+  self.accuracy_bonus = piloting / 5
+  
+  -- Crew is ignored (no bonuses)
+end
+
+-- Apply in combat
+function craft:getDodgeChance()
+  return self.base_dodge + self.dodge_bonus
+end
+
+function craft:getWeaponAccuracy()
+  return self.base_accuracy + self.accuracy_bonus
+end
+```
+
+**See:**
+- **[UNITS.md](UNITS.md)** - Units have `piloting` stat
+- **[PILOTS.md](PILOTS.md)** - Deprecated (old complex system archived)
+- **[Design: Pilots.md](../design/mechanics/Pilots.md)** - Complete specification
+
+---
+
+## ⛔ DEPRECATED: Old Pilot System
+
+The following content describes the OLD complex pilot system (multiple pilot classes, dual XP tracking, crew bonuses). This is **obsolete** and should not be used.
+
+<details>
+<summary>Click to view archived pilot system (obsolete)</summary>
+
+### OLD: Pilot Rank System (Obsolete)
 
 Pilots progress through **3 ranks** gained by accumulating experience points during interception missions:
 
@@ -999,70 +1106,11 @@ Pilots progress through **3 ranks** gained by accumulating experience points dur
 | 1 | **Veteran** | 100 | +1 SPEED, +2 AIM, +1 REACTION | Silver |
 | 2 | **Ace** | 300 (cumulative) | +2 SPEED, +4 AIM, +2 REACTION | Gold |
 
-**Rank Progression Example:**
-- New pilot recruits at Rank 0 (Rookie)
-- After 100 XP from 3-4 interception victories → Rank 1 (Veteran)
-- After 200+ more XP → Rank 2 (Ace)
-- Rank bonuses are cumulative (Ace has all Veteran bonuses + additional)
+</details>
 
-### Pilot Bonus Calculation
+---
 
-Pilot bonuses are calculated from **individual pilot stats** using the formula:
-
-```lua
--- Stat-to-bonus formula
-bonus_percent = (pilot_stat - 5) / 100
-
--- Applied to craft attributes:
-craft.speed = craft.base_speed * (1 + bonus_percent)
-craft.accuracy = craft.base_accuracy * (1 + bonus_percent_aim)
-craft.damage = craft.base_damage * (1 + bonus_percent_strength)
-craft.reaction = craft.base_reaction * (1 + bonus_percent_reaction)
-craft.radar_range = craft.base_radar + (bonus_percent_wisdom * 5)
-craft.psi_defense = craft.base_psi_def * (1 + bonus_percent_psi)
-```
-
-### Multi-Pilot Stacking
-
-Crafts with multiple pilot slots (e.g., Avenger with 2 pilots) benefit from stacking bonuses with **diminishing returns**:
-
-```
-First Pilot:  100% of calculated bonus
-Second Pilot: 75% of calculated bonus
-Third Pilot:  50% of calculated bonus (if supported)
-
-Example: 2 Ace pilots with SPEED 10
-- Pilot 1: (10-5)/100 = 5% speed bonus
-- Pilot 2: (10-5)/100 * 0.75 = 3.75% speed bonus
-- Total: 8.75% speed bonus to craft
-```
-
-### Pilot Stat Mapping
-
-Each pilot stat maps to specific craft attributes:
-
-| Pilot Stat | Craft Attribute | Impact |
-|-----------|-----------------|--------|
-| **SPEED** | Craft Speed | Flight velocity, engagement speed |
-| **AIM** | Weapon Accuracy | Craft weapon hit chance |
-| **REACTION** | Dodge/Evasion | Dodge incoming fire |
-| **STRENGTH** | Damage Output | Weapon damage per shot |
-| **ENERGY** | Fuel Efficiency | Range extension (lower consumption) |
-| **WISDOM** | Radar Range | Detection distance bonus |
-| **PSI** | Psi Defense | Resistance to psychic attacks |
-
-### Pilot Requirements and Craft Assignments
-
-Each craft type requires specific pilot capabilities and has limited pilot slots. Pilots must meet minimum requirements to be assigned to a craft.
-
-**Craft Capacity System (3-Tier Distribution):**
-
-Each craft has three capacity categories:
-- **Pilots**: Flight crew slots (1-2 pilots per craft)
-- **Crew**: Combat troops/passengers (1-10 soldiers/scientists)
-- **Cargo**: Equipment storage (10-100 kg capacity)
-
-**Example Capacity Configurations:**
+## Craft Capacity System
 
 ```toml
 # Lightning Interceptor - Single pilot fighter

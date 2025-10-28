@@ -1,411 +1,513 @@
-# XCOM Simple - Development Tools
+# Tools - Development Utilities & Automation
 
-Collection of standalone utilities for managing game assets, validating code, and editing game content. Each tool is independent but designed to work together for a complete development workflow.
-
-## Quick Navigation
-
-Looking for a specific tool? Jump to its documentation:
-
-- 🗺️ **[Map Editor](map_editor/README.md)** - Create and edit tactical maps
-- ✅ **[Asset Verification](asset_verification/README.md)** - Verify all game assets exist
-- 🎨 **[Spritesheet Generator](spritesheet_generator/README.md)** - Create sprite sheets
-- 🔍 **[Import Scanner](import_scanner/README.md)** - Validate Lua requires
-- 📚 **[Docs Validator](docs_validator/README.md)** - Verify documentation links
+**Purpose:** Development tools for validation, generation, and automation  
+**Audience:** Developers, content creators, AI agents  
+**Status:** Active development  
+**Last Updated:** 2025-10-28
 
 ---
 
-## Tool Overview
+## 📋 Table of Contents
 
-### 1. Map Editor 🗺️
-
-Visual editor for creating and modifying tactical maps.
-
-**Purpose:**
-- Create new maps for missions
-- Edit existing mapblocks
-- Design landing zones and spawn points
-- Test tileset configurations
-- Generate map variants
-
-**Quick Start:**
-```bash
-# From project root
-tools\map_editor\run_map_editor.bat
-
-# Or with Love2D
-lovec tools/map_editor
-```
-
-**Features:**
-- Tileset browser with preview
-- Multiple editing tools (paint, fill, erase, select)
-- Real-time statistics
-- Save/load map files
-- Grid overlay and zoom
-- Keyboard shortcuts
-
-**See:** `map_editor/README.md` for detailed usage guide
+- [Overview](#overview)
+- [Folder Structure](#folder-structure)
+- [Available Tools](#available-tools)
+- [How to Use](#how-to-use)
+- [AI Agent Instructions](#ai-agent-instructions)
+- [Quick Reference](#quick-reference)
 
 ---
 
-### 2. Asset Verification (`asset_verification/`)
+## Overview
 
-Utility for verifying game assets and creating placeholders.
+The `tools/` folder contains **development utilities** for validation, content generation, quality assurance, and workflow automation.
 
-**Purpose:**
-- Verify all TOML references have corresponding assets
-- Report missing images/sounds
-- Auto-generate placeholder images
-- Prevent runtime errors from missing files
-- CI/CD integration
-
-**Quick Start:**
-```bash
-# From project root
-tools\asset_verification\run_asset_verification.bat
-
-# Or with Love2D
-lovec tools/asset_verification
-```
-
-**Features:**
-- Scans all TOML files (terrains, units, items, tilesets)
-- Reports missing assets with file paths
-- Creates placeholder images (optional)
-- Console output for CI/CD
-- Comprehensive verification report
-
-**See:** `asset_verification/README.md` for detailed usage guide
+**Core Purpose:**
+- Validate TOML against schemas
+- Generate code scaffolding
+- Verify assets and documentation
+- Automate repetitive tasks
+- Ensure quality standards
 
 ---
 
-### 3. Documentation Cross-Reference Validator
-
-Standalone utility for validating documentation-to-code links.
-
-**Purpose:**
-- Verify all documentation implementation links point to existing files
-- Detect broken documentation references
-- Identify incomplete implementations referenced in docs
-- Generate cross-reference audit report
-- Maintain design-code synchronization
-
-**Quick Start:**
-```bash
-# Windows (PowerShell version - recommended)
-tools\validate_docs_links.ps1
-
-# Cross-platform (Lua version)
-lovec tools/validate_docs_links.lua
-```
-
-**Features:**
-- Scans all markdown files in `docs/` directory recursively
-- Extracts implementation links: `> **Implementation**: \`path/to/file\``
-- Categorizes results: valid links, broken links, vague links (with wildcards)
-- Generates detailed report: `validate_docs_links_report.txt`
-- Console output with color-coded results (green/red/yellow)
-- No dependencies on Love2D (pure Lua/PowerShell script)
-
-**Output Report Includes:**
-```
-Total links found: 47
-Valid links: 43 ✓
-Broken links: 3 ✗
-Vague links: 1 ⚠
-
-Broken Links:
-  Line 45: engine/core/old_module.lua (file not found)
-  Line 67: engine/ui/missing_widget.lua (file not found)
-
-Vague Links (wildcards):
-  Line 12: engine/**/*.lua (multiple matches)
-```
-
-**Best Used:**
-- After major documentation updates
-- During code review to verify docs are up-to-date
-- As part of CI/CD validation pipeline
-- Weekly validation during active development
-
-**See:** `docs/mods/CROSS_REFERENCE_AUDIT_GUIDE.md` for comprehensive validation standards and audit process
-
----
-
-## Architecture
-
-Each tool is a **standalone Love2D application** that:
-1. Has its own `main.lua` and `conf.lua`
-2. References engine code via `package.path`
-3. Can be run independently with `lovec tools/[tool_name]`
-4. Includes batch file for quick launch
-
-### Directory Structure
+## Folder Structure
 
 ```
 tools/
-├── README.md                    -- This file
-├── validate_docs_links.ps1      -- PowerShell cross-reference validator
-├── validate_docs_links.lua      -- Lua cross-reference validator (cross-platform)
-├── map_editor/
-│   ├── main.lua                 -- Map editor entry point
-│   ├── conf.lua                 -- Love2D configuration
-│   ├── run_map_editor.bat       -- Quick launch
-│   └── README.md                -- Map editor guide
-└── asset_verification/
-    ├── main.lua                 -- Verification entry point
-    ├── conf.lua                 -- Love2D configuration
-    ├── run_asset_verification.bat -- Quick launch
-    └── README.md                -- Verification guide
+├── README.md                          ← This file
+│
+├── validators/                        ← Validation Tools
+│   ├── toml_validator.lua
+│   └── schema_validator.lua
+│
+├── generators/                        ← Code Generators
+│   ├── test_scaffolder.lua
+│   └── content_generator.lua
+│
+├── asset_verification/                ← Asset Verification
+│   ├── verify_assets.lua
+│   └── create_placeholders.lua
+│
+├── spritesheet_generator/             ← Spritesheet Generator
+│   └── generate_spritesheet.lua
+│
+├── map_editor/                        ← Map Editor
+│   └── map_editor.lua
+│
+├── world_editor/                      ← World Editor
+│   └── world_editor.lua
+│
+├── import_scanner/                    ← Import Scanner
+│   └── scan_imports.lua
+│
+├── docs_validator/                    ← Documentation Validator
+│   └── validate_docs.lua
+│
+├── qa_system/                         ← Quality Assurance
+│   └── qa_checks.lua
+│
+└── [Utility Scripts]
+    ├── hex_migration_helper.lua
+    └── log_cleanup.lua
 ```
-
-### How Tools Access Engine Code
-
-**Package Path Setup:**
-Each tool's `main.lua` adds the engine directory to Lua's search path:
-
-```lua
--- Add engine directory to Lua path for require() to work
-package.path = package.path .. ";../../engine/?.lua;../../engine/?/init.lua"
-
--- Now can require engine modules
-local MapEditor = require("battlescape.ui.map_editor")
-local ModManager = require("core.mod_manager")
-```
-
-This allows tools to:
-- Use engine widgets and UI components
-- Access game data structures
-- Load tilesets and assets
-- Use utility functions
-- Share code with main game
-
-**Benefits:**
-- No code duplication
-- Tools stay in sync with engine changes
-- Centralized widget system
-- Consistent UI/UX across tools
 
 ---
 
-## Running Tools
+## Available Tools
 
-### Method 1: Batch Files (Easiest)
+| Tool | Purpose | Usage |
+|------|---------|-------|
+| **toml_validator** | Validate TOML | `lovec tools/validators toml_validator.lua [file]` |
+| **test_scaffolder** | Generate tests | `lovec tools/generators test_scaffolder.lua [module]` |
+| **verify_assets** | Check assets | `lovec tools/asset_verification verify_assets.lua` |
+| **map_editor** | Visual map editor | `lovec tools/map_editor` |
+| **world_editor** | Edit provinces | `lovec tools/world_editor` |
+| **import_scanner** | Validate imports | `lovec tools/import_scanner` |
+| **docs_validator** | Check docs | `lovec tools/docs_validator` |
+| **qa_checks** | QA automation | `lovec tools/qa_system` |
+| **spritesheet_generator** | Generate atlases | `lovec tools/spritesheet_generator` |
 
-Each Love2D tool has a `.bat` file for quick launch:
+**Total:** 9 main tools + utility scripts
+
+---
+
+## How to Use
+
+### For Developers
+
+**Validating TOML:**
 ```bash
-tools\map_editor\run_map_editor.bat
-tools\asset_verification\run_asset_verification.bat
+lovec tools/validators toml_validator.lua mods/my_mod/rules/units/my_unit.toml
 ```
 
-Script tools run directly:
+**Generating Tests:**
 ```bash
-# PowerShell (Windows - recommended)
-tools\validate_docs_links.ps1
-
-# Or from PowerShell terminal:
-powershell -ExecutionPolicy Bypass -File tools\validate_docs_links.ps1
+lovec tools/generators test_scaffolder.lua engine/core/state_manager.lua
+# Creates: tests2/core/state_manager_test.lua
 ```
 
-### Method 2: Love2D Command
+**Verifying Assets:**
+```bash
+lovec tools/asset_verification verify_assets.lua
+# Reports missing assets
+```
 
-Run Love2D tools directly with `lovec`:
+### For Content Creators
+
+**Map Editor:**
 ```bash
 lovec tools/map_editor
-lovec tools/asset_verification
+# Visual tactical map creation
 ```
 
-### Method 3: Lua Standalone
-
-Run Lua validator on any platform:
+**World Editor:**
 ```bash
-# Requires Lua 5.1+ installed
-lua tools/validate_docs_links.lua
-
-# Or from Love2D:
-lovec tools/validate_docs_links.lua
+lovec tools/world_editor
+# Edit world provinces
 ```
 
-### Method 4: From Root
+---
 
-Tools expect to be run from project root:
+## AI Agent Instructions
+
+### When to Use Tools
+
+| Scenario | Tool | Command |
+|----------|------|---------|
+| **Validate TOML** | toml_validator | `lovec tools/validators toml_validator.lua [file]` |
+| **Generate test** | test_scaffolder | `lovec tools/generators test_scaffolder.lua [module]` |
+| **Check assets** | verify_assets | `lovec tools/asset_verification verify_assets.lua` |
+| **Find broken imports** | import_scanner | `lovec tools/import_scanner` |
+| **QA check** | qa_system | `lovec tools/qa_system` |
+
+### Tool Workflows
+
+**Creating Content:**
+```
+1. Create TOML
+2. Validate: lovec tools/validators toml_validator.lua [file]
+3. Create assets
+4. Verify: lovec tools/asset_verification verify_assets.lua
+5. Test in game
+```
+
+**Creating Module:**
+```
+1. Create module
+2. Generate test: lovec tools/generators test_scaffolder.lua [module]
+3. Fill test template
+4. Run: lovec "tests2/runners" run_single_test [test]
+```
+
+---
+
+## Quick Reference
+
+### Essential Tools
+
+| Tool | Purpose |
+|------|---------|
+| `toml_validator` | TOML validation |
+| `test_scaffolder` | Test generation |
+| `verify_assets` | Asset checking |
+| `import_scanner` | Import validation |
+| `qa_system` | Quality assurance |
+
+### Quick Commands
+
 ```bash
-cd c:\Users\tombl\Documents\Projects
-lovec tools/map_editor
-tools\validate_docs_links.ps1
+# Validate TOML
+lovec tools/validators schema_validator.lua
+
+# Generate test
+lovec tools/generators test_scaffolder.lua engine/core/[module].lua
+
+# Check assets
+lovec tools/asset_verification verify_assets.lua
+
+# Scan imports
+lovec tools/import_scanner
+
+# QA check
+lovec tools/qa_system
+```
+
+### Related Documentation
+
+- **System Pattern:** [docs/system/06_AUTOMATION_TOOLS_SYSTEM.md](../docs/system/06_AUTOMATION_TOOLS_SYSTEM.md)
+- **QA System:** [api/QA_SYSTEM.md](../api/QA_SYSTEM.md)
+- **Testing:** [tests2/README.md](../tests2/README.md)
+
+---
+
+**Last Updated:** 2025-10-28  
+**Questions:** See individual tool README files or Discord
+# Game Design Documentation
+
+**Purpose:** Define game mechanics, balance parameters, and design decisions  
+**Audience:** Game designers, developers, AI agents, balance testers  
+**Status:** Active development  
+**Last Updated:** 2025-10-28
+
+---
+
+## 📋 Table of Contents
+
+- [Overview](#overview)
+- [Folder Structure](#folder-structure)
+- [Key Features](#key-features)
+- [Content](#content)
+- [Input/Output](#inputoutput)
+- [Relations to Other Modules](#relations-to-other-modules)
+- [Format Standards](#format-standards)
+- [How to Use](#how-to-use)
+- [How to Contribute](#how-to-contribute)
+- [AI Agent Instructions](#ai-agent-instructions)
+- [Good Practices](#good-practices)
+- [Bad Practices](#bad-practices)
+- [Quick Reference](#quick-reference)
+
+---
+
+## Overview
+
+The `design/` folder contains **all game design documentation**, defining mechanics, rules, balance parameters, and design rationale. This is the **first step** in the development workflow: Design → API → Architecture → Engine → Mods → Tests.
+
+**Core Purpose:**
+- Define game mechanics and rules
+- Specify balance parameters and costs
+- Document design decisions and rationale
+- Identify implementation gaps
+- Provide consistent terminology (glossary)
+
+---
+
+## Folder Structure
+
+```
+design/
+├── README.md                          ← This file
+├── DESIGN_TEMPLATE.md                 ← Template for new designs
+├── GLOSSARY.md                        ← Game terminology reference
+│
+├── mechanics/                         ← System Design Specs (25 files)
+│   ├── README.md                     ← Mechanics overview
+│   ├── Overview.md                   ← High-level game design
+│   ├── Geoscape.md, Basescape.md, Battlescape.md
+│   ├── Units.md, Items.md, Crafts.md
+│   ├── Economy.md, Finance.md, Politics.md
+│   └── [other systems]
+│
+├── gaps/                              ← Design-to-Implementation Gap Analysis
+│   └── README.md
+│
+└── ideas/                             ← Future Ideas & Concepts
+    └── [idea files]
 ```
 
 ---
 
-## Development Workflow
+## Key Features
 
-### Adding a New Tool
-
-1. **Create tool directory:**
-   ```bash
-   mkdir tools/new_tool
-   ```
-
-2. **Create conf.lua:**
-   ```lua
-   function love.conf(t)
-       t.title = "XCOM Simple - New Tool"
-       t.console = true
-       -- ... other settings
-   end
-   ```
-
-3. **Create main.lua:**
-   ```lua
-   -- Add engine path
-   package.path = package.path .. ";../../engine/?.lua;../../engine/?/init.lua"
-   
-   -- Require dependencies
-   local SomeModule = require("some.module")
-   
-   -- Tool logic
-   function love.load()
-       -- Initialize
-   end
-   
-   function love.update(dt)
-       -- Update
-   end
-   
-   function love.draw()
-       -- Draw
-   end
-   ```
-
-4. **Create batch file:**
-   ```bat
-   @echo off
-   echo Starting New Tool...
-   "C:\Program Files\LOVE\lovec.exe" "tools\new_tool"
-   ```
-
-5. **Create README.md:**
-   - Purpose and features
-   - Running instructions
-   - Usage guide
-   - Troubleshooting
-
-6. **Update this README:**
-   - Add tool to overview section
-   - Update directory structure
-   - Add to table of contents
-
-### Tool Development Tips
-
-**Console Debugging:**
-- All tools have `t.console = true` in conf.lua
-- Use `print()` for debug output
-- Console window shows errors and stack traces
-
-**Widget System:**
-- All tools can use engine widgets (`require("widgets")`)
-- Use 24×24 grid system for UI layout
-- Toggle grid overlay with F9
-- Check `wiki/API.md` for widget API
-
-**Asset Loading:**
-- Tools can load game assets via Love2D
-- Use `love.filesystem` for file I/O
-- Check paths relative to tool directory
-- Test with both windowed and fullscreen
-
-**Testing:**
-- Test tool launches from batch file
-- Test require() paths work
-- Test with various data files
-- Verify console output
-- Check for memory leaks with long running tools
+- **Comprehensive Mechanics:** 25+ system designs covering all game aspects
+- **Balance Parameters:** Numbers, costs, probabilities, difficulty settings
+- **Design Rationale:** Why decisions were made
+- **Gap Analysis:** Tracks what's designed vs. implemented
+- **Consistent Terminology:** GLOSSARY.md for standard terms
+- **Template System:** DESIGN_TEMPLATE.md for new designs
 
 ---
 
-## Requirements
+## Content
 
-- **Love2D 12.0+** with console support (`lovec.exe`)
-- **Engine code** at `../../engine/` (relative to tool)
-- **Mods folder** at `../../mods/` (for tools that need game data)
-- **Windows** (batch files are Windows-specific, but tools run on all platforms with Love2D)
-
----
-
-## Troubleshooting
-
-### Tool Won't Start
-
-**Problem:** Double-clicking batch file shows error
-
-**Solutions:**
-1. Verify Love2D 12.0+ installed at `C:\Program Files\LOVE\`
-2. Check console window for error messages
-3. Try running with `lovec tools/[tool_name]` from project root
-4. Verify engine/ folder exists
-
-### Require Errors
-
-**Problem:** `module 'some.module' not found`
-
-**Solutions:**
-1. Check package.path setup in main.lua
-2. Verify module exists in engine/ folder
-3. Check for typos in require() statement
-4. Test paths with print(package.path)
-
-### Asset Not Loading
-
-**Problem:** Tool can't find images/sounds
-
-**Solutions:**
-1. Verify asset exists in engine/assets/
-2. Check file path case sensitivity
-3. Use forward slashes (/) in paths
-4. Test with asset verification tool first
-
-### Console Not Showing
-
-**Problem:** Console window doesn't appear
-
-**Solutions:**
-1. Verify using `lovec.exe` not `love.exe`
-2. Check conf.lua has `t.console = true`
-3. On non-Windows, console output goes to terminal
-4. Use `print()` statements to verify code execution
+| Category | Files | Purpose |
+|----------|-------|---------|
+| **Game Layers** | 5 files | Geoscape, Basescape, Battlescape, Interception, 3D |
+| **Core Systems** | 7 files | Units, Items, Crafts, Economy, Finance, Politics, Countries |
+| **Supporting** | 8 files | AI, GUI, Lore, Analytics, Assets, Pilots, HexSystem |
+| **Meta Docs** | 4 files | Integration, Relations, Future, Glossary |
 
 ---
 
-## See Also
+## Input/Output
 
-- **`wiki/API.md`** - Engine API documentation
-- **`wiki/DEVELOPMENT.md`** - Development workflow guide
-- **`wiki/MAP_EDITOR_GUIDE.md`** - Map editing guide
-- **`wiki/TILESET_SYSTEM.md`** - Tileset format documentation
-- **`tests/`** - Test runners and unit tests
-- **`tests/mock/`** - Mock data for testing
+### Inputs
+- Game vision from project goals
+- Player feedback from playtesting
+- Technical constraints from engine
+- Reference games (X-COM)
+- Balance data from `logs/analytics/`
+
+### Outputs
+- Mechanic specs → `api/*.md`
+- System requirements → `architecture/**/*.md`
+- Implementation tasks → `engine/**/*.lua`
+- Content needs → `mods/core/rules/**/*.toml`
+- Test scenarios → `tests2/**/*_test.lua`
 
 ---
 
-## Future Tools
+## Relations to Other Modules
 
-**Planned additions:**
+```
+design/mechanics/*.md → api/*.md → architecture/**/*.md → engine/**/*.lua → mods/ → tests2/
+```
 
-- **Unit Editor** - Visual editor for unit stats, sprites, and animations
-- **Mission Generator** - Procedural mission parameter generator
-- **Save Game Editor** - Edit campaign saves for testing
-- **Performance Profiler** - Analyze game performance and memory usage
-- **Localization Tool** - Manage string translations
-- **Mod Packager** - Package mods for distribution
-- **TOML Schema Validator** - Validate TOML content files against schema
-- **API Endpoint Tester** - Test mod API endpoints and hooks
+| Module | Relationship | Details |
+|--------|--------------|---------|
+| **api/** | Output | Design specs become API contracts |
+| **architecture/** | Output | Design requires technical architecture |
+| **engine/** | Output | Design is implemented in code |
+| **mods/** | Output | Design is configured in TOML |
+| **tests2/** | Output | Design defines test cases |
+| **logs/** | Input | Analytics inform balance decisions |
 
-**Contributing:**
-If you create a new tool:
-1. Follow the structure above
-2. Include comprehensive README
-3. Add batch file for easy launch (if Love2D-based)
-4. Update this document
-5. Document in wiki/DEVELOPMENT.md
-6. For non-Love2D tools: Include PowerShell and/or cross-platform Lua version
-7. Add cross-reference documentation links using `> **Implementation**: \`path/to/file\``
+---
+
+## Format Standards
+
+Use **[DESIGN_TEMPLATE.md](DESIGN_TEMPLATE.md)** for all new designs.
+
+Standard sections:
+- Overview
+- Core Mechanics
+- Rules & Constraints
+- Balance Parameters (in tables)
+- User Interactions
+- Integration Points
+- Design Rationale
+- Examples
+- Future Enhancements
+- See Also (cross-references)
+
+---
+
+## How to Use
+
+### For Game Designers
+
+1. Copy template: `cp DESIGN_TEMPLATE.md mechanics/My_System.md`
+2. Fill all sections (Overview, Mechanics, Balance, Integration)
+3. Add new terms to GLOSSARY.md
+4. Cross-reference with related designs
+
+### For Developers
+
+1. Read design: `cat design/mechanics/[System].md`
+2. Understand mechanics, parameters, integration points
+3. Follow workflow: Design → API → Architecture → Engine → Mods → Tests
+4. Update gap analysis when implemented
+
+### For AI Agents
+
+See [AI Agent Instructions](#ai-agent-instructions) below.
+
+---
+
+## How to Contribute
+
+### Creating New Design
+
+1. Use template: `cp DESIGN_TEMPLATE.md mechanics/[System].md`
+2. Fill all sections (don't skip, mark "TBD" if unknown)
+3. Add new terms to GLOSSARY.md
+4. Update this README (folder structure, content tables)
+5. Cross-reference in related designs
+
+### Updating Existing Design
+
+1. Version properly (semantic versioning)
+2. Document what changed and why
+3. Update balance parameters with reasoning
+4. Keep terminology consistent with GLOSSARY.md
+5. Check downstream: API, architecture, engine, mods
+
+---
+
+## AI Agent Instructions
+
+### When to Read Design
+
+| Scenario | Action |
+|----------|--------|
+| Implementing new feature | Read design FIRST, then API/architecture |
+| Balancing game | Read balance parameters + analytics logs |
+| Understanding system | Read design overview and mechanics |
+| Creating content | Read design for parameters and constraints |
+
+### Design-First Workflow
+
+```
+User asks to implement feature
+    ↓
+1. Check if design exists: ls design/mechanics/*.md
+    ↓
+2a. If exists: Read thoroughly → Proceed to API
+2b. If missing: Create design FIRST → Get review → Then API
+    ↓
+3. Follow: Design → API → Architecture → Engine → Mods → Tests
+    ↓
+4. Update gap analysis when implemented
+```
+
+### Reading Balance Parameters
+
+```markdown
+| Stat | Base Value | Range | Notes |
+|------|------------|-------|-------|
+| Health | 100 | 50-150 | Rookie to Elite |
+
+AI Action:
+1. Extract: health=100
+2. Note range: 50-150
+3. Understand context: "Rookie to Elite" means progression
+4. Apply to implementation
+```
+
+---
+
+## Good Practices
+
+### ✅ Documentation
+- Use DESIGN_TEMPLATE.md
+- Fill all sections
+- Document rationale (why, not just what)
+- Keep balance parameters in tables
+- Version properly
+
+### ✅ Balance Parameters
+- Provide concrete numbers
+- Document why each value chosen
+- Include min/max constraints
+- Reference analytics data
+- Mark experimental values
+
+---
+
+## Bad Practices
+
+### ❌ Documentation
+- Don't skip template sections
+- Don't forget to version changes
+- Don't mix design with implementation details
+- Don't create designs after code is written
+- Don't use inconsistent terminology
+
+### ❌ Balance Parameters
+- Don't use vague terms ("high", "low")
+- Don't skip rationale
+- Don't ignore analytics data
+- Don't hard-code numbers in multiple places
+- Don't balance in isolation
+
+---
+
+## Quick Reference
+
+### Essential Files
+
+| File | Purpose |
+|------|---------|
+| `DESIGN_TEMPLATE.md` | Template for new designs |
+| `GLOSSARY.md` | Game terminology |
+| `mechanics/Overview.md` | High-level game design |
+| `mechanics/Integration.md` | System connections |
+| `gaps/README.md` | Implementation tracking |
+
+### Most Common Designs
+
+| System | File |
+|--------|------|
+| Units | `mechanics/Units.md` |
+| Items | `mechanics/Items.md` |
+| Battlescape | `mechanics/Battlescape.md` |
+| Geoscape | `mechanics/Geoscape.md` |
+| Economy | `mechanics/Economy.md` |
+
+### Quick Commands
+
+```bash
+# Find design
+ls design/mechanics/*.md | grep -i [system]
+
+# Create new design
+cp design/DESIGN_TEMPLATE.md design/mechanics/[New_System].md
+
+# Check term
+grep -i "term" design/GLOSSARY.md
+```
+
+### Related Documentation
+
+- **API:** [api/README.md](../api/README.md) - Contracts from designs
+- **Architecture:** [architecture/README.md](../architecture/README.md) - Technical implementation
+- **Engine:** Implementation of designs
+- **Mods:** [mods/README.md](../mods/README.md) - Content based on designs
+- **Tests:** [tests2/README.md](../tests2/README.md) - Verification
+
+---
+
+**Last Updated:** 2025-10-28  
+**Questions:** See [DESIGN_TEMPLATE.md](DESIGN_TEMPLATE.md) or ask in Discord
+

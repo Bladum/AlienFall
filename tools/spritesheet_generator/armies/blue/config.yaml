@@ -1,0 +1,87 @@
+# Blue Army - Unit Spritesheet Configuration
+# This file defines which graphics to include and how many times to repeat each
+
+army: blue
+name: "Blue Army"
+description: "Blue army units for printing on A4 sheets"
+
+# Print settings
+print:
+  format: "A4"
+  dpi: 300
+  width_px: 2480
+  height_px: 3508
+  margin_px: 50
+  grid:
+    columns: 10
+    rows: 15
+    total_items: 150
+
+# Units to include in spritesheet
+# Format: filename -> repetitions_in_output
+units:
+  - name: "archer"
+    file: "blue_archer.png"
+    repetitions: 20
+    width: 72
+    height: 72
+
+  - name: "balista"
+    file: "blue_balista.png"
+    repetitions: 10
+    width: 72
+    height: 72
+
+  - name: "cavalery"
+    file: "blue_cavalery.png"
+    repetitions: 20
+    width: 72
+    height: 72
+
+  - name: "dragon"
+    file: "blue_dragon.png"
+    repetitions: 10
+    width: 72
+    height: 72
+
+  - name: "footman"
+    file: "blue_footman.png"
+    repetitions: 20
+    width: 72
+    height: 72
+
+  - name: "frog"
+    file: "blue_frog.png"
+    repetitions: 10
+    width: 72
+    height: 72
+
+  - name: "harpy"
+    file: "blue_harpy.png"
+    repetitions: 10
+    width: 72
+    height: 72
+
+  - name: "kraken"
+    file: "blue_kraken.png"
+    repetitions: 10
+    width: 72
+    height: 72
+
+  - name: "pikeman"
+    file: "blue_pikeman.png"
+    repetitions: 20
+    width: 72
+    height: 72
+
+  - name: "worker"
+    file: "blue_worker.png"
+    repetitions: 10
+    width: 72
+    height: 72
+
+  - name: "dog"
+    file: "blue_dog.png"
+    repetitions: 10
+    width: 72
+    height: 72

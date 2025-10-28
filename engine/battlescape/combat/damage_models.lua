@@ -77,7 +77,7 @@ DamageModels.DEFINITIONS = {
         },
         color = {255, 255, 100}  -- Yellow
     },
-    
+
     -- HURT: Standard lethal damage to health pool
     -- This is the traditional combat damage that can kill units
     hurt = {
@@ -97,7 +97,7 @@ DamageModels.DEFINITIONS = {
         },
         color = {255, 50, 50}  -- Red
     },
-    
+
     -- MORALE: Direct attack on unit's will to fight
     -- Used by fear effects, intimidation, psionic attacks
     morale = {
@@ -117,7 +117,7 @@ DamageModels.DEFINITIONS = {
         },
         color = {200, 50, 200}  -- Purple
     },
-    
+
     -- ENERGY: Drains stamina/energy reserves
     -- Used by exhaustion effects, energy weapons, draining attacks
     energy = {
@@ -175,7 +175,7 @@ function DamageModels.getRecoveryRate(modelName, statType)
     if not model then
         return 0
     end
-    
+
     -- Map stat type to appropriate recovery
     if statType == "stun" and modelName == "stun" then
         return model.effects.recoveryPerTurn
@@ -184,7 +184,7 @@ function DamageModels.getRecoveryRate(modelName, statType)
     elseif statType == "energy" and modelName == "energy" then
         return model.effects.recoveryPerTurn
     end
-    
+
     return 0
 end
 
@@ -242,7 +242,7 @@ function DamageModels.getInfo(modelName)
     if not model then
         return nil
     end
-    
+
     return {
         name = model.name,
         description = model.description,
@@ -261,17 +261,17 @@ end
         100 damage → 100 stun, 0 health, 10 morale loss
         Unit falls unconscious but survives
         Recovers 2 stun per turn
-        
+
     HURT MODEL (Rifle):
         100 damage → 75 health, 25 stun, moderate morale loss
         Unit takes permanent damage
         Can die if health reaches 0
-        
+
     MORALE MODEL (Fear Gas):
         100 damage → 0 health, 0 stun, 100 morale loss
         Unit panics or goes berserk
         Recovers 5 morale per turn
-        
+
     ENERGY MODEL (Exhaustion Ray):
         100 damage → 0 health, 20 stun, 80 energy drain
         Unit becomes exhausted, loses AP/EP
@@ -279,28 +279,3 @@ end
 ]]
 
 return DamageModels
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

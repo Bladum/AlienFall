@@ -366,3 +366,4 @@ function View3D:shoot3D(screenX, screenY, shootingUnit, targetSystem, losSystem,
 end
 
 return View3D
+

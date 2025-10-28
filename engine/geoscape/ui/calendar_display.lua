@@ -200,3 +200,4 @@ function CalendarDisplay:deserialize(state)
 end
 
 return CalendarDisplay
+

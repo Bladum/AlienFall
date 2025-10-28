@@ -14,22 +14,22 @@ MoraleSystem.CONFIG = {
     -- AP Modifier thresholds
     AP_MODIFIER_THRESHOLD_2 = 2,  -- When morale/sanity = 2: -1 AP
     AP_MODIFIER_THRESHOLD_1 = 1,  -- When morale/sanity = 1: -2 AP
-    
+
     -- Stress event morale loss
     ALLY_DEATH_MORALE_LOSS = 1,  -- -1 morale when ally dies nearby
     CRITICAL_HIT_MORALE_LOSS = 1,  -- -1 morale when critically hit
-    
+
     -- Sanity loss per mission (post-battle)
     SANITY_LOSS_STANDARD = 0,     -- Standard difficulty
-    SANITY_LOSS_MODERATE = 1,     -- Moderate difficulty  
+    SANITY_LOSS_MODERATE = 1,     -- Moderate difficulty
     SANITY_LOSS_HARD = 2,         -- Hard difficulty
     SANITY_LOSS_NIGHT_MISSION = 1,  -- Additional penalty for night missions
     SANITY_LOSS_PER_ALLY_KIA = 1,   -- Per ally killed
-    
+
     -- Leadership bonuses
     LEADER_MORALE_BONUS = 1,       -- +1 morale to nearby allies per turn
     LEADER_RANGE = 5,              -- Within 5 hexes
-    
+
     -- Rally action
     RALLY_MORALE_RESTORE = 2,      -- +2 morale
     RALLY_AP_COST = 4,
@@ -53,7 +53,7 @@ local psychStates = {} -- unitId -> PsychologicalState
 function MoraleSystem.initUnit(unitId, bravery, sanity)
     bravery = math.max(1, math.min(12, bravery or 9))
     sanity = math.max(1, math.min(12, sanity or 9))
-    
+
     psychStates[unitId] = {
         unitId = unitId,
         morale = bravery,              -- Start at max
@@ -62,7 +62,7 @@ function MoraleSystem.initUnit(unitId, bravery, sanity)
         maxSanity = sanity,            -- Max sanity for this unit
         state = "normal",
     }
-    
+
     print(string.format("[MoraleSystem] %s initialized: morale=%d (max %d), sanity=%d (max %d)",
         unitId, bravery, bravery, sanity, sanity))
 end
@@ -90,14 +90,14 @@ function MoraleSystem.modifyMorale(unitId, amount, reason)
         print(string.format("[MoraleSystem] WARNING: Unit %s not initialized", unitId))
         return
     end
-    
+
     local oldMorale = state.morale
     state.morale = math.max(0, math.min(state.maxMorale, state.morale + amount))
-    
+
     print(string.format("[MoraleSystem] %s morale: %d -> %d (%s%d, %s)",
         unitId, oldMorale, state.morale,
         amount >= 0 and "+" or "", amount, reason or "unknown"))
-    
+
     MoraleSystem.updateState(state)
 end
 
@@ -111,14 +111,14 @@ function MoraleSystem.modifySanity(unitId, amount, reason)
         print(string.format("[MoraleSystem] WARNING: Unit %s not initialized", unitId))
         return
     end
-    
+
     local oldSanity = state.sanity
     state.sanity = math.max(0, math.min(state.maxSanity, state.sanity + amount))
-    
+
     print(string.format("[MoraleSystem] %s sanity: %d -> %d (%s%d, %s)",
         unitId, oldSanity, state.sanity,
         amount >= 0 and "+" or "", amount, reason or "unknown"))
-    
+
     MoraleSystem.updateState(state)
 end
 
@@ -128,7 +128,7 @@ function MoraleSystem.updateState(state)
     -- Panic if EITHER morale OR sanity reaches 0
     if state.morale == 0 or state.sanity == 0 then
         state.state = "panicked"
-        print(string.format("[MoraleSystem] %s PANICKED (morale=%d, sanity=%d)", 
+        print(string.format("[MoraleSystem] %s PANICKED (morale=%d, sanity=%d)",
             state.unitId, state.morale, state.sanity))
     elseif state.morale <= 2 or state.sanity <= 2 then
         -- Stressed but functional
@@ -145,10 +145,10 @@ end
 function MoraleSystem.getAPModifier(unitId)
     local state = psychStates[unitId]
     if not state then return 0 end
-    
+
     local cfg = MoraleSystem.CONFIG
     local minMoraleSanity = math.min(state.morale, state.sanity)
-    
+
     if minMoraleSanity <= cfg.AP_MODIFIER_THRESHOLD_1 then
         return -2  -- -2 AP
     elseif minMoraleSanity <= cfg.AP_MODIFIER_THRESHOLD_2 then
@@ -165,11 +165,11 @@ end
 function MoraleSystem.canAct(unitId)
     local state = psychStates[unitId]
     if not state then return true end
-    
+
     if state.state == "panicked" then
         return false, "Panicked - unit inactive"
     end
-    
+
     return true
 end
 
@@ -178,10 +178,10 @@ end
 ---@param deadUnitTeam string Dead unit team
 function MoraleSystem.processAllyDeath(deadUnitId, deadUnitTeam)
     local cfg = MoraleSystem.CONFIG
-    
+
     for unitId, state in pairs(psychStates) do
-        -- Only affect living allies
-        if state.unitId ~= deadUnitId and unitId ~= deadUnitId then
+        -- Only affect living allies (not the dead unit itself)
+        if unitId ~= deadUnitId then
             MoraleSystem.modifyMorale(unitId, -cfg.ALLY_DEATH_MORALE_LOSS, "ally death")
         end
     end
@@ -202,7 +202,7 @@ end
 function MoraleSystem.applyPostMissionSanityLoss(unitId, missionDifficulty, isNightMission, alliesKIA)
     local cfg = MoraleSystem.CONFIG
     local totalLoss = 0
-    
+
     -- Base sanity loss by difficulty
     if missionDifficulty == "moderate" then
         totalLoss = cfg.SANITY_LOSS_MODERATE
@@ -211,18 +211,18 @@ function MoraleSystem.applyPostMissionSanityLoss(unitId, missionDifficulty, isNi
     else
         totalLoss = cfg.SANITY_LOSS_STANDARD
     end
-    
+
     -- Night mission penalty
     if isNightMission then
         totalLoss = totalLoss + cfg.SANITY_LOSS_NIGHT_MISSION
     end
-    
+
     -- Per-ally penalty
     totalLoss = totalLoss + (alliesKIA or 0) * cfg.SANITY_LOSS_PER_ALLY_KIA
-    
+
     if totalLoss > 0 then
-        MoraleSystem.modifySanity(unitId, -totalLoss, 
-            string.format("post-mission (%s, night=%s, KIA=%d)", missionDifficulty, 
+        MoraleSystem.modifySanity(unitId, -totalLoss,
+            string.format("post-mission (%s, night=%s, KIA=%d)", missionDifficulty,
                 tostring(isNightMission), alliesKIA or 0))
     end
 end
@@ -234,12 +234,18 @@ end
 function MoraleSystem.rally(unitId, targetUnitId)
     local cfg = MoraleSystem.CONFIG
     local target = targetUnitId or unitId
-    
+
+    -- Check if target exists
+    if not psychStates[target] then
+        print(string.format("[MoraleSystem] WARNING: Cannot rally unknown unit %s", target))
+        return false
+    end
+
     MoraleSystem.modifyMorale(target, cfg.RALLY_MORALE_RESTORE, "rally action")
-    
-    print(string.format("[MoraleSystem] %s rallied %s (+%d morale)", 
+
+    print(string.format("[MoraleSystem] %s rallied %s (+%d morale)",
         unitId, target, cfg.RALLY_MORALE_RESTORE))
-    
+
     return true
 end
 
@@ -248,9 +254,9 @@ end
 ---@param nearbyUnitIds table List of nearby unit IDs
 function MoraleSystem.applyLeadershipBonus(leaderUnitId, nearbyUnitIds)
     local cfg = MoraleSystem.CONFIG
-    
+
     for _, unitId in ipairs(nearbyUnitIds) do
-        if unitId ~= leaderUnitId then
+        if unitId ~= leaderUnitId and psychStates[unitId] then
             MoraleSystem.modifyMorale(unitId, cfg.LEADER_MORALE_BONUS, "leader aura")
         end
     end
@@ -262,7 +268,7 @@ end
 ---@return table rgb {r, g, b}
 function MoraleSystem.getStateColor(value, maxValue)
     local ratio = value / maxValue
-    
+
     if ratio >= 0.75 then
         return {0.4, 1.0, 0.4}  -- Green
     elseif ratio >= 0.5 then
@@ -280,7 +286,7 @@ end
 function MoraleSystem.getStateString(unitId)
     local state = psychStates[unitId]
     if not state then return "UNKNOWN" end
-    
+
     if state.state == "panicked" then
         return "PANICKED"
     elseif state.state == "stressed" then
@@ -308,28 +314,3 @@ function MoraleSystem.reset()
 end
 
 return MoraleSystem
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

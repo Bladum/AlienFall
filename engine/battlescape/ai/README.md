@@ -1,5 +1,7 @@
 # Battlescape AI System
 
+**Status:** [PARTIAL IMPLEMENTATION - Core AI framework ready, advanced tactics in progress]
+
 ## Goal / Purpose
 The Battlescape AI subsystem orchestrates all AI-driven behaviors during tactical combat. It coordinates unit actions, manages behavior states, implements difficulty levels, and ensures meaningful tactical challenges for the player.
 

@@ -336,3 +336,4 @@ function CraftPersonnel:getCrewAvailability()
 end
 
 return CraftPersonnel
+

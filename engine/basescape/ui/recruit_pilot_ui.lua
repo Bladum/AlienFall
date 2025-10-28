@@ -30,13 +30,13 @@ RecruitmentUI.PILOT_CLASSES = {
 ---@return table UI instance
 function RecruitmentUI:new()
     local self = setmetatable({}, RecruitmentUI)
-    
+
     self.visible = false
     self.selectedClass = nil
     self.recruitingPilots = {}  -- {pilot_id = {class, start_day, end_day}}
     self.availableFunds = 100000
     self.currentDay = 1
-    
+
     return self
 end
 
@@ -62,27 +62,27 @@ end
 
 --- Check if can recruit pilot
 ---@param classId string Pilot class ID
----@return boolean Can recruit, string reason
+---@return boolean, string Can recruit (true/false), reason if cannot
 function RecruitmentUI:canRecruit(classId)
     local classData = nil
-    
+
     for _, cls in ipairs(self.PILOT_CLASSES) do
         if cls.id == classId then
             classData = cls
             break
         end
     end
-    
+
     if not classData then
         return false, "Unknown pilot class"
     end
-    
+
     if self.availableFunds < classData.cost then
         return false, string.format("Insufficient funds: need %d, have %d",
             classData.cost, self.availableFunds)
     end
-    
-    return true, nil
+
+    return true, ""
 end
 
 --- Recruit new pilot
@@ -94,7 +94,7 @@ function RecruitmentUI:recruitPilot(classId, name)
     if not canRecruit then
         return false, reason
     end
-    
+
     -- Find class data
     local classData = nil
     for _, cls in ipairs(self.PILOT_CLASSES) do
@@ -103,10 +103,14 @@ function RecruitmentUI:recruitPilot(classId, name)
             break
         end
     end
-    
+
+    if not classData then
+        return false, "Class data not found"
+    end
+
     -- Deduct cost
     self.availableFunds = self.availableFunds - classData.cost
-    
+
     -- Create recruitment entry
     local pilotId = "pilot_recruit_" .. os.time()
     self.recruitingPilots[pilotId] = {
@@ -117,10 +121,10 @@ function RecruitmentUI:recruitPilot(classId, name)
         end_day = self.currentDay + classData.days - 1,
         status = "training"
     }
-    
+
     print(string.format("[RecruitmentUI] Recruited %s (%s) - Training until day %d",
         name or "Unknown", classId, self.recruitingPilots[pilotId].end_day))
-    
+
     return true, pilotId
 end
 
@@ -130,31 +134,31 @@ end
 function RecruitmentUI:updateDay(day)
     self.currentDay = day
     local completed = {}
-    
+
     for pilotId, recruitment in pairs(self.recruitingPilots) do
         if recruitment.status == "training" and day >= recruitment.end_day then
             recruitment.status = "ready"
             table.insert(completed, pilotId)
-            
+
             print(string.format("[RecruitmentUI] %s training complete", recruitment.name))
         end
     end
-    
+
     return completed
 end
 
 --- Get training progress for pilot
 ---@param pilotId string Pilot ID
----@return number Progress 0-100, nil if not recruiting
+---@return number|nil Progress 0-100, or nil if not recruiting
 function RecruitmentUI:getTrainingProgress(pilotId)
     local recruitment = self.recruitingPilots[pilotId]
     if not recruitment then
         return nil
     end
-    
+
     local total = recruitment.end_day - recruitment.start_day + 1
     local elapsed = self.currentDay - recruitment.start_day
-    
+
     return math.floor((elapsed / total) * 100)
 end
 
@@ -163,13 +167,13 @@ end
 ---@return table Pilot list
 function RecruitmentUI:getRecruitingPilots(status)
     local result = {}
-    
+
     for pilotId, recruitment in pairs(self.recruitingPilots) do
         if not status or recruitment.status == status then
             table.insert(result, recruitment)
         end
     end
-    
+
     return result
 end
 
@@ -182,17 +186,17 @@ function RecruitmentUI:assignPilotToCraft(pilotId, craftId)
     if not recruitment then
         return false
     end
-    
+
     if recruitment.status ~= "ready" then
         return false
     end
-    
+
     recruitment.status = "assigned"
     recruitment.assigned_craft = craftId
-    
+
     print(string.format("[RecruitmentUI] %s assigned to craft %s",
         recruitment.name, craftId))
-    
+
     return true
 end
 
@@ -203,7 +207,7 @@ function RecruitmentUI:formatRecruitmentInfo(recruitment)
     if not recruitment then
         return "No recruitment data"
     end
-    
+
     local status = recruitment.status
     if status == "training" then
         local progress = self:getTrainingProgress(recruitment.id)
@@ -215,7 +219,7 @@ function RecruitmentUI:formatRecruitmentInfo(recruitment)
         return string.format("%s (%s) - Assigned to %s",
             recruitment.name, recruitment.class, recruitment.assigned_craft or "unknown")
     end
-    
+
     return string.format("%s (%s)", recruitment.name, recruitment.class)
 end
 

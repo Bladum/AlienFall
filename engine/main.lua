@@ -60,7 +60,7 @@
 local ModManager = require("mods.mod_manager")
 
 -- Load state manager
-local StateManager = require("core.state_manager")
+local StateManager = require("core.state.state_manager")
 
 -- Load game modules
 print("[Main] Loading Menu...")
@@ -104,17 +104,26 @@ local CampaignStatsScreen = require("gui.scenes.campaign_stats_screen")
 print("[Main] Loading Settings Screen...")
 local SettingsScreen = require("gui.scenes.settings_screen")
 
+print("[Main] Loading MIDI Test Screen...")
+local MidiTestScreen = require("gui.scenes.midi_test_screen_fixed")
+
+print("[Main] Loading Debug Screen...")
+local DebugScreen = require("gui.scenes.debug_screen")
+
 -- Load widgets system
 local Widgets = require("gui.widgets.init")
 
 -- Load asset system
-local Assets = require("core.assets")
+local Assets = require("core.assets.assets")
 
 -- Load data loader system
-local DataLoader = require("core.data_loader")
+local DataLoader = require("core.data.data_loader")
 
 -- Load viewport system for dynamic resolution
 local Viewport = require("utils.viewport")
+
+-- Load audio manager
+local AudioManager = require("core.audio_manager")
 
 -- Game initialization
 function love.load()
@@ -168,6 +177,9 @@ function love.load()
     -- Load game data from TOML files
     DataLoader.load()
 
+    -- Initialize audio manager
+    AudioManager:init()
+
     -- Register all game states
     StateManager.register("menu", Menu)
     StateManager.register("geoscape", Geoscape)
@@ -180,9 +192,11 @@ function love.load()
     StateManager.register("load_game", LoadGameScreen)
     StateManager.register("campaign_stats", CampaignStatsScreen)
     StateManager.register("settings", SettingsScreen)
+    StateManager.register("midi_test", MidiTestScreen)
+    StateManager.register("debug_screen", DebugScreen)
 
-    -- Start with menu
-    StateManager.switch("menu")
+    -- Start with MIDI test
+    StateManager.switch("midi_test")
 
     print("[Main] Game initialized successfully")
 end
@@ -197,6 +211,9 @@ function love.update(dt)
     end
 
     StateManager.update(dt)
+
+    -- Update audio manager
+    AudioManager:update(dt)
 end
 
 -- Draw game graphics
@@ -282,6 +299,15 @@ function love.resize(w, h)
     Viewport.printInfo()
 end
 
+-- Window focus handler
+function love.focus(focused)
+    if focused then
+        AudioManager:resumeAll()
+    else
+        AudioManager:pauseAll()
+    end
+end
+
 -- Quit handler
 function love.quit()
     print("[Main] Game shutting down")
@@ -300,7 +326,8 @@ function love.errorhandler(msg)
     end
 
     love.graphics.reset()
-    local font = love.graphics.setNewFont(14)
+    local font = love.graphics.newFont(14)
+    love.graphics.setFont(font)
 
     love.graphics.setBackgroundColor(0.1, 0, 0)
 
@@ -308,7 +335,17 @@ function love.errorhandler(msg)
 
     love.graphics.origin()
 
-    local function draw()
+    local error_screen = function()
+        love.event.pump()
+
+        for e, a, b, c in love.event.poll() do
+            if e == "quit" then
+                return 1
+            elseif e == "keypressed" and a == "escape" then
+                return 1
+            end
+        end
+
         love.graphics.clear(0.1, 0, 0)
         love.graphics.setColor(1, 1, 1)
         love.graphics.printf(
@@ -324,22 +361,10 @@ function love.errorhandler(msg)
             love.graphics.getWidth(),
             "center"
         )
-    end
-
-    return function()
-        love.event.pump()
-
-        for e, a, b, c in love.event.poll() do
-            if e == "quit" then
-                return 1
-            elseif e == "keypressed" and a == "escape" then
-                return 1
-            end
-        end
-
-        draw()
 
         love.graphics.present()
         love.timer.sleep(0.1)
     end
+
+    return error_screen
 end

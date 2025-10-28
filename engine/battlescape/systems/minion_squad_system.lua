@@ -413,3 +413,4 @@ function MinionSquadSystem:getSquadStats(baseUnitId)
 end
 
 return MinionSquadSystem
+

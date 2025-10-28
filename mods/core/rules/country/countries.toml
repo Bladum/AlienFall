@@ -1,0 +1,295 @@
+# Country Definitions
+#
+# Each country has properties that define its diplomatic standing, economic power,
+# military capability, and territorial control. Nations are classified by type:
+#  - MAJOR: High influence, 40% more missions, +30 starting relation
+#  - SECONDARY: Medium influence, standard operations
+#  - MINOR: Low influence, easier relationship building
+#  - SUPRANATIONAL: Political organizations (special rules)
+
+# === MAJOR POWERS (High influence, high funding potential) ===
+
+[countries.usa]
+id = "usa"
+name = "United States"
+nation_type = "MAJOR"
+gdp = 100
+military_power = 10
+region = "north_america"
+capital_province = "usa_central"
+starting_relation = 20
+base_funding_level = 6
+funding_volatility = 0.4
+panic_threshold = 100
+territories = [
+    "usa_west",
+    "usa_central",
+    "usa_east",
+    "canada_south",
+    "mexico_north",
+]
+
+[countries.china]
+id = "china"
+name = "China"
+nation_type = "MAJOR"
+gdp = 95
+military_power = 9
+region = "asia_pacific"
+capital_province = "china_east"
+starting_relation = 5
+base_funding_level = 5
+funding_volatility = 0.6
+panic_threshold = 100
+territories = ["china_east", "china_central", "china_west", "mongolia"]
+
+[countries.russia]
+id = "russia"
+name = "Russia"
+nation_type = "MAJOR"
+gdp = 80
+military_power = 8
+region = "europe"
+capital_province = "russia_west"
+starting_relation = -10
+base_funding_level = 4
+funding_volatility = 0.7
+panic_threshold = 100
+territories = ["russia_west", "russia_central", "russia_east", "kazakhstan"]
+
+[countries.eu]
+id = "eu"
+name = "European Union"
+nation_type = "MAJOR"
+gdp = 90
+military_power = 7
+region = "europe"
+capital_province = "belgium"
+starting_relation = 25
+base_funding_level = 6
+funding_volatility = 0.3
+panic_threshold = 100
+territories = [
+    "germany",
+    "france",
+    "italy",
+    "spain",
+    "netherlands",
+    "belgium",
+    "poland",
+]
+
+[countries.india]
+id = "india"
+name = "India"
+nation_type = "MAJOR"
+gdp = 85
+military_power = 7
+region = "asia_pacific"
+capital_province = "india_north"
+starting_relation = 10
+base_funding_level = 5
+funding_volatility = 0.5
+panic_threshold = 100
+territories = ["india_north", "india_south", "pakistan", "bangladesh"]
+
+# === SECONDARY POWERS (Medium influence, stable income) ===
+
+[countries.japan]
+id = "japan"
+name = "Japan"
+nation_type = "SECONDARY"
+gdp = 55
+military_power = 8
+region = "asia_pacific"
+capital_province = "japan_main"
+starting_relation = 15
+base_funding_level = 6
+funding_volatility = 0.3
+territories = ["japan_honshu", "japan_hokkaido", "japan_kyushu"]
+
+[countries.germany]
+id = "germany"
+name = "Germany"
+nation_type = "SECONDARY"
+gdp = 50
+military_power = 7
+region = "europe"
+capital_province = "germany_central"
+starting_relation = 10
+base_funding_level = 5
+funding_volatility = 0.3
+territories = ["germany_north", "germany_central", "germany_south"]
+
+[countries.uk]
+id = "uk"
+name = "United Kingdom"
+nation_type = "SECONDARY"
+gdp = 48
+military_power = 7
+region = "europe"
+capital_province = "london"
+starting_relation = 20
+base_funding_level = 5
+funding_volatility = 0.35
+territories = ["england", "scotland", "wales", "northern_ireland"]
+
+[countries.brazil]
+id = "brazil"
+name = "Brazil"
+nation_type = "SECONDARY"
+gdp = 45
+military_power = 6
+region = "south_america"
+capital_province = "brazil_southeast"
+starting_relation = 10
+base_funding_level = 4
+funding_volatility = 0.5
+territories = [
+    "brazil_north",
+    "brazil_central",
+    "brazil_southeast",
+    "brazil_south",
+]
+
+[countries.canada]
+id = "canada"
+name = "Canada"
+nation_type = "SECONDARY"
+gdp = 42
+military_power = 6
+region = "north_america"
+capital_province = "canada_central"
+starting_relation = 25
+base_funding_level = 5
+funding_volatility = 0.3
+territories = ["canada_west", "canada_central", "canada_east"]
+
+[countries.australia]
+id = "australia"
+name = "Australia"
+nation_type = "SECONDARY"
+gdp = 40
+military_power = 6
+region = "asia_pacific"
+capital_province = "sydney"
+starting_relation = 20
+base_funding_level = 5
+funding_volatility = 0.35
+territories = ["australia_west", "australia_central", "australia_east"]
+
+[countries.mexico]
+id = "mexico"
+name = "Mexico"
+nation_type = "SECONDARY"
+gdp = 35
+military_power = 5
+region = "north_america"
+capital_province = "mexico_central"
+starting_relation = 5
+base_funding_level = 3
+funding_volatility = 0.6
+territories = ["mexico_north", "mexico_central", "mexico_south"]
+
+# === MINOR NATIONS (Lower influence, tactical opportunities) ===
+
+[countries.south_korea]
+id = "south_korea"
+name = "South Korea"
+nation_type = "MINOR"
+gdp = 30
+military_power = 6
+region = "asia_pacific"
+capital_province = "seoul"
+starting_relation = 15
+base_funding_level = 4
+territories = ["south_korea"]
+
+[countries.france]
+id = "france"
+name = "France"
+nation_type = "SECONDARY"
+gdp = 42
+military_power = 6
+region = "europe"
+capital_province = "paris"
+starting_relation = 12
+base_funding_level = 5
+territories = ["france_north", "france_south"]
+
+[countries.egypt]
+id = "egypt"
+name = "Egypt"
+nation_type = "MINOR"
+gdp = 25
+military_power = 5
+region = "africa"
+capital_province = "cairo"
+starting_relation = 0
+base_funding_level = 2
+territories = ["egypt_north", "egypt_south"]
+
+[countries.south_africa]
+id = "south_africa"
+name = "South Africa"
+nation_type = "MINOR"
+gdp = 28
+military_power = 5
+region = "africa"
+capital_province = "pretoria"
+starting_relation = 10
+base_funding_level = 3
+territories = ["south_africa_north", "south_africa_south"]
+
+[countries.argentina]
+id = "argentina"
+name = "Argentina"
+nation_type = "MINOR"
+gdp = 26
+military_power = 4
+region = "south_america"
+capital_province = "buenos_aires"
+starting_relation = 8
+base_funding_level = 3
+territories = ["argentina_north", "argentina_south"]
+
+[countries.new_zealand]
+id = "new_zealand"
+name = "New Zealand"
+nation_type = "MINOR"
+gdp = 22
+military_power = 4
+region = "asia_pacific"
+capital_province = "auckland"
+starting_relation = 18
+base_funding_level = 3
+territories = ["new_zealand"]
+
+# === SUPRANATIONAL ORGANIZATIONS ===
+
+[countries.un_xcom]
+id = "un_xcom"
+name = "UN-XCOM Alliance"
+nation_type = "SUPRANATIONAL"
+gdp = 150
+military_power = 10
+region = "global"
+capital_province = "un_headquarters"
+starting_relation = 50
+base_funding_level = 7
+funding_volatility = 0.2
+panic_threshold = 200
+territories = []
+
+[countries.int_space_authority]
+id = "int_space_authority"
+name = "International Space Authority"
+nation_type = "SUPRANATIONAL"
+gdp = 80
+military_power = 6
+region = "global"
+capital_province = "space_station_alpha"
+starting_relation = 30
+base_funding_level = 4
+funding_volatility = 0.1
+territories = []

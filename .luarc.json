@@ -22,7 +22,9 @@
       "luadoc-miss-module-name",
       "duplicate-set-field",
       "duplicate-doc-field",
-      "undefined-field"
+      "undefined-field",
+      "ambiguity-1",
+      "different-requires"
     ]
   },
   "workspace": {
@@ -31,6 +33,7 @@
       "./engine",
       "./engine/utils/love.lua"
     ],
-    "checkThirdParty": false
+    "checkThirdParty": false,
+    "maxPreload": 5000
   }
 }

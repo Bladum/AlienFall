@@ -262,3 +262,4 @@ function GeoscapeRenderer:getHexUnderMouse(mouse_x, mouse_y)
 end
 
 return GeoscapeRenderer
+

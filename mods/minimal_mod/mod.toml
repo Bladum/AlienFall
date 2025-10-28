@@ -1,0 +1,15 @@
+[mod]
+id = "minimal_mod"
+name = "Minimal Content"
+version = "1.0.0"
+author = "AlienFall Team"
+description = "Bare minimum content to run the game. For testing and debugging only."
+
+[load_order]
+priority = 0
+
+[compatibility]
+game_version = ">=1.0.0"
+
+[tags]
+tags = ["minimal", "test", "debug"]

@@ -65,12 +65,12 @@ function Movement.new(maxAP, moveCost, turnCost)
         turnCost = turnCost or 1,
         path = nil  -- Array of {x, y} waypoints when moving
     }
-    
+
     -- Add methods to instance
     instance.resetAP = function(self) Movement.resetAP(self) end
     instance.canAfford = function(self, cost) return Movement.canAfford(self, cost) end
     instance.spendAP = function(self, cost) return Movement.spendAP(self, cost) end
-    
+
     return instance
 end
 
@@ -94,28 +94,3 @@ function Movement.spendAP(movement, cost)
 end
 
 return Movement
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

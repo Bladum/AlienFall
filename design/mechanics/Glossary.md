@@ -1,6 +1,20 @@
-# AlienFall Glossary: Comprehensive Terminology Reference
+# Glossary
 
-**Version**: 1.0 | **Last Updated**: October 20, 2025 | **Scope**: All modules and systems
+> **Status**: Reference Document  
+> **Last Updated**: 2025-10-28  
+> **Related Systems**: All systems
+
+## Table of Contents
+
+- [Overview](#overview)
+- [Geoscape Terms](#geoscape-strategic-global-layer)
+- [Basescape Terms](#basescape-operational-layer)
+- [Battlescape Terms](#battlescape-tactical-combat-layer)
+- [Economy Terms](#economy)
+- [Unit Terms](#units)
+- [Craft Terms](#crafts)
+- [AI Terms](#ai-systems)
+- [Technical Terms](#technical-terminology)
 
 ---
 

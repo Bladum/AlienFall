@@ -298,3 +298,4 @@ function VisibilityIntegration:getVisibilityReport()
 end
 
 return VisibilityIntegration
+

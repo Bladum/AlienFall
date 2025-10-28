@@ -1,5 +1,4 @@
----FacilityType - Facility Type Definition
----
+---@class FacilityType
 ---Defines facility type properties, capacities, costs, prerequisites, services.
 ---FacilityTypes are templates that facilities are created from.
 ---
@@ -20,27 +19,27 @@ FacilityType.__index = FacilityType
 
 ---Create a new facility type definition
 ---@param config table Facility type configuration
----@return FacilityType type New facility type
+---@return FacilityType New facility type
 function FacilityType.new(config)
     local self = setmetatable({}, FacilityType)
-    
+
     -- Identity
     self.id = config.id or error("Facility type requires id")
     self.name = config.name or self.id
     self.description = config.description or ""
-    
+
     -- Construction
     self.buildTime = config.buildTime or 14  -- Days
     self.buildCost = config.buildCost or {credits = 10000}  -- {credits, resources}
     self.buildResources = config.buildResources or {}
-    
+
     -- Prerequisites
     self.requiredTech = config.requiredTech or {}
     self.requiredFacilities = config.requiredFacilities or {}
-    
+
     -- Grid properties
     self.size = config.size or {width = 1, height = 1}
-    
+
     -- Capacity contributions
     self.capacities = config.capacities or {
         item_storage = 0,
@@ -56,28 +55,28 @@ function FacilityType.new(config)
         training_throughput = 0,
         radar_range = 0,
     }
-    
+
     -- Services
     self.servicesProvided = config.servicesProvided or {}
     self.servicesRequired = config.servicesRequired or {}
-    
+
     -- Operations
     self.maintenanceCost = config.maintenanceCost or 1000  -- Monthly credits
     self.powerConsumption = config.powerConsumption or 0
     self.staffingRequired = config.staffingRequired or {}
-    
+
     -- Defense
     self.health = config.health or 50
     self.armor = config.armor or 0
     self.mapBlock = config.mapBlock or nil  -- Map block ID for battlescape
     self.defenseUnits = config.defenseUnits or {}  -- Unit types provided
-    
+
     -- Special
     self.maxPerBase = config.maxPerBase or nil  -- nil = unlimited
     self.specialFlags = config.specialFlags or {}
     self.category = config.category or "general"
     self.icon = config.icon or nil
-    
+
     return self
 end
 
@@ -144,7 +143,7 @@ function FacilityType:canFitAt(gridX, gridY)
     -- Check if coordinates are valid for size
     local maxX = gridX + self.size.width - 1
     local maxY = gridY + self.size.height - 1
-    
+
     -- Assuming 5×5 grid (indices 0-4)
     return maxX < 5 and maxY < 5
 end
@@ -156,6 +155,3 @@ function FacilityType:__tostring()
 end
 
 return FacilityType
-
-
-

@@ -1,0 +1,478 @@
+# Geoscape Architecture - Vertical Axial Hex World Map
+
+**Layer:** Strategic Layer  
+**Date:** 2025-10-28  
+**Status:** Complete  
+**Coordinate System:** Vertical Axial (Flat-Top Hexagons)
+
+---
+
+## Overview
+
+The Geoscape is the strategic world management layer where commanders track global operations, manage missions, and oversee organizational resources. **World map uses vertical axial hex grid (90×45 hexes).**
+
+### World Map Coordinate System
+
+**World geography uses vertical axial hex coordinates:**
+- **Map Dimensions:** 90 columns (q) × 45 rows (r) hexes
+- **Total Provinces:** ~4050 hexes
+- **Position Format:** `{q, r}` (axial coordinates)
+- **Wrapping:** Horizontal wrapping for spherical Earth
+- **Province Borders:** Adjacent hexes via `HexMath.getNeighbors(q, r)`
+- **Travel Distance:** Hex distance via `HexMath.distance(q1, r1, q2, r2)`
+
+**Design Reference:** `design/mechanics/hex_vertical_axial_system.md`  
+**Core Module:** `engine/battlescape/battle_ecs/hex_math.lua` (shared with Battlescape)
+
+---
+
+## Layer Architecture
+
+```mermaid
+graph TB
+    subgraph "Geoscape Layer - Vertical Axial Hex Grid"
+        Screen[Geoscape Screen]
+        HexMath[HexMath Module<br/>Universal Hex Mathematics]
+        
+        subgraph "Systems"
+            WorldMap[World Map System<br/>90×45 Hex Grid]
+            Detection[Detection Manager<br/>Range: HexMath.distance]
+            Calendar[Calendar System]
+            Relations[Relations Manager]
+            CraftMgmt[Craft Management<br/>Travel: Hex Path]
+        end
+        
+        subgraph "Rendering"
+            Globe[Globe Renderer<br/>Hex→Pixel]
+            UI[Geoscape UI]
+            Markers[Mission Markers<br/>Hex Positions]
+        end
+        
+        subgraph "Data"
+            WorldData[World Geography<br/>Provinces: q,r]
+            Nations[Nation Data]
+            Bases[Base Locations<br/>Hex Coords]
+            Missions[Active Missions<br/>Hex Coords]
+        end
+    end
+    
+    Screen --> WorldMap
+    Screen --> Detection
+    Screen --> Calendar
+    Screen --> Relations
+    Screen --> CraftMgmt
+    HexMath -.-> WorldMap
+    HexMath -.-> Detection
+    HexMath -.-> CraftMgmt
+    HexMath -.-> Globe
+    
+    WorldMap --> Globe
+    WorldMap --> Markers
+    Screen --> UI
+    
+    WorldData --> WorldMap
+    Nations --> Relations
+    Bases --> CraftMgmt
+    Missions --> Markers
+    
+    style Screen fill:#FFD700
+    style WorldMap fill:#87CEEB
+    style Detection fill:#90EE90
+```
+
+---
+
+## Time Management
+
+```mermaid
+stateDiagram-v2
+    [*] --> Paused: Init
+    
+    Paused --> Running: Play Button
+    Running --> Paused: Pause Button
+    
+    state Running {
+        [*] --> Normal: Speed x1
+        Normal --> Fast: Speed x5
+        Normal --> Faster: Speed x30
+        Fast --> Normal
+        Fast --> Faster
+        Faster --> Normal
+        Faster --> Fast
+    }
+    
+    Running --> Paused: Mission Alert
+    Running --> Paused: Event Triggered
+    
+    Paused --> [*]: Exit
+```
+
+### Time Scale Table
+
+| Speed | Real Time | Game Time | Use Case |
+|-------|-----------|-----------|----------|
+| **Paused** | 0s | 0 | Mission planning, base management |
+| **Normal (x1)** | 1s | 5 seconds | Careful observation |
+| **Fast (x5)** | 1s | 25 seconds | Normal play |
+| **Faster (x30)** | 1s | 2.5 minutes | Waiting for events |
+
+---
+
+## Mission Detection Flow
+
+```mermaid
+graph TD
+    DailyUpdate[Daily Update Tick] --> RadarScan[Radar Scan]
+    
+    RadarScan --> CheckCoverage{In Radar Range?}
+    
+    CheckCoverage -->|No| NoDetection[No Detection]
+    CheckCoverage -->|Yes| RollDetection[Roll Detection Chance]
+    
+    RollDetection --> Detected{Detected?}
+    
+    Detected -->|No| PartialInfo[Partial Information]
+    Detected -->|Yes| FullInfo[Full Mission Data]
+    
+    PartialInfo --> UpdateMap[Update Map Marker]
+    FullInfo --> UpdateMap
+    
+    UpdateMap --> NotifyPlayer[Notify Player]
+    
+    NotifyPlayer --> Alert{Critical Mission?}
+    
+    Alert -->|Yes| PauseGame[Pause Game]
+    Alert -->|No| Continue[Continue Time]
+    
+    NoDetection --> Continue
+    
+    style DailyUpdate fill:#90EE90
+    style Detected fill:#FFD700
+    style PauseGame fill:#FF6B6B
+```
+
+---
+
+## World Geography
+
+```mermaid
+erDiagram
+    WORLD {
+        int width
+        int height
+        table provinces
+    }
+    
+    REGION {
+        string id PK
+        string name
+        string continent
+        table countries
+    }
+    
+    COUNTRY {
+        string id PK
+        string name
+        int funding
+        int panic_level
+        string status
+    }
+    
+    PROVINCE {
+        string id PK
+        int x
+        int y
+        string region_id FK
+        string biome
+        int population
+    }
+    
+    BASE {
+        string id PK
+        string name
+        string province_id FK
+        int radar_range
+        table facilities
+    }
+    
+    MISSION {
+        string id PK
+        string type
+        string province_id FK
+        int expiration_turns
+        string status
+    }
+    
+    WORLD ||--o{ REGION : "contains"
+    REGION ||--o{ COUNTRY : "contains"
+    REGION ||--o{ PROVINCE : "contains"
+    PROVINCE ||--o{ BASE : "hosts"
+    PROVINCE ||--o{ MISSION : "spawns"
+```
+
+---
+
+## Craft Management
+
+### Craft Crew Assignment System (NEW)
+
+```mermaid
+graph TB
+    subgraph "Craft Crew System"
+        Craft[Craft Entity]
+        
+        subgraph "Crew Positions"
+            Pilot[Position 1: Pilot<br/>100% stat bonus]
+            CoPilot[Position 2: Co-Pilot<br/>50% stat bonus]
+            Crew1[Position 3: Crew<br/>25% stat bonus]
+            Crew2[Position 4+: Extra Crew<br/>10% stat bonus]
+        end
+        
+        subgraph "Unit Pool"
+            Units[Available Units]
+            PilotClass[Units with Pilot Class]
+            GroundUnits[Ground Combat Units]
+        end
+        
+        subgraph "Calculated Bonuses"
+            SpeedBonus[Speed Bonus]
+            AccuracyBonus[Accuracy Bonus]
+            DodgeBonus[Dodge Bonus]
+            FuelEff[Fuel Efficiency]
+        end
+    end
+    
+    Units --> PilotClass
+    Units --> GroundUnits
+    
+    PilotClass -->|Assign| Pilot
+    PilotClass -->|Assign| CoPilot
+    Units -->|Assign| Crew1
+    Units -->|Assign| Crew2
+    
+    Pilot -->|piloting stat × 100%| SpeedBonus
+    CoPilot -->|piloting stat × 50%| SpeedBonus
+    Crew1 -->|piloting stat × 25%| SpeedBonus
+    Crew2 -->|piloting stat × 10%| SpeedBonus
+    
+    SpeedBonus --> Craft
+    AccuracyBonus --> Craft
+    DodgeBonus --> Craft
+    FuelEff --> Craft
+    
+    style Craft fill:#FFD700
+    style Pilot fill:#87CEEB
+    style PilotClass fill:#90EE90
+```
+
+**Crew Assignment Flow:**
+1. Player selects craft in base hangar
+2. System filters available units (pilots + ground units)
+3. Player assigns units to positions (Pilot → Co-Pilot → Crew)
+4. System calculates stat bonuses from crew
+5. Bonuses applied to craft performance
+6. Craft can launch if minimum crew requirements met
+
+**Bonus Calculation Formula:**
+```
+Total Craft Speed Bonus = 
+  (Pilot.piloting - 6) × 2% × 100% +
+  (CoPilot.piloting - 6) × 2% × 50% +
+  (Crew1.piloting - 6) × 2% × 25% +
+  (Crew2.piloting - 6) × 2% × 10%
+  
+Apply fatigue penalty: × (1 - average_crew_fatigue / 200)
+```
+
+---
+
+### Craft Deployment Sequence
+
+```mermaid
+sequenceDiagram
+    participant Player
+    participant Geo as Geoscape
+    participant Craft
+    participant Crew as Crew System
+    participant Mission
+    
+    Player->>Geo: Select Mission
+    Geo->>Geo: Show Available Crafts
+    
+    Player->>Geo: Select Craft
+    Geo->>Craft: Check Status
+    Craft->>Crew: Validate Crew
+    
+    alt Crew Not Assigned
+        Crew-->>Geo: Error: No Crew
+        Geo-->>Player: Cannot Launch (No Pilot)
+    else Crew Assigned
+        Crew-->>Geo: Crew Ready
+        Craft-->>Geo: Status: Ready, Fuel: 100%, Bonuses: +8% speed
+        
+        Player->>Geo: Deploy Craft
+        Geo->>Craft: Set Destination
+        Craft->>Crew: Add Fatigue +5
+        
+        Craft->>Craft: Calculate Travel Time (with crew speed bonus)
+        Craft->>Craft: Deduct Fuel (with crew fuel efficiency)
+        
+        loop Travel
+            Craft->>Craft: Move Toward Destination
+            Craft->>Geo: Update Position
+        end
+        
+        Craft->>Mission: Arrive at Mission
+        Craft->>Crew: Add Fatigue +10 (interception)
+        Mission-->>Geo: Ready to Start
+        
+        Geo->>Player: Show Mission Briefing
+    end
+```
+
+---
+
+## Radar Coverage System
+
+```mermaid
+graph TD
+    Base1[Base 1<br/>Radar Range: 1500km] --> Coverage1[Coverage Area 1]
+    Base2[Base 2<br/>Radar Range: 2000km] --> Coverage2[Coverage Area 2]
+    Satellite[Satellite<br/>Global Coverage] --> CoverageGlobal[Global Area]
+    
+    Coverage1 --> Union[Union of All Coverage]
+    Coverage2 --> Union
+    CoverageGlobal --> Union
+    
+    Union --> DetectionMap[Detection Map]
+    
+    Mission1[Mission in Range] -.->|Detected| DetectionMap
+    Mission2[Mission Out of Range] -.->|Hidden| DetectionMap
+    
+    style Base1 fill:#90EE90
+    style Base2 fill:#90EE90
+    style Satellite fill:#87CEEB
+    style Mission1 fill:#FFD700
+    style Mission2 fill:#FF6B6B
+```
+
+---
+
+## Nation Relations
+
+```mermaid
+graph LR
+    Events[Game Events] --> Positive[Positive Events]
+    Events --> Negative[Negative Events]
+    
+    Positive --> Success[Mission Success<br/>+15 Approval]
+    Positive --> Defend[Defend Territory<br/>+10 Approval]
+    
+    Negative --> UFO[UFO Activity<br/>-5 Approval]
+    Negative --> Terror[Terror Mission<br/>-20 Approval]
+    Negative --> Fail[Mission Failure<br/>-10 Approval]
+    
+    Success --> UpdateRelations[Update Nation Relations]
+    Defend --> UpdateRelations
+    UFO --> UpdateRelations
+    Terror --> UpdateRelations
+    Fail --> UpdateRelations
+    
+    UpdateRelations --> CheckLevel{Panic Level}
+    
+    CheckLevel -->|0-20| Green[Green: Satisfied<br/>Funding: 100%]
+    CheckLevel -->|21-50| Yellow[Yellow: Concerned<br/>Funding: 80%]
+    CheckLevel -->|51-80| Orange[Orange: Alarmed<br/>Funding: 60%]
+    CheckLevel -->|81-99| Red[Red: Critical<br/>Funding: 40%]
+    CheckLevel -->|100| Defect[Nation Defects<br/>Funding: 0%]
+    
+    style Success fill:#90EE90
+    style Terror fill:#FF6B6B
+    style Green fill:#90EE90
+    style Yellow fill:#FFD700
+    style Orange fill:#FFA500
+    style Red fill:#FF6B6B
+    style Defect fill:#000000
+```
+
+---
+
+## Monthly Funding Cycle
+
+```mermaid
+sequenceDiagram
+    participant Calendar
+    participant Nations
+    participant Treasury
+    participant Player
+    
+    Note over Calendar: Month End Reached
+    
+    Calendar->>Nations: Process Monthly Update
+    
+    loop For Each Nation
+        Nations->>Nations: Calculate Funding
+        Nations->>Nations: funding × (1 - panic_penalty)
+        Nations->>Nations: Reduce Panic by 5
+        Nations->>Treasury: Transfer Funds
+    end
+    
+    Nations-->>Calendar: Funding Complete
+    
+    Calendar->>Treasury: Deduct Monthly Costs
+    Treasury->>Treasury: -Base Maintenance
+    Treasury->>Treasury: -Personnel Salaries
+    Treasury->>Treasury: -Craft Upkeep
+    
+    Calendar->>Player: Show Monthly Report
+    
+    Player->>Player: Review Finances
+    Player->>Player: Review Nation Status
+```
+
+---
+
+## UI Layout
+
+```mermaid
+graph TD
+    subgraph "Geoscape UI"
+        TopBar[Top Bar<br/>Date, Time, Funds]
+        
+        MainView[Main View<br/>Globe/Map]
+        
+        LeftPanel[Left Panel<br/>Mission List<br/>Base List<br/>Craft Status]
+        
+        RightPanel[Right Panel<br/>Selected Info<br/>Actions<br/>Alerts]
+        
+        BottomBar[Bottom Bar<br/>Time Controls<br/>Menu Buttons]
+    end
+    
+    TopBar --- MainView
+    MainView --- LeftPanel
+    MainView --- RightPanel
+    MainView --- BottomBar
+    
+    style TopBar fill:#E0BBE4
+    style MainView fill:#87CEEB
+    style LeftPanel fill:#90EE90
+    style RightPanel fill:#FFD700
+    style BottomBar fill:#FFB6C1
+```
+
+---
+
+## Performance Optimization
+
+| Component | Optimization | Impact |
+|-----------|-------------|--------|
+| **Globe Rendering** | Level-of-detail (LOD) mesh | High FPS improvement |
+| **Mission Markers** | Batch rendering | Medium FPS improvement |
+| **Daily Updates** | Incremental processing | Smooth time passage |
+| **Radar Scanning** | Spatial partitioning | Fast detection |
+| **UI Updates** | Dirty flag pattern | Reduced CPU usage |
+
+---
+
+**End of Geoscape Architecture**
+

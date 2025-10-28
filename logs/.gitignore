@@ -1,0 +1,18 @@
+# Logs - Runtime Output
+# All log files are generated at runtime and should not be committed
+
+# Log files (all formats)
+*.log
+*.log.gz
+
+# Analytics JSON (generated)
+*_metrics_*.json
+*_balance_*.json
+*_behavior_*.json
+
+# Keep README
+!README.md
+
+# Archive folder (compressed logs)
+archive/
+

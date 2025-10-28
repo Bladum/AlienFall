@@ -37,8 +37,9 @@
 ---@see scenes.geoscape_screen For strategic layer
 ---@see scenes.battlescape_screen For tactical combat
 
-local StateManager = require("core.state_manager")
+local StateManager = require("core.state.state_manager")
 local Widgets = require("gui.widgets.init")
+local AudioManager = require("core.audio_manager")
 
 local Menu = {}
 
@@ -126,10 +127,42 @@ function Menu:enter()
         StateManager.switch("tests_menu")
     end
 
-    -- Quit button
+    -- MIDI Test button
     table.insert(self.buttons, Widgets.Button.new(
         buttonX,
         startY + spacing * 5,
+        buttonWidth,
+        buttonHeight,
+        "TEST MIDI"
+    ))
+    self.buttons[#self.buttons].onClick = function()
+        print("[Menu] Testing MIDI playback...")
+        -- Try playing the MIDI files from the integrated location
+        if not AudioManager:playMIDI("Queen - Bohemian Rhapsody") then
+            print("[Menu] MIDI parsing failed, trying random_song.mid...")
+            if not AudioManager:playMIDI("random_song") then
+                print("[Menu] MIDI parsing failed, trying sample.mid...")
+                if not AudioManager:playMIDI("sample") then
+                    print("[Menu] All MIDI files failed, generating test tone...")
+                    -- Generate a simple test tone as fallback
+                    local toneData = love.sound.newSoundData(44100 * 2, 44100, 16, 1) -- 2 seconds
+                    for i = 0, 44100 * 2 - 1 do
+                        local t = i / 44100
+                        local sample = math.sin(2 * math.pi * 440 * t) * 0.3 -- 440Hz sine wave
+                        toneData:setSample(i, sample)
+                    end
+                    local source = love.audio.newSource(toneData)
+                    source:play()
+                    print("[Menu] Test tone played (440Hz for 2 seconds)")
+                end
+            end
+        end
+    end
+
+    -- Quit button
+    table.insert(self.buttons, Widgets.Button.new(
+        buttonX,
+        startY + spacing * 6,
         buttonWidth,
         buttonHeight,
         "QUIT"
@@ -171,6 +204,19 @@ function Menu:update(dt)
 
     -- Update version label
     self.versionLabel:update(dt)
+
+    -- Auto-test MIDI after 2 seconds (for testing purposes)
+    if not self.autoTested then
+        self.autoTestTime = (self.autoTestTime or 0) + dt
+        if self.autoTestTime >= 2 then
+            print("[Menu] Auto-testing MIDI playback...")
+            self.autoTested = true
+            -- Simulate clicking the TEST MIDI button
+            if self.buttons[6] and self.buttons[6].text == "TEST MIDI" then
+                self.buttons[6].onClick()
+            end
+        end
+    end
 end
 
 --- Render the menu screen.
