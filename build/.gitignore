@@ -1,0 +1,13 @@
+# Build outputs
+output/
+temp/
+
+# Love2D distribution files (download separately)
+love2d-windows/
+love2d-linux/
+love2d-macos/
+
+# OS specific
+.DS_Store
+Thumbs.db
+
