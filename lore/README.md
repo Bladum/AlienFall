@@ -1,101 +1,86 @@
-# Lore & Story Content
+# Lore - Game Narrative & Storytelling
 
-## Goal / Purpose
+**Purpose:** Story content, narrative events, and world-building for AlienFall  
+**Audience:** Writers, designers, AI agents  
+**Status:** Early development  
+**Last Updated:** 2025-10-28
 
-The Lore folder contains all story content, world-building, narrative elements, and campaign progression for AlienFall. It includes faction descriptions, world settings, detailed campaign phases, and visual media for the game's universe.
+---
 
-## Content
+## 📋 Quick Reference
 
-- **story/** - Campaign narrative and story content
-- **images/** - Lore-related images, artwork, and visual references
+- **Purpose:** Game story, narrative progression, world lore
+- **Content:** Story documents, event scripts, character backgrounds
+- **Format:** Markdown files, narrative structure
+- **Related:** `design/mechanics/Lore.md`, `api/LORE.md`, `engine/lore/`
 
-## Features
-
-- **Campaign Phases**: Five-phase story progression from Shadow War to Final Retribution
-- **Faction Details**: Comprehensive faction descriptions and histories
-- **World Details**: Descriptions of planets, locations, and environments
-- **Timeline**: Chronology of game events
-- **Character Narratives**: NPC stories and character development
-- **Visual Content**: Artwork and images for lore content
-- **Lore Events**: Narrative events triggered during gameplay
-- **Mission Context**: Story context for individual missions
-
-## Integrations with Other Systems
-
-### Campaign & Progression
-- Campaign phases guide game progression
-- Story events trigger at appropriate times
-- Narrative affects faction relationships
-
-### Narrative System (Engine)
-- Lore content is loaded and managed by `engine/lore/`
-- Story events triggered by game conditions
-- Dialog and narrative managed by narrative system
-
-### Geoscape
-- Faction locations shown on geoscape
-- Campaign phases affect geoscape gameplay
-- Story events trigger geoscape events
-
-### Basescape & Research
-- Story context for research and upgrades
-- Narrative impacts research availability
-- Lore explains technology progression
-
-### Design & Balance
-- Story informs game balance and difficulty
-- Narrative shapes player progression
-- Lore justifies design decisions
+---
 
 ## Folder Structure
 
-### Story Folder
-- **phase_0.md** - Phase 0: Shadow War initiation
-- **phase_1.md** - Phase 1: Regional Conflict
-- **phase_2.md** - Phase 2: Shadow War escalation
-- **phase_3.md** - Phase 3: Abyss Moon discovery
-- **phase_4.md** - Phase 4: Final Enemy appearance
-- **phase_5.md** - Phase 5: Final Retribution
-- **factions.md** - Detailed faction descriptions
-- **worlds.md** - World and location descriptions
-- **timeline.md** - Complete timeline of events
-- **gap_analysis.md** - Story gaps and needed content
+```
+lore/
+├── README.md                          ← This file
+├── story/                             ← Main storyline
+│   ├── introduction.md               ← Game opening
+│   ├── act1.md                       ← Story arc 1
+│   ├── act2.md                       ← Story arc 2
+│   ├── act3.md                       ← Story arc 3
+│   └── endings/                      ← Multiple endings
+│
+└── images/                            ← Story illustrations
+    └── [concept art, diagrams]
+```
 
-### Images Folder
-- **00_IMAGES_INDEX.md** - Index of all lore images
-- **01_FACTIONS.md** - Faction artwork and images
-- **02_WORLDS_LOCATIONS.md** - Location and environment images
-- **03_PHASE_0_INITIATION.md** - Phase 0 related images
-- **04_PHASE_1_REGIONAL_CONFLICT.md** - Phase 1 related images
-- **05_PHASE_2_SHADOW_WAR.md** - Phase 2 related images
-- **06_PHASE_3_ABYSS_MOON.md** - Phase 3 related images
-- **07_PHASE_4_FINAL_ENEMY.md** - Phase 4 related images
-- **08_PHASE_5_FINAL_RETRIBUTION.md** - Phase 5 related images
+---
 
-## Campaign Phases
+## Content
 
-### Phase 0: Shadow War
-Initiation and discovery of alien presence
+| Type | Files | Purpose |
+|------|-------|---------|
+| **Story** | ~5 files | Main narrative arc |
+| **Images** | ~10 files | Concept art, diagrams |
 
-### Phase 1: Regional Conflict
-First contact and escalating regional conflicts
+---
 
-### Phase 2: Shadow War (Escalation)
-Expanded alien operations and player response
+## Relations to Other Modules
 
-### Phase 3: Abyss Moon
-Discovery and exploration of dimensional rifts
+| Module | Relationship |
+|--------|--------------|
+| **design/mechanics/Lore.md** | Design specifications for narrative systems |
+| **api/LORE.md** | Lore system API contracts |
+| **engine/lore/** | Narrative system implementation |
+| **mods/core/rules/events/** | Story events in TOML |
 
-### Phase 4: Final Enemy
-True nature of alien threat revealed
+---
 
-### Phase 5: Final Retribution
-Final confrontation and game conclusion
+## How to Use
 
-## See Also
+### For Writers
 
-- [Story Content](./story/README.md) - Narrative documentation
-- [Lore Images](./images/README.md) - Visual media
-- [Engine Lore System](../engine/lore/README.md) - Lore system implementation
-- [Design Lore](../design/mechanics/Lore.md) - Lore design specifications
-- [API Lore](../api/LORE.md) - Lore system API
+1. **Read existing lore:** Understand world setting
+2. **Create new content:** Follow narrative structure
+3. **Link to mechanics:** Connect story to gameplay
+4. **Review for consistency:** Maintain tone and continuity
+
+### For AI Agents
+
+- **When to read:** Understanding game context, creating narrative content
+- **How to use:** Reference for event creation, character development
+- **Output:** Story events, character backgrounds, world-building
+
+---
+
+## Quick Commands
+
+```bash
+# Read main story
+cat lore/story/introduction.md
+
+# Find story element
+grep -r "keyword" lore/
+```
+
+---
+
+**Questions:** See [design/mechanics/Lore.md](../design/mechanics/Lore.md) or ask in project Discord
