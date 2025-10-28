@@ -1,6 +1,8 @@
-# Countries
+# Countries System
 
-> **Status**: Core implementation complete | **Implementation**: `engine/geoscape/country/country_manager.lua` | **Integrated Relations**: ✅
+> **Status**: Design Document  
+> **Last Updated**: 2025-10-28  
+> **Related Systems**: Geoscape.md, Politics.md, DiplomaticRelations_Technical.md, Finance.md
 
 ## Table of Contents
 
@@ -30,7 +32,10 @@ Countries are geographical entities that exist on the world map within the geosc
 **Strategic Importance:**
 Countries create a dynamic web of diplomatic constraints and opportunities within the geoscape. A single player action (successful or failed mission) can cascade across multiple countries' panic levels and relations, affecting funding, mission availability, and game difficulty. Players must balance defending all nations fairly against operational constraints and resource limitations.
 
-**Integrated Relations System:**
+## Integrated Relations System
+
+**See Also**: [DiplomaticRelations_Technical.md](./DiplomaticRelations_Technical.md) for complete relationship mechanics
+
 - Diplomatic relations tracked with history and trends
 - Time-based decay and growth mechanics
 - UI-ready status labels and color coding

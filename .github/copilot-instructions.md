@@ -56,6 +56,11 @@ AlienFall (XCOM Simple) is an open-source, turn-based strategy game inspired by 
 
 **Temp Files:** ALWAYS use `temp/` directory - NEVER system TEMP or engine/
 
+**Validation Workflow:**
+```bash
+# 1. Run engine to check for syntax errors
+lovec "engine"
+
 # 2. Run affected tests
 lovec "tests2/runners" run_subsystem [subsystem]
 
@@ -368,11 +373,21 @@ local suite = HierarchicalSuite.new("MyModule", "tests2/subsystem/my_module_test
 suite:testMethod("new", "Creates instance", function()
     local MyModule = require("engine.subsystem.my_module")
     suite:assert(MyModule.new() ~= nil, "Should create instance")
+end)
+```
+
+**Best Practices:** One test file per module, test happy + error cases, keep fast, no dependencies
+
+---
+
 ## GitHub & Version Control
+
 **Docs:** [Git Workflow Guide](instructions/🔄%20Git%20Workflow%20&%20Collaboration.instructions.md) | [Deployment Guide](instructions/⚡%20Release%20&%20Deployment.instructions.md)
 
-**Branch Strategy:**
-**Best Practices:** One test file per module, test happy + error cases, keep fast, no dependencies
+**Branch Strategy:** `main` (stable), `develop` (active), `feature/name`, `bugfix/name`, `hotfix/name`
+
+---
+
 ## Design → API → Architecture → Engine Integration
 
 **Core Principle:** Single source of truth flows from design through API to implementation
@@ -470,8 +485,43 @@ suite:testMethod("new", "Creates instance", function()
 
 **Synchronization:** Use [`api/SYNCHRONIZATION_GUIDE.md`](../api/SYNCHRONIZATION_GUIDE.md) to keep docs in sync with code
 
+---
+
+## Testing & Quality Assurance
+
+**Run Tests:**
+```bash
 lovec "tests2/runners" run_all                              # All 2493+ tests (<1s)
+lovec "tests2/runners" run_subsystem core                   # Subsystem tests
+lovec "tests2/runners" run_single_test core/state_manager_test  # Single test
+```
+
+**Test Generation:**
+```bash
+lovec "tests2/generators" scaffold_module_tests engine/subsystem/my_module.lua
+lovec "tests2/generators" analyze_engine_structure  # Find untested modules
+```
+
+**Best Practices:**
+- One test file per engine module (e.g., `engine/core/state_manager.lua` → `tests2/core/state_manager_test.lua`)
+- Test naming: `[module_name]_test.lua`
+- Test happy path + 2+ error cases + edge cases
+- Keep tests fast: <10ms per test, <1s full suite
+- No dependencies between tests (isolated, no shared state)
+- Before commit: run subsystem tests, ensure all pass, add tests for new code
+
+**Coverage Reports:** Auto-generated in `tests2/reports/` (coverage_matrix.json, hierarchy_report.txt)
+
+---
+
+## Code Review Checklist & Daily Workflow
+
 **Code Review Checklist:**
+- Tests pass and cover new code
+- Documentation updated (api/, architecture/, design/)
+- No performance regressions
+- No security issues
+
 **Daily Coding:**
 1. Check design docs for requirements
 2. Review API contracts
@@ -482,8 +532,6 @@ lovec "tests2/runners" run_all                              # All 2493+ tests (<
 **Testing:** Keep current, run regularly: `run\run_tests2_all.bat`  
 **Documentation:** Update `api/`, `architecture/`, `design/` with system changes  
 **Version Control:** Use branches, frequent commits, descriptive messages
-- No performance regressions
-- No security issues
 
 **Release Process:**
 1. Update version in `engine/conf.lua` (semantic versioning: MAJOR.MINOR.PATCH)
@@ -507,24 +555,6 @@ git commit -m "type(scope): description"
 git push origin feature/my-work
 # Create PR on GitHub
 ```
-lovec "tests2/runners" run_single_test core/state_manager_test  # Single test
-```
-
-**Test Generation:**
-```bash
-lovec "tests2/generators" scaffold_module_tests engine/subsystem/my_module.lua
-lovec "tests2/generators" analyze_engine_structure  # Find untested modules
-```
-
-**Best Practices:**
-- One test file per engine module (e.g., `engine/core/state_manager.lua` → `tests2/core/state_manager_test.lua`)
-- Test naming: `[module_name]_test.lua`
-- Test happy path + 2+ error cases + edge cases
-- Keep tests fast: <10ms per test, <1s full suite
-- No dependencies between tests (isolated, no shared state)
-- Before commit: run subsystem tests, ensure all pass, add tests for new code
-
-**Coverage Reports:** Auto-generated in `tests2/reports/` (coverage_matrix.json, hierarchy_report.txt)
 
 ---
 
@@ -590,43 +620,42 @@ Output status in chat only
 - **Documentation-first:** Update docs as part of implementation, not after
 - **Incremental:** Break large tasks into smaller steps, complete each fully
 
+**WORKFLOW:**
+1. **Read request:** Understand what user needs
+2. **Gather context:** Check design/, api/, architecture/, engine/, mods/, tests2/
 3. **Read Logs:** If fixing errors/optimizing, read logs/tests/, logs/game/, logs/analytics/
 4. **Plan:** Determine which files need changes (following Design → API → Architecture → Engine → Mods → Tests)
 5. **Implement:** Make changes systematically
 6. **Validate:** Run tests, check errors, verify integration
 7. **Document:** Update all affected documentation
 8. **Report:** Brief summary with key changes
-5. **Validate:** Run tests, check errors, verify integration
-6. **Document:** Update all affected documentation
-7. **Report:** Brief summary with key changes
 
 **CONTEXT AWARENESS:**
 - **Before any change:** Check if system is documented in design/mechanics/
 - **Before API changes:** Verify GAME_API.toml schema exists
 - **Before implementation:** Review architecture/[layer]/[system].md for integration points
 - **Before modifying engine:** Check if tests exist in tests2/
-├─ Analysis/temporary work → temp/[descriptive_name].md
-└─ Runtime logs (READ THESE!) → logs/[category]/
 
 **FILE LOCATION DECISIONS:**
-- **Before fixing errors:** Read logs/ to understand what failed and why
 ```
 User request about...
 ├─ Game mechanics/balance → design/mechanics/[system].md
 ├─ Data structure/TOML schema → api/[SYSTEM].md + api/GAME_API.toml
-- **Before optimizing:** Read logs/analytics/ and logs/system/performance_*.json
-- **Read logs FIRST:** Before fixing errors, read `logs/tests/`, `logs/game/`, or `logs/mods/`
 ├─ System architecture/integration → architecture/[layer]/[system].md
 ├─ Code implementation → engine/[layer]/[module].lua
 ├─ Game content (units/items/etc) → mods/core/rules/[type]/
-- If test fails: read logs, identify root cause, fix code, re-run test, verify pass
+├─ Tests → tests2/[subsystem]/[module]_test.lua
 └─ Analysis/temporary work → temp/[descriptive_name].md
+└─ Runtime logs (READ THESE!) → logs/[category]/
+```
 
 **ERROR HANDLING:**
+- **Before fixing errors:** Read logs/ to understand what failed and why
+- **Before optimizing:** Read logs/analytics/ and logs/system/performance_*.json
+- **Read logs FIRST:** Before fixing errors, read `logs/tests/`, `logs/game/`, or `logs/mods/`
 - Run `lovec "engine"` after engine/ changes - fix syntax errors immediately
-├─ Tests → tests2/[subsystem]/[module]_test.lua
 - Use `get_errors` tool on modified files - address all issues
-- If test fails: fix code, re-run test, verify pass
+- If test fails: read logs, identify root cause, fix code, re-run test, verify pass
 - Never report incomplete or broken code
 
 **DOCUMENTATION MAINTENANCE:**

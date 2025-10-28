@@ -1,4 +1,8 @@
-﻿# User Interface
+﻿# GUI System
+
+> **Status**: Design Document  
+> **Last Updated**: 2025-10-28  
+> **Related Systems**: Assets.md, Geoscape.md, Battlescape.md, Basescape.md
 
 ## Table of Contents
 

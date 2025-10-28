@@ -1,4 +1,8 @@
-# Battlescape: Tactical Combat System
+# Battlescape System
+
+> **Status**: Design Document  
+> **Last Updated**: 2025-10-28  
+> **Related Systems**: Units.md, Items.md, ai_systems.md, 3D.md, hex_vertical_axial_system.md
 
 ## Table of Contents
 - [Overview](#overview)

@@ -1,4 +1,8 @@
-# Lore
+# Lore System
+
+> **Status**: Design Document  
+> **Last Updated**: 2025-10-28  
+> **Related Systems**: ai_systems.md, Geoscape.md, Battlescape.md
 
 ## Table of Contents
 

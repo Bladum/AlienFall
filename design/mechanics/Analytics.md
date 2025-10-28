@@ -1,4 +1,8 @@
-# Analytics
+# Analytics System
+
+> **Status**: Design Document  
+> **Last Updated**: 2025-10-28  
+> **Related Systems**: ai_systems.md, Economy.md, Units.md, Battlescape.md
 
 ## Table of Contents
 

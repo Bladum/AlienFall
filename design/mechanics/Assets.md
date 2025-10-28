@@ -1,10 +1,29 @@
-﻿# Assets & Resource Pipeline
+﻿﻿# Assets & Resource Pipeline
+
+> **Status**: Design Document  
+> **Last Updated**: 2025-10-28  
+> **Related Systems**: Gui.md, Battlescape.md, Items.md
 
 ## Table of Contents
 
+- [Overview](#overview)
 - [Asset Types & Organization](#asset-types--organization)
 - [Asset Pipeline & Workflow](#asset-pipeline--workflow)
 - [Resource Management & Optimization](#resource-management--optimization)
+---
+
+## Overview
+
+The Assets System manages all game resources including graphics, audio, and data files. It provides an organized pipeline for asset creation, loading, caching, and optimization to ensure consistent visual and audio quality across all game systems.
+
+**Key Functions:**
+- Asset loading and caching for optimal performance
+- Tileset and spritesheet management
+- Mod asset integration and override system
+- Resource validation and testing tools
+
+---
+
 - [Tileset System](#tileset-system)
 - [Asset Caching & Performance](#asset-caching--performance)
 - [Mod Creation & Integration](#mod-creation--integration)

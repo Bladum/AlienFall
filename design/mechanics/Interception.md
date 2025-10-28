@@ -1,4 +1,8 @@
-# Interception
+# Interception System
+
+> **Status**: Design Document  
+> **Last Updated**: 2025-10-28  
+> **Related Systems**: Geoscape.md, Crafts.md, PilotSystem_Technical.md, Items.md
 
 ## Table of Contents
 

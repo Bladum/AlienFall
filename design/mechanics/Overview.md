@@ -1,6 +1,18 @@
-# AlienFall: Complete Documentation Overview (TL;DR)
+# AlienFall Overview
 
-**Version**: 1.0 | **Last Updated**: October 20, 2025 | **Audience**: New players, developers, designers
+> **Status**: Project Overview  
+> **Last Updated**: 2025-10-28  
+> **Related Systems**: All systems
+
+## Table of Contents
+
+- [One-Sentence Summary](#one-sentence-summary)
+- [What is AlienFall](#what-is-alienfall)
+- [Core Game Systems](#core-game-systems-3-layer-architecture)
+- [Game Development Patterns](#game-development-patterns)
+- [Strategic Depth](#strategic-depth)
+- [Technical Implementation](#technical-implementation)
+- [Design Philosophy](#design-philosophy)
 
 ---
 

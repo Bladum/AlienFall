@@ -1,4 +1,8 @@
-# Basescape
+# Basescape System
+
+> **Status**: Design Document  
+> **Last Updated**: 2025-10-28  
+> **Related Systems**: Geoscape.md, Economy.md, Units.md, Crafts.md
 
 ## Table of Contents
 

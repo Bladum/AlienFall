@@ -1,4 +1,8 @@
-# Hex Vertical Axial System Design
+# Hex Coordinate System
+
+> **Status**: Technical Specification  
+> **Last Updated**: 2025-10-28  
+> **Related Systems**: Geoscape.md, Battlescape.md, Basescape.md
 
 ## Table of Contents
 - [Overview](#overview)

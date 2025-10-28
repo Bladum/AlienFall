@@ -1,5 +1,9 @@
 # Units System
 
+> **Status**: Design Document  
+> **Last Updated**: 2025-10-28  
+> **Related Systems**: Battlescape.md, Items.md, Crafts.md, Pilots.md, Economy.md
+
 ## Table of Contents
 
 - [Overview](#overview)
@@ -66,85 +70,6 @@ The class structure follows a three-tier progression within each faction:
 
 **Class Synergy**: Equipment and abilities scale with unit class. A unit of a lower class attempting to use Rank 4+ equipment suffers -30% accuracy penalty. Units trained in a class bonus matching their equipment receive +50% effectiveness (e.g., Medic using Medikit heals for +50%).
 
-#### Pilot Class Branch (NEW)
-
-The **Pilot** branch represents units specialized in vehicle operation, particularly aircraft and spacecraft. Unlike ground combat classes, pilots provide bonuses to crafts they operate and gain experience through interception missions.
-
-**Pilot Progression Tree:**
-```
-Rank 1: Pilot (Basic)
-   ├─ Can operate: Scout crafts, basic transports
-   ├─ Piloting bonus: +2
-   ├─ Role: Can pilot OR fight in battlescape (dual role)
-   └─ XP Source: Interception missions OR ground combat
-   
-Rank 2: Specialized Pilot
-   ├─ Fighter Pilot
-   │  ├─ Can operate: Interceptor, Fighter, Scout
-   │  ├─ Piloting bonus: +3, Dexterity +1, Perception +1
-   │  ├─ Special: +5% craft accuracy in air-to-air combat
-   │  └─ Progression: → Ace Fighter (Rank 3)
-   │
-   ├─ Bomber Pilot
-   │  ├─ Can operate: Bomber, Heavy Fighter
-   │  ├─ Piloting bonus: +3, Intelligence +1, Perception +1
-   │  ├─ Special: +5% craft damage to ground targets
-   │  └─ Progression: → Strategic Bomber (Rank 3)
-   │
-   ├─ Transport Pilot
-   │  ├─ Can operate: Transport, Cargo Hauler
-   │  ├─ Piloting bonus: +3, Intelligence +1, Dexterity +1
-   │  ├─ Special: +10% fuel efficiency, +2 crew capacity
-   │  └─ Progression: → Assault Transport Pilot (Rank 3)
-   │
-   ├─ Naval Pilot
-   │  ├─ Can operate: Submarine, Naval vessels
-   │  ├─ Piloting bonus: +3, Perception +1, Intelligence +1
-   │  ├─ Special: +5% underwater combat accuracy
-   │  └─ Progression: → Fleet Commander (Rank 3)
-   │
-   └─ Helicopter Pilot
-      ├─ Can operate: VTOL crafts, Gunships
-      ├─ Piloting bonus: +3, Dexterity +2
-      ├─ Special: +5% craft dodge, low altitude operations
-      └─ Progression: → Tactical Assault Pilot (Rank 3)
-
-Rank 3: Advanced Pilot
-   ├─ Ace Fighter: Elite air-to-air specialist (Piloting +5, special abilities)
-   ├─ Strategic Bomber: Heavy ordnance expert (Piloting +5, bombing precision)
-   ├─ Assault Transport: Combat drop specialist (Piloting +4, tactical insertion)
-   ├─ Fleet Commander: Naval operations master (Piloting +5, fleet coordination)
-   └─ Tactical Assault: Close air support expert (Piloting +5, ground support)
-
-Rank 4+: Master Pilot Classes
-   └─ (Future expansion: Legendary Ace, Wing Commander, etc.)
-```
-
-**Pilot Class Requirements for Crafts:**
-
-| Craft Type | Required Pilot Class | Min Rank | Crew Size |
-|------------|---------------------|----------|-----------|
-| Scout | Any Pilot | Rank 1 | 1 pilot |
-| Interceptor | Fighter Pilot | Rank 2 | 1 pilot |
-| Fighter | Fighter Pilot | Rank 2 | 1 pilot |
-| Bomber | Bomber Pilot | Rank 2 | 1 pilot + 1 crew |
-| Transport | Transport Pilot | Rank 2 | 1 pilot + 1 co-pilot |
-| Heavy Transport | Transport Pilot | Rank 3 | 1 pilot + 2 crew |
-| Submarine | Naval Pilot | Rank 2 | 1 pilot + 1 crew |
-| Battleship | Naval Pilot | Rank 3 | 1 pilot + 3 crew |
-| Gunship | Helicopter Pilot | Rank 2 | 1 pilot + 1 gunner |
-
-**Dual Role Mechanics:**
-- **Assigned as Pilot**: Unit operates craft, gains pilot XP from interception, cannot deploy to battlescape while assigned
-- **Unassigned**: Unit can deploy to battlescape as soldier, uses ground combat class, gains ground XP
-- **Flexibility**: Players can reassign pilots between craft duty and ground combat based on mission needs
-- **Progression**: Pilots can progress in BOTH pilot rank (via interception) AND ground combat rank (via battlescape) independently
-
-**Pilot XP vs. Ground Combat XP:**
-- **Pilot XP**: Gained from interception missions, advances pilot rank/class
-- **Ground XP**: Gained from battlescape missions, advances ground combat rank/class
-- **Separate Tracking**: Unit can be Rank 3 Marksman (ground) + Rank 2 Fighter Pilot (air)
-- **Strategic Choice**: Invest in pilot specialization OR ground combat OR balance both
 
 #### Rank Progression Requirements
 
@@ -293,6 +218,15 @@ Final AP: 2 AP per turn (within 1-4 range)
 - **Movement Cost**: Base cost is 2 MP per hex, MP = AP * Speed
 - **Affected By**: Armor weight (-1 to -2 movement for heavy armor), status effects
 - **Bonus**: Bonus movement from traits (e.g., Fast trait +2)
+
+#### Piloting Stat
+- **Range**: 0-100 (not 6-12 like other stats)
+- **Effect**: When unit is assigned as pilot, provides bonuses to craft performance
+- **Base**: 20-40 (random at recruitment)
+- **Improved By**: XP gain (+1 per 100 XP), class bonuses, traits, equipment
+- **Bonuses**: Craft Dodge = +(Piloting/5)%, Craft Accuracy = +(Piloting/5)%
+- **See**: Pilots.md for complete piloting mechanics
+- **Note**: Any unit can pilot, but higher Piloting = better craft performance
 
 #### Sight Range
 - **Base**: 16 hexagons (day), 8 hexagons (night)

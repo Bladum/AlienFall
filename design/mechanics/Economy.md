@@ -1,6 +1,8 @@
-# Economy
+# Economy System
 
-**Document Scope**: This document covers the complete economic and production systems: research, manufacturing, marketplace operations, suppliers, black market, and resource transfers. While these might be separate API modules, they operate as an integrated system in AlienFall gameplay.
+> **Status**: Design Document  
+> **Last Updated**: 2025-10-28  
+> **Related Systems**: Basescape.md, Items.md, DiplomaticRelations_Technical.md, Finance.md
 
 ## Table of Contents
 

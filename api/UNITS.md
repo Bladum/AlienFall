@@ -51,15 +51,12 @@ Unit = {
   melee = number,                 -- Melee combat effectiveness (6-12)
   psi = number,                   -- Psionic power (0-20, 0 = no psi)
   
-  -- Piloting Properties (NEW - for pilot role)
-  piloting = number,              -- 6-12 (craft operation skill)
-  assigned_craft_id = string | nil,  -- Craft ID if assigned as pilot
-  pilot_role = string | nil,      -- "pilot", "co-pilot", "crew", nil
-  pilot_xp = number,              -- XP from interception (separate from ground XP)
-  pilot_rank = number,            -- 0-5 (pilot-specific rank)
-  pilot_fatigue = number,         -- 0-100 (affects craft performance)
-  total_interceptions = number,   -- Total interception missions
-  craft_kills = number,           -- Enemy crafts destroyed
+  -- Piloting Stat (NEW - simple system)
+  piloting = number,              -- 0-100 (craft operation skill, any unit can have this)
+  assigned_craft_id = string | nil,  -- Craft ID if currently assigned as pilot
+  
+  -- Note: No separate pilot_xp or pilot_rank - uses unified XP system
+  -- Piloting improves with overall unit XP: +1 per 100 XP gained (from any source)
   
   -- Effective Stats (with equipment bonuses)
   stats = {

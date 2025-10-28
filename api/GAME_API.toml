@@ -131,7 +131,7 @@ validator = "tools/validators/validate_lore.lua"
 [_enums]
 
 # Unit types
-unit_types = ["soldier", "alien", "civilian", "hybrid", "mechanical", "pilot"]
+unit_types = ["soldier", "alien", "civilian", "hybrid", "mechanical"]
 
 # Unit statuses
 unit_statuses = ["healthy", "wounded", "critical", "unconscious", "dead", "panicked", "controlled"]
@@ -406,10 +406,12 @@ crew_capacity = { type = "integer", required = true, min = 1, max = 20, descript
 cargo_capacity = { type = "integer", required = false, default = 0, min = 0, max = 1000, description = "Max cargo weight (kg)" }
 
 # Crew System (NEW)
-required_pilots = { type = "integer", required = true, min = 1, max = 8, description = "Minimum pilots needed to operate" }
-max_crew = { type = "integer", required = true, min = 1, max = 8, description = "Maximum crew size (pilots + co-pilots + crew)" }
-required_pilot_class = { type = "string", required = false, references = "units.unit_class.id", description = "Required pilot class (e.g., 'fighter_pilot')" }
-required_pilot_rank = { type = "integer", required = false, default = 1, min = 1, max = 5, description = "Minimum pilot rank required" }
+required_pilots = { type = "integer", required = true, min = 1, max = 1, default = 1, description = "Always 1 pilot per craft" }
+max_crew = { type = "integer", required = true, min = 0, max = 20, description = "Maximum passenger capacity (crew provides no bonuses)" }
+
+# REMOVED (obsolete with new simple system):
+# required_pilot_class - removed (any unit can pilot)
+# required_pilot_rank - removed (no minimum piloting stat required)
 
 # Movement
 speed = { type = "integer", required = true, min = 1, max = 30, description = "Hexes per turn" }

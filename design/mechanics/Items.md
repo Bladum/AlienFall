@@ -1,4 +1,8 @@
-# Items & Equipment System
+# Items System
+
+> **Status**: Design Document  
+> **Last Updated**: 2025-10-28  
+> **Related Systems**: Units.md, Crafts.md, Economy.md, Battlescape.md
 
 ## Table of Contents
 

@@ -1,5 +1,9 @@
 # Crafts System
 
+> **Status**: Design Document  
+> **Last Updated**: 2025-10-28  
+> **Related Systems**: Geoscape.md, Units.md, Pilots.md, Interception.md, Items.md
+
 ## Table of Contents
 
 - [Overview](#overview)
@@ -35,16 +39,27 @@ Crafts serve as the primary vehicles for strategic deployment and tactical opera
 
 **Core Mechanics**:
 - Crafts do NOT occupy map blocks on the Battlescape (currently; may change in future)
-- Crafts have built-in crews (no separate, swappable pilot system; the craft itself gains experience)
+- **Crafts require pilot units** (see Units.md for pilot class system)
+- **Pilots are separate units** that can be assigned to crafts or deployed to battlescape
+- Pilots gain experience through interception missions and can progress through pilot ranks
 - Crafts provide **no direct combat bonuses** to carried units during Battlescape missions
 - Craft primary purpose is transportation; Interception is a secondary mini-game mechanic
 - Crafts are recovered if crashed during Interception, triggering a rescue mission
+
+**Pilot System Integration**:
+- Each craft requires 1+ pilot units based on craft type (see Pilot Requirements table)
+- Pilots assigned to crafts cannot deploy to battlescape missions simultaneously
+- Pilots gain **Pilot XP** from interception missions (separate from ground combat XP)
+- Pilots can be reassigned between crafts or switched to ground combat role
+- If pilot dies in crash/interception, craft requires new pilot assignment
+- **See [Pilots.md](./Pilots.md) for complete pilot mechanics**
+- See also [Units.md](./Units.md) for unit stats including Piloting stat
 
 **Scope Clarity**:
 - Crafts transport units, weapons, and equipment between base and mission sites
 - Crafts do NOT carry unit inventory items (each unit carries their own equipment)
 - Mission salvage is handled separately (see Salvage System section)
-- Experience gained separately from units carried (no shared XP)
+- Pilot XP is tracked separately from transported unit XP (no shared XP)
 
 ### Craft Storage & Capacity
 
@@ -79,24 +94,16 @@ Crafts follow a **class hierarchy** similar to units, featuring promotion trees 
 
 Most crafts are acquired through **Manufacturing** in Workshop facilities rather than promotion:
 1. Research technology requirements
-2. Allocate resources (metals, fuel, rare materials)
-3. Assign workshop time (1-4 weeks depending on craft class)
-4. Require available storage space (garage/hangar)
-
-**Promotion Path**: Existing crafts can be promoted through experience and research, unlocking upgrades to higher classes
-
-### Craft Types by Role
-
-#### Air-Based Crafts
-
-| Type | Role | Primary Use | Speed | Armor | Cargo |
-|------|------|-------------|-------|-------|-------|
-| **Scout** | Reconnaissance | Map scanning, UFO detection | High | Low | Low |
-| **Interceptor** | Air combat | Interception missions vs. UFOs | High | Medium | Low |
+| Type | Role | Primary Use | Speed | Armor | Cargo | Pilot Req |
+|------|------|-------------|-------|-------|-------|-----------|
+| **Scout** | Reconnaissance | Map scanning, UFO detection | High | Low | Low | 1 pilot (any) |
+| **Interceptor** | Air combat | Interception missions vs. UFOs | High | Medium | Low | 1 Fighter Pilot |
 | **Bomber** | Ground attack | Airborne strike support | Medium | Medium | Medium |
 | **Transport** | Unit deployment | Carry large squads to missions | Low | Low | High |
 | **Assault Transport** | Hybrid | Mixed combat + transport | Medium | Medium | Medium |
 | **Stealth Craft** | Special ops | Quick insertion/extraction | Very High | Low | Very Low |
+
+**Note**: All crafts require 1 pilot. Any unit can pilot any craft. Higher Piloting stat = better performance.
 
 #### Water-Based Crafts
 

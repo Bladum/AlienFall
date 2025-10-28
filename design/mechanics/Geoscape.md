@@ -1,4 +1,8 @@
-# Geoscape
+# Geoscape System
+
+> **Status**: Design Document  
+> **Last Updated**: 2025-10-28  
+> **Related Systems**: Basescape.md, Crafts.md, Countries.md, Interception.md, hex_vertical_axial_system.md
 
 ## Table of Contents
 

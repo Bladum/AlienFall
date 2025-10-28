@@ -1,5 +1,9 @@
 # AI Systems
 
+> **Status**: Design Document  
+> **Last Updated**: 2025-10-28  
+> **Related Systems**: Battlescape.md, Geoscape.md, Interception.md, Countries.md, DiplomaticRelations_Technical.md
+
 ## Table of Contents
 
 - [Overview](#overview)

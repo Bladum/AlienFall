@@ -1,44 +1,50 @@
 # ⛔ DEPRECATED: Pilots API Reference
 
 **Status:** ⛔ **DEPRECATED** (as of 2025-10-28)  
-**Replaced By:** [UNITS.md](UNITS.md) - Pilots are now Units with assigned roles  
+**Replaced By:** [UNITS.md](UNITS.md) - Piloting is now a unit stat (0-100)
 
 ---
 
-## ⚠️ MIGRATION NOTICE
+## ⚠️ NEW SIMPLIFIED SYSTEM
 
-This API has been **deprecated** and merged into the Units system. Pilots are no longer separate entities.
+Pilots are NO LONGER a separate class or entity. The system has been completely redesigned for simplicity:
+
+**New System:**
+- ✅ **Piloting is a stat** (0-100, like Strength or Dexterity)
+- ✅ **Any unit can pilot** - No special pilot class needed
+- ✅ **One unified XP pool** - Ground and air XP contribute equally
+- ✅ **Only pilot provides bonuses** - Crew/passengers = cargo (no bonuses)
 
 **What Changed:**
-- ❌ **OLD**: Pilot was a separate entity with its own properties and progression
-- ✅ **NEW**: Pilot is a Unit with `pilot_role` assignment and `piloting` stat
+- ❌ **OLD**: Separate Pilot class with Fighter Pilot, Bomber Pilot branches
+- ❌ **OLD**: Dual XP tracks (pilot_xp separate from ground XP)
+- ❌ **OLD**: Crew bonuses (co-pilots, gunners providing bonuses)
+- ✅ **NEW**: Piloting stat on all units (improved by any XP)
+- ✅ **NEW**: Assign unit to pilot slot = provides craft bonuses
+- ✅ **NEW**: Only the pilot matters (crew = passengers)
 
 **See:**
-- **[UNITS.md](UNITS.md)** - Complete unit system including pilot roles, piloting stat, and crew assignment
-- **[CRAFTS.md](CRAFTS.md)** - Crew assignment, stat bonuses, and launch requirements
-- **[Design: Units.md](../design/mechanics/Units.md)** - Pilot class tree and progression
+- **[UNITS.md](UNITS.md)** - Units have `piloting` stat (0-100)
+- **[CRAFTS.md](CRAFTS.md)** - Crafts need 1 pilot, bonuses from piloting stat
+- **[Design: Pilots.md](../design/mechanics/Pilots.md)** - Complete simple system specification
 
-**Migration Guide:**
+**Formula:**
 ```
-OLD API                          →  NEW API
-─────────────────────────────────────────────────────────────
-Pilot entity                     →  Unit with pilot_role property
-pilot.pilot_rank                 →  unit.pilot_rank
-pilot.pilot_xp                   →  unit.pilot_xp
-pilot.assigned_craft             →  unit.assigned_craft_id
-pilot.pilot_stats.speed          →  unit.piloting (new stat)
-Pilot.gainXP()                   →  unit:gainPilotXP()
-Pilot.getRank()                  →  unit:getPilotRank()
-Pilot.assignToCraft()            →  craft:assignCrew(unitId, role)
+Craft Dodge = Base Dodge + (Pilot Piloting / 5)%
+Craft Accuracy = Base Accuracy + (Pilot Piloting / 5)%
 ```
 
-**For New Code**: Use `UNITS.md` API exclusively. Do not use this deprecated API.
+**Migration:**
+- Old `pilot_class` → REMOVE (no longer exists)
+- Old `pilot_xp` → Use unified `xp` field
+- Old `pilot_rank` → Calculate from unit rank
+- Piloting improvement: +1 per 100 XP from ANY source
 
 ---
 
-## 🗃️ ARCHIVED CONTENT (for reference only)
+## 🗃️ ARCHIVED CONTENT (Historical Reference Only)
 
-The content below is archived for historical reference. **Do not use in new code.**
+This content is obsolete. Do not use in new code.
 
 ---
 
