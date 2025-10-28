@@ -1,14 +1,26 @@
-# Battlescape Architecture
+# Battlescape Architecture - Vertical Axial Hex Grid
 
 **Layer:** Tactical Combat Layer  
-**Date:** 2025-10-27  
-**Status:** Complete
+**Date:** 2025-10-28  
+**Status:** Complete  
+**Coordinate System:** Vertical Axial (Flat-Top Hexagons)
 
 ---
 
 ## Overview
 
-The Battlescape provides turn-based tactical combat where squads engage enemies on procedurally generated maps.
+The Battlescape provides turn-based tactical combat where squads engage enemies on procedurally generated hex-based maps using a **universal vertical axial coordinate system**.
+
+### Coordinate System
+
+**All Battlescape systems use vertical axial hex coordinates:**
+- **Position Format:** `{q, r}` (axial coordinates)
+- **Direction System:** E, SE, SW, W, NW, NE (6 directions)
+- **Distance:** Hex distance via `HexMath.distance(q1, r1, q2, r2)`
+- **Neighbors:** Always 6 adjacent hexes via `HexMath.getNeighbors(q, r)`
+
+**Design Reference:** `design/mechanics/hex_vertical_axial_system.md`  
+**Core Module:** `engine/battlescape/battle_ecs/hex_math.lua`
 
 ---
 
@@ -16,8 +28,9 @@ The Battlescape provides turn-based tactical combat where squads engage enemies 
 
 ```mermaid
 graph TB
-    subgraph "Battlescape Layer"
+    subgraph "Battlescape Layer - Vertical Axial Hex Grid"
         Battle[Battle Manager]
+        HexMath[HexMath Module<br/>Universal Hex Mathematics]
         
         subgraph "Core Systems"
             Turn[Turn Manager]
@@ -26,16 +39,16 @@ graph TB
             AI[AI Controller]
         end
         
-        subgraph "Map Systems"
-            MapGen[Map Generator]
-            LOS[Line of Sight]
-            Path[Pathfinding]
-            Cover[Cover System]
+        subgraph "Map Systems - Hex Based"
+            MapGen[Map Generator<br/>Hex Blocks]
+            LOS[Line of Sight<br/>HexMath.hexLine]
+            Path[Pathfinding<br/>HexMath.distance]
+            Cover[Cover System<br/>HexMath.getDirection]
         end
         
         subgraph "Entity Management"
-            Units[Unit Manager]
-            Effects[Effects System]
+            Units[Unit Manager<br/>Positions: q,r]
+            Effects[Effects System<br/>HexMath.hexesInRange]
             Animations[Animation System]
         end
     end
@@ -43,6 +56,11 @@ graph TB
     Battle --> Turn
     Battle --> MapGen
     Battle --> Units
+    HexMath -.-> MapGen
+    HexMath -.-> LOS
+    HexMath -.-> Path
+    HexMath -.-> Cover
+    HexMath -.-> Effects
     
     Turn --> Action
     Turn --> AI

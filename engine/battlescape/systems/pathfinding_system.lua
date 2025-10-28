@@ -1,72 +1,32 @@
----Pathfinding - A* Pathfinding for Unit Movement
+---Pathfinding - A* Pathfinding for Unit Movement (Vertical Axial Hex)
 ---
 ---A* pathfinding algorithm for tactical unit movement on hex-based battlescape maps.
----Calculates optimal paths considering movement costs, obstacles, and TUs. Supports
----diagonals, multi-level pathing, and dynamic obstacle avoidance.
+---Uses UNIVERSAL VERTICAL AXIAL coordinate system for all hex operations.
 ---
----Features:
----  - A* algorithm implementation
----  - Hex-based pathfinding
----  - Movement cost calculation
----  - Dynamic obstacle handling
----  - Multi-level support (floors)
----  - TU-aware path validation
----  - Path caching and optimization
+---COORDINATE SYSTEM: Vertical Axial (Flat-Top Hexagons)
+---  - All hex calculations use axial coordinates {q, r}
+---  - Distance: HexMath.distance(q1, r1, q2, r2)
+---  - Neighbors: HexMath.getNeighbors(q, r) - returns 6 adjacent hexes
+---  - Directions: E, SE, SW, W, NW, NE (HexMath.DIRECTIONS)
 ---
----Pathfinding Process:
----  1. Initialize open/closed lists
----  2. Add start node to open list
----  3. Loop: Find lowest F cost node
----  4. Check if goal reached
----  5. Generate neighbors
----  6. Calculate G/H/F costs
----  7. Add to open list if better
----  8. Return path when goal found
+---DESIGN REFERENCE: design/mechanics/hex_vertical_axial_system.md
 ---
----Cost Calculation:
----  - G cost: Distance from start
----  - H cost: Heuristic to goal (hex distance)
----  - F cost: G + H (total estimated cost)
----  - Movement cost: Terrain-based modifiers
----
----Key Exports:
----  - Pathfinding.new(map): Creates pathfinder
----  - findPath(startX, startY, endX, endY, unit): Returns path
----  - getMoveCost(x, y, unit): Returns tile cost
----  - isWalkable(x, y, unit): Checks if tile passable
----  - clearCache(): Clears cached paths
----
----Dependencies:
----  - layers.battlescape.battle.utils.hex_math: Hex utilities
----
----@module shared.pathfinding
----@author AlienFall Development Team
----@copyright 2025 AlienFall Project
----@license Open Source
----
----@usage
----  local Pathfinding = require("shared.pathfinding")
----  local pf = Pathfinding.new(map)
----  local path = pf:findPath(unit.x, unit.y, targetX, targetY, unit)
----
----@see layers.battlescape.battle.utils.hex_math For hex distance
+---@module battlescape.systems.pathfinding_system
+---@see engine.battlescape.battle_ecs.hex_math For hex mathematics
 
--- Pathfinding System
--- A* pathfinding algorithm for unit movement
-
-local HexMath = require("layers.battlescape.battle.utils.hex_math")
+local HexMath = require("engine.battlescape.battle_ecs.hex_math")
 
 local Pathfinding = {}
 Pathfinding.__index = Pathfinding
 
--- Node for A* algorithm
+-- Node for A* algorithm (uses axial coordinates)
 local Node = {}
 Node.__index = Node
 
-function Node.new(x, y, parent)
+function Node.new(q, r, parent)
     local self = setmetatable({}, Node)
-    self.x = x
-    self.y = y
+    self.q = q  -- Axial Q coordinate
+    self.r = r  -- Axial R coordinate
     self.parent = parent
     self.g = 0  -- Cost from start
     self.h = 0  -- Heuristic to goal
@@ -80,24 +40,20 @@ function Pathfinding.new()
     return self
 end
 
--- A* pathfinding algorithm
-function Pathfinding:findPath(unit, startX, startY, goalX, goalY, battlefield, actionSystem)
-    -- Create open and closed sets
+-- A* pathfinding algorithm (axial coordinates)
+function Pathfinding:findPath(unit, startQ, startR, goalQ, goalR, battlefield, actionSystem)
     local openSet = {}
     local closedSet = {}
     local cameFrom = {}
-
-    -- Cost maps
-    local gScore = {}  -- Cost from start to this node
-    local fScore = {}  -- Estimated total cost
+    local gScore = {}
+    local fScore = {}
 
     -- Initialize start node
-    local startKey = string.format("%d,%d", startX, startY)
+    local startKey = string.format("%d,%d", startQ, startR)
     gScore[startKey] = 0
-    fScore[startKey] = self:heuristic(startX, startY, goalX, goalY)
+    fScore[startKey] = self:heuristic(startQ, startR, goalQ, goalR)
 
-    -- Add start to open set
-    local startNode = Node.new(startX, startY)
+    local startNode = Node.new(startQ, startR)
     startNode.f = fScore[startKey]
     table.insert(openSet, startNode)
 
@@ -106,53 +62,61 @@ function Pathfinding:findPath(unit, startX, startY, goalX, goalY, battlefield, a
         local current = self:getLowestFScore(openSet, fScore)
 
         -- Reached goal
-        if current.x == goalX and current.y == goalY then
+        if current.q == goalQ and current.r == goalR then
             return self:reconstructPath(cameFrom, current)
         end
 
         -- Move current from open to closed
         self:removeFromList(openSet, current)
-        local currentKey = string.format("%d,%d", current.x, current.y)
+        local currentKey = string.format("%d,%d", current.q, current.r)
         closedSet[currentKey] = true
 
-        -- Check hex neighbors (6 directions for hex grid)
-        local currentQ, currentR = HexMath.offsetToAxial(current.x, current.y)
-        local neighbors = HexMath.getNeighbors(currentQ, currentR)
-        
+        -- Check hex neighbors using HexMath
+        local neighbors = HexMath.getNeighbors(current.q, current.r)
+
         for _, neighbor in ipairs(neighbors) do
-            local neighborX, neighborY = HexMath.axialToOffset(neighbor.q, neighbor.r)
+            local nq, nr = neighbor.q, neighbor.r
 
-            -- Bounds check
-            if neighborX >= 1 and neighborX <= battlefield.mapWidth and
-               neighborY >= 1 and neighborY <= battlefield.mapHeight then
+            -- Bounds check (if battlefield has bounds)
+            if battlefield.isInBounds and not battlefield:isInBounds(nq, nr) then
+                goto continue
+            end
 
-                local neighborKey = string.format("%d,%d", neighborX, neighborY)
+            local neighborKey = string.format("%d,%d", nq, nr)
 
-                -- Skip if already evaluated
-                if closedSet[neighborKey] then goto continue end
+            -- Skip if already evaluated
+            if closedSet[neighborKey] then
+                goto continue
+            end
 
-                -- Check if neighbor is passable
-                local currentTile = battlefield:getTile(current.x, current.y)
-                local neighborTile = battlefield:getTile(neighborX, neighborY)
-                local moveCost = actionSystem:calculateMovementCost(unit, currentTile, neighborTile, battlefield)
+            -- Check if neighbor is passable
+            local moveCost = 1  -- Default cost
+            if actionSystem and actionSystem.calculateMovementCost then
+                local currentTile = battlefield:getTile(current.q, current.r)
+                local neighborTile = battlefield:getTile(nq, nr)
+                moveCost = actionSystem:calculateMovementCost(unit, currentTile, neighborTile, battlefield)
+            elseif battlefield.getMovementCost then
+                moveCost = battlefield:getMovementCost(nq, nr, unit)
+            end
 
-                if moveCost == 0 then goto continue end
+            if moveCost == 0 or moveCost == math.huge then
+                goto continue
+            end
 
-                -- Calculate tentative g score
-                local tentativeG = gScore[currentKey] + moveCost
+            -- Calculate tentative g score
+            local tentativeG = gScore[currentKey] + moveCost
 
-                -- Check if this path is better
-                if not gScore[neighborKey] or tentativeG < gScore[neighborKey] then
-                    cameFrom[neighborKey] = current
-                    gScore[neighborKey] = tentativeG
-                    fScore[neighborKey] = tentativeG + self:heuristic(neighborX, neighborY, goalX, goalY)
+            -- Check if this path is better
+            if not gScore[neighborKey] or tentativeG < gScore[neighborKey] then
+                cameFrom[neighborKey] = current
+                gScore[neighborKey] = tentativeG
+                fScore[neighborKey] = tentativeG + self:heuristic(nq, nr, goalQ, goalR)
 
-                    -- Add to open set if not already there
-                    if not self:inList(openSet, neighborX, neighborY) then
-                        local neighborNode = Node.new(neighborX, neighborY)
-                        neighborNode.f = fScore[neighborKey]
-                        table.insert(openSet, neighborNode)
-                    end
+                -- Add to open set if not already there
+                if not self:inList(openSet, nq, nr) then
+                    local neighborNode = Node.new(nq, nr)
+                    neighborNode.f = fScore[neighborKey]
+                    table.insert(openSet, neighborNode)
                 end
             end
 
@@ -164,10 +128,8 @@ function Pathfinding:findPath(unit, startX, startY, goalX, goalY, battlefield, a
     return nil
 end
 
--- Manhattan distance heuristic
-function Pathfinding:heuristic(x1, y1, x2, y2)
-    local q1, r1 = HexMath.offsetToAxial(x1, y1)
-    local q2, r2 = HexMath.offsetToAxial(x2, y2)
+-- Hex distance heuristic (vertical axial)
+function Pathfinding:heuristic(q1, r1, q2, r2)
     return HexMath.distance(q1, r1, q2, r2)
 end
 
@@ -177,7 +139,7 @@ function Pathfinding:getLowestFScore(openSet, fScore)
     local lowestScore = math.huge
 
     for _, node in ipairs(openSet) do
-        local key = string.format("%d,%d", node.x, node.y)
+        local key = string.format("%d,%d", node.q, node.r)
         local score = fScore[key] or math.huge
         if score < lowestScore then
             lowest = node
@@ -191,7 +153,7 @@ end
 -- Remove node from list
 function Pathfinding:removeFromList(list, node)
     for i, n in ipairs(list) do
-        if n.x == node.x and n.y == node.y then
+        if n.q == node.q and n.r == node.r then
             table.remove(list, i)
             return
         end
@@ -199,9 +161,9 @@ function Pathfinding:removeFromList(list, node)
 end
 
 -- Check if coordinates are in list
-function Pathfinding:inList(list, x, y)
+function Pathfinding:inList(list, q, r)
     for _, node in ipairs(list) do
-        if node.x == x and node.y == y then
+        if node.q == q and node.r == r then
             return true
         end
     end
@@ -211,226 +173,96 @@ end
 -- Reconstruct path from cameFrom map
 function Pathfinding:reconstructPath(cameFrom, current)
     local path = {}
-    local currentKey = string.format("%d,%d", current.x, current.y)
+    local currentKey = string.format("%d,%d", current.q, current.r)
 
     while cameFrom[currentKey] do
-        table.insert(path, 1, {x = current.x, y = current.y})
+        table.insert(path, 1, {q = current.q, r = current.r})
         current = cameFrom[currentKey]
-        currentKey = string.format("%d,%d", current.x, current.y)
+        currentKey = string.format("%d,%d", current.q, current.r)
     end
 
     -- Add start position
-    table.insert(path, 1, {x = current.x, y = current.y})
+    table.insert(path, 1, {q = current.q, r = current.r})
 
     return path
 end
 
 -- Find path for multi-tile unit
-function Pathfinding:findPathForMultiTile(unit, goalX, goalY, battlefield, actionSystem)
-    -- For multi-tile units, we need to find a path to a position where
-    -- all tiles the unit would occupy are valid
+function Pathfinding:findPathForMultiTile(unit, goalQ, goalR, battlefield, actionSystem)
+    -- Get unit's current position
+    local startQ, startR = unit.q or unit.x, unit.r or unit.y
 
     -- Try direct pathfinding first
-    local path = self:findPath(unit, unit.x, unit.y, goalX, goalY, battlefield, actionSystem)
+    local path = self:findPath(unit, startQ, startR, goalQ, goalR, battlefield, actionSystem)
     if path then
         return path
     end
 
     -- If direct path fails, try adjacent positions
-    -- This is a simplified approach - a more sophisticated algorithm
-    -- would be needed for complex multi-tile pathfinding
+    local neighbors = HexMath.getNeighbors(goalQ, goalR)
+    for _, neighbor in ipairs(neighbors) do
+        path = self:findPath(unit, startQ, startR, neighbor.q, neighbor.r, battlefield, actionSystem)
+        if path then
+            return path
+        end
+    end
 
-    for dy = -1, 1 do
-        for dx = -1, 1 do
-            if dx ~= 0 or dy ~= 0 then
-                local testX = goalX + dx
-                local testY = goalY + dy
+    return nil
+end
 
-                -- Check if all tiles would be valid
-                local valid = true
-                for oy = 0, unit.stats.size - 1 do
-                    for ox = 0, unit.stats.size - 1 do
-                        local checkX = testX + ox
-                        local checkY = testY + oy
+-- Check if path is valid
+function Pathfinding:isPathValid(path, unit, battlefield, actionSystem)
+    if not path or #path == 0 then
+        return false
+    end
 
-                        if checkX < 1 or checkX > battlefield.mapWidth or
-                           checkY < 1 or checkY > battlefield.mapHeight then
-                            valid = false
-                            break
-                        end
+    for i = 1, #path - 1 do
+        local current = path[i]
+        local next = path[i + 1]
 
-                        local tile = battlefield:getTile(checkX, checkY)
-                        if tile:getMoveCost() == 0 or tile.unit then
-                            valid = false
-                            break
-                        end
-                    end
-                    if not valid then break end
-                end
+        -- Check if hexes are adjacent
+        local dist = HexMath.distance(current.q, current.r, next.q, next.r)
+        if dist ~= 1 then
+            return false
+        end
 
-                if valid then
-                    path = self:findPath(unit, unit.x, unit.y, testX, testY, battlefield, actionSystem)
-                    if path then
-                        return path
-                    end
-                end
+        -- Check if movement is possible
+        if actionSystem and actionSystem.calculateMovementCost then
+            local currentTile = battlefield:getTile(current.q, current.r)
+            local nextTile = battlefield:getTile(next.q, next.r)
+            local cost = actionSystem:calculateMovementCost(unit, currentTile, nextTile, battlefield)
+            if cost == 0 or cost == math.huge then
+                return false
             end
         end
     end
 
-    return nil  -- No valid path found
+    return true
 end
 
--- Validate path for unit
-function Pathfinding:validatePath(unit, path, battlefield, actionSystem)
-    if not path or #path < 2 then return false end
-
-    local totalCost = 0
-
-    for i = 1, #path - 1 do
-        local fromTile = battlefield:getTile(path[i].x, path[i].y)
-        local toTile = battlefield:getTile(path[i + 1].x, path[i + 1].y)
-
-        if not fromTile or not toTile then
-            return false
-        end
-
-        local cost = actionSystem:calculateMovementCost(unit, fromTile, toTile, battlefield)
-        if cost == 0 then
-            return false
-        end
-
-        totalCost = totalCost + cost
+-- Calculate total path cost
+function Pathfinding:getPathCost(path, unit, battlefield, actionSystem)
+    if not path or #path <= 1 then
+        return 0
     end
 
-    -- Check if unit has enough MP
-    return totalCost <= unit.movementPoints
-end
-
--- Get path cost
-function Pathfinding:getPathCost(unit, path, battlefield, actionSystem)
-    if not path or #path < 2 then return 0 end
-
     local totalCost = 0
-
     for i = 1, #path - 1 do
-        local fromTile = battlefield:getTile(path[i].x, path[i].y)
-        local toTile = battlefield:getTile(path[i + 1].x, path[i + 1].y)
-        local cost = actionSystem:calculateMovementCost(unit, fromTile, toTile, battlefield)
+        local current = path[i]
+        local next = path[i + 1]
+
+        local cost = 1
+        if actionSystem and actionSystem.calculateMovementCost then
+            local currentTile = battlefield:getTile(current.q, current.r)
+            local nextTile = battlefield:getTile(next.q, next.r)
+            cost = actionSystem:calculateMovementCost(unit, currentTile, nextTile, battlefield)
+        end
+
         totalCost = totalCost + cost
     end
 
     return totalCost
 end
 
--- Debug: Print path
-function Pathfinding:printPath(path)
-    if not path then
-        print("[Pathfinding] No path")
-        return
-    end
-
-    print("[Pathfinding] Path with " .. #path .. " steps:")
-    for i, step in ipairs(path) do
-        print(string.format("  %d: (%d,%d)", i, step.x, step.y))
-    end
-end
-
--- Static method for simple grid-based pathfinding (used by tests)
-function Pathfinding.findPath(grid, startX, startY, goalX, goalY)
-    -- Simple A* implementation for grid arrays
-    -- grid[y][x] = 0 for walkable, 1 for blocked
-    
-    -- Early exit if start == goal
-    if startX == goalX and startY == goalY then
-        return {{x = startX, y = startY}}
-    end
-    
-    -- Initialize data structures
-    local openSet = {}
-    local closedSet = {}
-    local cameFrom = {}
-    local gScore = {}
-    local fScore = {}
-    
-    -- Helper functions
-    local function getKey(x, y) return string.format("%d,%d", x, y) end
-    local function heuristic(x1, y1, x2, y2) return math.abs(x1 - x2) + math.abs(y1 - y2) end
-    local function isWalkable(x, y)
-        if x < 1 or y < 1 or x > #grid[1] or y > #grid then return false end
-        return grid[y][x] == 0
-    end
-    
-    -- Initialize start
-    local startKey = getKey(startX, startY)
-    gScore[startKey] = 0
-    fScore[startKey] = heuristic(startX, startY, goalX, goalY)
-    table.insert(openSet, {x = startX, y = startY, f = fScore[startKey]})
-    
-    while #openSet > 0 do
-        -- Find node with lowest f score
-        table.sort(openSet, function(a, b) return a.f < b.f end)
-        local current = table.remove(openSet, 1)
-        local currentKey = getKey(current.x, current.y)
-        
-        -- Check if we reached the goal
-        if current.x == goalX and current.y == goalY then
-            -- Reconstruct path
-            local path = {}
-            local node = current
-            while node do
-                table.insert(path, 1, {x = node.x, y = node.y})
-                local nodeKey = getKey(node.x, node.y)
-                node = cameFrom[nodeKey]
-            end
-            return path
-        end
-        
-        closedSet[currentKey] = true
-        
-        -- Check neighbors
-        local neighbors = {
-            {x = current.x + 1, y = current.y},
-            {x = current.x - 1, y = current.y},
-            {x = current.x, y = current.y + 1},
-            {x = current.x, y = current.y - 1}
-        }
-        
-        for _, neighbor in ipairs(neighbors) do
-            local neighborKey = getKey(neighbor.x, neighbor.y)
-            
-            if closedSet[neighborKey] then goto continue end
-            if not isWalkable(neighbor.x, neighbor.y) then goto continue end
-            
-            local tentativeG = gScore[currentKey] + 1
-            
-            if not gScore[neighborKey] or tentativeG < gScore[neighborKey] then
-                cameFrom[neighborKey] = current
-                gScore[neighborKey] = tentativeG
-                fScore[neighborKey] = tentativeG + heuristic(neighbor.x, neighbor.y, goalX, goalY)
-                
-                -- Add to open set if not already there
-                local found = false
-                for _, openNode in ipairs(openSet) do
-                    if openNode.x == neighbor.x and openNode.y == neighbor.y then
-                        found = true
-                        break
-                    end
-                end
-                if not found then
-                    table.insert(openSet, {x = neighbor.x, y = neighbor.y, f = fScore[neighborKey]})
-                end
-            end
-            
-            ::continue::
-        end
-    end
-    
-    -- No path found
-    return nil
-end
-
 return Pathfinding
-
-
 

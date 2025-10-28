@@ -1,14 +1,27 @@
-# Procedural Map Generation Architecture
+# Procedural Map Generation Architecture - Hex-Based
 
 **System:** Map & Content Generation  
-**Date:** 2025-10-27  
-**Status:** Complete
+**Date:** 2025-10-28  
+**Status:** Complete  
+**Coordinate System:** Vertical Axial (Flat-Top Hexagons)
 
 ---
 
 ## Overview
 
-The procedural generation system creates unique tactical maps, missions, and content using mapscripts, mapblocks, and biome-based rules.
+The procedural generation system creates unique tactical maps, missions, and content using mapscripts, mapblocks, and biome-based rules. **All maps are generated using vertical axial hex grid system.**
+
+### Hex-Based Map Generation
+
+**Map structure:**
+- **Grid:** 4×4 to 7×7 map blocks
+- **Block Size:** 15 hexes per block (ring pattern)
+- **Total Size:** 60×60 to 105×105 hexes
+- **Coordinates:** All positions use axial `{q, r}`
+- **Placement:** HexMath for block positioning and transformations
+
+**Design Reference:** `design/mechanics/hex_vertical_axial_system.md`  
+**Core Module:** `engine/battlescape/battle_ecs/hex_math.lua`
 
 ---
 
@@ -19,7 +32,7 @@ graph TD
     Start[Mission Deployment] --> Input[Mission Parameters]
     
     Input --> MissionType[Mission Type<br/>crash_site/terror/base_defense]
-    Input --> Location[Province Location]
+    Input --> Location[Province Location<br/>Hex Coordinates]
     Input --> Difficulty[Difficulty Level 1-5]
     Input --> Faction[Enemy Faction]
     
@@ -48,16 +61,16 @@ graph TD
     Script -->|Desert| DesertScript[sand_dunes.lua]
     Script -->|Urban| UrbanScript[city_block.lua]
     
-    ForestScript --> Assembly[Stage 4: MapBlock Assembly]
+    ForestScript --> Assembly[Stage 4: Hex MapBlock Assembly]
     DesertScript --> Assembly
     UrbanScript --> Assembly
     
-    Assembly --> Grid[Generate Grid 4×4 to 7×7]
-    Grid --> PlaceTiles[Place Terrain Tiles]
-    PlaceTiles --> AddFeatures[Add Features & Obstacles]
-    AddFeatures --> CalcCover[Calculate Cover Values]
+    Assembly --> Grid[Generate Hex Grid 4×4 to 7×7 blocks]
+    Grid --> PlaceTiles[Place Hex Terrain Tiles<br/>Axial Coordinates]
+    PlaceTiles --> AddFeatures[Add Features & Obstacles<br/>Hex Positions]
+    AddFeatures --> CalcCover[Calculate Cover Values<br/>HexMath.getDirection]
     
-    CalcCover --> Transform[Stage 5: Transformations]
+    CalcCover --> Transform[Stage 5: Hex Transformations<br/>Rotation via HexMath]
     
     Transform --> Rotate[Rotate 0°/90°/180°/270°]
     Transform --> Mirror[Mirror H/V/Both]

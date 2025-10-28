@@ -1,8 +1,9 @@
-# Architecture Documentation
+# Architecture Documentation - Vertical Axial Hex System
 
 **AlienFall Game Architecture**  
-**Date:** 2025-10-27  
-**Status:** Complete & Restructured
+**Date:** 2025-10-28  
+**Status:** Complete & Restructured  
+**Coordinate System:** Universal Vertical Axial (Flat-Top Hexagons)
 
 ---
 
@@ -10,7 +11,29 @@
 
 Comprehensive architecture documentation for AlienFall (XCOM Simple), organized by system, layer, and component. All documentation features Mermaid diagrams, detailed tables, and clear visual flows.
 
+**🎯 IMPORTANT:** All game layers (Battlescape, Geoscape, Basescape) use a **universal vertical axial hex coordinate system**. See `design/mechanics/hex_vertical_axial_system.md` for complete specification.
+
 **📖 New to architecture docs?** Read the **[Architecture Guide](ARCHITECTURE_GUIDE.md)** first - it explains how to create, manage, and maintain all diagrams and documentation.
+
+---
+
+## 🔷 Universal Hex Coordinate System
+
+**All spatial systems in AlienFall use vertical axial hex coordinates:**
+
+- **Format:** `{q, r}` (axial coordinates, flat-top hexagons)
+- **Directions:** E, SE, SW, W, NW, NE (6 directions)
+- **Core Module:** `engine/battlescape/battle_ecs/hex_math.lua`
+- **Usage:** Battlescape (combat), Geoscape (world map), Basescape (facility layout)
+
+**Key Functions:**
+- `HexMath.distance(q1, r1, q2, r2)` - Hex distance
+- `HexMath.getNeighbors(q, r)` - 6 adjacent hexes
+- `HexMath.hexLine(q1, r1, q2, r2)` - Line of sight
+- `HexMath.hexesInRange(q, r, radius)` - Area queries
+
+**Design Reference:** `design/mechanics/hex_vertical_axial_system.md`  
+**API Reference:** `api/BATTLESCAPE.md`, `api/GEOSCAPE.md`
 
 ---
 
@@ -18,32 +41,25 @@ Comprehensive architecture documentation for AlienFall (XCOM Simple), organized 
 
 ```
 architecture/
-├── README.md                          # This file
+├── README.md                          # This file (updated for hex system)
 ├── ROADMAP.md                         # Development roadmap
 │
 ├── core/                              # Core Engine Systems
 │   ├── STATE_MANAGEMENT.md           # State machine, transitions, lifecycle
 │   └── MOD_SYSTEM.md                 # Mod loading, validation, overrides
 │
-├── layers/                            # Game Layers
-│   ├── GEOSCAPE.md                   # Strategic world management
-│   ├── BATTLESCAPE.md                # Tactical combat
-│   └── BASESCAPE.md                  # Base management
+├── layers/                            # Game Layers (ALL USE HEX GRID)
+│   ├── GEOSCAPE.md                   # Strategic world (90×45 hex map)
+│   ├── BATTLESCAPE.md                # Tactical combat (hex-based)
+│   ├── BASESCAPE.md                  # Base management (hex layout)
+│   └── INTERCEPTION.md               # Air combat
 │
 ├── systems/                           # Specialized Systems
-│   ├── AI_SYSTEMS.md                 # AI behavior, pathfinding, targeting
+│   ├── AI_SYSTEMS.md                 # AI behavior, pathfinding (hex-based)
 │   ├── ECONOMY.md                    # Finance, marketplace, resources
 │   └── RESEARCH.md                   # Tech tree, research progression
 │
 └── legacy/                            # Legacy Files (Reference Only)
-    ├── 01-game-structure.md
-    ├── 02-procedural-generation.md
-    ├── 03-combat-tactics.md
-    ├── 04-base-economy.md
-    ├── DATA_MODELS_AND_INTEGRATION.md
-    ├── DETAILED_SYSTEM_DIAGRAMS.md
-    ├── INTEGRATION_FLOW_DIAGRAMS.md
-    └── SYSTEM_ARCHITECTURE_DIAGRAMS.md
 ```
 
 ---
@@ -56,19 +72,19 @@ architecture/
 - **[State Management](core/STATE_MANAGEMENT.md)** - State machine, scene transitions, global data
 - **[Mod System](core/MOD_SYSTEM.md)** - Content loading, TOML parsing, mod validation
 
-#### Game Layers
-- **[Geoscape](layers/GEOSCAPE.md)** - World map, missions, nations, time management
-- **[Battlescape](layers/BATTLESCAPE.md)** - Turn-based combat, AI, map generation
-- **[Basescape](layers/BASESCAPE.md)** - Facility management, research, manufacturing
+#### Game Layers (Hex-Based)
+- **[Geoscape](layers/GEOSCAPE.md)** - World map (90×45 hex grid), missions, nations
+- **[Battlescape](layers/BATTLESCAPE.md)** - Turn-based combat (hex grid), AI, map generation
+- **[Basescape](layers/BASESCAPE.md)** - Facility management (hex placement), research, manufacturing
 - **[Interception](layers/INTERCEPTION.md)** - Air combat, UFO interception, craft systems
 
 #### Specialized Systems
-- **[AI Systems](systems/AI_SYSTEMS.md)** - Behavior trees, targeting, difficulty scaling
+- **[AI Systems](systems/AI_SYSTEMS.md)** - Behavior trees, targeting (hex-based), difficulty scaling
 - **[Economy](systems/ECONOMY.md)** - Finance, marketplace, salvage, budgets
 - **[Research](systems/RESEARCH.md)** - Tech tree, unlocks, progression
 - **[Analytics](systems/ANALYTICS.md)** - Metrics, performance tracking, balance analysis
 - **[GUI & Widgets](systems/GUI_WIDGETS.md)** - UI framework, widget system, layouts
-- **[Procedural Generation](systems/PROCEDURAL_GENERATION.md)** - Map generation, mapscripts, biomes
+- **[Procedural Generation](systems/PROCEDURAL_GENERATION.md)** - Map generation (hex blocks), mapscripts
 - **[Save & Load](systems/SAVE_LOAD.md)** - Game persistence, auto-save, validation
 - **[Data Models](systems/DATA_MODELS.md)** - Entity relationships, data structures
 - **[Modding Guide](systems/MODDING_GUIDE.md)** - Mod creation, API, workshop integration
@@ -78,7 +94,7 @@ architecture/
 ## 📊 Documentation Features
 
 ### Visual Diagrams
-- ✅ **Mermaid Flowcharts** - Process flows and pipelines
+- ✅ **Mermaid Flowcharts** - Process flows and pipelines (updated for hex system)
 - ✅ **State Diagrams** - State machines and transitions
 - ✅ **Sequence Diagrams** - System interactions and timing
 - ✅ **Entity Relationships** - Data models and structures

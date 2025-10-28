@@ -148,22 +148,42 @@ The final unified 2D array of battle tiles where all combat occurs.
 - All entities (units, objects, effects) exist on battlefield
 - Environment, placement, and initial effects finalized
 
-### Coordinate System
+### Coordinate System (Vertical Axial)
 
-**Hexagon Topology:**
-- Coordinate System: Q (horizontal), R (diagonal) - Odd-R horizontal layout
-- Each hex has 6 adjacent neighbors (standard hex topology)
-- Scale: Each hex represents 2-3 meters of game world space
+**UNIVERSAL HEX SYSTEM:** AlienFall uses a single, unified coordinate system across ALL game layers (Battlescape, Geoscape, Basescape). This is the **vertical axial** hex grid system.
 
-**Neighbor Calculation (Odd-R system):**
+**Coordinate Format:**
+- **Axial Coordinates:** `{q, r}` - Primary storage format (always use this)
+- **Cube Coordinates:** `{x, y, z}` where `x+y+z=0` - Internal calculations only
+- **Pixel Coordinates:** `{x, y}` - Rendering only (never store)
+
+**Hexagon Properties:**
+- **Orientation:** Flat-top hexagons (⬡ not ⬢)
+- **Scale:** Each hex represents 2-3 meters of game world space
+- **Neighbors:** Exactly 6 adjacent hexes per tile
+
+**Direction System (Vertical Axial - 6 Directions):**
 ```
-neighbors[1] = {q+1, r}     -- East
-neighbors[2] = {q+1, r-1}   -- Southeast
-neighbors[3] = {q, r-1}     -- Southwest
-neighbors[4] = {q-1, r}     -- West
-neighbors[5] = {q-1, r+1}   -- Northwest
-neighbors[6] = {q, r+1}     -- Northeast
+Direction 0 (E):  q+1, r+0  -- East
+Direction 1 (SE): q+0, r+1  -- Southeast
+Direction 2 (SW): q-1, r+1  -- Southwest
+Direction 3 (W):  q-1, r+0  -- West
+Direction 4 (NW): q+0, r-1  -- Northwest
+Direction 5 (NE): q+1, r-1  -- Northeast
 ```
+
+**Visual Layout:**
+```
+     ⬡ ⬡ ⬡
+    ⬡ ⬡ ⬡ ⬡
+   ⬡ ⬡ ⬡ ⬡ ⬡
+    ⬡ ⬡ ⬡ ⬡
+     ⬡ ⬡ ⬡
+```
+
+**Odd Column Offset:** Odd-numbered q columns (q=1, 3, 5...) are shifted down by half a hex height. This creates the characteristic "skewed" appearance seen in the images.
+
+**Design Reference:** See `design/mechanics/hex_vertical_axial_system.md` for complete specification.
 
 ---
 

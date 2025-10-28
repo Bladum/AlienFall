@@ -1,14 +1,28 @@
-# Geoscape Architecture
+# Geoscape Architecture - Vertical Axial Hex World Map
 
 **Layer:** Strategic Layer  
-**Date:** 2025-10-27  
-**Status:** Complete
+**Date:** 2025-10-28  
+**Status:** Complete  
+**Coordinate System:** Vertical Axial (Flat-Top Hexagons)
 
 ---
 
 ## Overview
 
-The Geoscape is the strategic world management layer where commanders track global operations, manage missions, and oversee organizational resources.
+The Geoscape is the strategic world management layer where commanders track global operations, manage missions, and oversee organizational resources. **World map uses vertical axial hex grid (90×45 hexes).**
+
+### World Map Coordinate System
+
+**World geography uses vertical axial hex coordinates:**
+- **Map Dimensions:** 90 columns (q) × 45 rows (r) hexes
+- **Total Provinces:** ~4050 hexes
+- **Position Format:** `{q, r}` (axial coordinates)
+- **Wrapping:** Horizontal wrapping for spherical Earth
+- **Province Borders:** Adjacent hexes via `HexMath.getNeighbors(q, r)`
+- **Travel Distance:** Hex distance via `HexMath.distance(q1, r1, q2, r2)`
+
+**Design Reference:** `design/mechanics/hex_vertical_axial_system.md`  
+**Core Module:** `engine/battlescape/battle_ecs/hex_math.lua` (shared with Battlescape)
 
 ---
 
@@ -16,28 +30,29 @@ The Geoscape is the strategic world management layer where commanders track glob
 
 ```mermaid
 graph TB
-    subgraph "Geoscape Layer"
+    subgraph "Geoscape Layer - Vertical Axial Hex Grid"
         Screen[Geoscape Screen]
+        HexMath[HexMath Module<br/>Universal Hex Mathematics]
         
         subgraph "Systems"
-            WorldMap[World Map System]
-            Detection[Detection Manager]
+            WorldMap[World Map System<br/>90×45 Hex Grid]
+            Detection[Detection Manager<br/>Range: HexMath.distance]
             Calendar[Calendar System]
             Relations[Relations Manager]
-            CraftMgmt[Craft Management]
+            CraftMgmt[Craft Management<br/>Travel: Hex Path]
         end
         
         subgraph "Rendering"
-            Globe[Globe Renderer]
+            Globe[Globe Renderer<br/>Hex→Pixel]
             UI[Geoscape UI]
-            Markers[Mission Markers]
+            Markers[Mission Markers<br/>Hex Positions]
         end
         
         subgraph "Data"
-            WorldData[World Geography]
+            WorldData[World Geography<br/>Provinces: q,r]
             Nations[Nation Data]
-            Bases[Base Locations]
-            Missions[Active Missions]
+            Bases[Base Locations<br/>Hex Coords]
+            Missions[Active Missions<br/>Hex Coords]
         end
     end
     
@@ -46,6 +61,10 @@ graph TB
     Screen --> Calendar
     Screen --> Relations
     Screen --> CraftMgmt
+    HexMath -.-> WorldMap
+    HexMath -.-> Detection
+    HexMath -.-> CraftMgmt
+    HexMath -.-> Globe
     
     WorldMap --> Globe
     WorldMap --> Markers

@@ -2,8 +2,37 @@
 
 **System:** Strategic Layer (Global Strategy / World Management)  
 **Module:** `engine/geoscape/`  
-**Latest Update:** 2025-10-27  
-**Status:** ✅ Core Complete | ⚠️ Some features in progress
+**Latest Update:** 2025-10-28  
+**Status:** ✅ Core Complete | ⚠️ Vertical Axial Migration Complete
+
+---
+
+## 🎯 Coordinate System - CRITICAL
+
+**UNIVERSAL HEX SYSTEM:** Geoscape uses the **same vertical axial coordinate system** as Battlescape and all other game layers. This eliminates conversion errors and ensures consistency.
+
+**Coordinate Format:**
+- **Axial:** `{q, r}` - Primary storage (ALWAYS USE THIS)
+- **Cube:** `{x, y, z}` where x+y+z=0 - Calculations only
+- **Pixel:** `{x, y}` - Rendering only (never store)
+
+**Direction System (6 Directions):**
+```
+Direction 0 (E):  q+1, r+0  -- East
+Direction 1 (SE): q+0, r+1  -- Southeast
+Direction 2 (SW): q-1, r+1  -- Southwest
+Direction 3 (W):  q-1, r+0  -- West
+Direction 4 (NW): q+0, r-1  -- Northwest
+Direction 5 (NE): q+1, r-1  -- Northeast
+```
+
+**World Map Dimensions:**
+- Width: 90 hexes (q = 0 to 89)
+- Height: 45 hexes (r = 0 to 44)
+- Total provinces: ~4050 hexes
+- Horizontal wrapping: q=90 wraps to q=0 (spherical Earth)
+
+**Design Reference:** `design/mechanics/hex_vertical_axial_system.md`
 
 ---
 

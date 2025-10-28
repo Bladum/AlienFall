@@ -1,14 +1,27 @@
-# AI Systems Architecture
+# AI Systems Architecture - Hex-Based Tactical AI
 
 **System:** Artificial Intelligence  
-**Date:** 2025-10-27  
-**Status:** Complete
+**Date:** 2025-10-28  
+**Status:** Complete  
+**Coordinate System:** Vertical Axial (for tactical calculations)
 
 ---
 
 ## Overview
 
-The AI system controls enemy behavior, tactical decisions, strategic planning, and difficulty scaling across all game modes.
+The AI system controls enemy behavior, tactical decisions, strategic planning, and difficulty scaling across all game modes. **Tactical AI uses vertical axial hex system for pathfinding, targeting, and movement.**
+
+### Hex-Based AI Calculations
+
+**AI tactical decisions use HexMath:**
+- **Pathfinding:** A* with `HexMath.distance()` heuristic
+- **Target Selection:** Range via `HexMath.distance()`
+- **Cover Analysis:** Direction via `HexMath.getDirection()`
+- **Area Control:** Range queries via `HexMath.hexesInRange()`
+- **Line of Sight:** Vision via `HexMath.hexLine()`
+
+**Design Reference:** `design/mechanics/hex_vertical_axial_system.md`  
+**Core Module:** `engine/battlescape/battle_ecs/hex_math.lua`
 
 ---
 
@@ -16,13 +29,14 @@ The AI system controls enemy behavior, tactical decisions, strategic planning, a
 
 ```mermaid
 graph TB
-    subgraph "AI Systems"
+    subgraph "AI Systems - Hex-Based Tactical"
         Coordinator[AI Coordinator]
+        HexMath[HexMath Module<br/>Tactical Calculations]
         
         subgraph "Tactical AI"
-            Combat[Combat AI]
-            Movement[Movement AI]
-            Targeting[Target Selection]
+            Combat[Combat AI<br/>Hex Range Checks]
+            Movement[Movement AI<br/>Hex Pathfinding]
+            Targeting[Target Selection<br/>Hex Distance]
         end
         
         subgraph "Strategic AI"
@@ -32,14 +46,19 @@ graph TB
         end
         
         subgraph "Support"
-            Pathfinding[Pathfinding]
-            Threat[Threat Assessment]
-            Squad[Squad Coordination]
+            Pathfinding[Pathfinding<br/>HexMath.distance]
+            Threat[Threat Assessment<br/>Hex Ranges]
+            Squad[Squad Coordination<br/>Hex Formation]
         end
     end
     
     Coordinator --> Combat
     Coordinator --> Planning
+    HexMath -.-> Combat
+    HexMath -.-> Movement
+    HexMath -.-> Targeting
+    HexMath -.-> Pathfinding
+    HexMath -.-> Threat
     
     Combat --> Movement
     Combat --> Targeting
@@ -55,6 +74,7 @@ graph TB
     style Coordinator fill:#FFD700
     style Combat fill:#FF6B6B
     style Planning fill:#87CEEB
+    style HexMath fill:#90EE90
 ```
 
 ---

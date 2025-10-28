@@ -2,6 +2,7 @@
 
 ## Table of Contents
 - [Overview](#overview)
+- [Coordinate System](#coordinate-system)
 - [Core Systems](#core-systems)
 - [Map Generation](#map-generation)
 - [Battle Setup & Deployment](#battle-setup--deployment)
@@ -28,11 +29,50 @@
 The Battlescape is the tactical combat layer of AlienFall—a turn-based, hex-grid tactical system inspired by X-COM. All combat is turn-based with no real-time elements, emphasizing strategic planning, resource management, and tactical decision-making.
 
 ### Combat Paradigm
-- **Hex Grid**: Q-axis horizontal, R-axis diagonal coordinate system
-- **Hexagon Scale**: Each hex represents 2-3 meters of game world space
-- **Turn Duration**: 30 seconds of in-game time per turn
-- **Time to Action**: Approximately 1 second per tile of movement
-- **Neighbor System**: Each hex has 6 adjacent neighbors (standard hex topology)
+- **Hex Grid:** Vertical axial coordinate system with flat-top hexagons
+- **Hexagon Scale:** Each hex represents 2-3 meters of game world space
+- **Turn Duration:** 30 seconds of in-game time per turn
+- **Time to Action:** Approximately 1 second per tile of movement
+- **Neighbor System:** Each hex has 6 adjacent neighbors (standard hex topology)
+
+---
+
+## Coordinate System
+
+**UNIVERSAL HEX SYSTEM:** Battlescape uses the **vertical axial coordinate system** - the same system used by Geoscape, Basescape, and all other game layers. This ensures consistency and eliminates coordinate conversion errors.
+
+### Axial Coordinates (q, r)
+All hex positions use two coordinates:
+- **q:** Column coordinate (horizontal axis)
+- **r:** Row coordinate (vertical axis, with offset)
+
+### Direction System (6 Directions)
+```
+Direction 0 (E):  q+1, r+0  -- East (right)
+Direction 1 (SE): q+0, r+1  -- Southeast (down-right)
+Direction 2 (SW): q-1, r+1  -- Southwest (down-left)
+Direction 3 (W):  q-1, r+0  -- West (left)
+Direction 4 (NW): q+0, r-1  -- Northwest (up-left)
+Direction 5 (NE): q+1, r-1  -- Northeast (up-right)
+```
+
+### Visual Characteristics
+Due to the vertical axial system:
+- Maps appear "skewed" or "diamond-shaped"
+- Rectangular buildings look tilted on the hex grid
+- Odd columns (q=1, 3, 5...) are shifted down by 0.5 hex height
+- This is **intentional and correct** - see `design/mechanics/hex_vertical_axial_system.md`
+
+### Distance Calculation
+Convert to cube coordinates for accurate distance:
+```
+x = q
+z = r
+y = -x - z
+distance = (|x1-x2| + |y1-y2| + |z1-z2|) / 2
+```
+
+**Complete Specification:** See `design/mechanics/hex_vertical_axial_system.md` for full details on the coordinate system, pixel conversion formulas, and implementation guidelines.
 
 ---
 

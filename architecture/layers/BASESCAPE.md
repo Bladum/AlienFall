@@ -1,14 +1,32 @@
-# Basescape Architecture
+# Basescape Architecture - Vertical Axial Hex Grid
 
 **Layer:** Base Management Layer  
-**Date:** 2025-10-27  
-**Status:** Complete
+**Date:** 2025-10-28  
+**Status:** Complete  
+**Coordinate System:** Vertical Axial (Flat-Top Hexagons)
 
 ---
 
 ## Overview
 
-The Basescape layer provides facility management, research, manufacturing, and personnel systems for base operations.
+The Basescape layer provides facility management, research, manufacturing, and personnel systems for base operations. **Base layout uses vertical axial hex grid for facility placement.**
+
+### Base Grid Coordinate System
+
+**Base facilities are placed on hex grid:**
+- **Grid Size:** Configurable (typical: 20×20 hexes)
+- **Position Format:** `{q, r}` (axial coordinates)
+- **Facility Size:** 1-7 hexes (single hex or hex ring pattern)
+- **Adjacent Check:** `HexMath.getNeighbors(q, r)` for connections
+- **Distance:** `HexMath.distance(q1, r1, q2, r2)` for facility range
+
+**Design Reference:** `design/mechanics/hex_vertical_axial_system.md`  
+**Core Module:** `engine/battlescape/battle_ecs/hex_math.lua` (shared across all layers)
+
+**Facility Patterns:**
+- **1-hex:** Single building (generator, storage)
+- **7-hex:** Ring pattern (large facility, hangar)
+- **Custom:** Multi-hex irregular shapes
 
 ---
 
@@ -16,11 +34,12 @@ The Basescape layer provides facility management, research, manufacturing, and p
 
 ```mermaid
 graph TB
-    subgraph "Basescape Layer"
+    subgraph "Basescape Layer - Vertical Axial Hex Grid"
         Base[Base Manager]
+        HexMath[HexMath Module<br/>Universal Hex Mathematics]
         
         subgraph "Core Systems"
-            Facilities[Facility System]
+            Facilities[Facility System<br/>Hex Placement]
             Research[Research System]
             Manufacturing[Manufacturing System]
             Personnel[Personnel Manager]
@@ -33,7 +52,7 @@ graph TB
         end
         
         subgraph "UI"
-            Grid[Base Grid UI]
+            Grid[Base Grid UI<br/>Hex Grid Rendering]
             Panels[Management Panels]
             Reports[Reports & Stats]
         end
@@ -43,6 +62,8 @@ graph TB
     Base --> Research
     Base --> Manufacturing
     Base --> Personnel
+    HexMath -.-> Facilities
+    HexMath -.-> Grid
     
     Facilities --> Finance
     Research --> Personnel

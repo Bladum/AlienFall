@@ -1,11 +1,16 @@
----VisionSystem - Line of Sight Calculation (ECS)
+---VisionSystem - Line of Sight Calculation (ECS - Vertical Axial Hex)
 ---
 ---Calculates line of sight between hexes for vision, shooting, and detection.
----Part of the ECS (Entity-Component-System) battle architecture. Determines
----what units can see and which tiles are visible.
+---Uses UNIVERSAL VERTICAL AXIAL coordinate system for all hex operations.
+---
+---COORDINATE SYSTEM: Vertical Axial (Flat-Top Hexagons)
+---  - All positions use axial coordinates {q, r}
+---  - LOS calculation: HexMath.hexLine(q1, r1, q2, r2)
+---  - Vision range: HexMath.hexesInRange(q, r, range)
+---  - Front arc: HexMath.isInFrontArc(sourceQ, sourceR, facing, targetQ, targetR)
 ---
 ---Features:
----  - Hex-based line of sight
+---  - Hex-based line of sight with vertical axial
 ---  - Obstacle detection (walls, terrain)
 ---  - Vision range calculation
 ---  - Cover detection
@@ -13,10 +18,9 @@
 ---  - Debug visualization
 ---
 ---LOS Algorithm:
----  1. Interpolate line between source and target
----  2. Sample points along line
----  3. Check each point for obstacles
----  4. Return true if clear path, false if blocked
+---  1. Use HexMath.hexLine() to get hexes between source and target
+---  2. Check each hex for obstacles
+---  3. Return true if clear path, false if blocked
 ---
 ---Blocking Elements:
 ---  - Walls and solid terrain
@@ -25,33 +29,21 @@
 ---  - Elevation changes (limited)
 ---  - Map edges
 ---
+---DESIGN REFERENCE: design/mechanics/hex_vertical_axial_system.md
+---
 ---Key Exports:
 ---  - hasLineOfSight(hexSystem, fromQ, fromR, toQ, toR): Returns true if LOS clear
 ---  - calculateVisionRange(unit): Returns vision distance in tiles
 ---  - getCover(hexSystem, fromQ, fromR, toQ, toR): Returns cover value (0.0-1.0)
 ---  - isVisible(unit, targetQ, targetR): Returns true if target visible
 ---
----Dependencies:
----  - battlescape.battle_ecs.hex_math: Hex utilities
----  - battlescape.battle_ecs.debug: Debug visualization
----
 ---@module battlescape.battle_ecs.vision_system
----@author AlienFall Development Team
----@copyright 2025 AlienFall Project
----@license Open Source
----
----@usage
----  local VisionSystem = require("battlescape.battle_ecs.vision_system")
----  local canSee = VisionSystem.hasLineOfSight(hexSystem, 10, 10, 15, 12)
----
----@see battlescape.battle_ecs.shooting_system For usage
----@see battlescape.combat.los_system For advanced LOS
+---@see engine.battlescape.battle_ecs.hex_math For hex mathematics
 
--- vision_system.lua
--- Vision and line-of-sight processing system
+-- Vision and line-of-sight processing system (Vertical Axial)
 -- Part of ECS architecture for battle system
 
-local HexMath = require("battlescape.battle_ecs.hex_math")
+local HexMath = require("engine.battlescape.battle_ecs.hex_math")
 local Debug = require("battlescape.battle_ecs.debug")
 
 local VisionSystem = {}

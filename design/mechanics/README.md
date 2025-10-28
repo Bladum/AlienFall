@@ -1,21 +1,24 @@
-# Game Mechanics Specifications
+# Game Mechanics Specifications - Hex-Based Systems
 
 ## Goal / Purpose
 
 The Mechanics folder contains detailed design specifications for all game systems and mechanics. These documents define how each system works, what parameters control behavior, balance values, and the relationships between systems.
 
+**🎯 CRITICAL:** All spatial systems use **vertical axial hex coordinate system**. See `hex_vertical_axial_system.md` for complete specification.
+
 ## Content
 
 System design files for each major game mechanic:
 
+- **hex_vertical_axial_system.md** ⭐ - **Universal coordinate system (READ FIRST)**
 - **Units.md** - Unit classes, abilities, progression systems
-- **Battlescape.md** - Tactical combat mechanics and turn resolution
-- **Geoscape.md** - Strategic layer, world map, and campaign progression
-- **Basescape.md** - Base construction, facility management, and upgrades
+- **Battlescape.md** - Tactical combat mechanics (hex-based) and turn resolution
+- **Geoscape.md** - Strategic layer, world map (90×45 hex grid), and campaign progression
+- **Basescape.md** - Base construction (hex layout), facility management, and upgrades
 - **Economy.md** - Financial systems, resources, and production
 - **Crafts.md** - Spacecraft types, capabilities, and specifications
 - **Items.md** - Equipment, weapons, armor, and consumables
-- **AI_Systems.md** - AI decision-making and behavior systems
+- **AI_Systems.md** - AI decision-making (hex pathfinding) and behavior systems
 - **Politics.md** - Political systems, diplomacy, and faction relations
 - **Gui.md** - User interface design and interaction patterns
 - **Finance.md** - Financial mechanics and budgeting
@@ -28,13 +31,22 @@ System design files for each major game mechanic:
 - **Glossary.md** - Game terminology and concepts
 - **Overview.md** - Overview of all mechanics
 
+## Coordinate System
+
+**ALL game layers use vertical axial hex coordinates:**
+- **Format:** `{q, r}` (axial coordinates)
+- **Directions:** E, SE, SW, W, NW, NE (6 directions)
+- **Core Module:** `engine/battlescape/battle_ecs/hex_math.lua`
+- **Usage:** Battlescape (combat), Geoscape (world), Basescape (facilities)
+
 ## Features
 
 - **Complete System Specifications**: Every game system documented
+- **Hex-Based Design**: All spatial calculations use hex math
 - **Detailed Mechanics**: How systems work step-by-step
 - **Balance Parameters**: Numbers that control game balance
 - **Configuration Format**: TOML structure for each system
-- **Integration Points**: How systems interact
+- **Integration Points**: How systems interact (all use same hex system)
 - **Examples**: Usage examples and sample data
 - **Rationale**: Why certain design decisions were made
 

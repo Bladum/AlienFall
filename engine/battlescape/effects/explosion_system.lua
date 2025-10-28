@@ -1,55 +1,37 @@
----ExplosionSystem - Area-of-Effect Damage and Visual Effects
+---ExplosionSystem - Area-of-Effect Damage (Vertical Axial Hex)
 ---
 ---Handles explosive damage propagation with power falloff, obstacle absorption,
----chain reactions, and visual ring animations. Creates fire and smoke effects
----at explosion sites. Core system for grenades, rockets, and explosive weapons.
+---chain reactions, and visual effects. Uses VERTICAL AXIAL hex system for accurate
+---blast radius calculation from epicenter.
+---
+---COORDINATE SYSTEM: Vertical Axial (Flat-Top Hexagons)
+---  - Epicenter position: axial coordinates {q, r}
+---  - Blast radius: HexMath.hexesInRange(epicenterQ, epicenterR, radius)
+---  - Distance falloff: HexMath.distance(epicenterQ, epicenterR, targetQ, targetR)
+---  - LOS blocking: HexMath.hexLine() for obstacle checking
 ---
 ---Explosion Mechanics:
----  - Power propagation with distance-based falloff
----  - Obstacle absorption reducing blast radius
+---  - Power propagation with hex distance-based falloff
+---  - Obstacle absorption reducing blast reach
 ---  - Chain explosions from volatile objects
----  - Ring-based visual animation (expanding circles)
+---  - Ring-based visual animation (expanding hex rings)
 ---  - Fire and smoke effect generation
 ---
----Features:
----  - Configurable blast radius and power curves
----  - Terrain-based damage absorption
----  - Unit damage calculation with cover modifiers
----  - Visual ring animation with timing control
----  - Integration with fire and smoke systems
----  - Performance optimization for large explosions
+---DESIGN REFERENCE: design/mechanics/hex_vertical_axial_system.md
 ---
 ---Key Exports:
 ---  - new(battlefield, damageSystem, fireSystem, smokeSystem): Create explosion system
----  - createExplosion(centerX, centerY, power, damageType, source): Trigger explosion
+---  - createExplosion(epicenterQ, epicenterR, power, damageType, source): Trigger explosion
 ---  - calculateBlastRadius(power, obstacles): Calculate effective radius
----  - propagatePower(centerX, centerY, power, maxDistance): Calculate power falloff
----  - createRingAnimation(centerX, centerY, maxRadius): Create visual ring effect
 ---  - update(dt): Update active explosions and animations
 ---
----Dependencies:
----  - require("battlescape.combat.damage_system"): Damage calculation
----  - require("battlescape.effects.fire_system"): Fire effect creation
----  - require("battlescape.effects.smoke_system"): Smoke effect creation
----
 ---@module battlescape.effects.explosion_system
----@author AlienFall Development Team
----@copyright 2025 AlienFall Project
----@license Open Source
----
----@usage
----  local ExplosionSystem = require("battlescape.effects.explosion_system")
----  local explosions = ExplosionSystem.new(battlefield, damageSystem)
----  explosions:createExplosion(10, 10, 100, "explosive", unit)
----
----@see battlescape.combat.damage_system For damage calculations
----@see battlescape.effects.fire_system For fire effects
----@see battlescape.effects.smoke_system For smoke effects
+---@see engine.battlescape.battle_ecs.hex_math For hex mathematics
 
--- Explosion System
--- Handles area-of-effect damage with power propagation, obstacle absorption,
--- chain explosions, fire/smoke creation, and ring animation
+-- Explosion System (Vertical Axial)
+-- Handles area-of-effect damage with hex-based blast radius
 
+local HexMath = require("engine.battlescape.battle_ecs.hex_math")
 local DamageSystem = require("battlescape.combat.damage_system")
 
 local ExplosionSystem = {}
@@ -69,36 +51,36 @@ ExplosionSystem.MAX_PROPAGATION_DISTANCE = 20
 -- @return table New ExplosionSystem instance
 function ExplosionSystem.new(battlefield, damageSystem, fireSystem, smokeSystem)
     print("[ExplosionSystem] Initializing explosion system")
-    
+
     local self = setmetatable({}, ExplosionSystem)
     
     self.battlefield = battlefield
     self.damageSystem = damageSystem or DamageSystem.new()
     self.fireSystem = fireSystem
     self.smokeSystem = smokeSystem
-    
+
     self.activeExplosions = {}      -- Currently animating explosions
     self.chainExplosionQueue = {}   -- Pending chain explosions
-    
+
     return self
 end
 
---- Create an explosion at a location
--- @param x number Epicenter X position
--- @param y number Epicenter Y position
+--- Create an explosion at a location (axial coordinates)
+-- @param epicenterQ number Epicenter Q (axial) coordinate
+-- @param epicenterR number Epicenter R (axial) coordinate
 -- @param power number Initial explosion power
--- @param dropoff number Power reduction per ring
+-- @param dropoff number Power reduction per hex ring
 -- @param damageClass string Damage type (e.g., "explosive")
 -- @param createFire boolean Create fire effects
 -- @param createSmoke boolean Create smoke effects
 -- @return table Explosion data
-function ExplosionSystem:createExplosion(x, y, power, dropoff, damageClass, createFire, createSmoke)
-    print("[ExplosionSystem] Creating explosion at (" .. x .. "," .. y .. ") power=" .. 
-          power .. ", dropoff=" .. dropoff)
-    
+function ExplosionSystem:createExplosion(epicenterQ, epicenterR, power, dropoff, damageClass, createFire, createSmoke)
+    print(string.format("[ExplosionSystem] Creating explosion at hex(%d,%d) power=%d, dropoff=%d",
+          epicenterQ, epicenterR, power, dropoff))
+
     local explosion = {
-        x = x,
-        y = y,
+        q = epicenterQ,
+        r = epicenterR,
         power = power,
         dropoff = dropoff,
         damageClass = damageClass or "explosive",
@@ -119,24 +101,24 @@ function ExplosionSystem:createExplosion(x, y, power, dropoff, damageClass, crea
     return explosion
 end
 
---- Calculate damage propagation using flood-fill algorithm
--- @param explosion table Explosion data
+--- Calculate damage propagation using flood-fill algorithm (vertical axial)
+-- @param explosion table Explosion data with q, r epicenter
 function ExplosionSystem:calculatePropagation(explosion)
-    local visited = {}  -- Track visited tiles: key = "x,y", value = power
-    local queue = {}    -- Queue for BFS: {x, y, power, ring}
-    
+    local visited = {}  -- Track visited hexes: key = "q,r", value = power
+    local queue = {}    -- Queue for BFS: {q, r, power, ring}
+
     -- Start at epicenter
     table.insert(queue, {
-        x = explosion.x,
-        y = explosion.y,
+        q = explosion.q,
+        r = explosion.r,
         power = explosion.power,
         ring = 0
     })
     
-    local key = explosion.x .. "," .. explosion.y
+    local key = string.format("%d,%d", explosion.q, explosion.r)
     visited[key] = explosion.power
     
-    -- BFS flood-fill
+    -- BFS flood-fill with hex distance
     while #queue > 0 do
         local current = table.remove(queue, 1)
         
@@ -150,19 +132,19 @@ function ExplosionSystem:calculatePropagation(explosion)
             goto continue
         end
         
-        -- Store this tile in the appropriate ring
+        -- Store this hex in the appropriate ring
         if not explosion.rings[current.ring] then
             explosion.rings[current.ring] = {}
         end
         table.insert(explosion.rings[current.ring], {
-            x = current.x,
-            y = current.y,
+            q = current.q,
+            r = current.r,
             power = current.power
         })
         
-        -- Get neighbors
-        local neighbors = self:getHexNeighbors(current.x, current.y)
-        
+        -- Get hex neighbors using HexMath (returns 6 adjacent hexes)
+        local neighbors = HexMath.getNeighbors(current.q, current.r)
+
         -- Limit propagation: epicenter hits all 6 neighbors, others hit max 3
         local maxNeighbors = (current.ring == 0) and 6 or 3
         local neighborCount = 0
@@ -172,22 +154,24 @@ function ExplosionSystem:calculatePropagation(explosion)
                 break
             end
             
+            local nq, nr = neighbor.q, neighbor.r
+
             -- Calculate power after propagation
             local reducedPower = current.power - explosion.dropoff
             
             -- Apply obstacle absorption
-            reducedPower = self:applyObstacleAbsorption(neighbor.x, neighbor.y, reducedPower)
-            
+            reducedPower = self:applyObstacleAbsorption(nq, nr, reducedPower)
+
             if reducedPower > 0 then
-                local neighborKey = neighbor.x .. "," .. neighbor.y
-                
+                local neighborKey = string.format("%d,%d", nq, nr)
+
                 -- Only visit if we haven't been here or if this path has more power
                 if not visited[neighborKey] or visited[neighborKey] < reducedPower then
                     visited[neighborKey] = reducedPower
                     
                     table.insert(queue, {
-                        x = neighbor.x,
-                        y = neighbor.y,
+                        q = nq,
+                        r = nr,
                         power = reducedPower,
                         ring = current.ring + 1
                     })

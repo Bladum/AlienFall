@@ -1,36 +1,36 @@
----Hex Grid System - Axial Coordinate System for Geoscape
+---Hex Grid System - Vertical Axial Coordinate System for Geoscape
 ---
----Implements flat-top hexagon grid with axial coordinates (q, r) and cube coordinate
----conversion for calculations. Provides pathfinding (A*), distance calculations, neighbor
----lookups, and coordinate transformations. Foundation for geoscape spatial logic.
+---UNIVERSAL HEX SYSTEM: Uses the same vertical axial coordinate system as all
+---other AlienFall maps (Battlescape, Basescape). This ensures consistency across
+---all game layers and eliminates coordinate conversion errors.
 ---
----Coordinate Systems:
----  - Axial: {q, r} - Storage format (2 values)
----  - Cube: {x, y, z} - Calculation format (x + y + z = 0 constraint)
----  - Pixel: {x, y} - Screen space conversion
+---COORDINATE SYSTEM: Vertical Axial (Flat-Top Hexagons)
+---  - Axial: {q, r} - Primary storage format
+---  - Cube: {x, y, z} where x+y+z=0 - For calculations only
+---  - Pixel: {x, y} - For rendering only
 ---
----Hexagon Orientation:
----  - Flat-top hexagons (⬡ not ⬢)
----  - East direction: q+1, r+0
----  - Six neighbors per hex
+---IMPORTANT: This module shares the SAME coordinate system as:
+---  - engine/battlescape/battle_ecs/hex_math.lua
+---  - All battle maps, world maps, and base layouts
+---
+---DIRECTION SYSTEM (Vertical Axial - Flat Top):
+---  - 0: E  (East)      → q+1, r+0  (right)
+---  - 1: SE (Southeast) → q+0, r+1  (down-right)
+---  - 2: SW (Southwest) → q-1, r+1  (down-left)
+---  - 3: W  (West)      → q-1, r+0  (left)
+---  - 4: NW (Northwest) → q+0, r-1  (up-left)
+---  - 5: NE (Northeast) → q+1, r-1  (up-right)
 ---
 ---Key Operations:
----  - distance(a, b): Manhattan distance between hexes
----  - neighbors(hex): Returns 6 adjacent hexes
+---  - distance(q1, r1, q2, r2): Manhattan distance between hexes
+---  - neighbors(q, r): Returns 6 adjacent hexes
 ---  - hexToPixel(q, r): Converts hex to screen coordinates
 ---  - pixelToHex(x, y): Converts screen to hex coordinates
 ---  - pathfind(start, goal, isWalkable): A* pathfinding
----  - line(start, end): Bresenham hex line
+---  - ring(q, r, radius): Get hexes at exact distance
+---  - area(q, r, radius): Get all hexes within distance
 ---
----Key Exports:
----  - HexGrid.new(hexSize): Creates hex grid system
----  - distance(hexA, hexB): Returns hex distance
----  - neighbors(hex): Returns array of 6 neighbors
----  - pathfind(start, goal, isWalkable): Returns hex path array
----  - hexToPixel(q, r): Returns {x, y} pixel position
----  - pixelToHex(x, y): Returns {q, r} hex coordinates
----
----Dependencies: None (pure math library)
+---DESIGN REFERENCE: design/mechanics/hex_vertical_axial_system.md
 ---
 ---@module geoscape.systems.hex_grid
 ---@author AlienFall Development Team
@@ -39,27 +39,26 @@
 ---
 ---@usage
 ---  local HexGrid = require("geoscape.systems.hex_grid")
----  local grid = HexGrid.new(32)  -- 32 pixel hex size
----  local dist = grid:distance({q=0, r=0}, {q=5, r=3})
----  local path = grid:pathfind(start, goal, isWalkableFunc)
+---  local grid = HexGrid.new(90, 45, 24)  -- World map: 90×45 hexes
+---  local dist = grid.distance(0, 0, 5, 3)  -- Returns 8
 ---
----@see geoscape.geography.province_graph For province pathfinding
----@see geoscape.world.world For world entity integration
+---@see design.mechanics.hex_vertical_axial_system Design documentation
+---@see battlescape.battle_ecs.hex_math Shared hex math module
 
 local HexGrid = {}
 HexGrid.__index = HexGrid
 
--- Hex layout constants (flat-top hexagons)
+-- Hex layout constants (flat-top hexagons, vertical axial)
 local SQRT3 = math.sqrt(3)
 
--- Axial direction vectors (flat-top orientation)
+-- Direction vectors for vertical axial system (MUST match battlescape/battle_ecs/hex_math.lua)
 local HEX_DIRECTIONS = {
-    {q = 1, r = 0},   -- East
-    {q = 1, r = -1},  -- Northeast
-    {q = 0, r = -1},  -- Northwest
-    {q = -1, r = 0},  -- West
-    {q = -1, r = 1},  -- Southwest
-    {q = 0, r = 1}    -- Southeast
+    {q = 1, r = 0},   -- 0: E  (East)
+    {q = 0, r = 1},   -- 1: SE (Southeast)
+    {q = -1, r = 1},  -- 2: SW (Southwest)
+    {q = -1, r = 0},  -- 3: W  (West)
+    {q = 0, r = -1},  -- 4: NW (Northwest)
+    {q = 1, r = -1}   -- 5: NE (Northeast)
 }
 
 ---Create a new hex grid
@@ -142,26 +141,42 @@ function HexGrid.neighbor(q, r, direction)
 end
 
 ---Convert axial coordinates to pixel position (center of hex)
+---Uses vertical axial formula (flat-top orientation)
 ---@param q number Hex Q coordinate
 ---@param r number Hex R coordinate
 ---@return number, number Pixel X, Y coordinates
 function HexGrid:toPixel(q, r)
-    -- Flat-top hexagon layout
-    local x = self.hexSize * SQRT3 * (q + r / 2)
-    local y = self.hexSize * (3/2) * r
+    -- Vertical axial formula (flat-top hexagons)
+    local x = self.hexSize * SQRT3 * q
+    local y = self.hexSize * 1.5 * r
+
+    -- Odd column offset (shift odd columns down by 0.75 * hexSize)
+    if q % 2 == 1 then
+        y = y + self.hexSize * 0.75
+    end
+
     return x, y
 end
 
 ---Convert pixel position to axial coordinates (rounded to nearest hex)
+---Uses vertical axial formula (flat-top orientation)
 ---@param x number Pixel X coordinate
 ---@param y number Pixel Y coordinate
 ---@return number, number Hex Q, R coordinates
 function HexGrid:toHex(x, y)
-    -- Convert to fractional cube coordinates
-    local q = (SQRT3/3 * x - 1/3 * y) / self.hexSize
-    local r = (2/3 * y) / self.hexSize
-    
-    -- Round to nearest hex
+    -- Reverse vertical axial formula
+    local q = x / (self.hexSize * SQRT3)
+
+    -- Adjust for odd column offset
+    local qRounded = math.floor(q + 0.5)
+    local yAdjusted = y
+    if qRounded % 2 == 1 then
+        yAdjusted = yAdjusted - self.hexSize * 0.75
+    end
+
+    local r = yAdjusted / (self.hexSize * 1.5)
+
+    -- Round to nearest hex using cube coordinates
     return HexGrid.roundHex(q, r)
 end
 

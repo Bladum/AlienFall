@@ -1,15 +1,29 @@
---- GridMap Class
---- Arranges MapBlocks in 4x4 to 7x7 grid to generate complete battlefield.
---- Uses rotated hex grid pattern (45� angle) for block placement.
+--- GridMap Class - Vertical Axial Hex Grid
+--- Arranges MapBlocks in 4x4 to 7x7 hex grid to generate complete battlefield.
+--- Uses UNIVERSAL VERTICAL AXIAL coordinate system for all hex operations.
+---
+--- COORDINATE SYSTEM: Vertical Axial (Flat-Top Hexagons)
+---   - All positions use axial coordinates {q, r}
+---   - Each map block contains 15 hexes arranged in ring pattern
+---   - Block grid uses simple 2D array indexing [blockY][blockX]
+---   - World hex coordinates calculated from block position + local offset
 ---
 --- This module manages the high-level battlefield structure by arranging
 --- smaller map blocks into a larger grid. Handles coordinate conversion
---- between world tiles and block positions.
+--- between world hexes and block positions.
+---
+--- DESIGN REFERENCE: design/mechanics/hex_vertical_axial_system.md
 ---
 --- Example usage:
 ---   local gridMap = GridMap.new(5, 5)  -- 5x5 block grid
 ---   gridMap:setBlock(1, 1, someMapBlock)
 ---   local blockX, blockY = gridMap:worldToBlock(25, 30)
+---
+---@see engine.battlescape.battle_ecs.hex_math For hex mathematics
+---@see design.mechanics.hex_vertical_axial_system For coordinate system
+
+-- Import hex math module for all hex calculations
+local HexMath = require("engine.battlescape.battle_ecs.hex_math")
 
 --- @class GridMap
 --- @field gridWidth number Number of blocks wide (4-7)
