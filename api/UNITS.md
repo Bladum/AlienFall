@@ -51,6 +51,16 @@ Unit = {
   melee = number,                 -- Melee combat effectiveness (6-12)
   psi = number,                   -- Psionic power (0-20, 0 = no psi)
   
+  -- Piloting Properties (NEW - for pilot role)
+  piloting = number,              -- 6-12 (craft operation skill)
+  assigned_craft_id = string | nil,  -- Craft ID if assigned as pilot
+  pilot_role = string | nil,      -- "pilot", "co-pilot", "crew", nil
+  pilot_xp = number,              -- XP from interception (separate from ground XP)
+  pilot_rank = number,            -- 0-5 (pilot-specific rank)
+  pilot_fatigue = number,         -- 0-100 (affects craft performance)
+  total_interceptions = number,   -- Total interception missions
+  craft_kills = number,           -- Enemy crafts destroyed
+  
   -- Effective Stats (with equipment bonuses)
   stats = {
     accuracy = number,            -- 0-100
@@ -235,6 +245,49 @@ unit:getStats() → {missions, kills, wounded}
 unit:recordKill(target: string) → void
 unit:recordMission() → void
 unit:recordWound() → void
+
+-- Pilot Functions (NEW)
+unit:getPilotingStat() → number  -- Get piloting skill (6-12+)
+unit:canOperateCraft(craftType: string) → boolean  -- Check if unit can pilot craft type
+unit:getAssignedCraft() → string | nil  -- Get craft ID if assigned
+unit:getPilotRole() → string | nil  -- Get "pilot", "co-pilot", "crew", or nil
+unit:isAssignedAsPilot() → boolean  -- Check if currently assigned to craft
+unit:getPilotXP() → number  -- Get pilot experience (separate from ground XP)
+unit:getPilotRank() → number  -- Get pilot rank (0-5)
+unit:getPilotFatigue() → number  -- Get pilot fatigue (0-100)
+unit:getTotalInterceptions() → number  -- Total interception missions
+unit:getCraftKills() → number  -- Enemy crafts destroyed
+unit:gainPilotXP(amount: number, source: string) → boolean  -- Award pilot XP
+unit:promotePilot() → boolean  -- Promote pilot rank if XP threshold met
+unit:addPilotFatigue(amount: number) → void  -- Increase fatigue
+unit:restPilot(amount: number) → void  -- Decrease fatigue
+unit:calculatePilotBonuses() → table  -- Calculate stat bonuses for craft
+```
+
+**Pilot Bonus Calculation:**
+```lua
+-- Returns craft bonus table based on pilot stats and fatigue
+unit:calculatePilotBonuses() → {
+  speed_bonus = number,      -- % bonus to craft speed
+  accuracy_bonus = number,   -- % bonus to craft accuracy
+  dodge_bonus = number,      -- % bonus to craft dodge
+  fuel_efficiency = number,  -- % fuel efficiency
+  initiative_bonus = number, -- Initiative from dexterity
+  sensor_bonus = number,     -- Sensor range from perception
+}
+
+-- Example calculation:
+local pilot = Units.getUnit("unit_001")
+local bonuses = pilot:calculatePilotBonuses()
+-- If pilot has Piloting 10, Dexterity 9, Perception 8, Fatigue 30:
+-- bonuses = {
+--   speed_bonus = 5.6,      -- (10-6)*2% * (1-30/200) = 8% * 0.85
+--   accuracy_bonus = 8.4,   -- (10-6)*3% * 0.85
+--   dodge_bonus = 5.6,      -- (10-6)*2% * 0.85
+--   fuel_efficiency = 2.8,  -- (10-6)*1% * 0.85
+--   initiative_bonus = 4,   -- 9/2 rounded
+--   sensor_bonus = 4,       -- 8/2 rounded
+-- }
 ```
 
 ---

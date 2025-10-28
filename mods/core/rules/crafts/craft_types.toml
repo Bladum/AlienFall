@@ -16,10 +16,22 @@ speed = 4  # Hexes/turn
 fuel_capacity = 800
 sensor_range = 800
 
-# Crew requirements
-crew_capacity = 2
+# Crew requirements (NEW - crew system)
+crew_capacity = 2  # Max passengers (soldiers, not crew)
+required_pilots = 1  # Minimum pilots to operate
+# OLD PILOT REQUIREMENTS (DEPRECATED - kept for compatibility)
+required_pilot_class = "fighter_pilot"  # Required class
+required_pilot_rank = 2  # Minimum rank
+required_pilots = 1  # Minimum pilots to operate
+# OLD PILOT REQUIREMENTS (DEPRECATED - kept for compatibility)
+required_pilot_class = "fighter_pilot"  # Required class
+required_pilot_rank = 2  # Minimum rank
+required_pilots = 1  # Minimum pilots to operate
+# OLD PILOT REQUIREMENTS (DEPRECATED - kept for compatibility)
+required_pilot_class = "fighter_pilot"  # Required class
+required_pilot_rank = 2  # Minimum rank
 
-# PILOT REQUIREMENTS
+# OLD PILOT REQUIREMENTS (DEPRECATED - kept for compatibility)
 [craft_types_1.pilots]
 required_count = 1
 min_level = 0  # Can use Rookie pilots
@@ -52,10 +64,14 @@ speed = 2  # Hexes/turn
 fuel_capacity = 500
 sensor_range = 600
 
-# Crew requirements
-crew_capacity = 12
+# Crew requirements (NEW - crew system)
+crew_capacity = 12  # Max passengers (soldiers, not crew)
+required_pilots = 1  # Minimum pilots to operate
+max_crew = 2  # Maximum crew size (pilot + co-pilot)
+required_pilot_class = "pilot"  # Any pilot can operate transports
+required_pilot_rank = 1  # Minimum rank
 
-# PILOT REQUIREMENTS
+# OLD PILOT REQUIREMENTS (DEPRECATED - kept for compatibility)
 [craft_types_2.pilots]
 required_count = 1
 min_level = 0  # Can use any pilot level
@@ -80,10 +96,14 @@ name = "Condor"
 type = "scout"
 description = "Fast reconnaissance aircraft for surveillance missions"
 cost = 55000
-
-# Combat stats
+# Crew requirements (NEW - crew system)
+crew_capacity = 3  # Max passengers (soldiers, not crew)
+required_pilots = 1  # Minimum pilots to operate
+max_crew = 1  # Maximum crew size (single pilot)
+required_pilot_class = "pilot"  # Basic pilot sufficient
+required_pilot_rank = 1  # Minimum rank
 max_hp = 100
-armor_class = 12
+# OLD PILOT REQUIREMENTS (DEPRECATED - kept for compatibility)
 speed = 5  # Hexes/turn (fastest)
 fuel_capacity = 600
 sensor_range = 1000  # Best sensors
@@ -108,10 +128,14 @@ cargo = 20      # CARGO tier (kg)
 weapon_slots = 1
 default_weapons = []
 compatible_addons = ["advanced_sensors", "extended_fuel_tank"]
-
-# ========== BOMBER (Heavy Weapons Platform) ==========
+# Crew requirements (NEW - crew system)
+crew_capacity = 6  # Max passengers (soldiers, not crew)
+required_pilots = 1  # Minimum pilots to operate
+max_crew = 3  # Maximum crew size (pilot + co-pilot + bombardier)
+required_pilot_class = "bomber_pilot"  # Requires bomber pilot
+required_pilot_rank = 2  # Minimum rank
 [[craft_types]]
-id = "bomber"
+# OLD PILOT REQUIREMENTS (DEPRECATED - kept for compatibility)
 name = "Avenger"
 type = "bomber"
 description = "Heavy weapons platform for major offensive operations"
@@ -136,10 +160,14 @@ allow_bomber = true
 
 # Capacity distribution (3-tier system)
 [craft_types_4.capacity]
-pilots = 2      # PILOT tier - pilot + co-pilot
-crew = 3        # CREW tier - weapons operators
+# Crew requirements (NEW - crew system)
+crew_capacity = 8  # Max passengers (soldiers, not crew)
+required_pilots = 1  # Minimum pilots to operate
+max_crew = 4  # Maximum crew size (pilot + co-pilot + 2 crew)
+required_pilot_class = "fighter_pilot"  # Requires elite pilot
+required_pilot_rank = 3  # Minimum rank (Ace)
 cargo = 100     # CARGO tier (kg) - heavy ordnance
-
+# OLD PILOT REQUIREMENTS (DEPRECATED - kept for compatibility)
 # Weapons and equipment
 weapon_slots = 4  # Multiple weapon points
 default_weapons = ["craft_cannon"]

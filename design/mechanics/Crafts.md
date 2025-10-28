@@ -550,111 +550,241 @@ Crafts have **2 addon slots** for specialized equipment:
 
 ---
 
-## Craft Experience & Progression
+## Pilot Assignment & Crew System
 
-### Experience Acquisition
+### Core Principle: Pilots ARE Units
 
-Crafts gain experience independently from carried units:
+**Design Philosophy**: Crafts are vehicles operated by skilled personnel, not autonomous entities. All progression and performance bonuses come from the **pilots** assigned to the craft, not the craft itself. Crafts do not gain experience or ranks—only pilots do.
 
-#### Experience Sources & Values
+### Crew Requirements
 
-| Source | XP Amount | Conditions | Frequency |
-|---|---|---|---|
-| **Base Training** | +1 XP | In storage, per week | Weekly |
-| **Geoscape Travel** | +1 XP | Per hex traveled | Per movement |
-| **Interception Mission** | +5 XP | Participate in interception | Per battle |
-| **Enemy Intercepted** | +2 XP | Per unique UFO/enemy craft spotted | Per detection |
-| **Victory Bonus** | +10 XP | Achieve mission objective | Per completion |
-| **Kill Enemy Craft** | +20 XP | Destroy UFO or enemy interceptor | Per kill |
-| **Survive Damage** | +0.5 XP | Per 10 damage taken (not destroyed) | Per battle |
-| **Detect Enemy** | +2 XP | Spot new enemy craft | Per unique |
-| **Destroy UFO** | +25 XP | Complete mission destroying UFO | Bonus |
-| **Successful Patrol** | +3 XP | Complete patrol mission | Per patrol |
+Each craft type requires a minimum number of pilots/crew to operate:
 
-**Example:** Scout interceptor completes patrol (3 XP), detects 2 UFOs (+4 XP), travels 8 hexes (+8 XP) = 15 XP total
+| Craft Type | Required Pilots | Crew Capacity | Notes |
+|------------|----------------|---------------|-------|
+| **Scout** | 1 pilot | 1 | Single-seat reconnaissance |
+| **Interceptor** | 1 pilot | 1 | Single-seat fighter |
+| **Fighter** | 1 pilot | 1-2 | Optional co-pilot slot |
+| **Bomber** | 1 pilot | 2-3 | Pilot + bombardier + optional crew |
+| **Transport** | 1 pilot | 2-4 | Pilot + co-pilot + crew |
+| **Heavy Transport** | 1 pilot | 3-6 | Pilot + co-pilot + 2-4 crew |
+| **Submarine** | 1 pilot | 2-3 | Pilot + navigator + crew |
+| **Battleship** | 1 pilot | 4-8 | Pilot + co-pilot + 3-6 crew |
+| **Gunship** | 1 pilot | 2-3 | Pilot + gunner + crew |
 
-#### Combat Experience Calculation
+**Launch Requirement**: Craft cannot launch missions without **minimum required pilots** assigned.
 
-**Mission XP Formula:**
+### Crew Positions & Roles
+
+Crew members are assigned to specific positions that determine their bonus contribution:
+
+#### Position 1: Primary Pilot
+- **Role**: Controls craft, makes tactical decisions
+- **Stat Contribution**: **100%** of pilot's stats applied to craft bonuses
+- **Requirements**: Must have appropriate pilot class (Fighter Pilot for Interceptor, etc.)
+- **XP Gain**: Full pilot XP from interception missions
+
+#### Position 2: Co-Pilot
+- **Role**: Assists pilot, manages systems
+- **Stat Contribution**: **50%** of pilot's stats applied to craft bonuses
+- **Requirements**: Any pilot class (Rank 1+)
+- **XP Gain**: 50% pilot XP from interception missions
+
+#### Position 3+: Crew
+- **Role**: Operates subsystems (weapons, radar, engineering)
+- **Stat Contribution**: **25%** of each crew member's stats
+- **Requirements**: Any unit (pilot class not required, but piloting stat still contributes)
+- **XP Gain**: 25% pilot XP from interception missions
+
+#### Additional Crew (4+)
+- **Role**: Support, reserves, specialized systems
+- **Stat Contribution**: **10%** per additional crew member (diminishing returns)
+- **Purpose**: Large crafts benefit from larger crews but gains diminish
+
+**Example: Heavy Transport Crew**
 ```
-total_xp = mission_xp + kills_xp + damage_xp + objective_xp
+Position 1 (Pilot): Alice - Piloting 10 → +8% speed (100% contribution)
+Position 2 (Co-Pilot): Bob - Piloting 8 → +2% speed (50% of +4%)
+Position 3 (Crew): Charlie - Piloting 6 → +0% speed (base level, no bonus)
+Position 4 (Crew): Diana - Piloting 7 → +0.2% speed (10% of +2%)
 
-Where:
-- mission_xp: Base mission participation (+5 XP)
-- kills_xp: +20 XP per enemy craft destroyed
-- damage_xp: +0.5 XP per 10 damage taken (rounded up)
-- objective_xp: +10 XP for objective completion bonus
+Total Speed Bonus: +10.2%
 ```
 
-**Example Calculation:**
-- Base mission: +5 XP
-- Destroy 1 UFO: +20 XP
-- Take 45 damage: +2.25 XP (rounds to +2)
-- Objective completed: +10 XP
-- **Total:** 37 XP from this mission
+### Pilot Stat Bonuses to Craft
 
-### Rank Progression (Craft Experience Tiers)
+Pilot stats directly affect craft performance through these formulas:
 
-Crafts use **identical rank progression as units** (Rank 0-6):
+#### Piloting Stat → Craft Bonuses
+- **Speed Bonus**: (Piloting - 6) × 2% per point
+  - Example: Piloting 10 = (10 - 6) × 2% = +8% craft speed
+- **Accuracy Bonus**: (Piloting - 6) × 3% per point
+  - Example: Piloting 10 = (10 - 6) × 3% = +12% weapon accuracy
+- **Dodge Bonus**: (Piloting - 6) × 2% per point
+  - Example: Piloting 10 = (10 - 6) × 2% = +8% dodge chance
+- **Fuel Efficiency**: (Piloting - 6) × 1% per point
+  - Example: Piloting 10 = (10 - 6) × 1% = +4% fuel efficiency
 
-#### Rank Advancement Table
+#### Secondary Stat Bonuses
+- **Dexterity → Initiative**: +1 initiative per 2 points of pilot's Dexterity
+- **Perception → Sensor Range**: +1 hex detection per 2 points of pilot's Perception
+- **Intelligence → Power Management**: +1% energy regen per 2 points of pilot's Intelligence
 
-| Rank | Total XP Req. | XP to Next | Stat Bonus | Ability Unlock | Notes |
-|---|---|---|---|---|---|
-| **0** | 0 | 100 | — | — | Base rank, freshly manufactured |
-| **1** | 100 | 200 | +1 HP, +1 Armor | Evasive Maneuvers (Scout only) | First promotion |
-| **2** | 300 | 300 | +2 HP, +1 Armor | Precision Targeting (+5% accuracy) | Combat veteran |
-| **3** | 600 | 400 | +3 HP, +2 Armor | Enhanced Weapons (+10% damage) | Experienced |
-| **4** | 1,000 | 500 | +4 HP, +2 Armor | Advanced Tactics (special move set) | Veteran |
-| **5** | 1,500 | 600 | +5 HP, +3 Armor | Mastery Bonus (+20% all stats) | Master rank |
-| **6** | 2,100 | — | +6 HP, +3 Armor | Peak Performance (max effectiveness) | Legendary status |
+### Pilot Class Requirements
 
-**Cumulative Stat Growth by Rank:**
-- Rank 0→6 progression: 0, +1, +3, +6, +10, +15, +21 HP total
-- Armor follows same progression: 0 to +21 armor by rank 6
-- Stat bonuses are **permanent** and persist after promotion
+Different craft types require specific pilot classes to operate:
 
-#### Stat Improvement Per Rank
-Each rank provides **+1 base stat per tier**, applied to craft properties:
+| Craft Type | Minimum Pilot Class | Minimum Rank |
+|------------|-------------------|--------------|
+| Scout | Any Pilot | Rank 1 |
+| Interceptor | Fighter Pilot | Rank 2 |
+| Fighter | Fighter Pilot | Rank 2 |
+| Bomber | Bomber Pilot | Rank 2 |
+| Transport | Transport Pilot | Rank 2 |
+| Heavy Transport | Transport Pilot (Advanced) | Rank 3 |
+| Submarine | Naval Pilot | Rank 2 |
+| Battleship | Naval Pilot (Fleet Commander) | Rank 3 |
+| Gunship | Helicopter Pilot | Rank 2 |
 
-| Stat | Rank 0 | Rank 1 | Rank 2 | Rank 3 | Rank 4 | Rank 5 | Rank 6 |
-|---|---|---|---|---|---|---|---|
-| **HP** | Base | +1 | +2 | +3 | +4 | +5 | +6 |
-| **Armor** | Base | +1 | +1 | +2 | +2 | +3 | +3 |
-| **Speed** | Base | — | — | +1* | +1 | +1 | +2* |
-| **Accuracy** | Base | — | +2% | +3% | +5% | +5% | +10% |
-| **Dodge** | Base | — | +2% | +3% | +5% | +5% | +10% |
-| **Radar** | Base | — | — | — | +1 | +1 | +2 |
+**Class Mismatch Penalty**: Assigning a pilot without the required class imposes:
+- -30% to all craft bonuses
+- +50% fuel consumption
+- Cannot use craft special abilities
 
-*Speed bonuses only apply in Interception combat (Geoscape speed unaffected)
+**Example**: Assigning a Transport Pilot to an Interceptor = poor performance (needs Fighter Pilot)
 
-#### Promotion Mechanics
-- **Automatic:** XP accumulates automatically; no manual promotion required
-- **Threshold:** Once total XP exceeds next tier threshold, craft immediately ranks up
-- **Stat Increase:** New stats applied instantly (no downtime)
-- **Notification:** Player receives notification when craft ranks up
+### Pilot Fatigue System
 
-#### Upgrade vs. Experience Trade-off
+Pilots accumulate fatigue from extended operations, reducing their effectiveness:
 
-**Design Note:** It is often more economical to unlock new technology and manufacture an upgraded craft than to grind experience with the current craft:
+#### Fatigue Accumulation
+- **Interception Mission**: +10 fatigue per mission
+- **Long-Range Travel**: +5 fatigue per 10 hexes traveled
+- **Combat Damage**: +5 fatigue if craft takes >50% damage
+- **Maximum Fatigue**: 100 (capped)
 
-- **Tier 1 Scout:** Rank 0-6 = 1-21 HP gain total
-- **Tier 2 Interceptor:** Rank 0 = 140 HP (immediately stronger than Rank 6 Scout at 121 HP)
-- **Research Cost:** 5,000 credits + materials
-- **Build Time:** 1-2 weeks
+#### Fatigue Effects on Bonuses
+Fatigue reduces pilot's effective stat contribution:
 
-**Player Strategy:**
-- Early game: Build experience with early craft (economical)
-- Mid game: Research new tier (better investment than grinding)
-- Late game: Maintain elite craft through promotion (no time for rebuilds)
+```
+Effective Stat = Base Stat × (1 - Fatigue/200)
 
-### No Traits, Medals, or Transformations
+Example: Pilot with Piloting 10, Fatigue 60
+Effective Piloting = 10 × (1 - 60/200) = 10 × 0.7 = 7
+Craft bonus = (7 - 6) × 2% = +2% speed (instead of +8%)
+```
 
-Crafts do **not** possess:
-- **Traits**: Crafts have fixed stat lines; no randomization or special traits
-- **Medals**: Commendations system reserved for units only
-- **Transformations**: Upgrades handled through addons and manufacturing
-- **Races/Culture**: Craft types are technology-specific, not faction-cultural
+**Maximum Penalty**: -50% at 100 fatigue (not completely disabled, but significantly reduced)
+
+#### Fatigue Recovery
+- **Rest in Base**: -10 fatigue per day (full recovery in 10 days)
+- **Medical Facility**: -15 fatigue per day (faster recovery)
+- **Stimulants** (risky): Temporarily reduce fatigue by 30, but +10 fatigue rebound after mission
+
+### Crew Management Workflow
+
+#### Assigning Pilots to Craft
+1. Select craft in base hangar
+2. Open crew assignment panel
+3. Select available pilots (filtered by class requirements)
+4. Assign to positions: Pilot (primary) → Co-Pilot → Crew
+5. View calculated stat bonuses preview
+6. Confirm assignment
+
+#### Unassigning Pilots
+1. Select craft with assigned crew
+2. Remove pilot from position
+3. Pilot returns to personnel pool
+4. Pilot can be deployed to battlescape or assigned to another craft
+
+#### Crew Readiness Status
+Crafts display readiness status based on crew:
+- ✅ **Ready**: Minimum crew assigned, all pilots rested (<50 fatigue)
+- ⚠️ **Fatigued**: Crew assigned but high fatigue (50-80)
+- ❌ **Not Ready**: Missing required crew OR critical fatigue (80+)
+- 🚫 **Cannot Launch**: Below minimum crew requirements
+
+### Pilot Experience from Interception
+
+Pilots gain **Pilot XP** (separate from ground combat XP) through interception missions:
+
+#### XP Sources & Amounts
+| Action | Pilot XP | Co-Pilot XP | Crew XP |
+|--------|----------|-------------|---------|
+| **Mission Participation** | +10 XP | +5 XP | +2 XP |
+| **Kill Enemy Craft** | +50 XP | +25 XP | +12 XP |
+| **Assist in Kill** | +25 XP | +12 XP | +6 XP |
+| **Survive Interception** | +10 XP | +5 XP | +2 XP |
+| **Victory (force retreat)** | +30 XP | +15 XP | +7 XP |
+| **Perfect Victory (no damage)** | +50 XP | +25 XP | +12 XP |
+
+**XP Distribution**: XP is scaled by position (Pilot 100%, Co-Pilot 50%, Crew 25%)
+
+**Example Interception Mission:**
+- Alice (Pilot): Kills 1 UFO (+50), survives (+10), victory (+30) = **90 Pilot XP**
+- Bob (Co-Pilot): Assist (+25), survives (+5), victory (+15) = **45 Pilot XP**
+- Charlie (Crew): Participation (+2), survives (+2), victory (+7) = **11 Pilot XP**
+
+### Dual XP Tracking: Pilot XP vs. Ground XP
+
+Each unit tracks **two separate XP pools**:
+
+1. **Ground Combat XP**: From battlescape missions, advances ground combat class/rank
+2. **Pilot XP**: From interception missions, advances pilot class/rank
+
+**Independent Progression**: A unit can be:
+- Rank 3 Marksman (300 ground XP) + Rank 2 Fighter Pilot (100 pilot XP)
+- Progress in BOTH paths simultaneously
+- Different classes for each role
+
+**Strategic Flexibility**: Players can:
+- Train units as pilots only (focus on interception)
+- Train units as soldiers only (focus on ground combat)
+- Train units in both roles (jack-of-all-trades)
+
+### Crew Composition Strategy
+
+#### Optimal Crew Builds
+
+**Scout/Interceptor (Single Pilot):**
+- Priority: Ace Fighter Pilot (Rank 3+) with Piloting 12+
+- Goal: Maximum accuracy and dodge for air-to-air combat
+
+**Bomber (Pilot + Crew):**
+- Pilot: Bomber Pilot (Rank 2+) with high Intelligence
+- Crew: Any unit with Perception (for targeting)
+- Goal: Precision bombing, ground target accuracy
+
+**Transport (Multi-Crew):**
+- Pilot: Transport Pilot (Rank 2+) with high Piloting
+- Co-Pilot: Transport Pilot (Rank 1+) for fuel efficiency
+- Crew: Any units (minimal contribution)
+- Goal: Fuel efficiency, safe deployment
+
+**Battleship (Large Crew):**
+- Pilot: Fleet Commander (Rank 3+) with Piloting 10+
+- Co-Pilot: Naval Pilot (Rank 2+)
+- Crew (3-4): Mix of units with varied stats
+- Goal: Balanced bonuses, sustained operations
+
+### No Craft Experience or Ranks
+
+**Design Decision**: Crafts do **NOT** gain XP, ranks, or autonomous progression. All improvement comes from:
+1. **Pilot Progression**: Better pilots → better craft performance
+2. **Technology Research**: New craft types with superior base stats
+3. **Addons/Upgrades**: Equipment improvements (shields, weapons, armor)
+
+**Rationale**:
+- Crafts are mechanical equipment, not sentient beings
+- Simplifies balancing (one progression system, not two)
+- Encourages player investment in personnel (pilots matter)
+- Maintains strategic flexibility (swap pilots between crafts)
+
+**Comparison to Old System:**
+```
+OLD: Veteran Craft (Rank 5, experienced) + Rookie Pilot = ???
+NEW: Advanced Craft (tech level) + Ace Pilot (Rank 3) = Clear bonuses
+```
 
 ---
 

@@ -1,4 +1,15 @@
----Pilot Progression System
+---Pilot Progression System (DEPRECATED)
+---
+--- ⛔ DEPRECATED as of 2025-10-28
+--- This system has been replaced by pilot functionality in the Unit system.
+--- Pilots are now Units with pilot_role assignment, not separate entities.
+---
+--- See:
+---  - engine/battlescape/combat/unit.lua (Unit pilot functions)
+---  - engine/geoscape/logic/pilot_manager.lua (Crew assignment)
+---  - engine/geoscape/logic/crew_bonus_calculator.lua (Bonus calculation)
+---
+--- This file is kept for reference but should not be used in new code.
 ---
 ---Manages pilot experience gain, ranking, and stat progression.
 ---Pilots gain XP only from interception combat, not ground battles.

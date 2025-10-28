@@ -28,7 +28,7 @@ Search workspace for:
 3. API documentation (api/)
 4. Architecture documentation (architecture/)
 5. Configuration (mods/core/rules/)
-6. Tests (tests/)
+6. Tests (tests2/)
 
 Questions to answer:
 - Is there existing design documentation?
@@ -85,7 +85,7 @@ For EACH of these layers, determine if it needs changes:
 │    - Verification & quality assurance                      │
 │    - "Does it WORK correctly?"                             │
 │    - Unit and integration tests                            │
-│    - Format: Lua test code                                 │
+│    - Format: Lua test code (HierarchicalSuite framework)   │
 └─────────────────────────────────────────────────────────────┘
     ↓
 ┌─────────────────────────────────────────────────────────────┐
@@ -325,37 +325,44 @@ rank_bonuses = [
 
 #### PHASE 6: TESTS (quality assurance)
 ```
-Create/modify test files in tests/:
+Create/modify test files in tests2/ (NEW test framework):
 
 GUIDELINES:
-1. Unit tests for functions (tests/unit/)
-2. Integration tests for systems (tests/integration/)
-3. Mock data from tests/mock/
+1. Use HierarchicalSuite framework (tests2/framework/)
+2. Organize by subsystem (tests2/[subsystem]/)
+3. Performance tests in tests2/performance/
+4. Edge cases in tests2/edge_cases/
+5. Integration tests in tests2/integration/
 
 STRUCTURE:
 ```lua
-local function test_mechanic_name()
-  -- Setup
-  local unit = createTestUnit()
-  
-  -- Execute
-  local result = mechanicFunction(unit)
-  
-  -- Assert
-  assert(result.value == expected, "Description")
-  
-  print("[PASS] Test name")
-end
+local HierarchicalSuite = require("tests2.framework.hierarchical_suite")
+local suite = HierarchicalSuite.new("ModuleName", "tests2/subsystem/module_test.lua")
+
+suite:testMethod("functionName", "Description", function()
+    -- Arrange
+    local input = createTestData()
+    
+    -- Act
+    local result = moduleFunction(input)
+    
+    -- Assert
+    suite:assert(result == expected, "Should match expected")
+end)
+
+return suite
 ```
 
 4. Test coverage targets
    - Core functions: 100%
    - Edge cases: 90%+
    - Integration: 80%+
+   - Performance: Key scenarios benchmarked
 
-5. Run all tests before completion
+5. Run tests (if available)
    ```bash
-   run_tests.bat
+   lovec "tests2/runners" run_all
+   lovec "tests2/runners" run_subsystem [name]
    ```
 ```
 
@@ -668,14 +675,14 @@ Before marking done, verify:
 → Create api/UNITS.md pilot section
 → Create engine/basescape/pilot_system.lua
 → Create mods/core/rules/unit/pilots.toml
-→ Create tests/unit/test_pilots.lua
+→ Create tests2/unit/pilot_system_test.lua
 
 "Change perk mechanics"
 → Update design/mechanics/Units.md perks section
 → Update api/UNITS.md perk functions
 → Modify engine/basescape/perks_system.lua
 → Modify mods/core/rules/unit/perks.toml
-→ Update tests/unit/test_perks.lua
+→ Update tests2/unit/perks_system_test.lua
 
 "Nerf weapon damage"
 → Update design/mechanics/overview (balance notes)

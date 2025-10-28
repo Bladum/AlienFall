@@ -210,6 +210,16 @@ strength_base = { type = "integer", required = false, default = 10, min = 1, max
 reaction_base = { type = "integer", required = false, default = 70, min = 0, max = 100, description = "Base reaction time" }
 fire_rate_base = { type = "float", required = false, default = 1.0, min = 0.5, max = 3.0, description = "Base attacks per turn" }
 armor_class = { type = "integer", required = false, default = 0, min = 0, max = 50, description = "Base damage reduction %" }
+piloting_base = { type = "integer", required = false, default = 6, min = 0, max = 20, description = "Base piloting skill (6-12 human, 0-20 alien/mech)" }
+
+# Pilot-Specific Fields (NEW)
+pilot_role = { type = "string", required = false, description = "Assigned craft role: 'pilot', 'co-pilot', 'crew', or nil" }
+assigned_craft_id = { type = "string", required = false, references = "crafts.id", description = "Craft ID if assigned as crew" }
+pilot_xp = { type = "integer", required = false, default = 0, min = 0, description = "Pilot experience (separate from ground XP)" }
+pilot_rank = { type = "integer", required = false, default = 0, min = 0, max = 5, description = "Pilot rank (0-5)" }
+pilot_fatigue = { type = "integer", required = false, default = 0, min = 0, max = 100, description = "Pilot fatigue (0-100)" }
+total_interceptions = { type = "integer", required = false, default = 0, min = 0, description = "Total interception missions" }
+craft_kills = { type = "integer", required = false, default = 0, min = 0, description = "Enemy crafts destroyed" }
 
 # Equipment
 starting_weapon = { type = "string", required = false, references = "items.id", description = "Default equipped weapon ID" }
@@ -273,15 +283,18 @@ ap_bonus = { type = "integer", required = false, description = "AP bonus" }
 movement_bonus = { type = "integer", required = false, description = "Movement bonus %" }
 
 [api.units.pilots]
-description = "Pilot-specific unit configuration"
+description = "Pilot-specific unit configuration (DEPRECATED - now part of unit_class with piloting stat)"
+note = "Pilots are now Units with pilot_role assignment. See unit_class.piloting_base and related fields."
 
 [api.units.pilots.fields]
-class_id = { type = "string", required = true, references = "units.unit_class.id", description = "Pilot class (e.g., 'fighter_pilot')" }
-base_stats = { type = "table", required = true, description = "Aviation-focused base stats" }
-speed = { type = "integer", required = true, min = 1, max = 20, description = "Reaction time stat" }
-aim = { type = "integer", required = true, min = 1, max = 20, description = "Shooting accuracy stat" }
-reaction = { type = "integer", required = true, min = 1, max = 20, description = "Response time stat" }
-rank_system = { type = "table", required = false, description = "Rank-specific bonuses" }
+# DEPRECATED: These fields moved to unit_class
+# Use unit_class.piloting_base, pilot_role, assigned_craft_id instead
+class_id = { type = "string", required = false, references = "units.unit_class.id", description = "DEPRECATED: Use unit_class with pilot branch" }
+base_stats = { type = "table", required = false, description = "DEPRECATED: Use unit_class stat fields" }
+speed = { type = "integer", required = false, min = 1, max = 20, description = "DEPRECATED: Use piloting_base instead" }
+aim = { type = "integer", required = false, min = 1, max = 20, description = "DEPRECATED: Use accuracy_base instead" }
+reaction = { type = "integer", required = false, min = 1, max = 20, description = "DEPRECATED: Use reaction_base instead" }
+rank_system = { type = "table", required = false, description = "DEPRECATED: Use pilot_rank field" }
 
 ################################################################################
 # ITEMS ENTITY SCHEMA
@@ -389,8 +402,14 @@ type = { type = "enum", required = true, values = ["transport", "interceptor", "
 classification = { type = "string", required = false, description = "Specialization (e.g., 'fighter', 'heavy_transport')" }
 
 # Specifications
-crew_capacity = { type = "integer", required = true, min = 1, max = 20, description = "Max personnel" }
+crew_capacity = { type = "integer", required = true, min = 1, max = 20, description = "Max personnel (passengers, not crew)" }
 cargo_capacity = { type = "integer", required = false, default = 0, min = 0, max = 1000, description = "Max cargo weight (kg)" }
+
+# Crew System (NEW)
+required_pilots = { type = "integer", required = true, min = 1, max = 8, description = "Minimum pilots needed to operate" }
+max_crew = { type = "integer", required = true, min = 1, max = 8, description = "Maximum crew size (pilots + co-pilots + crew)" }
+required_pilot_class = { type = "string", required = false, references = "units.unit_class.id", description = "Required pilot class (e.g., 'fighter_pilot')" }
+required_pilot_rank = { type = "integer", required = false, default = 1, min = 1, max = 5, description = "Minimum pilot rank required" }
 
 # Movement
 speed = { type = "integer", required = true, min = 1, max = 30, description = "Hexes per turn" }

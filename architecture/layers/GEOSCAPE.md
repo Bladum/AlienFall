@@ -195,11 +195,86 @@ erDiagram
 
 ## Craft Management
 
+### Craft Crew Assignment System (NEW)
+
+```mermaid
+graph TB
+    subgraph "Craft Crew System"
+        Craft[Craft Entity]
+        
+        subgraph "Crew Positions"
+            Pilot[Position 1: Pilot<br/>100% stat bonus]
+            CoPilot[Position 2: Co-Pilot<br/>50% stat bonus]
+            Crew1[Position 3: Crew<br/>25% stat bonus]
+            Crew2[Position 4+: Extra Crew<br/>10% stat bonus]
+        end
+        
+        subgraph "Unit Pool"
+            Units[Available Units]
+            PilotClass[Units with Pilot Class]
+            GroundUnits[Ground Combat Units]
+        end
+        
+        subgraph "Calculated Bonuses"
+            SpeedBonus[Speed Bonus]
+            AccuracyBonus[Accuracy Bonus]
+            DodgeBonus[Dodge Bonus]
+            FuelEff[Fuel Efficiency]
+        end
+    end
+    
+    Units --> PilotClass
+    Units --> GroundUnits
+    
+    PilotClass -->|Assign| Pilot
+    PilotClass -->|Assign| CoPilot
+    Units -->|Assign| Crew1
+    Units -->|Assign| Crew2
+    
+    Pilot -->|piloting stat × 100%| SpeedBonus
+    CoPilot -->|piloting stat × 50%| SpeedBonus
+    Crew1 -->|piloting stat × 25%| SpeedBonus
+    Crew2 -->|piloting stat × 10%| SpeedBonus
+    
+    SpeedBonus --> Craft
+    AccuracyBonus --> Craft
+    DodgeBonus --> Craft
+    FuelEff --> Craft
+    
+    style Craft fill:#FFD700
+    style Pilot fill:#87CEEB
+    style PilotClass fill:#90EE90
+```
+
+**Crew Assignment Flow:**
+1. Player selects craft in base hangar
+2. System filters available units (pilots + ground units)
+3. Player assigns units to positions (Pilot → Co-Pilot → Crew)
+4. System calculates stat bonuses from crew
+5. Bonuses applied to craft performance
+6. Craft can launch if minimum crew requirements met
+
+**Bonus Calculation Formula:**
+```
+Total Craft Speed Bonus = 
+  (Pilot.piloting - 6) × 2% × 100% +
+  (CoPilot.piloting - 6) × 2% × 50% +
+  (Crew1.piloting - 6) × 2% × 25% +
+  (Crew2.piloting - 6) × 2% × 10%
+  
+Apply fatigue penalty: × (1 - average_crew_fatigue / 200)
+```
+
+---
+
+### Craft Deployment Sequence
+
 ```mermaid
 sequenceDiagram
     participant Player
     participant Geo as Geoscape
     participant Craft
+    participant Crew as Crew System
     participant Mission
     
     Player->>Geo: Select Mission
@@ -207,24 +282,33 @@ sequenceDiagram
     
     Player->>Geo: Select Craft
     Geo->>Craft: Check Status
+    Craft->>Crew: Validate Crew
     
-    Craft-->>Geo: Status: Ready, Fuel: 100%
-    
-    Player->>Geo: Deploy Craft
-    Geo->>Craft: Set Destination
-    
-    Craft->>Craft: Calculate Travel Time
-    Craft->>Craft: Deduct Fuel
-    
-    loop Travel
-        Craft->>Craft: Move Toward Destination
-        Craft->>Geo: Update Position
+    alt Crew Not Assigned
+        Crew-->>Geo: Error: No Crew
+        Geo-->>Player: Cannot Launch (No Pilot)
+    else Crew Assigned
+        Crew-->>Geo: Crew Ready
+        Craft-->>Geo: Status: Ready, Fuel: 100%, Bonuses: +8% speed
+        
+        Player->>Geo: Deploy Craft
+        Geo->>Craft: Set Destination
+        Craft->>Crew: Add Fatigue +5
+        
+        Craft->>Craft: Calculate Travel Time (with crew speed bonus)
+        Craft->>Craft: Deduct Fuel (with crew fuel efficiency)
+        
+        loop Travel
+            Craft->>Craft: Move Toward Destination
+            Craft->>Geo: Update Position
+        end
+        
+        Craft->>Mission: Arrive at Mission
+        Craft->>Crew: Add Fatigue +10 (interception)
+        Mission-->>Geo: Ready to Start
+        
+        Geo->>Player: Show Mission Briefing
     end
-    
-    Craft->>Mission: Arrive at Mission
-    Mission-->>Geo: Ready to Start
-    
-    Geo->>Player: Show Mission Briefing
 ```
 
 ---

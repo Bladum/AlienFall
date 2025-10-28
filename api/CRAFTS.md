@@ -78,17 +78,19 @@ Craft = {
   cargo = ItemStack[],            -- Equipment cargo
   cargo_capacity = number,        -- Max weight in kg
 
-  -- Crew
-  crew = Unit[],                  -- Assigned personnel
-  crew_capacity = number,         -- Max crew size
-  capacity = number,              -- Max crew size
-
-  -- Progression
-  experience = number,            -- Combat experience
-  rank = number,                  -- 0-6 (promotion ranks)
-  kills = number,                 -- Total kills (UFO/enemy)
-  missions_flown = number,        -- Total missions
-  distance_traveled = number,     -- Total hex distance
+  -- Crew System (NEW - replaces experience/rank)
+  crew = number[],                -- Array of Unit IDs assigned as crew
+  required_pilots = number,       -- Minimum pilots needed to operate (1-4)
+  crew_capacity = number,         -- Maximum crew size (1-8)
+  crew_bonuses = {                -- Calculated from crew stats
+    speed_bonus = number,         -- % bonus to speed
+    accuracy_bonus = number,      -- % bonus to weapon accuracy
+    dodge_bonus = number,         -- % bonus to dodge chance
+    initiative_bonus = number,    -- Initiative bonus
+    sensor_bonus = number,        -- Sensor range bonus
+    fuel_efficiency = number,     -- % fuel efficiency
+  },
+  can_launch = boolean,           -- True if minimum crew assigned
 
   -- Customization
   addons = Addon[],               -- Installed upgrades
@@ -170,29 +172,40 @@ craft:getCargoWeight() → number
 craft:getCargoCapacity() → number
 craft:canAddCargo(item, quantity) → bool
 
--- Crew management
-craft:assignCrew(unit) → bool
-craft:addUnit(unit: Unit) → boolean
-craft:removeCrew(unitId) → bool
-craft:removeUnit(unit_id: string) → void
-craft:getCrew() → Unit[]
-craft:getUnits() → Unit[]
-craft:getCrewCount() → number
-craft:getCrewCapacity() → number
-craft:getAvailableCapacity() → number
-craft:canAddCrew(unit) → bool
+-- Crew Management (NEW - pilot assignment system)
+craft:assignCrew(unitId: string, role: string) → boolean  -- Assign unit to crew position
+craft:removeCrew(unitId: string) → boolean  -- Remove unit from crew
+craft:getCrew() → number[]  -- Get array of crew member unit IDs
+craft:getCrewMembers() → Unit[]  -- Get array of Unit objects
+craft:getCrewCount() → number  -- Current crew size
+craft:getCrewCapacity() → number  -- Maximum crew capacity
+craft:getRequiredPilots() → number  -- Minimum pilots needed
+craft:hasRequiredCrew() → boolean  -- Check if minimum crew assigned
+craft:canLaunch() → boolean  -- Check if craft can launch (crew + fuel + status)
+craft:getCrewBonuses() → table  -- Get calculated stat bonuses from crew
+craft:calculateCrewBonuses() → void  -- Recalculate crew bonuses (called when crew changes)
+craft:getCrewRole(unitId: string) → string | nil  -- Get role of crew member ("pilot", "co-pilot", "crew")
+craft:isCrewFull() → boolean  -- Check if crew at capacity
+craft:canAddCrewMember(unitId: string) → (boolean, string)  -- Check if unit can be added (returns success, error msg)
+
+-- Crew Bonus Calculation (internal)
+craft:_calculateCrewPosition(unitId: string, position: number) → table  -- Calculate bonus from crew member at position
+craft:_applyFatigueModifier(bonuses: table, averageFatigue: number) → table  -- Apply fatigue penalty
+
+-- Passenger Management (separate from crew)
+craft:addPassenger(unit: Unit) → boolean  -- Add unit as passenger (not crew)
+craft:removePassenger(unit_id: string) → void  -- Remove passenger
+craft:getPassengers() → Unit[]  -- Get transported units
+craft:getPassengerCount() → number  -- Current passengers
+craft:getPassengerCapacity() → number  -- Max passengers (different from crew)
 
 -- Missions & Combat
 craft:startInterception(target) → InterceptionSession
 craft:startMission(mission) → bool
 craft:returnToBase() → bool
-craft:getStats() → {missions, kills, distance, hp, fuel, crew}
+craft:getStats() → {missions, distance, hp, fuel, crew_count}  -- Note: kills removed (tracked per pilot now)
 
--- Experience & Progression
-craft:gainExperience(amount: number) → void
-craft:promote() → boolean (on rank-up threshold)
-craft:getRank() → number
-craft:recordKill(kill_type: string) → void
+-- NO EXPERIENCE/RANK FUNCTIONS (removed - pilots have XP, not crafts)
 
 -- Addons & Customization
 craft:installAddon(addon: Addon) → boolean

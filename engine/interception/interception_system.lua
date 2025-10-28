@@ -3,13 +3,22 @@
 --- Manages interception battles and tracks pilot experience.
 --- Pilots gain XP from successful interceptions based on enemy HP.
 ---
---- XP Formula: enemy_hp / 10 (per kill/damage contribution)
---- Pilots must be assigned to craft to gain XP
+--- NEW SYSTEM: Uses craft.crew for pilot assignment (not deprecated pilots)
+--- XP awarded via PilotManager.awardCrewXP() with position-based scaling
 ---
 --- @module engine.interception.logic.interception_system
 --- @author AlienFall Development Team
 
-local PilotProgression = require("basescape.logic.pilot_progression")
+-- Use new PilotManager system (not deprecated PilotProgression)
+local PilotManager = nil
+pcall(function()
+    PilotManager = require("geoscape.logic.pilot_manager")
+end)
+if not PilotManager then
+    pcall(function()
+        PilotManager = require("engine.geoscape.logic.pilot_manager")
+    end)
+end
 
 local InterceptionSystem = {}
 InterceptionSystem.__index = InterceptionSystem
@@ -140,43 +149,52 @@ end
 
 --- Award XP to pilots for successful interception
 ---
---- XP Formula: (enemy_hp / 10) per pilot
---- Shared among all pilots assigned to craft
+--- NEW SYSTEM: Uses craft.crew and PilotManager.awardCrewXP()
+--- XP scaled by crew position: pilot 100%, co-pilot 50%, crew 25%
 ---
 ---@param battle table Interception battle
 ---@param results table Results table to update
 ---@return table Updated results
 function InterceptionSystem:awardPilotXP(battle, results)
-    if not battle.pilots or #battle.pilots == 0 then
+    if not battle.craft or not battle.craft.crew or #battle.craft.crew == 0 then
+        print("[InterceptionSystem] No crew assigned, no XP awarded")
         return results
     end
     
-    -- Calculate base XP from UFO damage
+    -- Calculate base XP from UFO damage/destruction
     local base_xp = math.floor((battle.craft_damage or 0) / 10)
     
+    -- Bonus XP for destroying UFO
+    if battle.ufo_destroyed then
+        base_xp = base_xp + 50
+    end
+
+    -- Bonus XP for victory without damage
+    if battle.victory and battle.craft_damage_taken == 0 then
+        base_xp = base_xp + 30  -- Perfect victory bonus
+    end
+
     if base_xp <= 0 then
+        print("[InterceptionSystem] No XP to award (insufficient damage)")
         return results
     end
     
-    -- Split XP among pilots
-    local xp_per_pilot = math.floor(base_xp / #battle.pilots)
-    
-    print(string.format("[InterceptionSystem] Awarding XP: %d base, %d per pilot",
-        base_xp, xp_per_pilot))
-    
-    for _, pilotId in ipairs(battle.pilots) do
-        if pilotId then
-            local didRankUp = PilotProgression.gainXP(pilotId, xp_per_pilot, "interception")
-            
-            results.xp_awarded[pilotId] = xp_per_pilot
-            
-            if didRankUp then
-                table.insert(results.pilots_leveled, pilotId)
-                local rank = PilotProgression.getRank(pilotId)
-                print(string.format("[InterceptionSystem] Pilot %s ranked up to %d!",
-                    pilotId, rank))
-            end
+    print(string.format("[InterceptionSystem] Awarding %d base XP to %d crew members",
+        base_xp, #battle.craft.crew))
+
+    -- Use PilotManager to award XP (handles position scaling)
+    if PilotManager and PilotManager.awardCrewXP then
+        PilotManager.awardCrewXP(battle.craft, base_xp, "interception_victory")
+
+        -- Track in results (actual XP gain would need unit lookup)
+        for i, crewId in ipairs(battle.craft.crew) do
+            local multipliers = {1.0, 0.5, 0.25, 0.1, 0.1, 0.1}
+            local multiplier = multipliers[i] or 0.1
+            local xp = math.floor(base_xp * multiplier)
+            results.xp_awarded[crewId] = xp
         end
+    else
+        print("[InterceptionSystem] WARNING: PilotManager not available, XP not awarded")
     end
     
     return results

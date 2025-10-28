@@ -1,4 +1,48 @@
-# Pilots API Reference
+# ⛔ DEPRECATED: Pilots API Reference
+
+**Status:** ⛔ **DEPRECATED** (as of 2025-10-28)  
+**Replaced By:** [UNITS.md](UNITS.md) - Pilots are now Units with assigned roles  
+
+---
+
+## ⚠️ MIGRATION NOTICE
+
+This API has been **deprecated** and merged into the Units system. Pilots are no longer separate entities.
+
+**What Changed:**
+- ❌ **OLD**: Pilot was a separate entity with its own properties and progression
+- ✅ **NEW**: Pilot is a Unit with `pilot_role` assignment and `piloting` stat
+
+**See:**
+- **[UNITS.md](UNITS.md)** - Complete unit system including pilot roles, piloting stat, and crew assignment
+- **[CRAFTS.md](CRAFTS.md)** - Crew assignment, stat bonuses, and launch requirements
+- **[Design: Units.md](../design/mechanics/Units.md)** - Pilot class tree and progression
+
+**Migration Guide:**
+```
+OLD API                          →  NEW API
+─────────────────────────────────────────────────────────────
+Pilot entity                     →  Unit with pilot_role property
+pilot.pilot_rank                 →  unit.pilot_rank
+pilot.pilot_xp                   →  unit.pilot_xp
+pilot.assigned_craft             →  unit.assigned_craft_id
+pilot.pilot_stats.speed          →  unit.piloting (new stat)
+Pilot.gainXP()                   →  unit:gainPilotXP()
+Pilot.getRank()                  →  unit:getPilotRank()
+Pilot.assignToCraft()            →  craft:assignCrew(unitId, role)
+```
+
+**For New Code**: Use `UNITS.md` API exclusively. Do not use this deprecated API.
+
+---
+
+## 🗃️ ARCHIVED CONTENT (for reference only)
+
+The content below is archived for historical reference. **Do not use in new code.**
+
+---
+
+# Pilots API Reference (ARCHIVED)
 
 **System:** Operational Layer (Personnel Management / Aircraft Crew)  
 **Module:** `engine/basescape/logic/pilot_progression.lua`  

@@ -158,6 +158,16 @@ function Unit.new(classId, team, x, y)
             #classDef.perks.default, classId))
     end
 
+    -- Piloting properties (NEW - for pilot role)
+    self.piloting = self.stats.piloting or 6  -- Default 6 (untrained)
+    self.assigned_craft_id = nil  -- Craft ID if assigned as pilot
+    self.pilot_role = nil  -- "pilot", "co-pilot", "crew", or nil
+    self.pilot_xp = 0  -- Pilot experience (separate from ground XP)
+    self.pilot_rank = 0  -- Pilot rank (0-5)
+    self.pilot_fatigue = 0  -- Pilot fatigue (0-100)
+    self.total_interceptions = 0  -- Total interception missions
+    self.craft_kills = 0  -- Enemy crafts destroyed
+
     -- Status effects
     self.statusEffects = {}
 
@@ -679,8 +689,192 @@ Unit.DIRECTIONS = {
     SOUTH = 4,
     SOUTHWEST = 5,
     WEST = 6,
-    NORTHWEST = 7
+    NORTHWEST = 7,
 }
+
+--- ============================================================================
+--- PILOT FUNCTIONS (NEW - for craft crew system)
+--- ============================================================================
+
+--- Get piloting stat.
+---
+--- @return number Piloting skill (6-12+ for humans)
+function Unit:getPilotingStat()
+    return self.piloting or 6
+end
+
+--- Check if unit can operate a specific craft type.
+---
+--- @param craftType string Craft type to check
+--- @return boolean True if unit can pilot this craft type
+function Unit:canOperateCraft(craftType)
+    -- TODO: Implement class requirement checking
+    -- For now, any unit with piloting > 6 can operate basic crafts
+    return self.piloting and self.piloting >= 6
+end
+
+--- Get assigned craft ID.
+---
+--- @return string|nil Craft ID or nil if not assigned
+function Unit:getAssignedCraft()
+    return self.assigned_craft_id
+end
+
+--- Get pilot role.
+---
+--- @return string|nil "pilot", "co-pilot", "crew", or nil
+function Unit:getPilotRole()
+    return self.pilot_role
+end
+
+--- Check if unit is assigned as pilot to a craft.
+---
+--- @return boolean True if assigned to craft
+function Unit:isAssignedAsPilot()
+    return self.assigned_craft_id ~= nil
+end
+
+--- Get pilot experience.
+---
+--- @return number Pilot XP (separate from ground combat XP)
+function Unit:getPilotXP()
+    return self.pilot_xp or 0
+end
+
+--- Get pilot rank.
+---
+--- @return number Pilot rank (0-5)
+function Unit:getPilotRank()
+    return self.pilot_rank or 0
+end
+
+--- Get pilot fatigue.
+---
+--- @return number Pilot fatigue (0-100)
+function Unit:getPilotFatigue()
+    return self.pilot_fatigue or 0
+end
+
+--- Get total interception missions.
+---
+--- @return number Total interceptions
+function Unit:getTotalInterceptions()
+    return self.total_interceptions or 0
+end
+
+--- Get craft kills.
+---
+--- @return number Enemy crafts destroyed
+function Unit:getCraftKills()
+    return self.craft_kills or 0
+end
+
+--- Award pilot XP.
+---
+--- @param amount number XP to award
+--- @param source string Source of XP (e.g., "interception_kill")
+--- @return boolean True if pilot ranked up
+function Unit:gainPilotXP(amount, source)
+    if not amount or amount <= 0 then
+        return false
+    end
+
+    self.pilot_xp = (self.pilot_xp or 0) + amount
+    source = source or "unknown"
+
+    print(string.format("[Unit] Pilot %s gained %d pilot XP (%s) - Total: %d",
+        self.name, amount, source, self.pilot_xp))
+
+    -- Check for rank up
+    return self:promotePilot()
+end
+
+--- Promote pilot if XP threshold met.
+---
+--- @return boolean True if promoted
+function Unit:promotePilot()
+    local rankThresholds = {100, 300, 600, 1000, 1500}  -- XP for ranks 1-5
+    local currentRank = self.pilot_rank or 0
+
+    if currentRank >= 5 then
+        return false  -- Max rank
+    end
+
+    local nextRank = currentRank + 1
+    local threshold = rankThresholds[nextRank]
+
+    if self.pilot_xp >= threshold then
+        self.pilot_rank = nextRank
+        self.piloting = (self.piloting or 6) + 1  -- +1 piloting per rank
+
+        print(string.format("[Unit] Pilot %s PROMOTED to rank %d! Piloting now %d",
+            self.name, nextRank, self.piloting))
+
+        return true
+    end
+
+    return false
+end
+
+--- Add pilot fatigue.
+---
+--- @param amount number Fatigue to add
+function Unit:addPilotFatigue(amount)
+    self.pilot_fatigue = math.min((self.pilot_fatigue or 0) + amount, 100)
+
+    if self.pilot_fatigue >= 80 then
+        print(string.format("[Unit] WARNING: Pilot %s critically fatigued (%d)",
+            self.name, self.pilot_fatigue))
+    end
+end
+
+--- Rest pilot (reduce fatigue).
+---
+--- @param amount number Fatigue to reduce
+function Unit:restPilot(amount)
+    self.pilot_fatigue = math.max((self.pilot_fatigue or 0) - amount, 0)
+end
+
+--- Calculate pilot bonuses for craft.
+---
+--- Returns table of bonuses based on pilot stats and fatigue.
+---
+--- @return table Bonuses {speed_bonus, accuracy_bonus, dodge_bonus, etc.}
+function Unit:calculatePilotBonuses()
+    local piloting = self.piloting or 6
+    local fatigue = self.pilot_fatigue or 0
+
+    -- Base bonuses from piloting stat
+    local pilotingBonus = math.max(0, piloting - 6)
+    local speedBonus = pilotingBonus * 2  -- 2% per point
+    local accuracyBonus = pilotingBonus * 3  -- 3% per point
+    local dodgeBonus = pilotingBonus * 2  -- 2% per point
+    local fuelEfficiency = pilotingBonus * 1  -- 1% per point
+
+    -- Apply fatigue modifier (max -50% at 100 fatigue)
+    local fatigueMultiplier = 1.0 - (fatigue / 200)
+
+    -- Secondary stat bonuses
+    local dexterity = self.stats.dexterity or 6
+    local perception = self.stats.perception or 6
+    local intelligence = self.stats.intelligence or 6
+
+    local initiativeBonus = math.floor(dexterity / 2)
+    local sensorBonus = math.floor(perception / 2)
+    local powerMgmtBonus = math.floor(intelligence / 2)
+
+    return {
+        speed_bonus = speedBonus * fatigueMultiplier,
+        accuracy_bonus = accuracyBonus * fatigueMultiplier,
+        dodge_bonus = dodgeBonus * fatigueMultiplier,
+        fuel_efficiency = fuelEfficiency * fatigueMultiplier,
+        initiative_bonus = initiativeBonus,
+        sensor_bonus = sensorBonus,
+        power_management = powerMgmtBonus,
+    }
+end
+
+--- ============================================================================
 
 return Unit
 
