@@ -1,0 +1,288 @@
+# Psychological Traits Configuration
+# Traits that affect morale, bravery, and sanity systems
+# Reference: design/mechanics/MoraleBraverySanity.md
+
+# Positive Traits (Bravery Bonuses)
+[[trait]]
+id = "brave"
+name = "Brave"
+description = "Shows exceptional courage under fire. Higher morale capacity and resistance to panic."
+category = "psychological"
+type = "positive"
+rarity = "common"
+bravery_bonus = 2
+effects = [
+    "Bravery +2",
+    "Larger morale pool in combat",
+    "Better panic resistance"
+]
+
+[[trait]]
+id = "fearless"
+name = "Fearless"
+description = "Utterly fearless in the face of danger. Exceptional morale capacity."
+category = "psychological"
+type = "positive"
+rarity = "rare"
+bravery_bonus = 3
+effects = [
+    "Bravery +3",
+    "Significantly larger morale pool",
+    "Immune to first morale loss event"
+]
+
+[[trait]]
+id = "iron_will"
+name = "Iron Will"
+description = "Unshakeable mental fortitude. Resists sanity loss."
+category = "psychological"
+type = "positive"
+rarity = "uncommon"
+sanity_bonus = 2
+sanity_loss_resistance = 0.50  # 50% reduction in sanity loss
+effects = [
+    "Sanity +2",
+    "50% less sanity loss from missions",
+    "Faster sanity recovery"
+]
+
+[[trait]]
+id = "leadership"
+name = "Leadership"
+description = "Natural leader who inspires confidence in others."
+category = "psychological"
+type = "positive"
+rarity = "uncommon"
+enables_rally = true  # Can use Rally action
+enables_aura = true  # Passive +1 morale aura
+bravery_bonus = 1
+effects = [
+    "Bravery +1",
+    "Can use Rally action (4 AP → +2 morale to ally)",
+    "Passive aura: +1 morale/turn to nearby units (8 hex range)"
+]
+
+[[trait]]
+id = "resilient"
+name = "Resilient"
+description = "Quick psychological recovery. Bounces back from trauma faster."
+category = "psychological"
+type = "positive"
+rarity = "uncommon"
+sanity_recovery_multiplier = 1.50  # 50% faster recovery
+effects = [
+    "+50% sanity recovery rate",
+    "Base recovery: +1.5/week (instead of +1)",
+    "Medical treatment: +4.5 (instead of +3)"
+]
+
+[[trait]]
+id = "veteran"
+name = "Veteran"
+description = "Combat experience provides mental stability. Seen it all before."
+category = "psychological"
+type = "positive"
+rarity = "uncommon"
+bravery_bonus = 1
+sanity_bonus = 1
+morale_loss_resistance = 0.25  # 25% less morale loss from events
+effects = [
+    "Bravery +1, Sanity +1",
+    "25% less morale loss from combat events",
+    "Reduced chance of panic"
+]
+
+# Negative Traits (Bravery Penalties)
+[[trait]]
+id = "timid"
+name = "Timid"
+description = "Easily frightened and shaken. Lower morale capacity."
+category = "psychological"
+type = "negative"
+rarity = "common"
+bravery_penalty = 2
+effects = [
+    "Bravery -2",
+    "Smaller morale pool in combat",
+    "Higher panic risk"
+]
+
+[[trait]]
+id = "coward"
+name = "Coward"
+description = "Extreme fearfulness. Very low morale capacity."
+category = "psychological"
+type = "negative"
+rarity = "rare"
+bravery_penalty = 3
+panic_threshold_modifier = 2  # Panics at morale 2 instead of 0
+effects = [
+    "Bravery -3",
+    "Significantly smaller morale pool",
+    "Panics at morale 2 (instead of 0)"
+]
+
+[[trait]]
+id = "traumatized"
+name = "Traumatized"
+description = "Previous trauma affects mental health. More vulnerable to sanity loss."
+category = "psychological"
+type = "negative"
+rarity = "uncommon"
+sanity_penalty = 2
+sanity_loss_multiplier = 1.50  # 50% more sanity loss
+effects = [
+    "Sanity -2",
+    "+50% sanity loss from missions",
+    "Slower sanity recovery"
+]
+
+[[trait]]
+id = "unstable"
+name = "Unstable"
+description = "Mentally unstable. Both morale and sanity affected."
+category = "psychological"
+type = "negative"
+rarity = "rare"
+bravery_penalty = 1
+sanity_penalty = 1
+mood_swings = true
+effects = [
+    "Bravery -1, Sanity -1",
+    "Random morale fluctuations",
+    "Higher risk of breaking under stress"
+]
+
+[[trait]]
+id = "paranoid"
+name = "Paranoid"
+description = "Constant fear and suspicion. Sees threats everywhere."
+category = "psychological"
+type = "negative"
+rarity = "uncommon"
+bravery_penalty = 1
+morale_loss_multiplier = 1.25  # 25% more morale loss
+effects = [
+    "Bravery -1",
+    "+25% morale loss from events",
+    "Loses morale when isolated from squad"
+]
+
+# Special Psychological Traits
+[[trait]]
+id = "stoic"
+name = "Stoic"
+description = "Emotionless and detached. Unaffected by most psychological stressors."
+category = "psychological"
+type = "special"
+rarity = "rare"
+immune_to_morale_loss = ["ally_death", "flanked"]
+sanity_bonus = 2
+effects = [
+    "Sanity +2",
+    "Immune to morale loss from ally deaths",
+    "Immune to flanking morale penalty",
+    "Cannot benefit from Rally or Aura"
+]
+
+[[trait]]
+id = "battle_hardened"
+name = "Battle Hardened"
+description = "Years of combat have hardened this soldier. Nearly immune to fear."
+category = "psychological"
+type = "special"
+rarity = "epic"
+bravery_bonus = 2
+sanity_bonus = 2
+minimum_morale = 3  # Cannot drop below 3
+effects = [
+    "Bravery +2, Sanity +2",
+    "Morale cannot drop below 3 (never panics)",
+    "Immune to first 2 morale loss events per mission"
+]
+
+[[trait]]
+id = "ptsd"
+name = "PTSD"
+description = "Post-traumatic stress disorder from previous combat. Requires careful management."
+category = "psychological"
+type = "affliction"
+rarity = "uncommon"
+acquired_through = "mission_trauma"  # Can be acquired during campaign
+sanity_penalty = 3
+trigger_events = ["explosion", "ally_death", "night_mission"]
+effects = [
+    "Sanity -3",
+    "Triggered by explosions, deaths, or night missions",
+    "When triggered: -2 morale and -1 sanity immediately",
+    "Can be treated with medical care (expensive)"
+]
+
+[[trait]]
+id = "adrenaline_junkie"
+name = "Adrenaline Junkie"
+description = "Thrives under pressure. Gains morale from danger."
+category = "psychological"
+type = "special"
+rarity = "rare"
+gains_morale_from_danger = true
+bravery_bonus = 1
+effects = [
+    "Bravery +1",
+    "+1 morale when flanked or outnumbered",
+    "+2 morale after killing enemy",
+    "Loses morale when out of combat for extended periods"
+]
+
+[[trait]]
+id = "meditative"
+name = "Meditative"
+description = "Practices meditation for mental clarity. Enhanced sanity recovery."
+category = "psychological"
+type = "positive"
+rarity = "uncommon"
+sanity_recovery_multiplier = 2.00  # Double recovery
+rest_action_bonus = 1  # Rest action gives +2 instead of +1
+effects = [
+    "+100% sanity recovery rate",
+    "Base recovery: +2/week (instead of +1)",
+    "Rest action: +2 morale (instead of +1)"
+]
+
+# Officer Traits (Leadership-focused)
+[[trait]]
+id = "inspiring_presence"
+name = "Inspiring Presence"
+description = "Presence alone boosts squad morale significantly."
+category = "psychological"
+type = "officer"
+rarity = "rare"
+requires = ["leadership"]
+aura_range = 12  # 12 hex range instead of 8
+aura_bonus = 2  # +2 morale instead of +1
+bravery_bonus = 2
+effects = [
+    "Bravery +2",
+    "Aura range: 12 hexes (instead of 8)",
+    "Aura effect: +2 morale/turn (instead of +1)",
+    "Rally action: +3 morale (instead of +2)"
+]
+
+[[trait]]
+id = "tactical_genius"
+name = "Tactical Genius"
+description = "Brilliant tactician. Squad performs better under their command."
+category = "psychological"
+type = "officer"
+rarity = "epic"
+requires = ["leadership"]
+squad_accuracy_bonus = 5  # +5% accuracy to squad
+squad_morale_bonus = 2  # +2 starting morale to squad
+bravery_bonus = 1
+effects = [
+    "Bravery +1",
+    "+5% accuracy to all squad members",
+    "+2 starting morale to all squad members",
+    "Rally action affects all units within 8 hexes"
+]
+

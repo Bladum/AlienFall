@@ -149,13 +149,110 @@ function MoraleSystem.getAPModifier(unitId)
     local cfg = MoraleSystem.CONFIG
     local minMoraleSanity = math.min(state.morale, state.sanity)
 
-    if minMoraleSanity <= cfg.AP_MODIFIER_THRESHOLD_1 then
+    if minMoraleSanity == 0 then
+        return -4  -- Panic: lose all AP
+    elseif minMoraleSanity <= cfg.AP_MODIFIER_THRESHOLD_1 then
         return -2  -- -2 AP
     elseif minMoraleSanity <= cfg.AP_MODIFIER_THRESHOLD_2 then
         return -1  -- -1 AP
     else
         return 0   -- No modifier
     end
+end
+
+---Get morale accuracy penalty
+---@param unitId string Unit identifier
+---@return number penalty (0 to -50)
+function MoraleSystem.getMoraleAccuracyPenalty(unitId)
+    local state = psychStates[unitId]
+    if not state then return 0 end
+
+    -- Granular accuracy penalties based on morale
+    if state.morale == 0 then return -50
+    elseif state.morale == 1 then return -25
+    elseif state.morale == 2 then return -15
+    elseif state.morale == 3 then return -10
+    elseif state.morale <= 5 then return -5
+    else return 0
+    end
+end
+
+---Get sanity accuracy penalty
+---@param unitId string Unit identifier
+---@return number penalty (0 to -25)
+function MoraleSystem.getSanityAccuracyPenalty(unitId)
+    local state = psychStates[unitId]
+    if not state then return 0 end
+
+    -- Sanity-based accuracy penalties
+    if state.sanity <= 2 then return -25
+    elseif state.sanity <= 4 then return -15
+    elseif state.sanity <= 6 then return -10
+    elseif state.sanity <= 9 then return -5
+    else return 0
+    end
+end
+
+---Get starting morale modifier from sanity
+---@param unitId string Unit identifier
+---@return number modifier (0 to -3)
+function MoraleSystem.getSanityMoraleModifier(unitId)
+    local state = psychStates[unitId]
+    if not state then return 0 end
+
+    -- Low sanity reduces starting morale
+    if state.sanity <= 2 then return -3
+    elseif state.sanity <= 4 then return -2
+    elseif state.sanity <= 6 then return -1
+    else return 0
+    end
+end
+
+---Get morale status string
+---@param unitId string Unit identifier
+---@return string status
+function MoraleSystem.getMoraleStatus(unitId)
+    local state = psychStates[unitId]
+    if not state then return "unknown" end
+
+    if state.morale == 0 then return "panic"
+    elseif state.morale == 1 then return "panicking"
+    elseif state.morale == 2 then return "shaken"
+    elseif state.morale == 3 then return "stressed"
+    elseif state.morale <= 5 then return "steady"
+    else return "confident"
+    end
+end
+
+---Get sanity status string
+---@param unitId string Unit identifier
+---@return string status
+function MoraleSystem.getSanityStatus(unitId)
+    local state = psychStates[unitId]
+    if not state then return "unknown" end
+
+    if state.sanity == 0 then return "broken"
+    elseif state.sanity <= 2 then return "unstable"
+    elseif state.sanity <= 4 then return "breaking"
+    elseif state.sanity <= 6 then return "fragile"
+    elseif state.sanity <= 9 then return "strained"
+    else return "stable"
+    end
+end
+
+---Check if unit can deploy (sanity > 0)
+---@param unitId string Unit identifier
+---@return boolean canDeploy
+---@return string|nil reason
+function MoraleSystem.canDeploy(unitId)
+    local state = psychStates[unitId]
+    if not state then return true end
+
+    if state.sanity == 0 then
+        return false, "Unit is broken - requires psychological treatment"
+    end
+
+    return true
 end
 
 ---Check if unit can act (not panicked)
@@ -171,6 +268,60 @@ function MoraleSystem.canAct(unitId)
     end
 
     return true
+end
+
+---MORALE EVENT: Ally killed nearby
+---@param unitId string Unit observing death
+---@param distance number Distance to death in hexes
+function MoraleSystem.onAllyKilled(unitId, distance)
+    local cfg = MoraleSystem.CONFIG
+    if distance <= 5 then
+        MoraleSystem.modifyMorale(unitId, -cfg.ALLY_DEATH_MORALE_LOSS, "ally death nearby")
+    end
+end
+
+---MORALE EVENT: Unit takes damage
+---@param unitId string Unit taking damage
+function MoraleSystem.onTakeDamage(unitId)
+    MoraleSystem.modifyMorale(unitId, -1, "taking damage")
+end
+
+---MORALE EVENT: Unit receives critical hit
+---@param unitId string Unit receiving critical
+function MoraleSystem.onCriticalHit(unitId)
+    local cfg = MoraleSystem.CONFIG
+    MoraleSystem.modifyMorale(unitId, -cfg.CRITICAL_HIT_MORALE_LOSS, "critical hit")
+end
+
+---MORALE EVENT: Unit is flanked by enemies
+---@param unitId string Unit being flanked
+function MoraleSystem.onFlanked(unitId)
+    MoraleSystem.modifyMorale(unitId, -1, "flanked by enemies")
+end
+
+---MORALE EVENT: Unit is outnumbered 3:1
+---@param unitId string Unit outnumbered
+function MoraleSystem.onOutnumbered(unitId)
+    MoraleSystem.modifyMorale(unitId, -1, "outnumbered")
+end
+
+---MORALE EVENT: Commander/leader killed
+---@param unitId string Unit witnessing commander death
+function MoraleSystem.onCommanderKilled(unitId)
+    MoraleSystem.modifyMorale(unitId, -2, "commander killed")
+end
+
+---MORALE EVENT: First encounter with new alien type
+---@param unitId string Unit encountering alien
+---@param alienType string Type of alien
+function MoraleSystem.onNewAlienEncounter(unitId, alienType)
+    MoraleSystem.modifyMorale(unitId, -1, "new alien: " .. alienType)
+end
+
+---MORALE EVENT: Night mission starts
+---@param unitId string Unit on night mission
+function MoraleSystem.onNightMission(unitId)
+    MoraleSystem.modifyMorale(unitId, -1, "night mission")
 end
 
 ---Process ally death - applies morale loss to nearby units
@@ -194,11 +345,86 @@ function MoraleSystem.processCriticalHit(targetUnitId)
     MoraleSystem.modifyMorale(targetUnitId, -cfg.CRITICAL_HIT_MORALE_LOSS, "critical hit")
 end
 
+---Reset morale to bravery value (mission end)
+---@param unitId string Unit identifier
+function MoraleSystem.resetMorale(unitId)
+    local state = psychStates[unitId]
+    if not state then return end
+
+    state.morale = state.maxMorale
+    print(string.format("[MoraleSystem] %s morale reset to %d (mission end)", unitId, state.morale))
+    MoraleSystem.updateState(state)
+end
+
 ---Apply post-mission sanity loss
 ---@param unitId string Unit identifier
 ---@param missionDifficulty string "standard", "moderate", "hard", "horror"
 ---@param isNightMission boolean Whether mission was at night
 ---@param alliesKIA number Number of allies that died
+---@param missionFailed boolean Whether mission failed
+function MoraleSystem.applyMissionTrauma(unitId, missionDifficulty, isNightMission, alliesKilled, missionFailed)
+    local cfg = MoraleSystem.CONFIG
+    local loss = 0
+
+    -- Base sanity loss by difficulty
+    if missionDifficulty == "horror" then
+        loss = loss + 3
+    elseif missionDifficulty == "hard" then
+        loss = loss + 2
+    elseif missionDifficulty == "moderate" then
+        loss = loss + 1
+    -- standard = 0
+    end
+
+    -- Additional factors
+    if isNightMission then
+        loss = loss + cfg.SANITY_LOSS_NIGHT_MISSION
+    end
+
+    if alliesKilled and alliesKilled > 0 then
+        loss = loss + (alliesKilled * cfg.SANITY_LOSS_PER_ALLY_KIA)
+    end
+
+    if missionFailed then
+        loss = loss + 2
+    end
+
+    if loss > 0 then
+        MoraleSystem.modifySanity(unitId, -loss, "mission trauma")
+    end
+end
+
+---Weekly base sanity recovery (+1 per week)
+---@param unitId string Unit identifier
+function MoraleSystem.weeklyBaseRecovery(unitId)
+    MoraleSystem.modifySanity(unitId, 1, "base recovery")
+end
+
+---Weekly Temple sanity bonus (+1 per week if Temple exists)
+---@param unitId string Unit identifier
+function MoraleSystem.weeklyTempleRecovery(unitId)
+    MoraleSystem.modifySanity(unitId, 1, "temple bonus")
+end
+
+---Medical treatment for sanity (+3 immediate, costs 10K)
+---@param unitId string Unit identifier
+---@return boolean success
+function MoraleSystem.medicalTreatment(unitId)
+    MoraleSystem.modifySanity(unitId, 3, "medical treatment")
+    print(string.format("[MoraleSystem] %s received medical treatment (+3 sanity, 10,000 credits)", unitId))
+    return true
+end
+
+---Leave/vacation for sanity (+5 over 2 weeks, costs 5K)
+---@param unitId string Unit identifier
+---@return boolean success
+function MoraleSystem.leaveVacation(unitId)
+    MoraleSystem.modifySanity(unitId, 5, "leave/vacation")
+    print(string.format("[MoraleSystem] %s on leave (+5 sanity, 5,000 credits)", unitId))
+    return true
+end
+
+---Apply post-mission sanity loss
 function MoraleSystem.applyPostMissionSanityLoss(unitId, missionDifficulty, isNightMission, alliesKIA)
     local cfg = MoraleSystem.CONFIG
     local totalLoss = 0

@@ -250,36 +250,84 @@ Final AP: 2 AP per turn (within 1-4 range)
 
 ### Morale & Psychological
 
-#### Bravery Stat
-- **Range**: 6-12
-- **Effect**: Initial morale buffer at battle start
-- **Usage**: Represents unit's mental fortitude before combat stress
-- **Impact**: Higher bravery = resistance to panic
-- **Loss**: When witnessing friendly units die (penalties stack by rank of unit)
+**For Complete System Details**: See [MoraleBraverySanity.md](./MoraleBraverySanity.md)
 
-#### Morale (Current)
-- **Range**: 0-12 (in battle)
-- **Status**: Changes during battle based on events
-- **Panic Threshold**: Morale ≤ 2; unit may flee or perform poorly
-- **Impact on Performance**: Low morale increases action costs by 25%, reduces accuracy by -10%
-- **Recovery**: +1 morale per turn in cover/safe area; +2 morale if unit secures a kill
+#### Bravery Stat (Core Stat)
+- **Range**: 6-12 (standard stat range)
+- **Effect**: Determines starting morale in battle
+- **Usage**: Represents inherent courage and fear resistance
+- **Impact**: Higher bravery = larger morale pool, better panic resistance
+- **Progression**: +1 per 3 ranks (experience-based growth)
+- **Modifiers**:
+  - Trait "Brave": +2 bravery
+  - Trait "Fearless": +3 bravery (rare)
+  - Officer gear: +1 bravery
+  - Medal display: +1 per 3 medals
 
-#### Morale Penalties from Unit Deaths
-Witnessing higher-rank unit deaths inflicts morale penalties:
+#### Morale (In-Battle System)
+- **Range**: 0 to Bravery value (dynamic during combat)
+- **Starting Value**: Equals Bravery stat at mission start
+- **Degradation**: Combat stress reduces morale
+- **Panic Threshold**: 0 morale = PANIC (unit loses all AP)
+- **AP Penalties**:
+  - 2 morale: -1 AP per turn
+  - 1 morale: -2 AP per turn
+  - 0 morale: All AP lost (cannot act)
+- **Accuracy Penalties**:
+  - 4-5 morale: -5% accuracy
+  - 3 morale: -10% accuracy
+  - 2 morale: -15% accuracy
+  - 1 morale: -25% accuracy
+  - 0 morale: -50% accuracy
+- **Recovery**:
+  - Rest action: 2 AP → +1 morale
+  - Leader rally: 4 AP → +2 morale to target
+  - Leader aura: +1 morale per turn (passive, within 8 hexes)
+- **Reset**: Morale fully resets to Bravery value after mission
 
-| Unit Rank | Visible Death Penalty | Always Penalty |
-|-----------|---------------------|-----------------|
-| Rank 0-1  | -1 morale            | 0               |
-| Rank 2-3  | -2 morale            | 0               |
-| Rank 4-5  | -3 morale            | -1 morale       |
-| Rank 6 (Hero) | -4 morale       | -2 morale (nearby units still affected even if not witnessing) |
+#### Morale Loss Events
 
-#### Sanity Stat
-- **Range**: 6-12
-- **Effect**: Psychological stability buffer; trauma resistance
-- **Damage Mechanic**: Exposure to horrific sights (alien transformations, brutal kills) reduces sanity
-- **Low Sanity**: Units below 3 sanity lose AP during turn 
-- **Recovery**: Rest in barracks (+1 per week); psychiatric sessions (+2-3 per session, costly)
+| Event | Morale Loss | When It Occurs |
+|-------|-------------|----------------|
+| Ally killed (visible) | -1 | Within 5 hexes |
+| Taking damage | -1 | Each hit received |
+| Critical hit received | -2 | Per critical |
+| Flanked by enemies | -1 | Per turn flanked |
+| Outnumbered (3:1) | -1 | Per turn |
+| New alien type | -1 | First encounter |
+| Commander killed | -2 | Squad leader death |
+| Night mission start | -1 | Mission begins at night |
+
+#### Sanity Stat (Long-Term Psychological)
+- **Range**: 6-12 (separate from morale)
+- **Effect**: Long-term mental stability between missions
+- **Persistence**: Does NOT reset between missions
+- **Loss**: Drops AFTER mission based on trauma
+  - Standard mission: 0 sanity loss
+  - Moderate mission: -1 sanity
+  - Hard mission: -2 sanity
+  - Horror mission: -3 sanity
+  - Night missions: additional -1
+  - Ally deaths: -1 per death
+  - Mission failure: -2
+- **Recovery**: 
+  - Base recovery: +1 per week
+  - Temple facility: +1 additional per week (+2 total)
+  - Medical treatment: +3 immediate (10,000 credits)
+  - Leave/vacation: +5 over 2 weeks (5,000 credits)
+- **Broken State** (0 sanity): Unit cannot deploy, requires treatment
+- **Performance Impact**:
+  - 7-9 sanity: -5% accuracy
+  - 5-6 sanity: -10% accuracy, -1 morale start
+  - 3-4 sanity: -15% accuracy, -2 morale start
+  - 1-2 sanity: -25% accuracy, -3 morale start
+
+#### Strategic Implications
+- **Morale**: Managed during combat via Rest actions and leader support
+- **Sanity**: Managed between missions via roster rotation and Temple facility
+- **Interaction**: Low sanity reduces starting morale and adds accuracy penalties
+- **Penalties Stack**: Morale + Sanity penalties are cumulative
+- **Roster Size**: Recommend 2-3x squad size for rotation (sanity recovery)
 
 ### Special Abilities
 

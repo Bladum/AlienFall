@@ -1333,72 +1333,112 @@ If unit lacks AP to perform reaction, can still move away (opportunity action). 
 
 ## Status Effects & Morale
 
-### Morale System
+**For Complete Morale/Bravery/Sanity Mechanics**: See [MoraleBraverySanity.md](./MoraleBraverySanity.md)
 
-Morale represents unit confidence during battle. It is derived from Bravery stat and acts as a buffer during combat.
+### Quick Reference
+
+**Bravery (Core Stat)**:
+- Range: 6-12
+- Determines starting morale in battle
+- Increases with experience and traits
+- Examples: Brave trait (+2), Officer gear (+1)
+
+**Morale (In-Battle)**:
+- Starts at Bravery value each mission
+- Degrades from stress: ally death (-1), taking damage (-1), flanked (-1)
+- **Thresholds**: 
+  - 6-12: Normal, full AP
+  - 2: -1 AP penalty
+  - 1: -2 AP penalty  
+  - 0: PANIC (lose all AP)
+- **Recovery**: Rest action (2 AP → +1 morale), Leader rally (4 AP → +2 morale)
+- Resets to Bravery at mission end
+
+**Sanity (Long-Term)**:
+- Range: 6-12, separate from morale
+- Drops AFTER mission based on horror: Standard (0), Moderate (-1), Hard (-2), Horror (-3)
+- Additional losses: Night missions (-1), Ally deaths (-1 each), Mission failure (-2)
+- **Recovery**: +1 per week in base, +1 per week with Temple facility
+- **Broken state** (0 sanity): Cannot deploy, requires treatment
+
+### Morale System (Summary)
 
 #### Morale Baseline
 - **Starting morale**: Equals BRAVERY stat (6-12 range) at start of battle
-- **Minimum morale**: 0 (triggers panic mode - unit becomes inactive)
 - **Maximum morale**: Equal to BRAVERY stat (cannot exceed it)
-
-#### Morale Loss Events
-
-Units lose 1 morale when under stress:
-- Witnessing ally death nearby (within 5 hexes)
-- Taking critical damage (critical hit received)
-- Seeing enemy in superior numbers
-- Other tactical stress events
+- **Minimum morale**: 0 (triggers panic mode)
 
 #### Morale Thresholds & Effects
 
-| Morale | Effect |
-|---|---|
-| **6-12 (BRAVERY range)** | Normal capability, full AP available |
-| **3-5** | Stressed but functional, full AP |
-| **2** | AP modifier: −1 AP per turn |
-| **1** | AP modifier: −2 AP per turn |
-| **0** | **PANIC MODE** - Unit becomes inactive (cannot act) |
+| Morale | Status | AP Penalty | Accuracy | Behavior |
+|--------|--------|------------|----------|----------|
+| **6-12** | Confident | 0 | 0% | Normal |
+| **4-5** | Steady | 0 | -5% | Minor penalty |
+| **3** | Stressed | 0 | -10% | Noticeable |
+| **2** | Shaken | -1 AP | -15% | Impaired |
+| **1** | Panicking | -2 AP | -25% | Severe |
+| **0** | **PANIC** | All AP lost | -50% | Cannot act |
 
 #### Morale Recovery
-- **Rest action**: 2 AP → +1 morale per turn
-- **Leader aura**: +1 morale to nearby allies per turn (requires leader trait)
-- **Rally action**: 4 AP → +2 morale to self or nearby ally
-- **Post-mission**: Morale resets to base BRAVERY value
+- **Rest action**: 2 AP → +1 morale
+- **Leader rally**: 4 AP → +2 morale to nearby unit
+- **Leader aura**: +1 morale per turn (passive, within 8 hexes)
+- **Post-mission**: Morale resets to BRAVERY value
 
 ---
 
-### Sanity System
-
-Sanity represents psychological stability. It is a separate buffer from morale that degrades over time and intense experiences. Range: 6-12 (similar to other core stats).
+### Sanity System (Summary)
 
 #### Sanity Baseline
-- **Starting sanity**: 6-12 (based on unit class/specialization)
-- **Minimum sanity**: 0 (triggers panic mode - unit becomes inactive)
-- **Maximum sanity**: Starting value for that unit
-- **Recovery**: +1 sanity per week in base (passive)
+- **Range**: 6-12 (similar to other core stats)
+- **Default**: 8-10 for most units
+- **Recovery**: +1 per week in base, +2 per week with Temple
 
-#### Sanity Loss During Missions
+#### Sanity Loss (Post-Mission)
 
-After a mission concludes, units lose sanity based on mission difficulty:
+| Mission Type | Sanity Loss | Additional Factors |
+|--------------|-------------|-------------------|
+| **Standard** | 0 | Routine operations |
+| **Moderate** | -1 | High stress |
+| **Hard** | -2 | Extreme trauma |
+| **Horror** | -3 | Psychological terror |
 
-| Difficulty | Sanity Loss |
-|---|---|
-| **Standard** | 0 |
-| **Moderate** | −1 |
-| **Hard** | −2 |
-| **Horror** | −3 |
-
-**Additional Penalties**:
-- **Night missions**: −1 sanity (atmospheric horror)
-- **Heavy casualties**: −1 per ally KIA
-- **Witnessing horror**: −1 per special event (specific to mission)
+**Additional**: Night missions (-1), Ally deaths (-1 each), Mission failure (-2)
 
 #### Sanity Thresholds & Effects
 
-| Sanity | Effect |
-|---|---|
-| **6-12 (starting range)** | Normal psychological state, full AP available |
+| Sanity | Status | Accuracy | Morale Start | Deployment |
+|--------|--------|----------|--------------|------------|
+| **10-12** | Stable | 0% | Normal | Normal |
+| **7-9** | Strained | -5% | Normal | Normal |
+| **5-6** | Fragile | -10% | -1 morale | Risky |
+| **3-4** | Breaking | -15% | -2 morale | Avoid |
+| **1-2** | Unstable | -25% | -3 morale | Emergency only |
+| **0** | **BROKEN** | N/A | N/A | Cannot deploy |
+
+#### Sanity Recovery
+- **Base recovery**: +1 sanity per week
+- **Temple facility**: +1 additional per week
+- **Medical treatment**: +3 immediate (costs 10,000 credits)
+- **Leave/vacation**: +5 over 2 weeks (costs 5,000 credits)
+
+---
+
+### Integration Notes
+
+**Morale + Sanity penalties stack**:
+- Unit with 2 morale + 5 sanity: -15% accuracy (morale) + -10% accuracy (sanity) = -25% total
+- Design intent: Cumulative psychological degradation
+
+**Strategic implications**:
+- Rotate units between missions (sanity recovery)
+- Build Temple facility early (doubles sanity recovery)
+- Use Rest actions during combat (morale management)
+- Position leaders near stressed units (morale boost)
+
+---
+
+### Status Effects (Other)
 | **3-5** | Psychological stress, full AP available |
 | **2** | AP modifier: −1 AP per turn |
 | **1** | AP modifier: −2 AP per turn |

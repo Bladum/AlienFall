@@ -108,8 +108,9 @@ This glossary consolidates all domain-specific terminology, abbreviations, and k
 - **Barracks Capacity**: The total unit housing available across barracks facilities; exceeding capacity imposes morale penalties and blocks new recruitment.
 - **Salary/Maintenance Cost**: The monthly cost per unit (5K base) kept in the organization; scales with rank and specialization.
 - **Experience (XP)**: A unit's accumulated combat points earned through missions; triggers rank promotion and specialization unlocks at thresholds (100, 300, 600, 1000 XP).
-- **Morale**: A unit's psychological state in battle (derived from Bravery stat); drops below 0 triggers panic and action paralysis.
-- **Sanity**: A unit's mental health affected by combat horror, night missions, and casualties; low sanity triggers unreliability and breakdowns.
+- **Bravery**: Core unit stat (6-12 range) determining morale capacity in battle; higher bravery = larger morale pool and better panic resistance. Increases with experience (+1 per 3 ranks) and traits (Brave +2, Fearless +3).
+- **Morale**: In-battle psychological state starting at Bravery value and degrading from stress (ally deaths, damage, flanking); drops to 0 trigger PANIC (all AP lost). Recoverable via Rest action (2 AP → +1) or Leader rally (4 AP → +2). Resets to Bravery after mission.
+- **Sanity**: Long-term mental stability (6-12 range) that persists between missions; drops after missions based on horror level (Standard 0, Moderate -1, Hard -2, Horror -3). Recovers slowly (+1/week base, +2/week with Temple). At 0 sanity, unit cannot deploy (Broken state).
 - **Health Recovery**: The passive healing system (+1 HP/week) accelerated by hospital facilities and medic specialization.
 - **Prisoner**: A captured alien unit held in prison facility; provides research opportunity and can be traded, experimented on, or executed.
 
@@ -374,7 +375,10 @@ This glossary consolidates all domain-specific terminology, abbreviations, and k
 - **Failed Delivery**: 10% chance of delivery loss; player receives partial refund (20-50%).
 - **Bulk Discount**: Price reduction (5-25%) for purchasing large quantities (50+ units).
 - **Subscription/Recurring Order**: Automatic monthly purchases at agreed pricing and delivery schedule.
-- **Black Market**: Restricted marketplace access for illegal items; requires low karma and criminal faction relationship.
+- **Black Market**: Underground economy system providing restricted items (experimental weapons, banned tech), special units (mercenaries, defectors), special craft (stolen military), mission generation (assassination, sabotage, heist), event purchasing (political manipulation), and corpse trading. Requires karma below +40 and fame above 25. All transactions carry karma penalties (-5 to -40) and discovery risk (5-15%). Discovery results in fame loss (-20 to -50) and relations damage (-30 to -70). Access tiers: Restricted (items only) → Standard (items + units) → Enhanced (most services) → Complete (all services including extreme operations).
+- **Corpse Trading**: Black Market service allowing sale of dead units for credits. Values: Human soldier (5K, -10 karma), Alien common (15K, -15 karma), Alien rare (50K, -25 karma), VIP (100K, -30 karma). Fresh corpses +50% value, preserved +100%, damaged -50%. 5% discovery risk per sale. Alternative ethical uses: Research (0 karma), Burial (0 karma, +5 morale), Ransom (0 karma, +relations).
+- **Mission Generation**: Black Market service to purchase custom missions that spawn on Geoscape. Types: Assassination (50K, -30 karma), Sabotage (40K, -20 karma), Heist (30K, -15 karma), Kidnapping (35K, -25 karma), False Flag (60K, -40 karma), Data Theft (25K, -10 karma), Smuggling (20K, -5 karma). Missions spawn in 3-7 days with 150-300% profit potential if completed successfully.
+- **Event Purchasing**: Black Market service to trigger political/economic events. Types: Improve Relations (30K, -10 karma, +20 relations), Sabotage Economy (50K, -25 karma, drops economy tier), Incite Rebellion (80K, -35 karma, contests province), Spread Propaganda (20K, -5 karma, +10 fame), Frame Rival (60K, -30 karma, -30 rival relations), Bribe Officials (40K, -15 karma, ignore black market activity 6 months), Crash Market (70K, -20 karma, 30% cheaper items 3 months).
 - **Embargo**: Complete trade block with supplier when relationship ≤ -100; requires diplomatic reset to restore.
 
 ### Transfer & Logistics

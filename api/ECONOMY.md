@@ -1209,7 +1209,15 @@ end
 
 ## Black Market System
 
-The Black Market provides access to rare, restricted, and experimental items outside normal supply channels. It represents underground trade networks, criminal organizations, and independent dealers offering items that nations and official suppliers won't provide.
+**For Complete Black Market System**: See [design/mechanics/BlackMarket.md](../design/mechanics/BlackMarket.md)
+
+The Black Market provides extensive underground economy access including:
+- **Restricted Items**: Experimental weapons, banned tech, alien equipment
+- **Special Units**: Mercenaries, defectors, augmented soldiers
+- **Special Craft**: Stolen military craft, prototypes, captured UFOs
+- **Mission Generation**: Purchase custom missions (assassination, sabotage, heist)
+- **Event Purchasing**: Trigger political/economic events
+- **Corpse Trading**: Sell dead units for credits (karma penalties)
 
 ### Entity: BlackMarket
 
@@ -1220,34 +1228,59 @@ BlackMarket = {
   name = "Black Market Contact",
   faction = "independent",                    -- Criminal underworld faction
   
-  -- Availability
-  is_discovered = false,                      -- Must be discovered first
+  -- Access Requirements
+  is_discovered = false,                      -- Must discover contact first
   discovery_date = nil,                       -- When first contacted
-  reputation_level = 0,                       -- 0-100, affects pricing & inventory
+  access_level = "restricted",                -- restricted | standard | enhanced | complete
+  karma_requirement = 40,                     -- Max karma to access (cannot be "too good")
+  fame_requirement = 25,                      -- Min fame to find contacts
+  entry_fee = 10000,                          -- One-time entry cost
   
-  -- Inventory Management
+  -- Karma/Fame Tracking
+  karma = 0,                                  -- Player karma (-100 to +100)
+  fame = 0,                                   -- Player fame (0-100)
+  
+  -- Transaction History
+  transaction_count = 0,                      -- Total purchases made
+  discovery_risk = 0.05,                      -- 5% base discovery chance
+  discovered_transactions = {},               -- List of exposed deals
+  
+  -- Inventory Management (Items)
   inventory_categories = {                    -- What they deal in
-    "restricted_weapons",
+    "restricted_weapons",                     -- 200-500% markup
     "experimental_armor",
     "illegal_tech",
-    "rare_alloys",
     "alien_artifacts",
     "stolen_goods"
   },
   inventory_size = 50,                        -- Total item slots
   inventory_refresh_rate = 7,                 -- Days between inventory changes
-  last_refresh = calendar.getCurrentDate(),
   
-  -- Pricing
-  markup_multiplier = 2.5,                    -- Items cost 2.5x normal price
+  -- Special Services (NEW)
+  available_missions = {},                    -- Custom missions for purchase
+  available_events = {},                      -- Political events for purchase
+  available_units = {},                       -- Special units for recruitment
+  available_craft = {},                       -- Special craft for purchase
+  corpse_trading_enabled = true,              -- Accept corpse sales
+  
+  -- Pricing (Items)
+  markup_multiplier = 2.5,                    -- Items cost 2.5x normal price (200-500% range)
   reputation_discount = 0.02,                 -- 2% per reputation level (max -50%)
   demand_multiplier = 1.0,                    -- Varies based on item scarcity
   
   -- Risk & Consequences
-  detection_probability = 0.05,               -- 5% chance of being tracked per transaction
-  reputation_penalty = -5,                    -- With legitimate countries
-  access_risk_level = 3,                      -- 1-5, higher = more dangerous
-  raid_probability = 0.02,                    -- 2% chance of raid per transaction
+  detection_probability = 0.05,               -- 5% base chance per transaction
+  cumulative_risk = 0,                        -- Increases with transaction count
+  fame_penalty = -20,                         -- Fame loss if discovered
+  relation_penalty = -30,                     -- Country relations loss if discovered
+  
+  -- Supplier Relationships
+  supplier_relations = {
+    syndicate_trade = 0,                      -- -100 to +100
+    exotic_arms = 0,
+    shadow_broker = 0,
+    corpse_traders = 0
+  }
   
   -- Connections
   connected_factions = {"criminals", "rogue_scientists", "independent_traders"},

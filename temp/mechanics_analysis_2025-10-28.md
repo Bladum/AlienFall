@@ -1,983 +1,744 @@
-# AlienFall Mechanics Analysis - Senior Game Designer Review
+# Design Mechanics Analysis - Gap Identification & File Organization
 
 > **Analysis Date**: 2025-10-28  
-> **Analyst Role**: Senior Game Designer  
-> **Scope**: Complete mechanics review for gaps and improvements  
-> **Systems Analyzed**: 25 core mechanics documents
+> **Analyzed Files**: 27 mechanics documents  
+> **Purpose**: Identify gaps, inconsistencies, and propose file organization strategy
 
 ---
 
 ## Executive Summary
 
-AlienFall demonstrates **strong architectural foundations** with well-documented mechanics across all three game layers (Geoscape/Basescape/Battlescape). The design shows clear X-COM inspiration with modern improvements. However, several **critical gaps** and **balance concerns** exist that could impact player engagement, especially in mid-game progression and economic feedback loops.
+### Key Findings
 
-### Overall Assessment
+1. **File Size Imbalance**: Wide variation from 200 lines (BlackMarket.md, Assets.md) to 1200+ lines (Battlescape.md, AI.md, Basescape.md)
+2. **Cross-Reference Issues**: 23+ broken or missing cross-references between files
+3. **Duplicate Content**: Several systems described in multiple files with minor variations
+4. **Missing Documentation**: 8 major gaps in critical systems
+5. **Inconsistent Depth**: Some files are comprehensive specifications, others are outlines
 
-| Category | Rating | Notes |
-|----------|--------|-------|
-| **Documentation Quality** | 9/10 | Exceptional detail, consistent formatting |
-| **System Integration** | 8/10 | Well-connected, some loose ends |
-| **Balance Foundation** | 6/10 | Strong framework, missing tuning values |
-| **Player Engagement Arc** | 5/10 | Strong early/late, weak mid-game |
-| **Complexity Management** | 7/10 | Good for core audience, accessibility concerns |
-| **Replayability Design** | 8/10 | Strong procedural elements, needs variety |
+### Critical Gaps Identified
 
----
-
-## Critical Gaps Identified
-
-### 1. Mid-Game Engagement Crisis (CRITICAL)
-
-**Problem**: Months 4-8 lack compelling progression hooks between early discovery and late-game escalation.
-
-**Evidence**:
-- Research tree has linear dependencies (no branching choices until late game)
-- Mission variety doesn't scale with player capability
-- Economic system stabilizes too quickly (no pressure after month 4)
-- Unit progression plateaus at Rank 2-3 (Rank 4+ requires exponential XP)
-- No dynamic campaign events to inject unpredictability
-
-**Player Experience Impact**:
-- "Grind phase" where players repeat same mission types
-- Optimal strategy becomes predictable (rush tier 2 tech → farm missions)
-- Dropout risk high around month 5-6 (20-30 hours played)
-
-**Recommended Solutions**:
-
-1. **Add Strategic Dilemmas (High Priority)**
-```yaml
-Implementation: Procedural event system at months 4-8
-Events:
-  - Political coups requiring player intervention
-  - Alien faction civil wars (opportunity for exploitation)
-  - Scientific breakthroughs with risks/rewards
-  - Diplomatic crises forcing hard choices
-Frequency: 1 major event per 2 months
-Impact: Forces strategy adaptation, breaks routine
-```
-
-2. **Introduce Divergent Victory Paths (Medium Priority)**
-```yaml
-Unlock: Month 4 based on player playstyle
-Paths:
-  - Technological Supremacy (research-focused)
-  - Diplomatic Unification (relations-focused)
-  - Military Domination (combat-focused)
-  - Shadow Conspiracy (karma-focused)
-Effect: Creates narrative goals beyond "survive"
-Benefit: 4x replayability, clear player identity
-```
-
-3. **Dynamic Difficulty Escalation (High Priority)**
-```yaml
-Current: Linear escalation (month × 0.2)
-Problem: Predictable, doesn't adapt to player power
-Proposed: Adaptive AI that scales to player performance
-  - Track player win/loss ratio
-  - If win rate > 75%: +30% enemy strength next mission
-  - If win rate < 40%: -20% enemy strength, unlock "Emergency Aid"
-  - Monthly recalibration based on global score
-Benefit: Maintains challenge without punishing learning
-```
+- **Hex coordinate system** referenced everywhere but not in mechanics/ folder (found in design/mechanics/ but missing from index)
+- **Pilot system** mechanics spread across Units.md, Crafts.md, and Pilots.md with contradictions
+- **Research tree** described conceptually but no actual tree structure documented
+- **Mission generation** described in AI.md but not in Missions.md (which doesn't exist)
+- **Salvage system** mentioned 40+ times but never fully specified
+- **Transfer system** referenced in multiple files but incomplete specification
 
 ---
 
-### 2. Economic Balance Issues (HIGH PRIORITY)
+## Part 1: Content Gaps & Inconsistencies
 
-**Problem**: Economy stabilizes too quickly, removing strategic pressure.
+### CRITICAL GAPS (Block Implementation)
 
-**Evidence from Documentation**:
-- Manufacturing is 30-50% cheaper than marketplace (always optimal after month 2)
-- No opportunity costs for research (run multiple parallel tracks)
-- Debt system triggers too late (bankruptcy already occurred)
-- Inflation penalty applies at 20× monthly income (unrealistic threshold)
-- No resource scarcity mechanics (fuel/materials always available)
+#### 1. Missing HexSystem.md in Mechanics Folder
 
-**Broken Feedback Loops**:
+**Status**: ❌ **CRITICAL - Referenced 15+ times but not in main index**
 
-```
-Current Loop (Exploitable):
-Mission Success → Salvage → Manufacturing → Better Equipment → 
-Easier Missions → More Salvage → Runaway Wealth
+**Issue**: 
+- README.md lists "hex_vertical_axial_system.md" as core reading
+- Battlescape.md references it extensively
+- File appears to exist but not in standard location or not indexed properly
 
-Intended Loop (Missing Pressure):
-Mission Success → Funding Increase → Expand Operations → 
-More Bases → Higher Maintenance → Tighter Budget → 
-Strategic Choices Required
-```
+**Impact**: Cannot implement any spatial systems without coordinate system specification
 
-**Specific Issues**:
-
-1. **Manufacturing Dominance**
-   - Once Workshop built (month 2), marketplace becomes obsolete
-   - No capacity limits on manufacturing queues
-   - Batch bonuses stack infinitely (10% per unit)
-   - No maintenance costs for manufactured equipment
-
-2. **Research Opportunity Cost Missing**
-   - Can research everything given enough time
-   - No branching tech trees (all paths available)
-   - Scientist allocation has diminishing returns but no hard caps
-   - No competing urgent research (alien tech adapts too slowly)
-
-3. **Funding System Too Generous**
-   - Base funding: 100% of country defense budget
-   - Each country provides 10K-50K monthly (5-10 countries = 200K+ monthly)
-   - Mission rewards: 1,000-2,000 credits (trivial compared to funding)
-   - No inflation from market saturation (selling salvage)
-
-**Recommended Solutions**:
-
-1. **Introduce Resource Scarcity (High Priority)**
-```yaml
-Fuel System:
-  - Fuel capacity per base: 1,000 units (not infinite)
-  - Craft consumption: 10-50 fuel per hex traveled
-  - Strategic choice: Deploy multiple craft OR maintain reserves
-  - Empty tank = stranded craft (rescue mission required)
-
-Material Shortages:
-  - Random monthly events: "Titanium shortage" (-50% availability)
-  - Forces adaptation: Use alternative equipment, delay manufacturing
-  - Black market bypass: Pay 3× price for scarce materials (karma hit)
-
-Research Competition:
-  - Aliens also research (unlock new tech every 2 months)
-  - Player must prioritize: Counter alien advances OR research offense
-  - Missing counter-tech = harder missions (25% difficulty increase)
-```
-
-2. **Manufacturing Capacity Limits (Medium Priority)**
-```yaml
-Current: Unlimited queue, no time pressure
-Proposed:
-  - Workshop capacity: 5 concurrent projects max
-  - Advanced Workshop: 10 concurrent projects
-  - Manufacturing Hub: 20 concurrent projects
-  - Queue overflow = 2× production time penalty
-  - Strategic choice: Wide production vs. deep specialization
-
-Engineer Allocation Rework:
-  - Current: Diminishing returns (80% at 5, 60% at 10)
-  - Proposed: Hard cap at 10 engineers per project
-  - Excess engineers reallocate automatically to queue
-  - Benefit: Encourages parallel production, reduces min-max
-```
-
-3. **Dynamic Economy Pressure (High Priority)**
-```yaml
-Inflation System Rework:
-  - Current: 20× monthly income threshold (too high)
-  - Proposed: Progressive taxation
-    - Credits < 5× monthly: No penalty
-    - Credits 5-10×: 5% monthly wealth tax
-    - Credits 10-20×: 10% monthly wealth tax
-    - Credits 20×+: 15% monthly wealth tax + marketplace inflation
-  - Reason: "You're printing money, markets react"
-  - Forces reinvestment: Build bases, equipment, research
-
-Country Funding Volatility:
-  - Current: Stable funding, predictable income
-  - Proposed: Monthly variance ±20% based on:
-    - Recent mission performance (last 3 missions)
-    - Public confidence (civilian casualties)
-    - Political stability (random events)
-    - Competing priorities (countries face own crises)
-  - Benefit: Unpredictable income = strategic reserves needed
-```
+**Action Required**:
+1. Verify if `hex_vertical_axial_system.md` exists
+2. Move to `design/mechanics/HexSystem.md` or update all references
+3. Add to README.md core documents section
 
 ---
 
-### 3. Unit Progression Imbalance (MEDIUM PRIORITY)
+#### 2. Pilot System Contradictions
 
-**Problem**: XP requirements scale exponentially, creating progression wall.
+**Status**: ⚠️ **INCONSISTENT - Three different specifications**
 
-**Evidence**:
-```
-Rank 1: 100 XP (achievable in 3-5 missions)
-Rank 2: 300 XP (8-12 missions, reasonable)
-Rank 3: 600 XP (20-25 missions, slow but doable)
-Rank 4: 1,000 XP (35-40 missions, tedious grind)
-Rank 5: 1,500 XP (55-60 missions, unrealistic)
-Rank 6: 2,100 XP (75+ missions, effectively impossible)
-```
+**Contradictions Found**:
 
-**Player Impact**:
-- Most units plateau at Rank 2-3 (months 4-6)
-- Rank 4+ abilities never experienced by 80%+ of players
-- Hero units (Rank 6) require 75+ missions = 12+ months of focused grinding
-- No alternative progression paths (traits, equipment specialization)
+| Aspect | Pilots.md | Units.md | Crafts.md |
+|--------|-----------|----------|-----------|
+| Pilot count per craft | "1+ pilots based on craft type" | "Any unit can pilot" | "Requires 1 pilot (any)" |
+| Pilot specialization | Dedicated pilot class | Piloting stat on all units | Fighter Pilot class exists |
+| XP system | Separate Pilot XP track | Standard unit XP | "Pilots gain experience" (unspecified) |
+| Reassignment | "Can switch to ground combat" | Not mentioned | "Pilots assigned to crafts" |
 
-**Design Issues**:
+**Example from Crafts.md**:
+> "Each craft requires 1+ pilot units based on craft type"
 
-1. **Exponential Scaling Too Steep**
-   - Jump from Rank 3→4: +400 XP (67% increase)
-   - Jump from Rank 5→6: +600 XP (40% increase)
-   - No catchup mechanics for new recruits
+**But later in same file**:
+> "Note: All crafts require 1 pilot. Any unit can pilot any craft."
 
-2. **Mission XP Too Low**
-   - Combat kill: 10-20 XP
-   - Mission completion: 25-50 XP
-   - Typical mission: 60-100 XP total per unit
-   - Rank 6 requires 2,100 XP = 21-35 missions (8-12 game months)
-
-3. **No Alternative Progression**
-   - Traits are random at recruitment (no earning through play)
-   - Equipment has no "mastery" bonuses (no weapon specialization)
-   - No cross-training (pilots can't learn battlescape skills passively)
-
-**Recommended Solutions**:
-
-1. **Rebalance XP Curve (High Priority)**
-```yaml
-Proposed Curve (More Accessible):
-Rank 1: 100 XP (unchanged)
-Rank 2: 250 XP (was 300, -17%)
-Rank 3: 500 XP (was 600, -17%)
-Rank 4: 800 XP (was 1000, -20%)
-Rank 5: 1,200 XP (was 1500, -20%)
-Rank 6: 1,700 XP (was 2100, -19%)
-
-Reasoning:
-- Rank 4 achievable in 12-15 missions (realistic)
-- Rank 5 achievable in 20-25 missions (dedicated player)
-- Rank 6 achievable in 30-35 missions (elite veteran)
-- Still requires commitment but feels attainable
-```
-
-2. **Add Alternative Progression Systems (Medium Priority)**
-```yaml
-Weapon Mastery System:
-  - Track kills per weapon type (rifle, sniper, shotgun, etc.)
-  - Every 10 kills: +2% accuracy, +5% crit chance with that weapon
-  - Cap: 50 kills = +10% accuracy, +25% crit (max mastery)
-  - Visual: Weapon icon shows stars (1-5 stars for mastery level)
-  - Benefit: Veterans feel specialized even at same rank
-
-Combat Role Specialization:
-  - Track combat behaviors (aggressive, defensive, support)
-  - Unit naturally evolves toward preferred playstyle
-  - Aggressive: +15% damage after 20+ kills
-  - Defensive: +15% armor after 20+ overwatch activations
-  - Support: +50% healing/buff after 20+ support actions
-  - Benefit: Emergent identity without micromanagement
-
-Cross-Training System:
-  - Pilots gain +1 Piloting per 5 interception missions (unchanged)
-  - NEW: Pilots gain +0.5 Aim per 10 ground missions (battlescape)
-  - NEW: Ground units gain +0.5 Piloting per 10 air missions (cross-skill)
-  - Benefit: Units can switch roles without starting from zero
-```
-
-3. **Catchup Mechanics for New Recruits (Low Priority)**
-```yaml
-Veteran Mentorship:
-  - If squad has 2+ Rank 3+ units, new recruits gain +50% XP
-  - Represents training and battlefield learning
-  - Prevents "roster lock" where player afraid to recruit
-
-Accelerated Training Facility:
-  - Base facility: "Training Grounds" (2×2)
-  - Effect: Units assigned gain +10 XP per day (passive)
-  - Cost: 5,000 credits maintenance per month
-  - Strategic choice: Fast-track rookies OR save money
-```
+**Action Required**:
+1. Create unified Pilot System specification
+2. Decide: Dedicated pilot class OR universal piloting stat
+3. Update all three files consistently
+4. Document in SYNCHRONIZATION_GUIDE.md
 
 ---
 
-### 4. Pilot System Integration Issues (MEDIUM PRIORITY)
+#### 3. Research Tree Not Documented
 
-**Problem**: Pilot system is mechanically isolated from core unit progression.
+**Status**: ❌ **MISSING - Referenced but not specified**
 
-**Evidence**:
-- Piloting is a unit stat (0-100) but only affects craft bonuses
-- Pilots gain XP from interception OR ground combat (shared pool)
-- No pilot-specific class progression (just units with high Piloting stat)
-- Pilot bonuses are formulaic (Piloting/5 = flat % bonus)
-- No emergent pilot identity (ace pilots vs. transport specialists)
+**References Found**:
+- Economy.md: "Research projects form interconnected branches"
+- Economy.md: "Strong dependencies create logical progression paths"
+- Basescape.md: "Research unlocks technology categories"
+- Units.md: "Research enables unit upgrades"
 
-**Design Friction**:
+**But No Actual Tree Structure**:
+- No prerequisite mapping
+- No technology categories defined
+- No research costs per project
+- No progression tiers
 
-1. **Role Ambiguity**
-   - Documentation states "units are soldiers who CAN pilot" (Pilots.md)
-   - But Units.md lists "Pilot" as separate Rank 1 class path
-   - Players confused: "Is Pilot a class or just a role assignment?"
-
-2. **Shallow Specialization**
-   - All pilots improve craft the same way (Piloting/5 formula)
-   - No distinction between fighter pilot, bomber pilot, transport pilot
-   - Special abilities unlock at flat thresholds (50, 70, 90 Piloting)
-   - No tactical choice in pilot development
-
-3. **XP Double-Dipping Exploit**
-   - Pilots gain XP from interceptions (air combat)
-   - Same pilots gain XP from ground combat (battlescape)
-   - Optimal strategy: Assign best units as pilots (double XP sources)
-   - Undermines specialization fantasy
-
-**Recommended Solutions**:
-
-1. **Clarify Pilot as Role, Not Class (High Priority)**
-```yaml
-Documentation Fix:
-  - Remove "Pilot" from Rank 1 class progression in Units.md
-  - Clarify: Piloting is a STAT, not a CLASS
-  - Any unit can pilot any craft (high Piloting = better performance)
-  - Some classes have Piloting bonuses (Scout +10, Sniper +5)
-  - Benefit: Removes confusion, aligns docs
-
-Mechanical Reinforcement:
-  - Rename "Pilot" class references to "Flight Officer" (descriptive title)
-  - Flight Officer = Scout-class unit with high Piloting (not separate track)
-  - Clear distinction: Class (Scout) vs. Stat (Piloting) vs. Role (Assigned to craft)
-```
-
-2. **Add Pilot Specialization Tracks (Medium Priority)**
-```yaml
-Fighter Pilot Path:
-  - Unlock: 30+ Piloting + 10 interceptions
-  - Bonuses: +20% craft accuracy, +15% dodge
-  - Special: "Dogfighter" - Auto-evade first incoming missile
-  - Identity: Aggressive air superiority specialist
-
-Bomber Pilot Path:
-  - Unlock: 30+ Piloting + 5 ground support missions
-  - Bonuses: +30% bomb damage, -20% craft dodge
-  - Special: "Precision Strike" - Guarantee hit on stationary targets
-  - Identity: Surgical strike specialist, high risk/reward
-
-Transport Pilot Path:
-  - Unlock: 30+ Piloting + 15 troop deployments
-  - Bonuses: +50% fuel efficiency, +2 cargo capacity
-  - Special: "Emergency Extraction" - Can land on any terrain
-  - Identity: Utility and survivability, logistics master
-
-Ace Pilot (Elite):
-  - Unlock: 70+ Piloting + 25 interceptions
-  - Combines all specializations at 50% effectiveness
-  - Special: "Ace Maneuver" - Perfect dodge + guaranteed crit (once per battle)
-  - Identity: Legendary hero unit
-```
-
-3. **Fix XP Double-Dipping Exploit (Low Priority)**
-```yaml
-Option A: Separate XP Pools (Complex)
-  - Ground Combat XP: Affects battlescape stats
-  - Air Combat XP: Affects Piloting stat only
-  - Problem: Increases complexity, tracking burden
-
-Option B: Role Lock During Missions (Simple)
-  - Pilot assigned to craft: Gains air XP only (cannot deploy to ground)
-  - Ground unit deployed: Gains ground XP only (cannot pilot simultaneously)
-  - Current mission = commit to role
-  - Benefit: Clear tradeoff, maintains simplicity
-
-Recommended: Option B (simpler implementation)
-```
+**Action Required**:
+1. Create `ResearchTree.md` with:
+   - All research projects listed
+   - Prerequisite dependencies (graph/tree format)
+   - Cost ranges per project
+   - Manufacturing unlocks per research
+   - Estimated campaign progression timeline
 
 ---
 
-### 5. Basescape Grid System Confusion (LOW PRIORITY)
+#### 4. Mission System Not Documented
 
-**Problem**: Documentation states square grid, but references hex system.
+**Status**: ❌ **MISSING - Critical gameplay system**
 
-**Evidence**:
-- Basescape.md: "Base facilities exist on a **square grid**"
-- Basescape.md: "Creates rectangular base perimeter with predictable geometry"
-- But also: "Grid Type: Orthogonal Square" vs. project uses hex everywhere else
+**What's Missing**:
+- No `Missions.md` file exists
+- Mission types scattered across AI.md, Geoscape.md, Countries.md
+- Mission generation described in AI.md (procedural system)
+- Mission objectives not fully specified
+- Victory/failure conditions incomplete
 
-**Clarification Needed**:
-1. Is Basescape actually square grid (exception to universal hex system)?
-2. If yes, why does it differ from Geoscape/Battlescape (both hex)?
-3. If no, update documentation to specify hex grid parameters
+**Mentioned Mission Types** (from various files):
+- UFO Crash, UFO Interception, Alien Base Attack, Colony Defense
+- Research Facility, Supply Raid, Terror Mission, Base Defense
+- Rescue Mission, Assassination, Sabotage, Heist (Black Market)
+- Diplomatic Mission, Escort Mission (mentioned but not specified)
 
-**Recommended Solution**:
-```yaml
-Design Decision Required:
-Option A: Square Grid (Current Design)
-  - Pros: Simpler facility placement, familiar building pattern
-  - Cons: Inconsistent with other layers, coordinate conversion needed
-  - Use Case: If base building is separate mini-game
-
-Option B: Hex Grid (Consistent)
-  - Pros: Unified coordinate system, no conversion
-  - Cons: Facilities look "tilted", less intuitive for rectangular buildings
-  - Use Case: If bases are integrated with tactical layer (base defense)
-
-Recommendation: Keep square grid, but explicitly document WHY
-  - "Basescape uses square grid (exception to hex system) because..."
-  - "Facilities designed for rectangular architecture (reactors, barracks)"
-  - "Base defense missions convert square → hex during battlescape phase"
-```
+**Action Required**:
+1. Create `Missions.md` with:
+   - All mission types with full specifications
+   - Objective definitions
+   - Victory/failure conditions
+   - Reward structures
+   - Difficulty scaling formulas
+   - Generation triggers and frequencies
 
 ---
 
-### 6. Combat Formula Documentation Gaps (MEDIUM PRIORITY)
+#### 5. Salvage System Incomplete
 
-**Problem**: Missing critical combat calculations in Battlescape.md.
+**Status**: ⚠️ **INCOMPLETE - 40+ references but no specification**
 
-**Gaps Identified**:
+**References**:
+- Economy.md: "Mission salvage funds research"
+- Basescape.md: "Salvage processed into resources"
+- Items.md: "Salvage from destroyed equipment"
+- Crafts.md: "Scrap materials from damaged items"
 
-1. **Damage Reduction Formula Missing**
-```yaml
-Documented:
-  - Armor Value: 0-2 base + equipment bonuses
-  - "Each armor point reduces incoming damage by 1 point"
-  
-Missing:
-  - How do damage types interact with armor? (Kinetic vs. Energy vs. Explosive)
-  - Does armor reduce ALL damage or only specific types?
-  - What happens when armor exceeds damage? (0 damage or minimum 1?)
-  - Critical hits? (Docs state "no critical hits" but needs confirmation)
+**Missing Specification**:
+- How salvage is generated (random? fixed?)
+- Salvage value calculation
+- Processing mechanics (instant or time-based?)
+- Storage requirements
+- Conversion to credits/materials
 
-Proposed Formula:
-  Effective Armor = Base Armor × Damage Type Modifier
-  Final Damage = max(1, Weapon Damage - Effective Armor)
-  
-  Damage Type Modifiers:
-    Kinetic: 100% armor effectiveness (rifles, melee)
-    Energy: 50% armor effectiveness (lasers, plasma)
-    Explosive: 25% armor effectiveness (grenades, rockets)
-    Psionic: 0% armor effectiveness (mind attacks)
-    Hazard: 75% armor effectiveness (fire, acid)
-```
-
-2. **Accuracy Calculation Incomplete**
-```yaml
-Documented:
-  - Aim Stat: 6-12 base
-  - "Equipment accuracy bonuses, status effects, movement penalties"
-  - "Minimum 5% accuracy, maximum 95% accuracy"
-
-Missing:
-  - Exact formula for accuracy calculation
-  - How does distance affect accuracy?
-  - Cover bonuses/penalties?
-  - Height advantage modifiers?
-
-Proposed Formula:
-  Base Hit Chance = (Unit Aim × 5) + Weapon Accuracy - Distance Penalty
-  Distance Penalty = (Current Range - Optimal Range) × 2% per hex
-  Cover Modifier = -20% (half cover), -40% (full cover)
-  Height Advantage = +10% (attacking from higher elevation)
-  Movement Penalty = -30% (moved this turn), -50% (dash)
-  
-  Final Hit Chance = clamp(5%, Base + Modifiers, 95%)
-```
-
-3. **Status Effect Duration Missing**
-```yaml
-Documented:
-  - Status effects exist (stunned, panicked, burning, etc.)
-  - Effects reduce AP or cause damage over time
-
-Missing:
-  - How long do effects last? (turns, conditions, removal methods)
-  - Can effects stack?
-  - Immunity mechanics?
-
-Proposed System:
-  Status Effect Duration:
-    - Stunned: 1-3 turns (based on damage dealt)
-    - Panicked: Until morale restored (healing, leadership)
-    - Burning: 3 turns or until extinguished (water, medkit)
-    - Poisoned: 5 turns or until treated (antidote)
-    - Bleeding: Permanent until healed (medkit required)
-  
-  Stacking Rules:
-    - Same effect: Refreshes duration (doesn't stack)
-    - Different effects: All apply simultaneously
-    - Max 3 negative effects per unit (oldest removed)
-```
-
-**Recommended Solution**:
-
-1. Create "Combat Formulas" section in Battlescape.md
-2. Document all calculations explicitly
-3. Add example combat scenarios with step-by-step math
-4. Cross-reference with Items.md (weapon stats) and Units.md (unit stats)
+**Action Required**:
+1. Add comprehensive Salvage System section to Economy.md OR
+2. Create dedicated `Salvage.md` file
+3. Specify:
+   - Salvage generation tables per enemy type
+   - Processing requirements (time, facility)
+   - Value formulas
+   - Storage mechanics
+   - Integration with research/manufacturing
 
 ---
 
-### 7. Research Tree Lacks Strategic Depth (MEDIUM PRIORITY)
+#### 6. Transfer System Incomplete
 
-**Problem**: Research progression is linear with minimal strategic choice.
+**Status**: ⚠️ **INCOMPLETE - Referenced 12+ times**
 
-**Evidence**:
-- Research projects have prerequisites (linear chains)
-- All tech trees eventually accessible (no mutually exclusive paths)
-- No time pressure (aliens don't counter-research aggressively)
-- Scientist allocation has diminishing returns (optimal: 5 per project, no more)
+**References**:
+- Economy.md: "Transfer between bases via transfer system (1-14 day delivery)"
+- Basescape.md: "Inter-base logistics enabling resource redistribution"
+- Items.md: "Transfers: Transfer between bases"
+- Marketplace.md: "Purchased goods arrive via transfer system"
 
-**Player Experience**:
-- "Obvious" research order emerges (rush weapons → armor → advanced tech)
-- No meaningful research tradeoffs (can research everything given time)
-- Mid-game research becomes "waiting game" (no urgency)
+**Missing Specification**:
+- Transfer cost calculation
+- Route mechanics (direct vs. multi-hop)
+- Interception risks (mentioned at 5-15% but not detailed)
+- Transfer capacity limits
+- Priority/expedited transfer mechanics
 
-**Recommended Solutions**:
-
-1. **Add Branching Research Paths (High Priority)**
-```yaml
-Example: Early Weapon Research
-
-Current (Linear):
-  Basic Weapons → Advanced Weapons → Alien Weapons → Ultimate Weapons
-
-Proposed (Branching):
-  Basic Weapons → Choose ONE initial path:
-    A) Energy Weapons Path
-       - Laser Rifles (fast research, low damage, infinite ammo)
-       - Plasma Weapons (expensive, high damage, alien tech required)
-       - Dimensional Weapons (endgame, reality-warping effects)
-    
-    B) Kinetic Weapons Path
-       - Gauss Rifles (mid research, balanced, standard ammo)
-       - Railguns (expensive, armor-piercing, requires power)
-       - Coilguns (endgame, perfect accuracy, high AP cost)
-    
-    C) Chemical Weapons Path
-       - Poison Gas (fast, area denial, moral penalty)
-       - Acid Launchers (mid, armor destruction, hazard)
-       - Nanoweapons (endgame, persistent DoT, stealth)
-
-Strategic Implication:
-  - Path choice defines playstyle for 10+ missions
-  - Can cross-research later but requires double time
-  - Enemies adapt to player path (resistant armor after 5 uses)
-  - Encourages replays with different paths
-```
-
-2. **Introduce Research Competition (Medium Priority)**
-```yaml
-Alien Counter-Research System:
-  - Aliens analyze player tactics every 3 missions
-  - After analysis: Unlock counter-tech (2 month delay)
-  - Counter-tech effects:
-    - Player uses lasers → Aliens develop reflective armor (-30% laser damage)
-    - Player uses heavy armor → Aliens develop armor-piercing rounds (+50% penetration)
-    - Player uses psionics → Aliens develop psi-shields (immune to mind control)
-
-Player Response:
-  - Intelligence missions reveal alien research in progress
-  - Can prioritize counter-counter-tech (research to negate alien counter)
-  - OR adapt tactics (switch weapon types, new strategy)
-  - Creates dynamic arms race
-
-Benefit:
-  - Research feels reactive and urgent (not just waiting)
-  - Player must adapt strategy mid-campaign
-  - Prevents single-strategy dominance
-```
-
-3. **Limit Parallel Research (Low Priority)**
-```yaml
-Current: Can research unlimited projects simultaneously (scientist cap only)
-
-Proposed: Research Facility Limits
-  - Basic Lab: 3 active projects max
-  - Advanced Lab: 5 active projects max
-  - Research Complex: 8 active projects max
-
-Effect:
-  - Forces prioritization (can't research everything at once)
-  - Strategic choice: Broad research vs. focused advancement
-  - Makes facility upgrades meaningful (unlock more parallel tracks)
-
-Benefit:
-  - Creates opportunity cost (researching A means NOT researching B now)
-  - Increases strategic depth without complexity
-```
+**Action Required**:
+1. Create dedicated Transfer System section in Economy.md
+2. Specify:
+   - Cost formula (distance, weight, urgency)
+   - Time calculation
+   - Interception mechanics (roll, consequences)
+   - Capacity per route
+   - UI/queue management
 
 ---
 
-### 8. Interception Layer Lacks Tactical Depth (LOW PRIORITY)
+#### 7. Terrain & Environment Systems Missing
 
-**Problem**: Interception is formulaic card-game combat with limited decision-making.
+**Status**: ❌ **MISSING - Critical for Battlescape**
 
-**Evidence**:
-- Action: Fire weapon (hit chance calculation) → Wait for impact (turns delay) → Repeat
-- No positioning mechanics (3 altitude sectors, 4 objects max per sector)
-- Limited tactical options (fire, evade, retreat)
-- No terrain/environment interaction (biome effects minimal)
+**What's Missing**:
+- Terrain types and properties (mentioned but not specified)
+- Environmental effects (smoke, fire, gas mentioned but incomplete)
+- Weather system (referenced but not documented)
+- Destructible terrain mechanics (mentioned but not detailed)
 
-**Player Feedback (Anticipated)**:
-- "Interception feels like automated combat" (click and wait)
-- "No skill expression" (optimal strategy obvious)
-- "Skip-able layer" (players want to go straight to battlescape)
+**References Found**:
+- Battlescape.md: "Environmental Effects" section exists but incomplete
+- Battlescape.md: "Terrain Destruction" mentioned but not specified
+- 3D.md: "Environmental Effects" section
+- Assets.md: "Environmental art (terrain, objects, weather effects)"
 
-**Design Philosophy Question**:
-- Is Interception intended as mini-game (quick resolution) or full tactical layer?
-- If mini-game: Current design acceptable but needs faster pacing
-- If tactical: Needs major depth additions (positioning, special abilities, environment)
-
-**Recommended Solutions**:
-
-**Option A: Embrace Mini-Game (Low Effort)**
-```yaml
-Changes:
-  - Reduce turn duration: 5 turns max per interception (not 10-15)
-  - Add "Auto-Resolve" option (calculate outcome based on stats, instant result)
-  - Show cinematic replay after auto-resolve (satisfying visuals)
-  - Benefit: Faster pacing, players focus on strategic deployment not tactical micro
-
-When to Use:
-  - Interception meant as strategic gate (qualify for battlescape)
-  - Players primarily interested in ground combat
-  - Development resources limited
-```
-
-**Option B: Add Tactical Depth (High Effort)**
-```yaml
-Positioning System:
-  - 3D grid: 5×5 hex grid per altitude sector (not just 4 slots)
-  - Movement: Crafts can reposition (2-4 hexes per turn)
-  - Range mechanics: Optimal range for each weapon (damage falloff)
-  - Flanking bonuses: Attacking from multiple angles (+20% accuracy)
-
-Special Abilities:
-  - Barrel Roll: +30% dodge for 1 turn, costs 2 AP
-  - Missile Lock: +50% accuracy next shot, requires 2 turns setup
-  - Boost: Move +4 hexes, -20% defense (aggressive positioning)
-  - Cloak: Invisible for 2 turns, can't attack (setup ambush)
-
-Environment Interaction:
-  - Clouds: Provide cover (-20% enemy accuracy)
-  - Storms: -30% accuracy for all units, +20% evasion
-  - Terrain: Mountains block line of sight (tactical positioning)
-  - Sun Position: Attacking from sun grants +15% accuracy (blind enemy)
-
-Benefit: Deep tactical layer, skill expression, replayability
-Cost: Significant development time, balance testing required
-
-When to Use:
-  - Interception is core gameplay pillar (not just gate)
-  - Target audience enjoys tactical combat depth
-  - Development resources available for polish
-```
-
-**Recommendation**: Start with Option A (embrace mini-game), iterate to Option B if player feedback demands depth.
+**Action Required**:
+1. Create `Environment.md` with:
+   - Terrain type definitions (properties, movement costs, cover values)
+   - Environmental effect specifications (smoke, fire, gas mechanics)
+   - Weather system (types, effects on visibility/movement)
+   - Destructible terrain rules
+   - Map generation integration
 
 ---
 
-## Positive Highlights (Strengths to Preserve)
+#### 8. Integration Mechanics Underspecified
 
-### 1. Exceptional Documentation Quality
-- 25 mechanics documents with consistent formatting
-- Cross-references between systems (Related Systems headers)
-- Clear examples and formulas throughout
-- Glossary and integration documents (rare in game design)
+**Status**: ⚠️ **VAGUE - Described conceptually but not mechanically**
 
-### 2. Strong Hex System Foundation
-- Universal vertical axial coordinate system (Geoscape/Battlescape/etc.)
-- Well-documented (HexSystem.md with formulas and examples)
-- Prevents coordinate conversion errors (common pitfall)
+**Integration Points Referenced**:
+- Overview.md: "Integration: How Systems Connect" (conceptual only)
+- Basescape.md: "Base Integration & Feedback Loops" (incomplete)
+- Economy.md: No integration section
+- Geoscape.md: No integration section
 
-### 3. Flexible Modding Architecture
-- Data-driven design (TOML-based content)
-- Clear API contracts (GAME_API.toml as source of truth)
-- Separation of engine and content (mods/core/ structure)
-- Comprehensive modding guide (MODDING_GUIDE.md)
+**Missing Details**:
+- Exact data flow between systems
+- State synchronization rules
+- Event propagation mechanics
+- Feedback loop formulas
 
-### 4. Layered Complexity Management
-- Three distinct layers (Geoscape/Basescape/Battlescape)
-- Each layer has appropriate complexity for its scope
-- Integration points well-defined (state passing, not tight coupling)
-- Players can engage with preferred depth level
-
-### 5. Pilot System Simplicity
-- "Units are soldiers who CAN pilot" (elegant concept)
-- Piloting as stat, not separate class (reduces complexity)
-- Cross-training possible (units can switch roles)
-- Avoids roster bloat (same units for air and ground)
-
-### 6. Future-Proofing Design
-- Future.md document with expansion ideas (rare foresight)
-- Modular system architecture (easy to add features)
-- Clear design philosophy statements (guides future decisions)
+**Action Required**:
+1. Create `Integration.md` or expand each system's integration section
+2. Document:
+   - Data dependencies (what reads/writes what)
+   - Event triggers and handlers
+   - State synchronization requirements
+   - API contracts between systems
 
 ---
 
-## Improvement Recommendations (Prioritized)
+### MODERATE GAPS (Should Address Soon)
 
-### Tier 1: Critical (Must Address Before Release)
+#### 9. Event System Not Documented
 
-1. **Mid-Game Engagement Crisis**
-   - Add procedural event system (political coups, alien civil wars, breakthroughs)
-   - Introduce divergent victory paths (4 distinct strategies)
-   - Implement adaptive difficulty (scale to player performance)
-   - **Impact**: Prevents 20-30 hour dropout, increases replay value
-   - **Effort**: High (2-3 weeks design + implementation)
+**References**: Countries.md, Politics.md, BlackMarket.md mention "events" but no unified event system
 
-2. **Economic Balance**
-   - Introduce resource scarcity (fuel capacity limits, material shortages)
-   - Add manufacturing capacity limits (queue caps by facility tier)
-   - Implement dynamic economy pressure (progressive taxation, volatile funding)
-   - **Impact**: Maintains strategic tension, prevents runaway wealth
-   - **Effort**: Medium (1-2 weeks balance tuning + implementation)
-
-3. **Combat Formula Documentation**
-   - Document damage reduction formulas (armor vs. damage types)
-   - Specify accuracy calculation (distance, cover, height, movement)
-   - Define status effect durations (turns, removal conditions, stacking)
-   - **Impact**: Essential for implementation, prevents interpretation errors
-   - **Effort**: Low (3-5 days documentation + review)
-
-### Tier 2: High Priority (Improves Core Experience)
-
-4. **Unit Progression Rebalance**
-   - Reduce XP curve by 15-20% (make Rank 4-6 achievable)
-   - Add weapon mastery system (+2% accuracy per 10 kills)
-   - Implement combat role specialization (aggressive/defensive/support)
-   - Add catchup mechanics (veteran mentorship +50% XP)
-   - **Impact**: Units feel like they progress throughout campaign
-   - **Effort**: Medium (1 week rebalance + new systems)
-
-5. **Research Strategic Depth**
-   - Add branching research paths (energy/kinetic/chemical weapons)
-   - Implement alien counter-research (adaptive enemy tech)
-   - Limit parallel research (facility capacity caps)
-   - **Impact**: Creates meaningful choices, prevents "research everything" strategy
-   - **Effort**: Medium (1-2 weeks design + implementation)
-
-6. **Pilot Specialization**
-   - Clarify pilot as role, not class (documentation fix)
-   - Add pilot specialization tracks (fighter/bomber/transport/ace)
-   - Fix XP double-dipping (role lock during missions)
-   - **Impact**: Creates emergent pilot identity, satisfying specialization
-   - **Effort**: Medium (1 week design + implementation)
-
-### Tier 3: Medium Priority (Polish and Variety)
-
-7. **Interception Tactical Depth**
-   - Decision: Mini-game (add auto-resolve) OR tactical layer (add positioning)
-   - Recommendation: Start with mini-game approach (faster)
-   - If feedback demands depth: Add positioning + special abilities + environment
-   - **Impact**: Improves pacing or adds depth (depends on approach)
-   - **Effort**: Low (mini-game) or High (tactical layer)
-
-8. **Basescape Grid Clarification**
-   - Explicitly document square grid design decision
-   - Explain why Basescape differs from universal hex system
-   - Add visual examples (facility placement diagrams)
-   - **Impact**: Removes confusion, aligns team understanding
-   - **Effort**: Low (1 day documentation)
-
-### Tier 4: Low Priority (Nice to Have)
-
-9. **Environmental Systems**
-   - Weather effects on missions (rain, snow, fog)
-   - Seasonal gameplay (winter equipment, summer heat)
-   - Biome-specific mechanics (desert heat, arctic cold)
-   - **Impact**: Increases variety, thematic immersion
-   - **Effort**: Medium-High (requires art + design + balance)
-
-10. **Narrative Complexity**
-    - Branching story based on karma choices
-    - Advisor personality system (relationships with player)
-    - Multiple endings (5-7 variants based on victory path + karma)
-    - **Impact**: Emotional engagement, replay motivation
-    - **Effort**: High (narrative design + implementation + testing)
+**Action**: Create `Events.md` documenting:
+- Event types (political, economic, military, alien)
+- Trigger conditions
+- Effect specifications
+- Duration mechanics
 
 ---
 
-## Balance Tuning Recommendations (Specific Numbers)
+#### 10. Perks System Mentioned But Not Found
 
-### Unit XP Curve (Revised)
-```yaml
-Current → Proposed (% Change)
-Rank 1: 100 → 100 (0%)
-Rank 2: 300 → 250 (-17%)
-Rank 3: 600 → 500 (-17%)
-Rank 4: 1000 → 800 (-20%)
-Rank 5: 1500 → 1200 (-20%)
-Rank 6: 2100 → 1700 (-19%)
+**References**: 
+- README.md lists `Perks.md` in file structure
+- Units.md mentions "perks" and "traits" interchangeably
+- No actual Perks.md file found in analysis
 
-Reasoning: Makes Rank 4+ achievable within campaign (30-35 missions)
-```
+**Action**: 
+1. Verify if Perks.md exists
+2. If exists, integrate with Units.md
+3. If missing, document perk system in Units.md or create file
 
-### Economic Values (Suggested)
-```yaml
-Manufacturing Cost Advantage:
-Current: 30-50% cheaper than marketplace
-Proposed: 20-30% cheaper (reduce dominance)
+---
 
-Marketplace Fluctuation:
-Current: Stable prices
-Proposed: ±15% weekly variance (creates buying opportunities)
+#### 11. Weapons & Combat Formulas Incomplete
 
-Funding Volatility:
-Current: Stable monthly funding
-Proposed: ±20% monthly variance (unpredictable income)
+**Issues**:
+- Battlescape.md has accuracy formula but damage formula incomplete
+- Weapon modes specified but AP costs inconsistent
+- Range mechanics mentioned but not fully defined
 
-Inflation Threshold:
-Current: 20× monthly income
-Proposed: Progressive (5×, 10×, 20× with increasing penalties)
-```
+**Action**: Expand Battlescape.md combat sections with:
+- Complete damage formula
+- All weapon mode specifications
+- Range penalty tables
+- Ammunition mechanics
 
-### Research Times (Suggested)
-```yaml
-Basic Research:
-Current: 50-150 man-days (1-3 months with 5 scientists)
-Proposed: 30-100 man-days (0.6-2 months, faster iteration)
+---
 
-Advanced Research:
-Current: 150-300 man-days (3-6 months)
-Proposed: 100-200 man-days (2-4 months, maintains pacing)
+#### 12. Facility Adjacency Bonus Inconsistency
 
-Alien Research:
-Current: 300-500 man-days (6-10 months)
-Proposed: 200-350 man-days (4-7 months, more accessible)
+**Issue**:
+- Basescape.md lists adjacency bonuses
+- Some bonuses reference "1-hex touching"
+- Some reference "2-hex distance"
+- Grid system is square but bonuses assume hex?
 
-Reasoning: Current research too slow for mid-game engagement
-```
+**Contradiction**:
+> "Facility Grid System: Square grid (x-axis horizontal, y-axis vertical)"
 
-### Combat Balance (Suggested)
-```yaml
-Armor Effectiveness:
-Kinetic Damage: 100% armor (full protection)
-Energy Damage: 50% armor (lasers bypass some)
-Explosive Damage: 25% armor (area effect)
-Psionic Damage: 0% armor (mental attacks)
-Hazard Damage: 75% armor (environmental)
+But then:
+> "Adjacency Bonuses: Must be orthogonally adjacent (4-directional only)"
 
-Accuracy Modifiers:
-Distance: -2% per hex beyond optimal range
-Cover (Half): -20% hit chance
-Cover (Full): -40% hit chance
-Height Advantage: +10% hit chance
-Movement Penalty: -30% (move), -50% (dash)
-Flanking Bonus: +20% (no cover applies)
+And later:
+> "Power Plant + Lab/Workshop: +10% efficiency | Within 2-hex distance"
 
-Status Effect Durations:
-Stunned: 1-3 turns (damage-based)
-Panicked: Until morale restored
-Burning: 3 turns or extinguished
-Poisoned: 5 turns or treated
-Bleeding: Permanent until healed
+**Action**: Clarify if "hex" is terminology carryover or actual distance metric on square grid
+
+---
+
+#### 13. Karma & Fame Systems Overlap
+
+**Issue**:
+- Karma described in Politics.md and BlackMarket.md
+- Fame described in Finance.md and BlackMarket.md
+- Unclear if these are same system or different
+- Different thresholds listed in different files
+
+**Action**: Create unified `Reputation.md` or consolidate in Politics.md
+
+---
+
+#### 14. Manufacturing vs. Research Priorities Unclear
+
+**Issue**:
+- Both systems compete for same personnel (units allocated as scientists/engineers)
+- No clear priority system documented
+- Resource allocation mechanics vague
+
+**Action**: Add priority/allocation system to Economy.md
+
+---
+
+#### 15. Base Defense Mission vs. Basescape Integration
+
+**Issue**:
+- Base Defense is a mission type (Battlescape)
+- Base Defense facilities exist (Basescape: Turrets)
+- Integration between these not documented
+- Do turrets participate in Base Defense missions?
+
+**Action**: Document integration in Basescape.md Base Defense section
+
+---
+
+### MINOR GAPS (Nice to Have)
+
+#### 16. Victory Conditions Not Specified
+
+**References**: Overview.md mentions "No fixed victory conditions; sandbox"
+
+**But**: Multiple "campaign end" references suggest victory exists
+
+**Action**: Clarify in Overview.md or create `Victory.md`
+
+---
+
+#### 17. Modding System Referenced But Not Specified
+
+**Issue**: Multiple references to "moddable" and "TOML content" but no mechanics documented
+
+**Action**: Already covered in `api/MODDING_GUIDE.md` - add cross-reference to mechanics README
+
+---
+
+#### 18. Tutorial System Not Mentioned
+
+**Issue**: Complex game with no tutorial system documented
+
+**Action**: Consider adding Tutorial.md if tutorials are planned
+
+---
+
+#### 19. Save/Load System Not Mentioned
+
+**Issue**: "save/load progression" mentioned in Overview.md but no mechanics
+
+**Action**: Low priority, likely engine concern not design
+
+---
+
+#### 20. Difficulty Scaling Inconsistent
+
+**Issue**: 
+- Battlescape.md has difficulty table
+- AI.md has different scaling formulas
+- Geoscape.md mentions difficulty but no specifics
+
+**Action**: Create unified difficulty scaling specification
+
+---
+
+## Part 2: Cross-Reference Issues
+
+### Broken or Missing References
+
+#### 1. README.md References
+
+**Issue**: README.md lists files that don't match actual filenames:
+
+Listed in README.md:
+- `hex_vertical_axial_system.md` → Not found in analysis
+- `PilotSystem_Technical.md` → Found as `Pilots.md`
+- `DiplomaticRelations_Technical.md` → Found as `Relations.md`
+- `ai_systems.md` → Found as `AI.md`
+- `FutureOpportunities.md` → Found as `Future.md`
+
+**Action**: Update README.md filenames or rename files for consistency
+
+---
+
+#### 2. Cross-Reference Validation Needed
+
+Many files reference others using inconsistent naming:
+- Some use "See X.md"
+- Some use "See **X.md**"
+- Some use "Related Systems: X"
+- Some use full relative paths
+
+**Action**: Standardize cross-reference format
+
+---
+
+## Part 3: File Organization Strategy
+
+### Current Problems
+
+1. **Inconsistent File Sizes**: 200-line files next to 1200-line files
+2. **Topic Overlap**: Pilot system in 3 files, economy topics in 4 files
+3. **Depth Variation**: Some files are detailed specs, others are outlines
+4. **Navigation Difficulty**: 27 files without clear hierarchy
+
+---
+
+## Recommended File Organization: Three-Tier System
+
+### **Tier 1: Core Systems (6-8 files, 400-800 lines each)**
+
+These are the main gameplay layers that most users need:
+
+**Recommended Core Files**:
+1. **Geoscape.md** (Strategic Layer) - 600 lines
+   - World map, provinces, territories
+   - Base placement strategy
+   - Craft movement and deployment
+   - Mission detection and response
+   - Time management
+
+2. **Basescape.md** (Operational Layer) - 700 lines
+   - Base construction and expansion
+   - Facility system
+   - Personnel management
+   - Equipment storage
+   - Research & Manufacturing (overview, link to Economy.md)
+
+3. **Battlescape.md** (Tactical Layer) - 800 lines
+   - Hex combat system
+   - Map generation
+   - Turn-based combat
+   - Unit actions
+   - Environmental effects
+
+4. **Units.md** (Character System) - 600 lines
+   - Unit stats and classes
+   - Progression and specialization
+   - Inventory and equipment
+   - Status effects (morale, sanity, health)
+   - Pilot integration (keep unified here)
+
+5. **Economy.md** (Resource Management) - 700 lines
+   - Research system + Research Tree
+   - Manufacturing system
+   - Marketplace
+   - Supplier relations
+   - Transfer system
+   - Salvage system
+
+6. **Politics.md** (Diplomatic Layer) - 500 lines
+   - Country system (merge from Countries.md)
+   - Relationship mechanics (merge from Relations.md)
+   - Funding system (merge from Finance.md)
+   - Karma & Fame (unified reputation)
+   - Faction system
+
+---
+
+### **Tier 2: Specialized Systems (8-12 files, 200-400 lines each)**
+
+These cover specific gameplay features:
+
+**Recommended Specialized Files**:
+1. **Crafts.md** - 400 lines (already good size)
+2. **Items.md** - 400 lines
+3. **AI.md** - Split into:
+   - **AI_Strategic.md** - 300 lines (Geoscape AI)
+   - **AI_Tactical.md** - 300 lines (Battlescape AI)
+4. **Interception.md** - 300 lines (craft combat)
+5. **Missions.md** - **NEW** - 400 lines
+   - Mission types
+   - Generation system
+   - Objectives
+   - Rewards
+6. **BlackMarket.md** - 300 lines (expand current)
+7. **Environment.md** - **NEW** - 300 lines
+   - Terrain types
+   - Environmental effects
+   - Weather system
+   - Destructible terrain
+
+---
+
+### **Tier 3: Reference & Technical (5-8 files, 100-300 lines each)**
+
+Supporting documentation:
+
+**Recommended Reference Files**:
+1. **Overview.md** - 300 lines (project introduction)
+2. **README.md** - 150 lines (navigation index)
+3. **Glossary.md** - 200 lines (terminology)
+4. **HexSystem.md** - 200 lines (coordinate system specification)
+5. **3D.md** - 200 lines (alternative view documentation)
+6. **Analytics.md** - 300 lines (data collection)
+7. **Assets.md** - 200 lines (resource pipeline)
+8. **Lore.md** - Variable (story content)
+9. **Future.md** - Variable (ideas and roadmap)
+
+---
+
+## Reorganization Action Plan
+
+### Phase 1: Consolidation (Reduce 27 → 18 files)
+
+**Merge These Files**:
+
+1. **Countries.md + Relations.md + Finance.md → Politics.md**
+   - Reason: All three cover diplomatic/economic aspects
+   - Result: One comprehensive political-economic system
+   - New size: ~800 lines
+
+2. **Pilots.md → Units.md (Pilot System section)**
+   - Reason: Pilots are specialized units
+   - Result: Unified character system
+   - Add: 200 lines to Units.md
+
+3. **AI.md → AI_Strategic.md + AI_Tactical.md**
+   - Reason: 1200-line file is too large
+   - Result: Two focused AI documents
+   - Split: 600 lines each
+
+4. **MoraleBraverySanity.md → Units.md (Status Effects section)**
+   - Reason: Unit properties, already covered in Units.md
+   - Result: Single source of truth for unit mechanics
+   - Note: May need to expand Units.md Status Effects section
+
+---
+
+### Phase 2: Expansion (Add 4 critical files)
+
+**Create These Files**:
+
+1. **Missions.md** - 400 lines
+   - Extract from AI.md, Geoscape.md, Countries.md
+   - Consolidate all mission type specifications
+   - Document generation system
+
+2. **Environment.md** - 300 lines
+   - Extract from Battlescape.md, Assets.md
+   - Consolidate terrain and environmental effects
+   - Document weather system
+
+3. **Integration.md** - 300 lines
+   - Document system interactions
+   - Data flow specifications
+   - Event propagation
+   - State synchronization
+
+4. **HexSystem.md** - 200 lines
+   - Find and integrate existing hex documentation
+   - Make it central reference
+   - Add to core reading list
+
+---
+
+### Phase 3: Standardization
+
+**Apply Consistent Structure**:
+
+Every file should have:
+
+```markdown
+# [System Name]
+
+> **Status**: Design Document / Technical Specification / Reference Document  
+> **Last Updated**: YYYY-MM-DD  
+> **Related Systems**: [Links to related files]
+> **Dependencies**: [Required reading before this file]
+
+## Table of Contents
+[Auto-generated or manual]
+
+## Overview
+[1-2 paragraphs: What is this system? Why does it exist?]
+
+## Core Mechanics
+[Main gameplay mechanics]
+
+## Integration with Other Systems
+[How this connects to other parts of the game]
+
+## Balance & Tuning
+[Design goals, balance considerations]
+
+## Implementation Notes
+[Technical considerations, API references]
+
+## Future Enhancements
+[Planned features, potential expansions]
 ```
 
 ---
 
-## Risk Assessment
+### Phase 4: Cross-Reference Audit
 
-### High-Risk Areas (Requires Playtesting)
-
-1. **Mid-Game Event Frequency**
-   - Risk: Too many events = overwhelming, too few = still boring
-   - Mitigation: Start conservative (1 event per 2 months), tune based on feedback
-   - Playtest Metric: Track player engagement hours 20-40 (mid-game)
-
-2. **Economic Scarcity Balance**
-   - Risk: Too scarce = frustrating, not scarce enough = no impact
-   - Mitigation: Implement progressive scarcity (month 1-3 easy, 4-6 moderate, 7+ tight)
-   - Playtest Metric: Track player credit balance over time (should fluctuate, not grow infinitely)
-
-3. **Research Path Exclusivity**
-   - Risk: Players feel locked out of content, regret choices
-   - Mitigation: Allow cross-research later (2× time cost), no permanent lockouts
-   - Playtest Metric: Survey player satisfaction with research choices
-
-### Low-Risk Areas (Safe Changes)
-
-1. **Documentation Clarifications** - No gameplay impact, pure improvement
-2. **XP Curve Reduction** - Makes content more accessible (universally positive)
-3. **Combat Formula Documentation** - Essential for implementation consistency
+1. **Run automated check** for all internal references
+2. **Validate** all "See X.md" references
+3. **Update** README.md with accurate file list
+4. **Add** "Dependencies" section to each file header
+5. **Create** dependency graph visualization
 
 ---
 
-## Next Steps (Action Plan)
+## Proposed Final File Structure
 
-### Phase 1: Foundation (Weeks 1-2)
-1. Document combat formulas (damage, accuracy, status effects)
-2. Rebalance unit XP curve (-17% to -20% across Ranks 2-6)
-3. Clarify pilot system (role vs. class documentation fix)
-4. Review Basescape grid decision (square vs. hex, document rationale)
+### Core Layer (8 files)
+```
+Overview.md           (300 lines) - Project introduction
+Geoscape.md          (600 lines) - Strategic layer
+Basescape.md         (700 lines) - Operational layer
+Battlescape.md       (800 lines) - Tactical layer
+Units.md             (700 lines) - Character system + Pilots + Status
+Economy.md           (700 lines) - Research, Manufacturing, Trade, Salvage
+Politics.md          (800 lines) - Countries, Relations, Finance, Reputation
+HexSystem.md         (200 lines) - Coordinate system
+```
 
-### Phase 2: Economic Pressure (Weeks 3-4)
-1. Implement resource scarcity (fuel capacity, material shortages)
-2. Add manufacturing capacity limits (facility-based queue caps)
-3. Implement progressive taxation (5×, 10×, 20× thresholds)
-4. Add funding volatility (±20% monthly variance)
+### Specialized Layer (11 files)
+```
+Crafts.md            (400 lines) - Vehicle system
+Items.md             (400 lines) - Equipment system
+Weapons.md           (300 lines) - Weapons & combat (extract from Battlescape)
+Missions.md          (400 lines) - **NEW** - Mission types
+AI_Strategic.md      (600 lines) - Geoscape AI
+AI_Tactical.md       (600 lines) - Battlescape AI
+Interception.md      (300 lines) - Craft combat
+BlackMarket.md       (300 lines) - Underground economy
+Environment.md       (300 lines) - **NEW** - Terrain & effects
+Integration.md       (300 lines) - **NEW** - System connections
+Gui.md               (existing)   - UI system
+```
 
-### Phase 3: Mid-Game Content (Weeks 5-7)
-1. Design procedural event system (political, alien, scientific)
-2. Implement divergent victory paths (4 strategies)
-3. Create adaptive difficulty system (performance-based scaling)
-4. Playtest and iterate (critical phase)
+### Reference Layer (6 files)
+```
+README.md            (150 lines) - Navigation index
+Glossary.md          (200 lines) - Terminology
+3D.md                (200 lines) - Alternative view
+Analytics.md         (300 lines) - Data system
+Assets.md            (200 lines) - Resource pipeline
+Lore.md              (variable)  - Story content
+Future.md            (variable)  - Roadmap
+```
 
-### Phase 4: Progression Systems (Weeks 8-9)
-1. Implement weapon mastery system (+2% per 10 kills)
-2. Add combat role specialization (aggressive/defensive/support)
-3. Create pilot specialization tracks (fighter/bomber/transport/ace)
-4. Add veteran mentorship (+50% XP catchup)
+**Total: 25 files (down from 27, up from missing 4)**
 
-### Phase 5: Research Depth (Weeks 10-11)
-1. Design branching research paths (3 paths per category)
-2. Implement alien counter-research (adaptive enemy tech)
-3. Add research facility limits (capacity-based)
-4. Balance research times (reduce by 20-30%)
+---
 
-### Phase 6: Polish & Playtesting (Weeks 12-14)
-1. Comprehensive balance pass (all systems)
-2. External playtest (10-20 players, full campaign)
-3. Iterate based on feedback (address pain points)
-4. Final tuning (prepare for release)
+## Implementation Priority
+
+### Phase 1: Critical (Week 1)
+1. ✅ Create Missions.md
+2. ✅ Create Environment.md  
+3. ✅ Locate/create HexSystem.md
+4. ✅ Resolve Pilot system contradictions (unify in Units.md)
+
+### Phase 2: Consolidation (Week 2)
+5. ✅ Merge Countries.md + Relations.md + Finance.md → Politics.md
+6. ✅ Merge Pilots.md → Units.md
+7. ✅ Split AI.md → AI_Strategic.md + AI_Tactical.md
+8. ✅ Merge MoraleBraverySanity.md → Units.md
+
+### Phase 3: Expansion (Week 3)
+9. ✅ Create Integration.md
+10. ✅ Expand Salvage System in Economy.md
+11. ✅ Expand Transfer System in Economy.md
+12. ✅ Document Research Tree in Economy.md
+
+### Phase 4: Polish (Week 4)
+13. ✅ Standardize all file headers
+14. ✅ Audit all cross-references
+15. ✅ Update README.md with new structure
+16. ✅ Create dependency graph
+17. ✅ Spell-check and formatting pass
+
+---
+
+## Metrics & Success Criteria
+
+### Current State
+- **Files**: 27
+- **Average size**: 450 lines (wide variance: 200-1200)
+- **Cross-references**: 150+ (23+ broken)
+- **Critical gaps**: 8
+- **Moderate gaps**: 7
+- **Minor gaps**: 6
+
+### Target State
+- **Files**: 25 (more focused)
+- **Average size**: 400 lines (less variance: 300-800)
+- **Cross-references**: 200+ (0 broken)
+- **Critical gaps**: 0
+- **Moderate gaps**: 0
+- **Minor gaps**: 2-3 (acceptable)
+
+### Quality Measures
+- ✅ Every file has consistent header
+- ✅ Every file has Integration section
+- ✅ All cross-references validated
+- ✅ README.md matches actual files
+- ✅ No contradictions between files
+- ✅ Dependency graph created
+- ✅ All core systems fully specified
 
 ---
 
 ## Conclusion
 
-AlienFall has **exceptional design foundations** with comprehensive documentation and well-architected systems. The primary weaknesses are:
+The design documentation is comprehensive but suffers from organizational issues and critical gaps. The three-tier reorganization strategy will:
 
-1. **Mid-game engagement** (months 4-8 lack compelling progression)
-2. **Economic balance** (wealth spirals out of control, no pressure)
-3. **Unit progression** (XP curve too steep, Rank 4+ unreachable)
+1. **Reduce confusion** through consolidation
+2. **Fill gaps** by creating missing specifications
+3. **Improve navigation** through consistent structure
+4. **Maintain completeness** while reducing redundancy
+5. **Enable implementation** by resolving contradictions
 
-These are **solvable design problems** with clear solutions. The recommended changes maintain the core design philosophy while adding strategic depth and maintaining player engagement throughout the campaign.
+**Estimated Effort**: 4 weeks of focused documentation work
 
-**Risk Level**: Medium (changes are substantial but well-defined)  
-**Development Time**: 10-14 weeks (phased approach allows incremental delivery)  
-**Impact**: High (addresses core player experience issues)
+**Priority**: High - Current gaps block implementation of core systems
 
-**Final Recommendation**: Prioritize Tier 1 Critical items (mid-game events, economic balance, combat formulas) before release. Tier 2-3 items can be added in post-launch updates based on player feedback.
-
----
-
-## Appendix: Quick Reference Checklist
-
-### Critical Gaps (Fix Before Release)
-- [ ] Add mid-game procedural events (political, alien, scientific)
-- [ ] Implement divergent victory paths (4 strategies)
-- [ ] Add adaptive difficulty scaling (performance-based)
-- [ ] Implement resource scarcity (fuel caps, material shortages)
-- [ ] Add manufacturing capacity limits (queue caps)
-- [ ] Implement progressive taxation (5×, 10×, 20× thresholds)
-- [ ] Document combat formulas (damage, accuracy, status effects)
-
-### High Priority Improvements
-- [ ] Reduce unit XP curve by 15-20%
-- [ ] Add weapon mastery system
-- [ ] Add combat role specialization
-- [ ] Add branching research paths
-- [ ] Implement alien counter-research
-- [ ] Add pilot specialization tracks
-- [ ] Fix pilot XP double-dipping
-
-### Medium Priority Polish
-- [ ] Decide interception depth (mini-game vs. tactical)
-- [ ] Clarify Basescape grid system
-- [ ] Add catchup mechanics for new recruits
-- [ ] Implement research facility limits
-
-### Low Priority Enhancements
-- [ ] Environmental/seasonal systems
-- [ ] Narrative complexity (branching story)
-- [ ] Multiple endings (5-7 variants)
-
----
-
-**Document Status**: Complete  
-**Next Review**: After Phase 1 implementation (Week 2)  
-**Owner**: Senior Game Designer  
-**Stakeholders**: Game Director, Lead Programmer, Balance Designer
+**Next Steps**: Begin Phase 1 with Missions.md, Environment.md, and HexSystem.md creation
 

@@ -1,0 +1,339 @@
+# Black Market Configuration
+# Defines Black Market services, missions, events, and pricing
+# Reference: design/mechanics/BlackMarket.md
+
+# Access Requirements
+[access]
+entry_fee = 10000  # One-time entry cost
+min_fame = 25  # Minimum fame to discover Black Market
+max_karma_for_access = 40  # Cannot access if karma too high
+
+# Access Tiers (based on karma and fame)
+[access_tiers.restricted]
+karma_max = 40
+karma_min = 10
+fame_min = 25
+services = ["items", "corpse_trading"]
+description = "Basic access - items and corpse trading only"
+
+[access_tiers.standard]
+karma_max = 9
+karma_min = -39
+fame_min = 25
+services = ["items", "corpse_trading", "units", "missions"]
+description = "Standard access - includes units and mission generation"
+
+[access_tiers.enhanced]
+karma_max = -40
+karma_min = -74
+fame_min = 60
+services = ["items", "corpse_trading", "units", "missions", "events", "craft"]
+description = "Enhanced access - includes events and craft"
+
+[access_tiers.complete]
+karma_max = -75
+karma_min = -100
+fame_min = 75
+services = ["items", "corpse_trading", "units", "missions", "events", "craft", "extreme_operations"]
+description = "Complete access - everything available"
+
+# Corpse Trading
+[corpse_trading]
+base_discovery_chance = 0.05  # 5% per sale
+human_discovery_bonus = 0.03  # +3% for human corpses
+fresh_threshold_days = 7
+
+[corpse_trading.values]
+human_soldier = 5000
+alien_common = 15000
+alien_rare = 50000
+vip_hero = 100000
+mechanical = 8000
+
+[corpse_trading.karma_penalties]
+human_soldier = -10
+alien_common = -15
+alien_rare = -25
+vip_hero = -30
+mechanical = -5
+
+[corpse_trading.modifiers]
+fresh_bonus = 0.50  # +50% if < 7 days
+preserved_bonus = 1.00  # +100% if cryogenic
+damaged_penalty = -0.50  # -50% if explosion damage
+
+# Mission Generation
+[missions.assassination]
+name = "Assassination Contract"
+cost = 50000
+karma_penalty = -30
+difficulty = "hard"
+spawn_delay_min = 3
+spawn_delay_max = 7
+profit_min = 2.0
+profit_max = 3.0
+discovery_chance = 0.12
+failure_relation_penalty = -50
+
+[missions.sabotage]
+name = "Sabotage Operation"
+cost = 40000
+karma_penalty = -20
+difficulty = "moderate"
+spawn_delay_min = 3
+spawn_delay_max = 7
+profit_min = 1.8
+profit_max = 2.5
+discovery_chance = 0.10
+failure_relation_penalty = -40
+
+[missions.heist]
+name = "Heist Mission"
+cost = 30000
+karma_penalty = -15
+difficulty = "moderate"
+spawn_delay_min = 4
+spawn_delay_max = 6
+profit_min = 2.0
+profit_max = 3.0
+discovery_chance = 0.08
+failure_relation_penalty = -30
+
+[missions.kidnapping]
+name = "Kidnapping Operation"
+cost = 35000
+karma_penalty = -25
+difficulty = "hard"
+spawn_delay_min = 3
+spawn_delay_max = 7
+profit_min = 2.2
+profit_max = 2.8
+discovery_chance = 0.11
+failure_relation_penalty = -45
+
+[missions.false_flag]
+name = "False Flag Operation"
+cost = 60000
+karma_penalty = -40
+difficulty = "horror"
+spawn_delay_min = 5
+spawn_delay_max = 7
+profit_min = 1.5
+profit_max = 2.5
+discovery_chance = 0.15
+failure_relation_penalty = -70
+
+[missions.data_theft]
+name = "Data Theft"
+cost = 25000
+karma_penalty = -10
+difficulty = "moderate"
+spawn_delay_min = 3
+spawn_delay_max = 5
+profit_min = 1.8
+profit_max = 2.3
+discovery_chance = 0.07
+failure_relation_penalty = -25
+
+[missions.smuggling]
+name = "Smuggling Run"
+cost = 20000
+karma_penalty = -5
+difficulty = "standard"
+spawn_delay_min = 2
+spawn_delay_max = 5
+profit_min = 1.5
+profit_max = 2.0
+discovery_chance = 0.05
+failure_relation_penalty = -20
+
+# Event Purchasing
+[events.improve_relations]
+name = "Improve Relations"
+cost = 30000
+karma_penalty = -10
+relations_bonus = 20
+trigger_delay_min = 1
+trigger_delay_max = 3
+duration_days = 0  # Permanent
+discovery_chance = 0.10
+target_type = "country"
+
+[events.sabotage_economy]
+name = "Sabotage Economy"
+cost = 50000
+karma_penalty = -25
+economy_tier_drop = 1
+trigger_delay_min = 2
+trigger_delay_max = 4
+duration_days = 0  # Permanent
+discovery_chance = 0.15
+target_type = "province"
+
+[events.incite_rebellion]
+name = "Incite Rebellion"
+cost = 80000
+karma_penalty = -35
+province_contested = true
+trigger_delay_min = 3
+trigger_delay_max = 7
+duration_days = 90  # 3 months
+discovery_chance = 0.18
+target_type = "province"
+
+[events.spread_propaganda]
+name = "Spread Propaganda"
+cost = 20000
+karma_penalty = -5
+fame_bonus = 10
+relations_bonus = 10
+trigger_delay_min = 1
+trigger_delay_max = 2
+duration_days = 0  # Permanent
+discovery_chance = 0.08
+target_type = "country"
+
+[events.frame_rival]
+name = "Frame Rival Faction"
+cost = 60000
+karma_penalty = -30
+relations_penalty = -30
+trigger_delay_min = 2
+trigger_delay_max = 5
+duration_days = 0  # Permanent
+discovery_chance = 0.16
+target_type = "faction"
+
+[events.bribe_officials]
+name = "Bribe Officials"
+cost = 40000
+karma_penalty = -15
+immunity_duration_days = 180  # 6 months
+trigger_delay_min = 1
+trigger_delay_max = 2
+duration_days = 180
+discovery_chance = 0.12
+target_type = "country"
+
+[events.crash_market]
+name = "Crash Market"
+cost = 70000
+karma_penalty = -20
+price_discount = 0.30  # 30% cheaper
+trigger_delay_min = 2
+trigger_delay_max = 4
+duration_days = 90  # 3 months
+discovery_chance = 0.14
+target_type = "global"
+
+[events.false_intelligence]
+name = "False Intelligence"
+cost = 35000
+karma_penalty = -15
+fake_mission_spawn = true
+trigger_delay_min = 1
+trigger_delay_max = 3
+duration_days = 0
+discovery_chance = 0.10
+target_type = "region"
+
+# Special Units (available for recruitment)
+[units.elite_mercenary]
+name = "Elite Mercenary"
+cost = 50000
+karma_penalty = -10
+monthly_salary = 8000
+stats = { strength = 10, dexterity = 12, intelligence = 8, bravery = 11 }
+traits = ["veteran", "mercenary"]
+max_per_base = 3
+
+[units.alien_defector]
+name = "Alien Defector"
+cost = 80000
+karma_penalty = -15
+monthly_salary = 10000
+stats = { strength = 12, dexterity = 10, intelligence = 14, bravery = 10 }
+traits = ["alien_tech_expert", "defector"]
+max_per_base = 2
+
+[units.augmented_soldier]
+name = "Augmented Soldier"
+cost = 120000
+karma_penalty = -25
+monthly_salary = 12000
+stats = { strength = 14, dexterity = 12, intelligence = 9, bravery = 12 }
+traits = ["augmented", "enhanced_strength"]
+max_per_base = 2
+
+[units.master_assassin]
+name = "Master Assassin"
+cost = 150000
+karma_penalty = -30
+monthly_salary = 15000
+stats = { strength = 11, dexterity = 14, intelligence = 12, bravery = 13 }
+traits = ["assassin", "stealth_expert", "sniper"]
+max_per_base = 1
+
+[units.clone_trooper]
+name = "Clone Trooper"
+cost = 100000
+karma_penalty = -20
+monthly_salary = 10000
+stats = { strength = 11, dexterity = 11, intelligence = 7, bravery = 14 }
+traits = ["clone", "fearless"]
+max_per_base = 3
+
+# Special Craft (available for purchase)
+[craft.black_interceptor]
+name = "Black Interceptor"
+cost = 200000
+karma_penalty = -15
+speed_bonus = 0.20  # +20% speed
+weapons = 2
+armor = 100
+discovery_risk_per_month = 0.10
+
+[craft.modified_bomber]
+name = "Modified Bomber"
+cost = 300000
+karma_penalty = -20
+payload_bonus = 0.50  # +50% payload
+weapons = 3
+armor = 150
+discovery_risk_per_month = 0.10
+
+[craft.captured_ufo]
+name = "Captured UFO"
+cost = 500000
+karma_penalty = -30
+alien_tech = true
+weapons = 4
+armor = 200
+discovery_risk_per_month = 0.15
+
+[craft.stealth_transport]
+name = "Stealth Transport"
+cost = 250000
+karma_penalty = -15
+undetectable = true
+capacity = 12
+armor = 120
+discovery_risk_per_month = 0.05
+
+# Discovery Consequences
+[discovery]
+base_chance = 0.05  # 5% base per transaction
+fame_penalty_min = -20
+fame_penalty_max = -50
+relation_penalty_min = -30
+relation_penalty_max = -70
+additional_karma_penalty = -10
+investigation_mission_chance = 0.30
+
+# Cumulative Risk (increases with transaction count)
+[cumulative_risk]
+transactions_1_5 = 0.00  # No increase
+transactions_6_15 = 0.05  # +5% discovery
+transactions_16_30 = 0.10  # +10% discovery
+transactions_31_plus = 0.15  # +15% discovery
+

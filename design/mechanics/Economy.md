@@ -276,20 +276,24 @@ Bulk Discount: 5% per 5+ items, 15% per 20+ items, 25% per 50+ items
 ## Black Market
 
 **Overview**
-The black market provides restricted access to rare items and specialized services beyond legitimate channels, including espionage, assassination, and illegal salvage.
+The black market provides extensive underground economy access including restricted items, special units, craft purchases, mission generation, event purchasing, and corpse trading. All transactions carry karma/fame consequences and discovery risks.
 
-**Access Factors**
-- Fame rating affects availability
-- Karma rating influences offered contracts
-- Power points may unlock exclusive services
-- Availability fluctuates based on player reputation
-- All transactions carry significant risk and cost
+**For Complete Black Market Mechanics**: See [BlackMarket.md](./BlackMarket.md)
 
-**Services Available**
-- Rare item acquisition
-- Assassination contracts (against factions, rival organizations)
-- Intelligence gathering
-- Illegal resource salvage
+**Quick Summary**:
+- **Items**: Experimental weapons, banned tech, alien equipment (200-500% markup)
+- **Units**: Mercenaries, defectors, augmented soldiers (-10 to -30 karma per unit)
+- **Craft**: Stolen military craft, prototypes, captured UFOs (-15 to -30 karma)
+- **Missions**: Purchase custom missions (assassination, sabotage, heist) to spawn on map
+- **Events**: Trigger political/economic events (improve relations, sabotage economy, incite rebellion)
+- **Corpses**: Trade dead unit bodies for credits (-10 to -30 karma per corpse)
+
+**Access Requirements**:
+- Karma below +40 (cannot be "too good")
+- Fame above 25 (must be known to find contacts)
+- Entry fee: 10,000 credits (one-time)
+
+**Discovery Risk**: 5-15% per transaction, increases with fame and transaction count. Discovery results in -20 to -50 fame, -30 to -70 relations with discovering country.
 
 ---
 
