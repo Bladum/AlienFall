@@ -1,8 +1,8 @@
 # Game Design Documentation
 
-**Purpose:** Define game mechanics, balance parameters, and design decisions  
-**Audience:** Game designers, developers, AI agents, balance testers  
-**Status:** Active development  
+**Purpose:** Define game mechanics, balance parameters, and design decisions
+**Audience:** Game designers, developers, AI agents, balance testers
+**Status:** Active development
 **Last Updated:** 2025-10-28
 
 ---
@@ -303,6 +303,5 @@ grep -i "term" design/GLOSSARY.md
 
 ---
 
-**Last Updated:** 2025-10-28  
+**Last Updated:** 2025-10-28
 **Questions:** See [DESIGN_TEMPLATE.md](DESIGN_TEMPLATE.md) or ask in Discord
-
