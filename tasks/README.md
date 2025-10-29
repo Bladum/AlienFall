@@ -35,15 +35,45 @@ The `tasks/` folder contains **project task management** - tracking TODOs, work 
 ```
 tasks/
 ├── README.md                          ← This file
-├── tasks.md                           ← Main task list
+├── tasks.md                           ← Main task list (TASK-001, TASK-002, etc.)
 ├── TASK_TEMPLATE.md                   ← Template for new tasks
 │
 ├── TODO/                              ← Pending Tasks
-│   └── [task files]
+│   ├── design_analysis_followup_tasks.md     ← TASK-002: 15 tasks, 206 hours
+│   ├── design_analysis_README.md             ← Quick reference
+│   ├── design_analysis_CHECKLIST.md          ← Progress tracking
+│   ├── design_analysis_EXECUTIVE_SUMMARY.md  ← One-pager for management
+│   └── [other task files]
 │
 └── DONE/                              ← Completed Tasks
-    └── [completed files]
+    └── pilot_craft_redesign_tasks.md  ← TASK-001: Completed 2025-10-28
 ```
+
+---
+
+## Active Tasks
+
+### TASK-002: Design Analysis Follow-Up & Auto-Balance Implementation
+**Status:** 🔄 IN PROGRESS (20% complete)  
+**Priority:** HIGH  
+**Files:**
+- [Detailed Tasks](TODO/design_analysis_followup_tasks.md) - 15 tasks, 206 hours
+- [Quick Reference](TODO/design_analysis_README.md) - Overview & next steps
+- [Checklist](TODO/design_analysis_CHECKLIST.md) - Progress tracking
+- [Executive Summary](TODO/design_analysis_EXECUTIVE_SUMMARY.md) - One-pager
+
+**Completed:**
+- ✅ Comprehensive analysis (48 files)
+- ✅ FAQ_ANALYTICS.md (560 lines)
+- ✅ GLOSSARY.md updates (27 terms)
+- ✅ KPI configuration (20 metrics)
+
+**Next:** Team review + Add template sections (Week 1, 3 hours)
+
+### TASK-001: Pilot-Craft System Redesign
+**Status:** ✅ COMPLETE (100%)  
+**Completed:** 2025-10-28  
+**Files:** [DONE/pilot_craft_redesign_tasks.md](DONE/pilot_craft_redesign_tasks.md)
 
 ---
 

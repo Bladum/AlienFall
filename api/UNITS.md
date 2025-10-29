@@ -161,6 +161,61 @@ unit:getSanity() → number  -- Psychological stability (6-12)
 unit:getMelee() → number  -- Melee effectiveness (6-12)
 unit:getPsi() → number  -- Psionic power (0-20, 0 = no psi ability)
 
+-- Morale System (In-Battle) - See design/mechanics/MoraleBraverySanity.md
+unit:getMorale() → number  -- Current morale (0 to Bravery value)
+unit:getMaxMorale() → number  -- Maximum morale (equals Bravery)
+unit:setMorale(value: number) → void  -- Set morale directly
+unit:adjustMorale(delta: number) → void  -- Add/subtract morale
+unit:resetMorale() → void  -- Reset to Bravery value (mission end)
+unit:isPanicked() → boolean  -- Check if morale = 0 (PANIC state)
+unit:getMoraleStatus() → string  -- "confident"|"steady"|"stressed"|"shaken"|"panicking"|"panic"
+unit:getMoraleAPPenalty() → number  -- Get AP reduction from low morale (0, -1, or -2)
+unit:getMoraleAccuracyPenalty() → number  -- Get accuracy penalty percentage
+
+-- Morale Events (called by combat system)
+unit:onAllyKilled(distance: number) → void  -- Ally death witnessed (-1 morale)
+unit:onTakeDamage() → void  -- Taking damage (-1 morale)
+unit:onCriticalHit() → void  -- Critical hit received (-2 morale)
+unit:onFlanked() → void  -- Flanked by enemies (-1 morale)
+unit:onOutnumbered() → void  -- 3:1 enemy advantage (-1 morale)
+unit:onCommanderKilled() → void  -- Squad leader died (-2 morale)
+
+-- Morale Recovery (player actions)
+unit:restAction() → boolean  -- 2 AP → +1 morale (returns success)
+unit:leaderRally(target: Unit) → boolean  -- 4 AP → +2 morale to target (leader only)
+unit:leaderAura(radius: number) → Unit[]  -- Get units within aura range for +1 morale
+
+-- Sanity System (Long-Term) - See design/mechanics/MoraleBraverySanity.md
+unit:getSanityMax() → number  -- Base sanity value (6-12)
+unit:adjustSanity(delta: number) → void  -- Add/subtract sanity
+unit:setSanity(value: number) → void  -- Set sanity directly
+unit:isBroken() → boolean  -- Check if sanity = 0 (cannot deploy)
+unit:getSanityStatus() → string  -- "stable"|"strained"|"fragile"|"breaking"|"unstable"|"broken"
+unit:getSanityAccuracyPenalty() → number  -- Get accuracy penalty from low sanity
+unit:getSanityMoraleModifier() → number  -- Get starting morale reduction from sanity
+
+-- Sanity Post-Mission (called after mission completes)
+unit:applyMissionTrauma(missionType: string) → void  -- Apply sanity loss based on mission
+  -- missionType: "standard" (0), "moderate" (-1), "hard" (-2), "horror" (-3)
+unit:applyNightMissionPenalty() → void  -- Night mission (-1 sanity)
+unit:onAllyDeathTrauma() → void  -- Ally death (-1 sanity per death)
+unit:onMissionFailure() → void  -- Mission failed (-2 sanity)
+
+-- Sanity Recovery (base operations)
+unit:weeklyBaseRecovery() → void  -- +1 sanity per week in base
+unit:weeklyTempleRecovery() → void  -- +1 additional sanity if Temple exists
+unit:medicalTreatment() → boolean  -- +3 sanity (costs 10,000 credits)
+unit:leaveVacation() → boolean  -- +5 sanity over 2 weeks (costs 5,000 credits)
+
+-- Bravery Modifiers
+unit:getBraveryModifiers() → table  -- Get all active bravery bonuses
+unit:addBraveryModifier(source: string, value: number) → void  -- Trait/equipment bonus
+unit:removeBraveryModifier(source: string) → void
+
+-- Combined Psychological State
+unit:getPsychologicalPenalties() → table  -- {ap_penalty, accuracy_penalty, can_deploy}
+unit:canDeploy() → boolean  -- Check if sanity > 0 (not broken)
+
 -- Psionic Energy (for units with psi > 0)
 unit:getPsiEnergy() → number  -- Current psi energy (0-100)
 unit:getMaxPsiEnergy() → number  -- Maximum psi energy (100 for psionic units)

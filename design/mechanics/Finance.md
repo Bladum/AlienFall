@@ -318,3 +318,23 @@ MONTHLY SURPLUS:         Good (expenses = 85% of income)
 The monthly report provides complete financial transparency, allowing players to make informed decisions about base expansion, equipment purchases, and research priorities. The 3-month forecast helps identify cash flow problems early.
 
 
+---
+## Integration with Other Systems
+Finance integrates with:
+### Countries System
+- Monthly funding from allied nations
+- Based on country relations and performance
+- Economic power determines contribution levels
+### Economy System
+- Research and manufacturing costs
+- Facility construction and maintenance
+- Unit recruitment and upkeep expenses
+### Politics System
+- Relations affect funding amounts
+- Fame and karma influence income opportunities
+- Diplomatic success impacts financial support
+### Geoscape System
+- Regional performance affects funding
+- Mission success increases country satisfaction
+- Base placement affects operational costs
+**For complete system integration details, see [Integration.md](Integration.md)**

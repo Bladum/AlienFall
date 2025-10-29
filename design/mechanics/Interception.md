@@ -806,3 +806,23 @@ The interception system abstracts mid-level combat into resource management and 
 
 
 
+---
+## Integration with Other Systems
+Interception integrates with:
+### Geoscape System
+- UFO detection triggers interception opportunities
+- Craft travel to intercept positions
+- Successful interception prevents ground missions
+### Crafts System
+- Uses craft stats (speed, weapons, armor)
+- Pilot skills affect combat effectiveness
+- Craft equipment determines available actions
+### Units System (Pilots)
+- Pilot skills modify interception success
+- Dual XP tracks (ground + flight)
+- Ace pilots provide significant bonuses
+### Missions System
+- Failed interception leads to ground missions
+- Successful interception generates salvage/rewards
+- UFO crashes create battlefield missions
+**For complete system integration details, see [Integration.md](Integration.md)**

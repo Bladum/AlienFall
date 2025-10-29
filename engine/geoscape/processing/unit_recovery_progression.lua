@@ -336,12 +336,144 @@ function UnitRecoveryProgression._calculateHPRecoveryRate(baseRate, medicalBonus
 end
 
 ---
--- Calculate sanity recovery rate
--- @param baseRate number Base recovery rate
--- @param psychBonus number Psychological support bonus
--- @return number Adjusted recovery rate
-function UnitRecoveryProgression._calculateSanityRecoveryRate(baseRate, psychBonus)
-    return baseRate * (1.0 + psychBonus)
+-- Calculate sanity recovery rate (updated to match MoraleBraverySanity.md design)
+-- Base recovery: +1 per week (+0.14 per day)
+-- Temple bonus: +1 per week (+0.14 per day) if Temple facility exists at base
+-- @param baseRate number Base recovery rate (default 0.14 per day = 1 per week)
+-- @param psychBonus number Psychological support bonus (0 or 0.14 for Temple)
+-- @param hasTemple boolean Whether base has operational Temple facility
+-- @return number Adjusted recovery rate per day
+function UnitRecoveryProgression._calculateSanityRecoveryRate(baseRate, psychBonus, hasTemple)
+    -- Base recovery: 1 per week = ~0.14 per day (1/7)
+    local rate = baseRate or (1.0 / 7.0)
+
+    -- Temple bonus: +1 per week = +0.14 per day
+    if hasTemple then
+        rate = rate + (1.0 / 7.0)
+        print("[UnitRecoveryProgression] Temple facility detected: +1 sanity/week bonus applied")
+    end
+
+    -- Legacy psych bonus support (if provided)
+    if psychBonus and psychBonus > 0 then
+        rate = rate * (1.0 + psychBonus)
+    end
+
+    return rate
+end
+
+---
+-- Apply weekly sanity recovery to all units at base
+-- Called by base management system once per week
+-- @param baseId string Base identifier
+-- @param units table Array of unit IDs at base
+-- @return table Recovery summary
+function UnitRecoveryProgression.applyWeeklySanityRecovery(baseId, units)
+    if not baseId or not units then
+        print("[UnitRecoveryProgression] ERROR: Missing baseId or units")
+        return nil
+    end
+
+    -- Check if base has Temple facility
+    local hasTemple = false
+    -- TODO: Integrate with base facility system
+    -- local base = baseManager:getBase(baseId)
+    -- hasTemple = base:hasFacility("temple") and base:getFacility("temple").operational
+
+    local MoraleSystem = require("engine.battlescape.systems.morale_system")
+    local recoveredUnits = 0
+    local totalRecovery = 0
+
+    for _, unitId in ipairs(units) do
+        -- Base recovery: +1 per week
+        MoraleSystem.weeklyBaseRecovery(unitId)
+        recoveredUnits = recoveredUnits + 1
+        totalRecovery = totalRecovery + 1
+
+        -- Temple bonus: +1 per week
+        if hasTemple then
+            MoraleSystem.weeklyTempleRecovery(unitId)
+            totalRecovery = totalRecovery + 1
+        end
+    end
+
+    print(string.format("[UnitRecoveryProgression] Weekly sanity recovery: %d units, +%d total sanity (Temple: %s)",
+        recoveredUnits, totalRecovery, tostring(hasTemple)))
+
+    return {
+        base_id = baseId,
+        units_recovered = recoveredUnits,
+        total_recovery = totalRecovery,
+        temple_bonus_applied = hasTemple
+    }
+end
+
+---
+-- Apply medical treatment for immediate sanity recovery
+-- Cost: 10,000 credits, Effect: +3 sanity
+-- @param unitId string Unit identifier
+-- @param treasury table Treasury system for payment
+-- @return boolean success
+-- @return string|nil error message
+function UnitRecoveryProgression.applyMedicalTreatment(unitId, treasury)
+    local TREATMENT_COST = 10000
+    local TREATMENT_RECOVERY = 3
+
+    if not unitId then
+        return false, "Missing unitId"
+    end
+
+    -- Check funds
+    if treasury and treasury:getBalance() < TREATMENT_COST then
+        return false, "Insufficient funds (need 10,000 credits)"
+    end
+
+    -- Deduct payment
+    if treasury then
+        treasury:deduct(TREATMENT_COST, "Medical treatment: " .. unitId)
+    end
+
+    -- Apply recovery
+    local MoraleSystem = require("engine.battlescape.systems.morale_system")
+    MoraleSystem.medicalTreatment(unitId)
+
+    print(string.format("[UnitRecoveryProgression] Medical treatment applied: %s (+3 sanity, -10,000 credits)", unitId))
+    return true
+end
+
+---
+-- Apply leave/vacation for extended sanity recovery
+-- Cost: 5,000 credits, Effect: +5 sanity over 2 weeks, unit unavailable
+-- @param unitId string Unit identifier
+-- @param treasury table Treasury system for payment
+-- @return boolean success
+-- @return string|nil error message
+function UnitRecoveryProgression.applyLeaveVacation(unitId, treasury)
+    local LEAVE_COST = 5000
+    local LEAVE_RECOVERY = 5
+    local LEAVE_DURATION = 14  -- days
+
+    if not unitId then
+        return false, "Missing unitId"
+    end
+
+    -- Check funds
+    if treasury and treasury:getBalance() < LEAVE_COST then
+        return false, "Insufficient funds (need 5,000 credits)"
+    end
+
+    -- Deduct payment
+    if treasury then
+        treasury:deduct(LEAVE_COST, "Leave/vacation: " .. unitId)
+    end
+
+    -- Apply recovery (immediate for now, TODO: schedule over 2 weeks)
+    local MoraleSystem = require("engine.battlescape.systems.morale_system")
+    MoraleSystem.leaveVacation(unitId)
+
+    -- TODO: Mark unit as unavailable for 2 weeks
+
+    print(string.format("[UnitRecoveryProgression] Leave/vacation applied: %s (+5 sanity, -5,000 credits, 2 weeks unavailable)", unitId))
+    return true
 end
 
 ---

@@ -580,3 +580,23 @@ Enemy Threat Level = Monthly Score / 100
 
 
 
+---
+## Integration with Other Systems
+Lore provides context for:
+### AI Systems
+- Faction motivations and strategies
+- Race characteristics inform AI behavior
+- Story drives escalation and events
+### Missions System
+- Narrative context for mission types
+- Faction-specific mission content
+- Story missions unlock progression
+### Geoscape System
+- World history and geopolitical context
+- Faction territorial claims
+- Dimensional portal lore
+### Units & Items
+- Technology backstory (alien vs human)
+- Equipment origin stories
+- Unit faction allegiances
+**For complete system integration details, see [Integration.md](Integration.md)**

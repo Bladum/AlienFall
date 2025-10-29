@@ -612,3 +612,23 @@ mods = [
 
 
 
+---
+## Integration with Other Systems
+The Assets system provides resources for:
+### GUI System
+- Sprites, textures, fonts for all UI elements
+- Icon sets for items, facilities, units
+- Visual consistency across all interfaces
+### Battlescape System
+- Terrain tilesets, unit sprites
+- Environmental effect animations
+- Combat visual effects
+### Geoscape System
+- World map tiles, province graphics
+- Craft sprites, UFO visuals
+- Strategic layer UI elements
+### Items & Units
+- Equipment sprites (weapons, armor)
+- Unit class visuals and animations
+- Inventory icons and representations
+**For complete system integration details, see [Integration.md](Integration.md)**

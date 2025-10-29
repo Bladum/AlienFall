@@ -316,6 +316,224 @@ function BlackMarketSystem:loadState(state)
     print("[BlackMarketSystem] State loaded")
 end
 
+---
+--- EXTENDED SERVICES: Corpse Trading, Mission Generation, Event Purchasing
+--- Integrated from: design/mechanics/BlackMarket.md
+---
+
+--- Sell corpse through Black Market
+---@param corpseItem table Corpse item
+---@param karmaSystem table Karma system
+---@param treasury table Treasury system
+---@return boolean success
+---@return string|nil reason
+---@return table|nil result
+function BlackMarketSystem:sellCorpse(corpseItem, karmaSystem, treasury)
+    local CorpseTrading = require("engine.economy.corpse_trading")
+    return CorpseTrading.sellCorpse(corpseItem, self, karmaSystem, treasury)
+end
+
+--- Get corpse value
+---@param corpseItem table Corpse item
+---@return number value
+function BlackMarketSystem:getCorpseValue(corpseItem)
+    local CorpseTrading = require("engine.economy.corpse_trading")
+    return CorpseTrading.getCorpseValue(corpseItem)
+end
+
+--- Get alternative uses for corpse (ethical options)
+---@param corpseItem table Corpse item
+---@return table alternatives
+function BlackMarketSystem:getCorpseAlternatives(corpseItem)
+    local CorpseTrading = require("engine.economy.corpse_trading")
+    return CorpseTrading.getAlternativeUses(corpseItem)
+end
+
+--- Purchase mission from Black Market
+---@param missionType string Mission type (assassination, sabotage, etc.)
+---@param targetRegion string Target region
+---@param karmaSystem table Karma system
+---@param treasury table Treasury system
+---@return boolean success
+---@return string|nil reason
+---@return table|nil result
+function BlackMarketSystem:purchaseMission(missionType, targetRegion, karmaSystem, treasury)
+    local MissionGeneration = require("engine.economy.mission_generation")
+    return MissionGeneration.purchaseMission(missionType, targetRegion, self, karmaSystem, treasury)
+end
+
+--- Get available missions for purchase
+---@param karma number Current karma
+---@return table missions
+function BlackMarketSystem:getAvailableMissions(karma)
+    local MissionGeneration = require("engine.economy.mission_generation")
+    return MissionGeneration.getAvailableMissions(karma)
+end
+
+--- Purchase event from Black Market
+---@param eventType string Event type (improve_relations, sabotage_economy, etc.)
+---@param targetId string Target ID
+---@param karmaSystem table Karma system
+---@param treasury table Treasury system
+---@return boolean success
+---@return string|nil reason
+---@return table|nil result
+function BlackMarketSystem:purchaseEvent(eventType, targetId, karmaSystem, treasury)
+    local EventPurchasing = require("engine.economy.event_purchasing")
+    return EventPurchasing.purchaseEvent(eventType, targetId, self, karmaSystem, treasury)
+end
+
+--- Get available events for purchase
+---@param karma number Current karma
+---@param fame number Current fame
+---@return table events
+function BlackMarketSystem:getAvailableEvents(karma, fame)
+    local EventPurchasing = require("engine.economy.event_purchasing")
+    return EventPurchasing.getAvailableEvents(karma, fame)
+end
+
+--- Get access level based on karma and fame
+---@param karma number Current karma (-100 to +100)
+---@param fame number Current fame (0-100)
+---@return string accessLevel "restricted"|"standard"|"enhanced"|"complete"
+function BlackMarketSystem:getAccessLevel(karma, fame)
+    -- Karma requirements for access tiers
+    if karma >= 40 then
+        return "none"  -- Too high karma, no access
+    elseif karma >= 10 then
+        if fame >= 25 then
+            return "restricted"  -- Items only
+        else
+            return "none"  -- Need minimum fame
+        end
+    elseif karma >= -39 then
+        if fame >= 25 then
+            return "standard"  -- Items, units, some services
+        else
+            return "none"
+        end
+    elseif karma >= -74 then
+        if fame >= 60 then
+            return "enhanced"  -- All except extreme operations
+        else
+            return "standard"
+        end
+    else  -- karma <= -75
+        if fame >= 75 then
+            return "complete"  -- Everything available
+        else
+            return "enhanced"
+        end
+    end
+end
+
+--- Check if player can access specific service
+---@param serviceName string Service name
+---@param karma number Current karma
+---@param fame number Current fame
+---@return boolean canAccess
+---@return string|nil reason
+function BlackMarketSystem:canAccessService(serviceName, karma, fame)
+    local accessLevel = self:getAccessLevel(karma, fame)
+
+    if accessLevel == "none" then
+        return false, "Insufficient karma or fame for Black Market access"
+    end
+
+    -- Service requirements
+    local serviceRequirements = {
+        items = "restricted",
+        corpse_trading = "restricted",
+        units = "standard",
+        missions = "standard",
+        events = "enhanced",
+        craft = "enhanced",
+        extreme_operations = "complete",
+    }
+
+    local required = serviceRequirements[serviceName] or "restricted"
+
+    local accessOrder = {none = 0, restricted = 1, standard = 2, enhanced = 3, complete = 4}
+    local playerLevel = accessOrder[accessLevel] or 0
+    local requiredLevel = accessOrder[required] or 1
+
+    if playerLevel >= requiredLevel then
+        return true
+    else
+        return false, "Requires " .. required .. " access (current: " .. accessLevel .. ")"
+    end
+end
+
+--- Get all available services based on access level
+---@param karma number Current karma
+---@param fame number Current fame
+---@return table services Array of available service names
+function BlackMarketSystem:getAvailableServices(karma, fame)
+    local accessLevel = self:getAccessLevel(karma, fame)
+    local services = {}
+
+    if accessLevel == "none" then
+        return services
+    end
+
+    -- Always available
+    table.insert(services, "items")
+    table.insert(services, "corpse_trading")
+
+    if accessLevel == "standard" or accessLevel == "enhanced" or accessLevel == "complete" then
+        table.insert(services, "units")
+        table.insert(services, "missions")
+    end
+
+    if accessLevel == "enhanced" or accessLevel == "complete" then
+        table.insert(services, "events")
+        table.insert(services, "craft")
+    end
+
+    if accessLevel == "complete" then
+        table.insert(services, "extreme_operations")
+    end
+
+    return services
+end
+
+--- Calculate cumulative discovery risk
+---@return number risk 0.0-1.0 discovery chance
+function BlackMarketSystem:getCumulativeDiscoveryRisk()
+    local transactionCount = #self.purchaseHistory
+    local baseRisk = 0.05  -- 5% base
+
+    -- Increase risk with transaction count
+    if transactionCount >= 31 then
+        return baseRisk + 0.15
+    elseif transactionCount >= 16 then
+        return baseRisk + 0.10
+    elseif transactionCount >= 6 then
+        return baseRisk + 0.05
+    else
+        return baseRisk
+    end
+end
+
+--- Get summary of Black Market status (for UI)
+---@param karma number Current karma
+---@param fame number Current fame
+---@return table summary
+function BlackMarketSystem:getStatusSummary(karma, fame)
+    local accessLevel = self:getAccessLevel(karma, fame)
+    local services = self:getAvailableServices(karma, fame)
+    local discoveryRisk = self:getCumulativeDiscoveryRisk()
+
+    return {
+        access_level = accessLevel,
+        available_services = services,
+        transaction_count = #self.purchaseHistory,
+        discovery_risk = discoveryRisk,
+        discovered_dealers = self.discoveredDealers,
+        market_level = self.marketLevel,
+    }
+end
+
 return BlackMarketSystem
 
 

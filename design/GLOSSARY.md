@@ -108,8 +108,9 @@ This glossary consolidates all domain-specific terminology, abbreviations, and k
 - **Barracks Capacity**: The total unit housing available across barracks facilities; exceeding capacity imposes morale penalties and blocks new recruitment.
 - **Salary/Maintenance Cost**: The monthly cost per unit (5K base) kept in the organization; scales with rank and specialization.
 - **Experience (XP)**: A unit's accumulated combat points earned through missions; triggers rank promotion and specialization unlocks at thresholds (100, 300, 600, 1000 XP).
-- **Morale**: A unit's psychological state in battle (derived from Bravery stat); drops below 0 triggers panic and action paralysis.
-- **Sanity**: A unit's mental health affected by combat horror, night missions, and casualties; low sanity triggers unreliability and breakdowns.
+- **Bravery**: Core unit stat (6-12 range) determining morale capacity in battle; higher bravery = larger morale pool and better panic resistance. Increases with experience (+1 per 3 ranks) and traits (Brave +2, Fearless +3).
+- **Morale**: In-battle psychological state starting at Bravery value and degrading from stress (ally deaths, damage, flanking); drops to 0 trigger PANIC (all AP lost). Recoverable via Rest action (2 AP → +1) or Leader rally (4 AP → +2). Resets to Bravery after mission.
+- **Sanity**: Long-term mental stability (6-12 range) that persists between missions; drops after missions based on horror level (Standard 0, Moderate -1, Hard -2, Horror -3). Recovers slowly (+1/week base, +2/week with Temple). At 0 sanity, unit cannot deploy (Broken state).
 - **Health Recovery**: The passive healing system (+1 HP/week) accelerated by hospital facilities and medic specialization.
 - **Prisoner**: A captured alien unit held in prison facility; provides research opportunity and can be traded, experimented on, or executed.
 
@@ -308,6 +309,8 @@ This glossary consolidates all domain-specific terminology, abbreviations, and k
 - **Craft Armor/HP**: Health points of a craft; reduced by UFO weapons or environmental damage.
 - **Craft Weapons**: Armed hardpoints on craft allowing aerial combat against UFOs.
 - **Crew**: Personnel assigned to craft; required for operation and determines available AP per turn.
+- **Pilot**: Specialized unit class operating craft in interception combat; gains experience and abilities separate from ground combat units with unique stats (Reflexes, Accuracy, Nerves) and promotion paths.
+- **Ace Pilot**: Elite pilot rank achieved after 5+ confirmed UFO kills; grants combat bonuses (+10% accuracy, +2 energy per turn) and unlocks special maneuvers unavailable to standard pilots.
 - **Fuel**: The resource consumed per Geoscape movement; insufficient fuel prevents launch.
 - **Hangar Slot**: Storage location for craft at base; each hangar provides 1-8 slots depending on facility size.
 - **Repair Queue**: Damaged craft automatically queued for repair upon return; repair rate +50 HP/week in Garage.
@@ -315,6 +318,10 @@ This glossary consolidates all domain-specific terminology, abbreviations, and k
 ### Interception Mechanics
 
 - **Interception**: The act of deploying craft to intercept UFO before it completes objective.
+- **Dogfight**: Active air combat engagement between player craft and UFO; resolved through turn-based card combat system similar to Magic: The Gathering with energy management and tactical positioning.
+- **Deck (Interception)**: Collection of maneuver cards available to pilot during air combat; customizable based on craft type, pilot skills, and equipment loadout with typical deck size of 15-20 cards.
+- **Card (Interception)**: Individual maneuver or ability usable in air combat; costs energy and action points with types including offensive (missiles, guns), defensive (evasion, shields), and utility (scan, repair).
+- **Energy (Interception)**: Resource generated each turn (base 3-5, affected by pilot skill and craft efficiency) used to play cards; unspent energy does not carry over between turns creating tactical spending decisions.
 - **UFO Behavior**: The AI state machine determining UFO movement and combat decisions (Aggressive, Tactical Withdrawal, Escape, Defensive).
 - **Survival Odds**: The UFO calculation determining combat viability; high odds = attack, low odds = escape.
 - **Engagement**: The combat interaction between player craft and UFO.
@@ -374,7 +381,10 @@ This glossary consolidates all domain-specific terminology, abbreviations, and k
 - **Failed Delivery**: 10% chance of delivery loss; player receives partial refund (20-50%).
 - **Bulk Discount**: Price reduction (5-25%) for purchasing large quantities (50+ units).
 - **Subscription/Recurring Order**: Automatic monthly purchases at agreed pricing and delivery schedule.
-- **Black Market**: Restricted marketplace access for illegal items; requires low karma and criminal faction relationship.
+- **Black Market**: Underground economy system providing restricted items (experimental weapons, banned tech), special units (mercenaries, defectors), special craft (stolen military), mission generation (assassination, sabotage, heist), event purchasing (political manipulation), and corpse trading. Requires karma below +40 and fame above 25. All transactions carry karma penalties (-5 to -40) and discovery risk (5-15%). Discovery results in fame loss (-20 to -50) and relations damage (-30 to -70). Access tiers: Restricted (items only) → Standard (items + units) → Enhanced (most services) → Complete (all services including extreme operations).
+- **Corpse Trading**: Black Market service allowing sale of dead units for credits. Values: Human soldier (5K, -10 karma), Alien common (15K, -15 karma), Alien rare (50K, -25 karma), VIP (100K, -30 karma). Fresh corpses +50% value, preserved +100%, damaged -50%. 5% discovery risk per sale. Alternative ethical uses: Research (0 karma), Burial (0 karma, +5 morale), Ransom (0 karma, +relations).
+- **Mission Generation**: Black Market service to purchase custom missions that spawn on Geoscape. Types: Assassination (50K, -30 karma), Sabotage (40K, -20 karma), Heist (30K, -15 karma), Kidnapping (35K, -25 karma), False Flag (60K, -40 karma), Data Theft (25K, -10 karma), Smuggling (20K, -5 karma). Missions spawn in 3-7 days with 150-300% profit potential if completed successfully.
+- **Event Purchasing**: Black Market service to trigger political/economic events. Types: Improve Relations (30K, -10 karma, +20 relations), Sabotage Economy (50K, -25 karma, drops economy tier), Incite Rebellion (80K, -35 karma, contests province), Spread Propaganda (20K, -5 karma, +10 fame), Frame Rival (60K, -30 karma, -30 rival relations), Bribe Officials (40K, -15 karma, ignore black market activity 6 months), Crash Market (70K, -20 karma, 30% cheaper items 3 months).
 - **Embargo**: Complete trade block with supplier when relationship ≤ -100; requires diplomatic reset to restore.
 
 ### Transfer & Logistics
@@ -389,6 +399,54 @@ This glossary consolidates all domain-specific terminology, abbreviations, and k
 - **Interception Risk**: Chance (5-15%) of enemy interception during transfer; supplies lost permanently.
 - **Stealth Routing**: +50% cost option reducing interception risk by 20%.
 - **Emergency Transfer**: +200% cost option enabling rapid delivery (bypasses normal queue).
+
+---
+
+## ANALYTICS & AUTO-BALANCE (System Intelligence Layer)
+
+### Core Analytics Concepts
+
+- **Analytics System**: Comprehensive data pipeline collecting, processing, and analyzing gameplay data to validate balance, optimize performance, and guide design decisions through five stages: simulation, aggregation, calculation, insights, and action planning.
+- **KPI (Key Performance Indicator)**: Quantifiable metric measuring specific game quality dimension; defines success criteria for design goals (e.g., combat balance variance <5%, FPS performance >55, economy break-even by month 6).
+- **Metric**: Quantifiable measurement derived from gameplay data; answers specific design question through SQL aggregation (weapon usage rate, unit survival rate, mission completion time, etc.).
+- **Auto-Balance**: Automated system adjusting game parameters (TOML values) based on analytics data to maintain target balance metrics without manual intervention; operates through continuous feedback loop.
+- **Simulation**: Autonomous game instance running AI-controlled factions and players to generate analytics data; operates headlessly in background at accelerated time scale.
+- **Player AI**: Separate meta-AI making strategic decisions mimicking human behavior (base building, research prioritization, craft deployment, UI clicks); generates synthetic gameplay data for analytics.
+- **Faction AI**: Native game AI executing enemy strategy (mission generation, unit deployment, tactical combat decisions); plays opponent role in simulations and live games.
+
+### Data Infrastructure
+
+- **Parquet**: Columnar file format for storing structured analytics data; enables rapid SQL queries on large datasets (millions of records) without full database overhead or external server.
+- **DuckDB**: Embedded SQL database engine for analytics queries; processes Parquet files directly without external server, configuration, or separate process; runs in-process with game engine.
+- **JSON-Lines (JSONL)**: Streaming log format where each line is independent JSON object; enables real-time log aggregation, processing, and append-only file operations without parsing entire file.
+- **Log Rotation**: Automated process of archiving old logs and starting new files; typically hourly (for real-time data) or daily (for aggregated analytics) to maintain manageable file sizes.
+- **Schema Validation**: Process of verifying log records match expected structure; rejects malformed data to maintain data quality and prevent corruption in analytics pipeline.
+
+### Metrics & Measurement
+
+- **Target Value**: Ideal measurement for KPI indicating perfect game balance (e.g., 60 FPS, 50% win rate, 0 budget deficit, 5% win rate variance between unit classes).
+- **Threshold**: Acceptable deviation from target value; defines when metric transitions between PASS/WARN/FAIL states (e.g., combat balance variance: target 5%, warn 7%, fail 10%).
+- **Variance**: Statistical measure of spread in data; high variance indicates inconsistent experience (e.g., unit win rates ranging 30-70% = high variance = poor balance).
+- **P95 (95th Percentile)**: Statistical measure where 95% of samples fall below value; used for performance metrics to ignore outliers (e.g., P95 FPS = 48 means 95% of frames >48 FPS).
+- **Trend**: Direction of metric change over time (IMPROVING, STABLE, REGRESSING); calculated from historical KPI data using linear regression or moving average.
+
+### Auto-Balance Mechanics
+
+- **Adjustment Factor**: Percentage change applied to TOML value when KPI fails (typically 5-10%); smaller = gradual tuning, larger = aggressive correction; configurable per KPI.
+- **Adjustment Target**: Specific TOML field modified by auto-balance (e.g., weapon_accuracy, enemy_hp, research_cost, manufacturing_time, facility_maintenance).
+- **Balance Patch**: TOML file modification generated by auto-balance system; includes old value, new value, reason for change, KPI triggering adjustment, and timestamp for audit trail.
+- **A/B Testing**: Technique deploying balance changes to subset (10-20%) of simulations; compares outcomes (KPI improvements, unintended side effects) before full rollout to all players.
+- **Cascading Effects**: Secondary metric changes resulting from single balance adjustment; requires multi-metric impact analysis (e.g., reducing research costs improves pacing but may worsen economy sustainability).
+- **Feedback Loop**: Continuous cycle of data collection → metric calculation → balance adjustment → re-simulation → verification → repeat; operates hourly/daily for rapid iteration.
+
+### Data Analysis
+
+- **Aggregation**: SQL operation combining multiple records into summary statistics (AVG, SUM, COUNT, MIN, MAX, PERCENTILE, STDDEV); foundation of all analytics queries.
+- **Filtering**: SQL WHERE clause limiting analysis to specific conditions (e.g., only missions after month 3, only units with 100+ deployments, only campaigns reaching endgame).
+- **Segmentation**: Grouping data by category (unit class, weapon type, difficulty tier, player level) to identify sub-patterns and balance issues within specific contexts.
+- **Correlation Analysis**: Statistical technique identifying relationships between metrics (e.g., research speed correlates with campaign completion rate, weapon accuracy correlates with usage rate).
+- **Outlier Detection**: Identifying data points far from normal range (>3 standard deviations); may indicate bugs, exploits, edge cases, or exceptional player skill.
+- **Root Cause Analysis**: Drilling down from failed metric to underlying factors causing failure; uses hierarchical queries (e.g., research pacing fails → alien research category slow → alien interrogation project bottleneck).
 
 ---
 

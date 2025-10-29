@@ -301,6 +301,33 @@ function FacilityTypes.getAll()
     return types
 end
 
+--- Temple (psychological support and sanity recovery)
+FacilityTypes.temple = {
+    id = "temple",
+    name = "Temple",
+    description = "Provides sanity recovery and mental health support for all personnel at base",
+    buildTime = 14,
+    cost = {credits = 12000},
+    maxHealth = 100,
+    armor = 5,
+    size = "2x2",  -- 4 tiles
+    capacities = {},
+    services = {
+        provides = {"sanity_recovery", "psi_education"},
+        requires = {"power"}
+    },
+    power_consumption = 8,
+    maintenance = 2000,
+    -- Special: Provides +1 sanity recovery per week to ALL units at base
+    sanity_bonus = 1,  -- +1 per week (cumulative with base recovery)
+    special_effects = {
+        "Increases sanity recovery rate for all personnel",
+        "Base recovery: +1 per week",
+        "Temple bonus: +1 per week (total +2 per week)",
+        "Morale boost: +5% to all units at base"
+    }
+}
+
 return FacilityTypes
 
 

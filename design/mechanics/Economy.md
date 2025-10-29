@@ -78,7 +78,7 @@ Research projects allow players to unlock new technologies and capabilities by c
 
 ## Research Technology Tree
 
-#### Overview
+### Overview
 Research projects form interconnected branches that build a comprehensive technology tree. Players progress through multiple research paths simultaneously.
 
 **Mechanics**
@@ -88,10 +88,292 @@ Research projects form interconnected branches that build a comprehensive techno
 - Completing research unlocks new items, manufacturing capabilities, and mission options
 
 **Strategic Depth**
-
 - Players must balance broad research against focused advancement
 - Regional technology variations can impact mission strategies
 - Faction research trees remain independent and separate
+
+---
+
+### Research Tree Structure
+
+The research tree is organized into **5 major branches** with multiple tiers of advancement:
+
+#### 1. Weapons Technology Branch
+
+**Tier 1: Basic Weapons** (Starting Technologies)
+- **Conventional Firearms** (0 man-days) - Pre-researched, enables rifle/pistol manufacturing
+- **Explosives Handling** (50 man-days) - Enables grenade and explosive manufacturing
+- **Melee Combat Training** (30 man-days) - Enables advanced melee weapons
+
+**Tier 2: Advanced Weapons** (Requires Tier 1)
+- **Precision Firearms** (100 man-days) - Unlocks sniper rifles, scoped weapons
+  - *Prerequisites*: Conventional Firearms
+  - *Unlocks*: Sniper Rifle, Marksman Rifle, Scope attachments
+- **Heavy Ordnance** (150 man-days) - Unlocks heavy weapons, rocket launchers
+  - *Prerequisites*: Explosives Handling
+  - *Unlocks*: Rocket Launcher, Heavy Machine Gun, Grenade Launcher
+- **Incendiary Weapons** (120 man-days) - Unlocks fire-based weapons
+  - *Prerequisites*: Explosives Handling
+  - *Unlocks*: Flamethrower, Incendiary Grenades, Molotov Cocktails
+
+**Tier 3: Energy Weapons** (Requires Tier 2 + Alien Technology)
+- **Laser Technology** (200 man-days) - Basic energy weapons
+  - *Prerequisites*: Precision Firearms + Alien Power Systems
+  - *Unlocks*: Laser Rifle, Laser Pistol
+- **Plasma Technology** (300 man-days) - Advanced energy weapons
+  - *Prerequisites*: Laser Technology + Alien Plasma Samples
+  - *Unlocks*: Plasma Rifle, Plasma Cannon
+- **Particle Beam Weapons** (400 man-days) - Ultimate energy weapons
+  - *Prerequisites*: Plasma Technology + Advanced Alien Materials
+  - *Unlocks*: Particle Beam Cannon, Heavy Plasma
+
+**Tier 4: Exotic Weapons** (Late Game)
+- **Psionic Amplification** (500 man-days) - Psionic weapons
+  - *Prerequisites*: Psionic Research + Plasma Technology
+  - *Unlocks*: Psi-Amp, Mind Control devices
+- **Gravitational Weapons** (600 man-days) - Gravity manipulation
+  - *Prerequisites*: Advanced Alien Physics + Particle Beam Weapons
+  - *Unlocks*: Gravity Gun, Singularity Grenade
+
+---
+
+#### 2. Armor & Defense Branch
+
+**Tier 1: Basic Armor**
+- **Body Armor** (0 man-days) - Pre-researched, basic armor manufacturing
+- **Tactical Vests** (40 man-days) - Light armor options
+  - *Unlocks*: Scout Armor, Light Tactical Vest
+
+**Tier 2: Advanced Armor**
+- **Composite Armor** (120 man-days) - Improved protection
+  - *Prerequisites*: Body Armor
+  - *Unlocks*: Combat Armor, Heavy Armor
+- **Powered Exoskeletons** (180 man-days) - Strength enhancement
+  - *Prerequisites*: Body Armor + Basic Robotics
+  - *Unlocks*: Exo-Suit, Power Armor frame
+
+**Tier 3: Alien-Based Armor**
+- **Alien Alloys** (250 man-days) - Lightweight strong materials
+  - *Prerequisites*: Composite Armor + Alien Materials Analysis
+  - *Unlocks*: Alloy Armor, Alloy Plating
+- **Energy Shields** (350 man-days) - Shield technology
+  - *Prerequisites*: Alien Power Systems + Alien Alloys
+  - *Unlocks*: Personal Shield Generator, Shield Armor
+
+**Tier 4: Ultimate Protection**
+- **Psi-Shields** (500 man-days) - Psionic defense
+  - *Prerequisites*: Energy Shields + Psionic Research
+  - *Unlocks*: Psi-Armor, Mind Shield
+- **Titan Armor** (600 man-days) - Maximum protection
+  - *Prerequisites*: Alien Alloys + Powered Exoskeletons
+  - *Unlocks*: Titan Suit, Juggernaut Armor
+
+---
+
+#### 3. Alien Technology Branch
+
+**Tier 1: Initial Analysis**
+- **Alien Materials Analysis** (100 man-days) - Study alien materials
+  - *Prerequisites*: Captured Alien Equipment
+  - *Unlocks*: Basic alien manufacturing, research progression
+- **Alien Autopsy** (80 man-days per species) - Study alien biology
+  - *Prerequisites*: Alien Corpse
+  - *Unlocks*: Species vulnerabilities, biological research
+- **UFO Construction** (150 man-days) - Analyze UFO wreckage
+  - *Prerequisites*: Crashed UFO recovered
+  - *Unlocks*: Understanding of alien engineering
+
+**Tier 2: Power & Propulsion**
+- **Alien Power Systems** (200 man-days) - Alien energy generation
+  - *Prerequisites*: UFO Construction
+  - *Unlocks*: Elerium research, power plant upgrades
+- **UFO Navigation** (250 man-days) - Alien navigation systems
+  - *Prerequisites*: UFO Construction
+  - *Unlocks*: Advanced craft navigation, improved radar
+
+**Tier 3: Advanced Alien Tech**
+- **Elerium-115** (300 man-days) - Master alien fuel source
+  - *Prerequisites*: Alien Power Systems + Alien Materials Analysis
+  - *Unlocks*: Advanced craft engines, energy weapons
+- **Alien Computers** (280 man-days) - Alien computing systems
+  - *Prerequisites*: UFO Navigation
+  - *Unlocks*: Advanced targeting, improved facility efficiency
+
+**Tier 4: Alien Integration**
+- **Hybrid Technology** (400 man-days) - Combine human + alien tech
+  - *Prerequisites*: Elerium-115 + Alien Computers
+  - *Unlocks*: Ultimate equipment, hybrid weapons/armor
+
+---
+
+#### 4. Facilities & Infrastructure Branch
+
+**Tier 1: Basic Facilities**
+- **Advanced Engineering** (60 man-days) - Improved construction
+  - *Unlocks*: Workshop upgrades, faster construction
+- **Logistics Management** (50 man-days) - Better resource management
+  - *Unlocks*: Larger storage, transfer improvements
+
+**Tier 2: Specialized Facilities**
+- **Psionic Laboratory** (150 man-days) - Psionic research facilities
+  - *Prerequisites*: Advanced Engineering + Alien Autopsy (Sectoid)
+  - *Unlocks*: Psi-Lab facility, psionic training
+- **Advanced Workshop** (120 man-days) - Enhanced manufacturing
+  - *Prerequisites*: Advanced Engineering
+  - *Unlocks*: Workshop upgrades, faster production
+- **Genetic Laboratory** (180 man-days) - Biological research
+  - *Prerequisites*: Advanced Engineering + Alien Autopsy (any)
+  - *Unlocks*: Gene-Lab facility, unit enhancements
+
+**Tier 3: Strategic Facilities**
+- **Hyperwave Decoder** (300 man-days) - Advanced alien detection
+  - *Prerequisites*: UFO Navigation + Alien Computers
+  - *Unlocks*: Hyperwave facility, UFO mission detection
+- **Grav-Shield** (350 man-days) - Base defense shield
+  - *Prerequisites*: Alien Power Systems + Energy Shields
+  - *Unlocks*: Grav-Shield facility, base protection
+
+---
+
+#### 5. Support & Utility Branch
+
+**Tier 1: Basic Support**
+- **Medical Training** (40 man-days) - Improved medical care
+  - *Unlocks*: Hospital upgrades, faster healing
+- **Tactical Training** (50 man-days) - Combat improvements
+  - *Unlocks*: Academy facility, faster XP gain
+
+**Tier 2: Advanced Support**
+- **Cybernetics** (150 man-days) - Mechanical augmentation
+  - *Prerequisites*: Medical Training + Basic Robotics
+  - *Unlocks*: Cyborg transformations, mechanical units
+- **Genetic Engineering** (180 man-days) - Biological augmentation
+  - *Prerequisites*: Medical Training + Genetic Laboratory
+  - *Unlocks*: Gene Mods, biological transformations
+
+**Tier 3: Elite Enhancement**
+- **Psionic Training** (250 man-days) - Unlock psionic abilities
+  - *Prerequisites*: Psionic Laboratory + Alien Autopsy (Sectoid)
+  - *Unlocks*: Psionic stat for units, psi abilities
+- **Neural Interface** (300 man-days) - Direct brain-computer link
+  - *Prerequisites*: Cybernetics + Alien Computers
+  - *Unlocks*: Advanced pilot bonuses, improved reactions
+
+---
+
+### Research Dependencies Graph
+
+```mermaid
+graph TD
+    A[Conventional Firearms] --> B[Precision Firearms]
+    A --> C[Heavy Ordnance]
+    D[Explosives Handling] --> C
+    D --> E[Incendiary Weapons]
+    
+    F[Alien Materials] --> G[Alien Alloys]
+    F --> H[Alien Power Systems]
+    H --> I[Elerium-115]
+    H --> J[Laser Technology]
+    J --> K[Plasma Technology]
+    K --> L[Particle Beam]
+    
+    M[Body Armor] --> N[Composite Armor]
+    N --> O[Alien Alloys Armor]
+    H --> P[Energy Shields]
+    P --> Q[Psi-Shields]
+    
+    R[UFO Construction] --> S[UFO Navigation]
+    S --> T[Alien Computers]
+    T --> U[Hybrid Technology]
+    
+    V[Psionic Research] --> W[Psionic Training]
+    W --> X[Psi-Amp]
+```
+
+---
+
+### Research Progression Timeline
+
+**Early Game (Months 1-3)**:
+- Focus: Basic weapons and armor improvements
+- Key Research: Precision Firearms, Composite Armor, Medical Training
+- Goal: Establish solid foundation for tactical operations
+
+**Mid Game (Months 4-8)**:
+- Focus: Alien technology analysis, energy weapons
+- Key Research: Alien Materials, Laser Technology, Advanced Facilities
+- Goal: Begin integrating alien technology
+
+**Late Game (Months 9-15)**:
+- Focus: Advanced alien integration, ultimate weapons
+- Key Research: Plasma Technology, Elerium-115, Hybrid Technology
+- Goal: Achieve technological superiority
+
+**End Game (Months 16+)**:
+- Focus: Exotic technologies, psionic mastery
+- Key Research: Psionic Training, Gravitational Weapons, Titan Armor
+- Goal: Prepare for final confrontations
+
+---
+
+### Research Strategy Recommendations
+
+**Balanced Approach**:
+- 30% Weapons Research
+- 30% Armor Research
+- 20% Alien Technology
+- 10% Facilities
+- 10% Support
+
+**Aggressive Approach**:
+- 50% Weapons Research
+- 20% Alien Technology
+- 20% Armor Research
+- 10% Support
+
+**Defensive Approach**:
+- 40% Armor Research
+- 25% Facilities
+- 20% Support
+- 15% Weapons Research
+
+**Scientific Approach**:
+- 50% Alien Technology
+- 20% Facilities
+- 15% Weapons Research
+- 15% Armor Research
+
+---
+
+### Special Research Projects
+
+**Interrogation Projects** (Repeatable):
+- **Alien Soldier Interrogation** (50 man-days) - Extract tactical information
+- **Alien Engineer Interrogation** (80 man-days) - Learn about alien technology
+- **Alien Commander Interrogation** (120 man-days) - Discover alien objectives
+
+**Facility Research** (One-time unlocks):
+- **Mind Shield** (200 man-days) - Base psionic defense facility
+- **Alien Containment** (150 man-days) - Prison for live aliens
+- **Fusion Ball Launcher** (350 man-days) - Ultimate base defense weapon
+
+**Strategic Research** (Game-changing):
+- **Hyperwave Decoder** (300 man-days) - See all UFO missions
+- **Avenger Construction** (500 man-days) - Ultimate player craft
+- **Cydonia or Bust** (No cost) - Final mission unlock
+
+---
+
+### Research Cost Summary
+
+| Research Tier | Average Cost (man-days) | Time Required (10 scientists) |
+|---------------|------------------------|------------------------------|
+| **Tier 1** | 30-80 | 3-8 days |
+| **Tier 2** | 100-200 | 10-20 days |
+| **Tier 3** | 250-400 | 25-40 days |
+| **Tier 4** | 500-600 | 50-60 days |
+
+**Note**: Actual costs vary by 50-150% based on campaign randomization
 
 ---
 
@@ -276,20 +558,24 @@ Bulk Discount: 5% per 5+ items, 15% per 20+ items, 25% per 50+ items
 ## Black Market
 
 **Overview**
-The black market provides restricted access to rare items and specialized services beyond legitimate channels, including espionage, assassination, and illegal salvage.
+The black market provides extensive underground economy access including restricted items, special units, craft purchases, mission generation, event purchasing, and corpse trading. All transactions carry karma/fame consequences and discovery risks.
 
-**Access Factors**
-- Fame rating affects availability
-- Karma rating influences offered contracts
-- Power points may unlock exclusive services
-- Availability fluctuates based on player reputation
-- All transactions carry significant risk and cost
+**For Complete Black Market Mechanics**: See [BlackMarket.md](./BlackMarket.md)
 
-**Services Available**
-- Rare item acquisition
-- Assassination contracts (against factions, rival organizations)
-- Intelligence gathering
-- Illegal resource salvage
+**Quick Summary**:
+- **Items**: Experimental weapons, banned tech, alien equipment (200-500% markup)
+- **Units**: Mercenaries, defectors, augmented soldiers (-10 to -30 karma per unit)
+- **Craft**: Stolen military craft, prototypes, captured UFOs (-15 to -30 karma)
+- **Missions**: Purchase custom missions (assassination, sabotage, heist) to spawn on map
+- **Events**: Trigger political/economic events (improve relations, sabotage economy, incite rebellion)
+- **Corpses**: Trade dead unit bodies for credits (-10 to -30 karma per corpse)
+
+**Access Requirements**:
+- Karma below +40 (cannot be "too good")
+- Fame above 25 (must be known to find contacts)
+- Entry fee: 10,000 credits (one-time)
+
+**Discovery Risk**: 5-15% per transaction, increases with fame and transaction count. Discovery results in -20 to -50 fame, -30 to -70 relations with discovering country.
 
 ---
 
@@ -529,3 +815,101 @@ Disruption chance: 20% per delivery during active warfare in region
 - **Regional Specialization**: Different regions excel at different goods (stability affects production speed)
 
 
+---
+## Salvage System
+**Overview**
+The salvage system processes recovered items, equipment, and materials from completed missions, crashed UFOs, destroyed enemies, and battlefield remnants. It's the primary source of alien technology, research materials, and economic gain from tactical operations.
+**Salvage Sources**
+| Source | Salvage Types | Average Value | Processing Required |
+|--------|---------------|---------------|---------------------|
+| **Defeated Enemies** | Weapons, armor, corpses | 200-2,000 credits | None (auto-collected) |
+| **Crashed UFOs** | UFO components, alien tech, power cores | 5,000-50,000 credits | Research + Workshop |
+| **Destroyed Equipment** | Scrap metal, components | 50-500 credits | Workshop processing |
+| **Mission Objectives** | Special items, artifacts | 1,000-10,000 credits | None or Research |
+| **Battlefield Debris** | Ammunition, supplies, misc | 100-1,000 credits | None |
+### Automatic Salvage Collection
+**Post-Mission Salvage**:
+- All items on battlefield automatically collected after victory
+- Dead units become corpses (salvageable)
+- Equipment from dead enemies automatically looted
+- Mission-specific items (artifacts, data) automatically secured
+- Environmental objects (ammo crates, supplies) collected
+**Collection Rules**:
+- Player must win mission (retreat = salvage left behind)
+- Maximum 50% of battlefield items if tactical victory (partial objectives)
+- Zero salvage if mission failed (all items lost)
+- Extraction required for special items (must carry to landing zone)
+**Salvage Capacity**:
+- Craft cargo capacity limits salvage (excess left behind)
+- Priority salvage: Player-equipped items > Enemy equipment > Debris
+- Overencumbered units cannot carry additional salvage
+- Post-mission warning if salvage exceeds capacity (choose what to leave)
+### Salvage Value Calculation
+**Base Value Formula**:
+\\\
+Salvage Value = (Item Base Price × Condition Modifier × Rarity Modifier) + Alien Tech Bonus
+Condition Modifier: 10-100% (destroyed items worth less)
+Rarity Modifier: 1.0x (common) to 5.0x (unique alien artifacts)
+Alien Tech Bonus: +500 to +10,000 credits depending on technology tier
+\\\
+**Condition States**:
+- **Pristine** (90-100%): Fully functional, full price
+- **Good** (70-90%): Minor damage, 90% value
+- **Damaged** (40-70%): Significant damage, 50% value
+- **Scrap** (10-40%): Mostly destroyed, 25% value
+- **Destroyed** (<10%): Unsalvageable, 10% value
+### Salvage Processing
+**Immediate Salvage** (No Processing):
+- Credits from selling items (50% of base value)
+- Ammunition and consumables
+- Corpses (research immediately)
+- Common equipment
+**Workshop Processing**:
+- Alien Weapons: 2-5 days
+- Alien Armor: 3-7 days
+- UFO Components: 5-15 days
+- Scrap Metal: 1-2 days
+**Research Processing**:
+- Alien Artifacts: 10-50 man-days
+- UFO Navigation: 15-30 man-days
+- Alien Corpses: 20-80 man-days
+- Elerium-115: 30-60 man-days
+### Salvage Economics
+**Income Potential**:
+- Early game mission: 500-2,000 credits
+- Mid game mission: 3,000-10,000 credits
+- Late game mission: 10,000-50,000 credits
+- UFO crash: 20,000-100,000 credits
+**Strategic Decisions**:
+- Sell Immediately: Quick credits
+- Process for Materials: Better long-term value
+- Research First: Unlock manufacturing
+- Keep for Use: Equip units
+---
+## Related Content
+**For detailed information, see**:
+- **Missions.md** - Mission types and salvage opportunities
+- **Items.md** - Equipment specifications and values
+- **Basescape.md** - Storage facilities and workshop capabilities
+- **Finance.md** - Economic impact of salvage income
+- **BlackMarket.md** - Selling salvage through black market
+- **Units.md** - Unit equipment and inventory
+- **Crafts.md** - Craft cargo capacity
+---
+## Implementation Notes
+**Priority Systems**:
+1. Research tree implementation (5 branches, dependencies)
+2. Basic salvage collection (auto-collect after mission)
+3. Salvage value calculation (condition, rarity modifiers)
+4. Transfer system (basic routes and costs)
+5. Advanced salvage processing (workshop/research integration)
+**Balance Considerations**:
+- Research tree should provide clear progression paths
+- Salvage income should be significant but not replace mission funding
+- Transfer costs should encourage base specialization
+- Processing times should create meaningful decisions
+**Testing Focus**:
+- Research dependency validation
+- Salvage value balance
+- Transfer time/cost balance
+- Storage capacity management

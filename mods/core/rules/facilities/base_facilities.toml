@@ -79,6 +79,25 @@ effect = "geoscape_coverage"
 
 [[facility]]
 id = "med_lab"
+
+[[facility]]
+id = "temple"
+name = "Temple"
+description = "Psychological support and mental health facility. Provides +1 sanity recovery per week to ALL units at base."
+type = "medical"
+width = 2
+height = 2
+cost = 12000
+time_to_build = 14
+maintenance_cost = 2000
+power_consumption = 8
+sanity_recovery_bonus = 1  # +1 sanity per week to all units
+services = ["sanity_recovery", "psi_education"]
+effect = "mental_health_support"
+morale_bonus = 5  # +5% morale to all units at base
+
+[[facility]]
+id = "med_lab"
 name = "Medical Laboratory"
 description = "Medical research and treatment"
 type = "medical"
