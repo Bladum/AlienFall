@@ -430,3 +430,23 @@ Different regions offer strategic advantages:
 - [Finance.md](Finance.md) - Income and expense calculations
 - [Geoscape.md](Geoscape.md) - Strategic layer overview
 - [api/GEOSCAPE.md](../api/GEOSCAPE.md) - Country API documentation
+---
+## Integration with Other Systems
+Countries integrate with:
+### Geoscape System
+- Define territorial boundaries and provinces
+- Determine regional mission generation
+- Affect world map strategic decisions
+### Politics System
+- Relationship values affect funding and cooperation
+- Diplomatic actions modify country relations
+- Alliance and war states change game dynamics
+### Finance System
+- Monthly funding based on performance
+- Economic power determines contribution levels
+- Satisfaction affects financial support
+### Missions System
+- Country distress triggers missions
+- Relations determine mission availability
+- Country defense success affects funding
+**For complete system integration details, see [Integration.md](Integration.md)**

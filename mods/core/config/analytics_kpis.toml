@@ -1,0 +1,412 @@
+# AlienFall Analytics: KPI Configuration
+# Version: 1.0
+# Last Updated: 2025-10-28
+# Purpose: Define Key Performance Indicators for game balance validation
+
+# ============================================
+# KPI STRUCTURE
+# ============================================
+# Each KPI defines:
+# - name: Human-readable metric name
+# - category: gameplay | progression | economy | technical | engagement
+# - target_value: Ideal measurement indicating perfect balance
+# - description: What this metric measures and why it matters
+# - sql_query: DuckDB query extracting metric from Parquet data
+# - threshold_warn: Value triggering warning (acceptable but not ideal)
+# - threshold_fail: Value triggering failure (requires action)
+# - priority: critical | high | medium | low
+# - auto_adjust: Enable/disable auto-balance for this metric
+# - adjustment_target: TOML field to modify (if auto_adjust enabled)
+# - adjustment_factor: Percentage change per iteration (0.05 = 5%)
+# - min_value: Minimum allowed value (safety bounds)
+# - max_value: Maximum allowed value (safety bounds)
+
+# ============================================
+# COMBAT BALANCE KPIS
+# ============================================
+
+[kpi.combat_balance_variance]
+name = "Combat Unit Balance Variance"
+category = "gameplay"
+target_value = 5.0  # Max 5% variance in win rates
+description = "Measures spread in unit class win rates. All classes should have 45-55% win rate (5% variance). High variance indicates dominant/weak classes."
+sql_query = """
+SELECT MAX(win_rate) - MIN(win_rate) as variance
+FROM (
+  SELECT
+    unit_class,
+    SUM(CASE WHEN survived THEN 1 ELSE 0 END) * 100.0 / COUNT(*) as win_rate
+  FROM unit_statistics
+  WHERE deployments > 100
+  GROUP BY unit_class
+)
+"""
+threshold_warn = 7.0
+threshold_fail = 10.0
+priority = "critical"
+auto_adjust = true
+adjustment_target = "unit_stats"  # Adjust weak/strong class stats
+adjustment_factor = 0.05
+min_value = 0.0
+max_value = 20.0
+
+[kpi.weapon_usage_rifle]
+name = "Rifle Usage Rate"
+category = "gameplay"
+target_value = 40.0  # 40% usage ideal for primary weapon
+description = "Percentage of loadouts using rifles. Target 35-45% to avoid weapon dominance. Over 50% indicates overuse."
+sql_query = """
+SELECT COUNT(*) * 100.0 / (SELECT COUNT(*) FROM unit_loadouts)
+FROM unit_loadouts
+WHERE weapon_type = 'rifle'
+"""
+threshold_warn = 50.0
+threshold_fail = 60.0
+priority = "high"
+auto_adjust = true
+adjustment_target = "weapon_accuracy"
+adjustment_factor = -0.05  # Reduce accuracy if overused
+min_value = 0.0
+max_value = 100.0
+
+[kpi.mission_difficulty_easy]
+name = "Easy Mission Success Rate"
+category = "gameplay"
+target_value = 75.0  # 75% win rate on easy difficulty
+description = "Player success rate on easy difficulty missions. Target 70-80%. Too high = boring, too low = frustrating."
+sql_query = """
+SELECT
+  SUM(CASE WHEN success THEN 1 ELSE 0 END) * 100.0 / COUNT(*)
+FROM mission_results
+WHERE difficulty = 'easy' AND game_month >= 3
+"""
+threshold_warn = 85.0  # Too easy
+threshold_fail = 65.0  # Too hard
+priority = "high"
+auto_adjust = true
+adjustment_target = "enemy_count"
+adjustment_factor = 0.10  # Increase enemy count if too easy
+min_value = 50.0
+max_value = 95.0
+
+[kpi.mission_difficulty_normal]
+name = "Normal Mission Success Rate"
+category = "gameplay"
+target_value = 55.0
+description = "Player success rate on normal difficulty. Target 50-60%. This is the balanced difficulty tier."
+sql_query = """
+SELECT
+  SUM(CASE WHEN success THEN 1 ELSE 0 END) * 100.0 / COUNT(*)
+FROM mission_results
+WHERE difficulty = 'normal' AND game_month >= 3
+"""
+threshold_warn = 65.0
+threshold_fail = 45.0
+priority = "critical"
+auto_adjust = true
+adjustment_target = "enemy_hp"
+adjustment_factor = 0.08
+min_value = 40.0
+max_value = 70.0
+
+[kpi.mission_difficulty_hard]
+name = "Hard Mission Success Rate"
+category = "gameplay"
+target_value = 35.0
+description = "Player success rate on hard difficulty. Target 30-40%. Challenging but achievable."
+sql_query = """
+SELECT
+  SUM(CASE WHEN success THEN 1 ELSE 0 END) * 100.0 / COUNT(*)
+FROM mission_results
+WHERE difficulty = 'hard' AND game_month >= 3
+"""
+threshold_warn = 45.0
+threshold_fail = 25.0
+priority = "high"
+auto_adjust = true
+adjustment_target = "enemy_count"
+adjustment_factor = 0.12
+min_value = 20.0
+max_value = 50.0
+
+# ============================================
+# PROGRESSION PACING KPIS
+# ============================================
+
+[kpi.research_pacing]
+name = "Research Tree Completion Time"
+category = "progression"
+target_value = 120.0  # 120 days ideal for critical path
+description = "Total time to complete critical research path. Target 100-140 days. Faster = too easy, slower = grindy."
+sql_query = """
+SELECT SUM(actual_duration)
+FROM research_projects
+WHERE is_critical_path = true
+"""
+threshold_warn = 140.0
+threshold_fail = 160.0
+priority = "high"
+auto_adjust = true
+adjustment_target = "research_cost"
+adjustment_factor = -0.10  # Reduce cost if too slow
+min_value = 80.0
+max_value = 200.0
+
+[kpi.manufacturing_efficiency]
+name = "Manufacturing Queue Utilization"
+category = "progression"
+target_value = 75.0  # 75% workshop utilization ideal
+description = "Percentage of time workshops are actively producing. Target 70-80%. Higher = capacity bottleneck, lower = underutilized."
+sql_query = """
+SELECT
+  SUM(active_time) * 100.0 / SUM(total_time)
+FROM manufacturing_utilization
+WHERE game_month >= 3
+"""
+threshold_warn = 90.0  # Bottleneck
+threshold_fail = 50.0  # Underutilized
+priority = "medium"
+auto_adjust = false  # Player strategy issue, not balance
+min_value = 0.0
+max_value = 100.0
+
+[kpi.level_progression_speed]
+name = "Player Level Progression Rate"
+category = "progression"
+target_value = 5.0  # Reach level 5 by month 3
+description = "Average player level by month 3. Target level 5. Faster = rushing, slower = stuck."
+sql_query = """
+SELECT AVG(player_level)
+FROM campaign_snapshots
+WHERE game_month = 3
+"""
+threshold_warn = 4.0
+threshold_fail = 3.0
+priority = "medium"
+auto_adjust = true
+adjustment_target = "xp_gain_multiplier"
+adjustment_factor = 0.10
+min_value = 1.0
+max_value = 10.0
+
+[kpi.campaign_completion_rate]
+name = "Campaign Completion Rate"
+category = "progression"
+target_value = 40.0  # 40% of campaigns reach endgame
+description = "Percentage of campaigns reaching endgame (level 9+). Target 35-45%. Lower = retention issue."
+sql_query = """
+SELECT
+  SUM(CASE WHEN max_level >= 9 THEN 1 ELSE 0 END) * 100.0 / COUNT(*)
+FROM (
+  SELECT campaign_id, MAX(player_level) as max_level
+  FROM campaign_snapshots
+  GROUP BY campaign_id
+)
+"""
+threshold_warn = 30.0
+threshold_fail = 25.0
+priority = "high"
+auto_adjust = false  # Complex, requires design review
+min_value = 0.0
+max_value = 100.0
+
+# ============================================
+# ECONOMY SUSTAINABILITY KPIS
+# ============================================
+
+[kpi.economy_monthly_balance]
+name = "Monthly Budget Balance"
+category = "economy"
+target_value = 0.0  # Break-even ideal by month 6
+description = "Average monthly income minus expenses by month 6-12. Target ±5K. Positive surplus = too easy, deficit = too hard."
+sql_query = """
+SELECT AVG(income - expenses)
+FROM monthly_finance
+WHERE game_month BETWEEN 6 AND 12
+"""
+threshold_warn = 5000  # Surplus (too easy) or deficit (too hard)
+threshold_fail = 10000
+priority = "high"
+auto_adjust = true
+adjustment_target = "facility_maintenance_cost"
+adjustment_factor = 0.08
+min_value = -50000
+max_value = 50000
+
+[kpi.manufacturing_profitability]
+name = "Manufacturing Profitability Rate"
+category = "economy"
+target_value = 70.0  # 70% of items profitable
+description = "Percentage of manufactured items profitable vs marketplace. Target 65-75%. Higher = manufacturing too good, lower = pointless."
+sql_query = """
+SELECT
+  SUM(CASE WHEN (marketplace_price - manufacturing_cost) > 0 THEN 1 ELSE 0 END) * 100.0 / COUNT(*)
+FROM manufacturing_profitability
+WHERE units_produced > 10
+"""
+threshold_warn = 85.0  # Too profitable (manufacturing OP)
+threshold_fail = 55.0  # Not profitable enough
+priority = "medium"
+auto_adjust = true
+adjustment_target = "manufacturing_cost_multiplier"
+adjustment_factor = 0.10
+min_value = 0.0
+max_value = 100.0
+
+[kpi.funding_stability]
+name = "Country Funding Variance"
+category = "economy"
+target_value = 15.0  # 15% variance acceptable
+description = "Month-to-month variance in country funding. Target <20%. High variance = unpredictable income."
+sql_query = """
+SELECT STDDEV(monthly_funding) * 100.0 / AVG(monthly_funding)
+FROM country_funding
+WHERE game_month >= 3
+"""
+threshold_warn = 25.0
+threshold_fail = 35.0
+priority = "medium"
+auto_adjust = false  # Player diplomacy performance, not balance
+min_value = 0.0
+max_value = 100.0
+
+# ============================================
+# TECHNICAL PERFORMANCE KPIS
+# ============================================
+
+[kpi.fps_performance]
+name = "Frame Rate Performance (P95)"
+category = "technical"
+target_value = 60.0  # 60 FPS target
+description = "95th percentile FPS across all scenes. Target >55 FPS. Lower = performance issue."
+sql_query = """
+SELECT PERCENTILE_CONT(0.95) WITHIN GROUP (ORDER BY fps)
+FROM performance_metrics
+WHERE timestamp >= CURRENT_DATE - INTERVAL 7 DAY
+"""
+threshold_warn = 55.0
+threshold_fail = 45.0
+priority = "critical"
+auto_adjust = false  # Requires code optimization, not TOML change
+min_value = 30.0
+max_value = 144.0
+
+[kpi.load_time_geoscape]
+name = "Geoscape Load Time"
+category = "technical"
+target_value = 2.0  # 2 seconds ideal
+description = "Average Geoscape scene load time. Target <3 seconds. Higher = performance issue."
+sql_query = """
+SELECT AVG(load_time_ms) / 1000.0
+FROM load_time_metrics
+WHERE scene = 'geoscape'
+"""
+threshold_warn = 3.0
+threshold_fail = 5.0
+priority = "high"
+auto_adjust = false
+min_value = 0.0
+max_value = 30.0
+
+[kpi.memory_usage]
+name = "Peak Memory Usage"
+category = "technical"
+target_value = 1500.0  # 1.5GB target
+description = "Peak memory usage across all scenes. Target <2GB. Higher = memory leak or bloat."
+sql_query = """
+SELECT MAX(memory_mb)
+FROM memory_metrics
+WHERE timestamp >= CURRENT_DATE - INTERVAL 7 DAY
+"""
+threshold_warn = 2000.0
+threshold_fail = 2500.0
+priority = "high"
+auto_adjust = false
+min_value = 500.0
+max_value = 8000.0
+
+[kpi.crash_rate]
+name = "Game Crash Rate"
+category = "technical"
+target_value = 0.0  # Zero crashes ideal
+description = "Crashes per 100 game hours. Target <0.5. Any crashes = critical bug."
+sql_query = """
+SELECT COUNT(*) * 100.0 / NULLIF(SUM(playtime_hours), 0)
+FROM crash_logs
+WHERE timestamp >= CURRENT_DATE - INTERVAL 30 DAY
+"""
+threshold_warn = 0.5
+threshold_fail = 1.0
+priority = "critical"
+auto_adjust = false
+min_value = 0.0
+max_value = 100.0
+
+# ============================================
+# PLAYER ENGAGEMENT KPIS
+# ============================================
+
+[kpi.ui_success_rate]
+name = "UI Interaction Success Rate"
+category = "engagement"
+target_value = 98.0  # 98% success rate
+description = "Percentage of UI actions successfully completed. Target >95%. Lower = UI usability issue."
+sql_query = """
+SELECT
+  SUM(CASE WHEN action_succeeded THEN 1 ELSE 0 END) * 100.0 / COUNT(*)
+FROM ui_interactions
+WHERE timestamp >= CURRENT_DATE - INTERVAL 30 DAY
+"""
+threshold_warn = 95.0
+threshold_fail = 90.0
+priority = "high"
+auto_adjust = false
+min_value = 0.0
+max_value = 100.0
+
+[kpi.feature_discovery_rate]
+name = "Advanced Feature Discovery Rate"
+category = "engagement"
+target_value = 70.0  # 70% discover advanced features
+description = "Percentage of players using advanced features (manufacturing, black market, etc). Target >60%."
+sql_query = """
+SELECT
+  COUNT(DISTINCT CASE WHEN used_advanced_features THEN campaign_id END) * 100.0 /
+  COUNT(DISTINCT campaign_id)
+FROM feature_usage
+WHERE game_month >= 3
+"""
+threshold_warn = 60.0
+threshold_fail = 50.0
+priority = "medium"
+auto_adjust = false
+min_value = 0.0
+max_value = 100.0
+
+[kpi.mission_retry_rate]
+name = "Mission Retry Rate"
+category = "engagement"
+target_value = 20.0  # 20% retry rate acceptable
+description = "Percentage of missions retried after failure. Target 15-25%. Higher = too hard, lower = too easy or permadeath working."
+sql_query = """
+SELECT
+  SUM(CASE WHEN retry_count > 0 THEN 1 ELSE 0 END) * 100.0 / COUNT(*)
+FROM mission_results
+"""
+threshold_warn = 30.0
+threshold_fail = 40.0
+priority = "medium"
+auto_adjust = false
+min_value = 0.0
+max_value = 100.0
+
+# ============================================
+# NOTES
+# ============================================
+# - All SQL queries assume Parquet tables exist in DuckDB
+# - Table schemas defined in: docs/handbook/ANALYTICS_SETUP.md
+# - Auto-balance runs daily, checks all enabled KPIs
+# - Manual KPIs (auto_adjust = false) require design review
+# - Add new KPIs by copying structure above
+# - Test queries with: duckdb analytics.db < test_query.sql
+

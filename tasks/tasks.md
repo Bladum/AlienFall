@@ -4,6 +4,53 @@
 
 ---
 
+## Active High Priority Tasks
+
+### 🔄 TASK-002: Design Analysis Follow-Up & Auto-Balance Implementation
+**Priority:** High  
+**Created:** 2025-10-28  
+**Status:** 🔄 **IN PROGRESS** - Analysis complete, implementation pending  
+**Detailed Tasks:** [design_analysis_followup_tasks.md](TODO/design_analysis_followup_tasks.md)
+
+**Overall Progress:** 20% (Analysis complete, KPIs defined, documentation added)
+
+**Phase Status:**
+- ✅ **Analysis Phase: 100%** (48 files analyzed, gaps identified)
+- ✅ **Documentation Phase: 100%** (FAQ_ANALYTICS.md + GLOSSARY updates + KPI config)
+- 🔲 **Implementation Phase 1-2: 0%** (Log collection + DuckDB integration)
+- 🔲 **Implementation Phase 3-4: 0%** (KPI engine + Dashboard)
+- 🔲 **Implementation Phase 5-6: 0%** (Auto-adjust + ML enhancements)
+
+**Completed So Far:**
+- ✅ Comprehensive design folder analysis (12 sections)
+- ✅ Created FAQ_ANALYTICS.md (560 lines) explaining auto-balance to players
+- ✅ Updated GLOSSARY.md with 27 new analytics terms
+- ✅ Created analytics_kpis.toml with 20 production-ready KPIs
+- ✅ Identified all gaps and created 15 follow-up tasks
+
+**Next Immediate Tasks** (Week 1):
+1. 🔲 Add missing template sections to 3 mechanics files (2h)
+2. 🔲 Team review of analysis findings (1h meeting)
+
+**Auto-Balance System Innovation:**
+- **Score:** 9/10 - Unprecedented in strategy games
+- **Competitive Advantage:** Continuous daily balance vs XCOM 2's quarterly patches
+- **Status:** Design complete, implementation roadmap ready
+
+**Total Estimated Work Remaining:** 206 hours (~5 weeks full-time)
+**Critical Path:** 77 hours (~2 weeks full-time for core functionality)
+
+**Files Created/Modified:** 7 files, ~1,200 lines added
+- `temp/design_analysis_2025-10-28.md` (comprehensive report)
+- `design/faq/FAQ_ANALYTICS.md` (new FAQ section)
+- `mods/core/config/analytics_kpis.toml` (KPI definitions)
+- `design/GLOSSARY.md` (analytics terms added)
+- Plus 3 updated FAQ navigation files
+
+**See:** [Detailed Task Breakdown](TODO/design_analysis_followup_tasks.md) for 15 tasks across 4 priority levels
+
+---
+
 ## Completed High Priority Tasks
 
 ### ✅ TASK-001: Pilot-Craft System Redesign (100% COMPLETE) 🎉

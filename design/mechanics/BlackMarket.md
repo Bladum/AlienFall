@@ -497,3 +497,23 @@ BlackMarket = {
 **Version**: 1.0  
 **Status**: Complete Design Specification
 
+---
+## Integration with Other Systems
+The Black Market integrates with:
+### Politics System
+- Karma thresholds gate access
+- Fame requirements for discovery
+- Diplomatic consequences if caught
+### Economy System
+- Alternative marketplace for restricted items
+- Sells salvage (including corpses)
+- Purchases units, crafts, special missions
+### Items & Units
+- Provides experimental weapons and banned tech
+- Recruits mercenaries and augmented soldiers
+- Offers craft not available elsewhere
+### Missions System
+- Generates custom assassination/sabotage missions
+- Triggers special events (political manipulation)
+- Enables faction relationship manipulation
+**For complete system integration details, see [Integration.md](Integration.md)**

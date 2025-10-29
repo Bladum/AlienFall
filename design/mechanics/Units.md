@@ -740,6 +740,255 @@ Players can mix and match traits, equipment, and specializations to create hybri
 
 ---
 
+## Unified Pilot Specification
+
+> **⚠️ CANONICAL SOURCE**: This section is the authoritative specification for pilot mechanics.  
+> **See also**: Pilots.md (detailed pilot specialization), Crafts.md (craft requirements)  
+> **Resolved Contradictions**: This section unifies pilot mechanics from multiple sources
+
+### Overview
+
+**Pilots are specialized units** that can operate craft (aircraft/spacecraft) in addition to serving as ground combat units. The pilot system uses the standard unit system with pilot-specific specializations added through the class progression tree.
+
+**Key Principle**: All units have a Piloting stat, but only units with Pilot class specialization can operate craft effectively.
+
+---
+
+### Pilot Mechanics - Unified Rules
+
+#### Core Pilot System
+
+**Universal Piloting Stat**:
+- **ALL units** have a Piloting stat (0-100 range, default 20-40 for recruits)
+- Piloting stat improves through:
+  - Training in Academy (+5 per month if assigned to pilot training)
+  - Interception missions (+2-5 XP per mission)
+  - Unit promotion (Pilot class specialists gain +10 per rank)
+  - Items: Flight Manual (+5 permanent boost, consumable)
+
+**Craft Operation Requirements**:
+- **Minimum Piloting**: 30 (any unit can attempt basic flight)
+- **Effective Piloting**: 50+ (Pilot class recommended)
+- **Expert Piloting**: 70+ (Ace Pilot specialization)
+- **Master Piloting**: 90+ (Squadron Commander, elite pilots only)
+
+**Pilot Assignment**:
+- Each craft requires **exactly 1 pilot unit** assigned
+- Pilot assignment is **permanent until reassigned** (not per-mission)
+- Pilots can be **reassigned between crafts** (takes 1 day retraining)
+- Pilots can **switch to ground combat role** when not flying
+
+---
+
+### Pilot Class Progression
+
+**Pilot is a Rank 1 Class Specialization** within the standard unit progression:
+
+```
+Rank 0: Conscript (base unit)
+    ↓
+Rank 1: **Pilot** (role assignment - enables craft operation)
+    ↓
+Rank 2: Specialization branches:
+    → Fighter Pilot (air combat focus)
+    → Bomber Pilot (ground attack focus)
+    → Transport Pilot (cargo/troop transport focus)
+    → Scout Pilot (reconnaissance focus)
+    ↓
+Rank 3: Advanced Specialization:
+    → Ace Fighter (exceptional air combat)
+    → Strategic Bomber (large-scale destruction)
+    → Master Transport (efficient logistics)
+    → Recon Expert (intelligence gathering)
+    ↓
+Rank 4: Elite Specialization:
+    → Squadron Commander (can command multiple craft)
+    → Legendary Ace (combat bonuses to entire squadron)
+```
+
+---
+
+### Pilot Experience System
+
+**Dual XP Tracks**:
+
+1. **Ground Combat XP**: Earned in Battlescape missions, progresses unit rank
+2. **Pilot XP**: Earned in Interception missions, improves Piloting stat
+
+**XP Sources**:
+
+| Activity | Ground XP | Pilot XP | Piloting Stat Gain |
+|----------|-----------|----------|-------------------|
+| Battlescape mission | 5-20 | 0 | 0 |
+| Interception mission | 0 | 10-30 | +2 |
+| UFO destroyed | 0 | +50 | +5 |
+| Craft damaged | 0 | +10 | +1 (experience through adversity) |
+| Academy training | 0 | 0 | +5 per month |
+| Flight Manual item | 0 | 0 | +5 permanent |
+
+**Rank Progression**:
+- Pilots progress through ranks using Ground XP (standard unit progression)
+- Pilot XP does NOT contribute to rank advancement
+- Pilot XP only improves Piloting stat and unlocks pilot-specific abilities
+
+---
+
+### Craft Requirements by Type
+
+**Source Reference**: Crafts.md (unified with this specification)
+
+| Craft Type | Minimum Piloting | Recommended Class | Crew Slots | Special Requirements |
+|------------|------------------|-------------------|------------|---------------------|
+| **Scout** | 30 | Any unit | 1 pilot | None |
+| **Interceptor** | 50 | Fighter Pilot (Rank 2+) | 1 pilot | Combat experience preferred |
+| **Bomber** | 50 | Bomber Pilot (Rank 2+) | 1 pilot | None |
+| **Transport** | 40 | Transport Pilot (Rank 2+) | 1 pilot + 4-20 passengers | None |
+| **Assault Transport** | 60 | Fighter or Transport Pilot | 1 pilot + 6-12 passengers | Mixed combat/transport |
+| **Stealth Craft** | 70 | Scout or Fighter Pilot (Rank 3+) | 1 pilot | High skill floor |
+| **Battleship** | 80 | Squadron Commander (Rank 4+) | 1 pilot + 10-20 crew | Command experience |
+
+**Piloting Stat Impact on Performance**:
+- **Below minimum**: Craft cannot be operated (blocked by game)
+- **At minimum**: -20% accuracy, -10% speed, +30% chance of critical failure
+- **Recommended level**: Standard performance (100% effectiveness)
+- **Above recommended (+20)**: +10% accuracy, +5% speed, -20% chance of critical failure
+- **Master level (+40)**: +20% accuracy, +10% speed, -50% chance of critical failure, special abilities unlock
+
+---
+
+### Pilot Assignment System
+
+**Assignment Process**:
+1. Select craft from hangar/garage
+2. Assign pilot unit from available roster
+3. Pilot is **locked to craft** until reassigned
+4. Pilot cannot deploy to Battlescape while assigned to craft
+
+**Reassignment**:
+- **Time**: 1 day retraining period
+- **Cost**: 100 credits administrative cost
+- **Restrictions**: Cannot reassign during active mission
+
+**Dual Role Limitation**:
+- **Cannot simultaneously** pilot craft AND deploy to battlescape
+- **Must choose** per mission: fly craft OR ground combat
+- **Exception**: Pilots can deploy if craft is in hangar (not deployed)
+
+---
+
+### Pilot Specialization Benefits
+
+**Fighter Pilot (Rank 2)**:
+- +10% accuracy in air combat
+- +5% speed when pursuing UFOs
+- Unlock: Advanced maneuvers (dodge +15%)
+
+**Bomber Pilot (Rank 2)**:
+- +20% payload capacity
+- +15% explosive damage
+- Unlock: Precision bombing (collateral damage -30%)
+
+**Transport Pilot (Rank 2)**:
+- +2 passenger capacity
+- -10% fuel consumption
+- Unlock: Emergency landing (crash survival +40%)
+
+**Ace Fighter (Rank 3)**:
+- +20% accuracy in air combat
+- +10% critical hit chance
+- Unlock: Aggressive pursuit (can chase retreating UFOs)
+
+**Squadron Commander (Rank 4)**:
+- Can command wing of 2-4 craft simultaneously
+- Allied craft in wing gain +5% accuracy
+- Unlock: Coordinated attack (simultaneous fire bonus)
+
+---
+
+### Pilot Training
+
+**Academy Training Program**:
+- **Facility**: Academy (Basescape facility)
+- **Duration**: 1 month per training cycle
+- **Cost**: 1,000 credits per unit
+- **Effect**: +5 Piloting stat per month
+
+**Training Specialization**:
+- **Fighter Training**: Focus on accuracy and speed (+3 accuracy, +2 speed)
+- **Bomber Training**: Focus on payload and targeting (+5 payload, +3 bombing accuracy)
+- **Transport Training**: Focus on efficiency (+2 cargo capacity, -10% fuel)
+- **Advanced Combat**: Unlock special maneuvers (requires Rank 3+)
+
+**Field Experience**:
+- Pilots gain experience automatically through interception missions
+- No training time required for field XP
+- More effective than Academy (real combat = faster learning)
+
+---
+
+### Pilot Equipment
+
+**Pilot-Specific Items**:
+
+| Item | Effect | Equip Slot | Requirements |
+|------|--------|------------|--------------|
+| **Flight Suit** | +5% speed, +2% accuracy | Armor slot | Pilot class |
+| **Oxygen Mask** | High-altitude flight enabled | Accessory | None |
+| **Flight Goggles** | +10% sight range in air | Helmet slot | None |
+| **Ejection Seat** | 80% crash survival | Craft upgrade | Rank 2+ pilot |
+| **Flight Manual** | +5 Piloting stat (consumable) | Inventory | Any unit |
+
+**Standard Equipment**:
+- Pilots can use standard combat equipment when deployed to battlescape
+- Flight-specific equipment only works during interception missions
+- Equipment switches automatically based on deployment type
+
+---
+
+### Pilot Casualties & Replacement
+
+**Pilot Death**:
+- If pilot dies in crash or interception, craft requires new pilot assignment
+- Craft cannot operate without assigned pilot
+- Pilot loss triggers recruitment need
+
+**Ejection System**:
+- **Chance**: 50% base survival rate on craft destruction
+- **Ejection Seat**: +30% survival rate (80% total)
+- **Ace Pilot**: +10% survival rate (special training)
+- **Critical Damage**: -20% survival rate (instant destruction)
+
+**Replacement Costs**:
+- **Recruit new pilot**: 20K-50K credits (standard recruitment)
+- **Retrain existing unit**: 5K credits + 2 weeks training
+- **Emergency hire**: 100K credits (instant, Black Market)
+
+---
+
+### Integration with Other Systems
+
+**Craft System Integration** (Crafts.md):
+- Pilots assigned to craft determine craft performance
+- Craft can only deploy if pilot assigned
+- Pilot Piloting stat modifies craft statistics
+
+**Battlescape Integration** (Battlescape.md):
+- Pilots deployed to ground combat use standard unit rules
+- Pilot class bonuses do not apply to ground combat
+- Pilots can gain Ground XP to progress ranks
+
+**Economy Integration** (Economy.md):
+- Pilot training costs monthly credits
+- Pilot salaries same as standard units (5K per month)
+- Specialist pilots (Rank 3+) may demand higher salary (+2K)
+
+**Geoscape Integration** (Geoscape.md):
+- Pilots assigned to craft enable craft deployment
+- Craft without pilot cannot leave base
+- Pilot Piloting stat affects interception success rate
+
+---
+
 ## Unit Health & Recovery
 
 ### Health Management

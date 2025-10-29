@@ -2,7 +2,9 @@
 
 > **Status**: Technical Specification  
 > **Last Updated**: 2025-10-28  
-> **Related Systems**: Units.md, Crafts.md, Interception.md
+> **Related Systems**: Units.md, Crafts.md, Interception.md  
+> **⚠️ UNIFIED SPECIFICATION**: See **Units.md §Unified Pilot Specification** for canonical pilot mechanics  
+> **Purpose**: This file provides detailed pilot specialization and historical context. For core mechanics, refer to Units.md.
 
 ## Table of Contents
 
@@ -282,3 +284,24 @@ Player must decide!
 
 *Pilots are just units with a Piloting stat. That's the whole system.*
 
+---
+## Integration with Other Systems
+> **Note**: For complete pilot mechanics, see [Units.md �Unified Pilot Specification](Units.md#unified-pilot-specification)
+Pilot system integrates with:
+### Units System
+- All units have piloting stat
+- Pilot class specializes in craft operation
+- Dual XP tracks (ground combat + flight)
+### Crafts System
+- Pilot skills modify craft performance
+- Minimum piloting requirements per craft type
+- Ace pilots provide combat bonuses
+### Interception System
+- Pilot experience gained through air combat
+- Piloting skill affects interception success
+- Squadron commanders control multiple craft
+### Geoscape System
+- Pilots required for craft deployment
+- Craft grounded without qualified pilots
+- Pilot assignment affects mission availability
+**For complete system integration details, see [Integration.md](Integration.md)**

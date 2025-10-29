@@ -413,3 +413,33 @@ panic_threshold = 75
 - Country panic affects global stability
 - International cooperation enables joint operations</content>
 <parameter name="filePath">c:\Users\tombl\Documents\Projects\design\mechanics\Geoscape.md
+---
+## Related Content
+**For detailed information, see**:
+- **Basescape.md** - Base construction and facility management
+- **Missions.md** - Mission types, generation, and objectives
+- **Countries.md** - Country mechanics and funding
+- **Crafts.md** - Craft deployment and movement
+- **Interception.md** - UFO interception mechanics
+- **HexSystem.md** - Coordinate system for world map
+- **Politics.md** - Diplomatic relations and factions
+- **Finance.md** - Economic systems and budgeting
+---
+## Implementation Notes
+**Priority Systems**:
+1. World map hex grid (90×45 hexes)
+2. Province and region system
+3. Base placement mechanics
+4. Craft movement and deployment
+5. Mission detection and radar
+6. Time management and turn progression
+**Balance Considerations**:
+- World map size should allow strategic positioning
+- Radar coverage should create meaningful gaps
+- Travel time should matter tactically
+- Base placement should be permanent decision
+**Testing Focus**:
+- Hex coordinate calculations
+- Pathfinding across oceans and terrain
+- Radar overlap and gaps
+- Mission spawn distribution

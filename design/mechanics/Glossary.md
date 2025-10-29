@@ -506,3 +506,90 @@ This glossary consolidates all domain-specific terminology, abbreviations, and k
 ---
 
 **End of Glossary**
+---
+## NEW TERMS (Added 2025-10-28)
+### Salvage System Terms
+- **Salvage**: Resources recovered from missions including weapons, armor, corpses, and UFO components; primary source of alien technology and income.
+- **Salvage Condition**: The degradation state of recovered items (Pristine, Good, Damaged, Scrap, Destroyed); affects value and usability.
+- **Pristine Condition** (90-100%): Fully functional salvage usable immediately or sold at full price.
+- **Good Condition** (70-90%): Minor damage, 90% value, usable after light repairs.
+- **Damaged Condition** (40-70%): Significant damage, 50% value, requires workshop processing before use.
+- **Scrap Condition** (10-40%): Mostly destroyed, 25% value, can only salvage components.
+- **Destroyed Condition** (<10%): Unsalvageable, 10% value for raw materials only.
+- **Salvage Processing**: Workshop or research lab time required to convert salvage into usable items or research materials.
+- **Auto-Salvage**: Automatic collection of all battlefield items after mission victory (requires craft cargo capacity).
+### Research Tree Terms
+- **Research Tree**: The interconnected structure of technology projects with prerequisites forming 5 major branches (Weapons, Armor, Alien Tech, Facilities, Support).
+- **Research Branch**: One of five main technology categories with unique progression paths.
+- **Research Prerequisite**: Required completed research projects before a new project becomes available.
+- **Research Tier**: Technology level (1-4) representing conventional › advanced › alien › ultimate progression.
+- **Man-Days**: The unit of research effort; scientist work only progresses when actively assigned (not passive time).
+- **Research Cost Randomization**: 50-150% multiplier applied at campaign start for replayability.
+- **Tech Unlock**: Manufacturing capability or game feature enabled by completing specific research.
+### Pilot System Terms
+- **Piloting Stat**: 0-100 skill representing flight capability; all units have this stat but Pilot class specialists excel.
+- **Dual XP Tracks**: Separate experience systems for ground combat (soldier progression) and flight operations (pilot skills).
+- **Pilot Class**: Unit specialization focused on craft operation; includes Fighter Pilot, Bomber Pilot, Transport Pilot, Scout Pilot.
+- **Ace Pilot**: Rank 3+ pilot with 70+ piloting stat; grants +10-20% craft bonuses.
+- **Squadron Commander**: Rank 4+ pilot capable of commanding multiple craft simultaneously.
+- **Piloting XP**: Experience gained through interception missions (+2-5 per mission) and academy training (+5 per month).
+### Mission System Terms
+- **Mission Type**: Category of battlefield engagement (UFO Crash, Terror Mission, Base Defense, Rescue, etc.); determines objectives and rewards.
+- **Mission Generation**: Procedural system creating missions based on faction AI, escalation level, and regional factors.
+- **Mission Difficulty**: Scaling based on enemy squad size (4-12 units), rank (0-4), and reinforcements (0-3 waves).
+- **Primary Objective**: Required mission goal; failure typically means mission loss.
+- **Secondary Objective**: Optional bonus goal providing additional rewards without affecting mission success.
+- **Mission Reward**: Credits, fame, items, and research materials earned for mission completion.
+- **Time-Limited Mission**: Encounter with expiration timer (12-48 hours typical); disappears if not engaged.
+### Environmental Terms
+- **Terrain Type**: Ground surface classification (Grass, Sand, Rock, Water, Ice, etc.); affects movement costs and cover values.
+- **Environmental Hazard**: Battlefield danger (smoke, fire, gas, radiation); applies damage or status effects over time.
+- **Weather System**: Dynamic conditions (Clear, Rain, Snow, Fog, Storm) affecting visibility, movement, and accuracy.
+- **Day/Night Cycle**: Time-based visibility modifier; night missions have reduced sight range and accuracy penalties.
+- **Destructible Terrain**: Breakable environmental objects; explosions destroy cover and create new paths.
+- **Smoke**: Vision-blocking effect reducing sight range by 50%; dissipates over 2-3 turns.
+- **Fire**: Burning hex dealing 2-5 damage per turn; spreads to adjacent flammable terrain (20% chance).
+- **Gas (Chemical)**: Toxic cloud dealing poison damage; requires hazmat protection or respirator.
+### Fame & Karma Terms
+- **Fame Thresholds**: 0-24 (Unknown), 25-49 (Known), 50-74 (Famous), 75-89 (Renowned), 90-100 (Legendary).
+- **Karma Thresholds**: -75 to -100 (Evil), -25 to -74 (Bad), -24 to +24 (Neutral), +25 to +74 (Good), +75 to +100 (Saint).
+- **Public Reputation**: Fame score visible to all NPCs; unlocks suppliers, missions, and diplomatic options.
+- **Hidden Morality**: Karma score known only to player; gates black market access and affects faction reactions.
+- **Reputation Decay**: Natural degradation over time (-1 fame per month if inactive, karma stable).
+### Difficulty Scaling Terms
+- **AI Intelligence Level**: 50% (Easy) to 300% (Impossible); affects tactical decision quality without stat cheating.
+- **Enemy Squad Scaling**: 75% (Easy) to 150% (Impossible) of base enemy count.
+- **Reinforcement Waves**: 0 (Easy/Normal), 1 (Hard), 2-3 (Impossible); additional enemy squads mid-mission.
+- **Adaptive AI**: System where AI analyzes player tactics (5-10 missions) and deploys counters.
+- **Escalation Level**: Month × 10 - Strategic Victories × 20; determines enemy technology tier deployment.
+### Transfer System Terms
+- **Transfer System**: Inter-base logistics moving items, units, and craft between locations (1-14 day delivery).
+- **Transfer Cost**: Credits required = Item Mass × Distance × Transport Type Multiplier + Base Fee.
+- **Transfer Time**: Days required = Distance / Transport Speed + Loading Time + Unloading Time.
+- **Transport Type**: Air (2 hex/day, 2.0x cost), Ground (1.5 hex/day, 1.0x cost), Maritime (1 hex/day, 0.5x cost).
+- **Interception Risk**: 5-15% chance transfer is attacked en route; higher in contested regions.
+- **Supply Line**: Permanent recurring transfer route for automatic replenishment of consumables.
+### Manufacturing Terms
+- **Manufacturing Queue**: StarCraft-style production system; multiple projects can run simultaneously (3-10 slots).
+- **Engineer Efficiency**: Diminishing returns; 5th engineer = 80% speed, 10th = 60% speed per engineer.
+- **Facility Specialization**: Workshop bonuses (+10-30% speed) based on facility tier and item category.
+- **Bulk Production**: Volume discount; 50+ units = 25% cost reduction + priority delivery.
+- **Production Pause**: Queue halts if materials unavailable (not cancelled); resumes when restocked.
+### Autonomous Playtesting Terms
+- **Autonomous Playtesting**: AI vs AI simulations (1000+ games) testing balance automatically.
+- **Win Rate Target**: 45-55% for balanced content; <40% underpowered, 60%+ overpowered.
+- **Auto-Balancing**: System adjusts stat values based on playtest data to achieve target win rates.
+- **Balance Pass**: Iterative cycle of testing › adjustment › re-testing until balanced.
+---
+## CHANGELOG
+**2025-10-28**: Added 50+ new terms from recent design expansions:
+- Salvage condition states and processing
+- Research tree structure and terminology
+- Pilot system and dual XP tracks
+- Mission generation and types
+- Environmental hazards and weather
+- Fame/Karma thresholds
+- Difficulty scaling mechanics
+- Transfer and manufacturing systems
+- Autonomous playtesting concepts
+---

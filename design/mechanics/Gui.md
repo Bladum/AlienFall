@@ -305,3 +305,23 @@ Player communication layer providing accessible, intuitive interaction with all 
 - **Outcome Prediction** (top-right): Success probability
 
 
+---
+## Integration with Other Systems
+GUI provides interfaces for:
+### All Game Layers
+- Geoscape strategic map interface
+- Basescape facility management screens
+- Battlescape tactical combat HUD
+### Assets System
+- Uses sprites, fonts, icons from asset pipeline
+- Maintains visual consistency
+- Loads UI elements on demand
+### Input System
+- Mouse and keyboard interaction handling
+- Widget focus and navigation
+- Scene transitions and state management
+### Every Game System
+- Provides user interaction layer for all mechanics
+- Displays data from all game systems
+- Enables player input to all systems
+**For complete system integration details, see [Integration.md](Integration.md)**

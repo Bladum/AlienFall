@@ -468,3 +468,23 @@ Unit = {
 **Version**: 1.0  
 **Status**: Complete Design Specification
 
+---
+## Integration with Other Systems
+Morale/Bravery/Sanity integrates with:
+### Battlescape System
+- Morale affects AP availability in combat
+- Panic state disables unit actions
+- Bravery determines resistance to fear
+### Units System
+- Bravery is base unit stat
+- Sanity persists between missions
+- Affects unit long-term viability
+### Basescape System
+- Temple facility improves sanity recovery
+- Medical treatment restores sanity
+- Rest and rotation prevent breakdowns
+### Missions System
+- Mission difficulty affects sanity loss
+- Night missions impose morale penalties
+- Horror scenarios cause sanity damage
+**For complete system integration details, see [Integration.md](Integration.md)**

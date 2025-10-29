@@ -309,6 +309,8 @@ This glossary consolidates all domain-specific terminology, abbreviations, and k
 - **Craft Armor/HP**: Health points of a craft; reduced by UFO weapons or environmental damage.
 - **Craft Weapons**: Armed hardpoints on craft allowing aerial combat against UFOs.
 - **Crew**: Personnel assigned to craft; required for operation and determines available AP per turn.
+- **Pilot**: Specialized unit class operating craft in interception combat; gains experience and abilities separate from ground combat units with unique stats (Reflexes, Accuracy, Nerves) and promotion paths.
+- **Ace Pilot**: Elite pilot rank achieved after 5+ confirmed UFO kills; grants combat bonuses (+10% accuracy, +2 energy per turn) and unlocks special maneuvers unavailable to standard pilots.
 - **Fuel**: The resource consumed per Geoscape movement; insufficient fuel prevents launch.
 - **Hangar Slot**: Storage location for craft at base; each hangar provides 1-8 slots depending on facility size.
 - **Repair Queue**: Damaged craft automatically queued for repair upon return; repair rate +50 HP/week in Garage.
@@ -316,6 +318,10 @@ This glossary consolidates all domain-specific terminology, abbreviations, and k
 ### Interception Mechanics
 
 - **Interception**: The act of deploying craft to intercept UFO before it completes objective.
+- **Dogfight**: Active air combat engagement between player craft and UFO; resolved through turn-based card combat system similar to Magic: The Gathering with energy management and tactical positioning.
+- **Deck (Interception)**: Collection of maneuver cards available to pilot during air combat; customizable based on craft type, pilot skills, and equipment loadout with typical deck size of 15-20 cards.
+- **Card (Interception)**: Individual maneuver or ability usable in air combat; costs energy and action points with types including offensive (missiles, guns), defensive (evasion, shields), and utility (scan, repair).
+- **Energy (Interception)**: Resource generated each turn (base 3-5, affected by pilot skill and craft efficiency) used to play cards; unspent energy does not carry over between turns creating tactical spending decisions.
 - **UFO Behavior**: The AI state machine determining UFO movement and combat decisions (Aggressive, Tactical Withdrawal, Escape, Defensive).
 - **Survival Odds**: The UFO calculation determining combat viability; high odds = attack, low odds = escape.
 - **Engagement**: The combat interaction between player craft and UFO.
@@ -393,6 +399,54 @@ This glossary consolidates all domain-specific terminology, abbreviations, and k
 - **Interception Risk**: Chance (5-15%) of enemy interception during transfer; supplies lost permanently.
 - **Stealth Routing**: +50% cost option reducing interception risk by 20%.
 - **Emergency Transfer**: +200% cost option enabling rapid delivery (bypasses normal queue).
+
+---
+
+## ANALYTICS & AUTO-BALANCE (System Intelligence Layer)
+
+### Core Analytics Concepts
+
+- **Analytics System**: Comprehensive data pipeline collecting, processing, and analyzing gameplay data to validate balance, optimize performance, and guide design decisions through five stages: simulation, aggregation, calculation, insights, and action planning.
+- **KPI (Key Performance Indicator)**: Quantifiable metric measuring specific game quality dimension; defines success criteria for design goals (e.g., combat balance variance <5%, FPS performance >55, economy break-even by month 6).
+- **Metric**: Quantifiable measurement derived from gameplay data; answers specific design question through SQL aggregation (weapon usage rate, unit survival rate, mission completion time, etc.).
+- **Auto-Balance**: Automated system adjusting game parameters (TOML values) based on analytics data to maintain target balance metrics without manual intervention; operates through continuous feedback loop.
+- **Simulation**: Autonomous game instance running AI-controlled factions and players to generate analytics data; operates headlessly in background at accelerated time scale.
+- **Player AI**: Separate meta-AI making strategic decisions mimicking human behavior (base building, research prioritization, craft deployment, UI clicks); generates synthetic gameplay data for analytics.
+- **Faction AI**: Native game AI executing enemy strategy (mission generation, unit deployment, tactical combat decisions); plays opponent role in simulations and live games.
+
+### Data Infrastructure
+
+- **Parquet**: Columnar file format for storing structured analytics data; enables rapid SQL queries on large datasets (millions of records) without full database overhead or external server.
+- **DuckDB**: Embedded SQL database engine for analytics queries; processes Parquet files directly without external server, configuration, or separate process; runs in-process with game engine.
+- **JSON-Lines (JSONL)**: Streaming log format where each line is independent JSON object; enables real-time log aggregation, processing, and append-only file operations without parsing entire file.
+- **Log Rotation**: Automated process of archiving old logs and starting new files; typically hourly (for real-time data) or daily (for aggregated analytics) to maintain manageable file sizes.
+- **Schema Validation**: Process of verifying log records match expected structure; rejects malformed data to maintain data quality and prevent corruption in analytics pipeline.
+
+### Metrics & Measurement
+
+- **Target Value**: Ideal measurement for KPI indicating perfect game balance (e.g., 60 FPS, 50% win rate, 0 budget deficit, 5% win rate variance between unit classes).
+- **Threshold**: Acceptable deviation from target value; defines when metric transitions between PASS/WARN/FAIL states (e.g., combat balance variance: target 5%, warn 7%, fail 10%).
+- **Variance**: Statistical measure of spread in data; high variance indicates inconsistent experience (e.g., unit win rates ranging 30-70% = high variance = poor balance).
+- **P95 (95th Percentile)**: Statistical measure where 95% of samples fall below value; used for performance metrics to ignore outliers (e.g., P95 FPS = 48 means 95% of frames >48 FPS).
+- **Trend**: Direction of metric change over time (IMPROVING, STABLE, REGRESSING); calculated from historical KPI data using linear regression or moving average.
+
+### Auto-Balance Mechanics
+
+- **Adjustment Factor**: Percentage change applied to TOML value when KPI fails (typically 5-10%); smaller = gradual tuning, larger = aggressive correction; configurable per KPI.
+- **Adjustment Target**: Specific TOML field modified by auto-balance (e.g., weapon_accuracy, enemy_hp, research_cost, manufacturing_time, facility_maintenance).
+- **Balance Patch**: TOML file modification generated by auto-balance system; includes old value, new value, reason for change, KPI triggering adjustment, and timestamp for audit trail.
+- **A/B Testing**: Technique deploying balance changes to subset (10-20%) of simulations; compares outcomes (KPI improvements, unintended side effects) before full rollout to all players.
+- **Cascading Effects**: Secondary metric changes resulting from single balance adjustment; requires multi-metric impact analysis (e.g., reducing research costs improves pacing but may worsen economy sustainability).
+- **Feedback Loop**: Continuous cycle of data collection → metric calculation → balance adjustment → re-simulation → verification → repeat; operates hourly/daily for rapid iteration.
+
+### Data Analysis
+
+- **Aggregation**: SQL operation combining multiple records into summary statistics (AVG, SUM, COUNT, MIN, MAX, PERCENTILE, STDDEV); foundation of all analytics queries.
+- **Filtering**: SQL WHERE clause limiting analysis to specific conditions (e.g., only missions after month 3, only units with 100+ deployments, only campaigns reaching endgame).
+- **Segmentation**: Grouping data by category (unit class, weapon type, difficulty tier, player level) to identify sub-patterns and balance issues within specific contexts.
+- **Correlation Analysis**: Statistical technique identifying relationships between metrics (e.g., research speed correlates with campaign completion rate, weapon accuracy correlates with usage rate).
+- **Outlier Detection**: Identifying data points far from normal range (>3 standard deviations); may indicate bugs, exploits, edge cases, or exceptional player skill.
+- **Root Cause Analysis**: Drilling down from failed metric to underlying factors causing failure; uses hierarchical queries (e.g., research pacing fails → alien research category slow → alien interrogation project bottleneck).
 
 ---
 

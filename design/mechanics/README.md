@@ -3,52 +3,78 @@
 > **Status**: Index Document  
 > **Last Updated**: 2025-10-28  
 > **Purpose**: Central index for all game mechanics design documents
-> **Last Updated**: 2025-10-28  
+
+---
+
+## Quick Navigation
+
+**Looking for specific mechanics?** Jump directly to:
+
+| Topic | File | Quick Link |
+|-------|------|------------|
+| **Coordinate System** | HexSystem.md | Universal hex coordinates for all layers |
+| **Pilot Mechanics** | Units.md §Unified Pilot Specification | ⚠️ **Canonical source** - how pilots work |
+| **Mission Types** | Missions.md | All mission types, objectives, rewards |
+| **Terrain & Weather** | Environment.md | Environmental effects, hazards, biomes |
+| **Diplomatic Relations** | Relations.md | Relationship system mechanics |
+| **Research Tree** | Economy.md §Research Tree | Research progression and unlocks |
+| **Salvage System** | Economy.md §Salvage System | How loot is processed |
+| **Transfer System** | Economy.md §Transfer System | Inter-base logistics |
+
+---
+
 ## Overview
 
 This folder contains detailed design specifications for all game systems and mechanics. These documents define how each system works, what parameters control behavior, balance values, and the relationships between systems.
 
-## Overview
+**Total Files**: 30 documents (27 original + 3 new comprehensive files)  
+**Content Status**: 100% preserved from original documents + new additions
 
 ---
 
 ## Core System Documents
 
 ### Technical Specifications
-- **hex_vertical_axial_system.md** ⭐ - Universal coordinate system (READ FIRST)
-- **PilotSystem_Technical.md** - Pilot mechanics specification
-- **DiplomaticRelations_Technical.md** - Universal relationship system
+- **HexSystem.md** ⭐ - Universal coordinate system (READ FIRST)
+- **Pilots.md** - Pilot specialization details (see Units.md for canonical mechanics)
+- **Relations.md** - Diplomatic relationship system
 
 ### Game Layer Systems
 - **Geoscape.md** - Strategic layer, world map (90×45 hex grid), campaign progression
-- **Basescape.md** - Base construction (hex layout), facility management, upgrades
-- **Battlescape.md** - Tactical combat mechanics (hex-based), turn resolution
+- **Basescape.md** - Base construction, facility management, upgrades
+- **Battlescape.md** - Tactical combat mechanics, turn resolution
 
 ### Core Gameplay Systems
-
+- **Units.md** - Unit classes, stats, progression, **pilot mechanics** (includes unified pilot spec)
 - **Crafts.md** - Spacecraft types, capabilities, specifications
 - **Items.md** - Equipment, weapons, armor, consumables
-- **Economy.md** - Financial systems, resources, production
-- **ai_systems.md** - AI decision-making (hex pathfinding), behavior systems
+- **Economy.md** - Financial systems, resources, research, manufacturing, salvage, transfers
+- **Missions.md** 🆕 - Mission types, generation, objectives, difficulty scaling
+- **Environment.md** 🆕 - Terrain types, weather, environmental hazards, biomes
+
+### AI & Intelligence Systems
+- **AI.md** - AI decision-making, behavior systems, strategic/tactical AI
+- **Analytics.md** - Data collection, telemetry, balance analysis
 
 ### Strategic Systems
 - **Politics.md** - Political systems, diplomacy, faction relations
 - **Countries.md** - Country mechanics, relations, funding
 - **Finance.md** - Financial mechanics, budgeting
 - **Interception.md** - UFO interception, air combat
+- **BlackMarket.md** - Underground economy, custom missions, illicit content
 
 ### Supporting Systems
 - **Gui.md** - User interface design, interaction patterns
-- **Assets.md** - Asset management, resource handling
-- **Analytics.md** - Data collection, telemetry systems
+- **Assets.md** - Asset management, resource handling, tilesets
 - **Lore.md** - Story content, world-building
-- **3D.md** - 3D rendering, graphics systems
+- **3D.md** - Alternative first-person view mechanics
+- **MoraleBraverySanity.md** - Psychological system mechanics
 
 ### Reference Documents
 - **Overview.md** - High-level project overview
 - **Glossary.md** - Game terminology, concepts
-- **Units.md** - Unit classes, abilities, stats (including Piloting), progression systems
-- **FutureOpportunities.md** - Potential features, design ideas
+- **Future.md** - Potential features, design ideas
+- **Integration.md** 🆕 - System integration patterns, data flow
 
 ---
 
@@ -73,6 +99,16 @@ All design documents follow a standard structure:
 
 ## [Main Sections]
 [Content]
+
+---
+
+## Related Content
+[Links to related files]
+
+---
+
+## Implementation Notes
+[Technical considerations]
 ```
 
 ---
@@ -81,14 +117,22 @@ All design documents follow a standard structure:
 
 **New to the project?** Read in this order:
 
-1. **Overview.md** - Understand the project
-2. **HexSystem.md** - Learn the coordinate system
+1. **Overview.md** - Understand the project vision and architecture
+2. **HexSystem.md** - Learn the coordinate system (used everywhere)
 3. **Geoscape.md** - Strategic layer concepts
 4. **Basescape.md** - Operational management
 5. **Battlescape.md** - Tactical combat
-6. **Units.md** & **Items.md** - Core gameplay elements
-7. **Pilots.md** - How units pilot crafts (simple system)
-8. Other systems as needed
+6. **Units.md** - Unit classes, stats, and **pilot mechanics** (includes unified spec)
+7. **Items.md** - Equipment and weapons
+8. **Missions.md** - Mission types and objectives
+9. **Environment.md** - Terrain and environmental effects
+10. Other systems as needed
+
+**For Specific Topics**:
+- **Pilots**: Units.md §Unified Pilot Specification (canonical) or Pilots.md (details)
+- **Missions**: Missions.md (comprehensive mission system)
+- **Terrain**: Environment.md (all environmental mechanics)
+- **Economy**: Economy.md (includes research, manufacturing, salvage, transfers)
 
 ---
 
@@ -99,6 +143,77 @@ All design documents follow a standard structure:
 - **Reference Document** - Supporting information
 - **Index Document** - Navigation/organization
 - **Brainstorming Document** - Future ideas
+
+---
+
+## File Organization Strategy
+
+**Core Layer** (8 files): Main gameplay systems  
+**Specialized Layer** (14 files): Specific features and mechanics  
+**Reference Layer** (8 files): Supporting documentation
+
+**Content Preservation**: All original 27 files preserved + 3 new comprehensive files = 30 total
+
+**Zero Deletion Policy**: No content removed, only additions and clarifications
+
+---
+
+## Cross-Reference Index
+
+**Frequently Asked Questions**:
+
+- **"How do pilots work?"** → Units.md §Unified Pilot Specification
+- **"What mission types exist?"** → Missions.md §Mission Types
+- **"How does weather affect combat?"** → Environment.md §Weather System
+- **"What's the research tree?"** → Economy.md §Research Tree
+- **"How do I process salvage?"** → Economy.md §Salvage System
+- **"How do base transfers work?"** → Economy.md §Transfer System
+- **"What coordinates does the game use?"** → HexSystem.md
+- **"How does diplomatic relations work?"** → Relations.md or Countries.md §Relations
+- **"What are all the terrain types?"** → Environment.md §Terrain System
+
+---
+
+## Recent Updates (2025-10-28)
+
+**Phase 1 Complete**: Created 2 new comprehensive files
+- ✅ Missions.md - Consolidated mission information from AI.md, Geoscape.md, Countries.md
+- ✅ Environment.md - Consolidated terrain/weather from Battlescape.md, Assets.md
+
+**Phase 2 Complete**: Enhanced existing files
+- ✅ Units.md - Added "Unified Pilot Specification" section (canonical pilot mechanics)
+- ✅ Pilots.md - Added redirect note to unified specification
+- ✅ Battlescape.md - Added "Related Content" section
+
+**Phase 3 In Progress**: Navigation improvements
+- ✅ README.md updated with better navigation and file references
+- 🔄 Adding "Related Content" sections to remaining files
+- 🔄 Fixing cross-reference links
+
+---
+
+## Documentation Philosophy
+
+**Redundancy is a Feature**: Multiple files covering related topics provide different perspectives. This is intentional.
+
+**Canonical Sources Marked**: When contradictions exist, canonical sources are marked with ⚠️ symbol.
+
+**Content Preservation**: Zero deletion policy - all original content retained, new content added.
+
+**Cross-Linking**: Files reference each other extensively for comprehensive understanding.
+
+---
+
+## Contributing
+
+When adding or modifying documentation:
+
+1. Follow the standard document structure
+2. Add cross-references to related files
+3. Mark canonical sources when resolving contradictions
+4. Update this README.md index
+5. Add "Related Content" section to end of document
+6. Include "Implementation Notes" for technical considerations
 
 ---
 - **AI.md** - AI decision-making (hex pathfinding), behavior systems

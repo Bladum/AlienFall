@@ -893,3 +893,23 @@ Recommendation: Pause AI simulations using Plasma Rifle, investigate TOML
 	
 
 
+---
+## Integration with Other Systems
+The Analytics system collects data from and influences:
+### AI Systems
+- Provides balance data for autonomous playtesting
+- AI vs AI simulations generate analytics data
+- Used for difficulty tuning and faction balancing
+### Economy System
+- Tracks resource usage, income patterns
+- Manufacturing and research efficiency metrics
+- Balance data for tech tree progression
+### Units System
+- Survival rates, kill ratios, experience progression
+- Class effectiveness and weapon usage statistics
+- Informs unit balance adjustments
+### Battlescape System
+- Combat encounter data, win/loss ratios
+- Map balance, spawn position fairness
+- Tactical effectiveness metrics
+**For complete system integration details, see [Integration.md](Integration.md)**
