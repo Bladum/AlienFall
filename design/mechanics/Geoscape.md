@@ -427,7 +427,7 @@ panic_threshold = 75
 ---
 ## Implementation Notes
 **Priority Systems**:
-1. World map hex grid (90×45 hexes)
+1. World map hex grid (90ï¿½45 hexes)
 2. Province and region system
 3. Base placement mechanics
 4. Craft movement and deployment

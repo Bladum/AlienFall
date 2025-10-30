@@ -522,7 +522,7 @@ This glossary consolidates all domain-specific terminology, abbreviations, and k
 - **Research Tree**: The interconnected structure of technology projects with prerequisites forming 5 major branches (Weapons, Armor, Alien Tech, Facilities, Support).
 - **Research Branch**: One of five main technology categories with unique progression paths.
 - **Research Prerequisite**: Required completed research projects before a new project becomes available.
-- **Research Tier**: Technology level (1-4) representing conventional › advanced › alien › ultimate progression.
+- **Research Tier**: Technology level (1-4) representing conventional ï¿½ advanced ï¿½ alien ï¿½ ultimate progression.
 - **Man-Days**: The unit of research effort; scientist work only progresses when actively assigned (not passive time).
 - **Research Cost Randomization**: 50-150% multiplier applied at campaign start for replayability.
 - **Tech Unlock**: Manufacturing capability or game feature enabled by completing specific research.
@@ -561,10 +561,10 @@ This glossary consolidates all domain-specific terminology, abbreviations, and k
 - **Enemy Squad Scaling**: 75% (Easy) to 150% (Impossible) of base enemy count.
 - **Reinforcement Waves**: 0 (Easy/Normal), 1 (Hard), 2-3 (Impossible); additional enemy squads mid-mission.
 - **Adaptive AI**: System where AI analyzes player tactics (5-10 missions) and deploys counters.
-- **Escalation Level**: Month × 10 - Strategic Victories × 20; determines enemy technology tier deployment.
+- **Escalation Level**: Month ï¿½ 10 - Strategic Victories ï¿½ 20; determines enemy technology tier deployment.
 ### Transfer System Terms
 - **Transfer System**: Inter-base logistics moving items, units, and craft between locations (1-14 day delivery).
-- **Transfer Cost**: Credits required = Item Mass × Distance × Transport Type Multiplier + Base Fee.
+- **Transfer Cost**: Credits required = Item Mass ï¿½ Distance ï¿½ Transport Type Multiplier + Base Fee.
 - **Transfer Time**: Days required = Distance / Transport Speed + Loading Time + Unloading Time.
 - **Transport Type**: Air (2 hex/day, 2.0x cost), Ground (1.5 hex/day, 1.0x cost), Maritime (1 hex/day, 0.5x cost).
 - **Interception Risk**: 5-15% chance transfer is attacked en route; higher in contested regions.
@@ -579,7 +579,7 @@ This glossary consolidates all domain-specific terminology, abbreviations, and k
 - **Autonomous Playtesting**: AI vs AI simulations (1000+ games) testing balance automatically.
 - **Win Rate Target**: 45-55% for balanced content; <40% underpowered, 60%+ overpowered.
 - **Auto-Balancing**: System adjusts stat values based on playtest data to achieve target win rates.
-- **Balance Pass**: Iterative cycle of testing › adjustment › re-testing until balanced.
+- **Balance Pass**: Iterative cycle of testing ï¿½ adjustment ï¿½ re-testing until balanced.
 ---
 ## CHANGELOG
 **2025-10-28**: Added 50+ new terms from recent design expansions:

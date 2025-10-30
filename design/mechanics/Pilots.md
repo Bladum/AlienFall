@@ -286,7 +286,7 @@ Player must decide!
 
 ---
 ## Integration with Other Systems
-> **Note**: For complete pilot mechanics, see [Units.md §Unified Pilot Specification](Units.md#unified-pilot-specification)
+> **Note**: For complete pilot mechanics, see [Units.md ï¿½Unified Pilot Specification](Units.md#unified-pilot-specification)
 Pilot system integrates with:
 ### Units System
 - All units have piloting stat

@@ -847,7 +847,7 @@ The salvage system processes recovered items, equipment, and materials from comp
 ### Salvage Value Calculation
 **Base Value Formula**:
 \\\
-Salvage Value = (Item Base Price × Condition Modifier × Rarity Modifier) + Alien Tech Bonus
+Salvage Value = (Item Base Price ï¿½ Condition Modifier ï¿½ Rarity Modifier) + Alien Tech Bonus
 Condition Modifier: 10-100% (destroyed items worth less)
 Rarity Modifier: 1.0x (common) to 5.0x (unique alien artifacts)
 Alien Tech Bonus: +500 to +10,000 credits depending on technology tier
