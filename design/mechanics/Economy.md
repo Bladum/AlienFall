@@ -1,7 +1,7 @@
 # Economy System
 
-> **Status**: Design Document  
-> **Last Updated**: 2025-10-28  
+> **Status**: Design Document
+> **Last Updated**: 2025-10-28
 > **Related Systems**: Basescape.md, Items.md, DiplomaticRelations_Technical.md, Finance.md
 
 ## Table of Contents
@@ -13,6 +13,13 @@
 - [Black Market](#black-market)
 - [Supplier System](#supplier-system)
 - [Transfer System](#transfer-system)
+- [Examples](#examples)
+- [Balance Parameters](#balance-parameters)
+- [Difficulty Scaling](#difficulty-scaling)
+- [Testing Scenarios](#testing-scenarios)
+- [Related Features](#related-features)
+- [Implementation Notes](#implementation-notes)
+- [Review Checklist](#review-checklist)
 
 ---
 
@@ -269,23 +276,23 @@ graph TD
     A --> C[Heavy Ordnance]
     D[Explosives Handling] --> C
     D --> E[Incendiary Weapons]
-    
+
     F[Alien Materials] --> G[Alien Alloys]
     F --> H[Alien Power Systems]
     H --> I[Elerium-115]
     H --> J[Laser Technology]
     J --> K[Plasma Technology]
     K --> L[Particle Beam]
-    
+
     M[Body Armor] --> N[Composite Armor]
     N --> O[Alien Alloys Armor]
     H --> P[Energy Shields]
     P --> Q[Psi-Shields]
-    
+
     R[UFO Construction] --> S[UFO Navigation]
     S --> T[Alien Computers]
     T --> U[Hybrid Technology]
-    
+
     V[Psionic Research] --> W[Psionic Training]
     W --> X[Psi-Amp]
 ```
@@ -441,7 +448,7 @@ Engineer Hours = Item Complexity × Quantity
 **Strategic Advantages**
 - Manufacturing facilities provide independence from marketplace fluctuations
 - Specialized production enables customized equipment
-- Bulk manufacturing of ammunition for prolonged operations
+- Bulk manufacturing
 - Export surplus equipment for additional revenue
 - Vertical integration: Control supply chain completely
 
@@ -478,7 +485,7 @@ Bulk Discount: 5% per 5+ items, 15% per 20+ items, 25% per 50+ items
 - **Regional Restrictions**: Some items available only in specific regions (military equipment in war zones, etc.)
 - **Supplier Relations**: Negative relations (-50 or below) restrict access to non-military suppliers
 - **Fame Impact**: Low fame (0-24) prevents access to premium suppliers; high fame (90+) unlocks exclusive items
-- **Alignment Restrictions**: 
+- **Alignment Restrictions**:
   - Saint alignment: Blocks black market access, restricted weapons
   - Evil alignment: Blocks humanitarian supplier access
 - **Diplomatic Status**: War-aligned nations block purchase from enemy-associated suppliers
@@ -488,7 +495,7 @@ Bulk Discount: 5% per 5+ items, 15% per 20+ items, 25% per 50+ items
 
 **Purchase Mechanics**
 - **Order Placement**: Specify quantity, supplier, delivery location
-- **Payment Options**: 
+- **Payment Options**:
   - Upfront payment (standard)
   - Credit-based payment (relations >50 required, 5% interest)
   - Subscription orders (recurring monthly purchases)
@@ -691,6 +698,717 @@ Pricing Modifier = 1.0 + (0.005 × (100 - Relation))
 - Can maintain multiple supplier relationships for diversity
 - Suppliers may compete for business (creating price wars)
 - Coalition suppliers offer better prices for larger organizations
+
+---
+
+## Supply Transfer System (A3: Supply Transfer Integration)
+
+**Overview**
+The Supply Transfer system provides the foundational logistics mechanics for moving resources between bases. This is distinct from the broader Transfer System (see below) which handles all inter-base movements. Supply Transfer specifically addresses routine resource movement, automatic routing, and interception integration.
+
+**Core Supply Transfer Mechanics**
+
+Supply Transfer operates on three principles:
+1. **Automatic Routing**: System calculates optimal paths based on player preference (speed vs cost)
+2. **Interception Integration**: Transfers are vulnerable to interception at specific transit points
+3. **Supply Line Establishment**: Recurring transfers create permanent supply routes
+
+**Transfer Types**
+
+| Type | Recurring | Interception Risk | Speed | Cost |
+|------|-----------|------------------|-------|------|
+| Routine Supply | Yes | 8% per transfer | Base | Base |
+| Emergency Resupply | No | 12% per transfer | -75% time | +200% cost |
+| Bulk Contract | Yes (monthly) | 6% per transfer | Base | -10% cost |
+| Stealth Route | Variable | 2% per transfer | +50% time | +50% cost |
+
+**Supply Transfer Formula**
+
+```
+Base Transfer Cost = (Item Mass in tons × Distance in hexes × 0.25) + 100 credits
+Total Cost = Base Transfer Cost × Transport Multiplier × Urgency Multiplier
+  Transport Multiplier: Air 2.0x, Ground 1.0x, Maritime 0.5x, Craft 1.5x
+  Urgency Multiplier: Routine 1.0x, Emergency 3.0x, Stealth 1.5x
+
+Transfer Time (in days) = CEILING((Distance in hexes / Base Speed) + Loading + Unloading)
+  Base Speed: Air 2, Ground 1, Maritime 1, Craft 1.5
+  Loading Time: 1 day + (Quantity / 1000)
+  Unloading Time: 1 day + (Destination Storage Utilization %)
+```
+
+**Example: Supply Transfer A3-1 - Routine Ammunition Resupply**
+- Origin: Base Alpha (5 assault rifles ammunition, 10 tons mass)
+- Destination: Base Beta (8 hexes away, 50% storage utilized)
+- Transport: Ground vehicle (safest option)
+- Calculation:
+  - Base Cost: (10 × 8 × 0.25) + 100 = 120 credits
+  - Total Cost: 120 × 1.0x × 1.0x = 120 credits
+  - Time: CEILING((8 / 1.5) + 1 + 1.5) = CEILING(7.83) = 8 days
+  - Interception Risk: 8%
+  - Result: Arrives in 8 days, 120 credit cost, 8% interception risk
+
+**Supply Line Establishment**
+
+Permanent supply routes enable recurring, predictable logistics:
+
+```
+Supply Line Activation Cost = 500 + (Distance × 50)
+Monthly Maintenance = Base Cost × 0.1 (automatic from funds)
+Auto-replenishment trigger = Current Stock < (Minimum Threshold × 1.2)
+Delivery frequency (player choice): Weekly, Bi-weekly, or Monthly
+```
+
+**Supply Line Features**
+- Can establish up to 10 active supply lines per base
+- Each supply line auto-initiates transfer on set schedule
+- System manages loading/unloading automatically
+- Disruption tracking: Records when route fails (due to interception/warfare)
+- Supply line visibility: Player sees route, enemies may detect with intelligence (60% chance if active warfare)
+
+**Example: Supply Line A3-2 - Regular Monthly Ammunition Resupply**
+- Activation: Base Alpha → Base Beta, Monthly, Ammunition quota 50 units
+- Setup Cost: 500 + (8 × 50) = 900 credits
+- Monthly Cost: Base Cost (120 credits) automatically paid
+- Benefit: Automatic resupply without manual interaction
+- Disruption: During active warfare in region, 20% chance route is intercepted (ammunition lost, cost charged)
+
+**Supply Transfer Restrictions & Logic**
+
+1. **Capacity Checks**
+   - Cannot transfer if origin storage below 105% of transfer quantity
+   - Cannot transfer to destination if destination storage < transfer quantity
+   - System holds failed transfers in queue (optional 7-day retry)
+
+2. **Item-Specific Restrictions**
+   - Alien prisoners: Restricted to containment-equipped bases only
+   - Weapons/ammunition: No restrictions (tradeability based on relations)
+   - Research data: Transfer restricted until technology researched
+   - Base-specific equipment: Hangars, reactors, gardens don't transfer (facility upgrades not included)
+
+3. **Relation-Based Restrictions**
+   - Cannot transfer to enemy-aligned bases
+   - Can transfer to neutral bases (cost +50% if not allied)
+   - Allied bases: Standard cost/speed
+   - Related to Relations system (see Politics.md): Trade embargo freezes supply lines
+
+**Supply Transfer & Interception Integration (Details)**
+
+Transfers create vulnerability windows:
+
+```
+Interception Event occurs when:
+1. Transfer in transit (between origin and destination)
+2. Within contested/enemy region (increases risk 2x)
+3. Route passes through monitored interception points (increases risk 1.5x)
+4. Enemy has active ground forces in region (increases risk 1x for each group)
+
+Interception Risk Calculation = Base Risk × (1 + Region Factor) × (1 + Point Factor) × (1 + Force Factor)
+  Base Risk: 8% routine, 12% emergency, 6% bulk, 2% stealth
+  Region Factor: 0 safe, +1 contested, +2 enemy-controlled
+  Point Factor: 0 no points, +0.5 per interception point on route
+  Force Factor: 0 no forces, +0.1 per enemy group in region
+
+Example Interception Calculation (A3-3):
+- Routine supply (8% base)
+- Through contested region (+1 factor = 1x multiplier)
+- 2 interception points (+0.5 each = 1x multiplier)
+- 3 enemy groups in region (+0.1 each = 1.3x multiplier)
+- Total Risk: 8% × 2 × 1 × 1.3 = 20.8%
+```
+
+**Supply Transfer Player Decisions**
+
+For each transfer, player chooses:
+1. **Route Type**: Speed vs Cost (automatic routing suggests 3 options)
+2. **Transport Method**: Air (fast/expensive), Ground (balanced), Maritime (slow/cheap), Craft (flexible)
+3. **Risk Tolerance**: Standard (8%), Stealth (2%, +50% cost), Emergency (12%, +200% cost)
+4. **Protection**: Unguarded, Convoy escort (+25% cost, -50% interception risk)
+5. **Visibility**: Normal, Decoy transfer (send fake convoy to misdirect enemies)
+
+---
+
+## Manufacturing vs Marketplace Balance (R2: Manufacturing/Marketplace Tension)
+
+**Overview**
+Game design challenge: Players can either manufacture items at their bases (slower, cheaper, buildable) or purchase from the marketplace (faster, expensive, limited stock). This creates economic strategy decision points.
+
+**Design Philosophy**
+- Manufacturing should feel rewarding (player investment, base development)
+- Marketplace should feel risky (price volatility, stock limitations, potential disruption)
+- Neither should dominate; both remain viable throughout campaign
+- Player choice determines economic path: self-sufficient vs market-dependent
+
+**Manufacturing Advantage Profile**
+
+```
+Manufacturing Strategy Advantages:
+✓ Unlimited production capacity (no stock limits)
+✓ Economies of scale (production faster as volume increases)
+✓ Self-sufficiency (not vulnerable to marketplace disruption)
+✓ Research-locked items (only obtainable via manufacturing)
+✓ Customization (can produce variants for specific use cases)
+✓ Strategic resilience (survives marketplace interference)
+
+Manufacturing Disadvantages:
+✗ High upfront cost (facility construction 50-150K credits)
+✗ Tech dependency (must research manufacturing recipes)
+✗ Time cost (production takes 20-50 days per batch)
+✗ Resource commitment (ties up production capacity)
+✗ Requires base infrastructure (workshops, laboratories)
+```
+
+**Marketplace Advantage Profile**
+
+```
+Marketplace Strategy Advantages:
+✓ Immediate availability (items arrive in 3-8 days via transfer)
+✓ Price competition (marketplace prices lower than manufacturing if multiple suppliers)
+✓ No infrastructure cost (no facilities to build)
+✓ Technology-free access (don't need research to use items)
+✓ Diversified supply (multiple items available without specialization)
+✓ Quick iteration (test item types without long production commitment)
+
+Marketplace Disadvantages:
+✗ Price volatility (can spike 20-50% during shortages)
+✗ Stock limitations (only 10-50 units per item type available)
+✗ Disruption risk (supply interruption if suppliers attacked)
+✗ Limited variety (not all items available in marketplace)
+✗ Cost per unit higher than manufacturing (2-3x more expensive)
+✗ Accessibility risk (marketplace closed during wartime)
+```
+
+**Manufacturing-Marketplace Tension Points**
+
+**T1: Early Campaign (Months 1-3)**
+- Marketplace dominates: Manufacturing infrastructure not yet built
+- Player decision: Rush tech for manufacturing vs rely on market
+- Balance mechanism: Marketplace is well-stocked, prices stable
+- Strategic implications: Patience (build manufacturing) vs speed (marketplace)
+- Recommendation: Marketplace should feel viable but temporary
+
+**T2: Mid-Campaign (Months 4-9)**
+- Manufacturing comes online: Factories operational
+- Player decision: Shift to manufacturing vs maintain marketplace dependency
+- Balance mechanism: Manufacturing now cheaper but slower; marketplace prices rising
+- Strategic implications: Self-sufficiency vs market flexibility
+- Recommendation: Manufacturing now cheaper; marketplace feels expensive but still available
+
+**T3: Late Campaign (Months 10-15)**
+- Manufacturing is most efficient: Research complete, scaling benefits active
+- Player decision: Pure manufacturing vs hybrid (marketplace for specialized items)
+- Balance mechanism: Manufacturing is both cheaper and faster for bulk orders; marketplace supplies niche items
+- Strategic implications: Only marketplace items are non-manufacturable (alien tech, specialized weapons)
+- Recommendation: Manufacturing should feel dominant; marketplace is luxury/emergency option
+
+**Manufacturing Economics**
+
+```
+Manufacturing Cost Formula:
+Item Production Cost = Base Production Cost × Research Efficiency × Facility Efficiency × Scaling Factor
+  Base Production Cost: Varies by item (50-5000 credits) [see Items.md]
+  Research Efficiency: 1.0x baseline, -10% per research level (scales to 0.7x at max)
+  Facility Efficiency: 1.0x if new facility, +10% per upgrade level (scales to 1.5x at max upgrades)
+  Scaling Factor: 1.0x for first 100 units, -5% for each 100 units (batching bonus)
+
+Production Time Formula:
+Item Production Time = Base Production Time × (Difficulty Multiplier) × (Facility Speed Modifier)
+  Base Production Time: Varies by item (5-50 days) [see Items.md]
+  Difficulty Multiplier: 1.0x baseline, +10% per research level skipped (requires base research)
+  Facility Speed Modifier: 1.0x standard facility, +25% if facility upgraded, +50% if specialty facility
+```
+
+**Example: Manufacturing R2-1 - Assault Rifle Production**
+- Item: Assault Rifle (Base cost 250 credits, Base time 7 days)
+- Research: Advanced Ballistics (3 levels researched) = 0.7x efficiency
+- Facility: Weapons Workshop (upgraded 2 levels) = 1.2x speed, 1.2x cost efficiency
+- Batch size: 100 rifles = 1.0x scaling
+- Calculation:
+  - Cost: 250 × 0.7 × 1.2 × 1.0 = 210 credits per rifle (21,000 total for 100-unit batch)
+  - Time: 7 × 1.0 × 0.8 (2 upgrades = +25% speed per level) = 5.6 days = 6 days CEILING
+  - Batch discount: 100 units get -5% scaling benefit
+  - Final: 100 rifles in 6 days, 20,000 total cost (200 credits/rifle)
+
+**Marketplace Economics**
+
+```
+Marketplace Price Formula:
+Market Price = Base Price × Demand Multiplier × Supply Multiplier × Supplier Competition Multiplier
+  Base Price: Varies by item (typically 2-3x manufacturing cost) [see Items.md]
+  Demand Multiplier: 0.8x if low demand, 1.0x baseline, 1.2x high demand, 1.5x critical shortage
+  Supply Multiplier: 2.0x if very low stock, 1.0x if normal stock, 0.8x if oversupply
+  Supplier Competition Multiplier: 1.0x 1 supplier, 0.85x 2 suppliers, 0.7x 3+ suppliers
+
+Supply Limit Formula:
+Available Stock = (Base Supply × Supplier Count) × Availability Modifier
+  Base Supply: 10-50 units per item type
+  Supplier Count: 1-3 suppliers per item
+  Availability Modifier: 0.5x wartime, 0.7x contested region, 1.0x peacetime
+```
+
+**Example: Marketplace R2-2 - Assault Rifle Purchase**
+- Item: Assault Rifle (Base marketplace price 500 credits)
+- Demand: High (many players buying) = 1.2x multiplier
+- Supply: Low (only 20 units in stock) = 2.0x multiplier (shortage)
+- Competition: 2 suppliers = 0.85x multiplier
+- Calculation:
+  - Price: 500 × 1.2 × 2.0 × 0.85 = 1,020 credits per rifle
+  - Stock available: 20 rifles before stockout
+  - Result: Expensive due to shortage, but immediate availability (transfer in 5 days)
+
+**Balancing Manufacturing vs Marketplace**
+
+**Design Variables** (game designer can tune):
+
+1. **Manufacturing Efficiency Curves**
+   - Parameter: Research efficiency gain per level (default -10%)
+   - Tuning: Increase to -15% makes manufacturing dominant too fast; decrease to -5% keeps marketplace viable longer
+
+2. **Marketplace Price Volatility**
+   - Parameter: Price spike multiplier for high demand (default 1.5x)
+   - Tuning: Increase to 2.0x makes marketplace expensive, forcing manufacturing; decrease to 1.2x keeps marketplace competitive
+
+3. **Stock Availability**
+   - Parameter: Base supply per item (default 10-50)
+   - Tuning: Increase makes marketplace reliable; decrease creates supply anxiety, pushes manufacturing
+
+4. **Facility Upgrade Benefits**
+   - Parameter: Speed bonus per upgrade level (default +25%)
+   - Tuning: Increase to +50% makes manufacturing rapidly dominant; decrease to +10% keeps marketplace needed
+
+**Strategic Balancing Table**
+
+| Campaign Phase | Manufacturing Cost | Marketplace Price | Recommendation |
+|---|---|---|---|
+| Month 1-2 | 300 credits/rifle | 500 credits/rifle | Marketplace viable, cheaper |
+| Month 3-4 | 250 credits/rifle | 550 credits/rifle | Marketplace slightly more expensive |
+| Month 6-9 | 180 credits/rifle | 700+ credits/rifle | Manufacturing dominant, marketplace expensive |
+| Month 12+ | 150 credits/rifle | 1000+ credits/rifle | Manufacturing optimal; marketplace for specialties |
+
+**Manufacturing vs Marketplace Integration**
+
+Players typically follow progression:
+1. **Phase 1 (Early)**: Marketplace primary, manufacturing secondary (facilities not built)
+2. **Phase 2 (Mid)**: Hybrid approach, gradually shifting to manufacturing
+3. **Phase 3 (Late)**: Manufacturing primary, marketplace for emergency/specialized items
+
+Design goal: Enable all three progression paths:
+- **Speed Runner**: Marketplace-heavy throughout (expensive but keeps operations lean)
+- **Balanced**: Hybrid manufacturing/marketplace mix (moderate cost, flexible)
+- **Industrialist**: Manufacturing-heavy (cheapest long-term, requires infrastructure)
+
+---
+
+## Manufacturing Profit Margins
+
+Manufacturing generates income through production and sale of equipment to marketplace suppliers or other bases. Profit margins scale with facility upgrades and production volume.
+
+**Early Game Manufacturing (Basic Facilities)**
+- Monthly Profit: 5-15K credits
+- Production Scale: 10-50 units per month
+- Profit per Unit: 100-300 credits (after material costs)
+- Facilities Required: Basic Workshop + Storage
+
+**Mid Game Manufacturing (Upgraded Facilities)**
+- Monthly Profit: 20-40K credits
+- Production Scale: 50-200 units per month
+- Profit per Unit: 200-400 credits (efficiency gains)
+- Facilities Required: Upgraded Workshop + Large Storage + Research Lab synergy
+
+**Late Game Manufacturing (Advanced Facilities)**
+- Monthly Profit: 50-100K credits
+- Production Scale: 200-500 units per month
+- Profit per Unit: 300-500 credits (automation and specialization)
+- Facilities Required: Advanced Workshop + Automated Production + Supply Chain
+
+**Manufacturing Profit Formula**
+```
+Monthly Profit = (Units Produced × Profit per Unit) × Efficiency Multiplier × Market Demand
+  Units Produced: Based on facility capacity and production queues
+  Profit per Unit: Base item value - material costs - labor costs
+  Efficiency Multiplier: 1.0x basic, 1.5x upgraded, 2.0x advanced
+  Market Demand: 0.8x oversupply, 1.0x balanced, 1.2x high demand
+```
+
+**Example: Early Game Manufacturing Profit**
+- Production: 30 assault rifles per month
+- Profit per Unit: 200 credits (sale price 500 - costs 300)
+- Efficiency: 1.0x (basic facilities)
+- Market Demand: 1.0x (balanced)
+- Monthly Profit: 30 × 200 × 1.0 × 1.0 = 6,000 credits
+
+---
+
+## Research Milestone Bonuses
+
+Completing major research projects provides one-time financial bonuses to reward technological advancement and provide economic relief for further development.
+
+**Basic Technology Completion Bonuses**
+- Ballistics Research: 15K credits (unlocks basic weapons manufacturing)
+- Body Armor Research: 12K credits (unlocks basic armor production)
+- Vehicle Research: 18K credits (unlocks craft improvements)
+- Facility Research: 10K credits (unlocks base expansion options)
+
+**Advanced Technology Completion Bonuses**
+- Energy Weapons Research: 35K credits (unlocks plasma/laser weapons)
+- Advanced Armor Research: 30K credits (unlocks power armor)
+- Interception Systems: 40K credits (unlocks advanced craft capabilities)
+- Production Speed Research: 25K credits (unlocks manufacturing efficiency)
+
+**Major Technology Tree Completion Bonuses**
+- Complete Weapons Tree: 75K credits (all weapon technologies researched)
+- Complete Armor Tree: 60K credits (all armor technologies researched)
+- Complete Vehicle Tree: 80K credits (all craft technologies researched)
+- Complete Facility Tree: 50K credits (all base technologies researched)
+- Complete Strategic Tree: 90K credits (all diplomatic/espionage technologies)
+
+**Research Bonus Timing**
+- Bonuses awarded immediately upon research completion
+- Can be used for facility construction, unit recruitment, or saved for emergencies
+- Provides economic relief during technology transition periods
+- Encourages research investment by providing tangible financial returns
+
+**Example: Research Milestone Bonus Impact**
+- Player completes Energy Weapons research (35K bonus)
+- Uses bonus to construct Advanced Workshop (30K cost)
+- Remaining 5K provides breathing room for next month's expenses
+- New workshop enables higher manufacturing profits (20K+ monthly)
+
+---
+
+## Research Dependencies & Edge Cases (C2: Research Tree Integration)
+
+**Overview**
+Research tree mechanics create technology gating and progression dependencies. This specification details how research interacts with manufacturing, unlocks, and creates strategic branching paths.
+
+**Research Tree Structure**
+
+The research tree consists of 5 major branches with hierarchical dependencies:
+
+```
+RESEARCH TREE HIERARCHY:
+
+1. WEAPONS RESEARCH
+   ├─ Basic Ballistics (unlock)
+   │  ├─ Advanced Ballistics (requires Basic)
+   │  │  ├─ Heavy Ballistics (requires Advanced)
+   │  │  └─ Precision Ballistics (requires Advanced)
+   │  └─ Energy Weapons (requires Basic)
+   │     ├─ Plasma Weapons (requires Energy)
+   │     └─ Laser Weapons (requires Energy)
+   ├─ Explosives (unlock)
+   │  ├─ Advanced Explosives (requires Explosives)
+   │  └─ Rocket Systems (requires Advanced)
+   └─ Melee Enhancement (unlock)
+      └─ Power Melee (requires Melee Enhancement)
+
+2. ARMOR RESEARCH
+   ├─ Body Armor Mk1 (unlock)
+   │  ├─ Body Armor Mk2 (requires Mk1)
+   │  │  └─ Body Armor Mk3 (requires Mk2)
+   │  └─ Specialized Armor (requires Mk1)
+   ├─ Shield Technology (unlock)
+   │  └─ Advanced Shields (requires Shield Tech)
+   └─ Environmental Suits (unlock)
+
+3. VEHICLE RESEARCH
+   ├─ Craft Improvement (unlock)
+   │  ├─ Speed Enhancement (requires Craft Improvement)
+   │  └─ Armor Enhancement (requires Craft Improvement)
+   ├─ Interception Systems (unlock)
+   │  └─ Advanced Interception (requires Interception)
+   └─ Transport Optimization (unlock)
+
+4. FACILITY RESEARCH
+   ├─ Power Efficiency (unlock)
+   │  └─ Advanced Power (requires Power Efficiency)
+   ├─ Storage Optimization (unlock)
+   │  └─ Advanced Storage (requires Storage)
+   └─ Production Speed (unlock)
+      └─ Advanced Production (requires Production Speed)
+
+5. STRATEGIC RESEARCH
+   ├─ Diplomacy (unlock)
+   │  └─ Enhanced Diplomacy (requires Diplomacy)
+   ├─ Espionage (unlock) [NOTE: Espionage not available - see Politics.md Relations]
+   │  [REMOVED - diplomacy-only system]
+   └─ Ancient Technology (unlock)
+      └─ Advanced Ancient Tech (requires Ancient Tech)
+```
+
+**Research Dependencies: Edge Cases**
+
+**Dependency Rule 1: Linear Prerequisites**
+- Cannot research Advanced tech before Basic tech
+- Exception: Player can skip Basic research for 2x cost (represents "catch-up" research)
+- Example: Research Advanced Ballistics without Basic Ballistics = 2x cost
+- Balance note: Encourages natural progression but allows flexibility
+
+**Dependency Rule 2: Branching Paths (Exclusive Research)**
+Some technologies are mutually exclusive (represent opposing tech philosophies):
+
+```
+Mutually Exclusive Pairs:
+- Energy Weapons vs Advanced Ballistics (player chooses specialization)
+  Cost: Each blocks 20% efficiency of the other
+  Resolution: Researching both is possible but penalizes both
+
+- Stealth Focus vs Heavy Armor Focus
+  Cost: Each provides -15% benefit if researching opposite path
+  Resolution: Player picks specialization or accepts hybrid penalty
+
+- Underground Bases vs Mobile Operations
+  Cost: Cannot have both (only one can be active per base)
+  Resolution: Must build facility to change focus
+```
+
+**Dependency Rule 3: Prerequisite Chains (Multi-level)**
+Long chains force strategic sequencing:
+
+```
+Example Chain: Heavy Weapons Path
+Basic Ballistics (Week 1)
+  → Advanced Ballistics (Week 3)
+    → Heavy Ballistics (Week 6)
+      → Experimental Weapons (Week 10)
+
+Total progression: 10 weeks to access Experimental Weapons
+
+Alternative: Skip Advanced, go directly to Heavy (2x cost)
+- Basic Ballistics (Week 1)
+  → Heavy Ballistics via catch-up (Week 4, 2x cost)
+    → Experimental Weapons (Week 8)
+
+Total progression: 8 weeks but at 2x cost for catch-up
+```
+
+**Dependency Rule 4: Cross-Branch Requirements**
+Some technologies require research from multiple branches:
+
+```
+Example: Advanced Armor Suits
+Required:
+- Body Armor Mk2 (from Armor Research branch)
+- Power Efficiency (from Facility Research branch)
+- Environmental Engineering (5K separate research cost)
+
+Result: Designed armor suits require investment in 2+ branches
+Strategic implication: Forces specialization vs generalization decisions
+```
+
+**Research Edge Cases**
+
+**Edge Case C2-1: Abandoned Research Path**
+- Situation: Player researches Ballistics heavily, then wants to switch to Energy Weapons
+- Current status: Ballistics research at 80%, Diplomacy at 0%
+- Consequence: Ballistics research doesn't reset, but Energy Weapons starts at 0%
+- Cost: Must pay full cost for Energy Weapons despite Ballistics investment
+- Design rationale: Prevents "free switching"; costs real resources to pivot
+- Mitigation: Some research points transfer (20% efficiency gain if switching within category)
+
+**Edge Case C2-2: Conflict Research Penalty**
+- Situation: Player researches both Energy Weapons (efficiency -15%) and Advanced Ballistics (efficiency -15%)
+- Current status: Both at 50% completion
+- Effect: Total research cost increases by mutual penalty
+- Result: Both take 20% longer to complete (diminishing returns on conflicting research)
+- Resolution: Player can continue or abandon one path
+- Strategic lesson: Specialize rather than generalize
+
+**Edge Case C2-3: Prerequisite Not Yet Researched**
+- Situation: Technology requires Basic Ballistics as prerequisite
+- Current status: Basic Ballistics researched at 80% (not yet complete)
+- Can player start Advanced Ballistics research? NO
+- Design rule: All prerequisites must be 100% complete before dependent tech can start
+- Exception: If player has Advanced Ballistics in queue and Basic completes, research auto-starts
+
+**Edge Case C2-4: Technology Unlock Without Research**
+- Situation: Player captures alien armor (grants Armor knowledge)
+- Question: Does this count as "researched"?
+- Answer: Partial credit (50% of research completed)
+- Implication: Can research follow-on techs but at higher cost until full research completed
+- Example: Captured alien armor = 50% of Body Armor Mk3 complete; still need 50% normal research cost
+
+**Edge Case C2-5: Research Facility Destroyed**
+- Situation: Laboratory with active research is destroyed
+- Question: Is research lost?
+- Answer: Research saved but paused until new facility built
+- Consequence: Research progress doesn't reset (50% complete research remains 50%) but can't advance
+- Cost: Must rebuild facility before research can resume
+- Exception: Research transferred to other active laboratory (if available)
+
+**Research Time Calculation**
+
+```
+Research Completion Time = Base Time × Difficulty Multiplier × Catch-up Multiplier × Tech Level Multiplier
+  Base Time: 5-20 weeks depending on technology [see Research Tree details]
+  Difficulty Multiplier: 1.0x baseline, +10% per research level skipped
+  Catch-up Multiplier: 1.0x normal progression, 2.0x if using catch-up (skip prerequisites)
+  Tech Level Multiplier: 1.0x for Mk1/Basic, 1.2x for Mk2/Advanced, 1.5x for Mk3/Experimental
+
+Research Speed Modifiers (multiplicative):
+- Laboratory basic: 1.0x baseline
+- Laboratory upgraded: 0.85x per upgrade level (max 0.5x with 3 upgrades)
+- Scientists assigned: -10% per additional scientist (max -30% with 3 scientists)
+- Related research complete: -15% if related technology already researched
+- Experimentation bonus: -20% if experimenting with similar captured tech
+```
+
+**Example: Research C2-1 - Advanced Ballistics Path**
+- Technology: Advanced Ballistics
+- Prerequisites: Basic Ballistics (100% complete ✓)
+- Base time: 12 weeks
+- Difficulty: Normal (no skipped levels) = 1.0x
+- Facility: Laboratory upgraded 2 levels = 0.85^2 = 0.72x (28% faster)
+- Scientists: 2 scientists assigned = -10% -10% = 0.8x
+- Related research: Basic Ballistics complete = -15% = 0.85x
+- Calculation: 12 × 1.0 × 1.0 × 1.2 × 0.72 × 0.8 × 0.85 = 8.3 weeks ≈ 9 weeks
+- Result: Advanced Ballistics completes in 9 weeks with optimized facility
+
+---
+
+## Economic-Strategic Integration (CROSS-2: Transfer/Interception Integration)
+
+**Overview**
+This specification bridges Economy system (transfers, manufacturing, marketplace) with Strategic/Geoscape systems (interception, combat, warfare). The integration creates economic consequences for military actions and military consequences for economic operations.
+
+**Core Integration Principle**
+Every transfer is a strategic target. Every military operation has economic consequences. This creates emergent decision-making:
+- Military: "Should we intercept this supply run?" (disrupts enemy economy)
+- Economic: "Do we risk expensive transfer through contested area?" (potential loss, opportunity cost)
+- Strategic: "Should we conquer marketplace supplier region?" (economic domination)
+
+**Transfer Vulnerability System**
+
+Transfers become vulnerable based on game state:
+
+```
+Interception Risk Factors:
+1. Geographic: Transfer passes through contested/enemy territory
+2. Military: Enemy forces present in transit region
+3. Strategic: Active warfare in region increases risk
+4. Infrastructure: Interception points (bases) increase risk
+5. Player visibility: Enemy intelligence networks detect transfer
+
+Base Interception Chance = Route Risk × Military Presence × Strategic State
+  Route Risk: 0% safe territory, 20% neutral, 50% contested, 80% enemy
+  Military Presence: 0% no forces, +10% per enemy group in region
+  Strategic State: 1.0x peacetime, 1.5x active warfare, 2.0x invasion
+
+Example Interception Risk (CROSS-2-1):
+- Transfer through contested region (50% base risk)
+- 2 enemy groups nearby (+20%)
+- Active warfare state (1.5x multiplier)
+- Total Risk: (50% + 20%) × 1.5 = 105% capped at 90%
+- Result: 90% chance of interception if attempted
+- Player Decision: Accept risk, find alternate route, or abandon transfer
+```
+
+**Interception as Military Action**
+
+When enemy forces intercept a transfer:
+
+```
+Interception Engagement Resolution:
+1. Transfer assets meet intercepting force
+2. Combat initiates (transfer cargo vs enemy squad)
+3. Outcome determines cargo fate:
+   - Player Victory: Transfer completes, combat XP awarded
+   - Enemy Victory: Cargo confiscated, economic loss, no XP to enemy (represents raid)
+   - Stalemate: Transfer continues, interceptor withdraws
+
+Transfer Combat Mechanics:
+- Cargo defenders: Transfer escort units (if player assigned protection)
+- Cargo value: Economic loss if captured
+- XP value: Combat XP for victor
+- Strategic consequence: Enemy gains resources, player economy disrupted
+
+Example Interception Combat (CROSS-2-2):
+- Transfer: 100 assault rifles + 5 personnel (500 credit value)
+- Escort: 1 squad of 4 soldiers (minimal defense)
+- Enemy: 2 squads intercepting transfer
+- Combat: 4 vs 8, player outnumbered
+- Result: Enemy wins, captures rifles and soldiers
+- Consequence: Player loses 500 credits of resources + 5 personnel
+- Enemy gain: 100 rifles (economic value ~300 credits as captured tech)
+- Strategic impact: Player economy set back 3-4 days; enemy gain operational weapons
+```
+
+**Marketplace Disruption through Military Operations**
+
+Attacking marketplace supplier regions creates economic cascades:
+
+```
+Marketplace Disruption Cascade:
+1. Player attacks marketplace supplier region
+2. Supplier warehouses damaged (reduces supply)
+3. Regional supply drops by 30-60%
+4. Marketplace prices spike (+30-60% price increase)
+5. Other suppliers flee region (leave marketplace)
+6. Supply recovery: Takes 1-4 weeks as suppliers rebuild/return
+
+Supply Recovery Formula:
+Weekly Recovery % = (Supplier Infrastructure × Security State × Distance from Supply Source) / 100
+  Supplier Infrastructure: 10-50% depending on base damage
+  Security State: 0% if military active, 50% if occupied, 100% if secure
+  Distance from Supply Source: Closer = faster recovery
+
+Example Marketplace Disruption (CROSS-2-3):
+- Attack: Marketplace supplier base in Region X
+- Supply before: 50 rifles available at 500 credits each
+- Base destroyed: 60% damage
+- Supply immediately: 20 rifles available (40% reduction)
+- Price spike: 500 × 1.4 = 700 credits per rifle (40% increase)
+- Recovery rate: (40% × 50% × 1.2) / 100 = 0.24 = 24% per week
+- Timeline: 4 weeks to full recovery (~25% + 25% + 24% + 24%)
+- Strategic lesson: Military action = marketplace consequence; forces economic planning
+```
+
+**Supply Line Warfare (Supply Line Sabotage)**
+
+Enemy forces can specifically target supply lines:
+
+```
+Supply Line Sabotage Mechanics:
+1. Enemy identifies active supply line (intelligence check)
+2. Enemy positions force near supply line route
+3. Sabotage attempt: 50% success chance if force present
+4. If successful: Supply line destroyed, transfer intercepted
+5. Result: Player loses 1 month of supply line transfers
+6. Consequence: Must rebuild supply line (+900 cost if re-establishing)
+
+Supply Line Detection:
+- Hidden if no enemy intelligence in region: Safe
+- Visible if enemy has 1+ intelligence points in region: 70% detection
+- Visible if enemy controls region: 100% detection
+- Player decision: Accept risk or build redundant supply lines
+
+Sabotage Prevention:
+- Assign escort craft to supply line (+25% cost) = 80% interception prevention
+- Use stealth route (+50% cost) = 85% interception prevention
+- Combo: Stealth + escort (+75% cost) = 95% interception prevention
+
+Example Supply Line Sabotage (CROSS-2-4):
+- Supply Line: Base Alpha → Base Beta (monthly ammunition, 120 credit cost)
+- Enemy detection: 70% chance detected
+- Detected: Enemy can attempt sabotage (50% success)
+- Sabotage success: Supply line destroyed, player loses ammunition shipment
+- Recovery: Rebuild supply line for 900 credits, restart deliveries next month
+- Prevention cost: 25% for escort = 30 credit per transfer avoided (cost-benefit analysis)
+```
+
+**Economic Victory Conditions**
+
+Military operations can create economic dominance:
+
+```
+Economic Victory Criteria (Alternative Win Condition):
+- Control 70%+ of marketplace suppliers (military occupation)
+- Generate 500+ credits/month from conquered regions (economic dominance)
+- Establish 50+ active supply lines (logistic dominance)
+- Achieve monopoly on 3+ critical resources (control specific items)
+
+Strategic implication: Military campaigns can achieve economic victory through marketplace control
+Example: Conquer all supplier regions → control all marketplace prices → can force enemy surrender through starvation
+```
 
 ---
 
@@ -913,3 +1631,306 @@ Alien Tech Bonus: +500 to +10,000 credits depending on technology tier
 - Salvage value balance
 - Transfer time/cost balance
 - Storage capacity management
+
+---
+
+## Examples
+
+### Scenario 1: Early Game Research Priority
+**Setup**: Starting campaign with basic facilities and limited funding
+**Action**: Prioritize research projects that unlock better weapons and armor for initial units
+**Result**: Improved combat effectiveness allows tackling harder missions, creating positive feedback loop
+
+### Scenario 2: Salvage Processing Dilemma
+**Setup**: Successful UFO crash mission yields valuable alien technology
+**Action**: Choose between immediate sale for quick credits vs. research for long-term manufacturing capability
+**Result**: Research investment unlocks new production options, enabling self-sufficiency
+
+### Scenario 3: Manufacturing Optimization
+**Setup**: Multiple bases with different facilities, competing for limited resources
+**Action**: Specialize bases for different production types, establish transfer routes for components
+**Result**: Efficient production network maximizes output while minimizing transport costs
+
+### Scenario 4: Black Market Trading
+**Setup**: Excess alien artifacts with high black market value but diplomatic risk
+**Action**: Sell through black market for premium prices while managing karma impact
+**Result**: Significant funding boost but potential diplomatic consequences
+
+---
+
+## Balance Parameters
+
+| Parameter | Value | Range | Reasoning | Difficulty Scaling |
+|-----------|-------|-------|-----------|-------------------|
+| Research Speed | 5 man-days/day | 3-8 | Progress pacing | ×1.5 on Easy |
+| Base Research Cost | 100 credits/day | 50-200 | Funding requirement | ×0.7 on Easy |
+| Salvage Value | 50% market price | 25-75% | Recovery incentive | +10% on Easy |
+| Manufacturing Time | 7 days base | 3-14 | Production pacing | ×0.75 on Easy |
+| Transfer Cost | 10% item value | 5-20% | Logistics penalty | ×0.5 on Easy |
+| Black Market Premium | +50% value | 25-100% | Risk/reward balance | ×1.25 on Hard |
+| Storage Capacity | 1000 units | 500-2000 | Resource management | No scaling |
+
+---
+
+## Research Cost Calculation System
+
+### Research Cost Formula
+
+The research cost calculation determines funding requirements for technology development:
+
+```
+Final Cost = Base Cost × Complexity Multiplier × Prerequisite Modifier × Difficulty Modifier × Tier Modifier
+```
+
+### Tier 1: Base Cost by Research Category
+
+Research costs are categorized by technology type and advancement level:
+
+**Weapons Research:**
+- Basic weapons (Rifle, Pistol): 50,000 funds
+- Advanced weapons (Sniper, Plasma): 150,000 funds
+- Exotic weapons (Particle, Exotic): 300,000 funds
+
+**Armor Research:**
+- Basic armor (Combat Fatigues): 40,000 funds
+- Advanced armor (Combat Suit): 120,000 funds
+- Exotic armor (Power Suit, Alien): 250,000 funds
+
+**Alien Tech Research:**
+- Alien Weapons: 200,000 funds
+- Alien Armor: 180,000 funds
+- Alien Equipment: 150,000 funds
+- Mind Control: 400,000 funds
+
+**Facilities Research:**
+- Basic facilities (Barracks, Storage): 30,000 funds
+- Advanced facilities (Lab, Hospital): 80,000 funds
+- Exotic facilities (Grav Lab, Psion Chamber): 200,000 funds
+
+### Tier 2: Complexity Multiplier
+
+Each technology has a complexity rating that increases cost:
+
+**Weapons Complexity:**
+- Pistol: 1.0×
+- Rifle: 1.1×
+- Sniper: 1.2×
+- Plasma: 1.5×
+- Particle Beam: 2.0×
+
+**Armor Complexity:**
+- Fatigues: 1.0×
+- Combat Suit: 1.2×
+- Power Armor: 1.8×
+- Alien Armor: 2.2×
+
+**Example:** Plasma Rifle = 150,000 × 1.5 = 225,000 funds
+
+### Tier 3: Prerequisite Modifier
+
+Each completed prerequisite increases research cost by 10% (cumulative):
+
+**Prerequisite Impact:**
+- 0 prerequisites: ×1.0
+- 1 prerequisite: ×1.1
+- 2 prerequisites: ×1.21
+- 3 prerequisites: ×1.331
+- 4 prerequisites: ×1.464
+
+**Example:** Plasma Rifle with 3 prerequisites = 225,000 × 1.331 = 299,475 funds
+
+**Prerequisite Requirements:**
+- All prerequisites must be completed before research can begin
+- Incomplete prerequisites block research (grayed out in UI)
+- Prerequisites cannot be in progress (half-completed)
+
+### Tier 4: Difficulty Modifier
+
+Research costs scale with game difficulty:
+
+- Easy: ×0.7 (30% reduction)
+- Normal: ×1.0 (baseline)
+- Hard: ×1.25 (25% increase)
+- Impossible: ×1.5 (50% increase)
+
+### Tier 5: Technology Tier Modifier
+
+Advanced technologies cost more due to increasing complexity:
+
+**Technology Tiers:**
+- Tier 1 (Beginning): ×1.0 (available immediately)
+- Tier 2 (Mid Game): ×1.2 (requires 5 Tier 1 techs)
+- Tier 3 (Late Game): ×1.5 (requires 8 Tier 2 techs)
+- Tier 4 (End Game): ×2.0 (requires 10 Tier 3 techs)
+
+**Example:** Plasma Rifle (Tier 3) = 299,475 × 1.5 = 449,212 funds
+
+### Research Time Calculation
+
+Research time converts funding cost to development duration:
+
+```
+Research Time (days) = Cost ÷ 10,000
+```
+
+**Time Examples:**
+- 50,000 cost = 5 days
+- 150,000 cost = 15 days
+- 300,000 cost = 30 days
+- 449,212 cost = 45 days
+
+### Parallel Research System
+
+Multiple research projects can run simultaneously:
+
+**Parallel Limits:**
+- Maximum: 3 research projects simultaneously
+- Funding splits across all active projects
+- Each project progresses at reduced speed
+
+**Funding Split Example:**
+- Total funding: 100,000/month
+- 3 projects: ~33,333 per project per month
+- Project A (300,000 cost): 33,333/month = 9 months
+- Project B (200,000 cost): 33,333/month = 6 months
+- Project C (100,000 cost): 33,333/month = 3 months
+
+### Rush Research (Optional)
+
+Players can rush research for immediate completion:
+
+**Rush Cost:** 2× normal research cost
+**Rush Time:** Completes next day
+**Strategic Choice:** Expensive but provides immediate access
+
+**Example:**
+- Normal: Plasma Rifle = 449,212 funds, 45 days
+- Rush: Plasma Rifle = 898,424 funds, 1 day
+
+### Complete Cost Calculation Example
+
+**Plasma Rifle Research (Tier 3, Hard Difficulty):**
+
+```
+Base Cost: 150,000 (advanced weapon)
+× Complexity: ×1.5 (plasma technology)
+× Prerequisites: ×1.331 (3 prerequisites completed)
+× Difficulty: ×1.25 (hard mode)
+× Tier: ×1.5 (tier 3 technology)
+= Final Cost: 449,212 × 1.25 = 561,515 funds
+
+Research Time: 561,515 ÷ 10,000 = 56 days
+Monthly Funding: 100,000/month
+Completion Time: 6 months (with parallel research split)
+```
+
+### Research Progression Timeline
+
+**Month 1-3 (Early Game):**
+- Research: Rifle (55,000), Sniper (60,000), Ballistics (33,000)
+- Parallel funding: 100,000/month split across projects
+- Result: All complete by Month 3, basic weapons unlocked
+
+**Month 4-6 (Mid Game):**
+- Research: Plasma Rifle (449,212), Advanced Armor (180,000), Lab (80,000)
+- Parallel funding: 150,000/month (increased income)
+- Result: Gradual progression, requires strategic choices
+
+**Month 7+ (Late Game):**
+- Research: Mind Control (800,000+), Alien Tech (400,000+)
+- Parallel funding: 200,000/month
+- Result: Major time investments for endgame capabilities
+
+---
+
+## Difficulty Scaling
+
+### Easy Mode
+- Research costs: 30% reduction
+- Research speed: +50% increase
+- Manufacturing time: 25% reduction
+- Transfer costs: 50% reduction
+- Salvage value: +20% increase
+
+### Normal Mode
+- All parameters at standard values
+- Balanced research and production
+- Standard resource management
+- Normal economic challenges
+
+### Hard Mode
+- Research costs: +25% increase
+- Research speed: -20% reduction
+- Manufacturing time: +25% increase
+- Transfer costs: +50% increase
+- Salvage value: -15% reduction
+
+### Impossible Mode
+- Research costs: +50% increase
+- Research speed: -40% reduction
+- Manufacturing time: +50% increase
+- Transfer costs: +100% increase
+- Salvage value: -30% reduction
+- Black market penalties: Doubled
+
+---
+
+## Testing Scenarios
+
+- [ ] **Research Tree Dependencies**: Verify prerequisite system prevents invalid research progression
+  - **Setup**: Attempt to research advanced project without prerequisites
+  - **Action**: Try to start research project
+  - **Expected**: System blocks invalid research attempts
+  - **Verify**: Error messages and blocked research options
+
+- [ ] **Salvage Value Calculation**: Test that salvage values reflect item rarity and condition
+  - **Setup**: Mission with mixed salvage (weapons, armor, artifacts)
+  - **Action**: Calculate total salvage value
+  - **Expected**: Values scale appropriately with item quality
+  - **Verify**: Compare calculated vs. expected values
+
+- [ ] **Manufacturing Queue**: Verify production queuing and resource allocation work correctly
+  - **Setup**: Manufacturing facility with multiple queued projects
+  - **Action**: Process production over time
+  - **Expected**: Items complete in correct order with proper resource consumption
+  - **Verify**: Inventory updates and completion timing
+
+- [ ] **Transfer System**: Test inter-base transfers work with correct costs and timing
+  - **Setup**: Two bases connected by transfer route
+  - **Action**: Transfer items between bases
+  - **Expected**: Items arrive with correct delay and cost deduction
+  - **Verify**: Inventory changes and credit deductions
+
+- [ ] **Black Market Trading**: Verify black market transactions affect karma and relations
+  - **Setup**: Sell high-value item through black market
+  - **Action**: Complete transaction
+  - **Expected**: Credits gained but karma/relations reduced
+  - **Verify**: Economic and diplomatic state changes
+
+---
+
+## Related Features
+
+- **[Mission System]**: Salvage collection and research opportunities (Missions.md)
+- **[Items System]**: Equipment specifications and manufacturing requirements (Items.md)
+- **[Basescape System]**: Facilities for research and manufacturing (Basescape.md)
+- **[Finance System]**: Economic impact and funding mechanics (Finance.md)
+- **[Black Market System]**: Alternative trading and special purchases (BlackMarket.md)
+- **[Units System]**: Equipment requirements and inventory management (Units.md)
+- **[Crafts System]**: Cargo capacity and transfer mechanics (Crafts.md)
+
+---
+
+## Review Checklist
+
+- [ ] Research project system clearly defined with prerequisites
+- [ ] Technology tree structure documented
+- [ ] Manufacturing system mechanics specified
+- [ ] Marketplace and black market systems balanced
+- [ ] Supplier and transfer systems implemented
+- [ ] Balance parameters quantified with reasoning
+- [ ] Difficulty scaling implemented
+- [ ] Testing scenarios comprehensive
+- [ ] Related systems properly linked
+- [ ] No undefined terminology
+- [ ] Implementation feasible

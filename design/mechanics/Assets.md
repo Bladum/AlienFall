@@ -1,7 +1,7 @@
 ﻿﻿# Assets & Resource Pipeline
 
-> **Status**: Design Document  
-> **Last Updated**: 2025-10-28  
+> **Status**: Design Document
+> **Last Updated**: 2025-10-28
 > **Related Systems**: Gui.md, Battlescape.md, Items.md
 
 ## Table of Contents
@@ -171,22 +171,9 @@ The Assets System manages all game resources including graphics, audio, and data
   - Single sprite per tile type
   - Examples: rocks, craters, debris
 
-**Definition**: TOML specifies tile properties
-```toml
-[tile.grass]
-sprite = "tileset/terrain_atlas.png"
-autotile = true
-walkable = true
-cover = 0
-block_vision = false
+**Tile Configuration Definition**:
 
-[tile.wall]
-sprite = "tileset/structures_atlas.png"
-autotile = false
-walkable = false
-cover = 80
-block_vision = true
-```
+Tile properties specify which sprite image to use, whether autotiling is enabled (for connective tiles), walkability status, cover amount provided (0-100), and whether the tile blocks line of sight. Examples include grass (walkable, no cover, no vision blocking) and walls (not walkable, 80 cover, full vision blocking).
 
 **Loading**: On-demand per map, cached during session
 - Load tileset metadata at map creation
@@ -301,7 +288,7 @@ Equipment degrades through combat use and requires maintenance:
   - Weapons: -5 per mission (fired shots)
   - Armor: -3 per hit taken
   - Equipment: -2 per mission
-  
+
 **Condition States:**
 - 100-75: Pristine (full effectiveness)
 - 74-50: Worn (cosmetic wear, no penalty)
@@ -435,7 +422,7 @@ Move equipment between bases via transport aircraft:
 
 
 - **Structure**: Folder-based, each tileset contains PNG variations
-- **Types**: 
+- **Types**:
   - Autotiles (self-connecting)
   - Random variants
   - Animations (frame sequences)
@@ -496,41 +483,13 @@ Move equipment between bases via transport aircraft:
 
 Standard format for mod data definitions:
 
-```toml
-[item]
-id = "laser_rifle"
-name = "Laser Rifle"
-description = "Advanced energy weapon"
-type = "weapon"
-stats = { damage = 25, accuracy = 85, range = 25, ap_cost = 4 }
-weight = 4.5
-cost = 5000
-research_unlock = "laser_weapons"
+Mods define game content through TOML configuration files organized by entity type. Items specify: identifier, human-readable name, description, type (weapon/armor/consumable), combat stats (damage, accuracy, range, action point cost), weight, purchase cost, and research unlock requirements. Units specify: unique identifier, class type, health pool, attribute scores, accuracy percentages, psi abilities, and special abilities list. Facilities specify: unique identifier, physical size, construction cost, time to build, capacity limits, services provided (research/manufacturing/training), and research unlock paths.
 
-[unit]
-id = "sectoid_commander"
-name = "Sectoid Commander"
-class = "Leader"
-hp = 45
-str = 8
-accuracy = 85
-psi = 10
-abilities = ["psi_damage", "mind_control", "suppress_fire"]
-
-[facility]
-id = "plasma_lab"
-name = "Plasma Laboratory"
-size = { width = 2, height = 2 }
-cost = 50000
-construction_time = 14
-capacity = 1
-services = ["research"]
-research_unlock = "plasma_weapons"
-```
+**Each entity type** (items, units, facilities, crafts) follows the same pattern: identifier is unique key, properties define behavior, and relationships link to other systems.
 
 ### Load Order & Priority
 
-**Load Sequence:**
+**Load Sequence**:
 1. Core game assets loaded first (baseline functionality)
 2. User mods loaded in priority order (defined in load_order.toml)
 3. Asset precedence: Later mods override earlier ones
@@ -542,16 +501,9 @@ research_unlock = "plasma_weapons"
 - Warning system for deprecated features
 - Graceful degradation if optional mod unavailable
 
-**Example Load Order:**
-```toml
-[load_order]
-mods = [
-  "core",              # Base game content (always first)
-  "expanded_weapons",  # Adds new weapons
-  "balance_tweaks",    # Modifies core item stats
-  "my_campaign"        # Custom campaign (uses all above)
-]
-```
+**Example Load Order**:
+
+Mods load in priority sequence: core (base game content, always first), then expanded_weapons (adds new weapons), then balance_tweaks (modifies core item stats), then my_campaign (custom campaign using all above). Later mods override earlier ones with same ID.
 
 ---
 
@@ -632,3 +584,59 @@ The Assets system provides resources for:
 - Unit class visuals and animations
 - Inventory icons and representations
 **For complete system integration details, see [Integration.md](Integration.md)**
+
+---
+
+## Examples
+
+- Scenario: Large mod adds multiple tilesets; validate atlasing and load-time impact across scenes.
+- Scenario: High-resolution sprite sheet introduced; confirm memory budgets and fallback behavior on low-end systems.
+
+---
+
+## Balance Parameters
+
+| Parameter | Default | Range | Notes |
+|---|---:|---|---|
+| Atlas max texture size | 2048 | 1024-4096 | Platform-dependent cap |
+| Target scene asset memory | 150 MB | 50-300 MB | Guides streaming thresholds |
+| Sprite sheet compression quality | 80% | 60-100% | Tradeoff between size and visual fidelity |
+
+---
+
+## Difficulty Scaling
+
+- Easy: Prioritize visual clarity and larger texture budgets.
+- Normal: Standard memory and compression settings.
+- Hard/Low-end: Enforce stricter atlas sizes, lower texture quality, and aggressive streaming.
+
+---
+
+## Testing Scenarios
+
+- [ ] Atlas Generation: Validate atlases build deterministically and load across platforms.
+- [ ] Memory Budget: Simulate worst-case scene load and check total asset memory.
+- [ ] Mod Integration: Load prioritized mod combinations to detect conflicts and overrides.
+
+---
+
+## Related Features
+
+- Gui.md — UI sprites and iconography
+- Battlescape.md — combat visuals and particle effects
+- Mods/Minimal_mod — example mod structure and integration tests
+
+---
+
+## Implementation Notes
+
+- Cache precomputed atlases in a versioned folder keyed by content hash. Keep runtime fallback for missing assets. Provide CLI tools for asset validation and batch optimization.
+
+---
+
+## Review Checklist
+
+- [ ] Atlas and tileset specs documented
+- [ ] Memory budgets defined per platform
+- [ ] Asset validation tools present and passing
+- [ ] Mod load order and conflict detection implemented

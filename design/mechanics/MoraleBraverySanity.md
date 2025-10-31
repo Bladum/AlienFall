@@ -1,7 +1,7 @@
 # Morale, Bravery, and Sanity System
 
-> **Status**: Design Document  
-> **Last Updated**: 2025-10-28  
+> **Status**: Design Document
+> **Last Updated**: 2025-10-28
 > **Related Systems**: Battlescape.md, Units.md, Basescape.md
 
 ## Table of Contents
@@ -256,16 +256,19 @@ Night mission: -1
 Total sanity loss: -6 sanity
 ```
 
-### Sanity Thresholds & Effects
+### Sanity Thresholds & Effects (DEPLOYMENT ONLY - NO IN-BATTLE EFFECTS)
 
-| Sanity Level | Status | Effects | Behavior |
-|--------------|--------|---------|----------|
-| **10-12** | **Stable** | No penalties | Normal deployment |
-| **7-9** | **Strained** | -5% accuracy | Minor combat degradation |
-| **5-6** | **Fragile** | -10% accuracy, -1 morale start | Noticeable issues |
-| **3-4** | **Breaking** | -15% accuracy, -2 morale start | Combat impaired |
-| **1-2** | **Unstable** | -25% accuracy, -3 morale start | Near breakdown |
-| **0** | **BROKEN** | Cannot deploy | Requires treatment |
+| Sanity Level | Status | In-Battle Effects | Deployment |
+|--------------|--------|-------------------|-----------|
+| **8-12** | **Stable** | None (no penalty) | ✅ Can deploy |
+| **5-7** | **Stressed** | None (no penalty) | ✅ Can deploy |
+| **2-4** | **Fragile** | None (no penalty) | ✅ Can deploy |
+| **1** | **Critical** | None (no penalty) | ✅ Can deploy (risky) |
+| **0** | **BROKEN** | Cannot participate | ❌ Cannot deploy |
+
+**KEY DESIGN POINT**: Sanity has NO in-battle effects (no accuracy penalties, no AP penalties). It only determines deployment eligibility. The distinction is clear:
+- **Morale** = IN-BATTLE buffer (affects combat performance with accuracy & AP penalties)
+- **Sanity** = BETWEEN-BATTLE gate (pure deployment lock at 0)
 
 ### Broken State (Sanity = 0)
 
@@ -276,15 +279,16 @@ Total sanity loss: -6 sanity
 - Occupies base slot but cannot fight
 
 **Treatment Options**:
-- **Temple/Psych Ward**: +2 sanity per week (requires facility)
-- **R&R (Rest)**: +1 sanity per week (base recovery)
-- **Medication**: +3 sanity immediately (consumes medical item, 10,000 credits)
-- **Discharge**: Remove unit permanently (no recovery cost)
+- **Hospital/Psych Ward**: +1 sanity per week (requires facility)
+- **Psychological Counseling**: +2-3 sanity per session (100 credits per session)
+- **Leave/Vacation**: +1 sanity per 2 weeks off-duty
+- **Promotion**: +2 sanity upon rank advancement
+- **Mission Success**: +1 sanity upon completing objective (if sanity < 8)
 
 **Treatment Duration**:
-- Typical recovery: 3-6 weeks to restore sanity to usable levels
-- Full recovery: 6-12 weeks to restore to maximum
-- Unit cannot deploy until sanity reaches 3+
+- Typical recovery: 1-6 weeks to restore sanity to deployable levels (sanity 1+)
+- Full recovery: 6-12 weeks to restore to maximum (sanity 8-12)
+- Unit cannot deploy until sanity reaches 1+ (can deploy at 1 with risk)
 
 ### Sanity Recovery
 
@@ -341,29 +345,33 @@ Total sanity loss: -6 sanity
 
 **After Mission**:
 1. Sanity drops based on mission horror
-2. Sanity affects future deployments
-3. Sanity recovers slowly in base
-4. Low sanity = lower morale start in next mission
+2. Sanity is ONLY a deployment gate (affects ability to deploy, not performance)
+3. Sanity recovers slowly in base (1-2 per week with facilities)
+4. At 0 sanity: Unit cannot deploy (binary lock)
 
-**Interaction**:
+**Interaction Example** (Corrected):
 ```
 Bravery 10 → Start mission with 10 morale
-Morale drops to 3 during combat → -10% accuracy
+Morale drops to 3 during combat → -10% accuracy (from morale)
 Mission ends: Morale resets to 10
 Sanity drops by 2 (horror mission) → 8 sanity remaining
-Next mission: Start with 10 morale, but -5% accuracy (sanity effect)
+Next mission: Start with 10 morale, NO accuracy penalty from sanity
+  (Sanity affects DEPLOYMENT, not performance)
 ```
 
-### Morale + Sanity Penalties Stack
+### Morale vs Sanity - Clear Distinction
 
-| Condition | Morale | Sanity | Total Accuracy Penalty |
-|-----------|--------|--------|----------------------|
-| Healthy unit | 10 | 10 | 0% |
-| Stressed unit | 4 | 7 | -10% (morale) + -5% (sanity) = -15% |
-| Panicked unit | 1 | 3 | -25% (morale) + -15% (sanity) = -40% |
-| Broken unit | N/A | 0 | Cannot deploy |
+| System | Scope | Effect | Applies When |
+|--------|-------|--------|--------------|
+| **Morale** | In-Battle | Affects AP and accuracy penalties | During active combat |
+| **Sanity** | Between-Battles | Deployment lock (0 = cannot deploy) | Mission planning phase |
 
-**Design Intent**: Cumulative psychological degradation creates meaningful strategic challenge.
+**Design Principle**:
+- **Morale** = Tactical in-battle performance buffer (affects how unit fights NOW)
+- **Sanity** = Strategic campaign management gate (affects which units can deploy NEXT)
+- They are independent systems serving different game functions
+- Morale penalties CAN stack with each other (strained -5%, shaken -10%, etc.)
+- Sanity does NOT create additional accuracy penalties on top of morale
 
 ---
 
@@ -441,20 +449,17 @@ Next mission: Start with 10 morale, but -5% accuracy (sanity effect)
 
 ## Implementation Notes
 
-**Data Structure**:
-```lua
-Unit = {
-  bravery = 10, -- Base stat (6-12 range)
-  morale = 10, -- Current in-battle (resets each mission)
-  sanity = 8, -- Long-term (persists across missions)
-  traits = {"Brave"}, -- +2 bravery modifier
-  modifiers = {
-    bravery_bonus = 2, -- From traits/equipment
-    morale_penalty = 0, -- Current turn penalty
-    sanity_penalty = 0 -- Cumulative trauma
-  }
-}
-```
+**Unit Data Structure**:
+
+Units track the following psychological state:
+- **Bravery**: Base stat (6-12 range) - core morale capacity
+- **Morale**: Current in-battle value (resets each mission) - current psychological state
+- **Sanity**: Long-term psychological stability (persists across missions) - cumulative trauma
+- **Traits**: Applied modifiers (e.g., "Brave" grants +2 bravery bonus)
+- **Modifiers**: Runtime adjustments including:
+  - Bravery bonuses from traits/equipment
+  - Morale penalties from current battle effects
+  - Sanity penalties from cumulative campaign trauma
 
 **Integration Points**:
 - **Battlescape.md**: Morale combat mechanics
@@ -464,8 +469,8 @@ Unit = {
 
 ---
 
-**Last Updated**: 2025-10-28  
-**Version**: 1.0  
+**Last Updated**: 2025-10-28
+**Version**: 1.0
 **Status**: Complete Design Specification
 
 ---
@@ -488,3 +493,86 @@ Morale/Bravery/Sanity integrates with:
 - Night missions impose morale penalties
 - Horror scenarios cause sanity damage
 **For complete system integration details, see [Integration.md](Integration.md)**
+
+## Examples
+
+### Scenario 1: Combat Morale Break
+**Setup**: Unit with bravery 8 enters combat, takes heavy casualties
+**Action**: Morale drops below threshold from repeated losses
+**Result**: Unit panics, reduced accuracy, potential retreat
+
+### Scenario 2: Sanity Degradation
+**Setup**: Unit survives multiple horror missions
+**Action**: Accumulates sanity damage over campaigns
+**Result**: Unit becomes unreliable, requires medical treatment
+
+## Balance Parameters
+
+| Parameter | Value | Range | Reasoning | Difficulty Scaling |
+|-----------|-------|-------|-----------|-------------------|
+| Base Bravery | 6-12 | 1-20 | Core courage stat | +2 on Hard |
+| Morale Threshold | 50% of bravery | 25-75% | Panic trigger | -10% on Easy |
+| Sanity Range | 0-12 | 0-20 | Mental health scale | +2 max on Hard |
+| Recovery Rate | +1/week | 0.5-2 | Healing pace | +0.5 on Easy |
+
+## Difficulty Scaling
+
+### Easy Mode
+- Higher base bravery values
+- More forgiving morale thresholds
+- Faster sanity recovery
+- Reduced psychological penalties
+
+### Normal Mode
+- Standard bravery/morale mechanics
+- Balanced sanity degradation
+- Normal recovery rates
+
+### Hard Mode
+- Lower base bravery values
+- Stricter morale requirements
+- Increased sanity damage
+- Slower recovery rates
+
+### Impossible Mode
+- Minimum bravery stats
+- Harsh morale penalties
+- Severe sanity degradation
+- Minimal recovery
+
+## Testing Scenarios
+
+- [ ] **Morale Combat Test**: Unit under fire loses morale
+  - **Setup**: Unit in combat with bravery 8
+  - **Action**: Take 3 casualties in one turn
+  - **Expected**: Morale drops below 4, panic occurs
+  - **Verify**: Unit shows panic status and reduced accuracy
+
+- [ ] **Sanity Recovery Test**: Unit treated in hospital
+  - **Setup**: Unit with sanity 3
+  - **Action**: Assign to hospital for 2 weeks
+  - **Expected**: Sanity increases to 5
+  - **Verify**: Sanity display updates correctly
+
+## Related Features
+
+- **[Battlescape System]**: Combat morale mechanics (Battlescape.md)
+- **[Units System]**: Core unit stats and progression (Units.md)
+- **[Basescape System]**: Recovery facilities and treatment (Basescape.md)
+- **[Missions System]**: Psychological mission effects (Missions.md)
+
+## Implementation Notes
+
+- Bravery as core stat with morale as derived buffer
+- Sanity tracking separate from health systems
+- Recovery mechanics tied to base facilities
+- Integration with combat resolution systems
+
+## Review Checklist
+
+- [ ] Bravery stat mechanics defined
+- [ ] Morale system in-battle documented
+- [ ] Sanity system between-battles specified
+- [ ] Integration with combat complete
+- [ ] Recovery mechanics balanced
+- [ ] Strategic implications clear

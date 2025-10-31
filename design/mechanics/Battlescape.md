@@ -1,7 +1,7 @@
 # Battlescape System
 
-> **Status**: Design Document  
-> **Last Updated**: 2025-10-28  
+> **Status**: Design Document
+> **Last Updated**: 2025-10-28
 > **Related Systems**: Units.md, Items.md, ai_systems.md, 3D.md, hex_vertical_axial_system.md
 
 ## Table of Contents
@@ -25,6 +25,13 @@
 - [Advanced Mechanics & Tactical Depth](#advanced-mechanics--tactical-depth)
 - [Victory & Defeat](#victory--defeat)
 - [Conclusion](#conclusion)
+- [Examples](#examples)
+- [Balance Parameters](#balance-parameters)
+- [Difficulty Scaling](#difficulty-scaling)
+- [Testing Scenarios](#testing-scenarios)
+- [Related Features](#related-features)
+- [Implementation Notes](#implementation-notes)
+- [Review Checklist](#review-checklist)
 
 ---
 
@@ -429,7 +436,7 @@ Each tile can contain specific types of entities with different interactions:
 - **No dynamic lighting**: The game uses a fog-of-war system rather than realistic lighting
 - **Day sight vs. Night sight**: Units have separate sight range statistics for day and night
 - **Item modifiers**: Special items like flashlights extend night vision
-- **Night vision penalty**: Sanity damage (-1) during night missions
+- **Night vision penalty**: Reduced sight range during night missions
 - **Visual effect**: Night missions apply a blue screen tint for atmosphere
 
 #### Determination
@@ -462,7 +469,6 @@ Weather conditions affect visibility, movement, and combat accuracy. Weather is 
 
 #### Night Missions
 - Extremely short sight range
-- Sanity penalty: −1
 - Blue screen tint effect
 - Some enemies may have natural night vision
 
@@ -490,7 +496,7 @@ Line of sight determines what a unit can see and target. All visibility is calcu
 #### Sight Range
 - **Day sight**: Unit class statistic (typically 8–12 hexes)
 - **Night sight**: Unit class statistic (typically 3–6 hexes)
-- **Modified by**: Equipment (nightvision goggles, scopes), traits, morale, status effects
+- **Modified by**: Equipment (nightvision goggles, scopes), traits, status effects
 
 #### Sight Cost Calculation
 Calculate sight through terrain by raycasting from the unit to each hex in range:
@@ -547,44 +553,145 @@ Fire cost represents obstruction or difficulty hitting through cover:
 
 #### Calculation Process
 
-**Step 1: Base Accuracy Calculation**
-Start with unit and weapon base accuracy:
-- Base unit class accuracy (typically 60–80%)
-- Weapon base accuracy modifier (−10% to +10%)
-- Weapon mode modifier (snap: −5%, aim: +15%, etc.)
+**Step 1: Base Accuracy (Unit Aim + Weapon Bonus)**
 
-**Step 2: Range Modifier**
-Apply penalty/bonus based on distance to target:
+```
+Base_Accuracy = Unit_Aim_Stat × (1 + Weapon_Aim_Bonus)
 
-**Range Tiers** (assuming max range = 12 hexes):
-- **0–75% of max range (0–9 hexes)**: 100% accuracy, linear decline to 50% at 75% range
-- **75–100% of max range (9–12 hexes)**: 50% accuracy, linear decline to 0% at 100% range
-- **100–125% of max range (12–15 hexes)**: 0% accuracy, linear decline to −100% (automatic miss)
+Example:
+- Unit Aim stat: 70
+- Weapon bonus: +10% (weapon accuracy enhancement)
+- Base = 70 × 1.10 = 77
+```
 
-**Minimum Range Modifier** (some weapons):
-- **0–25% of max range**: Penalties apply (difficult to aim at close range)
-- Sniper rifles: −50% accuracy within 3 hexes
-- Shotguns: No penalty (effective at close range)
+**Step 2: Range Modifier (MULTIPLICATIVE)**
 
-**Step 3: Cover Modifiers**
-- **Target cover**: Look at all obstacles between shooter and target
-- **Per hex of fire cost**: Each point = −5% accuracy
-- **Maximum cover bonus**: Typically capped at −50% (always 5% minimum chance)
+Weapon has max effective range (typically 15-20 hexes). Distance determines multiplier:
 
-**Step 4: Line of Sight Modifier**
-- **Target visible**: No modifier
-- **Target not visible**: −50% accuracy penalty
-- Shots at blind targets are last-resort actions
+```
+0-75% of range (0-15 hexes for 20-hex weapon):
+  Range_Mod = 1.0 (100%, no penalty)
 
-**Step 5: Cumulative Clamping**
-- Clamp all modifiers to a **5%–95% range**
-- Ensures no guaranteed hits or misses (except critical rules)
+75-100% of range (15-20 hexes):
+  Range_Mod = 0.5 (50%, linear drop from 1.0 to 0.5)
 
-#### Final Accuracy Test
+100%+ of range (20+ hexes):
+  Range_Mod = 0.0 (0%, impossible shot)
+```
 
-Roll against final accuracy percentage:
-- **Success**: Bullet travels directly to target tile
-- **Failure**: Bullet deviates (see [Projectile Deviation](#projectile-deviation))
+**Step 3: Weapon Mode Modifier (MULTIPLICATIVE)**
+
+Weapon firing mode provides accuracy multiplier:
+
+```
+Base (Standard aim):           Mode_Mod = 1.0
+Snap Shot (quick):            Mode_Mod = 0.95
+Semi-Auto (deliberate):       Mode_Mod = 1.0
+Burst (less controlled):       Mode_Mod = 0.85
+Auto (least controlled):       Mode_Mod = 0.75
+Aimed Shot (careful):         Mode_Mod = 1.15
+Careful Aim (very careful):   Mode_Mod = 1.30
+```
+
+**Step 4: Cover Modifier (MULTIPLICATIVE - NOT ADDITIVE)**
+
+Count ALL cover points (obstacles) between shooter and target. Each point = 5% accuracy loss:
+
+```
+Total_Cover = sum of all cover obstacles
+Cover_Mod = 1.0 - (0.05 × Total_Cover)
+
+Examples:
+- 1 cover point: Cover_Mod = 0.95 (5% loss)
+- 5 cover points: Cover_Mod = 0.75 (25% loss)
+- 10 cover points: Cover_Mod = 0.50 (50% loss)
+```
+
+**Step 5: Line of Sight Modifier (MULTIPLICATIVE)**
+
+```
+Target visible: LOS_Mod = 1.0 (100%)
+Target hidden/obscured: LOS_Mod = 0.5 (50%)
+```
+
+**Step 6: Final Calculation (ALL MULTIPLICATIVE)**
+
+```
+Final_Accuracy = Base × Range_Mod × Mode_Mod × Cover_Mod × LOS_Mod
+
+Clamp to: 5% minimum, 95% maximum
+(Never guaranteed hits, never impossible shots)
+```
+
+**Complete Example**:
+
+```
+Scenario:
+- Unit Aim: 70, Weapon bonus +10% → Base = 77
+- Distance: 12 hexes (60% of 20-hex range) → Range_Mod = 1.0
+- Using Burst mode → Mode_Mod = 0.85
+- Target behind 3 cover points → Cover_Mod = 1.0 - (0.05 × 3) = 0.85
+- Target visible → LOS_Mod = 1.0
+
+Calculation:
+77 × 1.0 × 0.85 × 0.85 × 1.0 = 55.6%
+
+Clamp to 5-95%: FINAL ACCURACY = 55.6%
+```
+
+---
+
+### Range and Accuracy
+
+Accuracy degrades as distance increases from the weapon's effective range:
+
+| Range | Accuracy | Effect |
+|---|---|---|
+| **0–75% of max** | 100% modifier | Full accuracy, no penalty |
+| **75–100% of max** | 50-100% modifier | Linear drop from full to half |
+| **100%+ of max** | 0% modifier | Beyond effective range, impossible |
+
+Weapon-specific ranges (examples):
+- Pistol: 10 hexes max
+- Rifle: 20 hexes max
+- Sniper rifle: 30 hexes max (but often longer-range penalties)
+
+#### Minimum Range Penalties (Close-Range Issues)
+
+Some weapons have minimum range where they're less accurate at very close distances:
+
+```
+Sniper rifles: −50% accuracy within 3 hexes (scope doesn't work at close range)
+Shotguns: No minimum range penalty (effective at all distances)
+Pistols: No minimum range penalty
+```
+
+---
+
+### Cover System
+
+#### Cover Definition
+Cover represents obstacles that reduce attacker accuracy by blocking clear line of fire.
+
+#### Cover Values (Per Obstacle)
+
+| Obstacle Type | Cover Value | Accuracy Effect |
+|---|---|---|
+| **Smoke (small)** | 2 | −10% accuracy |
+| **Smoke (large)** | 4 | −20% accuracy |
+| **Fire (small)** | 1 | −5% accuracy |
+| **Fire (large)** | 2 | −10% accuracy |
+| **Small object** | 1 | −5% accuracy |
+| **Medium object** | 2 | −10% accuracy |
+| **Large object** | 4 | −20% accuracy |
+| **Unit (small)** | 1 | −5% accuracy |
+| **Unit (medium)** | 2 | −10% accuracy |
+| **Unit (large)** | 3 | −15% accuracy |
+
+#### Cumulative Cover
+All obstacles between shooter and target apply cover cumulatively:
+- Example: Path through 2 bushes (cover 2 each) + 1 large smoke (cover 4) = 8 total cover
+- Cover_Mod = 1.0 - (0.05 × 8) = 0.60 (40% accuracy penalty)
 
 ---
 
@@ -881,29 +988,202 @@ Some weapons have minimum range penalties (e.g., sniper rifles):
 
 ### Melee Combat
 
-*Note: Melee mechanics are marked as TODO in the original design. The following represents suggested implementation:*
+Melee combat represents close-range hand-to-hand combat, specialized weapons, and tactical grappling. Unlike ranged combat that can occur at distance, melee requires units to be adjacent (within 1 hex).
+
+#### Melee Combat Prerequisites
+
+**Engagement Range**:
+- Target must be in an adjacent hex (6 possible adjacent tiles)
+- Line-of-sight NOT required (melee attack goes through obstacles)
+- Unit must have ≥ 1 AP available
+
+**Weapon Types**:
+- Melee weapons: Sword, axe, club, stunstick, vibroblade, etc.
+- Unarmed combat: Fists/claws (always available)
+- No ranged weapon equipped: Unit can punch unarmed (1 base damage)
 
 #### Melee Attack Resolution
 
-**Stats Used**:
-- Attacker: Strength stat (instead of Aim/Accuracy)
-- Defender: Reaction stat (for dodge/parry)
+**Attack Sequence**:
 
-**AP Cost**: 1 AP per melee attack
+**Step 1: Determine Attacker Stats**
+- **Melee Skill Stat**: Unit's MEL stat (6–12 range)
+- **Strength Bonus**: Unit's STR stat (adds to damage, not accuracy)
+- **Weapon Bonus**: Melee weapon accuracy modifier (−5% to +10%)
+- **Stance Bonus**: Unit's defensive stance may apply morale modifier
 
-**Energy Cost**: Can draw from unit's Energy Point pool (different from ranged)
+**Step 2: Calculate Base Accuracy**
+```
+base_accuracy = (MEL / 2) + weapon_bonus
+base_accuracy_percent = base_accuracy × 5% + 50%
+```
+- Example: MEL 8, weapon +0 bonus = 4 + 50% = 70% base accuracy
 
-**Accuracy Calculation**:
-- Base: Unit strength + weapon melee bonus
-- Modified by: Target cover, target defensive stance, unit morale
-- Clamped: 5%–95% like ranged attacks
+**Step 3: Apply Modifiers**
 
-**Defense Reaction**:
-- Defender can attempt to dodge/parry (costs no AP, passive)
-- Roll against defender's reaction stat
-- Success reduces damage or negates hit
+| Modifier | Effect | Condition |
+|----------|--------|-----------|
+| **Flanked** | −20% accuracy | Attacker outnumbered by ≥2 enemies |
+| **Outnumbering** | +10% accuracy per extra ally | Attacker has more allies than enemies within 3 hexes |
+| **Defensive stance** | −15% attacker accuracy | Defender chose "Cover" action this turn |
+| **Wound penalty** | −5% per wound | Attacker is wounded |
+| **Surprise** | +30% accuracy | Defender was unaware of attacker |
 
-**Damage**: Weapon-dependent; typically higher than ranged but more risky
+**Step 4: Clamp Final Accuracy**
+- Minimum: 5% (always possible chance to hit)
+- Maximum: 95% (never guaranteed hit)
+- Result: `final_accuracy = clamp(base_accuracy, 5%, 95%)`
+
+**Step 5: Accuracy Test**
+- Roll against `final_accuracy` percentage
+- Success: Proceed to damage calculation
+- Failure: Attack misses, no damage dealt, attack ends
+
+#### Melee Damage Calculation
+
+**Step 1: Base Damage**
+```
+base_damage = (MEL / 2) + (STR / 2) + weapon_damage
+```
+- Example: MEL 8, STR 10, weapon +2 damage = 4 + 5 + 2 = 11 base damage
+
+**Step 2: Apply Damage Type**
+- Weapon defines damage type (kinetic, energy, fire, acid, etc.)
+- Damage type references **DamageTypes.md** for armor resistance
+- Example: Vibroblade = Energy damage (90% shield resistant, 60% heavy armor resistant)
+
+**Step 3: Armor Reduction**
+- Target's armor applies resistance based on damage type
+- Final damage = base_damage × (1 − armor_resistance)
+- Example: Target with 60% energy resistance takes: 11 × (1 − 0.6) = 4.4 damage → 4 HP
+
+**Step 4: Wound Chance**
+- Critical hit: Inflicts 1 wound (critical chance = 5% + weapon bonus %)
+- Wounds persist until healed (4-week recovery per wound)
+- Example: 12% crit chance on vibroblade; successful hit may also inflict wound
+
+**Step 5: Apply Damage**
+- Reduce target HP by calculated damage
+- If HP reaches 0: Unit dies immediately
+- If HP > 0: Unit survives
+
+#### Melee Dodge/Counter
+
+**Defender Reaction (Passive)**:
+- Defender does NOT spend AP to dodge
+- Dodge is an automatic roll when attacked
+- Success: Attack misses or damage reduced
+
+**Dodge Calculation**:
+```
+dodge_chance = (REA / 2) + (MEL / 2) + defensive_stance_bonus
+dodge_chance_percent = dodge_chance × 5% + 30%
+```
+- Example: REA 8, MEL 7 = 4 + 3.5 + 30% = 50.5% dodge chance
+- Clamp: 10%–90% (never certain dodge, never guaranteed hit)
+
+**Dodge Outcomes**:
+- Success (roll ≤ dodge_chance): Attack reduced by 50% (defender successfully parries)
+- Failure (roll > dodge_chance): Attack hits full damage
+
+**Counter-Attack (Optional)**:
+- Defender may spend 1 AP to perform counter-melee attack
+- Counter uses reduced accuracy (−15% attacker accuracy)
+- Resolves as separate melee attack before damage is applied
+
+#### Melee Engagement Duration
+
+**Locked in Combat**:
+- Once melee combat starts, units are "locked in engagement"
+- Units cannot move away without breaking engagement
+- Leaving engagement hexes triggers Opportunity Attacks
+
+**Opportunity Attack (Break Engagement)**:
+- If locked unit tries to move away: Defender gets automatic reaction melee attack
+- Opportunity attack uses reduced accuracy (−20%)
+- Costs no AP for defender
+- If opportunity attack hits, moving unit is stopped (cannot move away)
+- If opportunity attack misses: Moving unit breaks engagement and can move
+
+**Breaking Engagement Permanently**:
+- Unit must succeed at escaping opportunity attacks to break engagement
+- Can move back into adjacent hex (re-engage)
+- Can spend 3 AP to "disengage" (guaranteed safe withdrawal)
+
+#### Special Melee Abilities
+
+**Knockback**:
+- Some weapons inflict knockback on hit
+- Target moves 1–2 hexes away from attacker
+- Can't be knocked into walls (collision stops knockback)
+- Knockback ends engagement (no opportunity attack)
+
+**Disarm**:
+- Special melee action (2 AP, requires weapon equipped)
+- Target roll: MEL vs attacker MEL (contested)
+- Success: Target drops equipped weapon to adjacent hex
+- Weapon can be picked up (2 AP) or left
+
+**Grapple**:
+- Special melee action (2 AP)
+- On success: Both units locked in place
+- Locked units can only:
+  - Use melee attacks (no ranged)
+  - Break grapple (2 AP + successful dodge roll)
+- Grapple ends if either unit moves away
+
+#### Melee Combat Examples
+
+**Example 1: Basic Melee Exchange**
+- Soldier (MEL 8, STR 10) attacks alien (REA 7, MEL 6) with sword
+- Base accuracy: (8/2) + 0 + 50% = 70%
+- Attack roll: 65% (HIT)
+- Damage: (8/2) + (10/2) + 3 = 11 base damage
+- Alien armor (medium, 30% kinetic resistance): 11 × (1 − 0.3) = 7.7 HP damage
+- Alien dodge roll: (7/2) + (6/2) + 30% = 40%
+- Dodge roll: 55% (FAIL, hit confirmed)
+- Alien takes 7 HP damage
+
+**Example 2: Counter-Attack**
+- Alien counter-attacks soldier from above
+- Alien MEL 7, STR 9 with alien blade
+- Base accuracy: (7/2) + 1 = 4.5 + 50% = 72.5%
+- Soldier decides to spend 1 AP for counter
+- Counter rolls: MEL 8, dodge chance = 50%, opposed to accuracy 72.5% − 15% = 57.5%
+- Counter dodge: 45% (SUCCESS, soldier parries incoming attack)
+- Soldier counter-damage: (8/2) + (10/2) + 3 = 11 base damage
+- Alien takes damage from counter
+
+**Example 3: Disengagement Attempt**
+- Soldier locked in melee with alien
+- Soldier attempts to move 2 hexes away
+- Alien gets opportunity attack (auto-triggered)
+- Alien attack accuracy: 72.5% − 20% = 52.5% (reduced)
+- Opportunity roll: 40% (HIT)
+- Soldier takes damage from opportunity attack
+- Soldier cannot move away (stopped by hit)
+- Soldier must use "disengage" action next turn (3 AP cost) to break engagement
+
+#### Melee AP Cost Summary
+
+| Action | AP Cost | When Available |
+|--------|---------|-----------------|
+| **Melee attack** | 1 | Any time, adjacent enemy |
+| **Counter-attack** | 1 | When attacked by melee |
+| **Disarm** | 2 | Holding weapon, adjacent enemy |
+| **Grapple** | 2 | Any time, adjacent enemy |
+| **Break grapple** | 2 | Locked in grapple |
+| **Disengage** | 3 | Locked in melee combat |
+| **Unarmed punch** | 1 | Anytime (no weapon required) |
+
+#### Melee Balancing Notes
+
+- Melee is higher damage than ranged but requires proximity
+- Dodge provides defensive option (passive, no AP cost)
+- Engagement lockdown prevents easy escape (requires commitment)
+- Counter-attacks add complexity and mutual threat
+- Opportunity attacks punish attempted disengagement
+- Disarm/grapple add tactical options beyond damage
 
 ---
 
@@ -963,26 +1243,53 @@ As a unit takes damage, it becomes less capable:
 
 ### Stun Point System
 
-Stun is temporary damage that accumulates but naturally decays. Unlike HP, stun represents fatigue and disorientation.
+Stun is temporary incapacity damage that accumulates but decays automatically each turn. Unlike HP damage, stun naturally recovers.
 
 #### Stun Mechanics
 
 - **Base Stun**: 0 at battle start
-- **Accumulation**: Various effects inflict stun (smoke, stun weapons, etc.)
-- **Natural Decay**: −1 stun per turn automatically
-- **Incapacitation**: When stun ≥ current max HP, unit becomes unconscious
+- **Accumulation**: Various sources inflict stun (smoke clouds, stun weapons, melee impacts, etc.)
+- **Multiple Sources**: Each stun source tracked independently
+- **Natural Decay**: −1 stun per source automatically at END OF TURN
+- **Incapacitation**: When total stun ≥ current max HP, unit becomes unconscious (fainted)
 
-#### Unconscious State
-- Unit has 0 AP available
-- Cannot perform actions
-- Cannot participate in line-of-sight calculations
-- Remains on battlefield until stun drops below max HP
-- Other units can revive with medikit or wait for stun decay
+#### Decay Timing (CLARIFIED)
+- **When**: End of unit's action phase (after all actions resolve)
+- **Automatic**: Decay applies automatically, no action required
+- **All Sources**: Each stun source decays independently (−1 per source per turn)
+- **Applies to Fainted Units**: Stun continues decaying even if unit is unconscious
+- **Minimum**: Stun cannot go below 0 (locked at 0)
 
-#### Rest Action
-- Costs 3 AP
-- Removes −1 stun (faster than natural decay)
-- Useful for recovering from stun damage
+Example:
+```
+Unit has 8 total stun from multiple sources:
+- 5 stun from smoke
+- 3 stun from stun weapon
+
+End of turn automatic decay:
+- Smoke: 5 → 4 (−1)
+- Stun weapon: 3 → 2 (−1)
+- Total remaining: 6 stun
+
+If unit was fainted (total stun ≥ max HP):
+- Still recovers 2 stun points
+- May become active again if total drops below max HP
+```
+
+#### Unconscious State (Fainted)
+- Triggered: When total stun ≥ current max HP
+- **AP available**: 0 (cannot act)
+- **Visibility**: Still visible to all units
+- **Line of Sight**: Unit cannot shoot or target (incapacitated)
+- **Recovery**: Automatic via stun decay (−1/turn per source)
+- **Medikit Recovery**: Stimulant item restores −5 stun instantly (single use)
+- **Duration**: Unit remains fainted until total stun < max HP
+
+#### Rest Action (In-Battle Recovery)
+- **AP Cost**: 2 AP
+- **Effect**: Does NOT affect stun decay (decay always −1 regardless)
+- **Purpose**: Recover AP next turn, not stun recovery
+- **Note**: Rest is for action recovery, not stun recovery; stun only recovers via automatic decay
 
 ---
 
@@ -1203,7 +1510,7 @@ Units within a team can act in any order during their turn:
 
 #### AP Refreshment
 - **Turn Start**: All units regain 4 AP (minus penalties)
-- **Status Effects**: Morale/sanity penalties reduce AP available
+- **Status Effects**: Morale penalties reduce AP available
 - **No Carryover**: Unused AP is lost at end of turn
 
 #### Reinforcement Trigger
@@ -1214,6 +1521,8 @@ Units within a team can act in any order during their turn:
 ---
 
 ## Combat Statistics & Unit Stats
+
+*For complete unit stat definitions, ranges, formulas, and examples, see [MASTER_STAT_TABLE.md](../MASTER_STAT_TABLE.md).*
 
 ### Unit Stats Reference
 
@@ -1335,253 +1644,24 @@ If unit lacks AP to perform reaction, can still move away (opportunity action). 
 
 **For Complete Morale/Bravery/Sanity Mechanics**: See [MoraleBraverySanity.md](./MoraleBraverySanity.md)
 
-### Quick Reference
+### Combat Integration
 
-**Bravery (Core Stat)**:
-- Range: 6-12
-- Determines starting morale in battle
-- Increases with experience and traits
-- Examples: Brave trait (+2), Officer gear (+1)
+**Morale Effects in Combat**:
+- Morale affects unit accuracy and action points during battle
+- Low morale units have reduced combat effectiveness
+- Panic state (morale = 0) disables unit actions completely
+- Morale recovers through Rest actions or leader rallies
 
-**Morale (In-Battle)**:
-- Starts at Bravery value each mission
-- Degrades from stress: ally death (-1), taking damage (-1), flanked (-1)
-- **Thresholds**: 
-  - 6-12: Normal, full AP
-  - 2: -1 AP penalty
-  - 1: -2 AP penalty  
-  - 0: PANIC (lose all AP)
-- **Recovery**: Rest action (2 AP → +1 morale), Leader rally (4 AP → +2 morale)
-- Resets to Bravery at mission end
+**Sanity Effects in Combat**:
+- Sanity has NO direct effects on combat performance
+- Sanity only affects deployment eligibility between missions
+- Units with 0 sanity cannot be deployed on missions
 
-**Sanity (Long-Term)**:
-- Range: 6-12, separate from morale
-- Drops AFTER mission based on horror: Standard (0), Moderate (-1), Hard (-2), Horror (-3)
-- Additional losses: Night missions (-1), Ally deaths (-1 each), Mission failure (-2)
-- **Recovery**: +1 per week in base, +1 per week with Temple facility
-- **Broken state** (0 sanity): Cannot deploy, requires treatment
-
-### Morale System (Summary)
-
-#### Morale Baseline
-- **Starting morale**: Equals BRAVERY stat (6-12 range) at start of battle
-- **Maximum morale**: Equal to BRAVERY stat (cannot exceed it)
-- **Minimum morale**: 0 (triggers panic mode)
-
-#### Morale Thresholds & Effects
-
-| Morale | Status | AP Penalty | Accuracy | Behavior |
-|--------|--------|------------|----------|
-| **6-12** | Confident | 0 | 0% | Normal |
-| **4-5** | Steady | 0 | -5% | Minor penalty |
-| **3** | Stressed | 0 | -10% | Noticeable |
-| **2** | Shaken | -1 AP | -15% | Impaired |
-| **1** | Panicking | -2 AP | -25% | Severe |
-| **0** | **PANIC** | All AP lost | -50% | Cannot act |
-
-#### Morale Recovery
-- **Rest action**: 2 AP → +1 morale
-- **Leader rally**: 4 AP → +2 morale to nearby unit
-- **Leader aura**: +1 morale per turn (passive, within 8 hexes)
-- **Post-mission**: Morale resets to BRAVERY value
-
----
-
-### Sanity System (Summary)
-
-#### Sanity Baseline
-- **Range**: 6-12 (similar to other core stats)
-- **Default**: 8-10 for most units
-- **Recovery**: +1 per week in base, +2 per week with Temple
-
-#### Sanity Loss (Post-Mission)
-
-| Mission Type | Sanity Loss | Additional Factors |
-|--------------|-------------|-------------------|
-| **Standard** | 0 | Routine operations |
-| **Moderate** | -1 | High stress |
-| **Hard** | -2 | Extreme trauma |
-| **Horror** | -3 | Psychological terror |
-
-**Additional**: Night missions (-1), Ally deaths (-1 each), Mission failure (-2)
-
-#### Sanity Thresholds & Effects
-
-| Sanity | Status | Accuracy | Morale Start | Deployment |
-|--------|--------|----------|--------------|------------|
-| **10-12** | Stable | 0% | Normal | Normal |
-| **7-9** | Strained | -5% | Normal | Normal |
-| **5-6** | Fragile | -10% | -1 morale | Risky |
-| **3-4** | Breaking | -15% | -2 morale | Avoid |
-| **1-2** | Unstable | -25% | -3 morale | Emergency only |
-| **0** | **BROKEN** | N/A | N/A | Cannot deploy |
-
-#### Sanity Recovery
-- **Base recovery**: +1 sanity per week
-- **Temple facility**: +1 additional per week
-- **Medical treatment**: +3 immediate (costs 10,000 credits)
-- **Leave/vacation**: +5 over 2 weeks (costs 5,000 credits)
-
----
-
-### Integration Notes
-
-**Morale + Sanity penalties stack**:
-- Unit with 2 morale + 5 sanity: -15% accuracy (morale) + -10% accuracy (sanity) = -25% total
-- Design intent: Cumulative psychological degradation
-
-**Strategic implications**:
-- Rotate units between missions (sanity recovery)
-- Build Temple facility early (doubles sanity recovery)
-- Use Rest actions during combat (morale management)
-- Position leaders near stressed units (morale boost)
-
----
-
-### Status Effects (Other)
-| **3-5** | Psychological stress, full AP available |
-| **2** | AP modifier: −1 AP per turn |
-| **1** | AP modifier: −2 AP per turn |
-| **0** | **PANIC MODE** - Unit becomes inactive (cannot act), will break formation |
-
-#### Sanity Recovery
-- **Base recovery**: +1 sanity per week (automatic, passive)
-- **Hospital facility**: +1 additional sanity per week
-- **Temple facility**: +1 additional sanity per week (religious morale)
-- **Rest/downtime**: Accelerated recovery during leave periods
-
-#### Sanity Recovery
-- **Rest & recreation** (post-mission): +1 sanity per week
-- **Psychological counseling**: +2 sanity (special facility)
-- **Rotation out of service**: Full recovery with time
-- **Performing well in combat**: No penalty, builds confidence
-
-#### Panic State
-- When morale = 0 **or** sanity = 0: Unit enters panic mode
-- Panicked unit becomes inactive (0 AP, cannot perform actions)
-- Remains panicked until morale **and** sanity both recover above 0
-
----
-
-### Bravery System
-
-Bravery is a core stat (6-12 range) that serves as the foundation for morale during battle. It determines psychological resilience and panic resistance.
-
-#### Bravery Role
-- **Morale Buffer**: BRAVERY stat determines max morale for that unit during battle
-- **Stat Definition**: Core unit stat (6-12 range like STR, React, etc.)
-- **Class-Based**: Some classes have higher/lower bravery ranges
-- **Permanent**: Does not change during mission (unlike morale/sanity)
-
-#### Bravery & Morale Connection
-- **At battle start**: Morale = BRAVERY value
-- **As battle progresses**: Morale can decrease from stress events
-- **Cannot exceed**: Morale cannot go above BRAVERY stat
-- **Represents**: How quickly unit recovers from stress
-
-#### Bravery Modifiers
-- **Unit traits**: "Brave" (+2 bravery), "Timid" (-2 bravery)
-- **Experience**: Veterans have higher bravery (+1 per rank)
-- **Equipment**: Ceremonial/officer gear can grant +1 bravery
-- **Morale boost**: Leaders can temporarily enhance nearby unit confidence (+1 morale, not bravery)
-
-#### Strategic Importance
-- Higher bravery = larger morale pool (better panic resistance)
-- Low bravery units panic more easily
-- Affects squad composition (high/low bravery units balance each other)
-- Units with 12 bravery rarely panic even under stress
-
----
-
-### Wounds System
-
-Wounds are persistent injuries that continue damaging a unit until healed.
-
-#### Wound Mechanics
-- **Infliction**: Critical hits always inflict 1 wound (see [Critical Hits](#critical-hits))
-- **Duration**: Wounds persist after mission (don't heal automatically)
-- **Damage**: Each wounded body part deals 1 HP damage per turn
-- **Stacking**: Multiple wounds deal cumulative damage
-
-#### Wound Healing
-- **Medikit use**: Each medikit use heals 1 wound
-- **Recovery time**: 4 weeks per wound (in base time units)
-- **Healing facility**: Can reduce recovery time with specialized medical care
-
-#### Wound Effects
-- As wounds accumulate, unit effectiveness decreases
-- A heavily wounded unit is nearly combat-ineffective
-- Strategic decision: Keep wounded unit in service for reduced capability, or rotate them out for healing
-
----
-
-### Critical Hits
-
-#### Triggering Critical Hits
-
-**Chance to Crit**:
-- Base weapon critical chance: 5%–15% (weapon-dependent)
-- Unit stat modifier: Aim or strength-based
-- Weapon mode modifier: Some modes increase crit chance (e.g., "critical" mode +25%)
-- Cumulative: All modifiers stack
-
-#### Critical Hit Effects
-- **Guaranteed wound**: Target automatically receives 1 wound
-- **No damage bonus**: Crit doesn't increase damage, only inflicts wound
-- **Optional additional effect**: Some weapons may add secondary effect (stun, knockback)
-
-#### Strategic Importance
-- Crits are primarily for wound infliction
-- Low crit chance means wounds are rare, requiring deliberate targeting
-- Special units/weapons designed for wound infliction have higher crit rates
-
----
-
-### Status Effect System
-
-#### Effect Types
-
-##### Smoke Damage
-- **Type**: Stun (temporary)
-- **Source**: Smoke clouds
-- **Damage**: Small = 0/turn, Large = 1/turn
-- **Duration**: Automatic decay
-- **Stacking**: Multiple smoke clouds apply multiple stuns
-- **Visibility**: −3 sight per smoke intensity
-
-##### Fire Damage
-- **Type**: HP damage + morale
-- **Source**: Entering fire tile
-- **Damage**: 1–2 HP + −1 morale
-- **Movement penalty**: +5 MP cost to enter fire
-- **Duration**: Persistent until unit leaves or fire extinguishes
-
-##### Gas Damage
-- **Type**: Variable (depends on gas type)
-- **Source**: Toxic gas clouds
-- **Damage**: 1–2 HP per turn (varies by gas)
-- **Duration**: Persists like smoke
-- **Special**: Can inflict various status effects (poison, confusion, etc.)
-
-##### Bleeding (From Wounds)
-- **Type**: HP damage
-- **Source**: Wounds
-- **Damage**: 1 HP per turn per wound
-- **Duration**: Until healed
-- **Can be critical**: Heavy bleeding immobilizes unit
-
-##### Stun Effects
-- **Type**: Temporary incapacity
-- **Stacking**: Multiple stun sources add together
-- **Recovery**: 1 per turn naturally, or rest action
-- **Threshold**: Stun ≥ max HP causes unconsciousness
-
-##### Suppression
-- **Type**: Action point reduction
-- **Source**: Suppress enemy action
-- **Effect**: −1 AP next turn
-- **Duration**: Next turn only
-- **Stacking**: Multiple suppressions don't stack (capped at −1 AP)
+**Key Integration Points**:
+- Morale penalties stack with other accuracy modifiers (cover, range, etc.)
+- Leader units can rally nearby allies to restore morale
+- Rest actions (2 AP) restore +1 morale per use
+- Morale resets to bravery value at mission end
 
 ---
 
@@ -1616,25 +1696,126 @@ Certain unit classes can project passive auras that affect nearby allied units.
 
 ### Weapon Accuracy System (Revisited)
 
-#### Complete Accuracy Formula
+#### Complete Accuracy Formula (ALL MULTIPLICATIVE)
+
+**Core Principle**: ALL accuracy modifiers are multiplicative, NOT additive or subtractive.
 
 ```
-base_accuracy = unit_accuracy + weapon_bonus + weapon_mode_bonus
-range_accuracy = base_accuracy × range_modifier (0–100%)
-cover_accuracy = range_accuracy − (cover_value × 5%)
-los_accuracy = cover_accuracy − (visible ? 0% : 50%)
-final_accuracy = clamp(los_accuracy, 5%, 95%)
+Final Accuracy = Base_Aim × Range_Mod × Weapon_Bonus_Mod × Weapon_Mode_Mod × Cover_Mod × LOS_Mod
+
+Where each modifier is a multiplier (0.0 to 2.0+ range):
+- Base_Aim = Unit's Accuracy stat (expressed as decimal, e.g., 0.70 = 70%)
+- Range_Mod = 0.0 to 1.0 (penalty for distance)
+- Weapon_Bonus_Mod = 0.9 to 1.1 (±10% weapon bonus)
+- Weapon_Mode_Mod = 0.75 to 1.30 (mode-based penalty/bonus)
+- Cover_Mod = 0.5 to 1.0 (cover penalty as multiplier)
+- LOS_Mod = 0.5 or 1.0 (visibility penalty or normal)
+
+Result = clamp(0.05, Final Accuracy, 0.95)  [Minimum 5%, maximum 95%]
+```
+
+#### Range Accuracy Modifier
+
+Based on distance as percentage of weapon max range:
+
+```
+Weapon max range = 20 hexes (example)
+
+Distance 0-15 hexes (0-75% of range):
+  Range_Mod = 1.0 (100%, no reduction)
+
+Distance 15-20 hexes (75-100% of range):
+  Range_Mod = linear drop from 1.0 to 0.5
+  (for each hex beyond 75%, reduce by ~3.3% per hex)
+
+Distance 20+ hexes (100%+ beyond max):
+  Range_Mod = 0.0 (impossible shot, beyond effective range)
+```
+
+#### Cover Accuracy Modifier
+
+Cover is multiplicative penalty (each cover point reduces effectiveness):
+
+```
+Cover_Mod = 1.0 - (0.05 × total_cover_points)
+
+Example:
+- 0 cover: Cover_Mod = 1.0 (no penalty)
+- 1 cover point: Cover_Mod = 0.95 (multiply accuracy by 0.95)
+- 5 cover points: Cover_Mod = 0.75 (multiply accuracy by 0.75)
+- 10 cover points: Cover_Mod = 0.50 (multiply accuracy by 0.50, half effectiveness)
+- 20+ cover points: Cover_Mod = 0.0 (impossible shot, blocked completely)
+```
+
+#### Line of Sight Modifier
+
+```
+If target is visible: LOS_Mod = 1.0 (100%, no penalty)
+If target is hidden/obscured: LOS_Mod = 0.5 (50%, multiply accuracy by 0.5)
+```
+
+#### Weapon Mode Modifier
+
+Weapon modes provide base 1.0 modifier, adjusted per mode:
+
+```
+Standard modes:
+- Snap Shot: Mode_Mod = 0.95 (5% reduction, ×0.95)
+- Semi-Auto: Mode_Mod = 1.0 (100%, ×1.0)
+- Burst: Mode_Mod = 0.85 (15% reduction, ×0.85)
+- Auto: Mode_Mod = 0.75 (25% reduction, ×0.75)
+- Aim: Mode_Mod = 1.15 (15% bonus, ×1.15)
+- Careful Aim: Mode_Mod = 1.30 (30% bonus, ×1.30)
+```
+
+#### Weapon Bonus Modifier
+
+Weapon inherent bonus:
+
+```
+Weapon bonus range: -10% to +10%
+- Poor accuracy weapon: Weapon_Bonus_Mod = 0.90 (×0.90)
+- Standard weapon: Weapon_Bonus_Mod = 1.0 (×1.0)
+- Accurate weapon: Weapon_Bonus_Mod = 1.10 (×1.10)
+```
+
+#### Complete Example
+
+```
+Scenario:
+- Unit has Accuracy stat = 70% (0.70)
+- Weapon bonus = +5% (Weapon_Bonus_Mod = 1.05)
+- Range: 12 hexes out of 20-hex max (60% of range, Range_Mod = 1.0)
+- 3 cover points between units (Cover_Mod = 1.0 - 0.15 = 0.85)
+- Target is visible (LOS_Mod = 1.0)
+- Using Burst mode (Mode_Mod = 0.85)
+
+Calculation:
+Final_Accuracy = 0.70 × 1.0 × 1.05 × 0.85 × 0.85 × 1.0
+Final_Accuracy = 0.70 × 1.05 × 0.85 × 0.85
+Final_Accuracy = 0.526 = 52.6% (clamped between 5%-95%, so 52.6%)
+
+Result: Unit has 52.6% chance to hit (morale may further affect this)
 ```
 
 #### Accuracy Modifiers (Summary)
-- **Unit class**: 60–80% base
-- **Weapon**: ±10% bonus
-- **Weapon mode**: −5% to +25%
-- **Range**: Variable, can reach 0%
-- **Cover**: −5% per cover point
-- **Line-of-sight**: −50% if not visible
+- **Unit Accuracy**: 60–80% base (by class)
+- **Weapon Bonus**: ±10% bonus (×0.9 to ×1.1)
+- **Weapon Mode**: −25% to +30% (×0.75 to ×1.30)
+- **Range**: 0% to 100% (scales with distance)
+- **Cover**: −5% per cover point (×0.95 per point, min 0%)
+- **Line-of-Sight**: −50% if hidden (×0.5), or no penalty if visible (×1.0)
+- **Equipment Synergy**: ±15% (class matching/mismatching, ×0.85 to ×1.15)
+
+**Equipment Synergy in Combat:**
+- **Matched Classes**: Light armor + Light weapon = +10% accuracy, Heavy armor + Heavy weapon = -10% accuracy
+- **Mismatched Classes**: Light armor + Heavy weapon = -15% accuracy, Heavy armor + Light weapon = -5% accuracy
+- **Medium Classes**: Medium armor + Medium weapon = 0% modifier (balanced baseline)
+- **Specialized Classes**: Varies by equipment type (see Items.md for specialized synergy rules)
 
 ---
+
+### Pathfinding
 
 ### Pathfinding
 
@@ -1833,3 +2014,131 @@ Some missions feature a concealment mechanic where the player has a limited "ste
 #### Budget Mechanics
 - **Starting budget**: Mission-dependent (typically 0–100 points)
 - **Exceeding budget**: If exceeded
+
+---
+
+## Examples
+
+### Scenario 1: Tactical Positioning
+**Setup**: Squad deployed in urban environment with mixed cover
+**Action**: Position units to maximize cover bonuses while maintaining fields of fire
+**Result**: Reduced damage taken, improved accuracy, successful mission completion
+
+### Scenario 2: Resource Management
+**Setup**: Prolonged engagement with limited time units
+**Action**: Balance movement, shooting, and overwatch actions across squad
+**Result**: Efficient use of action points, all objectives completed within time limit
+
+### Scenario 3: Environmental Tactics
+**Setup**: Night mission with low visibility and alien night vision advantage
+**Action**: Use smoke grenades and positioning to neutralize visibility advantages
+**Result**: Equalized combat conditions, successful extraction despite environmental challenges
+
+### Scenario 4: Morale Management
+**Setup**: Squad under heavy fire with mounting casualties
+**Action**: Position leader unit for morale bonuses, manage unit positioning
+**Result**: Maintained squad cohesion, prevented panic despite heavy losses
+
+---
+
+## Balance Parameters
+
+| Parameter | Value | Range | Reasoning | Difficulty Scaling |
+|-----------|-------|-------|-----------|-------------------|
+| Action Points | 4 per turn | 3-6 | Tactical complexity | No scaling |
+| Movement Range | 4 hexes | 3-6 | Map scale balance | ×1.2 on Easy |
+| Accuracy Base | 50% | 30-70% | Hit probability | +10% on Easy |
+| Damage Base | 3-5 | 2-8 | Combat lethality | ×0.8 on Easy |
+| Cover Bonus | +20% defense | 10-30% | Positioning importance | ×1.5 on Hard |
+| Time Units | 20 per turn | 15-30 | Pace control | +5 on Easy |
+| Morale Threshold | 50% | 30-70% | Panic prevention | +10% on Easy |
+
+---
+
+## Testing Scenarios
+
+- [ ] **Hex Coordinate System**: Verify coordinate calculations work correctly
+  - **Setup**: Create test battle map with known hex positions
+  - **Action**: Calculate distances and paths between units
+  - **Expected**: Accurate hex-based calculations
+  - **Verify**: Movement ranges and line-of-sight calculations
+
+- [ ] **Combat Resolution**: Test hit probability and damage calculations
+  - **Setup**: Units with known stats in combat scenario
+  - **Action**: Execute multiple combat rounds
+  - **Expected**: Results match statistical expectations
+  - **Verify**: Hit rates and damage distributions
+
+- [ ] **Action Point Economy**: Verify action point spending and turn management
+  - **Setup**: Unit with full action points in complex scenario
+  - **Action**: Execute various action combinations
+  - **Expected**: Correct action point costs and turn progression
+  - **Verify**: Action availability and turn completion
+
+- [ ] **Morale System**: Test morale effects on unit performance
+  - **Setup**: Units under various morale conditions
+  - **Action**: Subject to combat stress and casualties
+  - **Expected**: Morale affects accuracy and behavior
+  - **Verify**: Performance changes under morale pressure
+
+- [ ] **Environmental Effects**: Verify weather and terrain affect combat
+  - **Setup**: Battle in different environmental conditions
+  - **Action**: Execute combat actions in varied terrain
+  - **Expected**: Environmental modifiers apply correctly
+  - **Verify**: Accuracy and movement modifications
+
+---
+
+## Related Features
+
+- **[Units System]**: Unit statistics and combat capabilities (Units.md)
+- **[Items System]**: Weapons and equipment mechanics (Items.md)
+- **[AI System]**: Enemy behavior and tactics (AI.md)
+- **[3D System]**: Visual rendering and effects (3D.md)
+- **[Hex System]**: Coordinate system and pathfinding (HexSystem.md)
+- **[Morale System]**: Unit psychology and combat effectiveness (MoraleBraverySanity.md)
+
+---
+
+## Implementation Notes
+
+**Priority Systems**:
+1. Hex grid coordinate system and pathfinding
+2. Core combat mechanics (accuracy, damage, hit chance)
+3. Unit action system and turn management
+4. Map generation and environmental effects
+5. AI behavior and enemy tactics
+
+**Balance Considerations**:
+- Combat should reward tactical positioning and planning
+- Action point economy creates meaningful decisions
+- Environmental effects add strategic depth
+- Morale system prevents optimal playstyles
+- Difficulty scaling maintains challenge progression
+
+**Testing Focus**:
+- Coordinate system accuracy
+- Combat probability distributions
+- Action point balance
+- Environmental modifier effects
+- AI tactical behavior
+
+---
+
+## Review Checklist
+
+- [ ] Coordinate system clearly defined and consistent
+- [ ] Core combat mechanics specified with formulas
+- [ ] Unit turn flow and initiative system documented
+- [ ] Combat statistics balanced and testable
+- [ ] Environmental systems integrated
+- [ ] Status effects and morale mechanics defined
+- [ ] Unit abilities and special systems specified
+- [ ] Concealment and stealth mechanics balanced
+- [ ] Victory and defeat conditions clear
+- [ ] Balance parameters quantified with reasoning
+- [ ] Difficulty scaling implemented
+- [ ] Testing scenarios comprehensive
+- [ ] Related systems properly linked
+- [ ] No undefined terminology
+- [ ] Implementation feasible

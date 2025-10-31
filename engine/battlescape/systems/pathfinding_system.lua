@@ -14,7 +14,7 @@
 ---@module battlescape.systems.pathfinding_system
 ---@see engine.battlescape.battle_ecs.hex_math For hex mathematics
 
-local HexMath = require("engine.battlescape.battle_ecs.hex_math")
+local HexMath = require("battlescape.battle_ecs.hex_math")
 
 local Pathfinding = {}
 Pathfinding.__index = Pathfinding
@@ -265,4 +265,3 @@ function Pathfinding:getPathCost(path, unit, battlefield, actionSystem)
 end
 
 return Pathfinding
-

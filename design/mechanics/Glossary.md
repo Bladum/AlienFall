@@ -1,7 +1,7 @@
 # Glossary
 
-> **Status**: Reference Document  
-> **Last Updated**: 2025-10-28  
+> **Status**: Reference Document
+> **Last Updated**: 2025-10-28
 > **Related Systems**: All systems
 
 ## Table of Contents
@@ -140,8 +140,8 @@ This glossary consolidates all domain-specific terminology, abbreviations, and k
 
 ### Economics & Facility Management
 
-- **Facility Maintenance Cost**: The monthly operational cost of a facility (5-50K per facility); scales with facility size and complexity.
-- **Base Layout Maintenance**: The monthly cost to maintain base infrastructure; scales non-linearly with base size (5K × size²).
+- **Facility Maintenance Cost**: The monthly operational cost of a facility (2-15K per facility); scales with facility size and complexity.
+- **Base Layout Maintenance**: The monthly cost to maintain base infrastructure; scales non-linearly with base size (100K × size²).
 - **Craft Maintenance**: The monthly maintenance per craft (2K per craft).
 - **Facility State**: The operational status of a facility (Operational, Offline, Construction, Damaged, Destroyed); state determines production and maintenance costs.
 - **Power Shortage**: A state where power production is insufficient for all facilities; facilities switch offline in priority order (Research/Manufacturing/Support).
@@ -505,9 +505,6 @@ This glossary consolidates all domain-specific terminology, abbreviations, and k
 
 ---
 
-**End of Glossary**
----
-## NEW TERMS (Added 2025-10-28)
 ### Salvage System Terms
 - **Salvage**: Resources recovered from missions including weapons, armor, corpses, and UFO components; primary source of alien technology and income.
 - **Salvage Condition**: The degradation state of recovered items (Pristine, Good, Damaged, Scrap, Destroyed); affects value and usability.
@@ -579,17 +576,71 @@ This glossary consolidates all domain-specific terminology, abbreviations, and k
 - **Autonomous Playtesting**: AI vs AI simulations (1000+ games) testing balance automatically.
 - **Win Rate Target**: 45-55% for balanced content; <40% underpowered, 60%+ overpowered.
 - **Auto-Balancing**: System adjusts stat values based on playtest data to achieve target win rates.
-- **Balance Pass**: Iterative cycle of testing � adjustment � re-testing until balanced.
+- **Balance Pass**: Iterative cycle of testing → adjustment → re-testing until balanced.
+
 ---
-## CHANGELOG
-**2025-10-28**: Added 50+ new terms from recent design expansions:
-- Salvage condition states and processing
-- Research tree structure and terminology
-- Pilot system and dual XP tracks
-- Mission generation and types
-- Environmental hazards and weather
-- Fame/Karma thresholds
-- Difficulty scaling mechanics
-- Transfer and manufacturing systems
-- Autonomous playtesting concepts
+
+## Examples
+
+### Scenario 1: Glossary Lookup
+**Setup**: Developer unfamiliar with "Adjacency Bonus"
+**Action**: Search glossary for term
+**Result**: Clear definition: "Facility placement bonus (+10%) when complementary facilities placed adjacent (cardinal directions only)"
+
+### Scenario 2: Term Standardization
+**Setup**: Designer creating new feature
+**Action**: Reference glossary to ensure terminology consistency
+**Result**: Uses standardized terms, communication aligns with team standards
+
+## Balance Parameters
+
+| Parameter | Value | Range | Reasoning | Difficulty Scaling |
+|-----------|-------|-------|-----------|-------------------|
+| Term Count | 200+ | 100-500 | Comprehensive coverage | No scaling |
+| Update Frequency | Per release | Per quarter-annually | Maintainability | No scaling |
+| Definition Length | 1 sentence | 1-3 sentences | Quick reference | No scaling |
+
+## Difficulty Scaling
+
+Glossary is reference material, not affected by difficulty scaling.
+
+## Testing Scenarios
+
+- [ ] **Term Completeness Test**: Verify all game terms documented
+  - **Setup**: Complete glossary
+  - **Action**: Scan all system documentation
+  - **Expected**: All unique terms appear in glossary
+  - **Verify**: No undefined terminology in specs
+
+- [ ] **Clarity Test**: Verify definitions are clear
+  - **Setup**: Glossary with all terms
+  - **Action**: Have new team member read definitions
+  - **Expected**: Clear understanding of terminology
+  - **Verify**: Feedback confirms clarity
+
+## Related Features
+
+- **[All Systems]**: Glossary references all game systems
+
+## Implementation Notes
+
+- Reference document, not gameplay specification
+- Organized by system for easy navigation
+- One-sentence definitions for quick lookup
+- Updated with each system expansion
+- Should be consulted during documentation review
+
+## Review Checklist
+
+- [ ] All game terms documented
+- [ ] Definitions clear and concise
+- [ ] Organization logical and searchable
+- [ ] Cross-references accurate
+- [ ] Abbreviations explained
+- [ ] Technical terminology included
+- [ ] Updated with latest changes
+- [ ] No undefined terms in other docs
+
 ---
+
+**End of Glossary**

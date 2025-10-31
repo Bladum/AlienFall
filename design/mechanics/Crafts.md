@@ -1,7 +1,7 @@
 # Crafts System
 
-> **Status**: Design Document  
-> **Last Updated**: 2025-10-28  
+> **Status**: Design Document
+> **Last Updated**: 2025-10-28
 > **Related Systems**: Geoscape.md, Units.md, Pilots.md, Interception.md, Items.md
 
 ## Table of Contents
@@ -22,6 +22,13 @@
 - [Craft Manufacturing & Technology](#craft-manufacturing--technology)
 - [Design Philosophy](#design-philosophy)
 - [Integration with Other Systems](#integration-with-other-systems)
+- [Examples](#examples)
+- [Balance Parameters](#balance-parameters)
+- [Difficulty Scaling](#difficulty-scaling)
+- [Testing Scenarios](#testing-scenarios)
+- [Related Features](#related-features)
+- [Implementation Notes](#implementation-notes)
+- [Review Checklist](#review-checklist)
 
 ---
 
@@ -863,6 +870,8 @@ NEW: Advanced Craft (tech level) + Ace Pilot (Rank 3) = Clear bonuses
 
 ### What Crafts Carry
 
+**Source Reference**: CRAFT_CAPACITY_MODEL.md §Transport Logistics
+
 #### Unit Transport
 - **Primary Function**: Carries combat units to mission sites
 - **Capacity**: Unit slots (4-20 depending on craft)
@@ -1074,3 +1083,165 @@ This system creates interdependency between base management (manufacturing, fuel
 - Monthly maintenance costs impact operational budget
 - Salvage recovery from crashed crafts generates economic return
 
+---
+
+## Examples
+
+### Scenario 1: Fleet Expansion Dilemma
+**Setup**: Player has funding for one new craft but multiple strategic needs
+**Action**: Choose between interceptor for air defense vs. transport for rapid deployment
+**Result**: Interceptor choice prevents base attacks but limits global response capability
+
+### Scenario 2: Pilot Shortage Crisis
+**Setup**: Multiple crafts operational but insufficient trained pilots
+**Action**: Balance pilot training with immediate mission requirements
+**Result**: Delayed operations while building pilot cadre, creating strategic vulnerability
+
+### Scenario 3: Interception Failure Recovery
+**Setup**: Craft crashes during UFO interception, crew survives
+**Action**: Launch rescue mission while managing damaged craft recovery
+**Result**: Successful crew rescue but craft requires extensive repairs and lost operational time
+
+### Scenario 4: Fuel Management Optimization
+**Setup**: Multiple missions require craft deployment across distant regions
+**Action**: Position crafts strategically and manage fuel consumption
+**Result**: Efficient fuel usage enables sustained operations without supply shortages
+
+---
+
+## Balance Parameters
+
+| Parameter | Value | Range | Reasoning | Difficulty Scaling |
+|-----------|-------|-------|-----------|-------------------|
+| Craft Cost | 100,000 credits | 50K-200K | Entry barrier | ×0.8 on Easy |
+| Fuel Consumption | 10 units/hex | 5-20 | Travel cost | ×0.7 on Easy |
+| Maintenance Cost | 5,000/month | 2K-10K | Operating expense | ×0.5 on Easy |
+| Repair Time | 30 days | 15-60 | Downtime balance | ×0.75 on Easy |
+| Pilot Requirement | 1-3 pilots | 1-4 | Crew management | No scaling |
+| Cargo Capacity | 8-16 units | 4-24 | Transport limits | ×1.25 on Hard |
+
+---
+
+## Difficulty Scaling
+
+### Easy Mode
+- Craft costs: 20% reduction
+- Fuel consumption: 30% reduction
+- Maintenance costs: 50% reduction
+- Repair times: 25% reduction
+- More favorable crash survival rates
+
+### Normal Mode
+- All parameters at standard values
+- Balanced fleet management
+- Standard operational costs
+- Normal risk/reward ratios
+
+### Hard Mode
+- Craft costs: +25% increase
+- Fuel consumption: +20% increase
+- Maintenance costs: +50% increase
+- Repair times: +25% increase
+- Higher crash damage potential
+
+### Impossible Mode
+- Craft costs: +50% increase
+- Fuel consumption: +50% increase
+- Maintenance costs: +100% increase
+- Repair times: +50% increase
+- Frequent mechanical failures
+- Limited spare parts availability
+
+---
+
+## Testing Scenarios
+
+- [ ] **Craft Movement**: Verify fuel consumption and travel times work correctly
+  - **Setup**: Craft traveling between two bases
+  - **Action**: Execute long-distance movement
+  - **Expected**: Fuel consumption matches distance and terrain
+  - **Verify**: Fuel levels and arrival times
+
+- [ ] **Interception Combat**: Test craft vs. UFO engagement mechanics
+  - **Setup**: Craft intercepts UFO during patrol
+  - **Action**: Execute interception mini-game
+  - **Expected**: Combat resolution follows interception rules
+  - **Verify**: Victory/defeat outcomes and craft damage
+
+- [ ] **Pilot Assignment**: Verify pilot requirements and crew management
+  - **Setup**: Craft with insufficient pilots
+  - **Action**: Attempt to launch mission
+  - **Expected**: System prevents under-crewed operations
+  - **Verify**: Error messages and launch restrictions
+
+- [ ] **Maintenance Costs**: Test ongoing operational expenses
+  - **Setup**: Fleet of multiple crafts over time
+  - **Action**: Process monthly maintenance
+  - **Expected**: Costs scale with fleet size and craft types
+  - **Verify**: Budget impacts and cost calculations
+
+- [ ] **Crash Recovery**: Verify rescue mission generation and recovery mechanics
+  - **Setup**: Craft crashes during interception
+  - **Action**: Launch and complete rescue mission
+  - **Expected**: Crew recovery and craft salvage possible
+  - **Verify**: Mission generation and recovery outcomes
+
+---
+
+## Related Features
+
+- **[Geoscape System]**: Craft movement and positioning on world map (Geoscape.md)
+- **[Units System]**: Pilot management and crew assignments (Units.md)
+- **[Pilots System]**: Specialized pilot training and abilities (Pilots.md)
+- **[Interception System]**: Aerial combat mechanics (Interception.md)
+- **[Items System]**: Craft equipment and weapon systems (Items.md)
+- **[Missions System]**: Transport to mission sites (Missions.md)
+- **[Economy System]**: Manufacturing and maintenance costs (Economy.md)
+
+---
+
+## Implementation Notes
+
+**Priority Systems**:
+1. Craft movement and fuel consumption mechanics
+2. Pilot assignment and crew management
+3. Interception combat integration
+4. Maintenance and repair systems
+5. Transport capacity and deployment
+
+**Balance Considerations**:
+- Fleet management should create meaningful strategic choices
+- Fuel consumption encourages efficient positioning
+- Maintenance costs balance fleet expansion
+- Pilot requirements create crew management challenges
+- Crash mechanics add risk to interception
+
+**Testing Focus**:
+- Fuel consumption calculations
+- Pilot assignment validation
+- Interception success rates
+- Maintenance cost scaling
+- Crash recovery mechanics
+
+---
+
+## Review Checklist
+
+- [ ] Craft fundamentals clearly defined with core mechanics
+- [ ] Craft classification system specified
+- [ ] Craft statistics balanced and comprehensive
+- [ ] Weapon systems integrated with interception
+- [ ] Addons and upgrades provide meaningful progression
+- [ ] Experience and progression system implemented
+- [ ] Maintenance and repair mechanics balanced
+- [ ] Transport mechanics support mission deployment
+- [ ] Crash sites and rescue missions specified
+- [ ] Craft-unit integration seamless
+- [ ] Terrain-specific craft types balanced
+- [ ] Manufacturing and technology progression clear
+- [ ] Balance parameters quantified with reasoning
+- [ ] Difficulty scaling implemented
+- [ ] Testing scenarios comprehensive
+- [ ] Related systems properly linked
+- [ ] No undefined terminology
+- [ ] Implementation feasible

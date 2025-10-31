@@ -1101,6 +1101,153 @@ Unit takes full damage if:
 
 ---
 
+### Equipment Class Synergy System
+
+Equipment synergy affects unit performance when armor and weapon classes match or mismatch. This creates strategic loadout decisions that impact mobility, accuracy, and protection.
+
+#### Equipment Classes
+
+| Class | Description | Mobility Impact | Protection Focus | Best For |
+|---|---|---|---|---|
+| **Light** | Minimal armor, high mobility | +15% movement speed | Low protection | Scouts, infiltrators |
+| **Medium** | Balanced protection/mobility | Baseline movement | Medium protection | Standard soldiers |
+| **Heavy** | Maximum protection, low mobility | -15% movement speed | High protection | Assault troops, tanks |
+| **Specialized** | Unique properties, variable mobility | Varies by item | Specialized protection | Tech-specific roles |
+
+#### Armor Mobility Penalties
+
+Armor weight directly impacts tactical movement in hex-based combat:
+
+```lua
+-- Time Unit cost per hex movement (vertical axial coordinate system)
+armor_mobility_penalties = {
+  light_armor = 5,      -- +5 TU per hex (fastest)
+  medium_armor = 10,    -- +10 TU per hex (standard)
+  heavy_armor = 20,     -- +20 TU per hex (slowest)
+  specialized = "varies" -- Item-specific (alien tech may have unique penalties)
+}
+```
+
+#### Synergy Bonuses (Class Matching)
+
+When armor class matches primary weapon class, units receive tactical advantages:
+
+**Light + Light Synergy:**
+- **Accuracy**: +10% (easier to aim while lightly equipped)
+- **Movement**: +15% speed (unencumbered mobility)
+- **Armor**: -5% effectiveness (tradeoff for mobility)
+- **Best Loadout**: Light armor + SMG/Pistol (mobile skirmisher)
+
+**Medium + Medium Synergy:**
+- **Accuracy**: 0% (balanced, no modifiers)
+- **Movement**: 0% (baseline mobility)
+- **Armor**: 0% (balanced protection)
+- **Best Loadout**: Medium armor + Rifle/Shotgun (versatile soldier)
+
+**Heavy + Heavy Synergy:**
+- **Accuracy**: -10% (harder to aim while heavily equipped)
+- **Movement**: -15% speed (encumbered mobility)
+- **Armor**: +20% effectiveness (protection synergy)
+- **Best Loadout**: Heavy armor + Heavy weapons (tank specialist)
+
+**Specialized + Specialized Synergy:**
+- **Effects**: Varies by item (defined per specialized equipment)
+- **Examples**:
+  - Plasma armor + Plasma rifle: +15% energy resistance
+  - Psi armor + Psi amp: +20% psi ability effectiveness
+
+#### Mismatch Penalties (Class Not Matching)
+
+When armor and weapon classes don't match, performance suffers:
+
+**Light Armor + Heavy Weapon:**
+- **Accuracy**: -15% (weapon imbalance, user not strong enough)
+- **Movement**: Normal (light armor mobility preserved)
+- **Armor**: -15% effectiveness (exposed to heavy weapon recoil)
+- **Risk**: User takes extra damage from weapon kickback
+- **Example**: Light vest + Rocket launcher (dangerous mismatch)
+
+**Heavy Armor + Light Weapon:**
+- **Accuracy**: -5% (heavy armor slows aim with light weapons)
+- **Movement**: -20 TU/hex (full heavy armor penalty)
+- **Armor**: Normal effectiveness (good protection despite weak weapon)
+- **Effect**: Slow but well-protected unit with weak offense
+- **Example**: Combat suit + Pistol (wasted armor potential)
+
+**Medium Armor + Mismatched Weapon:**
+- **Accuracy**: -5% to -10% (moderate imbalance)
+- **Movement**: -10 TU/hex (medium armor penalty)
+- **Armor**: -5% to -10% effectiveness (moderate exposure)
+- **Effect**: Suboptimal but functional loadout
+
+#### Armor Effectiveness Formula
+
+Base armor value is modified by class and synergy:
+
+```lua
+function calculateArmorEffectiveness(base_armor, armor_class, synergy_modifier)
+  -- Class scaling: Higher classes get increasingly better base protection
+  local class_scaling = {
+    light = 1.0,      -- Baseline
+    medium = 1.25,    -- +25% base armor
+    heavy = 1.5,      -- +50% base armor
+    specialized = "varies"  -- Item-specific
+  }
+
+  -- Apply class scaling
+  local scaled_armor = base_armor * class_scaling[armor_class]
+
+  -- Apply synergy modifier
+  local final_armor = scaled_armor * synergy_modifier
+
+  return math.max(0, final_armor)  -- Cannot go below 0
+end
+
+-- Example calculations:
+-- Light Armor (Base 30): 30 × 1.0 × 1.0 = 30 armor (baseline)
+-- Medium Armor (Base 30): 30 × 1.25 × 1.0 = 37.5 armor (25% class bonus)
+-- Heavy Armor (Base 30): 30 × 1.5 × 1.2 = 54 armor (50% class + 20% synergy)
+```
+
+#### Player Communication
+
+Equipment screens display synergy status and modifiers:
+
+```
+EQUIPMENT STATUS
+================
+Primary Weapon: Rifle (Medium)
+Armor: Combat Vest (Light)
+
+⚠️  MISMATCH DETECTED
+   Accuracy: -10% (Light armor + Medium weapon penalty)
+   Mobility: +5 TU/hex (Light armor penalty)
+   Protection: 25 armor (Base 30 × 0.85 mismatch modifier)
+
+RECOMMENDED: Equip Medium armor for synergy bonus
+```
+
+#### Balance Philosophy
+
+**Encourages Specialization:**
+- Light builds: Fast, accurate, fragile (scout role)
+- Medium builds: Balanced, reliable, versatile (standard role)
+- Heavy builds: Slow, protected, powerful (tank role)
+- Specialized builds: Unique advantages, specific counters (tech role)
+
+**Punishes Over-Specialization:**
+- Heavy armor + Heavy weapons = very slow but very protected
+- Light armor + Light weapons = very fast but very exposed
+- Medium everything = good balance, no major advantages/disadvantages
+
+**Creates Meaningful Choices:**
+- Speed vs protection tradeoffs
+- Accuracy vs power tradeoffs
+- Versatility vs specialization bonuses
+- Risk/reward in equipment combinations
+
+---
+
 ### Line of Sight (LOS) Algorithm
 
 **LOS Calculation (Bresenham's Line):**

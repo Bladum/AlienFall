@@ -1,7 +1,7 @@
 # Interception System
 
-> **Status**: Design Document  
-> **Last Updated**: 2025-10-28  
+> **Status**: Design Document
+> **Last Updated**: 2025-10-28
 > **Related Systems**: Geoscape.md, Crafts.md, PilotSystem_Technical.md, Items.md
 
 ## Table of Contents
@@ -802,7 +802,7 @@ Interception resembles tactical card battle games at the strategic hero level:
 - **Tempo**: Turn-based engagement with action economy (card game turn structure)
 
 The interception system abstracts mid-level combat into resource management and tactical selection, avoiding individual soldier-level micromanagement while maintaining strategic depth.
-	
+
 
 
 
@@ -826,3 +826,85 @@ Interception integrates with:
 - Successful interception generates salvage/rewards
 - UFO crashes create battlefield missions
 **For complete system integration details, see [Integration.md](Integration.md)**
+
+## Examples
+
+### Scenario 1: Basic Interception
+**Setup**: Player craft engages UFO in air sector
+**Action**: Uses weapon action, depletes energy points
+**Result**: UFO damaged, mission prevented, salvage generated
+
+### Scenario 2: Base Defense
+**Setup**: UFO attacks player base with defenses active
+**Action**: Turrets engage automatically, player can join combat
+**Result**: UFO destroyed or repelled, base damage minimized
+
+## Balance Parameters
+
+| Parameter | Value | Range | Reasoning | Difficulty Scaling |
+|-----------|-------|-------|-----------|-------------------|
+| Action Points per Turn | 4 | 3-5 | Action economy balance | -1 on Hard |
+| Energy Points per Turn | 3 | 2-4 | Resource management | -1 on Hard |
+| Sector Capacity | 4 | 3-5 | Combat complexity | +1 on Hard |
+| Weapon Cooldown | 2 turns | 1-3 | Tactical pacing | +1 on Hard |
+
+## Difficulty Scaling
+
+### Easy Mode
+- Increased action/energy points (+1 each)
+- Reduced enemy damage output
+- More forgiving positioning requirements
+
+### Normal Mode
+- Standard action/energy allocation
+- Balanced enemy capabilities
+- Standard sector restrictions
+
+### Hard Mode
+- Reduced action/energy points (-1 each)
+- Increased enemy effectiveness
+- Stricter positioning rules
+
+### Impossible Mode
+- Minimum action/energy points
+- Maximum enemy aggression
+- Severe positioning penalties
+
+## Testing Scenarios
+
+- [ ] **Weapon Combat Test**: Fire weapons at enemy craft
+  - **Setup**: Craft in same sector as UFO
+  - **Action**: Use weapon action
+  - **Expected**: Damage applied, energy consumed
+  - **Verify**: Combat log shows correct calculations
+
+- [ ] **Sector Movement Test**: Move between altitude sectors
+  - **Setup**: Craft in air sector
+  - **Action**: Use movement action to change sectors
+  - **Expected**: Position updated, action consumed
+  - **Verify**: Sector display reflects change
+
+## Related Features
+
+- **[Geoscape System]**: Mission detection and deployment (Geoscape.md)
+- **[Crafts System]**: Vehicle capabilities and equipment (Crafts.md)
+- **[Pilot System]**: Pilot skills and bonuses (Pilots.md)
+- **[Items System]**: Weapons and equipment (Items.md)
+
+## Implementation Notes
+
+- Card-based combat mechanics using action/energy resources
+- Three-dimensional sector system for positioning
+- Turn-based resolution with simultaneous execution
+- Integration with Battlescape for ground escalation
+
+## Review Checklist
+
+- [ ] Strategic environment defined
+- [ ] Weapon mechanics documented
+- [ ] Action/energy systems balanced
+- [ ] Sector positioning clear
+- [ ] Combat outcomes specified
+- [ ] Experience system implemented
+- [ ] Base defense integration complete
+- [ ] Environmental effects included

@@ -1,7 +1,7 @@
 # AI Systems
 
-> **Status**: Design Document  
-> **Last Updated**: 2025-10-28  
+> **Status**: Design Document
+> **Last Updated**: 2025-10-28
 > **Related Systems**: Battlescape.md, Geoscape.md, Interception.md, Countries.md, DiplomaticRelations_Technical.md
 
 ## Table of Contents
@@ -14,6 +14,13 @@
 - [Real-Time AI Behavior Adjustment](#real-time-ai-behavior-adjustment)
 - [AI System Integration & Emergent Behavior](#ai-system-integration--emergent-behavior)
 - [AI Configuration & Tuning](#ai-configuration--tuning)
+- [Examples](#examples)
+- [Balance Parameters](#balance-parameters)
+- [Difficulty Scaling](#difficulty-scaling)
+- [Testing Scenarios](#testing-scenarios)
+- [Related Features](#related-features)
+- [Implementation Notes](#implementation-notes)
+- [Review Checklist](#review-checklist)
 
 ---
 
@@ -347,9 +354,9 @@ For Each Visible Enemy:
     - Distance (closer = higher priority, within 10 tiles significant threat)
     - Exposed (no cover = significantly higher priority)
     - Armor_Type (prioritize weak-to-strong matchups)
-    
+
   Highest_Priority_Target = Enemy with MAX(Priority_Score)
-  
+
   Fire_Action:
     - Accuracy = Base_Accuracy + (Stat_Bonus) - (Distance_Penalty) - (Cover_Bonus)
     - Damage = Weapon_Damage × (Crit_Chance + Body_Part_Modifier)
@@ -570,7 +577,133 @@ AI difficulty scales dynamically based on player performance, creating appropria
 
 ---
 
-## AI System Integration & Emergent Behavior
+## Alien Ability Scaling
+
+### Overview
+
+Alien abilities scale dynamically with the alien stat scaling system, ensuring that alien units remain challenging throughout the campaign while maintaining balance across difficulty levels.
+
+### Ability Effectiveness Formula
+
+Alien ability effectiveness follows the same scaling as alien stats:
+
+```
+Final Ability Effectiveness = Base Effectiveness × Difficulty Multiplier × Campaign Multiplier
+```
+
+**Where:**
+- **Base Effectiveness**: The ability's base power (defined in alien unit templates)
+- **Difficulty Multiplier**: Same as stat scaling (Normal: 1.0×, Classic: 1.1×, Impossible: 1.3×)
+- **Campaign Multiplier**: Same as stat scaling (Months 1-2: 0.9× to Months 11-12: 1.2×)
+
+### Ability Categories & Scaling Impact
+
+#### Offensive Abilities
+
+| Ability | Base Effectiveness | Scaling Impact | Notes |
+|---------|-------------------|----------------|-------|
+| **Psi Attack** | 40-80 damage | Scales with Will stat | Mind control damage increases with campaign progression |
+| **Plasma Burst** | 25-45 damage | Scales with Accuracy | Burst damage grows more lethal over time |
+| **Acid Spit** | 30-50 damage | Scales with Strength | Corrosive damage becomes more destructive |
+| **Poison Cloud** | 15-25 DoT | Scales with Intelligence | Area denial becomes more effective |
+| **Mind Control** | 60% success rate | Scales with Will | Control duration increases with difficulty |
+
+#### Defensive Abilities
+
+| Ability | Base Effectiveness | Scaling Impact | Notes |
+|---------|-------------------|----------------|-------|
+| **Regeneration** | 10-20 HP/turn | Scales with Health | Healing becomes faster on higher difficulties |
+| **Energy Shield** | 20-40 damage reduction | Scales with Will | Protection increases with campaign length |
+| **Phase Shift** | 50% damage reduction | Scales with Speed | Evasion becomes more effective |
+| **Berserk Rage** | +50% damage output | Scales with Strength | Damage boost scales with alien power |
+
+#### Support Abilities
+
+| Ability | Base Effectiveness | Scaling Impact | Notes |
+|---------|-------------------|----------------|-------|
+| **Psi Panic** | 40% success rate | Scales with Will | Morale attacks become more reliable |
+| **Smoke Cloud** | 3-hex radius | Scales with Intelligence | Area control expands with progression |
+| **Summon Reinforcements** | 1-2 additional units | Scales with Leadership | More units arrive on harder difficulties |
+| **Terrify** | -20 to -40 Morale | Scales with Will | Psychological impact increases |
+
+### AI Behavior Scaling Integration
+
+Alien AI behavior adapts to scaled abilities, creating appropriate tactical challenges:
+
+#### Low Campaign (Months 1-4)
+- **Conservative Tactics**: Aliens prioritize survival, using abilities defensively
+- **Limited Coordination**: Simple formations, basic target prioritization
+- **Ability Usage**: 30-50% of maximum effectiveness, focused on survival
+
+#### Mid Campaign (Months 5-8)
+- **Balanced Tactics**: Mix of offensive and defensive ability usage
+- **Group Coordination**: Aliens work together, covering each other's weaknesses
+- **Ability Usage**: 60-80% effectiveness, more aggressive ability deployment
+
+#### Late Campaign (Months 9-12)
+- **Aggressive Tactics**: Aliens push advantages, coordinate complex maneuvers
+- **Elite Coordination**: Advanced formations, predictive target selection
+- **Ability Usage**: 90-110% effectiveness, optimal ability timing and targeting
+
+### Difficulty-Specific Ability Adjustments
+
+#### Easy Difficulty
+- **Ability Effectiveness**: 80% of calculated value
+- **Usage Frequency**: 60% of normal rate
+- **Coordination**: Basic group tactics only
+- **Recovery Time**: +1 turn between ability uses
+
+#### Normal Difficulty
+- **Ability Effectiveness**: 100% of calculated value
+- **Usage Frequency**: Standard rate
+- **Coordination**: Standard group tactics
+- **Recovery Time**: Standard cooldowns
+
+#### Classic Difficulty
+- **Ability Effectiveness**: 110% of calculated value
+- **Usage Frequency**: 120% of normal rate
+- **Coordination**: Advanced group tactics
+- **Recovery Time**: -1 turn between ability uses
+
+#### Impossible Difficulty
+- **Ability Effectiveness**: 130% of calculated value
+- **Usage Frequency**: 150% of normal rate
+- **Coordination**: Elite coordination patterns
+- **Recovery Time**: -2 turns between ability uses
+
+### Testing Scenarios
+
+- [ ] **Early Campaign Balance**: Verify alien abilities don't overwhelm new players
+  - **Setup**: Month 2 mission with scaled Sectoids
+  - **Action**: Engage in combat, observe ability usage patterns
+  - **Expected**: Abilities at 70-80% effectiveness, conservative AI behavior
+  - **Verify**: Player can defeat aliens with basic tactics
+
+- [ ] **Mid Campaign Escalation**: Test ability scaling with campaign progression
+  - **Setup**: Month 6 mission with mixed alien types
+  - **Action**: Compare ability effectiveness to early campaign
+  - **Expected**: 20-30% increase in ability power and frequency
+  - **Verify**: Combat requires more sophisticated player tactics
+
+- [ ] **Late Campaign Threat**: Validate maximum ability scaling
+  - **Setup**: Month 11 mission with elite alien units
+  - **Action**: Engage with fully scaled abilities
+  - **Expected**: Abilities at 110-120% effectiveness with elite coordination
+  - **Verify**: Combat demands optimal player strategy and equipment
+
+- [ ] **Difficulty Scaling**: Confirm ability adjustments across difficulty levels
+  - **Setup**: Same mission on Easy vs Impossible difficulty
+  - **Action**: Compare alien ability performance
+  - **Expected**: 50% difference in ability effectiveness and usage
+  - **Verify**: Difficulty settings create appropriate challenge curves
+
+- [ ] **AI Adaptation**: Test AI behavior changes with scaled abilities
+  - **Setup**: Aliens with enhanced abilities in combat
+  - **Action**: Observe tactical decision making
+  - **Expected**: AI adapts tactics to leverage scaled abilities
+  - **Verify**: Combat remains engaging and fair at all scaling levels
+
+---
 
 ### Overview
 
@@ -593,28 +726,154 @@ When Strategic AI decides to attack a province:
 
 AI behavior is entirely controlled via TOML configuration, enabling rapid balance iteration without code changes.
 
-### Configuration Example
-```toml
-[ai.faction.attack_decision]
-min_force_ratio = 1.5  # Faction needs 1.5x player force to attack
-aggression_bonus = 0.2  # +20% aggression when escalation > 50%
-retreat_threshold = 0.25  # Retreat when HP < 25%
+### Configuration System
 
-[ai.player_autonomous.research_priority]
-weapons_weight = 0.4
-facilities_weight = 0.35
-abilities_weight = 0.25
-randomness = 0.1  # Vary priority by ±10%
+AI behavior is configurable through modding system with the following parameter categories:
 
-[ai.unit_combat.targeting]
-priority_exposed_enemies = 3.0  # 3x priority weight
-priority_ranged_threats = 2.5
-priority_low_health = 1.5
-priority_distance_close = 2.0  # Closer enemies 2x priority
+**Faction Attack Decision Parameters**:
+- Minimum force ratio threshold (player strength multiplier required for attack)
+- Aggression bonus modifier (scales with escalation meter)
+- Retreat threshold (when to abort attack)
 
-[ai.difficulty.legendary]
-alien_count_multiplier = 1.5
-equipment_tier_shift = +2
-reaction_time_turns = 0  # Immediate reactions
-accuracy_bonus = 1.2  # 20% accuracy boost
+**Autonomous Player Research Priority**:
+- Weapons research weight (relative priority)
+- Facilities research weight
+- Unit abilities research weight
+- Randomness factor (variation in priority selection)
+
+**Unit Combat Targeting**:
+- Priority weighting for exposed enemies
+- Priority weighting for ranged threats
+- Priority weighting for low-health targets
+- Distance-based priority scaling (closer = higher priority)
+
+**Difficulty-Specific Adjustments**:
+- Alien unit count multiplier
+- Equipment tier shifts
+- Reaction time (turns before response)
+- Accuracy bonuses for aliens
+
+---
+
+## Examples
+
+### Scenario 1: Strategic Escalation
+**Setup**: Player establishes first base, begins interception operations
+**Action**: AI responds with increased mission frequency and UFO deployment
+**Result**: Gradual escalation creates meaningful strategic pressure
+
+### Scenario 2: Tactical Combat Adaptation
+**Setup**: Alien units encounter unexpected resistance in battlescape
+**Action**: AI adjusts positioning and target priorities based on player tactics
+**Result**: Dynamic enemy behavior prevents optimal player strategies
+
+### Scenario 3: Interception Coordination
+**Setup**: Multiple UFOs detected in different regions
+**Action**: AI coordinates interception responses based on craft availability
+**Result**: Efficient allocation of player resources across global threats
+
+### Scenario 4: Autonomous Player Testing
+**Setup**: AI agent replaces human player for testing scenarios
+**Action**: AI makes strategic decisions on base placement and research priority
+**Result**: Consistent benchmark behavior for game balance analysis
+
+---
+
+## Balance Parameters
+
+| Parameter | Value | Range | Reasoning | Difficulty Scaling |
+|-----------|-------|-------|-----------|-------------------|
+| Mission Frequency | 3-5 per month | 1-8 | Challenge pacing | +1 per level |
+| AI Reaction Time | 1 turn | 0-2 | Tactical responsiveness | -1 on Easy |
+| Targeting Priority | 2.0x exposed | 1.5-3.0x | Combat focus | +0.5x on Hard |
+| Escalation Rate | +0.2 per month | 0.1-0.5 | Threat progression | ×1.5 on Hard |
+| Accuracy Bonus | 0% base | -10% to +20% | Skill representation | +5% per level |
+| Retreat Threshold | 25% HP | 15-40% | Survival instinct | +10% on Easy |
+
+---
+
+## Testing Scenarios
+
+- [ ] **Strategic Escalation**: Verify AI responds appropriately to player actions
+  - **Setup**: Player completes multiple missions successfully
+  - **Action**: Monitor mission generation and difficulty over time
+  - **Expected**: Escalation increases with player threat level
+  - **Verify**: Mission parameters and frequency changes
+
+- [ ] **Tactical Decision Making**: Test AI combat behavior in various scenarios
+  - **Setup**: AI-controlled units in battlescape encounter
+  - **Action**: Execute combat rounds with different unit compositions
+  - **Expected**: AI makes reasonable tactical decisions
+  - **Verify**: Positioning, target selection, and action choices
+
+- [ ] **Interception Coordination**: Verify AI manages multiple threats efficiently
+  - **Setup**: Multiple UFOs spawn simultaneously
+  - **Action**: AI allocates interception resources
+  - **Expected**: Optimal threat prioritization
+  - **Verify**: Response times and success rates
+
+- [ ] **Autonomous Player Behavior**: Test AI can play complete campaigns
+  - **Setup**: AI agent starts new campaign
+  - **Action**: Let AI play for multiple months
+  - **Expected**: Reasonable strategic decisions and survival
+  - **Verify**: Base placement, research choices, mission success
+
+- [ ] **Difficulty Scaling**: Verify AI behavior adjusts with difficulty settings
+  - **Setup**: Same scenario on different difficulty levels
+  - **Action**: Compare AI performance and challenge
+  - **Expected**: Appropriate scaling of AI capabilities
+  - **Verify**: Combat effectiveness and strategic decisions
+
+---
+
+## Related Features
+
+- **[Battlescape System]**: Tactical AI behavior and combat decisions (Battlescape.md)
+- **[Geoscape System]**: Strategic AI and mission generation (Geoscape.md)
+- **[Interception System]**: Operational AI and UFO combat (Interception.md)
+- **[Countries System]**: Diplomatic AI and relations management (Countries.md)
+- **[Missions System]**: Mission generation and enemy composition (Missions.md)
+
+---
+
+## Implementation Notes
+
+**Priority Systems**:
+1. Strategic AI (mission generation and escalation)
+2. Tactical AI (combat behavior and decision making)
+3. Operational AI (interception coordination)
+4. Autonomous player AI (testing and analytics)
+5. Configuration system (tuning and balancing)
+
+**Balance Considerations**:
+- AI should provide appropriate challenge without frustration
+- Strategic AI creates meaningful escalation curves
+- Tactical AI prevents optimal player strategies
+- Operational AI manages resource allocation efficiently
+- Autonomous AI enables comprehensive testing
+
+**Testing Focus**:
+- Strategic escalation curves
+- Tactical decision quality
+- Interception coordination efficiency
+- Autonomous player viability
+- Difficulty scaling effectiveness
+
+---
+
+## Review Checklist
+
+- [ ] Strategic AI system clearly defined with escalation mechanics
+- [ ] Operational AI specified for interception coordination
+- [ ] Tactical AI documented with decision algorithms
+- [ ] Autonomous player AI implemented for testing
+- [ ] Real-time behavior adjustment system working
+- [ ] AI integration creates emergent behavior
+- [ ] Configuration system allows tuning
+- [ ] Balance parameters quantified with reasoning
+- [ ] Difficulty scaling implemented
+- [ ] Testing scenarios comprehensive
+- [ ] Related systems properly linked
+- [ ] No undefined terminology
+- [ ] Implementation feasible
 ```

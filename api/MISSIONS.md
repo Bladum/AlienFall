@@ -317,7 +317,7 @@ local mission = { id = "mission_instance_2581", objectives = {...} }
 print("[OBJECTIVES] Active: " .. #mission.objectives)
 for i, obj in ipairs(mission.objectives) do
     local progress = Mission.getObjectives(mission)[i].progress or 0
-    print("[OBJ " .. i .. "] " .. obj.type .. ": " .. obj.description .. 
+    print("[OBJ " .. i .. "] " .. obj.type .. ": " .. obj.description ..
           " (" .. progress .. "%)")
 end
 
@@ -366,7 +366,7 @@ if success then
     print("[REWARD] Tech Points: +150")
     print("[REWARD] Reputation: Allies +20, Enemies -10")
     print("[REWARD] Status: " .. missionInstance.status)
-    
+
     base.credits = base.credits + totalReward
     print("[BASE] Total Credits: $" .. base.credits)
 else
@@ -395,6 +395,7 @@ end
 - **Victory Condition**: Extract all targets to designated extraction point
 - **Time Pressure**: 20-30 turn limit typical
 - **Rewards**: Base 2000 credits, +500 per civilian saved
+- **Salvage**: 30-40K (alien equipment, research data)
 - **Tactical Depth**: Multiple entry routes, civilian pathfinding, escort mechanics
 
 **Mechanics:**
@@ -416,6 +417,7 @@ rescue_config = {
 - **Victory Condition**: All primary objectives destroyed
 - **Environmental Hazards**: Reinforcements, alarm systems, traps
 - **Rewards**: Base 3000 credits, +1000 per objective
+- **Salvage**: 40-60K (destroyed equipment, alien tech)
 - **Tactical Depth**: Objective prioritization, reinforcement waves
 
 **Mechanics:**
@@ -439,6 +441,7 @@ assault_config = {
 - **Victory Condition**: Survive N turns / eliminate all waves
 - **Environment**: Pre-positioned defenses (turrets, sandbags)
 - **Rewards**: Base 2500 credits, +300 per wave survived
+- **Salvage**: 15-25K (destroyed alien equipment)
 - **Tactical Depth**: Fortification placement, wave management
 
 **Mechanics:**
@@ -462,6 +465,7 @@ defense_config = {
 - **Victory Condition**: Destroy UFO or force retreat
 - **Environment**: Aerial combat zone, limited fuel
 - **Rewards**: Base 1500 credits, +2000 if UFO captured
+- **Salvage**: 20-30K (UFO crash), 50-75K (UFO captured intact)
 - **Tactical Depth**: Fuel management, dogfighting tactics
 
 **Mechanics:**
@@ -486,6 +490,7 @@ interception_config = {
 - **Victory Condition**: Collect all data/reach objective
 - **Environment**: Civilian areas, research facilities
 - **Rewards**: Base 1000 credits, +500 per data point
+- **Salvage**: 30-40K (research materials, alien artifacts)
 - **Tactical Depth**: Stealth mechanics, non-lethal options
 
 **Mechanics:**
@@ -524,7 +529,7 @@ function calculateDifficulty(baseMission, difficultyLevel)
     hard = {enemy_count = 1.5, quality = 1.3, time = 0.75, reward = 1.5},
     impossible = {enemy_count = 2.0, quality = 1.6, time = 0.5, reward = 2.0}
   }
-  
+
   local mod = modifiers[difficultyLevel]
   return {
     enemy_count = math.floor(baseMission.enemy_count * mod.enemy_count),
@@ -615,7 +620,7 @@ mission_spawn_config = {
   max_missions_active = 5,               -- Never more than 5
   spawn_probability_increase = 0.1,      -- Per turn without mission
   spawn_probability_decrease = 0.2,      -- Per turn with active mission
-  
+
   -- Regional variation
   high_threat_regions = 2.0,             -- 2x spawn rate
   neutral_regions = 1.0,
@@ -646,18 +651,18 @@ function calculateTotalReward(mission, results)
   local base = base_rewards[mission.type]
   local difficulty_mult = {easy = 0.75, normal = 1.0, hard = 1.5, impossible = 2.0}
   local performance_mult = 1.0
-  
+
   -- Time bonus: Complete in <50% of time limit
   if results.time_taken < mission.time_limit * 0.5 then
     performance_mult = performance_mult * 1.25
   end
-  
+
   -- Casualty penalty: -10% per unit lost
   performance_mult = performance_mult * (1.0 - 0.1 * results.units_lost)
-  
+
   -- Objective completion bonus: +20% per optional objective
   performance_mult = performance_mult * (1.0 + 0.2 * results.optional_completed)
-  
+
   local total = base * difficulty_mult[mission.difficulty] * performance_mult
   return math.floor(total)
 end
@@ -840,7 +845,7 @@ function selectMissionType(geoscape_state, region)
     intercept = 1.1,
     investigate = 0.6
   }
-  
+
   -- Adjust weights by game state
   if geoscape_state.active_rescue_count > 3 then
     weights.rescue = weights.rescue * 0.5  -- Reduce repeat types
@@ -848,7 +853,7 @@ function selectMissionType(geoscape_state, region)
   if region.threat_level > 0.7 then
     weights.assault = weights.assault * 1.5  -- More combat in hot zones
   end
-  
+
   -- Weighted random selection
   local selected = weightedRandom(available_types, weights)
   return selected
@@ -860,31 +865,31 @@ end
 ```lua
 function selectMissionLocation(mission_type, geoscape_state)
   local candidates = {}
-  
+
   -- Filter provinces by criteria
   for _, province in ipairs(geoscape_state.provinces) do
     local score = 0
-    
+
     -- Base mission appropriateness
     score = score + getMissionTypeSuitability(mission_type, province.biome)
-    
+
     -- Strategic value (higher = more likely)
     score = score + (province.threat_level * 0.3)
-    
+
     -- Country funding bonus
     local owner = getCountryOwner(province)
     score = score + (getFundingLevel(owner) * 0.2)
-    
+
     -- Already has active mission penalty
     if hasActiveMission(province) then
       score = score * 0.5
     end
-    
+
     if score > 0 then
       table.insert(candidates, {province = province, score = score})
     end
   end
-  
+
   -- Select highest weighted
   table.sort(candidates, function(a,b) return a.score > b.score end)
   return candidates[1].province
@@ -896,18 +901,18 @@ end
 ```lua
 function calculateMissionDifficulty(mission_template, geoscape_state, difficulty_setting)
   local base_difficulty = mission_template.difficulty_base or 2
-  
+
   -- Player organization level modifier (-1 to +1)
   local org_modifier = (geoscape_state.organization_level - 3) * 0.2
-  
+
   -- Regional threat modifier (0-2x)
   local threat_mult = geoscape_state.active_region.threat_level
-  
+
   -- Weighted by player performance (wins vs losses)
-  local win_rate = geoscape_state.mission_wins / 
+  local win_rate = geoscape_state.mission_wins /
                    math.max(1, geoscape_state.mission_wins + geoscape_state.mission_losses)
   local performance_modifier = (1.0 - win_rate) * 0.3  -- Up to +0.3 if losing
-  
+
   -- Difficulty setting (0.75 to 2.0 for easy/hard)
   local difficulty_scales = {
     easy = 0.75,
@@ -915,12 +920,12 @@ function calculateMissionDifficulty(mission_template, geoscape_state, difficulty
     hard = 1.5,
     impossible = 2.0
   }
-  
-  local final_difficulty = 
-    (base_difficulty + org_modifier + performance_modifier) * 
-    difficulty_scales[difficulty_setting] * 
+
+  local final_difficulty =
+    (base_difficulty + org_modifier + performance_modifier) *
+    difficulty_scales[difficulty_setting] *
     threat_mult
-  
+
   return math.clamp(final_difficulty, 1, 5)  -- Clamp to valid range
 end
 ```
@@ -930,18 +935,18 @@ end
 ```lua
 function generateEnemyComposition(mission_type, final_difficulty, region_faction)
   local base_count = mission_templates[mission_type].enemy_count_min
-  
+
   -- Difficulty scaling: +25% per difficulty level above base
   local count_modifier = 1.0 + (final_difficulty - 2) * 0.25
   local enemy_count = math.floor(base_count * count_modifier)
-  
+
   -- Quality tier selection (1=basic, 5=elite)
   local quality_tier = math.ceil(final_difficulty)
-  
+
   -- Generate enemy types by faction and quality
   local enemies = {}
   local faction_roster = region_faction.available_units
-  
+
   for i = 1, enemy_count do
     local enemy_type = selectEnemyByQuality(faction_roster, quality_tier, i)
     table.insert(enemies, {
@@ -950,7 +955,7 @@ function generateEnemyComposition(mission_type, final_difficulty, region_faction
       index = i
     })
   end
-  
+
   return enemies
 end
 
@@ -963,13 +968,13 @@ function selectEnemyByQuality(roster, quality_tier, position)
     [4] = {standard = 0.5, elite = 0.5},       -- Hard: no basic
     [5] = {elite = 1.0}                        -- Impossible: all elite
   }
-  
+
   local dist = tier_distribution[quality_tier]
   local selected_tier = weightedRandom(
-    {"basic", "standard", "elite"}, 
+    {"basic", "standard", "elite"},
     {dist.basic or 0, dist.standard or 0, dist.elite or 0}
   )
-  
+
   -- Pick specific unit from roster matching tier
   return selectRandomUnitOfTier(roster, selected_tier)
 end
@@ -981,16 +986,16 @@ end
 function generateMissionMap(mission_type, location_biome, difficulty)
   -- Select map template for biome
   local map_template = selectMapTemplate(mission_type, location_biome)
-  
+
   -- Randomize map (rotation, mirroring, terrain swap)
   local variations = {
     rotation = math.random(0, 3) * 90,         -- 0, 90, 180, 270
     mirror_horizontal = math.random() > 0.5,
     terrain_density = 0.7 + math.random() * 0.3
   }
-  
+
   local final_map = applyMapVariations(map_template, variations)
-  
+
   -- Place objectives
   local objectives = {}
   for _, obj_template in ipairs(mission_type.objective_templates) do
@@ -1001,7 +1006,7 @@ function generateMissionMap(mission_type, location_biome, difficulty)
       difficulty_factor = difficulty
     })
   end
-  
+
   return {map = final_map, objectives = objectives}
 end
 ```
@@ -1011,14 +1016,14 @@ end
 ```lua
 function calculateMissionRewards(mission_type, difficulty, player_performance)
   local base_reward = mission_type.base_reward or 2000
-  
+
   -- Difficulty multiplier (0.5 to 2.0)
   local difficulty_scales = {1, 0.75, 1.25, 1.75, 2.0}
   local difficulty_mult = difficulty_scales[math.ceil(difficulty)]
-  
+
   -- Performance bonus (up to +50% for specific conditions)
   local performance_bonus = 1.0
-  
+
   if player_performance.first_contact_elimination then
     performance_bonus = performance_bonus * 1.1  -- +10% for fast kills
   end
@@ -1028,9 +1033,9 @@ function calculateMissionRewards(mission_type, difficulty, player_performance)
   if player_performance.speedrun then
     performance_bonus = performance_bonus * 1.15 -- +15% for fast completion
   end
-  
+
   local final_reward = base_reward * difficulty_mult * performance_bonus
-  
+
   return {
     credits = math.floor(final_reward),
     tech_points = math.floor(final_reward * 0.08),
@@ -1078,7 +1083,7 @@ end
 ```lua
 function calculateTimeLimit(mission_type, difficulty, map_size)
   local base_time = mission_type.base_time_limit or 30
-  
+
   -- Map size affects time (larger = more time)
   local size_factor = {
     small = 0.8,
@@ -1086,20 +1091,20 @@ function calculateTimeLimit(mission_type, difficulty, map_size)
     large = 1.2,
     huge = 1.4
   }
-  
+
   -- Difficulty affects time (harder = less time)
   local difficulty_factor = (6 - difficulty) / 5  -- Range: 1.0 to 0.2
-  
+
   -- Number of objectives (more = more time)
   local objective_factor = 1.0 + (#objectives * 0.1)
-  
+
   local final_time = math.floor(
-    base_time * 
-    size_factor[map_size] * 
-    difficulty_factor * 
+    base_time *
+    size_factor[map_size] *
+    difficulty_factor *
     objective_factor
   )
-  
+
   return math.max(15, final_time)  -- Minimum 15 turns
 end
 ```
@@ -1160,7 +1165,7 @@ function calculateBaseReward(mission_type, difficulty)
     intercept = 1500,
     investigate = 1000
   }
-  
+
   local difficulty_multiplier = {
     [1] = 0.75,   -- Easy
     [2] = 1.0,    -- Normal
@@ -1168,10 +1173,10 @@ function calculateBaseReward(mission_type, difficulty)
     [4] = 2.0,    -- Impossible (clamped)
     [5] = 2.0
   }
-  
+
   local base = mission_base_rewards[mission_type]
   local multiplier = difficulty_multiplier[math.ceil(difficulty)]
-  
+
   return base * multiplier
 end
 ```
@@ -1180,23 +1185,23 @@ end
 ```lua
 function calculatePerformanceMultiplier(results)
   local multiplier = 1.0
-  
+
   -- Casualty modifier: -10% per KIA, -5% per wounded
   multiplier = multiplier * (1.0 - results.units_kia * 0.1 - results.units_wounded * 0.05)
-  
+
   -- Time bonus: Complete in < 50% of time
   if results.turns_taken < results.time_limit * 0.5 then
     multiplier = multiplier * 1.25
   end
-  
+
   -- Objective completion: +20% per optional objective
   multiplier = multiplier * (1.0 + results.optional_completed * 0.2)
-  
+
   -- Perfect mission: No casualties + all objectives
   if results.units_kia == 0 and results.objectives_failed == 0 then
     multiplier = multiplier * 1.5
   end
-  
+
   return math.min(multiplier, 3.0)  -- Cap at 3x multiplier
 end
 ```
@@ -1206,9 +1211,9 @@ end
 function calculateFinalReward(mission, results)
   local base_reward = calculateBaseReward(mission.type, mission.difficulty)
   local perf_multiplier = calculatePerformanceMultiplier(results)
-  
+
   local final_credits = math.floor(base_reward * perf_multiplier)
-  
+
   return {
     credits = final_credits,
     tech_points = math.floor(final_credits * 0.08),
@@ -1275,7 +1280,7 @@ intercept_rewards = {
 squad_constraints = {
   minimum_size = 1,                   -- At least 1 unit
   maximum_size = 12,                  -- Maximum deployment size
-  
+
   by_mission_type = {
     rescue = {min = 2, max = 6},      -- Smaller squads for stealth
     assault = {min = 4, max = 12},    -- Large squads for firepower
@@ -1382,7 +1387,7 @@ size = "large"
 
 ---
 
-**Last Updated:** October 22, 2025  
+**Last Updated:** October 22, 2025
 **Status:** ✅ Complete
 - Dynamic events during missions (reinforcements, hazards)
 - Story-driven mission chains
@@ -1406,6 +1411,23 @@ size = "large"
 - Performance metrics and efficiency calculations
 - Historical mission data analysis
 - Player progression insights
+
+---
+
+## Mission Salvage Values by Type
+
+| Mission Type | Salvage Value | Reasoning |
+|--------------|---------------|-----------|
+| UFO Crash (Small) | 20-30K | Common, standard alien tech recovery |
+| UFO Crash (Large) | 50-75K | Rare, valuable alien tech recovery |
+| Alien Base Attack | 75-150K | Very rare, major alien tech recovery |
+| Terror Mission | 40-60K | Rare, important alien equipment |
+| Base Defense | 15-25K | Common, defensive alien tech recovery |
+| Abduction Rescue | 30-40K | Moderate, research value from alien tech |
+| Research Investigation | 30-40K | Moderate, alien research materials |
+| Infiltration | 40-60K | Rare, valuable alien tech access |
+| Assault | 40-60K | Rare, destroyed alien installations |
+| Capture | 50-75K | Rare, intact alien technology |
 
 ---
 

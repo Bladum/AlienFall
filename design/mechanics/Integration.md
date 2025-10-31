@@ -1,7 +1,7 @@
 # System Integration
 
-> **Status**: Technical Analysis  
-> **Last Updated**: 2025-10-28  
+> **Status**: Technical Analysis
+> **Last Updated**: 2025-10-28
 > **Related Systems**: All systems
 
 ## Table of Contents
@@ -119,14 +119,13 @@ AlienFall demonstrates **well-isolated systems with explicit integration points*
 **Coupling Level**: **Medium** - High intra-system coupling (provinces ↔ countries ↔ factions) but low cross-system coupling
 
 **Key Interfaces**:
-```lua
-GeoScape:
-  get_missions() → {missions}
-  deploy_craft(craft_id, province) → deployment_status
-  get_base_at_province(province_id) → base_data
-  update_relations(country_id, delta) → new_relations
-  get_detected_missions(radar_power, range) → {detected}
-```
+
+Geoscape system provides the following key functions:
+- `get_missions()` - Returns list of all current missions
+- `deploy_craft(craft_id, province)` - Deploys craft to province for interception
+- `get_base_at_province(province_id)` - Retrieves base data at location
+- `update_relations(country_id, delta)` - Updates country relationship
+- `get_detected_missions(radar_power, range)` - Returns missions detected by radar
 
 ---
 
@@ -148,14 +147,13 @@ GeoScape:
 **Coupling Level**: **High** - Basescape is hub of vertical integration; connects all other systems
 
 **Key Interfaces**:
-```lua
-Basescape:
-  add_facility(type, position) → facility_id
-  assign_research(project, scientists) → progress
-  queue_manufacturing(item, quantity) → job_id
-  get_equipment_for_unit(unit_id) → {items}
-  process_salvage(salvage_list) → {resources}
-```
+
+Basescape system provides the following key functions:
+- `add_facility(type, position)` - Constructs facility at grid position
+- `assign_research(project, scientists)` - Allocates scientists to research project
+- `queue_manufacturing(item, quantity)` - Queues item production
+- `get_equipment_for_unit(unit_id)` - Retrieves available equipment
+- `process_salvage(salvage_list)` - Converts salvage to usable resources
 
 ---
 
@@ -177,14 +175,13 @@ Basescape:
 **Coupling Level**: **Medium** - Self-contained system with clear input/output interface
 
 **Key Interfaces**:
-```lua
-Battlescape:
-  initialize_mission(mission_data, player_units) → battle_state
-  execute_turn(unit_actions) → turn_results
-  get_line_of_sight(unit_position) → {visible_tiles}
-  calculate_hit_chance(attack_params) → accuracy_percentage
-  conclude_mission() → salvage
-```
+
+Battlescape system provides the following key functions:
+- `initialize_mission(mission_data, player_units)` - Sets up tactical battle
+- `execute_turn(unit_actions)` - Processes turn actions and generates results
+- `get_line_of_sight(unit_position)` - Calculates visible tiles from position
+- `calculate_hit_chance(attack_params)` - Computes accuracy percentage
+- `conclude_mission()` - Ends battle and collects salvage
 
 ---
 
@@ -204,13 +201,13 @@ Battlescape:
 **Coupling Level**: **Low** - Relatively isolated system with clear turn-based interface
 
 **Key Interfaces**:
-```lua
-Interception:
-  initialize_combat(player_craft, ufo) → combat_state
-  execute_turn(craft_action) → turn_result
-  resolve_combat() → outcome
-  apply_damage(target, damage) → damage_result
-```
+
+Interception system provides:
+- `initialize_combat(player_craft, ufo)` - Sets up aerial combat encounter
+- `execute_turn(craft_action)` - Processes combat actions and returns results
+- `resolve_combat()` - Determines combat outcome (victory, escape, or loss)
+- `apply_damage(target, damage)` - Applies damage and updates health
+- `conclude_combat()` - Finalizes combat and returns outcome
 
 ---
 
@@ -233,150 +230,77 @@ Interception:
 **Coupling Level**: **Low** - AI systems consume state without modifying game logic
 
 **Key Interfaces**:
-```lua
-StrategicAI:
-  decide_faction_action() → action_type
-  generate_mission() → mission_data
-  
-OperationalAI:
-  decide_ufo_action() → action_type
-  
-TacticalAI:
-  select_unit_action(unit_state) → action
-```
+
+Strategic AI provides:
+- `decide_faction_action()` - Determines faction's next strategic action
+- `generate_mission()` - Creates new mission based on current state
+
+Operational AI provides:
+- `decide_ufo_action()` - Determines UFO behavior (attack, escape, stealth)
+
+Tactical AI provides:
+- `select_unit_action(unit_state)` - Selects individual unit action in combat
 
 ---
 
 ## Data Flow Analysis
 
-### Mission Lifecycle Data Flow
+### Mission Lifecycle Overview
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│ 1. GEOSCAPE: Mission Generation & Detection                │
-│                                                              │
-│  Faction State + Player Threat + Escalation → AI Decision   │
-│    ↓                                                         │
-│  Create Mission (Type, Location, Units, Difficulty)        │
-│    ↓                                                         │
-│  Calculate Cover (Stealth) - starts high                    │
-│    ↓                                                         │
-│  Check Radar Coverage - reduce cover if detected            │
-│    ↓                                                         │
-│  Store Mission: {type, location, units[], cover, status}    │
-│    ↓                                                         │
-│  IF detected: Show on Player Map                            │
-│  IF not detected: Hidden until cover degrades               │
-└─────────────────────────────────────────────────────────────┘
-              ↓ (if player deploys craft)
-┌─────────────────────────────────────────────────────────────┐
-│ 2. INTERCEPTION: UFO vs. Craft Combat (if applicable)      │
-│                                                              │
-│  Player Craft + UFO → Combat Resolution                     │
-│    ↓                                                         │
-│  Exchange fire for N turns OR UFO escapes/destroyed         │
-│    ↓                                                         │
-│  IF destroyed: No ground mission, return salvage only      │
-│  IF escaped: Proceed to ground mission with reduced units   │
-│  IF damaged: Mission difficulty reduced                     │
-│    ↓                                                         │
-│  Outcome: {success, craft_damage, ufo_salvage}             │
-└─────────────────────────────────────────────────────────────┘
-              ↓ (if ground mission proceeds)
-┌─────────────────────────────────────────────────────────────┐
-│ 3. BATTLESCAPE: Tactical Ground Combat                     │
-│                                                              │
-│  Generate Map from Biome + Script + Mission Type            │
-│    ↓                                                         │
-│  Deploy Player Units → Enemy Units → Combat               │
-│    ↓                                                         │
-│  Turn Sequence: Player → Allies → Enemies → Effects        │
-│    ↓                                                         │
-│  Action Resolution: Movement, Accuracy, Damage              │
-│    ↓                                                         │
-│  Objective Progress: Track mission goal completion          │
-│    ↓                                                         │
-│  Outcome: {success, casualties, experience, salvage}        │
-└─────────────────────────────────────────────────────────────┘
-              ↓
-┌─────────────────────────────────────────────────────────────┐
-│ 4. BASESCAPE: Salvage Processing & Growth                  │
-│                                                              │
-│  Receive Salvage: {items[], resources[], xp, prisoners}    │
-│    ↓                                                         │
-│  Distribute XP → Unit Promotions / Specializations          │
-│    ↓                                                         │
-│  Store Items → Inventory Management                         │
-│    ↓                                                         │
-│  Process Resources → Raw Materials                          │
-│    ↓                                                         │
-│  Prisoners → Research Opportunity (if available)            │
-│    ↓                                                         │
-│  Unit Health Recovery → Hospital Queues                     │
-│    ↓                                                         │
-│  Mission Rewards → Country Funding + Fame                   │
-│    ↓                                                         │
-│  Research Options Unlock (from captured tech)               │
-│    ↓                                                         │
-│  Manufacturing Unlock (from research)                       │
-└─────────────────────────────────────────────────────────────┘
-              ↓
-┌─────────────────────────────────────────────────────────────┐
-│ 5. GEOSCAPE: Strategic Impact & Loop                        │
-│                                                              │
-│  Funding Increase: Mission Success → Country Relations      │
-│    ↓                                                         │
-│  Capability Unlock: Basescape manufacturing → Equipped      │
-│    ↓                                                         │
-│  Escalation Adjustment: Success → Suppress escalation       │
-│    ↓                                                         │
-│  Next Mission More Difficult: Escalation → Harder enemies   │
-│    ↓                                                         │
-│  Loop Continues...                                          │
-└─────────────────────────────────────────────────────────────┘
-```
+The mission lifecycle consists of 5 sequential phases:
 
-### Key Data Structures Exchanged
+**Phase 1: Geoscape Mission Generation & Detection**
+- Faction AI decides to generate mission based on threat level and escalation
+- Mission created with type, location, unit composition, and difficulty scaling
+- Cover value calculated (high initially, degrades as player detects it)
+- Radar coverage checked - if detected, mission visible to player; otherwise hidden
+- Mission stored with all metadata for future deployment
 
-**Geoscape → Battlescape**:
-```lua
-MissionContext = {
-  type = "UFO_Crash",
-  location = {x, y},
-  biome = "Forest",
-  difficulty = 2.5,
-  enemy_composition = {units[], equipment_tier},
-  environment = {weather, day_night},
-  objectives = {primary, secondary}
-}
-```
+**Phase 2: Interception (Optional)**
+- Player deploys craft to intercept UFO
+- Aerial combat occurs between craft and UFO
+- Three outcomes possible: UFO destroyed (no ground mission), UFO escapes (continue to ground), UFO damaged (difficulty reduced)
+- Craft damage recorded and UFO salvage generated
 
-**Battlescape → Basescape**:
-```lua
-MissionResults = {
-  success = true,
-  casualties = {unit_id, ...},
-  xp_gains = {unit_id → amount, ...},
-  salvage = {
-    items = {item_id → quantity, ...},
-    resources = {resource_id → quantity, ...},
-    prisoners = {unit_data, ...}
-  },
-  fame_delta = +500
-}
-```
+**Phase 3: Battlescape Tactical Combat**
+- Map procedurally generated from biome type, script template, and mission type
+- Player units deployed alongside allied forces (if applicable)
+- Enemy units positioned based on mission parameters
+- Combat proceeds in turn order: Player → Allied units → Enemy units → Environmental effects
+- Actions resolve: movement, accuracy calculations, damage application
+- Objectives tracked for mission success/failure determination
+- Mission outcome calculated with casualties, XP, salvage, and fame delta
 
-**Basescape → Geoscape**:
-```lua
-OrganizationCapabilities = {
-  available_units = {unit_id, ...},
-  available_crafts = {craft_id, ...},
-  research_unlocks = {tech_id, ...},
-  manufacturing_options = {item_id, ...},
-  facility_count = N,
-  monthly_income = amount
-}
-```
+**Phase 4: Basescape Salvage Processing**
+- Salvage received: items, resources, prisoners, armor
+- XP distributed to participating units, potentially triggering promotions
+- Items stored in inventory for equipping or selling
+- Resources converted to usable materials
+- Prisoners offer research opportunities or intelligence bonuses
+- Unit health recovery managed through hospital queues
+- Mission rewards increase country funding and player fame
+- Research projects unlocked from captured alien technology
+- Manufacturing becomes available from new research
+
+**Phase 5: Geoscape Strategic Impact**
+- Mission success increases funding from supporting country
+- New capabilities from Basescape manufacturing feed back to Geoscape
+- Escalation adjusted based on mission success/failure
+- Difficulty scaling increases for next missions based on escalation level
+- Cycle repeats with next mission generation
+
+---
+
+### Key Data Exchanged Between Systems
+
+**Geoscape → Battlescape (Mission Context)**:
+Contains: Mission type, Location coordinates, Biome type, Difficulty multiplier (1.0-3.0), Enemy composition with equipment tier, Environmental conditions (weather, day/night), Objectives (primary/secondary)
+
+**Battlescape → Basescape (Mission Results)**:
+Contains: Success status (boolean), Casualties list with unit IDs, XP gains per unit, Salvage (items, resources, prisoner count), Fame reward points
+
+**Basescape → Geoscape (Organization Capabilities)**:
+Contains: Available unit roster with equipment status, Available craft list with fuel/ammo, Research unlocked projects, Manufacturing options available, Facility count, Monthly income amount
 
 ---
 
@@ -426,16 +350,7 @@ OrganizationCapabilities = {
 
 **Usage**: Passing data from one layer to another without persistent connection
 
-**Example**: Geoscape passes mission context to Battlescape
-```lua
-function GeoScape:deploy_mission_to_battlescape()
-  local mission_data = self:generate_mission_context()
-  -- Mission data includes type, location, difficulty, enemies, objectives
-  local battle_state = Battlescape:initialize_mission(mission_data, player_units)
-  -- Battlescape operates independently with passed state
-  return battle_state
-end
-```
+**Example Flow**: Geoscape prepares mission context (type, location, difficulty, enemies, objectives) and passes it to Battlescape. Battlescape then operates independently with that passed state, generating its own internal subsystems without requiring ongoing communication with Geoscape.
 
 **Coupling**: **Low** - Geoscape doesn't know Battlescape internals; just passes well-defined data
 
@@ -447,14 +362,7 @@ end
 
 **Usage**: Systems emit events when important changes occur
 
-**Example**: Battlescape publishes "mission_complete" event with results
-```lua
-function Battlescape:conclude_mission()
-  local results = self:calculate_mission_outcome()
-  events:publish("mission_complete", results)
-  -- Basescape subscribes to this event and processes salvage
-end
-```
+**Example Flow**: Battlescape concludes mission and publishes "mission_complete" event with results. Basescape subscribes to this event and processes salvage automatically without Battlescape needing to know who's listening.
 
 **Coupling**: **Low** - Event publisher doesn't know subscribers; decoupled communication
 
@@ -466,17 +374,7 @@ end
 
 **Usage**: Systems query another system's state without modification
 
-**Example**: Battlescape queries unit equipped items from Basescape
-```lua
-function Battlescape:load_player_units()
-  local unit_list = player_organization_id
-  for unit_id in unit_list do
-    local unit = Basescape:get_unit(unit_id)
-    local equipment = Basescape:get_equipped_items(unit_id)
-    -- Use equipment stats for Battlescape combat
-  end
-end
-```
+**Example Flow**: Battlescape loads player units by querying Basescape for each unit ID. For each unit, Battlescape queries equipped items and equipment stats, then uses those stats for combat calculations.
 
 **Coupling**: **Medium** - Battlescape depends on Basescape interface stability
 
@@ -488,15 +386,7 @@ end
 
 **Usage**: Systems register callbacks for specific events
 
-**Example**: Geoscape listens for mission completion to adjust relations
-```lua
-function GeoScape:initialize()
-  events:subscribe("mission_complete", function(results)
-    self:update_country_relations(results)
-    self:process_mission_impact(results)
-  end)
-end
-```
+**Example Flow**: Geoscape registers a callback for "mission_complete" events. When Battlescape publishes mission results, Geoscape's callback triggers automatically, updating country relations and processing mission impact without direct coupling.
 
 **Coupling**: **Low** - Geoscape doesn't directly call Battlescape
 
@@ -563,38 +453,27 @@ end
 
 ### Integration Test Scenarios
 
-**Scenario 1**: Complete Mission-to-Equipment Cycle
-```
-1. Generate mission (Geoscape)
-2. Deploy to Battlescape
-3. Win combat and capture alien armor
-4. Process salvage (Basescape)
-5. Unlock alien armor research (Basescape)
-6. Manufacture alien armor (Basescape)
-7. Equip new unit (Basescape)
-8. Deploy equipped unit to next mission (Geoscape)
-9. Verify improved accuracy in combat (Battlescape)
-```
+**Scenario 1: Complete Mission-to-Equipment Cycle**
 
-**Scenario 2**: Economy Integration
-```
-1. Deploy craft to expensive biome (Geoscape)
-2. Win mission (Battlescape)
-3. Receive salvage (Basescape)
-4. Sell equipment (Economy)
-5. Verify funding increase (Geoscape)
-6. Build new facility (Basescape)
-```
+Steps: (1) Generate mission in Geoscape; (2) Deploy to Battlescape; (3) Win combat and capture alien armor; (4) Process salvage in Basescape; (5) Unlock alien armor research; (6) Manufacture alien armor; (7) Equip new unit; (8) Deploy equipped unit to next mission; (9) Verify improved accuracy in combat.
 
-**Scenario 3**: AI Adaptation
-```
-1. Player defeats aliens 3 times (Geoscape)
-2. Escalation increases (Geoscape AI)
-3. Next mission has stronger aliens (Battlescape AI)
-4. Player takes casualties (Battlescape)
-5. Hospital recovery time extends (Basescape)
-6. Funds decline due to unit maintenance (Economy)
-```
+**Expected Result**: Equipment acquired in battle successfully integrates through research and manufacturing into new equipment for future missions, creating gameplay feedback loop.
+
+---
+
+**Scenario 2: Economy Integration**
+
+Steps: (1) Deploy craft to expensive biome in Geoscape; (2) Win mission in Battlescape; (3) Receive salvage in Basescape; (4) Sell equipment through Economy system; (5) Verify funding increase in Geoscape; (6) Build new facility in Basescape.
+
+**Expected Result**: Mission economics cascade through all systems, allowing player to reinvest success into capability growth.
+
+---
+
+**Scenario 3: AI Adaptation**
+
+Steps: (1) Player defeats aliens 3 times in Geoscape; (2) Escalation increases automatically; (3) Next mission has stronger aliens assigned by AI; (4) Player takes casualties in Battlescape; (5) Hospital recovery time extends in Basescape; (6) Funds decline due to unit maintenance in Economy.
+
+**Expected Result**: Game difficulty scales dynamically, creating emergent challenge progression.
 
 ---
 
@@ -610,17 +489,9 @@ end
 - [ ] Establish integration points (which existing systems does it connect to?)
 - [ ] Design test cases (how do we verify integration?)
 
-**Example**: Adding "Espionage" system
-```lua
--- Espionage is strategic layer → depends on Geoscape, Politics
--- Input: Organization funds, target country
--- Output: Intelligence (reduces cover by 5-20 points)
--- Integration: Geoscape missions, Country relations
--- Tests: 
---   1. Espionage reduces mission cover correctly
---   2. Cost deducted from budget
---   3. Affects country relations appropriately
-```
+**Example: Adding "Espionage" System**
+
+Espionage is strategic layer system depending on Geoscape and Politics. Input: Organization funds and target country. Output: Intelligence information (reduces mission cover by 5-20 points). Integration points: affects mission cover in Geoscape, impacts country relations in Politics system. Test cases: verify espionage reduces cover correctly, verify funds deducted from budget, verify country relations affected appropriately.
 
 ---
 
@@ -673,3 +544,85 @@ The **game design drives architecture**: three sequential layers (Strategic → 
 ---
 
 **End of Integration Analysis**
+
+## Examples
+
+### Scenario 1: Mission Cascade
+**Setup**: Player detects UFO in Geoscape, deploys craft for interception
+**Action**: Successful interception prevents ground mission, generates salvage
+**Result**: Salvage flows to Basescape for research/manufacturing, improving future capabilities
+
+### Scenario 2: Base Expansion Feedback Loop
+**Setup**: Player completes research in Basescape, unlocks advanced craft
+**Action**: Deploys improved craft to Geoscape missions
+**Result**: Better mission success rates increase funding, enabling more research
+
+## Balance Parameters
+
+| Parameter | Value | Range | Reasoning | Difficulty Scaling |
+|-----------|-------|-------|-----------|-------------------|
+| Coupling Level | Medium-Low | Low-High | Allows modularity while enabling integration | No scaling |
+| Data Flow Complexity | High | Low-High | Reflects game design depth | No scaling |
+| System Independence | High | Low-High | Enables isolated testing | No scaling |
+| Vertical Dependency | High | Low-High | Required for strategic progression | No scaling |
+
+## Difficulty Scaling
+
+### Easy Mode
+- Simplified data validation
+- Reduced integration complexity
+- More forgiving error handling
+
+### Normal Mode
+- Standard integration patterns
+- Full data flow complexity
+- Normal error propagation
+
+### Hard Mode
+- Stricter data validation
+- Increased integration requirements
+- Less forgiving error handling
+
+### Impossible Mode
+- Maximum integration complexity
+- Strict validation requirements
+- Minimal error tolerance
+
+## Testing Scenarios
+
+- [ ] **Data Flow Test**: Verify salvage flows from Battlescape to Basescape
+  - **Setup**: Complete a mission with salvage
+  - **Action**: Check Basescape inventory
+  - **Expected**: Salvage items appear correctly
+  - **Verify**: Inventory totals match mission outcomes
+
+- [ ] **System Isolation Test**: Test Geoscape operation without Basescape
+  - **Setup**: Disable Basescape systems
+  - **Action**: Run Geoscape mission generation
+  - **Expected**: Missions generate normally
+  - **Verify**: No dependency errors
+
+## Related Features
+
+- **[Geoscape System]**: Strategic layer integration (Geoscape.md)
+- **[Basescape System]**: Operational layer integration (Basescape.md)
+- **[Battlescape System]**: Tactical layer integration (Battlescape.md)
+- **[Interception System]**: Aerial combat layer (Interception.md)
+
+## Implementation Notes
+
+- Uses event-driven architecture for system communication
+- State synchronization occurs at layer boundaries
+- Data transformation handled by dedicated integration modules
+- Circular dependency prevention through unidirectional data flow
+
+## Review Checklist
+
+- [ ] System dependency map accurate
+- [ ] Integration patterns documented
+- [ ] Data flow paths defined
+- [ ] No circular dependencies
+- [ ] Testing scenarios comprehensive
+- [ ] Related systems properly linked
+- [ ] Implementation notes complete
+- [ ] Architecture review completed

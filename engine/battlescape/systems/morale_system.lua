@@ -1,66 +1,71 @@
 ---@meta
 
----Morale & Sanity System (NEW)
----Handles unit morale, sanity, and panic states for tactical combat
----Morale: Derived from BRAVERY stat (6-12), buffer during battle
----Sanity: Separate stat (6-12), psychological stability buffer
----Both systems apply AP modifiers when low, and panic when depleted
+---Morale & Sanity System (UPDATED - Matches Battlescape.md Design)
+---Handles unit morale and sanity according to canonical design specification
+---Morale: In-battle psychological buffer (affects AP/accuracy, resets per mission)
+---Sanity: Long-term psychological state (affects deployment only, no in-battle effects)
 ---@module morale_system
 
 local MoraleSystem = {}
 
--- Configuration
+-- Configuration - Updated to match design thresholds
 MoraleSystem.CONFIG = {
-    -- AP Modifier thresholds
-    AP_MODIFIER_THRESHOLD_2 = 2,  -- When morale/sanity = 2: -1 AP
-    AP_MODIFIER_THRESHOLD_1 = 1,  -- When morale/sanity = 1: -2 AP
+    -- Morale AP penalties (design: 6-12/5/4/3/2/1/0)
+    MORALE_AP_PENALTY_2 = -1,  -- Morale 2: -1 AP
+    MORALE_AP_PENALTY_1 = -2,  -- Morale 1: -2 AP
+    MORALE_AP_PENALTY_0 = -99, -- Morale 0: All AP lost (panic)
+
+    -- Morale accuracy penalties (design: 6-12/5/4/3/2/1/0)
+    MORALE_ACCURACY_4 = -5,   -- Morale 4: -5% accuracy
+    MORALE_ACCURACY_3 = -10,  -- Morale 3: -10% accuracy
+    MORALE_ACCURACY_2 = -15,  -- Morale 2: -15% accuracy
+    MORALE_ACCURACY_1 = -25,  -- Morale 1: -25% accuracy
+    MORALE_ACCURACY_0 = -50,  -- Morale 0: -50% accuracy
 
     -- Stress event morale loss
-    ALLY_DEATH_MORALE_LOSS = 1,  -- -1 morale when ally dies nearby
-    CRITICAL_HIT_MORALE_LOSS = 1,  -- -1 morale when critically hit
+    ALLY_DEATH_MORALE_LOSS = -1,
+    CRITICAL_HIT_MORALE_LOSS = -1,
+    DAMAGE_TAKEN_MORALE_LOSS = -1,
+    FLANKED_MORALE_LOSS = -1,
+    OUTNUMBERED_MORALE_LOSS = -1,
 
-    -- Sanity loss per mission (post-battle)
-    SANITY_LOSS_STANDARD = 0,     -- Standard difficulty
-    SANITY_LOSS_MODERATE = 1,     -- Moderate difficulty
-    SANITY_LOSS_HARD = 2,         -- Hard difficulty
-    SANITY_LOSS_NIGHT_MISSION = 1,  -- Additional penalty for night missions
-    SANITY_LOSS_PER_ALLY_KIA = 1,   -- Per ally killed
-
-    -- Leadership bonuses
-    LEADER_MORALE_BONUS = 1,       -- +1 morale to nearby allies per turn
-    LEADER_RANGE = 5,              -- Within 5 hexes
-
-    -- Rally action
-    RALLY_MORALE_RESTORE = 2,      -- +2 morale
+    -- Recovery actions
+    REST_AP_COST = 2,
+    REST_MORALE_GAIN = 1,
     RALLY_AP_COST = 4,
+    RALLY_MORALE_GAIN = 2,
+    RALLY_RANGE = 5,
+    LEADER_AURA_RANGE = 8,
+    LEADER_AURA_MORALE_GAIN = 1,
+
+    -- Sanity system (deployment only - no in-battle effects)
+    SANITY_DEPLOYMENT_LOCK = 0,  -- Cannot deploy if sanity = 0
 }
 
 ---@class PsychologicalState
 ---@field unitId string
 ---@field morale number Current morale (0-12, derived from bravery)
 ---@field maxMorale number Max morale (equals BRAVERY stat)
----@field sanity number Current sanity (0-12)
+---@field sanity number Current sanity (0-12, separate stat)
 ---@field maxSanity number Max sanity (base sanity stat)
----@field state string "normal", "stressed", "panicked"
 
 -- Private state
 local psychStates = {} -- unitId -> PsychologicalState
 
 ---Initialize morale/sanity for a unit
 ---@param unitId string Unit identifier
----@param bravery number Bravery stat (becomes max morale)
----@param sanity number Sanity stat (becomes max sanity)
+---@param bravery number Bravery stat (6-12, becomes max morale)
+---@param sanity number Sanity stat (6-12, separate from morale)
 function MoraleSystem.initUnit(unitId, bravery, sanity)
-    bravery = math.max(1, math.min(12, bravery or 9))
-    sanity = math.max(1, math.min(12, sanity or 9))
+    bravery = math.max(6, math.min(12, bravery or 9))  -- Bravery range 6-12
+    sanity = math.max(6, math.min(12, sanity or 9))   -- Sanity range 6-12
 
     psychStates[unitId] = {
         unitId = unitId,
-        morale = bravery,              -- Start at max
-        maxMorale = bravery,           -- Morale cannot exceed bravery
-        sanity = sanity,               -- Start at max
+        morale = bravery,              -- Start at bravery value (design: morale = bravery at mission start)
+        maxMorale = bravery,           -- Cannot exceed bravery
+        sanity = sanity,               -- Current sanity
         maxSanity = sanity,            -- Max sanity for this unit
-        state = "normal",
     }
 
     print(string.format("[MoraleSystem] %s initialized: morale=%d (max %d), sanity=%d (max %d)",
@@ -80,9 +85,9 @@ function MoraleSystem.getState(unitId)
     return psychStates[unitId]
 end
 
----Modify unit morale (loss from stress events)
+---Modify unit morale (loss from stress events, gain from recovery)
 ---@param unitId string Unit identifier
----@param amount number Morale change (usually negative)
+---@param amount number Morale change (negative for loss, positive for gain)
 ---@param reason string|nil Reason for change
 function MoraleSystem.modifyMorale(unitId, amount, reason)
     local state = psychStates[unitId]
@@ -97,11 +102,9 @@ function MoraleSystem.modifyMorale(unitId, amount, reason)
     print(string.format("[MoraleSystem] %s morale: %d -> %d (%s%d, %s)",
         unitId, oldMorale, state.morale,
         amount >= 0 and "+" or "", amount, reason or "unknown"))
-
-    MoraleSystem.updateState(state)
 end
 
----Modify unit sanity (loss from missions, recovery from base time)
+---Modify unit sanity (between-mission system, no in-battle effects)
 ---@param unitId string Unit identifier
 ---@param amount number Sanity change (negative for loss, positive for recovery)
 ---@param reason string|nil Reason for change
@@ -118,8 +121,6 @@ function MoraleSystem.modifySanity(unitId, amount, reason)
     print(string.format("[MoraleSystem] %s sanity: %d -> %d (%s%d, %s)",
         unitId, oldSanity, state.sanity,
         amount >= 0 and "+" or "", amount, reason or "unknown"))
-
-    MoraleSystem.updateState(state)
 end
 
 ---Update psychological state based on morale/sanity values
@@ -138,105 +139,102 @@ function MoraleSystem.updateState(state)
     end
 end
 
----Get AP modifier based on morale/sanity
+---Get AP modifier based on morale (sanity does NOT affect AP)
 ---Returns AP penalty that should be applied to unit
 ---@param unitId string Unit identifier
----@return number modifier (negative = AP penalty)
+---@return number modifier (negative = AP penalty, 0 = no penalty)
 function MoraleSystem.getAPModifier(unitId)
     local state = psychStates[unitId]
     if not state then return 0 end
 
     local cfg = MoraleSystem.CONFIG
-    local minMoraleSanity = math.min(state.morale, state.sanity)
 
-    if minMoraleSanity == 0 then
-        return -4  -- Panic: lose all AP
-    elseif minMoraleSanity <= cfg.AP_MODIFIER_THRESHOLD_1 then
-        return -2  -- -2 AP
-    elseif minMoraleSanity <= cfg.AP_MODIFIER_THRESHOLD_2 then
-        return -1  -- -1 AP
+    -- Design: Only morale affects AP, not sanity
+    if state.morale == 0 then
+        return cfg.MORALE_AP_PENALTY_0  -- Panic: all AP lost
+    elseif state.morale == 1 then
+        return cfg.MORALE_AP_PENALTY_1  -- -2 AP
+    elseif state.morale == 2 then
+        return cfg.MORALE_AP_PENALTY_2  -- -1 AP
     else
-        return 0   -- No modifier
+        return 0  -- No penalty for morale 3-12
     end
 end
 
----Get morale accuracy penalty
+---Get accuracy penalty based on morale (sanity does NOT affect accuracy)
 ---@param unitId string Unit identifier
----@return number penalty (0 to -50)
-function MoraleSystem.getMoraleAccuracyPenalty(unitId)
+---@return number penalty (0 to -50, percentage)
+function MoraleSystem.getAccuracyPenalty(unitId)
     local state = psychStates[unitId]
     if not state then return 0 end
 
-    -- Granular accuracy penalties based on morale
-    if state.morale == 0 then return -50
-    elseif state.morale == 1 then return -25
-    elseif state.morale == 2 then return -15
-    elseif state.morale == 3 then return -10
-    elseif state.morale <= 5 then return -5
-    else return 0
+    local cfg = MoraleSystem.CONFIG
+
+    -- Design: Morale accuracy penalties (sanity has no in-battle effects)
+    if state.morale == 0 then
+        return cfg.MORALE_ACCURACY_0  -- -50%
+    elseif state.morale == 1 then
+        return cfg.MORALE_ACCURACY_1  -- -25%
+    elseif state.morale == 2 then
+        return cfg.MORALE_ACCURACY_2  -- -15%
+    elseif state.morale == 3 then
+        return cfg.MORALE_ACCURACY_3  -- -10%
+    elseif state.morale == 4 then
+        return cfg.MORALE_ACCURACY_4  -- -5%
+    else
+        return 0  -- No penalty for morale 5-12
     end
 end
 
----Get sanity accuracy penalty
+---Get sanity accuracy penalty (DESIGN: Sanity has NO in-battle effects)
 ---@param unitId string Unit identifier
----@return number penalty (0 to -25)
+---@return number penalty Always 0 (sanity doesn't affect combat)
 function MoraleSystem.getSanityAccuracyPenalty(unitId)
-    local state = psychStates[unitId]
-    if not state then return 0 end
-
-    -- Sanity-based accuracy penalties
-    if state.sanity <= 2 then return -25
-    elseif state.sanity <= 4 then return -15
-    elseif state.sanity <= 6 then return -10
-    elseif state.sanity <= 9 then return -5
-    else return 0
-    end
+    -- DESIGN: Sanity does NOT affect in-battle accuracy, AP, or performance
+    -- It only affects pre-mission deployment eligibility
+    return 0
 end
 
----Get starting morale modifier from sanity
+---Get starting morale modifier from sanity (DESIGN: Sanity does NOT affect starting morale)
 ---@param unitId string Unit identifier
----@return number modifier (0 to -3)
+---@return number modifier Always 0 (sanity doesn't affect morale)
 function MoraleSystem.getSanityMoraleModifier(unitId)
-    local state = psychStates[unitId]
-    if not state then return 0 end
-
-    -- Low sanity reduces starting morale
-    if state.sanity <= 2 then return -3
-    elseif state.sanity <= 4 then return -2
-    elseif state.sanity <= 6 then return -1
-    else return 0
-    end
+    -- DESIGN: Sanity does NOT affect starting morale or in-battle performance
+    -- It only affects pre-mission deployment eligibility
+    return 0
 end
 
----Get morale status string
+---Get morale status string for UI
 ---@param unitId string Unit identifier
 ---@return string status
 function MoraleSystem.getMoraleStatus(unitId)
     local state = psychStates[unitId]
     if not state then return "unknown" end
 
-    if state.morale == 0 then return "panic"
-    elseif state.morale == 1 then return "panicking"
-    elseif state.morale == 2 then return "shaken"
+    -- Design thresholds: 6-12/5/4/3/2/1/0
+    if state.morale >= 6 then return "confident"
+    elseif state.morale == 5 then return "steady"
+    elseif state.morale == 4 then return "nervous"
     elseif state.morale == 3 then return "stressed"
-    elseif state.morale <= 5 then return "steady"
-    else return "confident"
+    elseif state.morale == 2 then return "shaken"
+    elseif state.morale == 1 then return "panicking"
+    else return "panic"
     end
 end
 
----Get sanity status string
+---Get sanity status string for UI
 ---@param unitId string Unit identifier
 ---@return string status
 function MoraleSystem.getSanityStatus(unitId)
     local state = psychStates[unitId]
     if not state then return "unknown" end
 
-    if state.sanity == 0 then return "broken"
-    elseif state.sanity <= 2 then return "unstable"
-    elseif state.sanity <= 4 then return "breaking"
-    elseif state.sanity <= 6 then return "fragile"
-    elseif state.sanity <= 9 then return "strained"
-    else return "stable"
+    -- Design thresholds: 8-12/5-7/2-4/1/0
+    if state.sanity >= 8 then return "stable"
+    elseif state.sanity >= 5 then return "stressed"
+    elseif state.sanity >= 2 then return "fragile"
+    elseif state.sanity == 1 then return "critical"
+    else return "broken"
     end
 end
 
@@ -255,7 +253,7 @@ function MoraleSystem.canDeploy(unitId)
     return true
 end
 
----Check if unit can act (not panicked)
+---Check if unit can act (morale > 0)
 ---@param unitId string Unit identifier
 ---@return boolean canAct
 ---@return string|nil reason
@@ -263,8 +261,8 @@ function MoraleSystem.canAct(unitId)
     local state = psychStates[unitId]
     if not state then return true end
 
-    if state.state == "panicked" then
-        return false, "Panicked - unit inactive"
+    if state.morale == 0 then
+        return false, "Panicked (morale = 0) - unit inactive"
     end
 
     return true
@@ -353,7 +351,6 @@ function MoraleSystem.resetMorale(unitId)
 
     state.morale = state.maxMorale
     print(string.format("[MoraleSystem] %s morale reset to %d (mission end)", unitId, state.morale))
-    MoraleSystem.updateState(state)
 end
 
 ---Apply post-mission sanity loss

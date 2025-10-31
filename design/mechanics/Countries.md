@@ -1,7 +1,7 @@
 # Countries System
 
-> **Status**: Design Document  
-> **Last Updated**: 2025-10-28  
+> **Status**: Design Document
+> **Last Updated**: 2025-10-28
 > **Related Systems**: Geoscape.md, Politics.md, DiplomaticRelations_Technical.md, Finance.md
 
 ## Table of Contents
@@ -15,6 +15,13 @@
 - [Terror & Panic Mechanics](#terror--panic-mechanics)
 - [Strategic Positioning](#strategic-positioning)
 - [Balance Philosophy](#balance-philosophy)
+- [Examples](#examples)
+- [Balance Parameters](#balance-parameters)
+- [Difficulty Scaling](#difficulty-scaling)
+- [Testing Scenarios](#testing-scenarios)
+- [Related Features](#related-features)
+- [Implementation Notes](#implementation-notes)
+- [Review Checklist](#review-checklist)
 
 ---
 
@@ -131,29 +138,29 @@ Each country maintains relationships with:
 
 **Monthly Country Funding Formula:**
 ```
-Monthly Income = Country GDP × Funding Level (1-10) × Relationship Modifier
+Monthly Income = Funding Level Amount × Relationship Modifier
 Relationship Modifier = 0.5 + (Relation / 100 × 0.5)
 ```
 
 **Examples:**
-- USA (GDP 100, Level 5, Relation +50): 100 × 5 × 0.75 = 375 credits/month
-- Germany (GDP 50, Level 7, Relation +20): 50 × 7 × 0.6 = 210 credits/month
-- Russia (GDP 40, Level 3, Relation -30): 40 × 3 × 0.35 = 42 credits/month
+- USA (Level 5, Relation +50): 40,000 × 0.75 = 30,000 credits/month
+- Germany (Level 7, Relation +20): 65,000 × 0.6 = 39,000 credits/month
+- Russia (Level 3, Relation -30): 22,000 × 0.35 = 7,700 credits/month
 
 ### Funding Levels (1-10)
 
-| Level | Defense Budget | Income Modifier | Notes |
+| Level | Monthly Funding | Income Amount | Notes |
 |-------|---|---|---|
-| 1 | 1% of GDP | 50% | Minimal defense allocation |
-| 2 | 2% of GDP | 60% | Reduced budget |
-| 3 | 3% of GDP | 70% | Below-average commitment |
-| 4 | 4% of GDP | 80% | Below-average commitment |
-| 5 | 5% of GDP | 90% | Standard baseline |
-| 6 | 6% of GDP | 100% | Above-average commitment |
-| 7 | 7% of GDP | 110% | High priority |
-| 8 | 8% of GDP | 120% | Maximum priority |
-| 9 | 9% of GDP | 130% | Emergency measures |
-| 10 | 10% of GDP | 140% | Full mobilization |
+| 1 | 1% of GDP | 10,000 credits | Minimal defense allocation |
+| 2 | 2% of GDP | 15,000 credits | Reduced budget |
+| 3 | 3% of GDP | 22,000 credits | Below-average commitment |
+| 4 | 4% of GDP | 30,000 credits | Below-average commitment |
+| 5 | 5% of GDP | 40,000 credits | Standard baseline |
+| 6 | 6% of GDP | 50,000 credits | Above-average commitment |
+| 7 | 7% of GDP | 65,000 credits | High priority |
+| 8 | 8% of GDP | 80,000 credits | Maximum priority |
+| 9 | 9% of GDP | 100,000 credits | Emergency measures |
+| 10 | 10% of GDP | 125,000 credits | Full mobilization |
 
 ### Funding Level Changes
 
@@ -450,3 +457,159 @@ Countries integrate with:
 - Relations determine mission availability
 - Country defense success affects funding
 **For complete system integration details, see [Integration.md](Integration.md)**
+
+---
+
+## Examples
+
+### Scenario 1: Funding Crisis Management
+**Setup**: Multiple countries experiencing terror attacks, funding declining
+**Action**: Prioritize defense missions in highest-funding nations while managing panic
+**Result**: Stabilized funding from key allies but increased panic in neglected regions
+
+### Scenario 2: Diplomatic Balancing Act
+**Setup**: Black market operations damage relations with major powers
+**Action**: Conduct high-profile missions to rebuild trust while maintaining covert operations
+**Result**: Restored diplomatic standing but delayed strategic objectives
+
+### Scenario 3: Regional Escalation Response
+**Setup**: Alien activity concentrated in specific region, causing panic cascade
+**Action**: Deploy crafts strategically to contain threat and prevent diplomatic collapse
+**Result**: Contained escalation but strained military resources across multiple countries
+
+### Scenario 4: Alliance Building Strategy
+**Setup**: Starting campaign with neutral relations across all nations
+**Action**: Focus initial missions on building relations with resource-rich countries
+**Result**: Strong economic foundation but vulnerability in distant regions
+
+---
+
+## Balance Parameters
+
+| Parameter | Value | Range | Reasoning | Difficulty Scaling |
+|-----------|-------|-------|-----------|-------------------|
+| Base Funding | 10,000 credits | 5K-20K | Economic contribution | ×0.7 on Easy |
+| Relations Range | -100 to +100 | -200 to +200 | Diplomatic spectrum | No scaling |
+| Panic Threshold | 50% | 30-70% | Mission trigger point | +20% on Hard |
+| Funding Decay | -10% per month | 5-20% | Crisis penalty | ×1.5 on Hard |
+| Mission Bonus | +20% funding | 10-30% | Success reward | ×0.5 on Easy |
+
+---
+
+## Difficulty Scaling
+
+### Easy Mode
+- Base funding: +30% increase
+- Relations decay: 50% slower
+- Panic thresholds: +20% higher
+- Mission frequency: 20% reduction
+- More forgiving diplomatic mistakes
+
+### Normal Mode
+- All parameters at standard values
+- Balanced diplomatic challenges
+- Standard funding and mission generation
+- Normal consequence severity
+
+### Hard Mode
+- Base funding: -20% reduction
+- Relations decay: 25% faster
+- Panic thresholds: -15% lower
+- Mission frequency: +30% increase
+- Severe diplomatic consequences
+
+### Impossible Mode
+- Base funding: -40% reduction
+- Relations decay: 50% faster
+- Panic thresholds: -30% lower
+- Mission frequency: Doubled
+- Cascading diplomatic crises
+- Limited recovery options
+
+---
+
+## Testing Scenarios
+
+- [ ] **Funding Calculations**: Verify monthly funding reflects relations and performance
+  - **Setup**: Countries with varying relation levels
+  - **Action**: Process monthly funding cycle
+  - **Expected**: Funding scales with diplomatic standing
+  - **Verify**: Credit calculations and country contributions
+
+- [ ] **Panic Escalation**: Test terror events trigger appropriate mission generation
+  - **Setup**: Country with rising panic levels
+  - **Action**: Allow panic to exceed thresholds
+  - **Expected**: Mission generation increases with panic
+  - **Verify**: Mission spawn rates and types
+
+- [ ] **Relations Decay**: Verify diplomatic relations change over time appropriately
+  - **Setup**: Country with mixed mission outcomes
+  - **Action**: Process multiple mission cycles
+  - **Expected**: Relations reflect performance history
+  - **Verify**: Relation changes and decay calculations
+
+- [ ] **Strategic Positioning**: Test base placement affects country relations
+  - **Setup**: Base construction in various territories
+  - **Action**: Monitor diplomatic reactions
+  - **Expected**: Territory control influences relations
+  - **Verify**: Relation bonuses and diplomatic events
+
+- [ ] **Crisis Management**: Verify cascading panic affects multiple countries
+  - **Setup**: Regional alien activity spike
+  - **Action**: Allow panic to spread geographically
+  - **Expected**: Neighboring countries affected
+  - **Verify**: Panic spread mechanics and mission generation
+
+---
+
+## Related Features
+
+- **[Geoscape System]**: Country territories and strategic positioning (Geoscape.md)
+- **[Politics System]**: Diplomatic relations and faction management (Politics.md)
+- **[Finance System]**: Funding calculations and economic impacts (Finance.md)
+- **[Missions System]**: Country-generated missions and consequences (Missions.md)
+- **[AI System]**: Faction behavior and diplomatic AI (AI.md)
+
+---
+
+## Implementation Notes
+
+**Priority Systems**:
+1. Country classification and attributes system
+2. Integrated relations tracking and decay
+3. Funding calculation and monthly cycles
+4. Mission generation based on panic/relations
+5. Terror and panic escalation mechanics
+
+**Balance Considerations**:
+- Funding should create meaningful strategic trade-offs
+- Relations decay prevents passive diplomatic management
+- Panic mechanics drive mission frequency appropriately
+- Country diversity creates varied strategic challenges
+- Diplomatic consequences should feel significant but recoverable
+
+**Testing Focus**:
+- Funding calculation accuracy
+- Relations decay curves
+- Panic escalation triggers
+- Mission generation distribution
+- Diplomatic consequence severity
+
+---
+
+## Review Checklist
+
+- [ ] Country types and classifications clearly defined
+- [ ] Country properties and attributes specified
+- [ ] Integrated relations system implemented
+- [ ] Funding system balanced and comprehensive
+- [ ] Country events and missions mechanics clear
+- [ ] Terror and panic mechanics specified
+- [ ] Strategic positioning effects documented
+- [ ] Balance philosophy articulated
+- [ ] Balance parameters quantified with reasoning
+- [ ] Difficulty scaling implemented
+- [ ] Testing scenarios comprehensive
+- [ ] Related systems properly linked
+- [ ] No undefined terminology
+- [ ] Implementation feasible

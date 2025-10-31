@@ -1,7 +1,7 @@
 # Diplomatic Relations System
 
-> **Status**: Technical Specification  
-> **Last Updated**: 2025-10-28  
+> **Status**: Technical Specification
+> **Last Updated**: 2025-10-28
 > **Related Systems**: Politics.md, Countries.md, Economy.md, ai_systems.md
 
 ## Table of Contents
@@ -347,3 +347,84 @@ Projected: +68 in 1 month (if current trend continues)
 
 *This document serves as the single source of truth for diplomatic relationship mechanics across all design documents.*
 
+## Examples
+
+### Scenario 1: Relationship Improvement
+**Setup**: Neutral relations with country, complete favor mission
+**Action**: Successfully protect civilian target
+**Result**: +10 relationship points, unlocks better recruitment
+
+### Scenario 2: Diplomatic Crisis
+**Setup**: Friendly relations, civilian casualties from mission
+**Action**: Collateral damage occurs
+**Result**: -15 relationship points, potential embargo threat
+
+## Balance Parameters
+
+| Parameter | Value | Range | Reasoning | Difficulty Scaling |
+|-----------|-------|-------|-----------|-------------------|
+| Relationship Scale | -100 to +100 | -200 to +200 | Universal diplomacy range | No scaling |
+| Threshold Spacing | 25 points | 10-50 | Clear status tiers | No scaling |
+| Change Magnitude | ±5 to ±20 | ±1 to ±50 | Impactful decisions | ±2 on Hard |
+| Decay Rate | 0-2/month | 0-5 | Maintains activity | +1 on Hard |
+
+## Difficulty Scaling
+
+### Easy Mode
+- Smaller relationship penalties
+- Faster relationship recovery
+- More forgiving diplomatic mistakes
+
+### Normal Mode
+- Standard relationship mechanics
+- Balanced penalties and rewards
+- Normal diplomatic pacing
+
+### Hard Mode
+- Larger relationship penalties
+- Slower relationship improvement
+- Stricter diplomatic requirements
+
+### Impossible Mode
+- Severe penalty multipliers
+- Minimal relationship gains
+- Harsh diplomatic consequences
+
+## Testing Scenarios
+
+- [ ] **Relationship Change Test**: Complete diplomatic action
+  - **Setup**: Neutral relationship with country
+  - **Action**: Complete positive mission
+  - **Expected**: Relationship increases by +5 to +15
+  - **Verify**: Diplomatic status updates in UI
+
+- [ ] **Threshold Effect Test**: Cross relationship threshold
+  - **Setup**: Relationship at +20 (neutral)
+  - **Action**: Gain +10 points
+  - **Expected**: Status changes to positive, unlocks benefits
+  - **Verify**: UI shows new status and effects
+
+## Related Features
+
+- **[Politics System]**: Fame and karma integration (Politics.md)
+- **[Countries System]**: Nation-specific mechanics (Countries.md)
+- **[Economy System]**: Trade and funding effects (Economy.md)
+- **[AI Systems]**: Faction behavior responses (AI.md)
+
+## Implementation Notes
+
+- Universal -100 to +100 scale for all entities
+- Threshold-based effects for clear status transitions
+- Entity-specific modifiers for unique interactions
+- UI color coding for relationship visualization
+
+## Review Checklist
+
+- [ ] Universal relationship scale defined
+- [ ] Relationship change mechanics documented
+- [ ] Entity-specific modifiers specified
+- [ ] Threshold effects implemented
+- [ ] Special relationship events designed
+- [ ] Diplomatic UI elements complete
+- [ ] Integration with other systems verified
+- [ ] Balance considerations addressed

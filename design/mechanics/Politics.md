@@ -1,7 +1,7 @@
 # Politics System
 
-> **Status**: Design Document  
-> **Last Updated**: 2025-10-28  
+> **Status**: Design Document
+> **Last Updated**: 2025-10-28
 > **Related Systems**: Countries.md, DiplomaticRelations_Technical.md, Finance.md, ai_systems.md
 
 ## Table of Contents
@@ -192,7 +192,7 @@ Delivery Speed Modifier = 1.0 - (0.01 × Relationship) [faster at higher relatio
 ```
 Examples:
 - At relation -100: Price 1.5x, 0% availability, +5 days delivery
-- At relation 0: Price 1.0x, 100% availability, standard delivery  
+- At relation 0: Price 1.0x, 100% availability, standard delivery
 - At relation +100: Price 0.5x, 150% availability, -5 days delivery
 
 - **Availability**: Friendly suppliers provide better stock and priority delivery
@@ -290,7 +290,7 @@ Power Points represent the player organization's developmental progress, measure
 Monthly Generation = 1 (base) + Bonuses - Penalties
 ```
 - **Base Generation**: Standard award of 1 point per month
-- **Special Events**: 
+- **Special Events**:
   - Major victories: +3 to +5 points
   - Treaty signing: +2 points
   - Technology breakthrough: +1 point
@@ -300,7 +300,7 @@ Monthly Generation = 1 (base) + Bonuses - Penalties
   - Betrayal/defection: -5 points
   - Black market discovery: -2 points
   - Advisor dismissal: -1 point
-- **Milestone Achievements**: 
+- **Milestone Achievements**:
   - 10 successful missions: +2 points
   - 50,000 credits earned: +1 point
   - 5 bases established: +3 points
@@ -334,6 +334,463 @@ Power Points serve as:
 - No point decay or loss (except through spending)
 - Monthly summary shows generation and recent spending
 - Point forecasting: Predict future availability based on trends
+
+---
+
+## Advisor System Specification (A9: Advisor System Design)
+
+**Overview**
+This section specifies comprehensive Advisor system mechanics, including hiring mechanics, advisor specialization, synergy systems, and conflict resolution. Advisors are critical organizational assets providing strategic bonuses and representing leadership structure.
+
+**Core Advisor Mechanics**
+
+Advisors are permanent or temporary staff providing sustained gameplay bonuses. The design focuses on:
+1. **Meaningful choice**: Each advisor has distinct impact
+2. **Strategic synergy**: Multiple advisors create compound benefits
+3. **Opportunity cost**: Limited slots force prioritization
+4. **Financial drain**: Monthly salary creates ongoing cost consideration
+
+**Advisor Hiring & Activation**
+
+```
+Advisor Acquisition Formula:
+Total Cost = Point Cost + (Monthly Salary × Duration)
+  Point Cost: One-time cost in Power Points (4-20 depending on tier)
+  Monthly Salary: Ongoing cost in Credits (500-8000 depending on tier)
+  Duration: Advisor employment duration (months until retirement/dismissal)
+
+Hiring Timeline = 1 month from point expenditure to advisor availability
+Example A9-1: Hiring CTO for 6-month term
+  - Point Cost: 8 points (paid immediately)
+  - Monthly Salary: 2,500 credits
+  - 6-month salary: 15,000 credits total
+  - Total cost: 8 points + 15,000 credits
+  - Duration: From month 2 onwards (1 month hiring lag)
+```
+
+**Advisor Conflict Resolution**
+
+Design principle: Advisors should never provide conflicting guidance; if conflicts exist, one advisor's bonus overrides (typically the higher-tier advisor). Player manages advisor team composition to avoid conflicts.
+
+**Conflict Resolution Rules:**
+1. **No direct conflicts** between advisor specializations (each focuses on different domain)
+2. **Hierarchy override**: If bonuses overlap, highest-tier advisor's bonus applies
+3. **Synergy activation**: Multiple compatible advisors stack bonuses (see Advisor Synergies below)
+4. **Incompatibility penalty**: Poorly matched advisors reduce both by 5-10%
+
+**Example A9-2: Advisor Conflict Resolution**
+- Scenario: Hire Military Commander (combat focus) + Director of Intelligence (espionage focus)
+- Compatibility: No direct conflict (different domains)
+- Synergy: Can stack bonuses (+10% damage, +20% spy success simultaneously)
+- Result: Both advisors provide full benefits
+
+**Advisor Synergy System**
+
+Strategic advisor combinations unlock synergy bonuses exceeding individual advisor bonuses:
+
+```
+Advisor Synergies (Multiplicative Stacking):
+1. Finance Team (CFO + Quartermaster)
+   - Combined bonus: +5% income, -20% transfer costs
+   - Formula: Individual bonuses + 5% combo bonus
+   - Cost: 16 points (10 + 6)
+   - Activation: Requires both advisors hired simultaneously
+   - Duration: Synergy lasts as long as both advisors employed
+
+2. War Machine (Military Commander + COO)
+   - Combined bonus: +15% unit damage, +10% base production
+   - Formula: +10% damage + 5% COO bonus + +10% production bonus
+   - Cost: 20 points (11 + 9)
+   - Synergy effect: 5% damage bonus enhancement from COO presence
+
+3. Intelligence Network (Director of Intelligence + Minister of Diplomacy)
+   - Combined bonus: +25% spy success, +2 relations/month
+   - Formula: +20% spy + 5% enhancement + +1 diplomacy + +1 adjacency bonus
+   - Cost: 19 points (12 + 7)
+   - Special: Synergy improves both diplomatic and espionage operations
+
+4. Research Division (CTO + Chief Engineer)
+   - Combined bonus: +25% research speed, +20% construction speed
+   - Formula: +20% research + 5% enhancement + +10% construction + +10% enhancement
+   - Cost: 16 points (8 + 8)
+   - Synergy effect: Speeds up both technology development and facility building
+
+5. Logistics Expert (Quartermaster + COO)
+   - Combined bonus: +30% production speed, +25% transfer speed
+   - Formula: +20% transfer + 10% COO production bonus + +10% synergy enhancement
+   - Cost: 15 points (6 + 9)
+   - Synergy effect: Dramatically increases base operational throughput
+```
+
+**Synergy Activation Rules:**
+- Synergies require both advisors to be actively employed (no partial credit)
+- Synergy bonuses are not "chosen"; they activate automatically when conditions met
+- Player can deliberately avoid synergy combinations to maintain flexibility
+- Synergy bonuses stack multiplicatively with individual bonuses
+
+**Advisor Specialization Impact**
+
+Each advisor excels in specific areas with defined bonus ranges:
+
+| Advisor | Primary Domain | Bonus Range | Secondary Effects | Tier Scaling |
+|---------|---|---|---|---|
+| CTO | Research | +10-20% | +5-15% facility upgrades | Higher tier: +5% per tier |
+| CFO | Financial | +10-20% | -5-10% marketplace prices | Higher tier: +3% per tier |
+| COO | Operations | +8-15% | +5-10% unit XP gains | Higher tier: +2% per tier |
+| Director of Intelligence | Espionage | +15-30% | -20-50% enemy spy effectiveness | Higher tier: +5% per tier |
+| Military Commander | Combat | +8-15% | +5-10% unit accuracy | Higher tier: +3% per tier |
+| Minister of Diplomacy | Diplomacy | +1-3 relations/month | -40-60% diplomatic action costs | Higher tier: +0.5 per tier |
+| Chief Engineer | Construction | +12-20% | +8-15% repair speed | Higher tier: +4% per tier |
+| Quartermaster | Logistics | +15-25% | -10-20% transfer costs | Higher tier: +5% per tier |
+
+**Advisor Hiring Strategy by Campaign Phase**
+
+Phase-based recommendations for optimal progression:
+
+**Phase 1 (Months 1-3: Startup)**
+- Primary focus: CTO or Quartermaster
+- Strategy: Build research or logistics advantage early
+- Rationale: Technology or supply-chain foundation enables all other operations
+- Point allocation: 8-10 points total investment
+- Recommended: CTO (research advantage compounds over time)
+
+**Phase 2 (Months 4-9: Growth)**
+- Add: CFO or COO
+- Strategy: Add financial/operational management as complexity increases
+- Rationale: Early advantages need reinforcement; manage growing resource pools
+- Point allocation: 15-20 points total
+- Recommended combo: CTO + CFO (research + finance synergy potential at this tier)
+
+**Phase 3 (Months 10-15: Crisis)**
+- Add: Military Commander or Minister of Diplomacy
+- Strategy: Prepare for escalation through military or diplomatic strength
+- Rationale: Campaign intensifies; need combat edge or diplomatic flexibility
+- Point allocation: 25-35 points total
+- Recommended: Add Military Commander for combat bonuses during active warfare
+
+**Phase 4 (Months 16+: Endgame)**
+- Fill remaining slots: Director of Intelligence or Chief Engineer
+- Strategy: Complete tactical picture through espionage or infrastructure
+- Rationale: All core systems online; add specialized capabilities
+- Point allocation: 40-50+ points total
+- Endgame consideration: Can afford multiple synergy combos
+
+**Advisor Retirement & Dismissal**
+
+Advisors can leave through player action or retirement:
+
+```
+Dismissal Cost = Monthly Salary × 0.75 (severance package)
+Relationship penalty: -20 with advisor's home faction
+Re-hire penalty: 20% point cost increase if rehiring same advisor
+
+Retirement Options:
+1. Player dismisses advisor (voluntary separation, relationship penalty)
+2. Advisor retires naturally (random after 24+ months, no penalty)
+3. Advisor dies on mission (rare special event, no dismissal cost)
+4. Advisor poached by rival (morale/performance based, -10 relations if accepted offer)
+```
+
+**Example A9-3: Advisor Dismissal**
+- Advisor: CTO employed for 12 months
+- Monthly Salary: 2,500 credits
+- Dismissal decision: Player fires CTO to make room for different specialist
+- Severance: 2,500 × 0.75 = 1,875 credits due
+- Relationship penalty: -20 with Tech faction
+- Re-hire cost: Next time hiring CTO costs 8 points × 1.2 = 9.6 points (20% increase)
+
+---
+
+## Relations & Black Market Mechanics (R7: Relations/Black Market Events)
+
+**Overview**
+This specification details diplomatic relations mechanics and black market event systems. Note: Espionage is NOT included in this system (diplomatic-only approach). Black Market represents illicit supply sources, rare items, and high-risk/high-reward opportunities independent from normal marketplace.
+
+**Relations System (Diplomacy-Only, No Espionage)**
+
+**Design Philosophy**
+Relations represent pure diplomatic standing with countries, factions, and suppliers. No espionage subversion system exists; all relations change through:
+- Direct military action (combat, base construction in territory)
+- Diplomatic actions (treaties, missions, trades)
+- Event outcomes (randomized faction behaviors)
+- Supply line interactions (interruption, successful delivery)
+
+**Relations Scale**
+```
+Universal Relations Scale: -100 (hostile embargo) to +100 (strategic alliance)
+
+Tiers:
+- Hostile (-100 to -75): Military action possible against organization
+- Antagonistic (-74 to -50): Increased military response, market disruption
+- Cold (-49 to -25): Limited cooperation, expensive transactions
+- Neutral (-24 to +24): Standard interaction costs
+- Warm (+25 to +49): Discounts on services, preferential treatment
+- Allied (+50 to +75): Cooperative military actions, shared intelligence
+- Bonded (+76 to +100): Maximum cooperation, exclusive treaties, preferential supplier access
+
+Monthly Change Formula:
+Relations Change = (Action Points) + (Event Modifier) - (Time Decay × 0.5)
+  Action Points: +1 to +5 per completed mission for faction (varies by mission type)
+  Event Modifier: -10 to +10 for random events (warfare, supply line disruption, etc)
+  Time Decay: -0.5 to -1 per month of no interaction (minimum 0, prevents continuous decay)
+```
+
+**Example R7-1: Relations Change**
+- Starting relations: +30 (Warm)
+- Player completes 2 missions for country: +2 +2 = +4 action points
+- Random event: Supply interruption by 3rd party: -5 modifier
+- Time decay: 0 months active, no decay applies
+- Calculation: 30 + 4 - 5 = 29 (Warm, slightly decreased)
+
+**Relations & Diplomatic Actions**
+
+```
+Diplomatic Action Costs (Modified by Relations & Minister of Diplomacy):
+
+Treaty Negotiation:
+  - Cold relations: 50K credits
+  - Neutral relations: 30K credits
+  - Warm relations: 15K credits
+  - Allied relations: 5K credits
+  - With Minister of Diplomacy: -50% all costs
+
+Trade Agreement:
+  - Neutral relations: 10K credits
+  - Warm relations: 5K credits
+  - Allied relations: Free (automatic negotiation)
+
+Conflict Resolution:
+  - Any relations: 20-50K credits depending on conflict severity
+  - With Minister of Diplomacy: 75% cost reduction + improved outcome
+
+Barrier to Common Action:
+  - Neutral or better relations required
+  - Cold relations block military cooperation
+  - Warm+ relations enable joint operations (shared XP/rewards)
+```
+
+**Example R7-2: Treaty Negotiation**
+- Country relations: Neutral (+10)
+- Base cost: 30K credits
+- Minister of Diplomacy hired: -50% = 15K credits
+- Outcome: Treaty established, relations improve to Warm (cost savings allow additional negotiation)
+
+**Relations & Military Conflict**
+
+Military actions directly modify relations:
+
+```
+Military Action Relations Impact:
+
+Unit Destruction:
+  - Enemy unit killed: -1 relation per unit (scales with unit importance)
+  - Elite unit killed: -3 relations
+  - Facility destroyed: -5 relations
+
+Territory Actions:
+  - Base construction in territory: -10 relations
+  - Base captured: -30 relations
+  - Territory liberated: +20 relations
+
+Supply Line Disruption:
+  - Supply line intercepted (player vs faction): -2 relations
+  - Player captures faction shipment: -5 relations
+
+Rescue/Aid Operations:
+  - Rescue civilian group: +5 relations
+  - Defend faction territory: +10 relations
+  - Joint military operation: +5 relations + bonus cooperation
+```
+
+**Example R7-3: Relations Through Military Actions**
+- Starting relations with Country A: Neutral (+5)
+- Player constructs base in Country A territory: -10 = -5 (Cold)
+- Country A faces alien invasion; player liberate territory: +20 = +15 (Warm)
+- Result: Relations shift from Neutral → Cold → Warm through mixed military actions
+
+---
+
+## Black Market System (R7: Black Market Events & Mechanics)
+
+**Overview**
+Black Market represents illicit supply channels independent of mainstream marketplace and government suppliers. Access is based on karma alignment, and interactions trigger random events. Black Market provides unique items and high-risk opportunities.
+
+**Black Market Access & Karma Alignment**
+
+```
+Black Market Accessibility by Karma:
+- Saint (+41 to +100): No access (moral prohibition)
+- Principled (+10 to +40): Very limited (5% event chance per month)
+- Neutral (-9 to +9): Full access (30% event chance per month)
+- Pragmatic (-39 to -10): Enhanced access (50% event chance per month)
+- Ruthless (-74 to -40): Full access (75% event chance per month)
+- Evil (-100 to -75): Guaranteed access (100% event chance per month)
+
+Accessibility Formula:
+Black Market Event Chance = Base Chance × (1 + Karma Modifier) × Fame Impact
+  Base Chance: 20-30% per month (varies by region stability)
+  Karma Modifier: -1 to +1 based on alignment (-1 for saints, 0 for neutral, +1 for evil)
+  Fame Impact: High fame increases risk of discovery
+```
+
+**Example R7-4: Black Market Access Calculation**
+- Karma: Pragmatic (-25)
+- Base chance: 25% per month
+- Karma modifier: 0.5 (negative karma increases access)
+- Fame: Legendary (90)
+- Fame risk multiplier: 1.0 (no penalty at high fame)
+- Total event chance: 25% × (1 + 0.5) × 1.0 = 37.5% per month
+- Result: 37.5% chance of black market event offer
+
+**Black Market Event Types**
+
+When black market event triggers, offer one of 5 categories:
+
+**Event Type 1: Rare Item Offers (40% probability)**
+- Alien technology not in normal research tree
+- Advanced weapons limited-time supply
+- Unique armor variants (cosmetic + stats)
+- Example: "Pristine alien plasma cannon (15K credits, limited stock 2 units)"
+- Risk: Each purchase -3 karma (gradually shifts alignment)
+- Strategic value: Access items before normal research completion
+
+**Event Type 2: Shady Missions (25% probability)**
+- Assassination targets
+- Black market enforcement operations
+- Smuggling runs (high reward, high interception risk)
+- Example: "Eliminate rival organization leader (50K credits, +50K cash reward if successful)"
+- Risk: -10 to -30 karma depending on mission (war crime level)
+- Strategic value: Quick credits, rapid karma shift capability
+
+**Event Type 3: Raid Opportunities (20% probability)**
+- Organized raids on civilian/corporate targets
+- Supply convoy hijacking
+- Facility sabotage coordination
+- Example: "Raid isolated warehouse complex (50K credits reward, +30 items captured)"
+- Risk: Fame penalty (-10 to -30), potential relation drop with affected country
+- Strategic value: One-time loot without manufacturing investment
+
+**Event Type 4: Corrupt Officials (10% probability)**
+- Bribery opportunities to unlock restricted areas
+- Official who can be paid to sabotage enemies
+- Contacts for illegal bases
+- Example: "Regional administrator accepts 20K credit bribe, blocks enemy base construction for 6 months"
+- Risk: -5 to -15 karma, relation penalty with affected country (-5)
+- Strategic value: Asymmetric advantage without military action
+
+**Event Type 5: Rescue/Mercy Killings (5% probability)**
+- Opportunity to rescue imprisoned allies
+- Option to terminate dying faction members (mercy killing)
+- Save civilian groups from danger
+- Example: "Rescue captured research team (free mission), gain +10 karma, tech unlock"
+- Risk: None (karma positive opportunity)
+- Strategic value: Unique story moments, alignment building
+
+**Black Market Event Frequency & Probability**
+
+```
+Base Event Frequency by Stability:
+- Stable regions: 20% per month
+- Contested regions: 35% per month
+- War zones: 50% per month
+- Enemy territory: 65% per month
+
+Regional Modifiers:
+- High player fame: +15% (more offers/visibility)
+- Active warfare in region: +20% (instability increases opportunity)
+- Multiple factions present: +10% (chaos creates options)
+- Well-established supply lines: -10% (stability reduces black market appeal)
+
+Stacked Example R7-5: Black Market Frequency
+- Region: Contested territory
+- Base frequency: 35%
+- Player fame: Legendary (+15%)
+- Active warfare: +20%
+- Multiple factions: +10%
+- Well-established supply: -10%
+- Total monthly chance: 35% + 15% + 20% + 10% - 10% = 70%
+- Result: 70% chance of monthly black market event offer
+```
+
+**Black Market Consequences & Balancing**
+
+```
+Discovery Risk Formula:
+Discovery Chance = Event Participation × Fame Multiplier × Region Visibility
+  Event Participation: 30% base (each event increases by 10%)
+  Fame Multiplier: 1 + (Fame / 100) (legendary fame = 1.9x multiplier)
+  Region Visibility: 0.5 (hidden region) to 1.5 (enemy territory)
+
+Discovery Example R7-6:
+- Participate in black market events: 3 events (30% + 20% + 10% = base 30%)
+- Fame: Legendary (90) → 1.9x multiplier
+- Region: Contested (1.0x visibility)
+- Discovery chance: 30% × 1.9 × 1.0 = 57%
+- Result: 57% chance per additional event that organization is discovered
+
+Discovery Consequences:
+- Media scandal: -20 fame (reputation damage)
+- Relation penalties: -5 to -20 with affected countries
+- Marketplace disruption: +15% marketplace prices (suppliers avoid liability)
+- Supply line vulnerability: +25% interception chance (intelligence leak)
+- Investigation: 3-6 month period where authorities increase scrutiny (-10% income during investigation)
+```
+
+**Black Market Raid System**
+
+Raids are high-risk, high-reward black market events:
+
+```
+Raid Success Formula:
+Success Chance = 50% + (Stealth Bonus) - (Target Defenses)
+  Stealth Bonus: +10% per Stealth tech research, +5% per elite unit
+  Target Defenses: -5% per military unit defending, -10% per facility upgrade level
+
+Raid Rewards:
+- Item capture: 30-50 units of target supply
+- Equipment loot: 5-15 items (random quality)
+- Credits: 10K-50K cash reward
+
+Raid Failure Consequences:
+- Combat loss: Fight defending units (potential casualties)
+- Capture risk: If routed, 20% chance personnel captured
+- Relation penalty: -10 with territory owner
+- Investigation: 50% chance discovery triggers scandal (see above)
+
+Example R7-7: Raid Execution**
+- Target: Isolated ammunition warehouse in contested region
+- Reward: 100 assault rifle ammo, 20K credits
+- Stealth bonus: +15% (Stealth tech + elite units)
+- Target defense: -5% (1 military unit guarding)
+- Success chance: 50% + 15% - 5% = 60%
+- Execution result: Player rolls; 60% success = warehouse looted, 40% failure = combat engagement
+- If success: Gain 100 ammo + 20K credits, -2 karma (theft), -5 fame (lawlessness)
+- If failure: Combat with 4 soldiers; if lose, 1-2 personnel captured, relation -10
+```
+
+**Black Market Long-Term Strategy**
+
+Black Market use creates campaign trajectory changes:
+
+**Karma Shift Acceleration**
+- Heavy black market use rapidly shifts karma to Evil (-100)
+- Can shift 40-50 karma points per campaign month if intensive
+- Strategic: Use to deliberately shift alignment or unlock aligned-specific content
+
+**Fame Paradox**
+- High fame increases black market discovery risk
+- Low fame offers fewer black market events
+- Strategic tension: Balance between notoriety and opportunity
+
+**Economic Advantage**
+- Black market provides 20-30% income boost (if successfully raiding)
+- But discovery consequences (-15% income during investigation) can offset
+- Strategic: Use raids for specific resource needs, not steady income
+
+**Alignment Locking**
+- Extreme karma (±75 or higher) makes switching alignment very difficult
+- Character path becomes "locked in" to evil/good campaign
+- Strategic: Commit to alignment or maintain neutral throughout
 
 ---
 
@@ -513,4 +970,83 @@ Advancement Cost = (Current Level × 5) + 5 Power Points
 - **Diplomatic**: Alliance formation, treaty agreements, suppliers controlled
 - **Organizational**: Bases built, personnel recruited, advisor hiring
 
+## Examples
 
+### Scenario 1: Fame Building
+**Setup**: Organization starts with 0 fame
+**Action**: Complete 10 successful missions
+**Result**: Fame increases to 50, unlocks known tier benefits
+
+### Scenario 2: Karma Decision
+**Setup**: Captured alien prisoner available
+**Action**: Choose interrogation over execution
+**Result**: +3 karma, potential research benefits, diplomatic consequences
+
+## Balance Parameters
+
+| Parameter | Value | Range | Reasoning | Difficulty Scaling |
+|-----------|-------|-------|-----------|-------------------|
+| Fame Decay Rate | 1-2/month | 0-5 | Maintains activity requirement | +1 on Hard |
+| Karma Range | -100 to +100 | -200 to +200 | Moral choice impact | No scaling |
+| Relationship Base | 0 | -50 to +50 | Neutral starting point | -10 on Hard |
+| Power Points per Level | 100 | 50-200 | Progression pacing | -25 on Easy |
+
+## Difficulty Scaling
+
+### Easy Mode
+- Faster fame/karma accumulation
+- More forgiving relationship penalties
+- Increased power point rewards
+
+### Normal Mode
+- Standard political mechanics
+- Balanced consequence severity
+- Normal progression rates
+
+### Hard Mode
+- Slower reputation building
+- Harsh penalty multipliers
+- Reduced power point gains
+
+### Impossible Mode
+- Severe reputation penalties
+- Maximum consequence severity
+- Minimal political rewards
+
+## Testing Scenarios
+
+- [ ] **Fame Progression Test**: Complete missions and check fame increase
+  - **Setup**: Organization at 0 fame
+  - **Action**: Complete 5 missions successfully
+  - **Expected**: Fame increases by 25
+  - **Verify**: Fame display and benefits unlock
+
+- [ ] **Relationship Change Test**: Perform diplomatic action
+  - **Setup**: Neutral relationship with country
+  - **Action**: Complete favor mission
+  - **Expected**: Relationship improves by +5
+  - **Verify**: Diplomatic status updates correctly
+
+## Related Features
+
+- **[Countries System]**: Nation relationships and diplomacy (Countries.md)
+- **[Finance System]**: Economic impacts of political decisions (Finance.md)
+- **[AI Systems]**: Faction behavior influenced by politics (AI.md)
+- **[Geoscape System]**: Global political effects (Geoscape.md)
+
+## Implementation Notes
+
+- Fame/karma as global state variables
+- Relationship matrix between organization and factions
+- Power points as experience currency for progression
+- Advisor system using composition pattern
+
+## Review Checklist
+
+- [ ] Fame system mechanics defined
+- [ ] Karma consequences specified
+- [ ] Relationship dynamics clear
+- [ ] Power point progression balanced
+- [ ] Advisor system implemented
+- [ ] Organization level gates appropriate
+- [ ] Political feedback loops documented

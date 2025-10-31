@@ -1,7 +1,7 @@
 # AlienFall Overview
 
-> **Status**: Project Overview  
-> **Last Updated**: 2025-10-28  
+> **Status**: Project Overview
+> **Last Updated**: 2025-10-28
 > **Related Systems**: All systems
 
 ## Table of Contents
@@ -264,8 +264,8 @@ LOOP
 - Equipment resale (small, 50% of purchase price)
 
 **Expense Sources**:
-- Base maintenance (scales with base size: 5K × size²)
-- Facility maintenance (per-facility 5-50K monthly)
+- Base maintenance (scales with base size: 100K × size²)
+- Facility maintenance (per-facility 2-15K monthly)
 - Unit salaries (5K per unit per month)
 - Craft maintenance (2K per craft per month)
 - Research funding (scientist man-days × labor cost)
@@ -446,3 +446,90 @@ Since no fixed win condition exists, players create goals:
 ---
 
 **End of Documentation Overview**
+
+## Examples
+
+### Scenario 1: Campaign Progression
+**Setup**: Player starts at Organization Level 1, no research, one Small base
+**Action**: Complete first mission, earn salvage and funding
+**Result**: Research available, can manufacture equipped units, organization grows
+
+### Scenario 2: Strategic Playstyle
+**Setup**: Player with established base infrastructure
+**Action**: Choose research-focused strategy with Lab and Workshop synergy
+**Result**: Increased R&D output enables advanced equipment, improving combat effectiveness
+
+## Balance Parameters
+
+| Parameter | Value | Range | Reasoning | Difficulty Scaling |
+|-----------|-------|-------|-----------|-------------------|
+| Organization Levels | 1-10 | 1-20 | Campaign progression | No scaling |
+| Base Count Gates | 1-10 per level | 1-15 | Expansion pacing | ±2 on difficulty |
+| Research Tree Size | 50-100 techs | 30-150 | Discovery curve | ±20 on difficulty |
+| Campaign Duration | 40-100 hours | 20-200 | Gameplay length | Adjustable |
+
+## Difficulty Scaling
+
+### Easy Mode
+- Faster progression through levels
+- More lenient construction costs
+- Increased starting resources
+- Faster research progression
+
+### Normal Mode
+- Standard progression rates
+- Balanced resource economy
+- Standard research times
+
+### Hard Mode
+- Slower progression through levels
+- Higher construction costs
+- Limited starting resources
+- Extended research times
+
+### Impossible Mode
+- Minimal progression speed
+- Maximum construction costs
+- Severe resource limitations
+- Maximum research times
+
+## Testing Scenarios
+
+- [ ] **Campaign Overview Test**: Verify all systems integrate correctly
+  - **Setup**: Fresh campaign start
+  - **Action**: Play through early game progression
+  - **Expected**: All systems activate as designed
+  - **Verify**: Geoscape→Battlescape→Basescape flow works smoothly
+
+- [ ] **Documentation Completeness Test**: Verify all docs reference properly
+  - **Setup**: Complete documentation set
+  - **Action**: Follow cross-references
+  - **Expected**: All links resolve, no broken references
+  - **Verify**: Navigation works end-to-end
+
+## Related Features
+
+- **[Geoscape System]**: Strategic campaign layer (Geoscape.md)
+- **[Basescape System]**: Operational base management (Basescape.md)
+- **[Battlescape System]**: Tactical combat (Battlescape.md)
+- **[Units System]**: Personnel management (Units.md)
+- **[Economy System]**: Resource management (Economy.md)
+
+## Implementation Notes
+
+- Three-layer architecture (Strategic/Tactical/Operational)
+- Integration through vertical feedback loops
+- Open-ended progression system
+- Multiple viable playstyles supported
+- Mod-friendly design philosophy
+
+## Review Checklist
+
+- [ ] One-sentence summary clear
+- [ ] System overview comprehensive
+- [ ] Core systems identified
+- [ ] Game classification accurate
+- [ ] Target audience defined
+- [ ] Quick reference links valid
+- [ ] All related systems documented
+- [ ] Playstyle examples provided

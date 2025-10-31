@@ -1,7 +1,7 @@
 ﻿# GUI System
 
-> **Status**: Design Document  
-> **Last Updated**: 2025-10-28  
+> **Status**: Design Document
+> **Last Updated**: 2025-10-28
 > **Related Systems**: Assets.md, Geoscape.md, Battlescape.md, Basescape.md
 
 ## Table of Contents
@@ -325,3 +325,98 @@ GUI provides interfaces for:
 - Displays data from all game systems
 - Enables player input to all systems
 **For complete system integration details, see [Integration.md](Integration.md)**
+
+## Examples
+
+### Scenario 1: Scene Transition
+**Setup**: Player opens Geoscape map from main menu
+**Action**: Click on "Strategic Map" button
+**Result**: Fade transition (0.3s) to Geoscape scene, HUD displays
+
+### Scenario 2: Widget Interaction
+**Setup**: Player in Basescape facility management screen
+**Action**: Click on Lab facility to view details
+**Result**: Modal panel opens showing facility stats, adjacency bonuses
+
+## Balance Parameters
+
+| Parameter | Value | Range | Reasoning | Difficulty Scaling |
+|-----------|-------|-------|-----------|-------------------|
+| Button Response Time | Instant | 0-100ms | User feedback | No scaling |
+| Transition Duration | 0.3-1.0s | 0.1-2.0s | Visual polish | No scaling |
+| Font Size (Base) | 12-14px | 8-20px | Readability | +2px on Hard |
+| UI Opacity | 80-90% | 50-100% | Visual clarity | +10% on Hard |
+
+## Difficulty Scaling
+
+### Easy Mode
+- Larger UI elements
+- Clearer text contrast
+- Simplified layouts
+- More detailed tooltips
+
+### Normal Mode
+- Standard UI sizing
+- Normal contrast levels
+- Standard information density
+- Normal tooltips
+
+### Hard Mode
+- Smaller UI elements
+- Reduced contrast
+- More compact layouts
+- Minimal tooltips
+
+### Impossible Mode
+- Minimal UI elements
+- Poor contrast
+- Maximum density
+- No tooltips
+
+## Testing Scenarios
+
+- [ ] **Scene Transition Test**: Switch between scenes
+  - **Setup**: Application in menu scene
+  - **Action**: Click button to open Geoscape
+  - **Expected**: Fade transition, new scene appears
+  - **Verify**: Transition smooth, timing correct
+
+- [ ] **Widget Responsiveness Test**: Interact with UI elements
+  - **Setup**: Scene with active widgets
+  - **Action**: Click, hover, focus on widgets
+  - **Expected**: All events trigger correctly
+  - **Verify**: State changes visible immediately
+
+- [ ] **Resolution Adaptation Test**: Change screen resolution
+  - **Setup**: UI in responsive mode
+  - **Action**: Resize window to different resolution
+  - **Expected**: UI elements scale appropriately
+  - **Verify**: All elements remain visible and functional
+
+## Related Features
+
+- **[Assets System]**: UI sprite and font resources (Assets.md)
+- **[Geoscape System]**: Strategic map interface (Geoscape.md)
+- **[Basescape System]**: Facility management screens (Basescape.md)
+- **[Battlescape System]**: Combat HUD elements (Battlescape.md)
+
+## Implementation Notes
+
+- Stack-based scene management
+- Widget-driven UI components
+- Event-driven input handling
+- Responsive layout system
+- Scene lifecycle management
+
+## Review Checklist
+
+- [ ] Scene system architecture defined
+- [ ] Widget system complete
+- [ ] Layout systems specified
+- [ ] Responsive design working
+- [ ] UI themes documented
+- [ ] Scene-specific layouts defined
+- [ ] Input handling implemented
+- [ ] Visual transitions specified
+- [ ] Accessibility considered
+- [ ] Performance optimized

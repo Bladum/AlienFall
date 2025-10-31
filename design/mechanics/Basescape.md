@@ -1,22 +1,33 @@
 # Basescape System
 
-> **Status**: Design Document  
-> **Last Updated**: 2025-10-28  
+> **Status**: Design Document
+> **Last Updated**: 2025-10-28
 > **Related Systems**: Geoscape.md, Economy.md, Units.md, Crafts.md
 
 ## Table of Contents
 
 - [Overview](#overview)
+  - [System Architecture](#system-architecture)
 - [Base Construction & Sizing](#base-construction--sizing)
+  - [Overview](#overview)
 - [Facility Grid System](#facility-grid-system)
 - [Facilities & Services System](#facilities--services-system)
 - [Unit Recruitment & Personnel](#unit-recruitment--personnel)
 - [Equipment & Crafts Management](#equipment--crafts-management)
 - [Base Maintenance & Economics](#base-maintenance--economics)
 - [Base Defense & Interception](#base-defense--interception)
+- [Adjacency Bonus System](#adjacency-bonus-system)
+- [Power Management System](#power-management-system)
 - [Base Integration & Feedback Loops](#base-integration--feedback-loops)
 - [Base Radar Coverage](#base-radar-coverage)
 - [Base Reports & Analytics](#base-reports--analytics)
+- [Examples](#examples)
+- [Balance Parameters](#balance-parameters)
+- [Difficulty Scaling](#difficulty-scaling)
+- [Testing Scenarios](#testing-scenarios)
+- [Related Features](#related-features)
+- [Implementation Notes](#implementation-notes)
+- [Review Checklist](#review-checklist)
 
 ---
 
@@ -65,7 +76,7 @@ The Basescape Expansion System (`engine/basescape/systems/expansion_system.lua`)
 **Expansion Costs & Time**
 - **Small (4×4)**: Starting size, no expansion needed
 - **Medium (5×5)**: 250K cost, 45 days build time
-- **Large (6×6)**: 400K cost, 60 days build time  
+- **Large (6×6)**: 400K cost, 60 days build time
 - **Huge (7×7)**: 600K cost, 90 days build time
 
 **Expansion Prerequisites**
@@ -271,6 +282,431 @@ Horizontal/vertical connections provide efficiency bonuses:
 
 ---
 
+## COMPREHENSIVE BASESCAPE SPECIFICATIONS (A6, A7, B4/R1, C4, R8)
+
+### A6: FACILITY UPGRADES SYSTEM
+
+**Overview**: Facility upgrades allow in-place enhancement of existing facilities without relocation, creating meaningful investment decisions.
+
+**Upgrade Mechanics**:
+- **Same-Location Upgrade**: Facility remains in grid position, upgrades in-place over time
+- **Construction Time**: 14-30 days depending on upgrade complexity
+- **Cost**: 50-150K credits per upgrade (varies by facility type)
+- **No Destruction**: Original facility is preserved; upgrade adds capabilities
+
+**Upgrade Categories**:
+
+| Facility | Base Level | Upgrade 1 | Upgrade 2 | Notes |
+|----------|-----------|----------|----------|-------|
+| **Lab (S)** | 10 man-days | +50% output (15 man-days) | +2 research queue | Increased scientist productivity |
+| **Workshop (S)** | 10 man-days | +50% output (15 man-days) | +2 manufacturing queue | Efficiency improvements |
+| **Hospital** | +2 HP/week | +5 beds capacity | +1 sanity/week bonus | Medical tech advancement |
+| **Academy** | +1 XP/week | +10 trainee capacity | +2 XP/week bonus | Training infrastructure |
+| **Barracks (S)** | 8 capacity | Upgrade to 2×2 equivalent (20) | N/A | Structural expansion |
+| **Storage (S)** | 100 items | Upgrade to M equivalent (400) | Upgrade to L equivalent (800) | Capacity scaling |
+| **Hangar (M)** | 4 craft | Upgrade to L equivalent (8) | N/A | Additional craft slots |
+| **Power Plant** | 50 power | +50 additional power | N/A | Enhanced generation |
+| **Radar (S)** | 500km range | Upgrade to L range (800km) | N/A | Extended detection range |
+| **Turret (M)** | 50 defense | +75 defense points | N/A | Weapon augmentation |
+
+**Upgrade Economy**:
+- Upgrades cost 50-150K credits (typically 20% of facility construction cost)
+- Upgrade provides 30-50% efficiency boost (less than rebuilding but cheaper)
+- Net calculation: Upgrade cost < (Original facility cost × 0.3) makes upgrades economical
+
+**Strategic Implications**: Upgrades allow specialization without expansion, enabling focused base strategies (research-only, production-only, defense-only).
+
+---
+
+### A7: PRISONER SYSTEM
+
+**Overview**: Prisoners are captured enemy units that provide research opportunities, interrogation intelligence, and potential conversion to player forces.
+
+**Prisoner Mechanics**:
+
+**Capture Process**:
+- Units with HP > 0 in Battlescape at mission end (not rescued by enemies) become prisoners
+- Prisoners transported to Prison facility automatically
+- Capacity limit: Prison 3×3 = 10 prisoners maximum
+- Overflow prisoners are executed (cannot exceed capacity)
+
+**Prisoner Lifetime**:
+```
+Lifetime (days) = 30 + (Unit Max HP × 2)
+```
+
+**Examples**:
+- Low-tier alien (6 HP max): 30 + 12 = 42 days lifetime
+- High-tier alien (20 HP max): 30 + 40 = 70 days lifetime
+- Unique VIP (25 HP max): 30 + 50 = 80 days lifetime
+
+**Meaning**: Stronger prisoners survive longer in captivity, providing extended research window.
+
+**Prisoner Options** (Player Decision):
+
+| Option | Effect | Karma | Research | Duration | Cost |
+|--------|--------|-------|----------|----------|------|
+| **Execute** | Prisoner removed immediately | −5 | 0 | Immediate | 0 |
+| **Interrogate** | Extract military intelligence | +0 | +30 man-days | 1 week | 5K |
+| **Experiment** | Medical/biological research | −3 | +60 man-days | 2 weeks | 0 |
+| **Exchange** | Trade to friendly faction | +3 | 0 | 1 week | 0 |
+| **Convert** | Attempt to recruit as unit | ±0 | 0 | 4 weeks | 50K |
+| **Release** | Free prisoner, gain relations | +5 | 0 | Immediate | 0 |
+
+**Interrogation System**:
+- Interrogation: +30 man-days to "Alien Behavior" or "Alien Biology" research
+- Multiple interrogations possible (per prisoner once/week)
+- Success rate: 100% (automatic)
+- Prisoner remains alive after interrogation (lifetime continues)
+
+**Experimentation**:
+- Experimentation: +60 man-days (double interrogation) but prisoner dies after 2 weeks regardless
+- Costs no credits but kills prisoner regardless of lifetime
+- Ethically controversial: −3 karma (affects ending)
+
+**Prisoner Conversion**:
+- Attempt to convert prisoner to player forces (unit recruitment)
+- Success rate: 60% + (Diplomat Advisor bonus) − (Enemy faction bonus)
+- Cost: 50K credits + 4 weeks conversion time
+- Result: Prisoner becomes loyal unit OR is executed upon failure
+- Strategy: Valuable for capturing high-stat aliens
+
+**Exchange Diplomacy**:
+- Trade prisoners to friendly factions for diplomatic favor
+- +3 relations with recipient faction
+- +3 karma (humanitarian approach)
+- Prisoner released peacefully
+
+**Release Option**:
+- Free prisoner without interrogation
+- +5 karma (humanitarian choice)
+- +1 relations with enemy faction (slight mercy bonus)
+- Prisoner leaves with knowledge of player base
+
+**Prison Facility Management**:
+- Prisoners consume 1 "maintenance" per 2 prisoners per day
+- Storage: 10 maximum prisoners (3×3 facility size)
+- Each prisoner requires active cell (cannot stack)
+- Escape chance: 1% per prisoner per day (very low)
+
+**Prisoner Death Mechanics**:
+- Prisoners die naturally when lifetime expires
+- Prisoners can be executed at any time
+- Failed conversion attempt results in execution
+- Escaped prisoners: 1% per day chance per prisoner
+
+---
+
+### B4/R1: POWER MANAGEMENT SYSTEM (COMPREHENSIVE)
+
+**Overview**: Power is the critical resource that enables base operations. This comprehensive specification consolidates all power mechanics.
+
+**Power Generation**:
+
+| Facility | Power Output | Maintenance | Efficiency | Notes |
+|----------|-------------|-------------|-----------|-------|
+| **Power Plant** | +50 power | 10 power (self-consume) | 100% | Base power generation |
+| **Multiple Plants** | Additive | 10 per plant | 100% each | +100 for 2 plants, +150 for 3 |
+| **Enhanced Plant** (upgrade) | +100 power | 15 power | 100% | Double output variant |
+
+**Power Consumption** (by facility size/type):
+
+| Facility | Size | Power Cost | Notes |
+|----------|------|-----------|-------|
+| **Corridor** | 1×1 | 2 | Minimal |
+| **Power Plant (self)** | 1×1 | 10 | Consumption of own power generation |
+| **Barracks (S)** | 1×1 | 5 | Unit housing |
+| **Barracks (L)** | 2×2 | 10 | Expanded housing |
+| **Storage (S)** | 1×1 | 2 | Climate control |
+| **Storage (M)** | 2×2 | 5 | Expanded storage |
+| **Storage (L)** | 3×3 | 8 | Massive capacity |
+| **Lab (S)** | 2×2 | 15 | Research equipment |
+| **Lab (L)** | 3×3 | 30 | Advanced labs |
+| **Workshop (S)** | 2×2 | 15 | Manufacturing |
+| **Workshop (L)** | 3×3 | 30 | Advanced production |
+| **Hospital** | 2×2 | 10 | Medical systems |
+| **Academy** | 2×2 | 8 | Training systems |
+| **Garage** | 2×2 | 12 | Craft repair tools |
+| **Hangar (M)** | 2×2 | 15 | Bay systems |
+| **Hangar (L)** | 3×3 | 30 | Large facility |
+| **Radar (S)** | 2×2 | 8 | Detection systems |
+| **Radar (L)** | 2×2 | 12 | Enhanced radar |
+| **Turret (M)** | 2×2 | 15 | Weapon systems |
+| **Turret (L)** | 3×3 | 35 | Advanced weapons |
+| **Prison** | 3×3 | 12 | Cell systems, life support |
+| **Temple** | 2×2 | 8 | Spiritual systems |
+
+**Power Status Calculation**:
+```
+Available Power = Sum of all Power Plant outputs
+Consumed Power = Sum of all operational facility costs
+Shortage = max(0, Consumed - Available)
+Surplus = max(0, Available - Consumed)
+Utilization Ratio = Consumed / Available (0.0 to 1.0+)
+Is Powered = (Shortage == 0)
+```
+
+**Priority Hierarchy (Shortage Resolution)**:
+
+When power shortage occurs, facilities go offline in reverse priority order (lowest priority first):
+
+| Priority | Level | Facilities | Purpose |
+|----------|-------|-----------|---------|
+| **100** | Critical | Power Plants (ALL) | Maintain generation capability |
+| **90** | Essential | Headquarters | Command operations |
+| **80** | Medical | Hospital, Temple | Unit recovery |
+| **70** | Military | Barracks (all), Academy | Unit housing, training |
+| **60** | Logistics | Hangar (all), Garage | Craft storage, repair |
+| **50** | Production | Lab, Workshop (priority: Research > Manufacturing) | Knowledge/equipment creation |
+| **40** | Storage | All Storage facilities | Item preservation |
+| **30** | Defense | Radar, Turret | Detection, defense |
+| **20** | Support | Corridor, extra Barracks | Connectivity |
+| **10** | Low | Prison | Containment |
+
+**Shortage Resolution Algorithm**:
+
+```
+Input: Available power, Consumed power, Facility list
+Output: Online/Offline status for each facility
+
+shortage = consumed - available
+if shortage <= 0:
+    return All facilities ONLINE
+
+offline_list = {}
+facilities_by_priority = SORT(facilities, priority DESC)
+
+for facility in facilities_by_priority:
+    if facility == PowerPlant:
+        continue (always online)
+
+    power_freed = facility.power_cost
+    offline_list.add(facility)
+    shortage -= power_freed
+
+    if shortage <= 0:
+        break
+
+return Set offline_list to OFFLINE, rest ONLINE
+```
+
+**Manual Control**:
+- Player can manually toggle facilities offline via UI
+- Prevents facility operation even if power available
+- Useful: reduce maintenance, emergency power conservation
+- Remains offline until player re-enables
+
+**Emergency Power-Down**:
+- Command: Offline all non-critical facilities
+- Keeps online: Power Plants, Headquarters, Hospital, Barracks (1 only)
+- Use: Severe power crisis, maximize survival
+- Automatic recovery when power available
+
+**Damaged Facility Impact**:
+- Damaged facilities: 50-90% efficiency (based on damage %)
+- Damaged facility still consumes FULL power
+- Result: Lower output/production, same power drain
+
+**Power Notifications**:
+- Shortage Alert: First power deficit detected
+- Offline Alert: Facilities going offline (list shown)
+- Critical Alert: Power now 0 (emergency conditions)
+- Restoration Alert: Power shortage resolved
+
+---
+
+### C4: FACILITY DAMAGE & REPAIR
+
+**Overview**: Facilities can be damaged during base defense missions, reducing efficiency and requiring repair.
+
+**Damage Mechanics**:
+
+**Damage Sources**:
+- UFO attack during base defense mission
+- Sabotage from enemy infiltration
+- Friendly fire/accident during combat training
+- Environmental hazard (theoretical future expansion)
+
+**Facility Armor**:
+
+| Facility | Armor Rating | Purpose |
+|----------|-------------|---------|
+| **Corridor** | 5 | Easily destroyed |
+| **Barracks, Storage, Academy, Temple** | 10 | Standard construction |
+| **Lab, Workshop, Hospital, Garage** | 15 | Reinforced, sensitive equipment |
+| **Hangar, Prison** | 20 | Heavy construction |
+| **Radar, Turret** | 25 | Military hardening |
+| **Power Plant** | 30 | Critical infrastructure |
+
+**Damage Formula**:
+```
+Damage Taken = Incoming Damage × (1 − Armor / (Armor + 10))
+```
+
+**Examples**:
+- 20 incoming damage vs Corridor (5 armor): 20 × (1 − 5/15) = 20 × 0.67 = 13.4 → 13 damage
+- 20 incoming damage vs Power Plant (30 armor): 20 × (1 − 30/40) = 20 × 0.25 = 5 damage
+
+**Facility HP**:
+
+| Facility | Max HP | Damage Threshold (for reduction) |
+|----------|--------|----------------------------------|
+| **1×1** | 50 | 25 damage = 50% health |
+| **2×2** | 100 | 50 damage = 50% health |
+| **3×3** | 150 | 75 damage = 50% health |
+
+**Damage States**:
+
+| State | HP Range | Production | Power Cost | Maintenance | Effect |
+|-------|----------|-----------|-----------|------------|--------|
+| **Healthy** | 100-76% | 100% | 100% | 100% | Normal operation |
+| **Damaged** | 75-51% | 75% | 100% | 150% | Reduced output |
+| **Heavily Damaged** | 50-26% | 50% | 100% | 200% | Severe impairment |
+| **Critical** | 25-1% | 25% | 100% | 250% | Near-destroyed |
+| **Destroyed** | 0% | 0% | 0% | 0% | Non-operational |
+
+**Repair System**:
+
+**Repair Method**: Facilities repair slowly over time during normal operations (passive healing).
+
+**Repair Rate**:
+```
+Repair per Week = 10 HP per week (baseline) + Garage bonus
+Garage Facility: +50 HP/week facility repair (stacked with building repairs)
+```
+
+**Repair Acceleration**:
+- Repair technicians (units): +1 HP/week per technician assigned
+- Maximum technicians: 3 per facility
+- Maximum repair rate: 10 + 50 (Garage) + 3 (technicians) = 63 HP/week
+
+**Repair Timeline Example**:
+- 3×3 facility with 150 max HP, currently at 50 HP (100 HP damage)
+- Baseline repair: 10 HP/week = 10 weeks
+- With Garage: 10 + 50 = 60 HP/week = 1.67 weeks (≈ 12 days)
+- With Garage + 3 technicians: 10 + 50 + 3 = 63 HP/week = 1.6 weeks (≈ 11 days)
+
+**Destruction Management**:
+- If facility reaches 0 HP during base defense, facility becomes destroyed
+- Destroyed facility: Cannot function, requires rebuild
+- Rebuild cost: 70-90% of original construction cost
+- Rebuild time: 50% of original construction time
+
+---
+
+### R8: HANGAR STORAGE CAPACITY
+
+**Overview**: Hangars determine craft storage capacity; insufficient hangars blocks craft acquisition.
+
+**Hangar Types**:
+
+| Hangar | Size | Capacity | Power | Maintenance | Cost | Purpose |
+|--------|------|----------|-------|------------|------|---------|
+| **Hangar M** | 2×2 | 4 craft | 15 power | 15K | 80K | Standard hangars |
+| **Hangar L** | 3×3 | 8 craft | 30 power | 35K | 150K | Large complex |
+
+**Craft Size Categories**:
+
+| Craft Type | Size | Slots Used | Examples |
+|-----------|------|-----------|----------|
+| **Fighter** | Small | 1 slot | Interceptor, Scout |
+| **Bomber** | Medium | 2 slots | Transport, Bomber |
+| **Capital** | Large | 4 slots | Carrier, Mothership |
+
+**Storage Calculation**:
+```
+Total Hangar Capacity = Sum of all hangar slots available
+Current Craft Used = Sum of craft sizes
+Available Capacity = Total - Current Used
+Can Add Craft = (Craft Size <= Available Capacity)
+```
+
+**Examples**:
+1. **1x Hangar M + 0x Hangar L**: 4 slots total
+   - 4 fighters (4×1 = 4 slots): Full, cannot add more
+   - 2 bombers (2×2 = 4 slots): Full, cannot add more
+   - 1 capital (1×4 = 4 slots): Full, cannot add more
+
+2. **2x Hangar M + 1x Hangar L**: 4 + 4 + 8 = 16 slots total
+   - 2 capitals (8 slots) + 4 fighters (4 slots) = 12/16 used
+   - Can add: 4 more fighters OR 1 more capital + 2 fighters OR 2 bombers, etc.
+
+**Capacity Overflow**:
+- Cannot exceed total hangar capacity (purchase blocked)
+- Player notified: "Insufficient hangar space, upgrade required"
+- Overflow craft: Cannot be deployed (stranded at base)
+
+**Hangar Upgrade Path**:
+- Hangar M → Hangar L: Upgrade in-place (+4 capacity, 14-30 day construction)
+- Additional Hangars: Build new hangars in available grid slots
+- Maximum hangars per base: Limited by base size (4×4 = ~3 max, 7×7 = ~8 max)
+
+**Strategic Implications**: Hangar space gates craft acquisition, preventing early craft hoarding. Players must decide: focus on quality (few craft) vs. quantity (many craft).
+
+---
+
+### S1: STRENGTH TRAINING FACILITY
+
+**Overview**: The Strength Training Facility provides specialized physical conditioning equipment and programs to increase unit Strength stat over time. This facility enables deliberate unit progression beyond natural growth, creating strategic decisions about physical development investment.
+
+**Facility Specifications**:
+- **Size**: 2×2 grid footprint
+- **Build Cost**: 500K credits
+- **Build Time**: 21 days
+- **Power Consumption**: 12 power units
+- **Maintenance Cost**: 100K credits per week
+- **Capacity**: 1 unit per week maximum
+- **Training Effect**: +1 Strength per trained unit per week
+
+**Training Mechanics**:
+- **Unit Selection**: Player assigns units to training queue (maximum 1 per week)
+- **Training Duration**: 1 week per training session
+- **Strength Increase**: +1 Strength stat per session (permanent increase)
+- **Maximum Sessions**: No hard limit (units can train indefinitely)
+- **Stat Cap**: Respects Strength stat maximum (18 for humans, varies by race)
+- **Cost per Session**: Included in facility maintenance (no per-unit cost)
+
+**Training Requirements**:
+- **Unit Eligibility**: Any unit can train (no stat prerequisites)
+- **Facility Status**: Must be operational (not damaged/offline)
+- **Unit Availability**: Unit must be in base (not deployed on mission)
+- **Queue Management**: First-in-first-out queue system
+
+**Strategic Implications**:
+- **Early Game**: Expensive investment for marginal benefit (500K build + 100K/week maintenance)
+- **Mid Game**: Valuable for creating elite assault units (+1 STR enables better armor/weapons)
+- **Late Game**: Essential for maxing out unit potential (multiple sessions needed for max STR)
+- **Resource Trade-off**: High maintenance cost vs. permanent stat improvement
+- **Unit Specialization**: Enables "tank" builds with maximum carry capacity and melee damage
+
+**Training Queue Management**:
+```
+Training Queue = FIFO queue with 1 slot per week
+Available Slots = min(1, Operational Facilities)
+Training Cost = 0 per unit (covered by facility maintenance)
+Completion Time = 7 days per training session
+```
+
+**Facility Integration**:
+- **Adjacency Bonuses**: +10% training speed when adjacent to Hospital (+1.1 STR/week) or Academy (+10% XP gain during training)
+- **Power Failure**: Training pauses during power shortages
+- **Facility Damage**: Training efficiency reduced by damage percentage
+- **Unit Recovery**: Units recover HP/Sanity normally during training (can stack with Hospital)
+
+**Balance Considerations**:
+- **Cost vs. Benefit**: 500K build + 100K/week vs. +1 STR permanent increase
+- **Time Investment**: 1 week per point (slow progression encourages planning)
+- **Capacity Limit**: 1 unit/week prevents spam training of entire army
+- **Maintenance Burden**: High weekly cost creates meaningful economic decision
+
+**Implementation Notes**:
+- Training sessions are interruptible (unit can be deployed mid-training, progress lost)
+- Strength increases are permanent (survive unit death/respawn)
+- Multiple facilities allow parallel training (2 facilities = 2 units/week)
+- No race restrictions (aliens can train, subject to their stat caps)
+
+---
+
 ## Unit Recruitment & Personnel
 
 **Overview**
@@ -347,6 +783,83 @@ Units are the only living personnel in bases. There are no separate scientists o
 
 ---
 
+## Barracks Unit Management
+
+**Overview**
+Barracks facilities serve as the primary interface for unit management, providing access to demotion and respecialization mechanics. These functions allow players to adapt their squad composition to changing strategic needs, with appropriate costs and consequences.
+
+**Demotion System**
+- **Purpose**: Correct specialization mistakes or adapt to new tactical requirements
+- **Requirements**: Unit must be in base (not deployed), barracks facility operational
+- **Cost**: 10,000 credits per demotion
+- **Time**: 3 days processing time
+- **Effects**:
+  - Unit rank decreases by 1 level (Sergeant → Corporal, etc.)
+  - All stats decrease by 10% (permanent reduction)
+  - XP resets to 0 (fresh start for new specialization)
+  - Perks and specializations reset (unit becomes basic soldier)
+  - Unit retains equipment but may need reassignment
+- **Strategic Use**: Early-game correction of poor specialization choices, tactical adaptation
+
+**Respecialization System**
+- **Purpose**: Change unit specialization without rank penalty for strategic flexibility
+- **Requirements**: Unit must be in base, barracks facility operational, unit rank ≥ Corporal
+- **Cost**: 15,000 credits per respecialization
+- **Time**: 1 week training time
+- **Limits**: Maximum 2 respecializations per unit lifetime
+- **Effects**:
+  - Unit specialization changes to new type (Gunner/Medic/Sniper/Assault)
+  - Unit rank and XP preserved (no demotion penalty)
+  - Base stats adjusted according to new specialization
+  - Perks reset and reassigned based on new specialization
+  - Equipment automatically adjusted if incompatible
+- **Strategic Use**: Mid-to-late game specialization changes, adapting to new threats or playstyles
+
+**Barracks Interface Functions**
+
+| Function | Requirements | Cost | Time | Effects |
+|----------|-------------|------|------|---------|
+| **Demote Unit** | Unit in base, barracks operational | 10K credits | 3 days | Rank -1, stats -10%, XP reset, perks reset |
+| **Respecialize Unit** | Unit in base, rank ≥ Corporal, <2 lifetime uses | 15K credits | 1 week | Specialization change, rank/XP preserved, perks reset |
+| **View Unit History** | Unit in base | 0 | Instant | Shows demotion/respec history, remaining uses |
+| **Equipment Reassignment** | Unit in base | 0 | Instant | Transfer equipment between units in barracks |
+
+**Unit Management UI Flow**
+1. **Select Barracks**: Click on barracks facility to access unit management
+2. **Select Unit**: Choose from list of units currently in base
+3. **Choose Action**: Demote, Respecialize, or View History options
+4. **Confirm Changes**: Review costs/consequences, confirm action
+5. **Processing**: Unit unavailable during processing time
+6. **Completion**: Unit returns with new specialization/stats
+
+**Economic Impact**
+- **Demotion Cost**: 10K credits (affordable early-game correction)
+- **Respecialization Cost**: 15K credits (significant but worthwhile investment)
+- **Time Cost**: 3 days (demotion) vs 1 week (respecialization) creates urgency decisions
+- **Strategic Trade-off**: Demotion cheaper/faster but harsher penalties vs respecialization expensive/slower but preserves investment
+
+**Balance Considerations**
+- **Demotion Frequency**: No limits, but stat penalties accumulate with multiple uses
+- **Respecialization Limits**: 2 lifetime uses prevents infinite specialization changes
+- **Cost Scaling**: Credits required scale with campaign progression
+- **Time Investment**: Processing times prevent spam changes during critical missions
+- **Consequence Clarity**: Players understand permanent vs temporary changes
+
+**Integration with Other Systems**
+- **Academy Training**: Respecialized units can immediately enter training queues
+- **Hospital Recovery**: Units unavailable during processing (cannot be healed/deployed)
+- **Equipment System**: Automatic equipment reassignment prevents invalid loadouts
+- **Mission Planning**: Processing times affect deployment availability
+
+**Testing Scenarios**
+- [ ] **Demotion Test**: Demote specialized unit, verify stat reduction and perk reset
+- [ ] **Respecialization Test**: Change sniper to medic, verify preserved rank and new perks
+- [ ] **Limit Test**: Attempt 3rd respecialization, verify rejection
+- [ ] **Cost Test**: Verify credit deduction and time requirements
+- [ ] **Integration Test**: Respecialized unit enters academy training immediately after completion
+
+---
+
 ## Equipment & Crafts Management
 
 **Overview**
@@ -391,8 +904,8 @@ Bases are capital-intensive and require continuous resource investment. Maintena
 
 | Cost Category | Calculation | Monthly Cost |
 |---|---|---|
-| **Layout Maintenance** | (Base Size)² × 5K | 80-2000K (4×4 to 7×7) |
-| **Facility Maintenance** | Per facility × individual cost | 5-50K per facility |
+| **Layout Maintenance** | (Base Size)² × 10K | 160K-490K (4×4 to 7×7) |
+| **Facility Maintenance** | Per facility × individual cost | 2-15K per facility |
 | **Inactive Facility Tax** | 50% of active maintenance | 2-25K per disabled facility |
 | **Unit Salaries** | 5K per unit per month | Variable (100-1000K+) |
 | **Craft Maintenance** | 2K per craft per month | Variable (4K-100K) |
@@ -466,92 +979,10 @@ Repair Cost = (Damage Taken / Max HP) × (50% of Build Cost)
 
 ---
 
-## Adjacency Bonus System
-
-**Overview**
-Facilities grouped strategically provide efficiency bonuses when positioned adjacent to complementary facilities. The Adjacency Bonus System (`engine/basescape/systems/adjacency_bonus_system.lua`) calculates and applies these bonuses automatically, rewarding compact, synergistic base layouts.
-
-**Bonus Mechanics**
-- **Trigger**: Facilities detect adjacent facilities of complementary types
-- **Range**: Cardinal adjacency only (North, South, East, West) - diagonals do NOT count
-- **Stacking**: Multiple bonuses can apply to same facility (limited to 3-4 per facility to prevent overpowered clustering)
-- **Efficiency Multiplier**: Bonuses apply multiplicative efficiency increases (ranges 1.0x to 2.0x) rather than flat additions
-- **Dynamic Recalculation**: Bonuses update whenever facility is placed, moved, or removed
-
-**Seven Bonus Types**
-
-| Pairing | Bonus Type | Requirements | Effect |
-|--------|-----------|---|---|
-| **Lab + Workshop** | Research & Manufacturing Synergy | Adjacent (1 tile touching) | +10% research speed, +10% manufacturing speed |
-| **Workshop + Storage** | Material Supply Chain | Adjacent | -10% material cost for manufacturing |
-| **Hospital + Barracks** | Medical Support | Adjacent | All personnel in Barracks: +1 HP/week, +1 Sanity/week recovery |
-| **Garage + Hangar** | Craft Logistics | Adjacent | +15% craft repair speed |
-| **Power Plant + Lab/Workshop** | Power Efficiency | Within 2-hex distance | +10% research/manufacturing efficiency (longer range) |
-| **Radar + Turret** | Fire Control | Adjacent | +10% targeting accuracy (+10% hit chance) |
-| **Academy + Barracks** | Training Synergy | Adjacent | +1 XP/week gain for all personnel in Barracks |
-
-**Bonus Calculation System**
-```
-Adjusted Efficiency = Base Efficiency × Bonus Multiplier
-
-Example - Lab with Research + Manufacturing Synergy:
-Base Research Rate: 10 man-days/week
-Adjacent Workshop Bonus: 1.10× (10% increase)
-Adjusted Rate: 10 × 1.10 = 11 man-days/week
-
-Multiple Bonuses Stack:
-Lab + Workshop (+10%) AND Power Plant within range (+10%):
-Final Multiplier: 1.10 × 1.10 = 1.21× (21% total bonus)
-```
-
-**Adjacency Display Information**
-- `getAdjacencyInfo(base, facilityType, x, y)` - Returns human-readable summary
-- **Bonus Summary**: Which bonuses apply to position
-- **Missing Bonuses**: Which complementary facilities nearby would enable additional bonuses
-- **Placement Recommendations**: Optimal adjacent facility suggestions
-
-**Strategic Adjacency Patterns**
-
-**Research-Focused Layout**:
-```
-Lab ← Lab (2×2) ← Storage
-  ↓       ↓
-Power - Workshop (2×2)
-Plant    ↓
-       Storage
-```
-- Lab + Workshop (+10% research & manufacturing)
-- Workshop + Storage (-10% material cost)
-- Power Plant ± Lab (-+ efficiency) 
-- Result: Efficient research & manufacturing hub
-
-**Defense-Focused Layout**:
-```
-Radar (2×2) - Turret (2×2)
-                  ↓
-             Turret (2×2)
-```
-- Radar + Turret (+10% accuracy)
-- Multiple turrets clustered
-- Result: Concentrated defensive firepower
-
-**Personnel-Focused Layout**:
-```
-Academy (2×2) - Barracks (2×2)
-     ↓                ↓
-   Temple        Hospital (2×2)
-```
-- Academy + Barracks (+1 XP/week)
-- Hospital + Barracks (+1 HP/week, +1 Sanity/week)
-- Temple provides additional +1 Sanity/week (stacks)
-- Result: Elite personnel development
-
----
-
 ## Power Management System
 
 **Overview**
-The Power Management System (`engine/basescape/systems/power_management_system.lua`) handles facility power distribution, shortage resolution, and emergency power-down procedures. Power is a critical resource; insufficient power cascades facility offline according to priority hierarchy.
+The Power Management System handles facility power distribution and shortage resolution. Power is a critical resource - insufficient power triggers an alert system where the game randomly oflines facilities to rebalance supply and demand. The player can manually enable/disable facilities to manage shortages strategically.
 
 **Power Generation & Consumption**
 
@@ -567,77 +998,116 @@ The Power Management System (`engine/basescape/systems/power_management_system.l
 - **Storage**: 2 power (1×1) to 8 power (3×3)
 
 **Power Status Calculation**
-```lua
-local status = powerSystem:getPowerStatus(base)
--- Returns table with:
-status.available      -- Total power generated
-status.consumed       -- Total power consumed  
-status.shortage       -- Amount of power deficit (0 if surplus)
-status.ratio          -- Percentage utilization (0.0-1.0+)
-status.isPowered      -- Boolean, true if sufficient power
-status.surplus        -- Amount of power above minimum (0 if shortage)
-```
 
-**Power Priority Distribution**
+The power system returns the following status information:
+- **Available**: Total power generated by all power plants
+- **Consumed**: Total power consumed by all active facilities
+- **Shortage**: Amount of power deficit (0 if surplus exists)
+- **Ratio**: Percentage utilization of power (0.0-1.0+, >1.0 = shortage)
+- **Powered**: Boolean flag indicating if base has sufficient power
+- **Surplus**: Amount of excess power above consumption (0 if shortage)
 
-When power shortage occurs, facilities go offline according to priority hierarchy (highest priority stays on):
+**Power Shortage Alert System** (No Priority Tiers)
 
-| Priority | Level | Facilities | Notes |
-|----------|-------|-----------|-------|
-| **100** | Critical | Power Plants | Always maintain power generation capability |
-| **90** | Essential | Headquarters | Command center operations |
-| **80** | Medical | Hospital, Temple | Personnel recovery critical |
-| **70** | Military | Barracks, Academy | Unit housing and training |
-| **60** | Logistics | Hangar, Garage | Craft operations and repair |
-| **50** | Production | Workshop, Lab | Research and manufacturing (priority order) |
-| **40** | Storage | Storage facilities | Item preservation (low priority) |
-| **30** | Defense | Radar, Turret | Detection and defense (online if possible) |
-| **20** | Support | Corridor, Barracks | Structural connectivity |
-| **5** | Minimum | Prison | Prisoner containment (very low priority) |
+When power shortage occurs:
 
-**Shortage Resolution Logic**
-```lua
--- When power deficit occurs:
-local shortage = consumedPower - generatedPower
+1. **Alert Notification**: Game displays "⚠️ Power shortage: Base needs X more power units"
+   - Similar to Europa Universalis alert system (visible notification, not popup spam)
+   - Player can read and dismiss alert
 
--- System takes offline lower-priority facilities until:
--- (available power) >= (remaining consumption)
+2. **Automatic Random Shutdown**: Game randomly selects facilities to offline
+   - Which facilities go offline is **random** (not priority-based)
+   - Enough facilities offline until power generation ≥ power consumption
+   - Creates tension/unpredictability (player doesn't know which will die)
 
--- Example: 50 power available, 120 power needed, 70 shortage
--- 1. Keep Power Plants (priority 100): -10 power
--- 2. Keep Headquarters (priority 90): -5 power
--- 3. Keep Hospital (priority 80): -10 power
--- 4. Keep Barracks (priority 70): -10 power
--- 5. Keep Hangar (priority 60): -15 power
--- 6. Offline Lab (priority 50): -20 power (still short 10 power)
--- 7. Offline Workshop (priority 50): -30 power (now balanced)
--- Result: Lab and Workshop offline, others operational
-```
+3. **Manual Player Control**: Player can toggle facilities on/off manually
+   - Enable/disable specific facilities manually
+   - Facility remains offline until manually re-enabled or power crisis resolves
+   - Strategic decision: Which facilities can afford to be offline?
 
-**Manual Facility Control**
+**Shortage Resolution Examples**
+
+**Example 1: Minor Shortage**
+
+Base Power State:
+- Power Plants generating: 100 units
+- Laboratories consuming: 40 units
+- Manufacturing consuming: 35 units
+- Barracks consuming: 15 units
+- Hospital consuming: 20 units
+- Total consumption: 110 units (10 unit shortage!)
+
+System Action:
+1. Display alert: "⚠️ Power shortage: Base needs 10 more power units"
+2. Randomly offline 1-2 facilities (could be Lab, Manufacturing, Hospital, or Barracks)
+3. Assume Manufacturing (35 power) goes offline
+4. New balance: 100 generated, 75 consumed = 25 surplus
+
+Player Options:
+- Option A: Manually re-enable Manufacturing (force shortage again until resolved)
+- Option B: Build Power Plant expansion (long-term fix)
+- Option C: Disable multiple low-priority facilities manually
+- Option D: Wait for alert to clear if production isn't urgent
+
+**Example 2: Severe Shortage**
+
+Base Power State:
+- Power Plants generating: 80 units
+- Multiple facilities consuming: 150 total units (70 unit shortage!)
+
+System Action:
+1. Display alert: "⚠️ CRITICAL: Base power shortage of 70 units!"
+2. Randomly offline facilities until balanced
+3. Assume: Lab, Workshop, Academy, Hospital all go offline (80 power freed)
+4. New balance: 80 generated, 70 consumed = 10 surplus
+
+Strategic Impact:
+- Research halts (Lab offline)
+- Manufacturing halts (Workshop offline)
+- Unit training halts (Academy offline)
+- No healing available (Hospital offline)
+- Base operations severely hampered
+- Player must act quickly to restore power or rebuild critically
+
+**Manual Facility Control** (Player Strategy)
+
+**Toggling Facilities**:
 - `toggleFacilityPower(base, x, y)` - Player can manually disable facility
-- Returns: `{bool success, string message}` 
-- Rationale: Player optimization during shortage or to reduce maintenance cost
-- Facility remains offline until player re-enables or power restored
+- Returns: `{bool success, string message}`
+- Facility remains offline until player re-enables or power shortage auto-resolves
 
-**Emergency Power-Down**
+**Strategic Reasons to Disable Facilities**:
+1. **Reduce Consumption**: Disable non-critical facilities during shortage
+2. **Maintenance**: Offline facility during repair to reduce power drain
+3. **Cost Optimization**: Temporarily disable expensive facilities during low-income periods
+4. **Priority Shift**: Disable manufacturing to preserve research during crisis
+5. **Experimentation**: Test which facilities are truly necessary for current campaign
+
+**Emergency Power-Down** (Optional Feature)
 - `emergencyPowerdown(base)` - Offline all non-critical systems
-- Keeps online: Power Plants, Headquarters, Hospital, Barracks
-- Puts offline: Everything else
-- Use case: Severe crisis, maximize personnel survival
+- Approach: Offline all except Power Plants and Headquarters
+- Use case: Severe crisis during multiple facility outages
+- Recovery: Manual re-enable facilities once crisis passes
 
-**Efficiency Calculation**
-- Offline facilities: 0% efficiency
-- Manual disable: 0% efficiency  
-- Damaged facilities: 50-90% efficiency (based on damage)
-- Online healthy: 100% efficiency (with adjacency bonuses applied)
-- Method: `getFacilityEfficiency(base, facility)` returns 0.0-1.0 efficiency ratio
+**Power Management Design Philosophy**
 
-**Power Event Notifications**
-- **Shortage Alert**: When first shortfall detected
-- **Offline Notification**: When facilities go offline
-- **Restoration Alert**: When power deficit resolved
-- **Manual Disable**: Confirmation when player toggles facility
+**No Priority Tiers**:
+- Original system had 10-tier priority (wrong approach)
+- New system: Random facility shutdown creates tension and uncertainty
+- Encourages player strategic planning (build more power capacity)
+- Forces meaningful decisions (which facilities matter most?)
+
+**Player Agency**:
+- Alerts inform player of problems (like EU4 notifications)
+- Player chooses which facilities to disable/preserve
+- Experimentation encouraged (toggle facilities to see what breaks)
+- Failure meaningful (bad decisions have consequences)
+
+**Strategic Tension**:
+- Shortage creates economic pressure (upgrade power plants?)
+- Random shutdown feels organic (not rigid tier system)
+- Player learns base balance over time (what's sustainable?)
+- Late game: Upgraded power plants prevent shortages entirely
 
 ---
 
@@ -749,6 +1219,132 @@ Monthly base reports provide comprehensive overview of base status, enabling inf
 - Comparative analysis (base vs. other bases)
 - Trend indicators (improving/declining efficiency over months)
 - Optimization recommendations (adjacency bonus opportunities, power efficiency, etc.)
-	
 
+## Examples
 
+### Scenario 1: Base Expansion Decision
+**Setup**: Player has Small base (4×4), 150K credits saved, researched Medium base tech
+**Action**: Choose to expand to Medium base
+**Result**: Base transforms to 5×5 grid, 25 tiles available, gains 7-8 new facility slots
+
+### Scenario 2: Power Shortage Crisis
+**Setup**: Base has 50 power available, 120 power needed
+**Action**: Power management system activates priority shutdown
+**Result**: Labs and Workshops go offline, hospitals and barracks remain operational
+
+### Scenario 3: Adjacency Bonus Planning
+**Setup**: Player placing new Lab near existing Workshop
+**Action**: Position Lab adjacent to Workshop
+**Result**: Both facilities gain +10% efficiency, research/manufacturing speed increases
+
+## Balance Parameters
+
+| Parameter | Value | Range | Reasoning | Difficulty Scaling |
+|-----------|-------|-------|-----------|-------------------|
+| Base Construction Cost | 150-600K | 100-1000K | Capital gate | ±50K on difficulty |
+| Monthly Maintenance | 80-2000K | 50-3000K | Economic pressure | ±20% on difficulty |
+| Facility Power Consumption | 2-35 power | 1-50 | Resource balance | ±5 on Hard |
+| Adjacency Bonus | +10% | ±5% | Production synergy | ±2% on difficulty |
+| Unit Salary | 5K/month | 3-10K | Personnel cost | ±2K on difficulty |
+
+## Difficulty Scaling
+
+### Easy Mode
+- Lower facility costs (-30%)
+- Reduced maintenance (-40%)
+- Higher adjacency bonuses (+15%)
+- Better power plant efficiency (+20%)
+- Faster construction times (-25%)
+
+### Normal Mode
+- Standard costs and maintenance
+- Balanced facility economics
+- Normal adjacency bonuses
+- Standard build times
+
+### Hard Mode
+- Higher facility costs (+30%)
+- Increased maintenance (+40%)
+- Reduced adjacency bonuses (-5%)
+- Lower power plant efficiency (-10%)
+- Slower construction times (+25%)
+
+### Impossible Mode
+- Maximum facility costs (+50%)
+- Severe maintenance penalties (+60%)
+- Minimal adjacency bonuses (-10%)
+- Poor power efficiency (-20%)
+- Maximum construction times (+50%)
+
+## Testing Scenarios
+
+- [ ] **Base Construction Test**: Build new Small base
+  - **Setup**: Player at base with 200K credits
+  - **Action**: Initiate base construction in new province
+  - **Expected**: Base appears in 30 days at Small size, costs 150K
+  - **Verify**: Base properties (grid, capacity, costs) match specification
+
+- [ ] **Expansion Test**: Expand from Small to Medium
+  - **Setup**: Small base with available expansion research
+  - **Action**: Queue expansion with 250K credits
+  - **Expected**: Base expands to Medium (5×5) in 45 days, facilities preserved
+  - **Verify**: New facilities added, total capacity increases
+
+- [ ] **Power Management Test**: Trigger power shortage
+  - **Setup**: Base with 50 available power, 120 needed
+  - **Action**: Allow power deficit detection
+  - **Expected**: Lower-priority facilities offline automatically
+  - **Verify**: Labs/Workshops offline, hospitals/barracks remain operational
+
+- [ ] **Adjacency Bonus Test**: Place adjacent facilities
+  - **Setup**: Lab and Workshop in separate base clusters
+  - **Action**: Position Lab adjacent to Workshop
+  - **Expected**: Both facilities gain +10% bonus
+  - **Verify**: Efficiency calculations show 10% increase
+
+- [ ] **Unit Recruitment Test**: Recruit soldiers into barracks
+  - **Setup**: Barracks with 20 capacity, 5 units present
+  - **Action**: Recruit 10 new soldiers
+  - **Expected**: 15 units total, monthly salary increases to 75K
+  - **Verify**: Recruitment queue updates, costs calculated correctly
+
+- [ ] **Facility Damage Test**: Base suffers UFO attack damage
+  - **Setup**: Base with operational facilities, UFO attack
+  - **Action**: Attack damages random facilities
+  - **Expected**: Facilities show damage (50-80% severity)
+  - **Verify**: Repair queue created, production reduced
+
+## Related Features
+
+- **[Geoscape System]**: Mission generation and resource collection (Geoscape.md)
+- **[Economy System]**: Base funding and resource management (Economy.md)
+- **[Units System]**: Personnel recruitment and management (Units.md)
+- **[Crafts System]**: Vehicle storage and deployment (Crafts.md)
+- **[Items System]**: Equipment and resource storage (Items.md)
+- **[Battlescape System]**: Combat context driving salvage production (Battlescape.md)
+
+## Implementation Notes
+
+- Square grid (40×60) for facility placement
+- Four-directional adjacency for bonus calculation
+- Power priority system with 10 tiers
+- Monthly reconciliation for economic reporting
+- Multiplicative efficiency bonuses (not additive)
+- Integration with all other game systems
+
+## Review Checklist
+
+- [ ] Base construction mechanics fully specified
+- [ ] Facility grid system defined
+- [ ] Power management system documented
+- [ ] Adjacency bonus system balanced
+- [ ] Unit recruitment requirements clear
+- [ ] Equipment/craft management specified
+- [ ] Maintenance economics calculated
+- [ ] Defense and repair mechanics complete
+- [ ] Radar coverage mechanics defined
+- [ ] Monthly reporting system designed
+- [ ] All difficulty scaling parameters set
+- [ ] Integration points documented
+- [ ] Testing scenarios comprehensive
+- [ ] Related features properly linked

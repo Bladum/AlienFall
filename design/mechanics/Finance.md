@@ -1,7 +1,7 @@
 # Finance System
 
-> **Status**: Design Document  
-> **Last Updated**: 2025-10-28  
+> **Status**: Design Document
+> **Last Updated**: 2025-10-28
 > **Related Systems**: Countries.md, Economy.md, Politics.md, Basescape.md
 
 ## Table of Contents
@@ -248,7 +248,7 @@ Players must carefully manage debt levels to avoid financial ruin, as excessive 
 
 **Complex Scenario:**
 - Country A: High funding (level 8), stable relations
-- Country B: Low funding (level 3), deteriorating relations  
+- Country B: Low funding (level 3), deteriorating relations
 - Country C: Medium funding (level 5), improving relations
 
 **Financial Strategy:**
@@ -338,3 +338,59 @@ Finance integrates with:
 - Mission success increases country satisfaction
 - Base placement affects operational costs
 **For complete system integration details, see [Integration.md](Integration.md)**
+
+---
+
+## Examples
+
+- Scenario: Sudden funding drop — simulate country funding reductions and validate cash flow warnings and bankruptcy protections.
+- Scenario: Debt usage for expansion — simulate loan acquisition and repayment schedule impact on monthly forecasts.
+
+---
+
+## Balance Parameters
+
+| Parameter | Default | Range | Notes |
+|---|---:|---|---|
+| Loan principal (standard) | 100,000 cr | 50k-500k | Default loan chunk |
+| Loan interest rate | 5%/month | 1-10% | Compound interest on outstanding debt |
+| Bankruptcy threshold (cash) | -50,000 cr | -100k to 0 | Triggers bankruptcy mechanics |
+
+---
+
+## Difficulty Scaling
+
+- Easy: Reduced monthly expenses and lower loan interest rates.
+- Normal: Standard costs and interest.
+- Hard: Increased maintenance and interest, reduced country funding multipliers.
+
+---
+
+## Testing Scenarios
+
+- [ ] Monthly Cycle: Validate revenue/expense deductions across the month follow the specified schedule.
+- [ ] Debt Handling: Simulate loan acceptance, interest accrual, repayment, and bankruptcy edge cases.
+- [ ] Funding Fluctuations: Simulate sudden funding changes and verify warning/critical indicators.
+
+---
+
+## Related Features
+
+- Countries.md — funding levels and relationships
+- Economy.md — marketplace, manufacturing revenue
+- Politics.md — diplomacy impacts on funding
+
+---
+
+## Implementation Notes
+
+- Use fixed timestep monthly processing for finance to avoid fractional periods. Keep forecasts conservative and expose projection API for UI. Sanity-check cash updates with atomic transactions to avoid rounding anomalies.
+
+---
+
+## Review Checklist
+
+- [ ] Monthly cycle calculations implemented
+- [ ] Loan lifecycle and interest applied correctly
+- [ ] Forecast algorithm tested with edge cases
+- [ ] Integration with Countries and Economy verified

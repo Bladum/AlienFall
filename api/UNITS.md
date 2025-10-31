@@ -1,8 +1,8 @@
 # Units & Personnel API Reference
 
-**System:** Tactical / Personnel Management  
-**Module:** `engine/battlescape/units/`, `engine/basescape/personnel/`  
-**Latest Update:** October 22, 2025  
+**System:** Tactical / Personnel Management
+**Module:** `engine/battlescape/units/`, `engine/basescape/personnel/`
+**Latest Update:** October 22, 2025
 **Status:** ✅ Complete
 
 ---
@@ -11,8 +11,8 @@
 
 The Units system manages individual soldiers, operatives, and alien entities with persistent identity, experience progression, class-based specialization, and equipment customization. Units are core tactical assets that develop through combat, specialize into roles, gain traits, and form the foundation of squad-based gameplay. The system emphasizes player attachment through individual unit development, meaningful progression, and customizable loadouts.
 
-**Layer Classification:** Tactical / Personnel Management  
-**Primary Responsibility:** Unit stats, progression, equipment, abilities, morale, squad management, class specialization  
+**Layer Classification:** Tactical / Personnel Management
+**Primary Responsibility:** Unit stats, progression, equipment, abilities, morale, squad management, class specialization
 **Integration Points:** Battlescape (combat), Basescape (recruitment/storage), Equipment (loadouts), Experience tracking
 
 ---
@@ -29,14 +29,14 @@ Unit = {
   id = string,                    -- "unit_001_soldier"
   name = string,                  -- Custom name given by player
   type = string,                  -- "human", "alien", "mechanical"
-  
+
   -- Progression
   rank = number,                  -- 0-6 (experience level)
   experience = number,            -- Current XP towards next rank
   level = number,                 -- Derived from XP
   specialization = string,        -- "rifleman", "medic", "assault"
   class = UnitClass,              -- Class archetype
-  
+
   -- Base Statistics (6-12 range, can exceed with equipment/skills)
   strength = number,              -- Melee damage, carry capacity
   dexterity = number,             -- Accuracy, initiative
@@ -44,20 +44,20 @@ Unit = {
   intelligence = number,          -- Hack/tech ability
   perception = number,            -- Detection range, accuracy
   will = number,                  -- Morale resistance, psi defense
-  
+
   -- Psychological Stats (6-12 range for humans, 0-20 for psi)
   bravery = number,               -- Morale buffer, panic resistance (6-12)
   sanity = number,                -- Psychological stability (6-12)
   melee = number,                 -- Melee combat effectiveness (6-12)
   psi = number,                   -- Psionic power (0-20, 0 = no psi)
-  
+
   -- Piloting Stat (NEW - simple system)
-  piloting = number,              -- 0-100 (craft operation skill, any unit can have this)
+  piloting = number,              -- 6-12 (craft operation skill, any unit can have this)
   assigned_craft_id = string | nil,  -- Craft ID if currently assigned as pilot
-  
+
   -- Note: No separate pilot_xp or pilot_rank - uses unified XP system
   -- Piloting improves with overall unit XP: +1 per 100 XP gained (from any source)
-  
+
   -- Effective Stats (with equipment bonuses)
   stats = {
     accuracy = number,            -- 0-100
@@ -65,53 +65,53 @@ Unit = {
     reaction = number,            -- Initiative
     fire_rate = number,           -- Attacks per turn
   },
-  
+
   -- Combat Stats
   health = number,                -- Current HP
   max_health = number,            -- Full health (from class + equipment)
   hp_current = number,            -- Alias for health
   hp_max = number,                -- Alias for max_health
   action_points = number,         -- AP per turn (usually 4)
-  
+
   -- Energy System
   energy = number,                -- Current energy points
   maxEnergy = number,             -- Maximum energy points
   energy_regen_rate = number,     -- Energy regeneration per turn (default: 5)
-  
+
   -- Psionic Energy (for units with psi > 0)
   psiEnergy = number,             -- Current psi energy (0-100)
   maxPsiEnergy = number,          -- Maximum psi energy (100 standard)
   psiEnergyRegen = number,        -- Psi energy regen per turn (default: 5)
-  
+
   -- Movement System
   movementPoints = number,        -- Total movement points per turn (derived from AP × speed)
   movementPointsLeft = number,    -- Remaining movement this turn
-  
+
   -- Weapon Management
   weapon_cooldowns = table,       -- {weaponId = turns_remaining}
-  
+
   -- Equipment
   equipped_items = EquipmentSlot[],
   weapon_equipped = Item | nil,
   armor_equipped = Item | nil,
   inventory = ItemStack[],
-  
+
   -- Status
   status = string,                -- "active", "healthy", "wounded", "critical", "unconscious", "dead"
   status_effects = string[],      -- "bleeding", "stunned", "panicked"
   morale = number,                -- 0-100
   fatigue = number,               -- 0-100
-  
+
   -- Traits
   traits = string[],              -- "smart", "brave", "weak"
-  
+
   -- Assignment
   assigned_base = string | nil,   -- Base ID if stationed
   current_squad = string | nil,   -- Squad ID if in battle
-  
+
   -- Skills & Abilities
   skills = Skill[],               -- Learned abilities
-  
+
   -- History
   recruitment_turn = number,
   rank_up_turns = number[],       -- When each rank achieved
@@ -119,7 +119,7 @@ Unit = {
   missions_completed = number,
   enemies_killed = number,
   times_wounded = number,
-  
+
   -- Current Mission
   battle_stats = table | nil,     -- Only during active battle
 }
@@ -354,17 +354,17 @@ Squad = {
   id = string,                    -- "squad_001"
   name = string,                  -- "Alpha Squad"
   units = Unit[],                 -- Members
-  
+
   -- Composition
   size = number,                  -- Current unit count
   max_size = number,              -- Squad capacity
-  
+
   -- State
   status = string,                -- "ready", "in_mission", "recovering"
   morale = number,                -- Average team morale (affects behavior)
   cohesion = number,              -- 0-100
   formation = string,             -- "wedge", "line", "circle"
-  
+
   -- Statistics
   total_kills = number,
   total_missions = number,
@@ -402,7 +402,7 @@ UnitClass = {
   id = string,                    -- "class_rifleman", "assault"
   name = string,                  -- "Rifleman", "Assault"
   description = string,           -- Class description
-  
+
   -- Base Stats
   base_rank = number,             -- Starting rank
   hp_base = number,               -- Base HP
@@ -411,22 +411,22 @@ UnitClass = {
   reaction_base = number,         -- Initiative
   fire_rate_base = number,        -- Attacks per turn
   armor_class = number,           -- 0-50 (damage reduction %)
-  
+
   -- Stat Bonuses
   stat_bonuses = table,           -- {stat: bonus}
-  
+
   -- Equipment
   starting_weapon = string,       -- Item ID
   starting_armor = string,
   weapon_types_preferred = string[],
   weapon_proficiencies = string[],
   armor_proficiencies = string[],
-  
+
   -- Abilities
   abilities = string[],           -- Unique abilities
   class_abilities = Skill[],      -- Available skills
   ability_unlock_rank = table,    -- {ability_id: unlock_rank}
-  
+
   -- Progression
   promotes_to = string[],         -- Available specializations
   requires_trait = string | nil,  -- Trait requirement
@@ -447,12 +447,12 @@ Trait = {
   id = string,                    -- "smart", "brave", "weak"
   name = string,                  -- "Smart", "Brave"
   description = string,           -- Effect description
-  
+
   -- Effects
   stat_modifiers = table,         -- {stat: multiplier}
   ability_bonus = string[],       -- Bonus abilities
   weakness = string,              -- Paired weakness
-  
+
   -- Gameplay
   is_positive = boolean,
   is_negative = boolean,
@@ -472,17 +472,17 @@ Skill = {
   id = string,                    -- "critical_shot", "first_aid"
   name = string,
   description = string,
-  
+
   -- Requirements
   required_class = string | nil,  -- Exclusive to class?
   required_rank = number,         -- Minimum rank to unlock
   required_xp = number,           -- Minimum XP
-  
+
   -- Mechanics
   effect = string,                -- Combat effect
   ap_cost = number,               -- Action point cost
   cooldown = number,              -- Turns before can use again
-  
+
   -- Stats
   accuracy_bonus = number,
   damage_bonus = number,
@@ -720,13 +720,13 @@ Pilot = {
   name = string,                  -- Pilot name
   type = string,                  -- "pilot"
   class = string,                 -- "pilot", "fighter_pilot", "bomber_pilot", "helicopter_pilot"
-  
+
   -- Pilot-Specific Progression
   rank = number,                  -- 0 (Rookie), 1 (Veteran), 2 (Ace)
   current_rank = number,          -- Current rank ID
   current_xp = number,            -- XP in current rank
   total_xp_earned = number,       -- Total XP across all ranks
-  
+
   -- Base Stats (Aviation Focused)
   speed = number,                 -- Reaction time (default 8)
   aim = number,                   -- Shooting accuracy (default 7)
@@ -735,7 +735,7 @@ Pilot = {
   energy = number,                -- Mental focus (default 7)
   wisdom = number,                -- Tactical awareness (default 6)
   psi = number,                   -- Psionic resistance (default 4)
-  
+
   -- Pilot-Specific Data
   missions = number,              -- Interception missions participated in
   kills = number,                 -- Enemy craft destroyed
@@ -743,7 +743,7 @@ Pilot = {
   defeats = number,               -- Defeats/withdrawals
   created_at = number,            -- Unix timestamp of recruitment
   last_mission = number | nil,    -- Last mission date
-  
+
   -- Craft Assignment
   assigned_craft = string | nil,  -- Craft ID if assigned
 }
@@ -849,7 +849,7 @@ Perk = {
   description = string,           -- "Can wield two weapons simultaneously"
   category = string,              -- "basic", "combat", "movement", "defense", "special", "resistance", "skill", "trait"
   enabled = bool,                 -- true if registered
-  
+
   -- Optional modifiers
   accuracy_bonus = number | nil,  -- +/-% accuracy
   accuracy_penalty = number | nil,
@@ -1000,14 +1000,14 @@ local unit = UnitManager.recruitUnit("rifleman", 0)
 
 if unit then
   print("Recruited: " .. unit:getName())
-  
+
   -- Equip starting gear
   local rifle = ItemSystem.createItem("rifle_standard")
   local armor = ItemSystem.createItem("light_armor")
-  
+
   unit:equipWeapon(rifle)
   unit:equipArmor(armor)
-  
+
   print("Equipment: " .. unit:getEquippedWeapon().name)
 end
 ```
@@ -1136,42 +1136,42 @@ UnitTransformation = {
   id = "transformation_sectoid_elite",
   name = "Elite Sectoid Evolution",
   unit_type = "sectoid",                      -- Base unit that can transform
-  
+
   -- Requirements
   required_level = 8,                         -- Must reach this level
   required_experience = 50000,                -- Alternative XP requirement
   required_kills = 100,                       -- Combat prerequisite
   required_missions = 10,                     -- Mission count prerequisite
   required_traits = {"leadership", "psi_talent"},  -- Must have certain traits
-  
+
   -- Transformation Effects
   stat_changes = {                            -- Permanent stat increases
     strength = 2,
     will = 3,
     intelligence = 1
   },
-  
+
   health_increase = 20,                       -- Additional max HP
   armor_bonus = 5,                            -- Extra defense
-  
+
   new_abilities = {                           -- Abilities gained
     "psi_lance",
     "mind_shield",
     "heightened_reflexes"
   },
-  
+
   ability_improvements = {                    -- Existing abilities enhanced
     {ability = "plasma_shot", damage_bonus = 0.2},
     {ability = "shoot", accuracy_bonus = 0.1}
   },
-  
+
   specialization_change_allowed = true,       -- Can switch specialization
   appearance_changes = {                      -- Visual updates
     armor_variant = "elite_carapace",
     helmet_variant = "command_helm",
     color_scheme = "red_and_gold"
   },
-  
+
   transformation_time_hours = 24              -- Time to complete transformation
 }
 ```
@@ -1288,35 +1288,35 @@ special_abilities = ["veteran_tactics", "inspire_confidence"]
 function getAvailableSpecializations(unit)
   -- Different specializations available based on base class and attributes
   local available = {}
-  
+
   -- Strength-based specializations
   if unit.strength >= 10 then
     table.insert(available, "assault")
     table.insert(available, "heavy_weapons")
   end
-  
+
   -- Dexterity-based specializations
   if unit.dexterity >= 10 then
     table.insert(available, "scout")
     table.insert(available, "sniper")
   end
-  
+
   -- Intelligence-based specializations
   if unit.intelligence >= 10 then
     table.insert(available, "technician")
     table.insert(available, "hacker")
   end
-  
+
   -- Will-based specializations
   if unit.will >= 10 then
     table.insert(available, "psi_operative")
     table.insert(available, "commander")
   end
-  
+
   -- Support specializations (no stat requirement)
   table.insert(available, "medic")
   table.insert(available, "support")
-  
+
   return available
 end
 
@@ -1324,13 +1324,13 @@ function changeSpecialization(unit, new_specialization)
   -- Specialization change allows ability repositioning
   local old_abilities = unit:getAbilities()
   local specialization_data = SPECIALIZATIONS[new_specialization]
-  
+
   unit.specialization = new_specialization
-  
+
   -- Retain some core abilities (not spec-specific)
   -- Remove spec-specific abilities from old spec
   -- Add new spec abilities
-  
+
   return true
 end
 ```
@@ -1348,18 +1348,18 @@ function calculateRecruitmentCost(unit_type, rank, experience)
     alien_captive = 5000,
     clone = 2000
   }
-  
+
   local base_cost = base_costs[unit_type] or 1500
-  
+
   -- Higher rank costs more
   local rank_multiplier = 1.0 + (rank * 0.5)  -- 1.0x at rank 0, 3.5x at rank 6
-  
+
   -- Experience/training cost
   local training_cost = experience / 10  -- Every 10 XP = 1 credit investment
-  
+
   -- Total cost
   local total_cost = (base_cost * rank_multiplier) + training_cost
-  
+
   return total_cost
 end
 ```
@@ -1368,7 +1368,7 @@ end
 ```lua
 function getRecruitmentOptions(player_state)
   local options = {}
-  
+
   -- Standard recruitment from military sources
   if player_state.has_military_contacts then
     table.insert(options, {
@@ -1379,7 +1379,7 @@ function getRecruitmentOptions(player_state)
       training_time = 5
     })
   end
-  
+
   -- Elite recruitment from special forces
   if player_state.has_elite_contacts then
     table.insert(options, {
@@ -1390,7 +1390,7 @@ function getRecruitmentOptions(player_state)
       training_time = 2
     })
   end
-  
+
   -- Captured aliens
   if player_state.has_captured_aliens then
     table.insert(options, {
@@ -1401,7 +1401,7 @@ function getRecruitmentOptions(player_state)
       training_time = 10
     })
   end
-  
+
   -- Clone recruitment (requires technology)
   if player_state.has_cloning_tech then
     table.insert(options, {
@@ -1412,7 +1412,7 @@ function getRecruitmentOptions(player_state)
       training_time = 8
     })
   end
-  
+
   return options
 end
 ```
@@ -1428,33 +1428,33 @@ function acquireTraitDuringTransformation(unit, transformation)
     {name = "gunslinger", rate = 0.1},
     {name = "hard_target", rate = 0.2},
     {name = "mayhem", rate = 0.1},
-    
+
     -- Survival traits
     {name = "will_to_survive", rate = 0.25},
     {name = "dense", rate = 0.15},
     {name = "resilience", rate = 0.2},
-    
+
     -- Psi traits
     {name = "psi_talent", rate = 0.05},
     {name = "weak_psi", rate = 0.15},
-    
+
     -- Leadership traits
     {name = "leader", rate = 0.1},
     {name = "command_presence", rate = 0.08}
   }
-  
+
   local acquired_traits = {}
-  
+
   for _, trait_info in ipairs(possible_traits) do
     if math.random() < trait_info.rate then
       table.insert(acquired_traits, trait_info.name)
     end
   end
-  
+
   for _, trait in ipairs(acquired_traits) do
     unit:addTrait(trait)
   end
-  
+
   return acquired_traits
 end
 ```
@@ -1568,7 +1568,7 @@ end
 
 ---
 
-**Last Updated:** October 22, 2025  
-**API Status:** ✅ COMPLETE  
-**Coverage:** 100% (All entities, functions, TOML, examples, progression system documented)  
+**Last Updated:** October 22, 2025
+**API Status:** ✅ COMPLETE
+**Coverage:** 100% (All entities, functions, TOML, examples, progression system documented)
 **Consolidation:** UNITS_DETAILED + UNITS_EXPANDED merged into single comprehensive module

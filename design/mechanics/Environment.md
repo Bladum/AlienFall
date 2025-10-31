@@ -1,8 +1,8 @@
 # Environment & Terrain System
 
-> **Status**: Design Document  
-> **Last Updated**: 2025-10-28  
-> **Related Systems**: Battlescape.md, Assets.md, Geoscape.md  
+> **Status**: Design Document
+> **Last Updated**: 2025-10-28
+> **Related Systems**: Battlescape.md, Assets.md, Geoscape.md
 > **Source Note**: This file consolidates environment information from Battlescape.md (Environmental Systems, Weather, Terrain), Assets.md (Environmental art), and map generation mechanics
 
 ## Table of Contents
@@ -869,3 +869,60 @@ Biomes determine terrain type distribution and environmental conditions:
 - Destruction calculations efficient
 - Weather overlay lightweight
 
+---
+
+## Examples
+
+- Scenario: Heavy fog mission where players must rely on flares; validate visibility modifiers and UI indicators.
+- Scenario: Forest biome fire spreads; test fire spread rate and cover destruction to ensure tactical fairness.
+
+---
+
+## Balance Parameters
+
+| Parameter | Default | Range | Notes |
+|---|---:|---|---|
+| Fire spread chance | 30% | 10-50% | Per-adjacent-turn ignition chance |
+| Smoke duration | 5 turns | 2-12 turns | Controls concealment windows |
+| Blizzard visibility penalty | +3 sight cost | +1 to +4 | Scales difficulty in arctic missions |
+
+---
+
+## Difficulty Scaling
+
+- Easy: Reduced hazard damage, slower spread, and milder weather effects.
+- Normal: Standard values as specified above.
+- Hard: Increased hazard damage and spread; weather durations extended.
+
+---
+
+## Testing Scenarios
+
+- [ ] Weather Effects: Verify weather modifiers (movement, accuracy, visibility) apply correctly.
+- [ ] Hazard Spread: Test deterministic fire/smoke/gas spread in scripted maps.
+- [ ] Destruction Edge Cases: Validate destructible walls and rubble interactions.
+
+---
+
+## Related Features
+
+- Battlescape.md — combat interactions and map generation
+- Assets.md — environmental art assets and tilesets
+- Geoscape.md — biome prevalence and strategic effects
+
+---
+
+## Implementation Notes
+
+- Use cellular automata with capped iteration per-turn for fire/smoke to avoid performance spikes. Telemetry hooks for per-turn hazard counts to identify hotspots.
+- Ensure hazard visuals are decoupled from simulation frequency (visual smoothing) to preserve performance.
+
+---
+
+## Review Checklist
+
+- [ ] Terrain types and movement costs defined
+- [ ] Hazard mechanics specified and telegraphed
+- [ ] Weather modifiers validated against combat balance
+- [ ] Destructible terrain behaviour tested
+- [ ] Performance budget respected for environmental systems

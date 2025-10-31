@@ -31,7 +31,7 @@
 -- Explosion System (Vertical Axial)
 -- Handles area-of-effect damage with hex-based blast radius
 
-local HexMath = require("engine.battlescape.battle_ecs.hex_math")
+local HexMath = require("battlescape.battle_ecs.hex_math")
 local DamageSystem = require("battlescape.combat.damage_system")
 
 local ExplosionSystem = {}
@@ -53,7 +53,7 @@ function ExplosionSystem.new(battlefield, damageSystem, fireSystem, smokeSystem)
     print("[ExplosionSystem] Initializing explosion system")
 
     local self = setmetatable({}, ExplosionSystem)
-    
+
     self.battlefield = battlefield
     self.damageSystem = damageSystem or DamageSystem.new()
     self.fireSystem = fireSystem
@@ -91,13 +91,13 @@ function ExplosionSystem:createExplosion(epicenterQ, epicenterR, power, dropoff,
         animationTimer = 0,      -- Timer for ring animation
         complete = false         -- Is explosion finished
     }
-    
+
     -- Calculate damage propagation
     self:calculatePropagation(explosion)
-    
+
     -- Add to active explosions for animation
     table.insert(self.activeExplosions, explosion)
-    
+
     return explosion
 end
 
@@ -114,24 +114,24 @@ function ExplosionSystem:calculatePropagation(explosion)
         power = explosion.power,
         ring = 0
     })
-    
+
     local key = string.format("%d,%d", explosion.q, explosion.r)
     visited[key] = explosion.power
-    
+
     -- BFS flood-fill with hex distance
     while #queue > 0 do
         local current = table.remove(queue, 1)
-        
+
         -- Safety check
         if current.ring > ExplosionSystem.MAX_PROPAGATION_DISTANCE then
             break
         end
-        
+
         -- Stop if power is depleted
         if current.power <= 0 then
             goto continue
         end
-        
+
         -- Store this hex in the appropriate ring
         if not explosion.rings[current.ring] then
             explosion.rings[current.ring] = {}
@@ -141,24 +141,24 @@ function ExplosionSystem:calculatePropagation(explosion)
             r = current.r,
             power = current.power
         })
-        
+
         -- Get hex neighbors using HexMath (returns 6 adjacent hexes)
         local neighbors = HexMath.getNeighbors(current.q, current.r)
 
         -- Limit propagation: epicenter hits all 6 neighbors, others hit max 3
         local maxNeighbors = (current.ring == 0) and 6 or 3
         local neighborCount = 0
-        
+
         for _, neighbor in ipairs(neighbors) do
             if neighborCount >= maxNeighbors then
                 break
             end
-            
+
             local nq, nr = neighbor.q, neighbor.r
 
             -- Calculate power after propagation
             local reducedPower = current.power - explosion.dropoff
-            
+
             -- Apply obstacle absorption
             reducedPower = self:applyObstacleAbsorption(nq, nr, reducedPower)
 
@@ -168,22 +168,22 @@ function ExplosionSystem:calculatePropagation(explosion)
                 -- Only visit if we haven't been here or if this path has more power
                 if not visited[neighborKey] or visited[neighborKey] < reducedPower then
                     visited[neighborKey] = reducedPower
-                    
+
                     table.insert(queue, {
                         q = nq,
                         r = nr,
                         power = reducedPower,
                         ring = current.ring + 1
                     })
-                    
+
                     neighborCount = neighborCount + 1
                 end
             end
         end
-        
+
         ::continue::
     end
-    
+
     print("[ExplosionSystem] Propagation calculated: " .. #explosion.rings .. " rings")
 end
 
@@ -213,7 +213,7 @@ function ExplosionSystem:applyObstacleAbsorption(x, y, power)
     if not self.battlefield then
         return power
     end
-    
+
     -- Check for units at this location
     local unit = self.battlefield:getUnitAt(x, y)
     if unit and unit.armor then
@@ -221,7 +221,7 @@ function ExplosionSystem:applyObstacleAbsorption(x, y, power)
         power = power - armorValue
         print("[ExplosionSystem] Unit absorbed " .. armorValue .. " power at (" .. x .. "," .. y .. ")")
     end
-    
+
     -- Check for terrain/walls
     local tile = self.battlefield:getTile(x, y)
     if tile and tile.armor then
@@ -229,7 +229,7 @@ function ExplosionSystem:applyObstacleAbsorption(x, y, power)
         power = power - terrainArmor
         print("[ExplosionSystem] Terrain absorbed " .. terrainArmor .. " power at (" .. x .. "," .. y .. ")")
     end
-    
+
     return math.max(0, power)
 end
 
@@ -239,27 +239,27 @@ function ExplosionSystem:update(dt)
     local i = 1
     while i <= #self.activeExplosions do
         local explosion = self.activeExplosions[i]
-        
+
         if not explosion.complete then
             explosion.animationTimer = explosion.animationTimer + dt
-            
+
             -- Check if it's time to process the next ring
             if explosion.animationTimer >= ExplosionSystem.RING_DELAY then
                 explosion.animationTimer = 0
                 explosion.currentRing = explosion.currentRing + 1
-                
+
                 -- Process damage for this ring
                 if explosion.rings[explosion.currentRing] then
                     self:processRingDamage(explosion, explosion.currentRing)
                 else
                     -- No more rings, explosion complete
                     explosion.complete = true
-                    
+
                     -- Process chain explosions
                     self:processChainExplosions(explosion)
                 end
             end
-            
+
             i = i + 1
         else
             -- Remove completed explosion
@@ -274,9 +274,9 @@ end
 function ExplosionSystem:processRingDamage(explosion, ringIndex)
     local ring = explosion.rings[ringIndex]
     if not ring then return end
-    
+
     print("[ExplosionSystem] Processing ring " .. ringIndex .. " with " .. #ring .. " tiles")
-    
+
     for _, tile in ipairs(ring) do
         -- Apply damage to units at this location
         if self.battlefield then
@@ -291,17 +291,17 @@ function ExplosionSystem:processRingDamage(explosion, ringIndex)
                     moraleRatio = 0.0,
                     energyRatio = 0.0
                 }
-                
+
                 self.damageSystem:resolveDamage(projectile, unit)
             end
-            
+
             -- Check for explosive terrain (for chain reactions)
             local terrain = self.battlefield:getTile(tile.x, tile.y)
             if terrain and terrain.explosive then
                 self:queueChainExplosion(tile.x, tile.y, terrain.explosivePower or 5, 2)
             end
         end
-        
+
         -- Create fire if enabled
         if explosion.createFire and self.fireSystem then
             local terrain = self.battlefield:getTile(tile.x, tile.y)
@@ -309,7 +309,7 @@ function ExplosionSystem:processRingDamage(explosion, ringIndex)
                 self.fireSystem:startFire(tile.x, tile.y)
             end
         end
-        
+
         -- Create smoke if enabled
         if explosion.createSmoke and self.smokeSystem then
             local terrain = self.battlefield:getTile(tile.x, tile.y)
@@ -327,7 +327,7 @@ end
 -- @param dropoff number Power dropoff
 function ExplosionSystem:queueChainExplosion(x, y, power, dropoff)
     print("[ExplosionSystem] Queueing chain explosion at (" .. x .. "," .. y .. ")")
-    
+
     table.insert(self.chainExplosionQueue, {
         x = x,
         y = y,
@@ -342,13 +342,13 @@ function ExplosionSystem:processChainExplosions(triggerExplosion)
     if #self.chainExplosionQueue == 0 then
         return
     end
-    
+
     print("[ExplosionSystem] Processing " .. #self.chainExplosionQueue .. " chain explosions")
-    
+
     -- Process all queued chains
     while #self.chainExplosionQueue > 0 do
         local chain = table.remove(self.chainExplosionQueue, 1)
-        self:createExplosion(chain.x, chain.y, chain.power, chain.dropoff, 
+        self:createExplosion(chain.x, chain.y, chain.power, chain.dropoff,
                            triggerExplosion.damageClass, true, true)
     end
 end
@@ -374,29 +374,3 @@ function ExplosionSystem:getDebugInfo()
 end
 
 return ExplosionSystem
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

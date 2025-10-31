@@ -1,8 +1,9 @@
 # Items System
 
-> **Status**: Design Document  
-> **Last Updated**: 2025-10-28  
-> **Related Systems**: Units.md, Crafts.md, Economy.md, Battlescape.md
+> **Status**: Design Document
+> **Last Updated**: 2025-10-28
+> **Related Systems**: Units.md, Crafts.md, Economy.md, Battlescape.md, DamageTypes.md
+> **⚠️ CANONICAL REFERENCE**: For damage types, armor resistance, and weapon damage mechanics, see **DamageTypes.md**
 
 ## Table of Contents
 
@@ -18,6 +19,13 @@
 - [Special Item Types](#special-item-types)
 - [Economy & Trading](#economy--trading)
 - [Appendix: Quick Reference](#appendix-quick-reference)
+- [Examples](#examples)
+- [Balance Parameters](#balance-parameters)
+- [Difficulty Scaling](#difficulty-scaling)
+- [Testing Scenarios](#testing-scenarios)
+- [Related Features](#related-features)
+- [Implementation Notes](#implementation-notes)
+- [Review Checklist](#review-checklist)
 
 ---
 
@@ -101,6 +109,8 @@ Weapons, armor, and consumable items that soldiers carry into battle. Equipment 
 
 #### Unit Weapons
 
+*For complete unit stat definitions, ranges, and bonus calculations, see [MASTER_STAT_TABLE.md](../MASTER_STAT_TABLE.md).*
+
 **Characteristics**:
 - Weapons have AP (Action Point) cost and EP (Energy Point) cost
 - Range, accuracy, and damage vary by weapon type
@@ -145,17 +155,26 @@ Weapons, armor, and consumable items that soldiers carry into battle. Equipment 
 
 Protective gear that reduces incoming damage and may provide tactical bonuses or penalties.
 
+**Strength Requirements for Armor**:
+- **Light Scout**: STR 5 (minimum requirement)
+- **Combat Armor**: STR 7 (standard requirement)
+- **Heavy Assault**: STR 10 (strength requirement - bulky equipment)
+- **Hazmat Suit**: STR 6 (standard requirement)
+- **Stealth Suit**: STR 5 (light requirement)
+- **Medic Armor**: STR 6 (standard requirement)
+- **Sniper Ghillie**: STR 6 (standard requirement)
+
 **Armor Types & Statistics**:
 
-| Armor Type | Movement Penalty | AP Penalty | Armor Value | Accuracy Penalty | Cost | Notes |
-|------------|------------------|-----------|-------------|------------------|------|-------|
-| Light Scout | +1 hex/turn | 0 | +5 | +5% | 8K | Mobility-focused |
-| Combat Armor | -1 hex/turn | -1 AP | +15 | -5% | 15K | Balanced |
-| Heavy Assault | -2 hex/turn | -2 AP | +25 | -10% | 25K | Tanking specialist |
-| Hazmat Suit | Varies | Varies | +10 | Varies | 12K | +100% poison resistance |
-| Stealth Suit | Varies | Varies | +8 | +20% stealth | 20K | Infiltration-focused |
-| Medic Armor | Varies | Varies | +8 | Varies | 10K | +50% healing potency |
-| Sniper Ghillie | Varies | Varies | +10 | +10% accuracy, +1 sight | 18K | Marksman-optimized |
+| Armor Type | Movement Penalty | AP Penalty | Armor Value | Accuracy Penalty | Strength Req | Cost | Notes |
+|------------|------------------|-----------|-------------|------------------|--------------|------|-------|
+| Light Scout | +1 hex/turn | 0 | +5 | +5% | STR 5 | 8K | Mobility-focused |
+| Combat Armor | -1 hex/turn | -1 AP | +15 | -5% | STR 7 | 15K | Balanced |
+| Heavy Assault | -2 hex/turn | -2 AP | +25 | -10% | STR 10 | 25K | Tanking specialist |
+| Hazmat Suit | Varies | Varies | +10 | Varies | STR 6 | 12K | +100% poison resistance |
+| Stealth Suit | Varies | Varies | +8 | +20% stealth | STR 5 | 20K | Infiltration-focused |
+| Medic Armor | Varies | Varies | +8 | Varies | STR 6 | 10K | +50% healing potency |
+| Sniper Ghillie | Varies | Varies | +10 | +10% accuracy, +1 sight | STR 6 | 18K | Marksman-optimized |
 
 **Armor Mechanics**:
 - Armor Value represents damage reduction (1 point = 1 damage absorbed)
@@ -163,11 +182,12 @@ Protective gear that reduces incoming damage and may provide tactical bonuses or
 - Each armor type sets resistances to Kinetic, Energy, and Hazard damage types unless overridden by special armor
 - Unit race determines default resistances if armor doesn't specify them
 - Each armor type may provide class synergies (bonuses/penalties based on unit class)
+- **Strength penalties**: Units below strength requirement suffer movement penalties (-1 hex/turn per 2 points below requirement)
 
 **Class Synergy Examples**:
 - Medic + Medikit: +50% healing effectiveness
 - Non-specialist + Heavy Cannon: -30% accuracy penalty
-- Specialist units unlock access to more powerful equipment
+- Class Mismatch = Accuracy penalty (-30%), potential other penalties
 
 ### 4. **Craft Equipment**
 
@@ -229,17 +249,7 @@ Living captured units held at base for research, interrogation, and potential tr
 
 **Karma Impact**:
 - Releasing prisoners: +Karma, -Credits
-- Selling prisoners: +Credits, -Karma, may damage faction relations
-- Executing prisoners: Severe -Karma impact
-- Playing "good" vs "evil" faction determines optimal strategy
-
-### 6. **Corpses**
-
-Deceased unit remains converted into collectible items, enabling research and analysis.
-
-**Mechanics**:
-- When any unit dies, its body converts into a "Corpse of [Race]" item
-- Items equipped by the deceased unit are dropped at the death location
+- Selling prisoners: +Credits, -Karma, may damage
 - Each race has exactly one corpse type (all human corpses are identical)
 - Corpses can be researched to provide genetic/biological insights
 - Living captured units of a race enable class analysis (prisoner interrogation)
@@ -253,6 +263,222 @@ Deceased unit remains converted into collectible items, enabling research and an
 ### 7. **Other Items**
 
 Miscellaneous items with no direct game mechanics—collectibles, trophies, or narrative objects without functional use.
+
+---
+
+EQUIPMENT CLASSES:
+- Light: High mobility, low protection
+- Medium: Balanced
+- Heavy: High protection, low mobility
+- Specialized: Unique properties
+
+"Equipment combinations can provide tactical advantages"
+
+---
+
+## Equipment Class Synergy System
+
+### Equipment Classes
+
+Equipment is categorized into four classes that determine tactical role and interaction bonuses:
+
+**Light Equipment** (High Mobility, Low Protection):
+- Weapons: Pistols, SMGs, light rifles
+- Armor: Scout armor, stealth suits, light fatigues
+- Tactical Role: Mobile skirmishers, scouts, infiltrators
+- Examples: Light Scout armor, pistol, SMG
+
+**Medium Equipment** (Balanced):
+- Weapons: Standard rifles, shotguns, assault weapons
+- Armor: Combat armor, standard fatigues
+- Tactical Role: Versatile infantry, jack-of-all-trades
+- Examples: Combat Armor, rifle, shotgun
+
+**Heavy Equipment** (High Protection, Low Mobility):
+- Weapons: Heavy cannons, battle rifles, rocket launchers
+- Armor: Heavy assault armor, power armor
+- Tactical Role: Assault troops, tanking specialists
+- Examples: Heavy Assault armor, heavy cannon, battle rifle
+
+**Specialized Equipment** (Unique Properties):
+- Weapons: Plasma weapons, alien tech, psionic devices
+- Armor: Hazmat suits, medic armor, sniper ghillie
+- Tactical Role: Support roles, exotic capabilities
+- Examples: Plasma rifle, hazmat suit, medic armor
+
+### Armor Mobility Penalties
+
+Armor class determines movement penalties (Time Units per hex):
+
+**Light Armor**: +5 TU movement cost per hex (most mobile)
+**Medium Armor**: +10 TU movement cost per hex (balanced)
+**Heavy Armor**: +20 TU movement cost per hex (least mobile)
+**Specialized Armor**: Variable (see individual armor specs)
+
+### Synergy Bonuses (Class Matching)
+
+When armor class matches primary weapon class, units receive bonuses:
+
+**Light + Light Synergy**:
+- +10% accuracy (lighter equipment, easier to aim)
+- +15% movement speed (optimized for mobility)
+- -5% armor effectiveness (tradeoff for speed)
+
+**Medium + Medium Synergy**:
+- 0% accuracy modifier (balanced baseline)
+- 0% movement speed modifier (balanced baseline)
+- 0% armor effectiveness modifier (balanced baseline)
+
+**Heavy + Heavy Synergy**:
+- -10% accuracy (harder to aim while heavily equipped)
+- -15% movement speed (heavy equipment slows movement)
+- +20% armor effectiveness (protection synergy)
+
+**Specialized + Specialized Synergy**:
+- Varies per item (see specialized equipment specs)
+- Generally: +10% special ability effectiveness
+
+### Mismatch Penalties (Class Not Matching)
+
+When armor class doesn't match primary weapon class, units suffer penalties:
+
+**Light Armor + Heavy Weapon**:
+- -15% accuracy (weapon imbalance, lighter user struggles with heavy weapon)
+- Normal movement speed
+- Risk: User exposed (lighter protection against heavy weapon recoil)
+- -15% armor effectiveness (too light for weapon)
+
+**Heavy Armor + Light Weapon**:
+- -5% accuracy (heavy armor slows aim despite lighter weapon)
+- -20 TU movement cost (heavy armor full penalty)
+- Benefit: Excellent protection despite weak weapon
+- Normal armor effectiveness
+
+**Medium + Mismatched**:
+- Moderate penalties depending on direction
+- -7% accuracy (slight imbalance)
+- Normal movement and armor
+
+### Armor Effectiveness Formula
+
+Base armor value is modified by class synergy:
+
+```
+Final Armor = Base Armor × (1 + (Armor Class - 1) × 0.25) × Synergy Modifier
+```
+
+**Armor Class Values**:
+- Light: Class 1
+- Medium: Class 2
+- Heavy: Class 3
+- Specialized: Variable (see item specs)
+
+**Synergy Modifiers**:
+- Matched: ×1.0 to ×1.2 (depending on class)
+- Mismatched: ×0.85 to ×0.95 (depending on severity)
+- Specialized: Variable per item
+
+### Complete Synergy Examples
+
+**Light Scout Build** (Light Armor + Light Weapon):
+```
+Base Armor: 30
+Class Multiplier: (1 + (1-1) × 0.25) = 1.0
+Synergy: ×1.0 (matched, but Light tradeoff)
+Final Armor: 30 × 1.0 × 1.0 = 30
+Accuracy: +10%
+Movement: +15%
+Result: Mobile, accurate, fragile
+```
+
+**Heavy Tank Build** (Heavy Armor + Heavy Weapon):
+```
+Base Armor: 80
+Class Multiplier: (1 + (3-1) × 0.25) = 1.5
+Synergy: ×1.2 (Heavy protection bonus)
+Final Armor: 80 × 1.5 × 1.2 = 144
+Accuracy: -10%
+Movement: -15%
+Result: Slow, inaccurate, extremely protected
+```
+
+**Medium Balanced Build** (Medium Armor + Medium Weapon):
+```
+Base Armor: 50
+Class Multiplier: (1 + (2-1) × 0.25) = 1.25
+Synergy: ×1.0 (balanced baseline)
+Final Armor: 50 × 1.25 × 1.0 = 62.5
+Accuracy: 0%
+Movement: 0%
+Result: Balanced, reliable, no bonuses or penalties
+```
+
+**Mismatched Light + Heavy** (Light Armor + Heavy Weapon):
+```
+Base Armor: 30
+Class Multiplier: (1 + (1-1) × 0.25) = 1.0
+Synergy: ×0.85 (severe mismatch penalty)
+Final Armor: 30 × 1.0 × 0.85 = 25.5
+Accuracy: -15%
+Movement: Normal
+Result: Weak weapon, exposed, dangerous combination
+```
+
+### Player Communication
+
+Equipment screen displays synergy status:
+
+**Synergy Status Indicators**:
+- ✓ **Matched**: Green, shows synergy bonuses
+- ⚠️ **Mismatched**: Yellow, shows mismatch penalties
+- ⭐ **Specialized**: Blue, shows unique modifiers
+
+**Modifier Display**:
+- Current accuracy modifier (synergy/mismatch)
+- Current mobility modifier (armor penalty)
+- Current armor value (calculated with synergy)
+- Synergy status description
+
+### Balancing Through Synergy
+
+**Encourages Fitting Builds**:
+- Light armor → Light weapons (mobile skirmishers)
+- Heavy armor → Heavy weapons (slow tanks)
+- Medium everything (versatile but unoptimized)
+
+**Punishes Over-Specialization**:
+- Heaviest armor + heaviest weapon = very slow but tanky
+- Lightest armor + lightest weapon = very fast but fragile
+- Creates meaningful tactical tradeoffs
+
+**Rewards Versatility**:
+- Medium equipment = good balance, no bonuses but no penalties
+- Allows "jack-of-all-trades" playstyle
+- Easier for new players
+
+### Specialized Equipment Rules
+
+Each specialized item has unique synergy rules:
+
+**Hazmat Suit + Chemical Weapons**:
+- +100% poison resistance
+- +20% chemical weapon effectiveness
+- -10% movement (bulkier than standard armor)
+
+**Medic Armor + Medikit**:
+- +50% healing effectiveness
+- +25% medical item capacity
+- Normal movement penalties
+
+**Sniper Ghillie + Sniper Rifle**:
+- +15% accuracy (camouflage + precision)
+- +2 sight range
+- -5% movement (concealment materials)
+
+**Plasma Rifle + Power Armor**:
+- +25% plasma damage
+- +15% energy resistance
+- -25% movement (power requirements)
 
 ---
 
@@ -835,3 +1061,162 @@ Overflow/Surplus (sell, trade, or hold for future use)
 5. Dimensional War (Warp Crystal, Rift Matter)
 6. Ultimate Phase (Quantum Processor, Reality Anchor)
 7. Virtual/AI War (Data Core, Processing Power)
+
+---
+
+## Examples
+
+### Scenario 1: Early Game Equipment Dilemma
+**Setup**: Player acquires first alien weapons from UFO crash mission
+**Action**: Choose between equipping units immediately vs. researching for manufacturing
+**Result**: Research investment enables self-sufficiency but delays immediate combat power
+
+### Scenario 2: Resource Management Crisis
+**Setup**: Multiple bases competing for limited rare materials
+**Action**: Establish transfer routes and prioritize manufacturing queues
+**Result**: Optimized production across bases, avoiding resource bottlenecks
+
+### Scenario 3: Prisoner Research Ethics
+**Setup**: Captured alien commander with valuable research potential
+**Action**: Balance between interrogation research and diplomatic consequences
+**Result**: Advanced technology unlocks but strained faction relations
+
+### Scenario 4: Craft Loadout Optimization
+**Setup**: Interception mission with multiple UFO types
+**Action**: Equip craft with specialized weapons for different threat profiles
+**Result**: Improved interception success rates through tactical equipment choices
+
+---
+
+## Balance Parameters
+
+| Parameter | Value | Range | Reasoning | Difficulty Scaling |
+|-----------|-------|-------|-----------|-------------------|
+| Item Weight | 1-10 units | 0.5-20 | Carrying capacity limits | ×0.8 on Easy |
+| Durability Loss | 10% per use | 5-20% | Equipment longevity | ×0.7 on Easy |
+| Research Cost | 50-500 man-days | 25-1000 | Technology progression | ×0.75 on Easy |
+| Manufacturing Time | 7 days base | 3-14 | Production pacing | ×0.8 on Easy |
+| Salvage Value | 50% market | 25-75% | Recovery incentive | +10% on Easy |
+| Supplier Price | ±50% variance | -20% to +150% | Trading dynamics | ×0.9 on Easy |
+
+---
+
+## Difficulty Scaling
+
+### Easy Mode
+- Research costs: 25% reduction
+- Manufacturing time: 20% reduction
+- Durability loss: 30% reduction
+- Salvage value: +20% increase
+- Supplier prices: More favorable
+
+### Normal Mode
+- All parameters at standard values
+- Balanced research and production
+- Standard equipment longevity
+- Normal trading conditions
+
+### Hard Mode
+- Research costs: +25% increase
+- Manufacturing time: +25% increase
+- Durability loss: +20% increase
+- Salvage value: -15% reduction
+- Supplier prices: Less favorable
+
+### Impossible Mode
+- Research costs: +50% increase
+- Manufacturing time: +50% increase
+- Durability loss: +50% increase
+- Salvage value: -30% reduction
+- Equipment breaks more frequently
+- Limited supplier availability
+
+---
+
+## Testing Scenarios
+
+- [ ] **Equipment Durability**: Verify items degrade appropriately over use
+  - **Setup**: Unit equipped with weapon in extended combat
+  - **Action**: Use weapon through multiple missions
+  - **Expected**: Gradual performance degradation
+  - **Verify**: Accuracy and damage reductions over time
+
+- [ ] **Research Dependencies**: Test that items require proper research unlocks
+  - **Setup**: Attempt to manufacture advanced item
+  - **Action**: Try production without prerequisite research
+  - **Expected**: System blocks invalid manufacturing
+  - **Verify**: Error messages and blocked production
+
+- [ ] **Resource Management**: Verify carrying capacity and storage limits
+  - **Setup**: Unit with inventory capacity approaching limit
+  - **Action**: Attempt to pick up additional items
+  - **Expected**: Capacity limits enforced appropriately
+  - **Verify**: Item pickup restrictions and storage requirements
+
+- [ ] **Trading Economics**: Test supplier relations affect pricing
+  - **Setup**: Different supplier relationship levels
+  - **Action**: Purchase same item from various suppliers
+  - **Expected**: Price variations based on relations
+  - **Verify**: Cost calculations and relation impacts
+
+- [ ] **Salvage Processing**: Verify mission loot converts to usable items
+  - **Setup**: Mission completion with alien equipment
+  - **Action**: Process salvage through workshop
+  - **Expected**: Items become available for use/manufacture
+  - **Verify**: Inventory additions and research unlocks
+
+---
+
+## Related Features
+
+- **[Units System]**: Equipment assignment and inventory management (Units.md)
+- **[Crafts System]**: Vehicle equipment and cargo capacity (Crafts.md)
+- **[Economy System]**: Manufacturing and research mechanics (Economy.md)
+- **[Battlescape System]**: Equipment usage in combat (Battlescape.md)
+- **[Missions System]**: Salvage collection and item acquisition (Missions.md)
+
+---
+
+## Implementation Notes
+
+**Priority Systems**:
+1. Item categories and properties system
+2. Research gating and dependencies
+3. Manufacturing and production queues
+4. Durability and modification systems
+5. Trading and supplier relations
+
+**Balance Considerations**:
+- Research progression should feel meaningful but not frustrating
+- Equipment durability creates maintenance incentives
+- Resource management adds strategic depth
+- Trading system provides economic flexibility
+- Salvage creates risk/reward balance
+
+**Testing Focus**:
+- Research dependency validation
+- Equipment durability curves
+- Resource capacity limits
+- Trading price variations
+- Salvage conversion rates
+
+---
+
+## Review Checklist
+
+- [ ] Item categories clearly defined with distinct mechanics
+- [ ] Item properties and statistics specified
+- [ ] Durability system balanced and testable
+- [ ] Modification system allows meaningful customization
+- [ ] Acquisition and usage mechanics clear
+- [ ] Resources system supports progression phases
+- [ ] Unit equipment integration complete
+- [ ] Craft equipment mechanics specified
+- [ ] Special item types handled appropriately
+- [ ] Economy and trading systems balanced
+- [ ] Balance parameters quantified with reasoning
+- [ ] Difficulty scaling implemented
+- [ ] Testing scenarios comprehensive
+- [ ] Related systems properly linked
+- [ ] No undefined terminology
+- [ ] Implementation feasible

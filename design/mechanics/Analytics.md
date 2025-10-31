@@ -1,7 +1,7 @@
 # Analytics System
 
-> **Status**: Design Document  
-> **Last Updated**: 2025-10-28  
+> **Status**: Design Document
+> **Last Updated**: 2025-10-28
 > **Related Systems**: ai_systems.md, Economy.md, Units.md, Battlescape.md
 
 ## Table of Contents
@@ -153,7 +153,7 @@ Core tables created from log aggregation:
 **Automated Data Processing**
 ```sql
 -- Example aggregation: Weapon effectiveness by type
-SELECT 
+SELECT
   weapon_type,
   COUNT(*) as usage_count,
   SUM(hits) / SUM(shots_fired) as accuracy,
@@ -185,7 +185,7 @@ Aggregated data enables extraction of actionable insights. Analytics stage compa
 
 **Unit Class Balance**
 ```sql
-SELECT 
+SELECT
   unit_class,
   COUNT(*) as deployments,
   SUM(CASE WHEN survived THEN 1 ELSE 0 END) / COUNT(*) as survival_rate,
@@ -200,7 +200,7 @@ ORDER BY survival_rate DESC
 
 **Weapon Effectiveness**
 ```sql
-SELECT 
+SELECT
   weapon_id,
   weapon_name,
   COUNT(*) as shots_fired,
@@ -216,7 +216,7 @@ ORDER BY hit_rate DESC, kill_per_shot_percent DESC
 
 **Enemy AI Effectiveness**
 ```sql
-SELECT 
+SELECT
   faction_id,
   mission_type,
   COUNT(*) as missions_deployed,
@@ -233,7 +233,7 @@ ORDER BY faction_success_rate DESC
 
 **Research Efficiency**
 ```sql
-SELECT 
+SELECT
   research_category,
   COUNT(*) as projects_completed,
   AVG(actual_duration / expected_duration) as duration_ratio,
@@ -247,7 +247,7 @@ ORDER BY duration_ratio DESC
 
 **Manufacturing Profitability**
 ```sql
-SELECT 
+SELECT
   item_id,
   item_name,
   COUNT(*) as units_produced,
@@ -262,7 +262,7 @@ ORDER BY avg_profit_per_unit DESC
 
 **Funding Sustainability**
 ```sql
-SELECT 
+SELECT
   organization_id,
   MONTH(timestamp) as month,
   SUM(funding_received) as total_income,
@@ -279,7 +279,7 @@ ORDER BY net_balance ASC  -- Shows deficit months
 
 **Mission Success Patterns**
 ```sql
-SELECT 
+SELECT
   mission_type,
   difficulty_tier,
   COUNT(*) as total_missions,
@@ -296,7 +296,7 @@ ORDER BY success_rate ASC  -- Identify too-hard missions
 
 **Campaign Escalation Dynamics**
 ```sql
-SELECT 
+SELECT
   faction_id,
   campaign_month,
   COUNT(*) as total_campaigns,
@@ -313,7 +313,7 @@ ORDER BY faction_id, campaign_month
 
 **Player Decision Patterns**
 ```sql
-SELECT 
+SELECT
   decision_type,  -- research_priority, base_placement, craft_deployment
   chosen_option,
   COUNT(*) as frequency,
@@ -327,7 +327,7 @@ ORDER BY decision_type, frequency DESC
 
 **UI Interaction Heatmap**
 ```sql
-SELECT 
+SELECT
   ui_element,
   click_x,
   click_y,
@@ -344,7 +344,7 @@ ORDER BY click_frequency DESC
 
 **Execution Time Analysis**
 ```sql
-SELECT 
+SELECT
   operation_type,  -- pathfinding, map_generation, combat_resolution
   COUNT(*) as executions,
   AVG(duration_ms) as avg_duration,
@@ -359,7 +359,7 @@ ORDER BY avg_duration DESC
 
 **Memory Usage Patterns**
 ```sql
-SELECT 
+SELECT
   system_component,
   COUNT(*) as samples,
   AVG(memory_usage_mb) as avg_memory,
@@ -376,42 +376,19 @@ ORDER BY peak_memory DESC
 ## Stage 4: Insights & Visualization
 
 **Overview**
-Global metrics define success criteria for game design. They answer: "Is the game good?" across multiple dimensions. Metrics are defined in configuration (TOML) and automatically calculated from analytics data to track progress toward design goals.
+Global metrics define success criteria for game design. They answer: "Is the game good?" across multiple dimensions. Metrics are defined in configuration and automatically calculated from analytics data to track progress toward design goals.
 
-**Metric Configuration Schema** (TOML format)
-```toml
-[metric.combat_balance]
-name = "Combat System Balance"
-category = "gameplay"
-target_value = 95.0  # Target win rate variance < 5%
-description = "All unit classes have 45-55% win rate"
-queries = [
-  "SELECT MIN(win_rate), MAX(win_rate), (MAX(win_rate) - MIN(win_rate)) as variance FROM unit_class_stats"
-]
-acceptance_threshold = 5.0  # Variance must be under 5%
-priority = "critical"
+**Metric Configuration Schema**:
 
-[metric.research_pacing]
-name = "Research Progression Pacing"
-category = "progression"
-target_value = 120.0  # Total research tree 120 days
-description = "Research tree completes in 100-140 days"
-queries = [
-  "SELECT SUM(expected_duration) FROM research_tree WHERE is_required = true"
-]
-acceptance_threshold = 20.0  # ±20 days acceptable
-priority = "high"
+Metrics define name (human-readable title), category (gameplay/progression/technical), target value (success goal), and description. Examples include:
 
-[metric.fps_performance]
-name = "Frame Rate Performance"
-category = "technical"
-target_value = 60.0  # 60 FPS target
-description = "Game maintains 60 FPS at all times"
-queries = [
-  "SELECT PERCENTILE_CONT(0.95) WITHIN GROUP (ORDER BY fps) as p95_fps FROM performance_metrics"
-]
-acceptance_threshold = 55.0  # Minimum 55 FPS
-priority = "critical"
+**Combat Balance Metric**: Tracks if all unit classes maintain 45-55% win rates (target variance < 5%). Priority marked as critical to ensure fair combat mechanics.
+
+**Research Progression Metric**: Tracks total research tree completion time (target 100-140 days). Ensures pacing feels neither rushed nor tedious. Priority marked as high.
+
+**Frame Rate Performance Metric**: Tracks 95th percentile FPS (target ≥60 FPS, minimum acceptable 55 FPS). Critical for smooth gameplay experience.
+
+Each metric includes: acceptance threshold (allowed deviation from target), priority level (critical/high/medium/low), and query specifications for automatic calculation.
 
 [metric.ui_usability]
 name = "UI Interaction Success Rate"
@@ -619,7 +596,7 @@ All events timestamped and correlated for timeline analysis
 
 **UI Heatmap Generation**
 ```sql
-SELECT 
+SELECT
   ui_element,
   ROUND(click_x / 10) * 10 as grid_x,
   ROUND(click_y / 10) * 10 as grid_y,
@@ -635,7 +612,7 @@ LIMIT 100
 
 **Player Decision Time Analysis**
 ```sql
-SELECT 
+SELECT
   decision_type,
   COUNT(*) as decision_count,
   AVG(deliberation_time_seconds) as avg_time,
@@ -649,7 +626,7 @@ ORDER BY avg_time DESC
 
 **Item Usage Patterns**
 ```sql
-SELECT 
+SELECT
   item_id,
   item_name,
   COUNT(*) as usage_count,
@@ -664,7 +641,7 @@ ORDER BY usage_count DESC
 
 **Campaign Success vs. Failure Patterns**
 ```sql
-SELECT 
+SELECT
   CASE WHEN final_level >= 9 THEN 'Victory' ELSE 'Defeat' END as outcome,
   COUNT(*) as campaign_count,
   AVG(avg_campaign_duration_days) as avg_campaign_length,
@@ -687,7 +664,7 @@ By running identical metrics on both player and AI data, we identify where AI be
 
 ```sql
 -- Compare decision-making speed
-SELECT 
+SELECT
   'Player' as actor_type,
   AVG(deliberation_time_seconds) as avg_decision_time,
   COUNT(*) as decision_count
@@ -695,7 +672,7 @@ FROM player_decisions
 
 UNION ALL
 
-SELECT 
+SELECT
   'AI' as actor_type,
   AVG(deliberation_time_ms / 1000) as avg_decision_time,
   COUNT(*) as decision_count
@@ -704,7 +681,7 @@ FROM ai_decisions
 
 **Resource Management Comparison**
 ```sql
-SELECT 
+SELECT
   source,  -- 'player_session' vs 'ai_simulation'
   AVG(monthly_research_budget_percent) as avg_research_allocation,
   AVG(monthly_manufacturing_budget_percent) as avg_manufacturing_allocation,
@@ -716,7 +693,7 @@ GROUP BY source
 
 **Playstyle Divergence**
 ```sql
-SELECT 
+SELECT
   playstyle,  -- research_focused, manufacturing_focused, defense_focused, balanced
   source,
   COUNT(*) as adoption_count,
@@ -737,7 +714,7 @@ Beyond direct metric calculation, sophisticated queries identify emergent phenom
 **Synergy Discovery**
 ```sql
 -- Find facility adjacency bonuses with highest impact
-SELECT 
+SELECT
   facility_pair,
   COUNT(*) as bases_with_pair,
   AVG(production_with_adjacency) / AVG(production_without_adjacency) as efficiency_multiplier,
@@ -753,11 +730,11 @@ LIMIT 20
 **Skill Expression Analysis**
 ```sql
 -- Identify decisions where skilled players outperform
-SELECT 
+SELECT
   decision_type,
   SUM(CASE WHEN player_level > 50 AND successful THEN 1 ELSE 0 END) as high_skill_success,
   SUM(CASE WHEN player_level < 20 AND successful THEN 1 ELSE 0 END) as low_skill_success,
-  (SUM(CASE WHEN player_level > 50 AND successful THEN 1 ELSE 0 END) / 
+  (SUM(CASE WHEN player_level > 50 AND successful THEN 1 ELSE 0 END) /
    SUM(CASE WHEN player_level < 20 AND successful THEN 1 ELSE 0 END)) as skill_multiplier
 FROM player_decisions
 GROUP BY decision_type
@@ -768,7 +745,7 @@ ORDER BY skill_multiplier DESC
 **Meta-Game Evolution**
 ```sql
 -- Track dominant strategies over time
-SELECT 
+SELECT
   MONTH(session_date) as month,
   preferred_faction,
   preferred_playstyle,
@@ -783,13 +760,13 @@ HAVING rank <= 5  -- Top 5 strategies per month
 **Balance Oscillation Detection**
 ```sql
 -- Detect if balance patches overcorrect
-SELECT 
+SELECT
   patch_version,
   metric_name,
   metric_value_before,
   metric_value_after,
   ABS(metric_value_after - metric_target) as distance_from_target_after,
-  CASE 
+  CASE
     WHEN ABS(metric_value_after - metric_target) > ABS(metric_value_before - metric_target) THEN 'OVERCORRECTED'
     WHEN ABS(metric_value_after - metric_target) < ABS(metric_value_before - metric_target) THEN 'IMPROVED'
     ELSE 'NEUTRAL'
@@ -887,10 +864,10 @@ Recommendation: Pause AI simulations using Plasma Rifle, investigate TOML
 **Prediction & Planning**
 - "Will this change break the game?" → Impact simulation using multi-metric analysis
 - "What metric improvements compound?" → Correlation analysis across metrics
-- "What's the best way to improve?" → Action plan ranking by impact/effort 
+- "What's the best way to improve?" → Action plan ranking by impact/effort
 
-	
-	
+
+
 
 
 ---
@@ -913,3 +890,62 @@ The Analytics system collects data from and influences:
 - Map balance, spawn position fairness
 - Tactical effectiveness metrics
 **For complete system integration details, see [Integration.md](Integration.md)**
+
+---
+
+## Examples
+
+- Scenario: Automatic balance patch generation where weapon X becomes dominant; analytics pipeline detects >70% win rate and proposes TOML adjustments. Validate by re-running simulation and confirming metrics return within thresholds.
+- Scenario: Performance regression detected in Battlescape draw calls; analytics isolates component and generates ticket for engine profiling.
+
+---
+
+## Balance Parameters
+
+| Parameter | Default | Range | Notes |
+|---|---:|---|---|
+| Metric sample size threshold | 100 | 50-1000 | Minimum samples before metrics considered valid |
+| Alert win-rate threshold | 70% | 60-90% | Above/below triggers balance alert |
+| Performance p95 target (FPS) | 55 | 30-75 | Threshold for acceptable perf |
+
+---
+
+## Difficulty Scaling
+
+- Easy: Longer aggregation windows; relax alert thresholds by +10%.
+- Normal: Standard thresholds and sampling cadence.
+- Hard: Shorter sampling windows, stricter thresholds (−10% alert margin) to surface issues faster.
+
+---
+
+## Testing Scenarios
+
+- [ ] Data Ingestion: Verify logs from simulation and player sessions are accepted and parsed.
+- [ ] Metric Calculation: Run core metric queries and verify outputs against known fixtures.
+- [ ] Alerting: Inject synthetic anomaly and confirm alert is generated and action plan proposed.
+
+---
+
+## Related Features
+
+- [Integration.md] for pipeline hookup details
+- [Economy.md] for finance-related metrics
+- [Battlescape.md], [Geoscape.md] for source data of combat and map metrics
+
+---
+
+## Implementation Notes
+
+- Prefer idempotent ingestion (dedupe by event_id). Use DuckDB + Parquet for fast ad-hoc queries. Keep metric definitions in TOML for easy patch generation.
+- Ensure metric queries include sample-size guards and null handling.
+
+---
+
+## Review Checklist
+
+- [ ] Examples documented
+- [ ] Core metrics implemented in SQL
+- [ ] TOML metric definitions available
+- [ ] Alerting rules configured
+- [ ] Ingestion schema validated
+- [ ] Unit tests for key aggregations

@@ -127,8 +127,8 @@ This glossary consolidates all domain-specific terminology, abbreviations, and k
 
 ### Economics & Facility Management
 
-- **Facility Maintenance Cost**: The monthly operational cost of a facility (5-50K per facility); scales with facility size and complexity.
-- **Base Layout Maintenance**: The monthly cost to maintain base infrastructure; scales non-linearly with base size (5K × size²).
+- **Facility Maintenance Cost**: The monthly operational cost of a facility (2-15K per facility); scales with facility size and complexity.
+- **Base Layout Maintenance**: The monthly cost to maintain base infrastructure; scales non-linearly with base size (100K × size²).
 - **Craft Maintenance**: The monthly maintenance per craft (2K per craft).
 - **Facility State**: The operational status of a facility (Operational, Offline, Construction, Damaged, Destroyed); state determines production and maintenance costs.
 - **Power Shortage**: A state where power production is insufficient for all facilities; facilities switch offline in priority order (Research/Manufacturing/Support).

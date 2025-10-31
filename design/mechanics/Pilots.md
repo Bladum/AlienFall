@@ -1,9 +1,9 @@
 # Pilot System
 
-> **Status**: Technical Specification  
-> **Last Updated**: 2025-10-28  
-> **Related Systems**: Units.md, Crafts.md, Interception.md  
-> **⚠️ UNIFIED SPECIFICATION**: See **Units.md §Unified Pilot Specification** for canonical pilot mechanics  
+> **Status**: Technical Specification
+> **Last Updated**: 2025-10-28
+> **Related Systems**: Units.md, Crafts.md, Interception.md
+> **⚠️ UNIFIED SPECIFICATION**: See **Units.md §Unified Pilot Specification** for canonical pilot mechanics
 > **Purpose**: This file provides detailed pilot specialization and historical context. For core mechanics, refer to Units.md.
 
 ## Table of Contents
@@ -28,6 +28,8 @@
 - Only the PILOT unit provides craft bonuses (crew are just passengers)
 - Piloting is a stat (like Strength or Dexterity) that improves with XP/class/traits/equipment
 - Units can switch between pilot role and soldier role freely
+
+**Capacity Reference**: Pilot requirements and crew management defined in CRAFT_CAPACITY_MODEL.md
 
 ---
 
@@ -67,10 +69,14 @@
 
 ### Core Stat
 
-**Piloting** is a unit stat (0-100 range):
-- Base: 20-40 (random at recruitment)
-- Improved by: XP gain, class progression, traits, equipment
-- Affects: Craft accuracy, dodge, and special abilities
+**Piloting** is a unit stat (6-12 range for trained pilots, 0 for untrained):
+- **For complete stat definition, ranges, and bonus formulas, see [MASTER_STAT_TABLE.md](./MASTER_STAT_TABLE.md)**
+
+**Key Points**:
+- Base: 6-12 for pilot-class units (0 for non-pilots)
+- Improved by: XP gain, rank progression, traits, equipment
+- Affects: Craft accuracy, dodge, speed, and special abilities
+- Not a separate class: Any unit can train as pilot, gaining Piloting stat
 
 **Not a Separate Class**: There is no "Pilot Class" - just units with varying Piloting stats.
 
@@ -168,7 +174,7 @@ Example: Pilot with 60 Piloting = +12% accuracy
 - Enemy killed (air or ground): +10 XP per kill
 - Mission completion bonus: Varies by difficulty
 
-**No Separate Tracks**: 
+**No Separate Tracks**:
 - No "Pilot XP" vs "Ground XP" distinction
 - All XP contributes to unit rank and Piloting stat
 - Whether XP came from air or ground doesn't matter
@@ -218,7 +224,7 @@ Example:
 | Heavy Transport | 1 | 16 |
 | Submarine | 1 | 6 |
 
-**No Minimum Piloting Stat**: 
+**No Minimum Piloting Stat**:
 - Any unit can pilot any craft
 - Low Piloting = poor performance
 - High Piloting = excellent performance
@@ -305,3 +311,84 @@ Pilot system integrates with:
 - Craft grounded without qualified pilots
 - Pilot assignment affects mission availability
 **For complete system integration details, see [Integration.md](Integration.md)**
+
+## Examples
+
+### Scenario 1: Pilot Assignment
+**Setup**: Unit with high piloting stat available
+**Action**: Assign unit as pilot to craft
+**Result**: Craft gains piloting bonuses, unit provides combat modifiers
+
+### Scenario 2: Crew vs Pilot
+**Setup**: Craft with pilot and crew units
+**Action**: Engage in interception mission
+**Result**: Only pilot provides bonuses, crew gains XP but no modifiers
+
+## Balance Parameters
+
+| Parameter | Value | Range | Reasoning | Difficulty Scaling |
+|-----------|-------|-------|-----------|-------------------|
+| Base Piloting Stat | 6-12 | 1-20 | Standard skill range | +2 on Hard |
+| Pilot Bonus Multiplier | 1.5x | 1.2-2.0x | Combat effectiveness | +0.2x on Hard |
+| XP Gain Rate | 5-10 per mission | 3-15 | Progression balance | -2 on Easy |
+| Crew XP Share | 50% | 25-75% | Team development | +25% on Easy |
+
+## Difficulty Scaling
+
+### Easy Mode
+- Higher base piloting stats
+- Increased pilot bonuses
+- Faster XP progression
+
+### Normal Mode
+- Standard piloting mechanics
+- Balanced bonus multipliers
+- Normal XP rates
+
+### Hard Mode
+- Lower base piloting stats
+- Reduced pilot effectiveness
+- Slower skill progression
+
+### Impossible Mode
+- Minimum piloting capabilities
+- Severely reduced bonuses
+- Minimal XP gains
+
+## Testing Scenarios
+
+- [ ] **Pilot Assignment Test**: Assign unit to craft pilot role
+  - **Setup**: Unit with piloting stat, available craft
+  - **Action**: Assign as pilot
+  - **Expected**: Craft shows pilot bonuses
+  - **Verify**: Combat calculations include pilot modifiers
+
+- [ ] **XP Distribution Test**: Complete interception mission
+  - **Setup**: Craft with pilot and crew
+  - **Action**: Win interception battle
+  - **Expected**: Pilot and crew gain XP
+  - **Verify**: XP totals match expected values
+
+## Related Features
+
+- **[Units System]**: Core unit mechanics and stats (Units.md)
+- **[Crafts System]**: Vehicle operation requirements (Crafts.md)
+- **[Interception System]**: Aerial combat mechanics (Interception.md)
+- **[Geoscape System]**: Mission deployment (Geoscape.md)
+
+## Implementation Notes
+
+- Piloting as derived stat from unit attributes
+- Dynamic bonus calculation based on pilot skills
+- XP sharing between pilot and crew roles
+- Integration with craft equipment systems
+
+## Review Checklist
+
+- [ ] Pilot role assignment clear
+- [ ] Piloting stat mechanics defined
+- [ ] Pilot bonuses calculated correctly
+- [ ] Experience system implemented
+- [ ] Crew vs pilot distinction maintained
+- [ ] Integration with other systems complete
+- [ ] Balance parameters appropriate

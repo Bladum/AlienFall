@@ -1,8 +1,8 @@
 # Items & Equipment API Reference
 
-**System:** Strategic Layer (Inventory & Equipment)  
-**Module:** `engine/content/items/`  
-**Latest Update:** October 22, 2025  
+**System:** Strategic Layer (Inventory & Equipment)
+**Module:** `engine/content/items/`
+**Latest Update:** October 22, 2025
 **Status:** ✅ Complete
 
 ---
@@ -11,8 +11,8 @@
 
 The Items system manages all equipment, weapons, consumables, armor, and resources in the game. Items are the physical manifestation of equipment that units use in combat, bases store, and players trade. The system tracks item properties, stacking behavior, durability, equipment slots for units, and crafting requirements. Items form the backbone of unit effectiveness and resource management.
 
-**Layer Classification:** Strategic / Equipment & Inventory  
-**Primary Responsibility:** Item definitions, item stacks, equipment slots, durability, crafting recipes  
+**Layer Classification:** Strategic / Equipment & Inventory
+**Primary Responsibility:** Item definitions, item stacks, equipment slots, durability, crafting recipes
 **Integration Points:** Inventory (storage), Equipment (unit loadouts), Trading (market items), Crafting (production)
 
 ---
@@ -52,39 +52,39 @@ ItemDefinition = {
   name = string,                  -- "Rifle"
   description = string,           -- "Standard rifle, reliable"
   type = string,                  -- "weapon", "armor", "consumable", "resource", "ammo"
-  
+
   -- Classification
   category = string,              -- "primary_weapon", "armor_torso", "medical", "grenade"
   subcategory = string | nil,     -- More specific type
   rarity = string,                -- "common", "uncommon", "rare", "epic", "legendary"
   tier = number,                  -- Tech tier requirement (1-5)
-  
+
   -- Physical Properties
   weight = number,                -- kg (affects encumbrance)
   bulk = number,                  -- Grid size (1-8 for inventory)
   durability = number,            -- 0-100 (degrades with use)
   value = number,                 -- Sale price in credits
-  
+
   -- Functionality (for weapons/armor)
   primary_stat = number,          -- Damage, AC, healing, etc.
   secondary_stats = table,        -- {stat_name: value}
   stat_bonuses = table,           -- {bonus_type: percent}
-  
+
   -- Availability
   is_craftable = boolean,
   craft_components = table,       -- {component_id: quantity}
   craft_time = number,            -- Turns to craft
   availability = string,          -- "default", "research:tech_name"
   required_tech = string | nil,   -- Must have researched tech
-  
+
   -- Stack behavior
   max_stack_size = number,        -- 1 for weapons, 100+ for consumables
   is_stackable = boolean,
-  
+
   -- Ammunition/Consumable
   uses_per_unit = number,         -- Bullets per magazine, etc.
   is_consumable = boolean,
-  
+
   -- Visual
   icon_id = string,
   color = string,
@@ -124,23 +124,23 @@ ItemStack = {
   id = string,                    -- "stack_001"
   definition_id = string,         -- Reference to ItemDefinition
   quantity = number,              -- How many (1 if not stackable)
-  
+
   -- Condition
   durability = number,            -- Current durability (0-max)
   max_durability = number,        -- Full durability
   condition = string,             -- "pristine", "worn", "damaged", "broken"
   uses_remaining = number,        -- For ammo/consumables
-  
+
   -- Equipment state
   equipped_to = string | nil,     -- Unit ID if equipped
   equipped_slot = string | nil,   -- Equipment slot type
   is_equipped = boolean,
-  
+
   -- Modifications
   modifications = string[],       -- Applied mods (id list)
   is_modified = boolean,
   mod_stats = table,              -- Stat bonuses from mods
-  
+
   -- History
   created_turn = number,
   last_used_turn = number,
@@ -193,16 +193,16 @@ EquipmentSlot = {
   id = string,                    -- "left_hand", "chest", "head"
   name = string,                  -- Display name
   type = string,                  -- "hand", "torso", "head", "legs", "feet", "utility"
-  
+
   -- Equipped item
   equipped_item = ItemStack | nil,-- Currently equipped
   allowed_item_types = string[],  -- "weapon", "armor", "grenade", "consumable"
-  
+
   -- Stats
   base_stat_bonus = number,       -- Inherent slot bonus
   equipped_stat_bonus = number,   -- From item
   required_strength = number,     -- Strength needed to equip
-  
+
   -- Limits
   is_mandatory = boolean,         -- Must always have something
   max_items = number,             -- Max items in slot
@@ -605,7 +605,7 @@ if CraftingService.canCraft("plasma_rifle") then
   end
   print("Time: " .. recipe.time .. " turns")
   print("Cost: $" .. recipe.cost)
-  
+
   -- Start crafting
   local facility = Base.getCurrentBase():getFacility("workshop")
   local job = CraftingService.craftItem("plasma_rifle", facility, 1)
@@ -626,11 +626,11 @@ if weapon then
   print("Weapon: " .. weapon:getName())
   print("Durability: " .. weapon:getDurabilityPercent() .. "%")
   print("Condition: " .. weapon:getCondition())
-  
+
   -- Take damage in combat
   weapon:takeDamage(15)
   print("After combat: " .. weapon:getDurabilityPercent() .. "%")
-  
+
   -- Repair
   if weapon:getCondition() == "worn" then
     weapon:repair(20)
@@ -665,10 +665,10 @@ function calculateWeaponDamage(tier, rarity_bonus)
     [4] = {min = 24, max = 38},
     [5] = {min = 38, max = 55}
   }
-  
+
   local base = base_damages[tier]
   local rarity_multiplier = 1.0 + rarity_bonus  -- Common: 0, Uncommon: 0.15, etc.
-  
+
   return {
     min = math.floor(base.min * rarity_multiplier),
     max = math.floor(base.max * rarity_multiplier)
@@ -717,19 +717,19 @@ weapon_cost_formula = {
   -- Tier 1
   ["pistol_standard"] = 400,       -- 6 avg damage
   ["rifle_standard"] = 800,        -- 12 avg damage
-  
+
   -- Tier 2
   ["rifle_semi_auto"] = 1200,      -- 16 avg damage
   ["shotgun_combat"] = 1500,       -- 20 avg damage
-  
+
   -- Tier 3
   ["sniper_standard"] = 2500,      -- 24 avg damage
   ["rifle_plasma"] = 2800,         -- 24 avg damage, special
-  
+
   -- Tier 4
   ["sniper_plasma"] = 4500,        -- 38 avg damage
   ["rifle_exotic"] = 4200,         -- 36 avg damage
-  
+
   -- Tier 5
   ["rifle_final"] = 6500,          -- 50 avg damage
   ["sniper_legendary"] = 7500      -- 52 avg damage
@@ -763,10 +763,10 @@ function calculateArmorReduction(armor_class, damage_type)
     [9] = 0.36,   -- Tier 4: 36%
     [13] = 0.52   -- Tier 5: 52%
   }
-  
+
   -- Find appropriate tier
   local base_reduction = ac_reductions[armor_class] or 0.0
-  
+
   -- Adjust by damage type effectiveness
   local type_effectiveness = {
     kinetic = 1.0,    -- Full effectiveness
@@ -774,7 +774,7 @@ function calculateArmorReduction(armor_class, damage_type)
     explosive = 0.5,  -- 50% effectiveness
     special = 0.3     -- Specialized less effective
   }
-  
+
   local effective_reduction = base_reduction * type_effectiveness[damage_type]
   return math.min(effective_reduction, 0.90)  -- Cap at 90%
 end
@@ -815,7 +815,7 @@ equipment_slots = {
     back = 2,        -- Backpack / equipment
     total_weight = 20  -- kg capacity
   },
-  
+
   heavy = {
     head = 1,
     chest = 1,
@@ -827,7 +827,7 @@ equipment_slots = {
     back = 3,        -- Extra capacity
     total_weight = 35  -- Higher capacity
   },
-  
+
   scout = {
     head = 1,
     chest = 1,
@@ -866,7 +866,7 @@ function applyRarityBonus(base_value, rarity)
     epic = 0.15,
     legendary = 0.25
   }
-  
+
   local bonus = bonus_percentages[rarity] or 0.0
   return base_value * (1.0 + bonus)
 end
@@ -891,21 +891,21 @@ specialization_bonuses = {
     heavy_pistol = 1.10,          -- +10% pistol damage
     description = "Increased accuracy and critical damage"
   },
-  
+
   assault = {
     rifle = 1.10,                 -- +10% rifle damage
     smg = 1.15,                   -- +15% SMG damage
     grenades = 1.10,              -- +10% grenade damage
     description = "Increased assault weapon effectiveness"
   },
-  
+
   heavy_weapons = {
     shotgun = 1.15,               -- +15% shotgun
     grenade_launcher = 1.10,      -- +10% launcher
     heavy_cannon = 1.15,          -- +15% cannon
     description = "Massive firepower"
   },
-  
+
   support = {
     pistol = 1.10,                -- +10% pistol
     grenades = 1.10,              -- +10% grenades
@@ -959,5 +959,186 @@ end
 
 ---
 
-**Last Updated:** October 22, 2025  
+## Equipment Class Synergy System
+
+### Equipment Classes
+
+Equipment is divided into four classes that affect unit performance through synergy bonuses and penalties:
+
+| Class | Description | Mobility Impact | Protection Focus | Best For |
+|---|---|---|---|---|
+| **Light** | Minimal armor, high mobility | +15% movement speed | Low protection | Scouts, infiltrators |
+| **Medium** | Balanced protection/mobility | Baseline movement | Medium protection | Standard soldiers |
+| **Heavy** | Maximum protection, low mobility | -15% movement speed | High protection | Assault troops, tanks |
+| **Specialized** | Unique properties, variable mobility | Varies by item | Specialized protection | Tech-specific roles |
+
+### Armor Mobility Penalties
+
+Armor weight directly impacts unit mobility in tactical combat:
+
+```lua
+-- Time Unit cost per hex movement (vertical axial coordinate system)
+armor_mobility_penalties = {
+  light_armor = 5,      -- +5 TU per hex (fastest)
+  medium_armor = 10,    -- +10 TU per hex (standard)
+  heavy_armor = 20,     -- +20 TU per hex (slowest)
+  specialized = "varies" -- Item-specific (see individual armor specs)
+}
+```
+
+**Mobility Penalty Scaling:**
+- Light: +5 TU/hex (minimal impact, high mobility)
+- Medium: +10 TU/hex (balanced, standard movement)
+- Heavy: +20 TU/hex (significant penalty, deliberate movement)
+- Specialized: Varies by item type (alien tech may have unique penalties)
+
+### Synergy Bonuses (Class Matching)
+
+When armor class matches primary weapon class, units receive tactical advantages:
+
+#### Light + Light Synergy
+- **Accuracy**: +10% (easier to aim while lightly equipped)
+- **Movement**: +15% speed (unencumbered mobility)
+- **Armor**: -5% effectiveness (tradeoff for mobility)
+- **Best Loadout**: Light armor + SMG/Pistol (mobile skirmisher)
+
+#### Medium + Medium Synergy
+- **Accuracy**: 0% (balanced, no modifiers)
+- **Movement**: 0% (baseline mobility)
+- **Armor**: 0% (balanced protection)
+- **Best Loadout**: Medium armor + Rifle/Shotgun (versatile soldier)
+
+#### Heavy + Heavy Synergy
+- **Accuracy**: -10% (harder to aim while heavily equipped)
+- **Movement**: -15% speed (encumbered mobility)
+- **Armor**: +20% effectiveness (protection synergy)
+- **Best Loadout**: Heavy armor + Heavy weapons (tank specialist)
+
+#### Specialized + Specialized Synergy
+- **Effects**: Varies by item (defined per specialized equipment)
+- **Examples**:
+  - Plasma armor + Plasma rifle: +15% energy resistance
+  - Psi armor + Psi amp: +20% psi ability effectiveness
+  - Stealth suit + Sniper rifle: +25% detection avoidance
+
+### Mismatch Penalties (Class Not Matching)
+
+When armor and weapon classes don't match, performance suffers:
+
+#### Light Armor + Heavy Weapon
+- **Accuracy**: -15% (weapon imbalance, user not strong enough)
+- **Movement**: Normal (light armor mobility preserved)
+- **Armor**: -15% effectiveness (exposed to heavy weapon recoil)
+- **Risk**: User takes extra damage from weapon kickback
+- **Example**: Light vest + Rocket launcher (dangerous mismatch)
+
+#### Heavy Armor + Light Weapon
+- **Accuracy**: -5% (heavy armor slows aim with light weapons)
+- **Movement**: -20 TU/hex (full heavy armor penalty)
+- **Armor**: Normal effectiveness (good protection despite weak weapon)
+- **Effect**: Slow but well-protected unit with weak offense
+- **Example**: Combat suit + Pistol (wasted armor potential)
+
+#### Medium Armor + Mismatched Weapon
+- **Accuracy**: -5% to -10% (moderate imbalance)
+- **Movement**: -10 TU/hex (medium armor penalty)
+- **Armor**: -5% to -10% effectiveness (moderate exposure)
+- **Effect**: Suboptimal but functional loadout
+
+### Armor Effectiveness Formula
+
+Base armor value is modified by class and synergy:
+
+```lua
+function calculateArmorEffectiveness(base_armor, armor_class, synergy_modifier)
+  -- Class scaling: Higher classes get increasingly better base protection
+  local class_scaling = {
+    light = 1.0,      -- Baseline
+    medium = 1.25,    -- +25% base armor
+    heavy = 1.5,      -- +50% base armor
+    specialized = "varies"  -- Item-specific
+  }
+
+  -- Apply class scaling
+  local scaled_armor = base_armor * class_scaling[armor_class]
+
+  -- Apply synergy modifier
+  local final_armor = scaled_armor * synergy_modifier
+
+  return math.max(0, final_armor)  -- Cannot go below 0
+end
+
+-- Example calculations:
+-- Light Armor (Base 30): 30 × 1.0 × 1.0 = 30 armor (baseline)
+-- Medium Armor (Base 30): 30 × 1.25 × 1.0 = 37.5 armor (25% class bonus)
+-- Heavy Armor (Base 30): 30 × 1.5 × 1.2 = 54 armor (50% class + 20% synergy)
+```
+
+### Player Communication
+
+Equipment screens display synergy status and modifiers:
+
+```
+EQUIPMENT STATUS
+================
+Primary Weapon: Rifle (Medium)
+Armor: Combat Vest (Light)
+
+⚠️  MISMATCH DETECTED
+   Accuracy: -10% (Light armor + Medium weapon penalty)
+   Mobility: +5 TU/hex (Light armor penalty)
+   Protection: 25 armor (Base 30 × 0.85 mismatch modifier)
+
+RECOMMENDED: Equip Medium armor for synergy bonus
+```
+
+### Balance Philosophy
+
+**Encourages Specialization:**
+- Light builds: Fast, accurate, fragile (scout role)
+- Medium builds: Balanced, reliable, versatile (standard role)
+- Heavy builds: Slow, protected, powerful (tank role)
+- Specialized builds: Unique advantages, specific counters (tech role)
+
+**Punishes Over-Specialization:**
+- Heavy armor + Heavy weapons = very slow but very protected
+- Light armor + Light weapons = very fast but very exposed
+- Medium everything = good balance, no major advantages/disadvantages
+
+**Creates Meaningful Choices:**
+- Speed vs protection tradeoffs
+- Accuracy vs power tradeoffs
+- Versatility vs specialization bonuses
+- Risk/reward in equipment combinations
+
+### Test Scenarios
+
+#### Scenario 1: Light Scout Build
+- **Equipment**: Light armor (Leather Vest) + SMG
+- **Expected**: +10% accuracy, +15% movement, -5% armor
+- **Result**: Mobile skirmisher, hits hard at close range, dies quickly
+
+#### Scenario 2: Heavy Assault Build
+- **Equipment**: Heavy armor (Combat Suit) + Battle Rifle
+- **Expected**: -10% accuracy, -15% movement, +20% armor
+- **Result**: Slow tank, takes punishment, delivers consistent damage
+
+#### Scenario 3: Medium Soldier Build
+- **Equipment**: Medium armor (Flak Vest) + Assault Rifle
+- **Expected**: 0% modifiers (balanced baseline)
+- **Result**: Reliable all-rounder, no surprises, consistently effective
+
+#### Scenario 4: Dangerous Mismatch
+- **Equipment**: Light armor + Rocket Launcher
+- **Expected**: -15% accuracy, normal movement, -15% armor
+- **Result**: Powerful weapon but user exposed to damage, risky playstyle
+
+#### Scenario 5: Wasted Potential
+- **Equipment**: Heavy armor + Pistol
+- **Expected**: -5% accuracy, -20 TU/hex movement, normal armor
+- **Result**: Well-protected but weak offense, slow movement, suboptimal
+
+---
+
+**Last Updated:** October 22, 2025
 **Status:** ✅ Complete

@@ -1,7 +1,7 @@
 # Hex Coordinate System
 
-> **Status**: Technical Specification  
-> **Last Updated**: 2025-10-28  
+> **Status**: Technical Specification
+> **Last Updated**: 2025-10-28
 > **Related Systems**: Geoscape.md, Battlescape.md, Basescape.md
 
 ## Table of Contents
@@ -154,21 +154,16 @@ The world map uses a 90×45 hex grid representing Earth:
 ## Battle Map
 
 ### Battle Tile (Smallest Unit)
-Each hex on the battle map contains:
-```lua
-BattleTile = {
-  q = number,                    -- Hex coordinate Q
-  r = number,                    -- Hex coordinate R
-  terrain_type = string,         -- "floor", "wall", "water", "fire"
-  is_walkable = boolean,
-  movement_cost = number,        -- AP cost to enter
-  occupant = Unit | nil,         -- Unit on this hex
-  ground_objects = Item[],       -- Items on ground (max 5)
-  active_effects = Effect[],     -- Smoke, fire, gas
-  los_obstruction = number,      -- 0.0 (clear) to 1.0 (blocked)
-  fog_of_war = string,          -- "hidden", "revealed", "active"
-}
-```
+Each hex on the battle map contains the following data:
+- **Coordinates**: Q and R values for hex position
+- **Terrain Type**: Classification such as floor, wall, water, fire
+- **Walkability**: Boolean indicating if units can traverse this hex
+- **Movement Cost**: AP cost to enter this hex
+- **Occupant**: Reference to unit currently on hex (if any)
+- **Ground Objects**: Items on ground (maximum 5 items)
+- **Active Effects**: Environmental effects like smoke, fire, gas
+- **LOS Obstruction**: Visibility blocking value (0.0 clear to 1.0 blocked)
+- **Fog of War**: State of visibility (hidden, revealed, or active)
 
 ### Coordinate Ranges
 For a medium battle (5×5 blocks):
@@ -185,22 +180,20 @@ For a medium battle (5×5 blocks):
 #### Neighbor Calculation
 Starting hex: `{q=3, r=4}`
 
-Six neighbors:
-```
-E  (dir 0): {q=4, r=4}   -- q+1, r+0
-SE (dir 1): {q=3, r=5}   -- q+0, r+1
-SW (dir 2): {q=2, r=5}   -- q-1, r+1
-W  (dir 3): {q=2, r=4}   -- q-1, r+0
-NW (dir 4): {q=3, r=3}   -- q+0, r-1
-NE (dir 5): {q=4, r=3}   -- q+1, r-1
-```
+Six neighbors in cardinal directions:
+- **East** (dir 0): `{q=4, r=4}` (q+1, r+0)
+- **Southeast** (dir 1): `{q=3, r=5}` (q+0, r+1)
+- **Southwest** (dir 2): `{q=2, r=5}` (q-1, r+1)
+- **West** (dir 3): `{q=2, r=4}` (q-1, r+0)
+- **Northwest** (dir 4): `{q=3, r=3}` (q+0, r-1)
+- **Northeast** (dir 5): `{q=4, r=3}` (q+1, r-1)
 
 #### Distance Calculation
 From `{q=0, r=0}` to `{q=5, r=3}`:
-```
-Convert to cube:
-  Hex1: x=0, y=0, z=0
-  Hex2: x=5, y=-8, z=3
+
+Conversion to cube coordinates:
+- Hex1: x=0, y=0, z=0
+- Hex2: x=5, y=-8, z=3
 
 Distance = (|0-5| + |0-(-8)| + |0-3|) / 2
          = (5 + 8 + 3) / 2
@@ -251,25 +244,15 @@ For odd columns (q % 2 == 1):
 
 ### API Consistency
 
-All APIs must use axial coordinates:
-```lua
--- CORRECT
-function unit:moveTo(q, r)
-
--- WRONG
-function unit:moveTo(x, y)  -- ambiguous: pixel or hex?
-```
+All APIs must use axial coordinates. Function examples: `unit:moveTo(q, r)` where Q is axial column coordinate and R is axial row coordinate. Never use ambiguous pixel coordinates like `unit:moveTo(x, y)` which creates confusion between pixel and hex coordinates.
 
 ### Documentation Standards
 
-Always specify coordinate system in function documentation:
-```lua
----Move unit to hex position
----@param q number Axial Q coordinate (column)
----@param r number Axial R coordinate (row)
----@return boolean Success flag
-function BattleUnit:moveTo(q, r)
-```
+Always specify coordinate system in function documentation with:
+- Q parameter description (Axial Q coordinate - column)
+- R parameter description (Axial R coordinate - row)
+- Return value description indicating success flag
+- Clear function signature showing hex-based coordinates for unit movement
 
 ---
 
@@ -317,3 +300,83 @@ The Hex Vertical Axial system is the **universal coordinate standard** for Alien
 
 **When in doubt: Use axial coordinates {q, r} everywhere.**
 
+## Examples
+
+### Scenario 1: Pathfinding Calculation
+**Setup**: Unit at {q: 0, r: 0} needs to move to {q: 2, r: 1}
+**Action**: Calculate path using axial coordinates
+**Result**: Path found through adjacent hexes, distance = 2
+
+### Scenario 2: Range Check
+**Setup**: Weapon with range 3, target at {q: 1, r: 2}
+**Action**: Calculate distance from {q: 0, r: 0}
+**Result**: Distance = 2, target within range
+
+## Balance Parameters
+
+| Parameter | Value | Range | Reasoning | Difficulty Scaling |
+|-----------|-------|-------|-----------|-------------------|
+| Hex Size | 24px radius | 16-32px | Visual clarity | No scaling |
+| Neighbor Count | 6 | 4-8 | Tactical options | No scaling |
+| Movement Cost | 1 per hex | 0.5-2 | Pacing control | No scaling |
+| Diagonal Movement | Not allowed | Boolean | Simplicity | No scaling |
+
+## Difficulty Scaling
+
+### Easy Mode
+- Clearer hex boundaries
+- Simplified movement rules
+- More forgiving positioning
+
+### Normal Mode
+- Standard hex mechanics
+- Normal movement restrictions
+- Standard visual clarity
+
+### Hard Mode
+- Smaller hex sizes
+- Stricter positioning requirements
+- More complex terrain interactions
+
+### Impossible Mode
+- Minimal visual feedback
+- Complex hex interactions
+- Severe movement penalties
+
+## Testing Scenarios
+
+- [ ] **Coordinate Conversion Test**: Convert between coordinate systems
+  - **Setup**: Hex at axial {q: 1, r: 2}
+  - **Action**: Convert to cube coordinates
+  - **Expected**: Cube coordinates {x: 1, y: -3, z: 2}
+  - **Verify**: x + y + z = 0
+
+- [ ] **Neighbor Calculation Test**: Find adjacent hexes
+  - **Setup**: Center hex at {q: 0, r: 0}
+  - **Action**: Calculate all neighbors
+  - **Expected**: 6 neighbors returned
+  - **Verify**: No duplicates, all valid coordinates
+
+## Related Features
+
+- **[Geoscape System]**: World map coordinates (Geoscape.md)
+- **[Battlescape System]**: Tactical map grid (Battlescape.md)
+- **[Basescape System]**: Facility placement grid (Basescape.md)
+- **[AI System]**: Pathfinding calculations (AI.md)
+
+## Implementation Notes
+
+- Vertical axial coordinate system {q, r}
+- Cube coordinates for distance calculations
+- Single hex_math.lua module for all operations
+- No coordinate conversion between systems
+
+## Review Checklist
+
+- [ ] Coordinate system defined
+- [ ] Visual representation specified
+- [ ] Map block system documented
+- [ ] World map integration complete
+- [ ] Battle map integration complete
+- [ ] Coordinate calculations verified
+- [ ] Implementation guidelines followed

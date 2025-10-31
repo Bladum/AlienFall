@@ -1,7 +1,7 @@
 # Units System
 
-> **Status**: Design Document  
-> **Last Updated**: 2025-10-28  
+> **Status**: Design Document
+> **Last Updated**: 2025-10-28
 > **Related Systems**: Battlescape.md, Items.md, Crafts.md, Pilots.md, Economy.md
 
 ## Table of Contents
@@ -19,8 +19,13 @@
 - [Unit Morale & Psychology](#unit-morale--psychology)
 - [Unit Customization & Individuality](#unit-customization--individuality)
 - [Unit Cost & Maintenance](#unit-cost--maintenance)
-- [Quick Reference Table](#quick-reference-table)
-- [Design Philosophy](#design-philosophy)
+- [Examples](#examples)
+- [Balance Parameters](#balance-parameters)
+- [Difficulty Scaling](#difficulty-scaling)
+- [Testing Scenarios](#testing-scenarios)
+- [Related Features](#related-features)
+- [Implementation Notes](#implementation-notes)
+- [Review Checklist](#review-checklist)
 
 ---
 
@@ -47,12 +52,12 @@ All units are categorized by **Rank**, representing their experience and special
 | Rank | Experience Required | Description |
 |------|-------------------|-------------|
 | **Rank 0** | 0 XP | Basic/Conscript (recruit level, limited supplies) |
-| **Rank 1** | 100 XP | Agent (trained operative, basic role assignment) |
-| **Rank 2** | 300 XP | Specialist (role proficiency achieved) |
-| **Rank 3** | 600 XP | Expert (significant specialization begins) |
-| **Rank 4** | 1,000 XP | Master (advanced specialization) |
-| **Rank 5** | 1,500 XP | Elite (peak specialization, rare) |
-| **Rank 6** | 2,100 XP | Hero (unique, one per squad maximum) |
+| **Rank 1** | 200 XP | Agent (trained operative, basic role assignment) |
+| **Rank 2** | 500 XP | Specialist (role proficiency achieved) |
+| **Rank 3** | 900 XP | Expert (significant specialization begins) |
+| **Rank 4** | 1,500 XP | Master (advanced specialization) |
+| **Rank 5** | 2,500 XP | Elite (peak specialization, rare) |
+| **Rank 6** | 4,500 XP | Hero (unique, one per squad maximum) |
 
 **Note**: Smart trait accelerates XP gain by +20%, while Stupid trait decelerates it accordingly.
 
@@ -133,247 +138,9 @@ Access to specialized units unlocks through:
 
 ## Unit Statistics
 
+## Unit Statistics
+
 All units are defined by a core set of **stats** that determine combat effectiveness, utility, and survival. Base stat ranges for humans vary between 6-12, with aliens and specialists outside this range.
-
-### Combat Statistics
-
-#### Action Points (AP)
-- **Base**: 4 per turn (fixed across all units in Battlescape)
-- **Valid Range**: 1-4 AP per turn after all modifiers applied
-  - **Minimum**: 1 AP (guaranteed, even at critical status)
-  - **Maximum**: 5 AP (with positive modifiers - rare, exceptional)
-- **Reduction Sources**:
-  - Health <50%: -1 AP
-  - Health <25%: -2 AP (cumulative with above)
-  - Morale = 0 (panicked): -1 AP
-  - Sanity <50%: -1 AP
-  - Stun effect: -2 AP (loses entire turn)
-- **Bonus Sources**:
-  - Agile trait: +1 AP (requires Rank 2+)
-  - Heroic Stimulant item: +1 AP (one-time use, risky)
-  - Leadership aura: No direct bonus, but nearby allies inherit +1 morale
-- **Modifiers**: Some traits, equipment, and special abilities impact AP
-- **Usage**: Each action (move, shoot, throw, use item) costs AP (typically 1-2 AP per action)
-- **Scope**: Battlefield-specific resource, resets each turn at Battlescape phase start
-- **Edge Case**: If all penalty sources apply (panicked, low health, low sanity, stunned), total could drop below 1 - clamped to minimum 1 AP
-
-**AP Calculation Example:**
-```
-Base AP: 4
-- Health 40% (not <25%): -1 AP = 3 AP
-- Morale 0 (panicked): -1 AP = 2 AP
-- Sanity 60%: no penalty
-- Special: Agile trait not equipped
-
-Final AP: 2 AP per turn (within 1-4 range)
-```
-
-#### Movement Points
-- **Base**: AP × Speed stat
-- **Usage**: Alternative AP cost for movement based on terrain
-- **Calculation**: Speed determines hexagons traversable per movement action
-- **Affected By**: Armor weight, encumbrance, status effects (stunned, exhausted)
-
-#### Health (Hit Points)
-- **Range**: 6-12 base (biological units); 10-20 (mechanical units)
-- **Damage**: Taken from weapon attacks, explosions, hazards
-- **Healing**: Passive recovery +1 HP/week in base facilities; active healing through Medikit during battle
-- **Death**: Unit is incapacitated when HP ≤ 0 (corpse recoverable if extraction possible)
-
-#### Armor Value (Built-in)
-- **Range**: 0-2 base armor from physiology
-- **Bonus Armor**: Added through equipped armor items (+5 to +25)
-- **Function**: Each armor point reduces incoming damage by 1 point
-- **Type Resists**: Effective against Kinetic damage; less effective against Energy/Explosive/Hazard
-- **Resistances**:
-  - Kinetic: 0-50% reduction
-  - Energy: 0-40% reduction
-  - Hazard: 0-30% reduction
-
-### Accuracy & Targeting
-
-#### Aim Stat
-- **Range**: 6-12
-- **Effect**: Base accuracy for ranged weapons (ballistic, energy, thrown)
-- **Modifiers**: Equipment accuracy bonuses, status effects, movement penalties
-- **Min/Max**: Minimum 5% accuracy, maximum 95% accuracy after all modifiers
-
-#### Melee Stat
-- **Range**: 6-12
-- **Effect**: Effectiveness in hand-to-hand combat, both attack and defense
-- **Usage**: Melee attacks, dodging melee attacks, blocking with shields
-- **Synergy**: Works with strength for determining damage bonus
-
-#### React Stat
-- **Range**: 6-12
-- **Effect**: Triggers reaction fire when enemies act; chance to dodge incoming fire
-- **Usage**: Overwatch trigger chance; defensive dodge chance when under fire
-- **Synergy**: Works with speed for determining dodge effectiveness
-
-### Movement & Awareness
-
-#### Speed Stat
-- **Range**: 6-12
-- **Effect**: Movement distance per turn, rotation speed
-- **Movement Cost**: Base cost is 2 MP per hex, MP = AP * Speed
-- **Affected By**: Armor weight (-1 to -2 movement for heavy armor), status effects
-- **Bonus**: Bonus movement from traits (e.g., Fast trait +2)
-
-#### Piloting Stat
-- **Range**: 0-100 (not 6-12 like other stats)
-- **Effect**: When unit is assigned as pilot, provides bonuses to craft performance
-- **Base**: 20-40 (random at recruitment)
-- **Improved By**: XP gain (+1 per 100 XP), class bonuses, traits, equipment
-- **Bonuses**: Craft Dodge = +(Piloting/5)%, Craft Accuracy = +(Piloting/5)%
-- **See**: Pilots.md for complete piloting mechanics
-- **Note**: Any unit can pilot, but higher Piloting = better craft performance
-
-#### Sight Range
-- **Base**: 16 hexagons (day), 8 hexagons (night)
-- **Modifier**: +5 with superior optics, night vision goggles
-- **Effect**: Reveals enemy positions and hazards within range
-- **Cost**: Sight is a passive perception check; maintaining line-of-sight requires no AP
-- **Terrain Modifiers**: Obscuring terrain (fog, smoke) reduces sight by -3 to -5 hexagons
-
-#### Sense (Omnidirectional Detection)
-- **Base**: 0 (humans lack innate sense)
-- **Alien Ability**: Some alien species have innate sense ability
-- **Effect**: Detects enemies regardless of line-of-sight; ignores cover
-- **Usage**: Detects units, not terrain; useful for ambush detection
-- **Modifier**: +5 hexagons with motion scanner equipment
-
-#### Cover Bonus
-- **Base**: 0 (in-built concealment)
-- **Effect**: Reduces enemy line-of-sight range against this unit
-- **Synergy**: Stealth armor and abilities provide +20% concealment
-- **Usage**: Unit benefits from cover when partially obscured by terrain
-
-### Morale & Psychological
-
-**For Complete System Details**: See [MoraleBraverySanity.md](./MoraleBraverySanity.md)
-
-#### Bravery Stat (Core Stat)
-- **Range**: 6-12 (standard stat range)
-- **Effect**: Determines starting morale in battle
-- **Usage**: Represents inherent courage and fear resistance
-- **Impact**: Higher bravery = larger morale pool, better panic resistance
-- **Progression**: +1 per 3 ranks (experience-based growth)
-- **Modifiers**:
-  - Trait "Brave": +2 bravery
-  - Trait "Fearless": +3 bravery (rare)
-  - Officer gear: +1 bravery
-  - Medal display: +1 per 3 medals
-
-#### Morale (In-Battle System)
-- **Range**: 0 to Bravery value (dynamic during combat)
-- **Starting Value**: Equals Bravery stat at mission start
-- **Degradation**: Combat stress reduces morale
-- **Panic Threshold**: 0 morale = PANIC (unit loses all AP)
-- **AP Penalties**:
-  - 2 morale: -1 AP per turn
-  - 1 morale: -2 AP per turn
-  - 0 morale: All AP lost (cannot act)
-- **Accuracy Penalties**:
-  - 4-5 morale: -5% accuracy
-  - 3 morale: -10% accuracy
-  - 2 morale: -15% accuracy
-  - 1 morale: -25% accuracy
-  - 0 morale: -50% accuracy
-- **Recovery**:
-  - Rest action: 2 AP → +1 morale
-  - Leader rally: 4 AP → +2 morale to target
-  - Leader aura: +1 morale per turn (passive, within 8 hexes)
-- **Reset**: Morale fully resets to Bravery value after mission
-
-#### Morale Loss Events
-
-| Event | Morale Loss | When It Occurs |
-|-------|-------------|----------------|
-| Ally killed (visible) | -1 | Within 5 hexes |
-| Taking damage | -1 | Each hit received |
-| Critical hit received | -2 | Per critical |
-| Flanked by enemies | -1 | Per turn flanked |
-| Outnumbered (3:1) | -1 | Per turn |
-| New alien type | -1 | First encounter |
-| Commander killed | -2 | Squad leader death |
-| Night mission start | -1 | Mission begins at night |
-
-#### Sanity Stat (Long-Term Psychological)
-- **Range**: 6-12 (separate from morale)
-- **Effect**: Long-term mental stability between missions
-- **Persistence**: Does NOT reset between missions
-- **Loss**: Drops AFTER mission based on trauma
-  - Standard mission: 0 sanity loss
-  - Moderate mission: -1 sanity
-  - Hard mission: -2 sanity
-  - Horror mission: -3 sanity
-  - Night missions: additional -1
-  - Ally deaths: -1 per death
-  - Mission failure: -2
-- **Recovery**: 
-  - Base recovery: +1 per week
-  - Temple facility: +1 additional per week (+2 total)
-  - Medical treatment: +3 immediate (10,000 credits)
-  - Leave/vacation: +5 over 2 weeks (5,000 credits)
-- **Broken State** (0 sanity): Unit cannot deploy, requires treatment
-- **Performance Impact**:
-  - 7-9 sanity: -5% accuracy
-  - 5-6 sanity: -10% accuracy, -1 morale start
-  - 3-4 sanity: -15% accuracy, -2 morale start
-  - 1-2 sanity: -25% accuracy, -3 morale start
-
-#### Strategic Implications
-- **Morale**: Managed during combat via Rest actions and leader support
-- **Sanity**: Managed between missions via roster rotation and Temple facility
-- **Interaction**: Low sanity reduces starting morale and adds accuracy penalties
-- **Penalties Stack**: Morale + Sanity penalties are cumulative
-- **Roster Size**: Recommend 2-3x squad size for rotation (sanity recovery)
-
-### Special Abilities
-
-#### Psi Stat (Psionic Power)
-- **Range**: 2-12 (2 = weak psionic capability; 12 = master psionic)
-- **Requirement**: Unlocked through research, special traits, or transformation
-- **Usage**: Offensive psionic attacks, defensive shields, mind control
-- **Equipment**: Psionic Amplifier (enables offensive psionics; +30 EP cost per use)
-- **Defense**: Uses Psi stat to resist enemy psionic effects
-- **Scaling**: Psi abilities gain +1 damage per 2 Psi points
-
-#### Piloting Stat (Vehicle Operation)
-- **Range**: 6-12 (human standard), 0-20 (alien/mechanical potential)
-- **Default**: 6 (untrained personnel), 8-10 (trained pilot classes), 12+ (ace pilots)
-- **Purpose**: Represents unit's ability to operate vehicles (crafts, tanks, aircraft) effectively
-- **Usage**: Unit can be assigned as pilot/crew to craft; piloting stat provides bonuses to craft performance
-- **Effect on Craft Performance**:
-  - **Speed Bonus**: Each point above 6 = +2% craft speed
-  - **Accuracy Bonus**: Each point above 6 = +3% craft weapon accuracy
-  - **Dodge Bonus**: Each point above 6 = +2% craft dodge chance
-  - **Fuel Efficiency**: Each point above 6 = +1% fuel efficiency
-- **Example**: Piloting 10 (4 points above base) = +8% speed, +12% accuracy, +8% dodge, +4% fuel efficiency
-- **Synergies**: 
-  - Dexterity affects craft initiative (reaction time in interception)
-  - Perception affects craft sensor range (detection radius)
-  - Intelligence affects system management (power distribution efficiency)
-- **Progression**: Increases through pilot class specialization and interception combat experience
-- **Class Requirement**: Pilot classes (Fighter Pilot, Bomber Pilot, etc.) provide +2 to +5 piloting bonuses
-- **Dual Role**: Units with high piloting can operate crafts during geoscape/interception and fight as soldiers in battlescape
-- **Fatigue Effect**: Pilot fatigue (0-100) reduces effective piloting stat by up to 50% at maximum fatigue
-- **Training**: Can be improved through base training facilities (+1 per 2 weeks in flight simulator)
-
-**Design Philosophy**: Piloting represents distinct skill set (spatial awareness, reflex coordination, mechanical understanding) separate from infantry combat. High-piloting units are valuable for craft operation but may sacrifice ground combat specialization.
-
-#### Wisdom (Intelligence)
-- **Status**: Under design (intended for future implementation)
-- **Potential Role**: Could represent tactical decision-making, research bonus, or ability learning speed
-- **Reserved**: For future expansion
-
-### Size Classification
-
-Units occupy a single battle tile regardless of physical size, but size affects:
-
-- **Barracks Storage**: Size 1 (normal) vs Size 2 (large) vs Size 4 (behemoth) affects squad capacity
-- **Craft Capacity**: Larger units consume more crew/cargo slots
-- **Armor Effectiveness**: Larger units receive +50% armor value due to increased mass
 
 ---
 
@@ -392,12 +159,16 @@ Units gain experience through multiple channels:
 #### Combat Experience
 Experience awarded at end of battle for:
 
-1. **Enemy Eliminations**: +5 XP per kill
-2. **Damage Inflicted**: +0.5 XP per 10 damage dealt
-3. **Enemy Spotting**: +2 XP per unique enemy spotted during mission
-4. **Objectives Completed**: +10-50 XP per mission objective (varies)
-5. **Wounds Sustained**: +1 XP per 5 damage taken (encourages frontline play)
-6. **Mission Participation**: +10 XP just for completing the mission
+1. **Enemy Eliminations**: +10 XP per kill
+2. **Damage Inflicted**: +0.15 XP per damage point (max 100 XP per mission)
+3. **Survival Bonus**: +1 XP per turn survived (max 20 XP per mission)
+4. **Squad Cohesion**: +10 XP if all squad members survive
+5. **Mission Participation**: +50 XP just for completing the mission
+
+#### Mission Objectives
+- **Secondary Objectives**: +10-30 XP per completed objective
+- **Research Data**: +10-50 XP for recovered alien technology
+- **Difficulty Bonus**: ×1.0-1.8 multiplier based on mission difficulty
 
 #### Medals & Commendations
 Earned through achievement conditions; each unit can earn each medal only once:
@@ -444,16 +215,382 @@ Rank 1: Agent
 
 ### Demotion System
 
-Units can voluntarily demote to explore alternate specialization paths:
+**COMPREHENSIVE DEMOTION SPECIFICATION (A5)**
 
-**Demotion Rules**:
-- Unit drops one rank level (Rank 4 → Rank 3)
-- Unit retains 50% of current XP (1,000 XP → 500 XP at demote)
-- Unit loses specialization; Rank 2+ rank choice opens new branches
-- **Cost**: Free but requires one week in barracks to retrain
-- **Use Case**: Allows strategic pivoting without abandoning experienced units
+#### Overview
 
-Example: A Rank 4 Sniper (1,000 XP) demoting to Rank 3 would retain 600 XP as a generic Specialist, then choose to promote into a different Rank 4 path (e.g., Medic)
+Demotion is a **strategic game mechanic** that allows players to voluntarily reduce a unit's rank in exchange for re-specialization opportunities. This enables creative squad composition without permanently abandoning veteran units.
+
+#### Core Demotion Rules
+
+**Demotion Definition**:
+- Unit rank drops by 1 level (Rank 4 → Rank 3, etc.)
+- Unit may re-choose specialization path from available branches at target rank
+- Traits are unaffected (remain with unit)
+- Equipment remains equipped (may cause equipment incompatibility, see below)
+
+**Demotion Requirements**:
+- Unit must be Rank 2 or higher (Rank 0-1 units cannot demote)
+- Unit must have no active missions (in barracks only)
+- Cost: **FREE** (no credits required)
+- Time: **1 week** retraining period (unit unavailable for deployment)
+
+#### Experience Retention (CLARIFIED - PROPORTIONAL SCALING)
+
+**Demotion XP Calculation** (NOT flat 50%):
+
+When unit demotes, XP is scaled proportionally to the previous rank level. This ensures units retain meaningful progress without losing all advancement.
+
+```
+Formula:
+- Current rank XP threshold (lower bound): 1000 XP (example Rank 4)
+- Current rank XP threshold (upper bound): 1500 XP (example Rank 5)
+- Current unit XP: 1200 XP
+- Target rank (previous): Rank 3
+
+Step 1: Calculate progress within current rank
+  Progress = (1200 - 1000) / (1500 - 1000) = 200 / 500 = 0.40 (40% progress)
+
+Step 2: Calculate target rank boundaries
+  Target lower: 600 XP (Rank 3 threshold)
+  Target upper: 1000 XP (Rank 4 threshold)
+  Target range: 1000 - 600 = 400 XP
+
+Step 3: Apply proportional scaling
+  New XP = 600 + (0.40 × 400) = 600 + 160 = 760 XP
+
+Result: Unit demotes to Rank 3 with 760 XP (~76% progress toward Rank 4)
+```
+
+**Why Proportional Scaling**:
+- Preserves veteran status (unit retains significant XP)
+- Encourages careful re-specialization (meaningful cost without being punitive)
+- Maintains long-term progression (can re-promote reasonably quickly)
+- Prevents XP farming (cannot repeatedly demote/promote for gain)
+
+**Examples**:
+- Rank 4 unit with 1200 XP → Demotes to Rank 3 with 760 XP
+- Rank 3 unit with 700 XP → Demotes to Rank 2 with 460 XP
+- Rank 2 unit with 350 XP → Demotes to Rank 1 with 175 XP
+
+#### Specialization Re-selection
+
+**Available Paths**:
+- When demoting to Rank 2, player selects from **all available Rank 2 specializations** (not just previous path)
+- When demoting to Rank 1, unit becomes generic "Agent" class (no specialization choice)
+- Rank 3+ demotions: Choose any valid specialization from target rank
+
+**Example Re-specialization Paths**:
+
+```
+Current: Rank 4 Sniper (Rifleman → Assault → Sniper branch)
+         [1,000 XP]
+
+Demote to Rank 3:
+    → 500 XP retained
+    → Can now choose: Marksman OR Medic OR Specialist OR Scout
+       (any Rank 3 available, not just Rifleman branch)
+
+Option 1: Become Rank 3 Marksman
+    → Different specialization within Rifleman tree
+
+Option 2: Become Rank 3 Medic
+    → Completely different role (support class)
+
+Option 3: Become Rank 3 Specialist
+    → Heavy weapons focus instead of precision
+```
+
+#### Equipment Compatibility After Demotion
+
+**Compatibility Rules**:
+- Equipment from lower ranks: **Fully compatible** (Rank 3 can use Rank 2 equipment)
+- Equipment from higher ranks: **-30% accuracy, -1 movement penalty**
+- Example: Rank 4 Sniper demotes to Rank 3, equipped with Rank 4 Sniper Rifle
+  - Sniper rifle now imposes -30% accuracy (until unit re-promotes to Rank 4)
+  - Unit should swap to Rank 3 equipment (Marksman Rifle) or accept penalty
+
+**Recommendation**: Players should replace high-rank equipment with appropriate lower-rank alternatives after demotion to avoid mechanical penalties.
+
+#### Stat Impact After Demotion
+
+**Stat Loss**:
+- Base stats revert to Rank 3 baselines (from Rank 4 level)
+- Traits remain (traits are permanent)
+- Transformations remain (transformation bonuses persist)
+- Equipment bonuses remain
+
+**Example Stat Change**:
+```
+Before Demotion (Rank 4 Sniper):
+  - Accuracy: 80% (Rank 4 base)
+  - Sight: 14 hexes (Rank 4 bonus)
+  - Health: 15 HP
+
+After Demotion (Rank 3 Marksman):
+  - Accuracy: 75% (Rank 3 base)
+  - Sight: 12 hexes (Rank 3 base)
+  - Health: 13 HP
+
+Change: -5% accuracy, -2 sight, -2 HP
+```
+
+**No Stat Bonus Retention**: Stats revert to base Rank 3 values; specialty bonuses do not carry forward.
+
+#### Demotion Use Cases
+
+**Strategic Use**:
+1. **Path Correction**: Unit trained as Rifleman but player needs Medic → Demote to Rank 3, specialize as Medic
+2. **Economic Efficiency**: Veteran unit with salary too high → Demote briefly to reduce salary burn, then re-promote
+3. **Team Flexibility**: Squad composition changed → Demote units to re-specialize for new team roles
+4. **Experience Recycling**: Veteran unit at max specialization → Demote to explore alternative career path
+
+**Timing Considerations**:
+- Only available between missions (barracks phase)
+- Retraining takes 1 week (during which unit unavailable)
+- XP loss is permanent (cannot be recovered)
+
+#### Demotion Limitations
+
+**Cannot Demote**:
+- Rank 0-1 units (too junior, nothing to demote from)
+- Units with "Stubborn" trait (trait prevents demotion)
+- Units currently mid-transformation
+- Mechanical units (cyborgs do not follow normal promotion tree)
+
+**Irreversibility**:
+- Demotion is permanent (cannot undo)
+- Only way to recover lost XP: Combat in new role
+- Lost stats do not return (must re-earn promotions)
+
+#### Demotion vs. Retirement
+
+**Alternative Options**:
+- **Demotion**: Unit stays in service, changes specialization, retains 50% XP
+- **Retirement**: Unit leaves service permanently (freed salary slot)
+- **Storage**: Unit placed in barracks without assignments (still costs maintenance)
+
+**Decision Tree**:
+```
+Does player want this unit?
+├─ YES, different role → DEMOTE (re-specialize)
+├─ YES, same role → KEEP (continue advancement)
+└─ NO → RETIRE (free up barracks slot)
+```
+
+#### Implementation Guidelines
+
+**For Engine Developers**:
+1. Allow demotion only in barracks phase (not mid-mission)
+2. Calculate XP retention (current × 0.5, rounded down)
+3. Revert stats to target rank defaults
+4. Keep traits and transformation status
+5. Flag equipment for compatibility check
+6. Apply 1-week retraining period
+7. Display UI showing stat changes before confirmation
+
+**For Designers**:
+1. Use demotion to enable long-term squad engagement
+2. Balance XP loss vs. specialization benefit
+3. Consider Stubborn trait as demotion blocker
+4. Design specialization branches to incentivize diverse play
+
+**For Modders**:
+1. Create new specialization branches accessible at different ranks
+2. Adjust XP retention % if balance requires
+3. Add rank-specific demotion restrictions
+4. Define equipment compatibility penalties
+
+---
+
+## Respecialization System
+
+### Overview
+
+Respecialization is a **player-choice mechanic** that allows changing a unit's specialization without losing rank. Unlike demotion, respecialization keeps all stats and experience while enabling tactical flexibility. This enables players to adapt veteran units to new strategic needs without the penalties of demotion.
+
+### Respecialization Definition
+
+**Core Mechanics**:
+- Unit rank remains unchanged (no level loss)
+- Unit specialization changes to new class
+- All stats remain at current levels (no decay)
+- Perks reset and reassigned based on new specialization
+- Experience and progress toward next rank preserved
+- Costs funds and requires 1 week training time
+
+### Respecialization Requirements
+
+**Eligibility**:
+- Unit must be Rank 2 or higher (Rank 0-1 units cannot respecialize)
+- Unit must be in barracks (not deployed or mid-mission)
+- Unit must have available respecialization uses (see limits below)
+- Cost: **15,000 credits** per respecialization
+- Time: **1 week** retraining period (unit unavailable for deployment)
+
+### Specialization Change Process
+
+**Available Specializations**:
+- Player selects from **all valid specializations at current rank**
+- Cannot respecialize to same specialization (must change)
+- New specialization determines perk assignments and stat focuses
+
+**Example Respecialization**:
+```
+Current: Rank 4 Assault Specialist
+  - Accuracy: 88
+  - Perks: "Suppressive Fire", "Combat Reflexes"
+  - Specialization: Assault (high damage, close-quarters)
+
+Respecialize to Rank 4 Support Specialist:
+  - Accuracy: Stays 88 (no stat change)
+  - Perks: Reset to "Medic Training", "Tactical Genius"
+  - Specialization: Support (healing, buffing)
+  - Result: Same rank, different role, all stats preserved
+```
+
+### Stat Preservation
+
+**What Stays the Same**:
+- All base stats (Accuracy, Health, Speed, etc.)
+- Current rank and experience points
+- Traits (permanent, unaffected by respecialization)
+- Transformations (permanent modifications preserved)
+- Equipment compatibility (may need gear adjustment for new role)
+
+**What Changes**:
+- Specialization class designation
+- Perk assignments (reset and reassigned)
+- Stat focus (new specialization emphasizes different attributes)
+- Tactical role (from Assault to Support, etc.)
+
+### Perk Reset and Reassignment
+
+**Perk Handling**:
+- All current perks removed (specialization-specific perks lost)
+- New perks assigned based on new specialization
+- Perk count remains the same (maintains power level)
+- Player cannot choose individual perks (automatic assignment)
+
+**Example Perk Changes**:
+```
+Assault Specialist → Support Specialist:
+Lost: "Suppressive Fire", "Combat Reflexes", "Close Quarters Expert"
+Gained: "Medic Training", "Tactical Genius", "Field Surgery"
+```
+
+### Respecialization Limits
+
+**Usage Restrictions**:
+- Maximum **2 respecializations** per unit (career limit)
+- Once per 3 ranks: Can respec at Rank 2, then Rank 5, then Rank 8, etc.
+- Cannot respecialize more than once per rank tier
+
+**Example Limits**:
+```
+Unit at Rank 6:
+- Can respecialize (used 1 of 2 lifetime uses)
+- Next respecialization available at Rank 8
+- Final respecialization available at Rank 11+
+
+Unit at Rank 4:
+- Can respecialize (first use)
+- Next available at Rank 7
+- One more use remaining
+```
+
+### Respecialization Timeline
+
+**Process Flow**:
+1. **Day 0**: Player initiates respecialization (pay 15,000 credits)
+2. **Day 1-7**: Unit in training (unavailable for missions)
+3. **Day 8**: Respecialization complete, unit available with new specialization
+
+**Interruption Handling**:
+- If unit dies during training week: Respecialization canceled, funds lost
+- If mission called during training: Unit cannot deploy (training continues)
+- No refunds for interrupted training (represents wasted training investment)
+
+### Strategic Use Cases
+
+**Tactical Adaptation**:
+1. **Squad Role Change**: Veteran Assault unit needed as Medic → Respecialize to Support
+2. **Meta Adaptation**: Game balance shifts, old specialization less viable → Switch to stronger role
+3. **Campaign Evolution**: Early-game Assault becomes late-game Support → Adapt to new threats
+4. **Player Preference**: Enjoyed different playstyle → Experiment with new specialization
+
+**Economic Considerations**:
+- 15,000 credit cost represents significant investment
+- 1 week downtime means missed missions/revenue
+- Limited uses encourage commitment to chosen path
+- Cheaper than recruiting new specialist (but keeps veteran stats)
+
+### Respecialization vs. Demotion Comparison
+
+| Aspect | Respecialization | Demotion |
+|--------|------------------|----------|
+| **Rank Change** | No change | -1 to -3 levels |
+| **Stat Impact** | No change | Decay to 75% |
+| **XP Loss** | None | Proportional retention |
+| **Perks** | Reset/reassigned | Specialization-appropriate |
+| **Cost** | 15,000 credits | Free (but rank loss penalty) |
+| **Time** | 1 week training | 1 week retraining |
+| **Use Case** | Strategic adaptation | Path correction/punishment |
+| **Limits** | 2 per unit, once per 3 ranks | No limits (but painful) |
+
+### UI and Player Communication
+
+**Respecialization Screen**:
+```
+Respecialize [Unit Name] from Assault to Support?
+Cost: 15,000 credits
+Training Duration: 1 week
+Stats: Remain unchanged
+Perks: Will be reset and reassigned
+Remaining Uses: 1 of 2
+Proceed? [YES] [NO]
+```
+
+**Status Display**:
+- Unit shows "In Training" status during respecialization
+- Progress bar for training week
+- Notification when complete
+- Respecialization count in unit details
+
+### Balance Considerations
+
+**Power Level Maintenance**:
+- Stats preserved = veteran effectiveness maintained
+- Perks reset = specialization-appropriate abilities
+- Cost and time = meaningful investment barrier
+- Limited uses = prevents constant switching
+
+**Strategic Depth**:
+- Enables long-term squad adaptation
+- Rewards keeping veteran units alive
+- Creates meaningful specialization choices
+- Balances flexibility vs. commitment
+
+### Implementation Guidelines
+
+**For Engine Developers**:
+1. Track respecialization uses per unit (lifetime counter)
+2. Preserve all stats during respecialization
+3. Reset and reassign perks based on new specialization
+4. Implement 1-week training timer
+5. Handle interruption cases (death, mission conflicts)
+
+**For Designers**:
+1. Balance respecialization cost vs. demotion pain
+2. Design specialization perks to be meaningfully different
+3. Consider respecialization as meta-adaptation tool
+4. Use limits to encourage specialization commitment
+
+**For Modders**:
+1. Define respecialization costs and time requirements
+2. Create specialization perk sets
+3. Adjust usage limits for balance
+4. Add custom respecialization logic
 
 ---
 
@@ -548,7 +685,7 @@ Different armor types provide varying resistances to damage types:
 
 **Armor Resistance Ranges**:
 - Kinetic: 0-50% reduction
-- Energy: 0-40% reduction  
+- Energy: 0-40% reduction
 - Hazard (poison/chemical): 0-30% reduction
 
 **Resistance-Bearing Armor**:
@@ -650,6 +787,244 @@ Different armor types provide varying resistances to damage types:
 
 ---
 
+## COMPREHENSIVE TRAITS SPECIFICATION (A4)
+
+### Overview
+This section consolidates and clarifies the traits system, establishing it as canonical (A4 specification from gap analysis). **Traits are permanent, randomly-assigned unit modifiers that affect gameplay from recruitment through entire career.**
+
+### Trait Definition
+
+**What are Traits?**
+- Permanent behavioral/physical characteristics assigned at unit recruitment
+- Cannot be changed except through rare interventions (Transformation, research)
+- Generated randomly during recruitment (1-3 traits per unit depending on modder configuration)
+- **Immutable by default** (traits stay with unit for entire career)
+- Affect combat stats, special abilities, economic cost, and progression
+
+### Trait Point System (Revised & Complete)
+
+#### Point Allocation
+
+**Basic Rule**: Each unit has exactly **4 trait points** to allocate at recruitment.
+
+**Point Flow**:
+```
+Starting: 4 points
+↓
+Add positive traits (cost 1-2 points each): Reduces available points
+Add negative traits (refund 1-2 points each): Increases available points
+↓
+Final: Total available points capped at 4 (cannot exceed original)
+```
+
+**Examples**:
+1. **Balanced Unit**: Fast (1) + Strong (1) + Loyal (1) = 3 points spent, 1 point unused
+2. **Specialist Unit**: Agile (2) + Leader (2) = 4 points spent (fully maxed)
+3. **Budget Unit**: Smart (1) + Fragile (refund 1) + Coward (refund 1) = 2 points spent, 2 points available
+4. **Maximum Trait Unit**: Brave (2) + Psychic (2) + Agile (2) + Lucky (1) = INVALID (exceeds 4, must be 4 max)
+
+#### Trait Point Constraints by Rank
+
+| Rank | Trait Points Available | Lockouts |
+|------|----------------------|----------|
+| **Rank 0 (Recruit)** | 4 points | Cannot pick Rank 2+ traits |
+| **Rank 1 (Agent)** | 4 points | Cannot pick Rank 2+ traits |
+| **Rank 2+ (Specialist)** | 4 points | All traits unlocked |
+| **Rank 4+ (Master)** | 4 points | Can pick Rank 4 traits if implemented |
+
+**Note**: Units never gain additional trait points during progression. Trait point pool remains fixed at 4 throughout career.
+
+#### Trait Assignment Process
+
+**Recruitment**:
+1. Player selects unit for recruitment
+2. System randomly generates 1-3 traits (modder-configurable: E.g., 50% 1 trait, 30% 2 traits, 20% 3 traits)
+3. Traits assigned with total cost ≤ 4 points
+4. Player can accept/reject and re-roll traits (costs additional recruitment fee)
+5. Once accepted, traits are permanent
+
+**Re-rolling Cost**: 500 credits per re-roll (modder-configurable)
+
+### Trait Categories
+
+#### POSITIVE TRAITS (Cost Points)
+
+| # | Trait | Effect | Points | Requirements | Conflicts |
+|---|-------|--------|--------|--------------|-----------|
+| 1 | **Fast** | Speed +2, Movement +1 hex | 1 | Any | None |
+| 2 | **Strong** | Strength +2, Carry +2 | 1 | Any | Weak |
+| 3 | **Agile** | Action Points +1 (max 5 AP) | 2 | Rank 2+ | None |
+| 4 | **Sharp Eyes** | Sight +2 hexagons, +1 accuracy | 1 | Any | None |
+| 5 | **Smart** | XP Gain +20%, faster promotion | 1 | Any | Stupid |
+| 6 | **Loyal** | Salary -50% (economic savings) | 1 | Any | None |
+| 7 | **Leader** | Morale Aura +1 (allies 3-hex radius) | 2 | Rank 2+ | None |
+| 8 | **Brave** | Bravery +1, panic delayed 1 turn | 2 | Rank 2+ | Coward |
+| 9 | **Sharpshooter** | Accuracy +10%, ranged only | 1 | Any | None |
+| 10 | **Bloodthirsty** | Melee damage +5, +1 wound chance | 1 | Any | Pacifist |
+| 11 | **Psychic** | Unlocks psionic abilities (Psi +5 base) | 2 | Tech required | None |
+| 12 | **Lucky** | Critical Hit +10% chance | 1 | Any | None |
+| 13 | **Resilient** | Health +2, damage -1 | 1 | Any | Fragile |
+| 14 | **Hawkeyed** | Detect hidden enemies +3 range | 2 | Rank 2+ | None |
+| 15 | **Charming** | Recruitment cost -20% when this unit leads | 1 | Any | None |
+
+#### NEGATIVE TRAITS (Refund Points)
+
+| # | Trait | Effect | Refund | Restrictions | Conflicts |
+|---|-------|--------|--------|--------------|-----------|
+| 1 | **Fragile** | Health -2, cannot use heavy armor | 1 | Any | Resilient |
+| 2 | **Clumsy** | Accuracy -10%, Speed -1 | 1 | Any | None |
+| 3 | **Stupid** | XP Gain -20%, slower promotion | 1 | Any | Smart |
+| 4 | **Coward** | Morale -2, panic +1 threshold | 1 | Rank 1-2 only | Brave |
+| 5 | **Pacifist** | Damage -25% (ideological) | 2 | Rank 1 only | Bloodthirsty |
+| 6 | **Weak** | Strength -2, carry reduced by 2 | 1 | Any | Strong |
+| 7 | **Stubborn** | Cannot be promoted/demoted easily | 2 | Permanent | None |
+| 8 | **Paranoid** | Sight +1, but morale -1 + sanity -1 | 2 | Rank 2+ | None |
+| 9 | **Reckless** | Accuracy +5%, but defense -10% | 1 | Any | None |
+| 10 | **Sickly** | Health -1, healing -25% effectiveness | 1 | Any | None |
+
+### Trait Inheritance & Randomization
+
+#### Recruitment Trait Generation
+
+**Default Randomization** (modder-configurable):
+- 50% of recruits spawn with 1 trait
+- 30% of recruits spawn with 2 traits
+- 15% of recruits spawn with 3 traits
+- 5% of recruits spawn with no traits
+
+**Point Distribution**:
+- Traits generated must total ≤ 4 points
+- System automatically prevents invalid combinations (e.g., both Smart + Stupid)
+- Conflicts resolved: If random roll produces conflict, one trait replaced
+
+**Example Generation**:
+- Roll generates: Smart (1) + Agile (2) + Loyal (1) = 4 points ✓ Valid
+- Roll generates: Brave (2) + Agile (2) + Smart (1) = 5 points ✗ Invalid; system removes Loyal if possible
+
+#### Trait Persistence
+
+**Permanent Nature**:
+- Traits do NOT change during unit career
+- Demotion does NOT remove traits
+- Wounds do NOT affect traits
+- Transformations do NOT add/remove traits (only modify stats)
+
+**Exception - Transformation Interaction**:
+- Some Transformations may temporarily disable certain traits during transformation period
+- Upon completion, traits resume normal function
+
+### Trait Effects on Gameplay
+
+#### Combat Effects
+
+| Trait | Battlescape Impact | Example |
+|-------|-------------------|---------|
+| **Fast** | Move 1 additional hex per turn | Normal: 5 hexes → With Fast: 6 hexes |
+| **Strong** | Melee damage +5 | Normal 15 damage → With Strong: 20 damage |
+| **Agile** | +1 action point (max 5) | Normal 4 AP → With Agile: 5 AP |
+| **Sharp Eyes** | +2 sight range | Normal 10 hex sight → With Sharp Eyes: 12 hexes |
+| **Sharpshooter** | +10% ranged accuracy | Normal 70% accuracy → With Sharpshooter: 80% |
+| **Bloodthirsty** | Melee +5 damage, +1 crit chance | Increased wound infliction |
+| **Brave** | Morale -1 at mission start instead of normal | Delayed panic threshold |
+| **Lucky** | +10% critical hit chance | Approximately +2 crits per 20-shot average |
+| **Leader** | Allies within 3 hexes gain +1 morale | Squad cohesion bonus |
+| **Psychic** | Unlock psionic attacks (Psi stat +5) | New attack type available |
+
+#### Economic Effects
+
+| Trait | Impact | Calculation |
+|-------|--------|------------|
+| **Loyal** | Salary -50% | 1,000 credits → 500 credits/month |
+| **Smart** | XP +20% | 100 XP earned → 120 XP gained |
+| **Charming** | Recruitment -20% | When this unit leads squad, recruitment costs -20% |
+| **Fragile** | Equipment locked | Cannot equip heavy armor (+25 armor) |
+
+#### Progression Effects
+
+| Trait | Career Impact | Notes |
+|--------|--------------|-------|
+| **Smart** | Promotion 20% faster | Rank 0→1: 100 XP (normal) → 83 XP (Smart) |
+| **Stupid** | Promotion 20% slower | Rank 0→1: 100 XP (normal) → 120 XP (Stupid) |
+| **Brave** | Morale management better | Panic threshold delayed 1 turn |
+| **Coward** | Morale management harder | Panic threshold accelerated 1 turn |
+
+### Trait Combinations & Conflicts
+
+#### Mutually Exclusive Pairs
+
+These traits **cannot** both be on the same unit:
+
+| Pair | Reason |
+|------|--------|
+| **Smart + Stupid** | XP gain conflict |
+| **Strong + Weak** | Strength conflict |
+| **Brave + Coward** | Morale philosophy conflict |
+| **Resilient + Fragile** | Health philosophy conflict |
+| **Bloodthirsty + Pacifist** | Damage philosophy conflict |
+
+**Enforcement**: System prevents both from being randomly assigned; if conflict detected, re-roll one trait.
+
+#### Synergistic Combinations
+
+These traits work well together (bonus effectiveness):
+
+| Combo | Effect | Example |
+|-------|--------|---------|
+| **Leader + Brave** | Squad anchor unit | Creates valuable anchor for morale management |
+| **Smart + Agile** | Tactical unit | Promotion faster + more actions per turn |
+| **Sharp Eyes + Sharpshooter** | Marksman specialist | +2 sight + +10% accuracy = sniper build |
+| **Fast + Agile** | Hyper-mobile scout | Additional movement + additional action point |
+| **Loyal + Strong** | Economic tank | Low salary + high carrying capacity |
+
+**No Mechanical Bonus**: Synergies provide strategic advantage but no automatic combat bonus.
+
+### Trait Interactions with Other Systems
+
+#### With Promotion System
+- Traits do NOT change rank or progression requirement
+- Demotion does NOT remove traits
+- Example: Stupid unit still requires same XP as Smart unit, just takes longer
+
+#### With Transformation System
+- Traits persist through transformation
+- Transformation may temporarily disable trait effectiveness (modder-specific)
+- Transformation bonuses stack with trait bonuses
+- Example: Strong (+2 STR) + Berserker (+3 STR) = +5 STR total
+
+#### With Wounds System
+- Traits do NOT reduce wound recovery time
+- Traits do NOT change damage taken from wounds
+- Bloodthirsty trait increases wound infliction (see Combat Effects)
+
+#### With Equipment System
+- Traits affect equipment compatibility (e.g., Fragile blocks heavy armor)
+- Traits do NOT reduce equipment effectiveness
+- Example: Sharp Eyes trait doesn't reduce scope benefit; they stack
+
+### Trait Implementation Guidelines
+
+**For Engine Developers**:
+1. Generate traits at recruitment time using random seeding
+2. Store traits as immutable list on unit object
+3. Apply trait bonuses/penalties at combat calculation
+4. Prevent conflicting trait combinations
+5. Display traits in unit inspector/status window
+
+**For Modders**:
+1. Create new trait definitions with point cost, effects, conflicts
+2. Add traits to random generation pool with probability weight
+3. Test that generated combinations don't exceed 4 points
+4. Verify all trait conflicts are properly enforced
+5. Rebalance recruitment costs if new traits significantly affect power level
+
+**For Balancers**:
+1. Monitor win rate correlation with specific trait combinations
+2. Adjust trait point cost if meta becomes dominated by single traits
+3. Ensure negative traits actually cost players decisions (not just RP flavor)
+4. Test that trait generation provides varied unit types
+
+---
+
 ## Transformations
 
 ### Transformation System
@@ -742,250 +1117,233 @@ Players can mix and match traits, equipment, and specializations to create hybri
 
 ## Unified Pilot Specification
 
-> **⚠️ CANONICAL SOURCE**: This section is the authoritative specification for pilot mechanics.  
-> **See also**: Pilots.md (detailed pilot specialization), Crafts.md (craft requirements)  
-> **Resolved Contradictions**: This section unifies pilot mechanics from multiple sources
+> **⚠️ CANONICAL SOURCE**: This section is the authoritative specification for pilot mechanics.
+> **See also**: Pilots.md (detailed pilot specialization), Crafts.md (craft requirements)
+> **Core Principle**: Pilot is a Unit Role with standard 6-12 stat that grows with unit promotion
 
 ### Overview
 
-**Pilots are specialized units** that can operate craft (aircraft/spacecraft) in addition to serving as ground combat units. The pilot system uses the standard unit system with pilot-specific specializations added through the class progression tree.
+**Pilots are specialized unit roles** that can operate craft (aircraft/spacecraft). The pilot system uses the standard unit system where Pilot is a class specialization available from Rank 1, with a Piloting stat (6-12 range) that improves as the unit is promoted through ranks.
 
-**Key Principle**: All units have a Piloting stat, but only units with Pilot class specialization can operate craft effectively.
-
----
-
-### Pilot Mechanics - Unified Rules
-
-#### Core Pilot System
-
-**Universal Piloting Stat**:
-- **ALL units** have a Piloting stat (0-100 range, default 20-40 for recruits)
-- Piloting stat improves through:
-  - Training in Academy (+5 per month if assigned to pilot training)
-  - Interception missions (+2-5 XP per mission)
-  - Unit promotion (Pilot class specialists gain +10 per rank)
-  - Items: Flight Manual (+5 permanent boost, consumable)
-
-**Craft Operation Requirements**:
-- **Minimum Piloting**: 30 (any unit can attempt basic flight)
-- **Effective Piloting**: 50+ (Pilot class recommended)
-- **Expert Piloting**: 70+ (Ace Pilot specialization)
-- **Master Piloting**: 90+ (Squadron Commander, elite pilots only)
-
-**Pilot Assignment**:
-- Each craft requires **exactly 1 pilot unit** assigned
-- Pilot assignment is **permanent until reassigned** (not per-mission)
-- Pilots can be **reassigned between crafts** (takes 1 day retraining)
-- Pilots can **switch to ground combat role** when not flying
+**Key Principle**: All units start with Piloting 0 (untrained). Only units trained in Pilot class specialization have Piloting stat 6-12. Piloting grows with unit rank/promotion like all other stats.
 
 ---
 
-### Pilot Class Progression
+### Pilot Mechanics - Core Rules
 
-**Pilot is a Rank 1 Class Specialization** within the standard unit progression:
+#### Pilot as Unit Role/Class
 
+**Pilot Specialization Path**:
 ```
-Rank 0: Conscript (base unit)
+Rank 0: Conscript (base unit, Piloting 0)
     ↓
-Rank 1: **Pilot** (role assignment - enables craft operation)
+Rank 1: **Pilot** (role assignment - Piloting 6-8 baseline)
     ↓
 Rank 2: Specialization branches:
-    → Fighter Pilot (air combat focus)
-    → Bomber Pilot (ground attack focus)
-    → Transport Pilot (cargo/troop transport focus)
-    → Scout Pilot (reconnaissance focus)
+    → Fighter Pilot (Piloting 8-10)
+    → Bomber Pilot (Piloting 8-10)
+    → Transport Pilot (Piloting 8-10)
+    → Scout Pilot (Piloting 8-10)
     ↓
 Rank 3: Advanced Specialization:
-    → Ace Fighter (exceptional air combat)
-    → Strategic Bomber (large-scale destruction)
-    → Master Transport (efficient logistics)
-    → Recon Expert (intelligence gathering)
+    → Ace Fighter (Piloting 10-11)
+    → Strategic Bomber (Piloting 10-11)
+    → Master Transport (Piloting 10-11)
+    → Recon Expert (Piloting 10-11)
     ↓
 Rank 4: Elite Specialization:
-    → Squadron Commander (can command multiple craft)
-    → Legendary Ace (combat bonuses to entire squadron)
+    → Squadron Commander (Piloting 11-12)
 ```
 
----
+#### Piloting Stat: 6-12 Scale (Standard)
 
-### Pilot Experience System
+**Universal Rule**: Piloting is a standard 6-12 stat like Aim, Melee, Speed, Bravery, etc.
 
-**Dual XP Tracks**:
+**Default Ranges by Rank**:
 
-1. **Ground Combat XP**: Earned in Battlescape missions, progresses unit rank
-2. **Pilot XP**: Earned in Interception missions, improves Piloting stat
+| **Rank** | **Piloting Range** | **Status** | **Craft Access** |
+|---|---|---|---|
+| **Rank 1 (Pilot)** | 6-8 | Recruit | Scout/Transport |
+| **Rank 2** | 8-10 | Experienced | Combat craft (Fighter/Bomber) |
+| **Rank 3** | 10-11 | Advanced | Specialized aircraft |
+| **Rank 4+** | 11-12 | Master | All craft available |
+
+**No Units Have Piloting**:
+- Non-pilot class units: Piloting 0 (untrained, cannot pilot any craft)
+- Standard soldiers: Piloting 0 (even with high Accuracy)
+- Medics, Snipers, Scouts: Piloting 0 (unless trained in Pilot class)
+
+#### Pilot Experience & Promotion
+
+**Experience Tracks**:
+
+Pilots have **one unified XP track** that advances them through ranks. Piloting stat improves **as unit is promoted through ranks**, following the standard progression mechanic.
 
 **XP Sources**:
+- **Battlescape missions**: 5-20 XP per mission (standard unit XP)
+- **Interception missions**: 10-20 XP per mission (when flying craft)
+- **UFO destroyed**: +10 XP bonus (impressive feat)
+- **Promotion**: Unit gains rank → Piloting stat increases (+1-2 points)
 
-| Activity | Ground XP | Pilot XP | Piloting Stat Gain |
-|----------|-----------|----------|-------------------|
-| Battlescape mission | 5-20 | 0 | 0 |
-| Interception mission | 0 | 10-30 | +2 |
-| UFO destroyed | 0 | +50 | +5 |
-| Craft damaged | 0 | +10 | +1 (experience through adversity) |
-| Academy training | 0 | 0 | +5 per month |
-| Flight Manual item | 0 | 0 | +5 permanent |
-
-**Rank Progression**:
-- Pilots progress through ranks using Ground XP (standard unit progression)
-- Pilot XP does NOT contribute to rank advancement
-- Pilot XP only improves Piloting stat and unlocks pilot-specific abilities
+**Promotion Progression**:
+- Pilot gains XP from all missions (battles + flying)
+- XP accumulates normally (100 XP → Rank 2, 300 XP → Rank 3, etc.)
+- Upon promotion, Piloting automatically increases per new rank
 
 ---
 
-### Craft Requirements by Type
+### Craft Assignment & Operation
 
-**Source Reference**: Crafts.md (unified with this specification)
+#### Pilot Assignment
 
-| Craft Type | Minimum Piloting | Recommended Class | Crew Slots | Special Requirements |
-|------------|------------------|-------------------|------------|---------------------|
-| **Scout** | 30 | Any unit | 1 pilot | None |
-| **Interceptor** | 50 | Fighter Pilot (Rank 2+) | 1 pilot | Combat experience preferred |
-| **Bomber** | 50 | Bomber Pilot (Rank 2+) | 1 pilot | None |
-| **Transport** | 40 | Transport Pilot (Rank 2+) | 1 pilot + 4-20 passengers | None |
-| **Assault Transport** | 60 | Fighter or Transport Pilot | 1 pilot + 6-12 passengers | Mixed combat/transport |
-| **Stealth Craft** | 70 | Scout or Fighter Pilot (Rank 3+) | 1 pilot | High skill floor |
-| **Battleship** | 80 | Squadron Commander (Rank 4+) | 1 pilot + 10-20 crew | Command experience |
-
-**Piloting Stat Impact on Performance**:
-- **Below minimum**: Craft cannot be operated (blocked by game)
-- **At minimum**: -20% accuracy, -10% speed, +30% chance of critical failure
-- **Recommended level**: Standard performance (100% effectiveness)
-- **Above recommended (+20)**: +10% accuracy, +5% speed, -20% chance of critical failure
-- **Master level (+40)**: +20% accuracy, +10% speed, -50% chance of critical failure, special abilities unlock
-
----
-
-### Pilot Assignment System
+**Requirements**:
+- Unit must have Piloting stat (Rank 1+ Pilot class)
+- Unit Piloting ≥ minimum craft requirement
+- Unit cannot be deployed to Battlescape if assigned to craft
 
 **Assignment Process**:
-1. Select craft from hangar/garage
-2. Assign pilot unit from available roster
-3. Pilot is **locked to craft** until reassigned
-4. Pilot cannot deploy to Battlescape while assigned to craft
+1. Select craft from hangar
+2. Assign Pilot unit from roster
+3. Pilot locked to craft until reassigned
+4. Cannot reassign during active mission (must wait for admin phase)
 
 **Reassignment**:
 - **Time**: 1 day retraining period
-- **Cost**: 100 credits administrative cost
-- **Restrictions**: Cannot reassign during active mission
+- **Cost**: 100 credits administrative fee
+- **Restrictions**: Cannot during active mission
 
-**Dual Role Limitation**:
-- **Cannot simultaneously** pilot craft AND deploy to battlescape
-- **Must choose** per mission: fly craft OR ground combat
-- **Exception**: Pilots can deploy if craft is in hangar (not deployed)
+#### Craft Requirements by Type
+
+| **Craft Type** | **Min Piloting** | **Recommended Class** | **Crew** |
+|---|---|---|---|
+| **Scout** | 6 | Any Pilot | 1 |
+| **Transport** | 7 | Transport Pilot | 1 + passengers |
+| **Fighter** | 8 | Fighter Pilot | 1 |
+| **Bomber** | 8 | Bomber Pilot | 1 |
+| **Advanced** | 10 | Rank 3 Pilot | 1 |
+| **Capital Ship** | 12 | Squadron Commander | 1 + crew |
+
+**Performance Impact**:
+
+| **Piloting vs Requirement** | **Effect** | **Notes** |
+|---|---|---|
+| Below minimum | Cannot operate | Craft cannot be deployed |
+| At minimum (6) | -20% accuracy, -10% speed | Baseline access only |
+| Recommended (8+) | Normal performance | Full capability |
+| Above recommended (+2) | +10% accuracy, +5% speed | Experienced pilot |
+| Maximum (12) | +20% accuracy, +10% speed | Ace pilot bonuses |
+
+---
+
+### Pilot Craft Bonuses
+
+**Performance Bonus Formula**:
+
+Each Piloting point provides bonus to assigned craft:
+
+```
+Bonus% = (Piloting - 6) × 5%    [For Piloting 6-12]
+
+Examples:
+- Piloting 6: (6-6) × 5% = 0% (baseline only)
+- Piloting 8: (8-6) × 5% = +10% accuracy bonus
+- Piloting 10: (10-6) × 5% = +20% accuracy bonus
+- Piloting 12: (12-6) × 5% = +30% accuracy bonus (maximum)
+```
+
+**Bonus Categories**:
+- **Speed Bonus**: +5% per Piloting point (max +30% at Piloting 12)
+- **Accuracy Bonus**: +7.5% per Piloting point (max +45% at Piloting 12)
+- **Dodge Bonus**: +5% per Piloting point (max +30% at Piloting 12)
+
+**Multiple Pilots (Crew)**:
+
+If craft has multiple pilot crew slots:
+```
+Pilot 1 (Piloting 10): +20% accuracy
+Pilot 2 (Piloting 8): +10% accuracy
+Combined: +30% accuracy (bonuses stack)
+```
 
 ---
 
 ### Pilot Specialization Benefits
 
 **Fighter Pilot (Rank 2)**:
-- +10% accuracy in air combat
-- +5% speed when pursuing UFOs
-- Unlock: Advanced maneuvers (dodge +15%)
+- Focus on air combat accuracy
+- +10% accuracy in interception vs UFOs
+- Unlock: Dogfighting maneuvers
 
 **Bomber Pilot (Rank 2)**:
+- Focus on payload and targeting
 - +20% payload capacity
-- +15% explosive damage
-- Unlock: Precision bombing (collateral damage -30%)
+- Unlock: Precision bombing
 
 **Transport Pilot (Rank 2)**:
+- Focus on efficiency and cargo
 - +2 passenger capacity
 - -10% fuel consumption
-- Unlock: Emergency landing (crash survival +40%)
 
 **Ace Fighter (Rank 3)**:
-- +20% accuracy in air combat
+- +20% accuracy vs UFOs
 - +10% critical hit chance
-- Unlock: Aggressive pursuit (can chase retreating UFOs)
+- Unlock: Aggressive pursuit (chase retreating UFOs)
 
 **Squadron Commander (Rank 4)**:
-- Can command wing of 2-4 craft simultaneously
+- Can command wing of 2-4 craft
 - Allied craft in wing gain +5% accuracy
-- Unlock: Coordinated attack (simultaneous fire bonus)
+- Unlock: Coordinated attack bonus
+
+---
+
+### Pilot Dual Role Limitation
+
+**Cannot Simultaneously**:
+- Pilot craft AND deploy to Battlescape (same mission)
+- Must choose: fly craft OR fight in squad
+
+**Options**:
+- **During Geoscape Phase**: Pilot assigned to craft → flies interception
+- **During Battlescape Phase**: Pilot NOT assigned to craft → deploys to ground combat
+- **Choice Per Mission**: Reassign pilot before mission to switch roles
 
 ---
 
 ### Pilot Training
 
-**Academy Training Program**:
-- **Facility**: Academy (Basescape facility)
-- **Duration**: 1 month per training cycle
-- **Cost**: 1,000 credits per unit
-- **Effect**: +5 Piloting stat per month
-
-**Training Specialization**:
-- **Fighter Training**: Focus on accuracy and speed (+3 accuracy, +2 speed)
-- **Bomber Training**: Focus on payload and targeting (+5 payload, +3 bombing accuracy)
-- **Transport Training**: Focus on efficiency (+2 cargo capacity, -10% fuel)
-- **Advanced Combat**: Unlock special maneuvers (requires Rank 3+)
+**Academy Facility** (Optional Enhancement):
+- Pilots gain Piloting stat automatically through promotion
+- Academy provides supplemental training (roleplay/flavor)
+- Academy can enable specialist paths (Fighter training, Bomber training, etc.)
 
 **Field Experience**:
-- Pilots gain experience automatically through interception missions
-- No training time required for field XP
-- More effective than Academy (real combat = faster learning)
-
----
-
-### Pilot Equipment
-
-**Pilot-Specific Items**:
-
-| Item | Effect | Equip Slot | Requirements |
-|------|--------|------------|--------------|
-| **Flight Suit** | +5% speed, +2% accuracy | Armor slot | Pilot class |
-| **Oxygen Mask** | High-altitude flight enabled | Accessory | None |
-| **Flight Goggles** | +10% sight range in air | Helmet slot | None |
-| **Ejection Seat** | 80% crash survival | Craft upgrade | Rank 2+ pilot |
-| **Flight Manual** | +5 Piloting stat (consumable) | Inventory | Any unit |
-
-**Standard Equipment**:
-- Pilots can use standard combat equipment when deployed to battlescape
-- Flight-specific equipment only works during interception missions
-- Equipment switches automatically based on deployment type
-
----
-
-### Pilot Casualties & Replacement
-
-**Pilot Death**:
-- If pilot dies in crash or interception, craft requires new pilot assignment
-- Craft cannot operate without assigned pilot
-- Pilot loss triggers recruitment need
-
-**Ejection System**:
-- **Chance**: 50% base survival rate on craft destruction
-- **Ejection Seat**: +30% survival rate (80% total)
-- **Ace Pilot**: +10% survival rate (special training)
-- **Critical Damage**: -20% survival rate (instant destruction)
-
-**Replacement Costs**:
-- **Recruit new pilot**: 20K-50K credits (standard recruitment)
-- **Retrain existing unit**: 5K credits + 2 weeks training
-- **Emergency hire**: 100K credits (instant, Black Market)
+- Interception missions grant XP automatically
+- Real combat = fastest learning (flying actual missions)
+- No training time required (happens naturally)
 
 ---
 
 ### Integration with Other Systems
 
-**Craft System Integration** (Crafts.md):
+**Craft System** (Crafts.md):
 - Pilots assigned to craft determine craft performance
 - Craft can only deploy if pilot assigned
-- Pilot Piloting stat modifies craft statistics
+- Pilot Piloting stat modifies craft stats
 
-**Battlescape Integration** (Battlescape.md):
-- Pilots deployed to ground combat use standard unit rules
-- Pilot class bonuses do not apply to ground combat
-- Pilots can gain Ground XP to progress ranks
+**Battlescape** (Battlescape.md):
+- Pilots can deploy to ground if not assigned to craft
+- Pilot class bonuses apply to ground combat (no special bonus)
+- Pilots use standard unit combat rules
 
-**Economy Integration** (Economy.md):
-- Pilot training costs monthly credits
-- Pilot salaries same as standard units (5K per month)
-- Specialist pilots (Rank 3+) may demand higher salary (+2K)
+**Economy** (Economy.md):
+- Pilot units have standard salary (like any unit)
+- Pilot training (via Academy) has optional costs
+- No premium for pilots
 
-**Geoscape Integration** (Geoscape.md):
+**Geoscape** (Geoscape.md):
 - Pilots assigned to craft enable craft deployment
-- Craft without pilot cannot leave base
-- Pilot Piloting stat affects interception success rate
+- Craft without pilot cannot deploy
+- Pilot Piloting stat affects interception success
 
 ---
 
@@ -1002,6 +1360,118 @@ Rank 4: Elite Specialization:
 - Medikit use: 3 HP (Medic class) or 2 HP (other classes), 5 charges per kit
 - Surgical facility: Instant full healing, costs 50K
 - Stimulant injection: +1 HP, one-time use item
+
+---
+
+### HEALTH RECOVERY SYSTEM (B2)
+
+#### Overview
+
+Health Recovery is the **post-mission healing system** that determines how quickly damaged units return to combat readiness. The system uses facility capacity and healing tiers to control recovery speed.
+
+#### Unit Capacity (Housing)
+
+**Barracks Mechanics**:
+- Units require barracks slot to stay in base (no slots = units must be sent away or dismissed)
+- Barracks provide default recovery: **+1 HP/week** (standard recovery for all units)
+- Capacity calculation: Base barracks slots determine max unit population
+
+**Facility Dependency**:
+- Unit cannot recover without assigned barracks slot
+- All units in base consume one barracks slot
+- Recovery occurs passively during base phase (between missions)
+
+#### Healing Facility Types
+
+| Facility | Capacity | Recovery Rate | Purpose |
+|----------|----------|----------------|---------|
+| **Barracks** | Unit storage | +1 HP/week | Default housing/recovery |
+| **Clinic** | 3 healing slots | +3 HP/week | Basic medical facility |
+| **Hospital** | 5 healing slots | +5 HP/week | Advanced medical facility |
+
+**Key Design Points**:
+- Barracks = unlimited capacity but slow recovery (+1 HP/week baseline)
+- Clinics = limited healing slots (3) but faster recovery (+3 HP/week total)
+- Hospitals = most healing slots (5) and fastest recovery (+5 HP/week total)
+- Healing slots are the **limiting resource**, not unit slots
+
+#### Recovery Examples
+
+**Example 1: Light Damage (5 HP healed)**
+```
+Unit: 10 max HP, currently 5 HP (5 HP damage)
+
+Option A (Barracks only):
+  Recovery: 5 HP ÷ 1 HP/week = 5 weeks
+
+Option B (Clinic available):
+  Recovery: 5 HP ÷ 3 HP/week = ~2 weeks (if clinic slot available)
+
+Option C (Hospital available):
+  Recovery: 5 HP ÷ 5 HP/week = 1 week (if hospital slot available)
+```
+
+**Example 2: Heavy Damage (15 HP healed)**
+```
+Unit: 20 max HP, currently 5 HP (15 HP damage)
+
+Option A (Barracks only):
+  Recovery: 15 HP ÷ 1 HP/week = 15 weeks (3.5 months)
+
+Option B (Clinic available):
+  Recovery: 15 HP ÷ 3 HP/week = 5 weeks (if slot available)
+
+Option C (Hospital available):
+  Recovery: 15 HP ÷ 5 HP/week = 3 weeks (if slot available)
+```
+
+#### Recovery Priority System
+
+**Healing Slot Allocation**:
+- When multiple units need healing, priority follows:
+  1. Highest rank units (veterans recover first)
+  2. Most damaged units (worst health first)
+  3. FIFO for tie-breakers
+
+**Clinic Slot Scheduling**:
+- Clinics have 3 healing slots available each week
+- Assign units to slots manually or via priority system
+- Unassigned damaged units recover in barracks (+1 HP/week only)
+
+**Hospital Slot Scheduling**:
+- Hospitals have 5 healing slots available each week
+- Takes priority over clinic slots
+- Assign units manually or via priority system
+
+#### Recovery Facilities as Strategic Constraint
+
+**Why This Matters**:
+- Limited healing capacity forces tactical decisions about unit rotation
+- Heavily damaged units tie up barracks/clinic/hospital slots
+- Player must balance unit conservation vs. mission readiness
+- Encourages careful unit management and damage mitigation
+
+**Strategic Examples**:
+- Minimize damage = faster recovery = more missions possible
+- Heavy losses require weeks of recovery before next mission
+- Hospital investment improves campaign flexibility
+- Mission frequency limited by unit recovery needs
+
+#### Unit Evacuation During Recovery
+
+**Unneeded Units**:
+- Damaged units not needed immediately can be sent away
+- Frees up barracks slot and healing capacity
+- Unit recovers off-base (faster IRL progression between campaigns)
+- Recalled later when fully healed
+
+**Stasis Pods** (Optional Equipment):
+- Cryogenic storage for units mid-recovery
+- Pauses recovery timer (unit neither heals nor degrades)
+- Useful for bench units during active campaign phase
+- Reactivation takes 1 week (unit wakes up)
+
+---
 
 ### Wound System
 
@@ -1032,48 +1502,121 @@ Severe damage can cause **permanent wounds**:
 
 ## Unit Morale & Psychology
 
-### Morale Mechanics
+### Morale System
 
-**Morale Tracking**:
-- Each unit has **current morale** (0-10 scale, in battle)
-- Bravery stat determines starting morale (base 5 + ½ Bravery)
-- Morale changes during battle based on events
+**Morale Overview**:
+- Morale is the **in-battle psychological buffer** that affects unit action availability during combat
+- Resets to baseline each mission (see Bravery stat for starting value)
+- Simple threshold system - morale acts as a buffer pool with no accuracy impact
 
-**Morale Events**:
+**Starting Morale**:
+- Determined by Bravery stat: Base morale = Bravery value (typically 6-12)
+- Same for all units at mission start regardless of previous battles
+- Fresh start each mission (no carryover from previous engagement)
 
-| Event | Morale Change | Scope |
-|-------|---------------|-------|
-| Unit kills enemy | +2 morale | Killer only |
-| Friendly unit dies | -1 to -4 (rank-based) | All nearby units |
-| Friendly unit wounded critically | -1 morale | All nearby units |
-| Leader dies | -2 morale (always), -4 (if visible) | All units in squad |
-| Secure objective | +1 morale | Objective team |
-| Escape danger/cover taken | +1 morale | Unit entering cover |
-| Surrounded (enemies in 360°) | -1 morale | Surrounded unit per turn |
+**Morale Thresholds & Effects** (Action Point Buffer Only):
 
-**Panic Mechanics**:
-- When morale drops ≤ 2: Unit enters **Panic** state
-- Panicked unit: Cannot use ranged weapons (-100% accuracy), must move away from threats (AI-controlled)
-- Panic duration: Until morale recovers to >3 or unit takes damage (gains +1 morale upon taking damage)
+| Morale | Status | Effect | Recovery |
+|--------|--------|--------|----------|
+| 9-12 | Confident | Normal actions (no penalty) | Normal |
+| 6-8 | Steady | Normal actions (no penalty) | Normal |
+| 4-5 | Strained | Normal actions (no penalty) | Rest action (2 AP) → +1 morale |
+| 2-3 | Shaken | -1 AP per turn available | Rest action (3 AP) → +1 morale |
+| 1 | Panicking | -2 AP per turn available | Rest + cover (next turn) → +1 morale |
+| 0 | PANIC | Cannot act (action locked) | Requires safe cover + end turn → reset to 1 |
+
+**Key Design Point**: Morale does NOT affect accuracy. Only action availability is reduced at low thresholds.
+
+**Morale Loss Events**:
+- Ally killed in sight: -1 morale
+- Unit takes damage hit: -1 morale (per significant impact)
+- Critical hit received: -2 morale
+- Flanked for 1+ turns: -1 morale per turn in flank
+- Outnumbered 3:1 or more: -1 morale per turn
+- Squad leader dies: -2 morale (nearby units in 8-hex radius)
+
+**Morale Recovery Options**:
+- **Rest Action** (costs 2-3 AP): +1 morale (in-battle recovery)
+- **Leader Aura** (passive): +1 morale/turn (leadership within 8-hex radius)
+- **Leader Rally** (costs 4 AP): +2 morale to one specific unit
+- **Safety/Cover** (no damage taken): +1 morale per turn in cover
+
+**Morale System Design**:
+- Simple thresholds (no continuous degradation)
+- Action availability buffer (at 0 = completely locked down)
+- Leadership matters (leader aura and rally actions provide recovery)
+- Tactical recovery possible (cover, rest, regrouping all restore morale)
+- Encourages squad tactics (units help each other stay effective)
+
+---
 
 ### Sanity System
 
-**Sanity Degradation**:
-- Witnessing alien transformations: -1 Sanity
-- Witnessing brutal kills/executions: -1 Sanity
-- Surviving a near-death experience: -1 Sanity
-- Psychological horror environments (alien hives, dimensional rifts): -1 per turn in exposure
+**Sanity Overview**:
+- Sanity is the **long-term psychological state** tracked between missions
+- Pre-mission lock: If sanity = 0 at mission start, unit cannot deploy
+- Managed via hospital rest and recovery facilities
+- Independent from morale (morale resets each mission, sanity is cumulative)
+- Sanity does NOT affect in-battle accuracy or performance
 
-**Low Sanity Effects**:
-- Sanity ≤ 3: Unit takes +1 damage from psionic attacks
-- Sanity ≤ 1: Unit has -15% accuracy, -2 morale
-- Sanity 0: Unit becomes "broken" and must be reassigned (unusable in combat until recovered)
+**Sanity Degradation Events** (during missions):
+- Witnessing alien transformation or spawning: -1 sanity
+- Witnessing brutal unit death: -1 sanity
+- Surviving critical near-death (reduced to 1 HP): -1 sanity
+- Exposure to psychological horror (alien hive, dimensional rift, reality distortion): -1 sanity per turn exposed
+- Killing civilians or friendly units: -1 sanity per incident
 
-**Sanity Recovery**:
-- Rest in barracks: +1 per week
-- Psychiatric session (facility): +2-3 per session, costs 100 credits
-- Combat success: +1 upon mission completion
-- Promotion: +2 upon achieving new rank
+**Sanity Thresholds & Effects** (Deployment Only):
+
+| Sanity | Status | Effect | Deployment |
+|--------|--------|--------|-----------|
+| 8-12 | Stable | No penalty | ✅ Can deploy |
+| 5-7 | Stressed | No in-battle penalty | ✅ Can deploy |
+| 2-4 | Fragile | No in-battle penalty | ✅ Can deploy |
+| 1 | Critical | No in-battle penalty | ✅ Can deploy (risky) |
+| 0 | Broken | Cannot participate | ❌ Cannot deploy |
+
+**Key Design Point**: Sanity does NOT affect in-battle accuracy or performance. It only determines pre-mission deployment eligibility.
+
+**Sanity Recovery Options** (between missions):
+- **Hospital Rest** (facility): +1 sanity per week of rest in hospital
+- **Psychological Counseling** (facility action): +2-3 sanity per session (100 credits)
+- **Leave** (time off): +1 sanity per 2 weeks off-duty
+- **Promotion**: +2 sanity upon rank advancement
+- **Mission Success**: +1 sanity upon completing objective successfully (if sanity <8)
+
+**Hospital Sanity Recovery Mechanics**:
+- Unit must be assigned to hospital bed for recovery
+- Hospitals have limited beds (3-5 depending on facility tier)
+- Recovery rate: +1 sanity per week in bed (passive)
+- Unit cannot participate in missions while in hospital recovery
+
+**Sanity vs. Morale Distinction**:
+- **Sanity** = Can unit deploy? (pre-mission check, between-mission system, persistent damage)
+- **Morale** = How many actions does unit have? (in-battle only, resets each mission)
+- Sanity has NO in-battle effects (purely deployment gate)
+- Morale affects action point budget (at 0 = no actions)
+
+**Example Scenario**:
+```
+Unit Status Over Campaign:
+- Mission 1: Witnesses alien transformation → -1 sanity (now 11)
+- Mission 2: Takes critical hit near death → -1 sanity (now 10)
+- Mission 3: Sees ally brutalized → -1 sanity (now 9)
+- Mission 4: Long exposure to hive environment → -1 sanity per turn (exposed 5 turns) = -5 sanity (now 4)
+- Result: Unit at 4 sanity (Fragile status)
+  - Still fights normally in missions (no accuracy loss, morale unaffected)
+  - But requires healing before next mission
+  - If sanity drops to 0: Unit locked out of deployment entirely
+  - Recovery: Hospital bed +1 sanity/week or counseling for faster recovery
+```
+
+**Strategic Implication**:
+- Players must rotate heavily-exposed units to prevent sanity breakdown
+- Heavy missions (hive exposure, high horror environments) cause rapid sanity loss
+- Recovery requires time/resources (hospital beds are limited, counseling is expensive)
+- Sanity creates long-term campaign management pressure (similar to XCOM morale)
+- Losing unit to sanity breakdown is different from death (unit still exists but unusable until recovered)
 
 ---
 
@@ -1146,138 +1689,6 @@ Each unit tracks:
 - Early game: 4-6 units × 200-300 credits = 800-1,800 credits/month maintenance
 - Mid game: 12-16 units × average 300 credits = 3,600-4,800 credits/month
 - Late game: 20+ units × 300-500 credits = 6,000-10,000+ credits/month
-
----
-
-## Quick Reference Table
-
-| Aspect | Details |
-|--------|---------|
-| **Stat Ranges** | 6-12 (humans); 0-20 (specialized) |
-| **Rank Progression** | Rank 0 (0 XP) → Rank 6 (2,100 XP hero) |
-| **Equipment Slots** | 2 weapons, 1 armor (3 total) |
-| **Inventory Capacity** | Equal to Strength stat (6-12) |
-| **Action Points** | 4 per turn (fixed, modifers possible) |
-| **Morale Range** | 0-10 (in battle); Panic ≤ 2 |
-| **Traits per Unit** | Multiple traits up to point value 2-4 |
-| **Transformations** | 1 per unit, permanent, irreversible |
-| **Monthly Salary** | 200 credits base; varies by rank |
-| **Max Squad Size** | Rank-limited (see Rank Limits section) |
-| **Recovery Time** | 3-7 days in barracks (depends on wounds) |
-
----
-
-## Pilot System
-
-### Overview
-
-Pilots are specialized military personnel who operate aircraft and helicopters. Unlike ground troops, pilots are recruited and managed as individuals with persistent progression throughout the campaign. Pilots gain experience through interception missions and can rank up to improve both their personal stats and the performance of their assigned craft.
-
-### Pilot Classification
-
-Pilots are classified by the type of aircraft they operate:
-
-| **Pilot Class** | **Craft Type** | **Specialization** | **Recruitment Cost** | **Monthly Salary** |
-|---|---|---|---|---|
-| **Fighter Pilot** | Fighter Interceptor | Air-to-air combat, dogfighting | 800 credits | 150 credits |
-| **Bomber Pilot** | Bomber/Transport | Long-range missions, cargo ops | 700 credits | 140 credits |
-| **Helicopter Pilot** | Attack Helicopter | Close air support, reconnaissance | 750 credits | 145 credits |
-| **Rookie Pilot** | Any (on assignment) | Unspecialized, fresh recruit | 500 credits | 100 credits |
-
-### Pilot Progression System
-
-#### Experience Gain
-
-Pilots gain experience through successful interception missions:
-
-- **Per Mission Completion**: 5 XP (baseline)
-- **Bonus XP**: +2 XP for each enemy UFO destroyed by the pilot's craft
-- **Mission Difficulty Scaling**: Higher-class UFOs provide bonus multiplier (Scouter ×1, Fighter ×1.5, Cruiser ×2)
-
-#### Rank System
-
-Pilots progress through three distinct ranks, gaining cumulative stat bonuses:
-
-| **Rank** | **XP Threshold** | **SPEED Bonus** | **AIM Bonus** | **REACTION Bonus** | **Title Modifier** |
-|---|---|---|---|---|---|
-| **Rookie (0)** | 0 XP | — | — | — | "Rookie" |
-| **Veteran (1)** | 50 XP | +1 | +2 | +1 | "Veteran" |
-| **Elite (2)** | 150 XP | +2 | +4 | +2 | "Elite" |
-
-#### Stat Bonus Application
-
-- Bonuses accumulate across ranks (Rank 2 gets both Rank 1 and Rank 2 bonuses)
-- Bonuses apply to the pilot's personal unit when selected in squad
-- Bonuses apply to assigned craft performance (see Craft Bonuses section)
-- Multiple pilots in same craft stack bonuses (up to 3 crew slots per craft)
-
-### Craft Assignment & Bonuses
-
-#### Pilot Slots vs. Crew Slots
-
-Each aircraft has two types of slots:
-
-| **Slot Type** | **Quantity** | **Purpose** | **Bonus Application** |
-|---|---|---|---|
-| **Pilot Slot** | 1 (primary) | Main aircraft operator | Applies full stat bonus to craft |
-| **Crew Slots** | 2-3 (varies) | Secondary staff (co-pilot, weapons officer, etc.) | Each applies 50% stat bonus |
-
-#### Craft Performance Bonus Formula
-
-Pilot contribution to craft stats is calculated as:
-
-```
-Bonus% = (Pilot_Stat - 5) / 100 × 100
-```
-
-Example: Pilot with AIM 7 applying to Interceptor
-- Bonus = (7 - 5) / 100 = 0.02 = +2% accuracy bonus
-
-Multiple pilots stack multiplicatively:
-- Pilot 1 (AIM 7): +2% accuracy
-- Pilot 2 (AIM 6): +1% accuracy
-- Combined: +3% accuracy
-
-#### Specialist Pilot Types
-
-Certain pilots excel in specific roles:
-
-| **Specialist** | **Craft Type** | **Starting Bonus** | **Progression** |
-|---|---|---|---|
-| Dogfighter | Fighter Interceptor | +1 AIM | Gains +1 AIM per rank (total +3 at Rank 2) |
-| Bomber Expert | Bomber/Transport | +1 SPEED | Gains +1 SPEED per rank (total +3 at Rank 2) |
-| Scout Master | Helicopter | +1 REACTION | Gains +1 REACTION per rank (total +3 at Rank 2) |
-
-### Pilot Management
-
-#### Recruitment
-
-- Available in basescape facility: **Officer's Quarters**
-- Recruitment screen shows available pilot class and starting stats
-- Randomized within stat ranges per pilot class
-
-#### Rest & Recovery
-
-- Pilots require mandatory rest after 3 consecutive missions
-- Reduced performance if fatigued (-10% accuracy, -5% evasion)
-- Rest in quarters recovers fatigue
-
-#### Removal from Service
-
-- Pilots can be dismissed (refund: 50% recruitment cost)
-- Pilot death in interception is permanent loss
-- Promotions create narrative moments (rankup event)
-
-### Pilot Design Philosophy
-
-The Pilot system serves distinct strategic purposes:
-
-1. **Persistent Individual Investment**: Unlike expendable ground troops, pilots develop personal histories and represent permanent assets
-2. **Long-term Progression**: XP-based ranking creates reward for veteran pilots and motivation to keep experienced pilots alive
-3. **Craft Specialization**: Pilot-craft pairing creates emergent strategy (specialized pilots for high-value missions)
-4. **Narrative Depth**: Named pilots with ranks and specializations create storytelling opportunities
-5. **Economic Balance**: High-value pilots justify expensive interception facilities and represent ongoing operational cost
-6. **Asymmetric Resource**: Pilots require training time and cannot be "bought" like equipment; they must be developed
 
 ---
 
@@ -1476,6 +1887,281 @@ The Perk system serves multiple strategic and narrative purposes:
 5. **Narrative Hooks**: Perks represent unit history, personality, and special backgrounds
 6. **Roleplay Support**: Perks enable player storytelling ("My Brave Sniper who survived 50 missions")
 7. **Asymmetric Strength**: Perks allow specialist units to excel in specific roles without breaking general balance
+
+---
+
+## Examples
+
+### Scenario 1: Rookie Squad Assembly
+**Setup**: Player starts campaign with 4 Rank 0 recruits and limited budget
+**Action**: Recruit basic soldiers, assign roles, equip with starter weapons
+**Result**: Mixed squad with rifleman, grenadier, medic, sniper roles; balanced but inexperienced
+
+### Scenario 2: Veteran Unit Progression
+**Setup**: Unit survives 20 missions, reaches Rank 3 with specialization
+**Action**: Choose between Marksman or Sharpshooter path, unlock relevant perks
+**Result**: Elite specialist with unique abilities, significantly stronger than new recruits
+
+### Scenario 3: Pilot Training Program
+**Setup**: Player researches pilot training facility, recruits potential pilots
+**Action**: Assign recruits to pilot training, monitor progress through missions
+**Result**: Qualified pilots available for craft operation, enabling interception capabilities
+
+### Scenario 4: Unit Loss Recovery
+**Setup**: Veteran unit killed in difficult mission, squad composition disrupted
+**Action**: Recruit replacement, train through missions, rebuild squad synergy
+**Result**: New unit eventually reaches veteran's level, but with different trait/perk combinations
+
+---
+
+## Balance Parameters
+
+| Parameter | Value | Range | Reasoning | Difficulty Scaling |
+|-----------|-------|-------|-----------|-------------------|
+| Base Recruitment Cost | 500 credits | 200-1000 | Entry barrier for new units | ×0.8 on Easy |
+| Rank XP Requirements | 100-2100 | 50-3000 | Progression pacing | ×0.7 on Easy |
+| Max Squad Size | 8 units | 4-12 | Tactical complexity limit | No scaling |
+| Trait Frequency | 70% common | 50-90% | Unit individuality | +10% on Hard |
+| Perk Unlock Rate | 15% per level | 10-25% | Specialization rewards | ×1.5 on Impossible |
+| Maintenance Cost | 50 credits/month | 25-100 | Resource management | ×0.5 on Easy |
+| Pilot Training Time | 30 days | 15-60 | Strategic investment | ×0.75 on Easy |
+
+---
+
+## Difficulty Scaling
+
+### Easy Mode
+- Recruitment costs: 20% reduction
+- XP requirements: 30% reduction (faster progression)
+- Trait frequency: +10% (more interesting units)
+- Maintenance costs: 50% reduction
+- Pilot training: 50% faster
+
+### Normal Mode
+- All parameters at standard values
+- Balanced progression and resource management
+- Standard trait distribution and costs
+
+### Hard Mode
+- Recruitment costs: +25% increase
+- XP requirements: +20% increase (slower progression)
+- Maintenance costs: +50% increase
+- Unit loss impact: More severe consequences
+- Pilot training: +25% longer
+
+### Impossible Mode
+- Recruitment costs: +50% increase
+- XP requirements: +50% increase (much slower progression)
+- Maintenance costs: +100% increase
+- Trait frequency: -20% (fewer interesting units)
+- Perk unlocks: 50% reduction
+- Pilot training: +100% longer
+
+---
+
+## Testing Scenarios
+
+- [ ] **Unit Progression**: Verify XP requirements and rank advancement work correctly
+  - **Setup**: Create unit at Rank 0, complete missions with XP rewards
+  - **Action**: Accumulate XP through combat and objectives
+  - **Expected**: Unit advances through ranks at correct XP thresholds
+  - **Verify**: Check rank progression and ability unlocks
+
+- [ ] **Trait Distribution**: Test that unit traits appear at expected frequencies
+  - **Setup**: Generate 100 new units with random traits
+  - **Action**: Analyze trait distribution across population
+  - **Expected**: Common traits ~70%, Uncommon ~20%, Rare ~8%, Legendary ~2%
+  - **Verify**: Statistical analysis of trait frequency
+
+- [ ] **Perk System**: Validate perk unlocks and effects function properly
+  - **Setup**: Unit with multiple perks unlocked
+  - **Action**: Activate perks in combat scenarios
+  - **Expected**: Perk effects apply correctly to stats and abilities
+  - **Verify**: Combat results with and without perk activation
+
+- [ ] **Pilot Training**: Test pilot qualification and craft operation
+  - **Setup**: Recruit unit for pilot training
+  - **Action**: Complete training program and assign to craft
+  - **Expected**: Pilot gains craft operation abilities and bonuses
+  - **Verify**: Successful interception and craft performance
+
+- [ ] **Resource Management**: Verify maintenance costs and budget impact
+  - **Setup**: Squad of 8 units with varying ranks
+  - **Action**: Calculate monthly maintenance costs
+  - **Expected**: Costs scale appropriately with unit count and rank
+  - **Verify**: Budget calculations and resource allocation
+
+---
+
+## Related Features
+
+- **[Battlescape System]**: Unit combat mechanics and tactical deployment (Battlescape.md)
+- **[Items System]**: Equipment and weapon assignments (Items.md)
+- **[Crafts System]**: Pilot assignments and vehicle operation (Crafts.md)
+- **[Pilots System]**: Specialized pilot training and abilities (Pilots.md)
+- **[Economy System]**: Recruitment costs and maintenance expenses (Economy.md)
+- **[Morale System]**: Unit psychology and combat effectiveness (MoraleBraverySanity.md)
+
+---
+
+## Implementation Notes
+
+**Priority Systems**:
+1. Core unit statistics and combat integration
+2. Experience and rank progression
+3. Trait and perk systems
+4. Pilot specialization
+5. Recruitment and maintenance costs
+
+**Balance Considerations**:
+- Unit progression should feel rewarding but not overwhelming
+- Trait distribution creates interesting variety without frustration
+- Maintenance costs encourage strategic squad sizing
+- Pilot system provides meaningful specialization path
+- Perk combinations enable unique playstyles
+
+**Testing Focus**:
+- XP progression curves and rank advancement
+- Trait frequency distribution
+- Perk effect calculations
+- Pilot training mechanics
+- Resource cost calculations
+
+---
+
+## Alien Unit Stat Scaling System
+
+**Overview**
+Alien units use a **different stat scale than humans** to represent their otherworldly nature and varying threat levels. While human units operate on a 6-12 scale for most stats, alien units use higher base values that are then scaled by difficulty and campaign progression. This creates dynamic threat escalation while maintaining balance against human units.
+
+**Alien Stat Scale Decision**
+- **Different Scale from Humans**: Aliens use higher base stats (50-110 range) to represent their alien nature
+- **Rationale**: Allows for meaningful scaling multipliers, represents alien superiority, maintains balance through scaling
+- **Alternative Considered**: Same 6-12 scale but rejected for insufficient scaling range
+
+**Base Alien Stats (Human Equivalent)**
+
+| Alien Type | Health | Accuracy | Reactions | Strength | Armor | Psionic | Classification | Human Equivalent |
+|------------|--------|----------|-----------|----------|--------|---------|----------------|------------------|
+| **Sectoid** | 60 | 50 | 55 | 6 | 20 | 8 | Weak individual, dangerous in groups | Rank 1-2 Human (green recruit) |
+| **Floater** | 75 | 65 | 70 | 7 | 35 | 0 | Mobile medium threat, flight advantage | Rank 2-3 Human (trained soldier) |
+| **Muton** | 110 | 70 | 65 | 11 | 60 | 0 | Strong frontline, melee focus | Rank 4-5 Human (veteran/elite) |
+| **Chryssalid** | 95 | 55 | 85 | 10 | 50 | 0 | Extreme melee threat, very fast | Rank 5-6 Human (specialist/dangerous) |
+| **Ethereal** | 85 | 75 | 80 | 9 | 45 | 12 | Leader class, expert psionics | Rank 6 Human (expert level) |
+
+**Stat Scaling Formula**
+```
+Final Stat = Base Stat × Difficulty Multiplier × Campaign Multiplier
+```
+
+**Difficulty Multipliers**
+
+| Difficulty | Multiplier | Description |
+|------------|------------|-------------|
+| **Normal** | 1.0× | Standard alien threat |
+| **Classic** | 1.1× | +10% stronger aliens |
+| **Impossible** | 1.3× | +30% stronger aliens (extreme challenge) |
+
+**Campaign Progression Multipliers**
+
+| Campaign Month | Multiplier | Description |
+|----------------|------------|-------------|
+| **Months 1-2** | 0.9× | Early game: Slightly weakened aliens |
+| **Months 3-6** | 1.0× | Mid game: Standard alien strength |
+| **Months 7-10** | 1.1× | Late game: +10% stronger aliens |
+| **Months 11-12** | 1.2× | End game: +20% stronger aliens |
+
+**Combined Scaling Examples**
+
+**Muton on Normal Difficulty, Month 6:**
+- Base: Health 110, Accuracy 70, Reactions 65, Strength 11
+- Difficulty: 1.0×, Campaign: 1.0×, Total: 1.0×
+- Final: Health 110, Accuracy 70, Reactions 65, Strength 11
+
+**Muton on Impossible Difficulty, Month 12:**
+- Base: Health 110, Accuracy 70, Reactions 65, Strength 11
+- Difficulty: 1.3×, Campaign: 1.2×, Total: 1.56×
+- Final: Health 171, Accuracy 109, Reactions 101, Strength 17
+
+**Alien Ability Effectiveness**
+
+**Psionic Attack (Ethereal):**
+- Base success rate: 40%
+- Increases: +2% per Psionic point
+- Ethereal (Psionic 12): 40% + 24% = 64% base success rate
+- On Impossible Month 12: 64% × 1.56 = ~100% success rate
+
+**Melee Attack (Chryssalid/Muton):**
+- Base damage: 50% of Strength × 5
+- Chryssalid (Strength 10): 50% × 10 × 5 = 25 damage
+- With equipment bonuses: +50% = 37.5 damage
+- Human armor 50: Reduces/nullifies damage
+
+**Coordinated Fire:**
+- Aliens in group: +10% accuracy per additional alien
+- Group of 3: +20% total accuracy bonus
+- Encourages player to break up alien formations
+
+**Mission Composition Scaling**
+
+**Early Mission (Month 1, Normal):**
+- 2 Sectoids (weak, numbers advantage)
+- Player equivalent: Rank 2-3 humans
+- Challenge: Learning alien behavior
+
+**Mid Mission (Month 6, Normal):**
+- 1 Muton + 2 Floaters + 1 Sectoid
+- Player equivalent: Rank 3-4 humans
+- Challenge: Mixed threats, Muton frontline
+
+**Late Mission (Month 12, Normal):**
+- 1 Ethereal + 2 Mutons + 1 Chryssalid
+- Player equivalent: Rank 5-6 humans
+- Challenge: Extreme combined threats
+
+**Implementation Notes**
+- Stat multipliers apply to: Health, Accuracy, Reactions, Strength, Armor, Psionic
+- Do NOT apply to: Special abilities, morale/sanity (aliens don't have these)
+- Campaign progression is global (all aliens scale together)
+- Difficulty multiplier applies per mission when loaded
+- Aliens can exceed human stat caps on higher difficulties
+
+**Balance Testing Scenarios**
+
+- [ ] **Early Sectoid Encounter**: Normal, Month 1
+  - Sectoid: Health 54, Accuracy 45, Reactions 50
+  - Expected: Training mission, easily winnable
+
+- [ ] **Mid Muton Encounter**: Normal, Month 6
+  - Muton: Health 110, Accuracy 70, Reactions 65, Strength 11
+  - Expected: Challenging, requires veteran squad
+
+- [ ] **Late Ethereal Encounter**: Normal, Month 12
+  - Ethereal: Health 102, Accuracy 90, Reactions 96, Psionic 14
+  - Expected: Extreme threat, psionic control risk
+
+- [ ] **Impossible Muton**: Impossible, Month 6
+  - Muton: Health 143, Accuracy 91, Reactions 84, Strength 14
+  - Expected: Very dangerous, exceeds human accuracy cap
+
+- [ ] **Impossible Endgame Ethereal**: Impossible, Month 12
+  - Ethereal: Health 132, Accuracy 117, Reactions 125, Psionic 19
+  - Expected: GODLIKE threat, nearly unkillable
+
+---
+
+## Review Checklist
+
+- [ ] Unit classification system clearly defined
+- [ ] Rank progression requirements specified
+- [ ] Trait and perk systems documented
+- [ ] Pilot specialization mechanics detailed
+- [ ] Balance parameters quantified with reasoning
+- [ ] Difficulty scaling implemented
+- [ ] Testing scenarios comprehensive
+- [ ] Related systems properly linked
+- [ ] No undefined terminology
+- [ ] Implementation feasible
 
 ---
 

@@ -110,6 +110,9 @@ local MidiTestScreen = require("gui.scenes.midi_test_screen_fixed")
 print("[Main] Loading Debug Screen...")
 local DebugScreen = require("gui.scenes.debug_screen")
 
+print("[Main] Loading Mission Launch Screen...")
+local MissionLaunchScreen = require("gui.scenes.mission_launch_screen")
+
 -- Load widgets system
 local Widgets = require("gui.widgets.init")
 
@@ -194,6 +197,7 @@ function love.load()
     StateManager.register("settings", SettingsScreen)
     StateManager.register("midi_test", MidiTestScreen)
     StateManager.register("debug_screen", DebugScreen)
+    StateManager.register("mission_launch", MissionLaunchScreen)
 
     -- Start with MIDI test
     StateManager.switch("midi_test")

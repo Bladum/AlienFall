@@ -1,21 +1,25 @@
-# Mission System
+# Mission System Design Specification
 
-> **Status**: Design Document  
-> **Last Updated**: 2025-10-28  
-> **Related Systems**: AI.md, Geoscape.md, Countries.md, Battlescape.md, Interception.md  
+> **Status**: Design Document
+> **Last Updated**: 2025-10-28
+> **Related Systems**: AI.md, Geoscape.md, Countries.md, Battlescape.md, Interception.md
 > **Source Note**: This file consolidates mission information from AI.md (Mission Generation), Geoscape.md (Mission Detection), Countries.md (Country Events & Missions), and BlackMarket.md (Custom Missions)
 
 ## Table of Contents
 
 - [Overview](#overview)
 - [Mission Generation System](#mission-generation-system)
-- [Mission Types](#mission-types)
-- [Mission Objectives](#mission-objectives)
-- [Mission Difficulty Scaling](#mission-difficulty-scaling)
-- [Mission Rewards](#mission-rewards)
-- [Victory & Failure Conditions](#victory--failure-conditions)
+- [Mission Types & Objectives](#mission-types--objectives)
+- [Mission Rewards & Consequences](#mission-rewards--consequences)
 - [Special Mission Types](#special-mission-types)
 - [Integration with Other Systems](#integration-with-other-systems)
+- [Examples](#examples)
+- [Balance Parameters](#balance-parameters)
+- [Difficulty Scaling](#difficulty-scaling)
+- [Testing Scenarios](#testing-scenarios)
+- [Related Features](#related-features)
+- [Implementation Notes](#implementation-notes)
+- [Review Checklist](#review-checklist)
 
 ---
 
@@ -30,6 +34,8 @@ Missions are the primary tactical engagement layer in AlienFall, bridging strate
 Missions create meaningful strategic decisions through varied objectives, scaling difficulty, and cascading consequences. The procedural generation system ensures replay variety while maintaining balanced challenge progression. Mission outcomes affect diplomatic relations, faction standing, resource acquisition, and campaign escalation.
 
 **Core Principle**: Missions are the feedback loop between strategic planning and tactical execution.
+
+**Capacity Reference**: Squad size and deployment logistics defined in CRAFT_CAPACITY_MODEL.md
 
 ---
 
@@ -349,292 +355,156 @@ Purchased missions spawning within 3-7 days in target region:
 
 ---
 
-## Mission Objectives
+## Examples
 
-### Objective Types
+### Scenario 1: UFO Crash Recovery
+**Setup**: Player intercepts UFO over urban area, it crashes in city outskirts
+**Action**: Player deploys squad to crash site, eliminates alien survivors while avoiding civilian casualties
+**Result**: Mission success with +1000 credits, alien tech samples, +5 relations for protecting civilians
 
-#### Elimination Objectives
-- **Eliminate All Enemies**: Standard combat objective, mission ends when all hostiles eliminated
-- **Eliminate Target**: Specific enemy must be killed (commander, terror leader, VIP)
-- **Eliminate Commander**: Priority target with enhanced rewards
+### Scenario 2: Terror Mission Gone Wrong
+**Setup**: Aliens attack city center with civilians present
+**Action**: Player squad engages aliens but fails to save most civilians due to aggressive tactics
+**Result**: Partial success with +750 credits (50% of base), -10 relations, increased country panic
 
-#### Defense Objectives
-- **Defend Location**: Prevent enemy from reaching/destroying specific tile
-- **Protect Units**: Keep specific friendly units alive (civilians, VIP, scientists)
-- **Protect Facilities**: Prevent facility destruction (base defense)
+### Scenario 3: Base Defense Success
+**Setup**: Aliens launch assault on player base during low radar coverage
+**Action**: Player units deploy from facilities, coordinate with base turrets to repel attack
+**Result**: Complete defense with +800 credits, base intact, alien salvage for research
 
-#### Acquisition Objectives
-- **Secure Object**: Reach and interact with specific object (data terminal, artifact)
-- **Retrieve Item**: Pick up and carry item to extraction point
-- **Capture Target**: Subdue and extract living enemy
-
-#### Extraction Objectives
-- **Reach Extraction**: All units must reach designated tile
-- **Survive Duration**: Hold position for X turns
-- **Escape**: Reach map edge before time limit
-
-#### Hybrid Objectives
-- **Eliminate + Extract**: Kill all enemies then extract
-- **Defend + Survive**: Hold position for duration while under attack
-- **Secure + Defend**: Capture objective then defend from reinforcements
+### Scenario 4: Black Market Assassination
+**Setup**: Purchased contract to eliminate alien commander in urban environment
+**Action**: Squad infiltrates at night, eliminates target quietly without witnesses
+**Result**: Success with 120,000 credits, unique weapon reward, neutral karma impact
 
 ---
 
-## Mission Difficulty Scaling
+## Balance Parameters
 
-### Difficulty Calculation
+| Parameter | Value | Range | Reasoning | Difficulty Scaling |
+|-----------|-------|-------|-----------|-------------------|
+| Base Mission Frequency | 3-5 per month | 1-8 | Provides steady challenge without overwhelming | +1 per difficulty level |
+| UFO Crash Reward | 1000 credits | 500-2000 | Rewards interception success | ×1.5 on Hard |
+| Terror Mission Relations | +10 to +30 | 0-50 | Civilian protection matters | ×2 on Impossible |
+| Base Defense Cost | 800 credits | 300-1500 | Compensates for facility risk | ×1.25 on Hard |
+| Black Market Karma | -10 to -40 | -50 to 0 | Moral choices have consequences | No scaling |
+| Difficulty Multiplier | 1.0 base | 0.5-2.0 | Campaign progression scaling | +0.2 per month |
+| Salvage Value | 50% market | 25-75% | Equipment recovery incentive | +10% on Easy |
+| Base Mission XP | 50 XP | 30-80 | Unit progression incentive | ×1.5 on Hard |
 
-**Source Reference**: AI.md §Mission Difficulty Scaling
+### XP Rewards
+
+**Source Reference**: XP_PROGRESSION_SPECIFICATION.md §Mission XP Rewards
+
+Mission completion grants XP to all participating units based on performance, difficulty, and mission type. XP rewards follow the formula:
 
 ```
-Difficulty = BASE_DIFFICULTY + (CAMPAIGN_MONTH × 0.2) + (PLAYER_BASE_COUNT × 0.15) + (PLAYER_AVG_UNIT_LEVEL × 0.1)
+Base XP = 50
++ Performance Bonus (0-50 XP based on objectives completed)
++ Difficulty Multiplier (0.6x - 1.8x based on mission difficulty)
++ Mission Type Modifier (varies by mission type)
 
-Alien Team Composition:
-- Total Units = 3 + (Difficulty × 0.8)
-- Unit Classes = [40% Grunts, 35% Warriors, 20% Specialists, 5% Heavy] × Difficulty scaling
-- Equipment Tier = MIN(Player_Equipment_Tier + 1, MAX_TIER)
+Total XP = Base XP × Difficulty Multiplier × Mission Type Modifier + Performance Bonus
 ```
 
-### Difficulty Modifiers by Mission Type
+**XP Reward Parameters**:
+- **Base XP**: 50 XP (standard mission completion)
+- **Performance Bonus**: 0-50 XP based on secondary objectives and completion time
+- **Difficulty Scaling**: 0.6x (Easy) to 1.8x (Impossible)
+- **Mission Type Modifiers**: UFO Crash (1.0x), Terror (1.2x), Base Defense (1.5x), Alien Base (2.0x)
 
-| Mission Type | Base Difficulty | Unit Multiplier | Equipment Bonus |
-|--------------|----------------|-----------------|-----------------|
-| UFO Crash | 1.0 | 0.5 (half crew) | Standard |
-| Alien Base | 2.5 | 2.0 (garrison) | +1 tier |
-| Terror Mission | 1.8 | 1.5 | Standard |
-| Base Defense | 2.0 | Variable | +1 tier |
-| Colony Defense | 1.5 | 1.2 | Standard |
-| Research Facility | 1.2 | 0.8 (stealth) | Standard |
-
-### Player Difficulty Setting
-
-**Source Reference**: Battlescape.md §Difficulty Scaling
-
-| Difficulty | Squad Size | AI Intelligence | Reinforcements |
-|------------|-----------|-----------------|----------------|
-| **Easy** | 75% | 50% | None |
-| **Normal** | 100% | 100% | None |
-| **Hard** | 125% | 200% | 1 wave |
-| **Impossible** | 150% | 300% | 2-3 waves |
+**Example Calculations**:
+- Easy UFO Crash (all objectives): 50 × 0.6 × 1.0 + 30 = 60 XP
+- Hard Terror Mission (partial success): 50 × 1.2 × 1.2 + 15 = 102 XP
+- Impossible Alien Base (full success): 50 × 1.8 × 2.0 + 50 = 230 XP
 
 ---
 
-## Mission Rewards
+## Difficulty Scaling
 
-### Reward Types
+### Easy Mode
+- Mission frequency: 2-3 per month
+- Enemy squad size: 75% of normal
+- Rewards: ×1.25 (easier missions more lucrative)
+- XP rewards: ×0.6 (reduced progression pressure)
+- Failure penalties: 50% reduction
+- Black market availability: Limited options
 
-#### Credits (Cash Rewards)
-- **Base Reward**: Fixed amount per mission type
-- **Performance Bonus**: +10% per secondary objective completed
-- **Perfect Bonus**: +50% for zero casualties + all objectives
-- **Speed Bonus**: +20% for completing within turn limit
+### Normal Mode
+- Mission frequency: 3-5 per month
+- Enemy squad size: 100% of normal
+- Rewards: Standard values from balance parameters
+- XP rewards: Standard values (balanced progression)
+- Failure penalties: Full impact
+- Black market availability: Standard options
 
-#### Salvage (Equipment & Materials)
-- **Enemy Equipment**: Weapons, armor, items from defeated aliens
-- **Mission Loot**: Special items found on map
-- **Corpses**: Alien bodies for research (autopsy projects)
-- **Technology**: UFO components, alien artifacts
+### Hard Mode
+- Mission frequency: 4-6 per month
+- Enemy squad size: 125% of normal
+- Rewards: ×0.8 (harder missions less rewarding)
+- XP rewards: ×1.2 (accelerated progression for challenge)
+- Failure penalties: ×1.5 increased impact
+- Black market availability: Expanded dangerous options
 
-#### Research Opportunities
-- **Research Items**: Alien technology samples enabling new research
-- **Man-Day Bonuses**: Accelerate current research projects
-- **Unlock Gates**: Required items for prerequisite research
-
-#### Diplomatic Effects
-- **Relations**: +5 to +30 with mission-requesting country
-- **Fame**: +5 to +15 based on performance
-- **Karma**: +10 to +30 for heroic actions (save civilians)
-- **Funding**: Temporary or permanent funding level increases
-
-#### Strategic Effects
-- **Faction Escalation**: -2 to -10 escalation points for successful defense
-- **Territory Control**: Secure province, extend radar coverage
-- **Base Security**: Prevent base destruction, maintain operations
-
-### Reward Scaling Formula
-
-```
-Total Reward = Base Reward × (1 + Performance Bonus + Speed Bonus) + Salvage Value
-
-Performance Bonus = 0.1 × Secondary Objectives Completed
-Speed Bonus = 0.2 if completed ≤ Half expected turns, else 0
-Salvage Value = Sum of (Enemy Equipment × 50% market value)
-```
+### Impossible Mode
+- Mission frequency: 5-8 per month
+- Enemy squad size: 150% of normal
+- Rewards: ×0.6 (maximum challenge, minimal reward)
+- XP rewards: ×1.8 (maximum progression pressure)
+- Failure penalties: ×2.0 devastating impact
+- Black market availability: All options including extreme contracts
 
 ---
 
-## Victory & Failure Conditions
+## Testing Scenarios
 
-### Victory Conditions
+- [ ] **Mission Generation Distribution**: Generate 100 missions and verify type distribution matches expected frequencies
+  - **Setup**: Run mission generation algorithm with standard parameters
+  - **Action**: Generate missions over multiple campaign months
+  - **Expected**: UFO missions 40%, Terror 20%, Base Defense 15%, others proportional
+  - **Verify**: Count mission types in generated pool
 
-#### Mission Complete (Success)
-- All primary objectives achieved
-- Player units survive or successfully extract
-- Mission timer (if applicable) not expired
+- [ ] **Difficulty Scaling**: Test that mission difficulty increases with campaign progression
+  - **Setup**: Start campaign at month 1, advance to month 12
+  - **Action**: Generate missions at each month milestone
+  - **Expected**: Enemy count increases by ~2.4x, rewards increase by ~1.8x
+  - **Verify**: Compare mission parameters across months
 
-#### Tactical Victory (Partial Success)
-- Primary objective achieved
-- High casualties or secondary objectives failed
-- Reduced rewards (50-75% of full)
+- [ ] **Reward Calculation**: Verify reward formula produces expected values
+  - **Setup**: Complete mission with known parameters (2 secondary objectives, fast completion)
+  - **Action**: Calculate total reward using formula
+  - **Expected**: Base × (1 + 0.2 + 0.2) + salvage = correct total
+  - **Verify**: Compare calculated vs. actual reward values
 
-#### Strategic Withdrawal (Retreat)
-- Player chooses to extract before objectives complete
-- Minimal rewards (10-25% of full)
-- No diplomatic penalty if justified
+- [ ] **XP Reward Calculation**: Verify XP formula produces expected progression values
+  - **Setup**: Complete mission with known parameters (Hard difficulty, Terror mission, 3 objectives completed)
+  - **Action**: Calculate XP using formula: 50 × 1.2 × 1.2 + 30 = 102 XP
+  - **Expected**: Units gain 102 XP each, progressing toward rank advancement
+  - **Verify**: Check unit XP totals and rank progression after mission completion
 
-### Failure Conditions
+- [ ] **Diplomatic Impact**: Test that mission outcomes affect country relations
+  - **Setup**: Mission in country with neutral relations
+  - **Action**: Complete terror mission with 80% civilian survival
+  - **Expected**: +24 relations increase
+  - **Verify**: Check country relations after mission completion
 
-#### Mission Failed (Complete Failure)
-- Primary objective not achieved
-- All player units killed or incapacitated
-- Mission timer expired without completion
-- Critical objective destroyed (base command center, VIP killed)
-
-#### Consequences of Failure
-- Zero rewards
-- Diplomatic penalties (-10 to -30 relations)
-- Strategic losses (base destroyed, territory lost)
-- Karma/Fame penalties
-- Equipment lost (dead units' gear)
-
-### Retreat Mechanics
-
-**Player May Retreat If**:
-- Overwhelming enemy force
-- Mission unwinnable
-- Preserve veteran units
-
-**Retreat Process**:
-1. Choose extract option from menu
-2. Units move toward extraction point
-3. Enemies continue to engage
-4. Mission ends when all units extracted or turn limit
-
-**Retreat Penalties**:
-- 10-25% credit reward only
-- Zero diplomatic bonus
-- -5 to -10 relations
-- Karma neutral (no penalty for tactical wisdom)
+- [ ] **Black Market Integration**: Verify purchased missions spawn correctly
+  - **Setup**: Purchase assassination contract for 50,000 credits
+  - **Action**: Wait for mission spawn timer (3-7 days)
+  - **Expected**: Mission appears in target region with correct objectives
+  - **Verify**: Mission parameters match contract specifications
 
 ---
 
-## Special Mission Types
+## Related Features
 
-### Night Missions
-
-**Source Reference**: Battlescape.md §Day vs. Night Missions
-
-**Characteristics**:
-- Extremely short sight range (3-6 hexes)
-- Sanity penalty: -1 per unit
-- Blue screen tint effect
-- Some enemies have natural night vision
-
-**Common Night Mission Types**:
-- Infiltration operations
-- Alien abductions
-- Terror missions
-- Black market contracts
-
----
-
-### Underground Missions
-
-**Characteristics**:
-- Forced night conditions
-- No weather effects
-- Claustrophobic linear maps
-- Echo effects on audio
-
-**Common Underground Mission Types**:
-- Alien base assaults
-- Underground facility raids
-- Sewer/tunnel missions
-
----
-
-### Facility Missions (Base Defense)
-
-**Source Reference**: Basescape.md §Base Defense
-
-**Characteristics**:
-- Limited map area (player base layout)
-- Neutral NPCs in facility areas
-- Stationary defensive emplacements
-- Reinforcements arrive from specific entrances
-- Base turrets participate as units
-
-**Integration**: Turrets from Basescape.md participate as defensive units with fixed positions and preset armaments
-
----
-
-## Integration with Other Systems
-
-### Geoscape Integration
-
-**Mission Detection**:
-- Radar coverage determines mission visibility
-- Stealth UFOs remain hidden until detected
-- Mission availability window (12-48 hours typical)
-
-**Mission Response**:
-- Craft deployment to mission site
-- Travel time based on distance and craft speed
-- Interception combat may occur en route
-
----
-
-### Battlescape Integration
-
-**Map Generation**:
-- Mission type determines map script
-- Biome selection based on province terrain
-- Weather conditions from Geoscape state
-
-**Enemy Composition**:
-- Generated by AI system based on difficulty
-- Squad deployment from AI.md §Deployment Process
-- Unit promotion from experience budget
-
----
-
-### Economy Integration
-
-**Salvage Processing**:
-- Mission loot transferred to base inventory
-- Corpses available for autopsy research
-- Equipment sold or used by player units
-
-**Research Unlocks**:
-- Alien technology samples enable research projects
-- Research tree progression (see Economy.md §Research Tree)
-
----
-
-### Diplomatic Integration
-
-**Country Relations**:
-- Mission success improves relations
-- Mission failure damages relations
-- Terror mission performance critical for funding
-
-**Faction Relations**:
-- Alien base destruction reduces faction escalation
-- Successful defenses slow alien expansion
-- Black market missions affect karma/fame
-
----
-
-## Related Content
-
-**For detailed information, see**:
-- **AI.md** - Mission generation algorithms, enemy AI behavior
-- **Geoscape.md** - Mission detection, craft deployment
-- **Battlescape.md** - Tactical combat mechanics, map generation
-- **Countries.md** - Country-specific mission generation
-- **BlackMarket.md** - Purchased custom missions
-- **Economy.md** - Salvage processing, research unlocks
-- **Interception.md** - UFO interception mechanics
+- **[AI System]**: Mission generation algorithms and enemy composition (AI.md)
+- **[Geoscape System]**: Mission detection and craft deployment (Geoscape.md)
+- **[Battlescape System]**: Tactical combat and map generation (Battlescape.md)
+- **[Countries System]**: Diplomatic relations and country-specific missions (Countries.md)
+- **[Black Market System]**: Purchased custom missions (BlackMarket.md)
+- **[Economy System]**: Salvage processing and research unlocks (Economy.md)
+- **[XP Progression System]**: Unit advancement and mission XP rewards (XP_PROGRESSION_SPECIFICATION.md)
 
 ---
 
@@ -643,19 +513,35 @@ Salvage Value = Sum of (Enemy Equipment × 50% market value)
 **Priority Systems**:
 1. Core mission types (UFO Crash, Base Defense, Terror)
 2. Mission generation algorithm
-3. Difficulty scaling
-4. Reward calculation
-5. Special mission types (Black Market, Escort)
+3. XP reward calculation (unit progression)
+4. Difficulty scaling
+5. Reward calculation
+6. Special mission types (Black Market, Escort)
 
 **Balance Considerations**:
 - Mission frequency should match player capability
+- XP rewards should enable steady unit progression without grind
 - Difficulty progression should feel fair
 - Rewards should incentivize engagement
 - Failure should be recoverable, not campaign-ending
 
 **Testing Focus**:
 - Mission generation distribution
+- XP reward calculation and unit progression
 - Difficulty scaling curve
 - Reward vs. effort balance
 - Diplomatic consequence impact
 
+---
+
+## Review Checklist
+
+- [ ] System architecture clearly defined
+- [ ] All core mechanics documented with examples
+- [ ] Balance parameters specified with reasoning
+- [ ] Difficulty scaling implemented
+- [ ] Testing scenarios comprehensive
+- [ ] Edge cases addressed
+- [ ] Related systems properly linked
+- [ ] No undefined terminology
+- [ ] Implementation feasible

@@ -1,7 +1,7 @@
 # Black Market System - Comprehensive Design
 
-> **Status**: Design Document  
-> **Last Updated**: 2025-10-28  
+> **Status**: Design Document
+> **Last Updated**: 2025-10-28
 > **Related Systems**: Economy.md, Politics.md, Items.md, Units.md
 
 ## Table of Contents
@@ -15,6 +15,13 @@
 - [Corpse Trading System](#corpse-trading-system)
 - [Supplier Integration](#supplier-integration)
 - [Risk & Consequences](#risk--consequences)
+- [Examples](#examples)
+- [Balance Parameters](#balance-parameters)
+- [Difficulty Scaling](#difficulty-scaling)
+- [Testing Scenarios](#testing-scenarios)
+- [Related Features](#related-features)
+- [Implementation Notes](#implementation-notes)
+- [Review Checklist](#review-checklist)
 
 ---
 
@@ -466,35 +473,21 @@ Some suppliers operate in BOTH legitimate marketplace AND Black Market:
 
 ## Implementation Notes
 
-**Data Structure**:
-```lua
-BlackMarket = {
-  access_level = "standard", -- restricted, standard, enhanced, complete
-  discovery_risk = 0.05, -- 5% base
-  active_events = {}, -- purchased events
-  transaction_count = 0,
-  last_discovery = nil, -- turn number
-  supplier_relations = {
-    syndicate = 0,
-    exotic_arms = 0,
-    black_ops = 0,
-    shadow_broker = 0,
-    corpse_traders = 0
-  }
-}
-```
+**Black Market State Structure**:
+
+Tracks player access level (standard, restricted, enhanced, complete), discovery risk percentage (5% base), active purchased events, total transaction count, and supplier relationship scores with each faction (syndicate, exotic_arms, black_ops, shadow_broker, corpse_traders). Also tracks when last discovery occurred for cooldown calculations.
 
 **Integration Points**:
-- Economy.md: Marketplace system
-- Politics.md: Karma/Fame systems
-- Items.md: Corpse items
-- Units.md: Black market unit recruitment
-- Geoscape.md: Mission generation, event triggering
+- Economy.md: Marketplace system for purchasing items
+- Politics.md: Karma/Fame systems for access and consequence
+- Items.md: Corpse items and banned equipment availability
+- Units.md: Black market unit recruitment options
+- Geoscape.md: Mission generation and event triggering
 
 ---
 
-**Last Updated**: 2025-10-28  
-**Version**: 1.0  
+**Last Updated**: 2025-10-28
+**Version**: 1.0
 **Status**: Complete Design Specification
 
 ---
@@ -517,3 +510,160 @@ The Black Market integrates with:
 - Triggers special events (political manipulation)
 - Enables faction relationship manipulation
 **For complete system integration details, see [Integration.md](Integration.md)**
+
+---
+
+## Examples
+
+### Scenario 1: Desperate Equipment Acquisition
+**Setup**: Player lacks advanced weapons for critical mission, standard suppliers unavailable
+**Action**: Access black market for experimental weapons despite karma cost
+**Result**: Mission success with rare equipment but damaged reputation and diplomatic consequences
+
+### Scenario 2: Mercenary Recruitment Crisis
+**Setup**: Veteran units lost in battle, insufficient time for standard recruitment
+**Action**: Purchase black market mercenaries with immediate availability
+**Result**: Operational continuity maintained but loyalty and performance concerns
+
+### Scenario 3: Political Manipulation Campaign
+**Setup**: Country relations deteriorating, threatening funding cuts
+**Action**: Purchase black market events to manipulate political outcomes
+**Result**: Improved diplomatic standing but significant karma penalties and exposure risk
+
+### Scenario 4: Corpse Trading Dilemma
+**Setup**: Alien corpses available for research but ethical concerns
+**Action**: Sell corpses through black market for research funding boost
+**Result**: Economic benefit but severe karma impact and potential diplomatic fallout
+
+---
+
+## Balance Parameters
+
+| Parameter | Value | Range | Reasoning | Difficulty Scaling |
+|-----------|-------|-------|-----------|-------------------|
+| Access Fee | 10,000 credits | 5K-20K | Entry barrier | ×0.5 on Easy |
+| Karma Threshold | -40 max | -100 to +40 | Access gating | +20 on Easy |
+| Fame Requirement | 25 min | 0-100 | Discovery requirement | -10 on Easy |
+| Price Premium | +50% | 25-100% | Risk compensation | ×0.75 on Easy |
+| Detection Risk | 15% | 5-30% | Consequence chance | ×0.5 on Easy |
+
+---
+
+## Difficulty Scaling
+
+### Easy Mode
+- Access requirements: 50% less stringent
+- Price premiums: 25% reduction
+- Detection risk: 50% lower
+- Karma penalties: 30% reduction
+- More forgiving consequences
+
+### Normal Mode
+- All parameters at standard values
+- Balanced risk/reward ratios
+- Standard access requirements
+- Normal consequence severity
+
+### Hard Mode
+- Access requirements: More stringent
+- Price premiums: +25% increase
+- Detection risk: +50% higher
+- Karma penalties: +20% increase
+- Severe diplomatic consequences
+
+### Impossible Mode
+- Access requirements: Extremely restrictive
+- Price premiums: +50% increase
+- Detection risk: +100% higher
+- Karma penalties: Doubled
+- Extreme diplomatic fallout
+- Limited availability
+
+---
+
+## Testing Scenarios
+
+- [ ] **Access Requirements**: Verify karma/fame thresholds gate access appropriately
+  - **Setup**: Player with varying karma/fame levels
+  - **Action**: Attempt black market access
+  - **Expected**: Access granted/denied based on thresholds
+  - **Verify**: Access level calculations and restrictions
+
+- [ ] **Transaction Consequences**: Test karma/fame impacts from purchases
+  - **Setup**: Player makes various black market transactions
+  - **Action**: Complete transactions and monitor reputation
+  - **Expected**: Appropriate reputation changes
+  - **Verify**: Karma/fame calculations and diplomatic effects
+
+- [ ] **Detection Mechanics**: Verify random detection triggers consequences
+  - **Setup**: Multiple transactions over time
+  - **Action**: Allow detection chance to trigger
+  - **Expected**: Random consequences at specified rates
+  - **Verify**: Detection probability and outcome severity
+
+- [ ] **Mission Generation**: Test custom mission spawning and parameters
+  - **Setup**: Purchase black market mission
+  - **Action**: Wait for mission generation
+  - **Expected**: Mission appears with correct parameters
+  - **Verify**: Mission specifications and spawn timing
+
+- [ ] **Corpse Trading**: Verify corpse value and research integration
+  - **Setup**: Alien corpses available for sale
+  - **Action**: Sell through black market
+  - **Expected**: Research bonuses and economic returns
+  - **Verify**: Value calculations and research unlocks
+
+---
+
+## Related Features
+
+- **[Economy System]**: Alternative marketplace and pricing mechanics (Economy.md)
+- **[Politics System]**: Karma/fame impacts and diplomatic consequences (Politics.md)
+- **[Items System]**: Restricted equipment and corpse trading (Items.md)
+- **[Units System]**: Mercenary recruitment and special units (Units.md)
+- **[Missions System]**: Custom mission generation (Missions.md)
+- **[Countries System]**: Diplomatic fallout from detection (Countries.md)
+
+---
+
+## Implementation Notes
+
+**Priority Systems**:
+1. Access requirement calculations and gating
+2. Black market categories and item availability
+3. Mission generation and custom contracts
+4. Karma/fame impact tracking
+5. Detection and consequence systems
+
+**Balance Considerations**:
+- Access should require meaningful reputation sacrifices
+- Rewards should justify the risks taken
+- Consequences should feel significant but not campaign-ending
+- Detection chance creates tension without frustration
+- Price premiums should reflect restricted availability
+
+**Testing Focus**:
+- Access threshold calculations
+- Transaction consequence severity
+- Detection probability accuracy
+- Mission generation reliability
+- Economic impact balance
+
+---
+
+## Review Checklist
+
+- [ ] Access requirements clearly defined with thresholds
+- [ ] Black market categories comprehensive and balanced
+- [ ] Mission generation mechanics specified
+- [ ] Event purchasing system implemented
+- [ ] Karma and fame impact calculations clear
+- [ ] Corpse trading system integrated
+- [ ] Supplier integration seamless
+- [ ] Risk and consequence mechanics balanced
+- [ ] Balance parameters quantified with reasoning
+- [ ] Difficulty scaling implemented
+- [ ] Testing scenarios comprehensive
+- [ ] Related systems properly linked
+- [ ] No undefined terminology
+- [ ] Implementation feasible

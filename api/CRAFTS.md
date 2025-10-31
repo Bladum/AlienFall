@@ -1008,7 +1008,7 @@ end
 **Core Principles:**
 - Each craft needs exactly **1 pilot** (any unit)
 - Only the **pilot** provides bonuses (crew/passengers = cargo, zero bonuses)
-- Bonuses based solely on pilot's **Piloting stat** (0-100)
+- Bonuses based solely on pilot's **Piloting stat** (6-12)
 - No pilot classes, no separate pilot XP, no crew bonuses
 
 **Bonus Formula:**
@@ -1016,30 +1016,30 @@ end
 -- Simple calculation from piloting stat
 local pilot = craft:getPilot() -- Returns unit assigned to pilot slot
 if pilot then
-  local piloting = pilot.piloting or 0
-  craft.dodge_bonus = piloting / 5  -- Convert to percentage
-  craft.accuracy_bonus = piloting / 5
+  local piloting = pilot.piloting or 6
+  craft.dodge_bonus = (piloting - 6) * 2  -- Convert to percentage (0-12%)
+  craft.accuracy_bonus = (piloting - 6) * 2
 end
 
--- Example: Pilot with Piloting 60
--- Provides +12% dodge, +12% accuracy
+-- Example: Pilot with Piloting 10
+-- Provides +8% dodge, +8% accuracy
 ```
 
 **Piloting Stat:**
-- Range: 0-100 (not 6-12 like other stats)
-- Base: 20-40 (random at recruitment)
-- Improves: +1 per 100 XP gained (from ANY source - ground or air)
-- Also improved by: Class bonuses (+10 for Scout), traits, equipment
+- Range: 6-12 (same as other unit stats)
+- Base: 6-10 (random at recruitment, varies by unit type)
+- Improves: +1 per 200 XP gained (from ANY source - ground or air)
+- Also improved by: Rank progression, traits, equipment
 
 **Special Abilities** (unlock at thresholds):
 ```lua
-if pilot.piloting >= 50 then
+if pilot.piloting >= 9 then
   craft:unlockAbility("evasive_maneuvers") -- +20% dodge for 1 turn, 5 turn cooldown
 end
-if pilot.piloting >= 70 then
+if pilot.piloting >= 10 then
   craft:unlockAbility("precision_strike") -- +30% accuracy for 1 shot, once per battle
 end
-if pilot.piloting >= 90 then
+if pilot.piloting >= 12 then
   craft:unlockAbility("ace_maneuver") -- Perfect dodge for 1 turn, once per battle
 end
 ```
@@ -1063,12 +1063,12 @@ function craft:calculateBonuses()
     self.accuracy_bonus = 0
     return
   end
-  
+
   -- Only pilot matters
-  local piloting = pilot.piloting or 0
-  self.dodge_bonus = piloting / 5
-  self.accuracy_bonus = piloting / 5
-  
+  local piloting = pilot.piloting or 6
+  self.dodge_bonus = (piloting - 6) * 2
+  self.accuracy_bonus = (piloting - 6) * 2
+
   -- Crew is ignored (no bonuses)
 end
 

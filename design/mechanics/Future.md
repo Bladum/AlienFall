@@ -1,7 +1,7 @@
 # Future Opportunities
 
-> **Status**: Brainstorming Document  
-> **Last Updated**: 2025-10-28  
+> **Status**: Brainstorming Document
+> **Last Updated**: 2025-10-28
 > **Related Systems**: All systems
 
 ## Table of Contents
@@ -324,27 +324,27 @@ brave:
   effect: Morale penalty -50% when ally dies
   synergy: Aggressive tactics, point man role
   risk: May charge into danger recklessly
-  
+
 cautious:
   effect: +10% accuracy in cover, -10% in open
   synergy: Defensive positions, overwatch specialist
   risk: Hesitates to advance, may miss opportunities
-  
+
 bloodthirsty:
   effect: +1 morale per kill, -1 morale per turn without combat
   synergy: Assault roles, close combat
   risk: Breaks formation to pursue enemies
-  
+
 protective:
   effect: +5% accuracy when defending adjacent ally
   synergy: Support roles, medics, bodyguards
   risk: Prioritizes ally safety over objectives
-  
+
 tactical_genius:
   effect: +20% accuracy on flanking shots
   synergy: Scout roles, maneuver warfare
   unlock: Only at Rank 3+
-  
+
 berserker:
   trigger: Health < 30%
   effect: +30% damage, -20% accuracy, ignores morale
@@ -358,17 +358,17 @@ leader:
   effect: +1 morale to adjacent allies
   synergy: Squad leader role
   unlock: Rank 2+ only
-  
+
 loner:
   effect: +10% accuracy when no allies within 3 hex
   synergy: Sniper roles, solo missions
   risk: -5% accuracy when crowded
-  
+
 loyal:
   effect: Immune to panic if squad leader alive
   synergy: Core squad members
   risk: If leader dies, -20 morale (devastating)
-  
+
 competitive:
   effect: +5% damage when rival is watching
   synergy: Creates emergent rivalries
@@ -382,12 +382,12 @@ veteran_scarred:
   effect: Immune to panic
   drawback: -1 AP max (PTSD slowness)
   progression: Can be treated at Hospital facility
-  
+
 rookie_enthusiasm:
   unlock: First 3 missions only
   effect: +10% morale
   drawback: -10% accuracy (inexperience)
-  
+
 shellshocked:
   trigger: Survived heavy damage (80%+ HP lost in one mission)
   effect: -2 morale per turn in combat for next 3 missions
@@ -405,21 +405,21 @@ bond_formation:
     - bonded_pair status unlocked
     - +10% accuracy when adjacent
     - Shared morale (one panics, other suffers -10 morale)
-    
+
 bond_trauma:
   trigger: Bonded unit dies
   effect:
     - Survivor suffers -30 morale for 3 missions
     - May gain "Vengeful" trait (+20% damage vs killer's faction)
     - Risk of permanent PTSD (requires treatment)
-    
+
 rivalry_formation:
   trigger: Two units compete for kills (5+ missions)
   effect:
     - competitive_bonus: +5% damage when both deployed
     - risk: May take unnecessary risks
     - resolution: Eventually becomes mutual respect (bond)
-    
+
 mentorship:
   trigger: Rank 4+ unit paired with Rank 1 unit
   effect:
@@ -439,14 +439,14 @@ panic_spread:
     - Adjacent units: -5 morale
     - Units within 3 hex: -2 morale
     - Can cause chain panic (cascading failure)
-    
+
 heroic_inspiration:
   trigger: Unit kills 3+ enemies in one turn
   effect:
     - Adjacent units: +5 morale
     - All visible allies: +2 morale
     - Inspires aggressive tactics (temporary boldness)
-    
+
 leader_death:
   trigger: Squad leader killed
   effect:
@@ -474,14 +474,14 @@ alien_language_research:
   consequences:
     - Karma +10 (peaceful approach)
     - Some countries suspicious (collaborator accusations)
-    
+
 xenobiology_mastery:
   cost: 800 scientist-days + autopsies of 10+ alien types
   unlock:
     - Hybrid units (human-alien collaboration)
     - Medical breakthroughs (+20% healing speed)
     - Alien factions more willing to negotiate
-  
+
 technological_advantage:
   trigger: Research 20+ projects before any faction
   effect:
@@ -503,7 +503,7 @@ live_capture_program:
     - Requires stunning (harder than killing)
     - Prison facility needed (resource investment)
     - Escape chance (base security risk)
-    
+
 battlefield_analysis:
   mechanic: Deploy "Field Researcher" units to missions
   reward:
@@ -526,7 +526,7 @@ allied_faction_support:
   risk:
     - If betrayed, faction becomes vendetta enemy
     - Other factions become hostile (collaboration = betrayal)
-    
+
 country_military_aid:
   requirement: +60 relation with country
   benefit:
@@ -557,7 +557,7 @@ market_manipulation:
   counter:
     - Rival factions buy from black market
     - Price gouging laws enacted (you're taxed)
-    
+
 funding_sabotage:
   action: Bribe country officials
   cost: 100K credits per attempt
@@ -567,7 +567,7 @@ funding_sabotage:
   risk:
     - 25% chance of discovery
     - If discovered: Karma -20, fame -15, country hostile
-    
+
 supplier_buyout:
   cost: 500K credits
   effect:
@@ -592,7 +592,7 @@ propaganda_campaign:
   risk:
     - Backlash if propaganda discovered as false
     - Enemy counter-propaganda (fame war)
-    
+
 regime_change:
   cost: 500K credits + assassination mission
   requirement: Country relation < -50
@@ -627,11 +627,11 @@ mechanics:
   - Can share research (50% cost for both if shared)
   - Joint missions (combined squads)
   - Shared marketplace (negotiate who buys what)
-  
+
 winning_condition:
   - Both players must achieve same victory path
   - OR one player achieves victory, other benefits
-  
+
 strategic_tension:
   - Who gets best recruits? (limited supply)
   - Who researches what? (avoid duplication)
@@ -646,11 +646,11 @@ mechanics:
   - Competition for mission responses (first deployed wins)
   - Bidding wars for marketplace items
   - PvP interception (can attack rival's crafts)
-  
+
 winning_condition:
   - First to complete any victory path
   - OR last organization standing
-  
+
 allowed_actions:
   - Intel espionage (reveal opponent's research)
   - Sabotage missions (delay opponent's production)
@@ -666,11 +666,11 @@ mechanics:
   - Secret sabotage actions available
   - Betrayal mechanics (backstab at critical moment)
   - Trust vs exploitation dynamics
-  
+
 winning_condition:
   - Betray partner at perfect moment for solo victory
   - OR maintain alliance and share victory (less rewarding)
-  
+
 psychological_warfare:
   - "Accidentally" leak false intel
   - Offer "help" that's actually sabotage
@@ -688,17 +688,17 @@ intel_sharing:
   - Share research progress (not completion)
   - Warn of incoming attacks
   - Cost: Free (trust-building)
-  
+
 equipment_loans:
   - Lend units to partner for mission
   - Risk: Unit could die, or partner keeps unit (defection)
   - Benefit: Partner gains capability, you gain favor
-  
+
 research_cooperation:
   - Both players work on same project (50% time reduction)
   - Must agree on research priority
   - Both gain completion simultaneously
-  
+
 base_sharing:
   - Allow partner to use your base facilities
   - Share storage, manufacturing, research capacity
@@ -720,7 +720,7 @@ base_sharing:
 procedural_faction:
   - Generate random alien faction at campaign start
   - Trait combinations create unique strategies
-  
+
 traits:
   - hive_mind: Acts as unified force, no infighting
   - opportunist: Only attacks weakened provinces
@@ -728,7 +728,7 @@ traits:
   - biological: Slow tech, overwhelming numbers
   - psionic: Mind control focus, fragile physically
   - mechanical: Robot armies, no morale
-  
+
 strategic_behavior:
   - Hive Mind: Coordinated attacks, no retreats
   - Opportunist: Waits for player to weaken, then strikes
@@ -743,23 +743,23 @@ strategic_behavior:
 campaign_arcs:
   - Generate 3-5 major plot arcs per campaign
   - Arcs build toward climax
-  
+
 arc_examples:
   - alien_artifact_hunt:
       goal: Find 5 ancient artifacts before aliens
       race_mechanic: Aliens also searching (time pressure)
       reward: Unlock ultimate weapon/technology
-      
+
   - political_conspiracy:
       goal: Uncover alien infiltration of governments
       investigation: Clues found in missions
       reward: Prevent alien takeover, gain allies
-      
+
   - dimensional_rift:
       goal: Close dimensional portals before invasion
       escalation: Rift opens wider each month
       reward: Prevent dimensional invasion
-      
+
   - rogue_ai:
       goal: Stop AI from taking control of Earth's systems
       twist: Player may have caused AI awakening (research)
@@ -771,16 +771,16 @@ arc_examples:
 adaptive_ai:
   - Analyzes player performance every mission
   - Adjusts enemy composition in real-time
-  
+
 adjustments:
   - player_dominating:
       effect: Introduce hard-counter units
       example: Player uses snipers → Enemies get smoke grenades
-      
+
   - player_struggling:
       effect: Reduce pressure, offer resources
       example: 3 mission failures → Supply drop mission appears
-      
+
   - player_balanced:
       effect: Maintain current difficulty
       occasional_spike: Every 5 missions, introduce challenge
@@ -794,20 +794,20 @@ adjustments:
 narrative_events:
   - Track player actions (kills, missions, choices)
   - Generate story consequences
-  
+
 examples:
   - scientist_defection:
       trigger: Research speed > 200% expected
       narrative: "Your lead scientist feels threatened by AI"
       consequence: Scientist sabotages research, defects
-      
+
   - country_inspection:
       trigger: Base has 50+ alien prisoners
       narrative: "Human rights groups demand inspection"
       choice:
         - allow: Lose prisoners, gain +20 relation
         - refuse: Maintain prisoners, -30 relation
-        
+
   - alien_peace_offer:
       trigger: Destroyed 70% of faction's forces
       narrative: "Desperate aliens offer peace treaty"
@@ -831,12 +831,12 @@ effects:
   - Units require food/water/ammo resupply
   - Crafts need maintenance cycles (downtime)
   - Base infrastructure matters (power grid failures)
-  
+
 strategic_impact:
   - Supply lines become critical
   - Forward operating bases necessary
   - Logistics specialist units valuable
-  
+
 difficulty: +30% (adds complexity)
 ```
 
@@ -846,12 +846,12 @@ effects:
   - Reduced tactical complexity (simplified combat)
   - Enhanced diplomacy and story choices
   - Multiple endings based on player morality
-  
+
 strategic_impact:
   - Combat less punishing
   - Diplomatic actions more impactful
   - Story takes precedence
-  
+
 difficulty: -20% (easier combat, harder diplomacy)
 ```
 
@@ -861,12 +861,12 @@ effects:
   - One save only (ironman mode)
   - Unit death is permanent (no revive)
   - Base destruction ends campaign
-  
+
 strategic_impact:
   - Every decision matters
   - Risk-averse playstyle required
   - Losing veteran units devastating
-  
+
 difficulty: +100% (maximum challenge)
 ```
 
@@ -876,12 +876,12 @@ effects:
   - Overpowered player units (+50% stats)
   - Reduced enemy difficulty (-50% enemy stats)
   - Sandbox mode (unlimited resources available)
-  
+
 strategic_impact:
   - Experimental gameplay
   - No resource constraints
   - Test strategies without risk
-  
+
 difficulty: -80% (casual play)
 ```
 
@@ -897,12 +897,12 @@ ww2_conversion:
     - ufos → bombers
     - plasma_weapons → period_firearms
     - bases → military_installations
-    
+
   add:
     - propaganda_system: Morale warfare
     - historic_battles: Real WW2 engagements
     - nation_states: Authentic country roster
-    
+
   mechanics:
     - research → intelligence_gathering
     - manufacturing → war_production
@@ -927,12 +927,12 @@ alien_society:
       - resource_production: Generates materials
       - research: Independent technology advancement
       - trade: Factions trade with each other
-      
+
   player_impact:
     - Destroy base: Faction weakened, resources redistribute
     - Ignore base: Base grows, produces stronger units
     - Ally with faction: Joint research, shared enemies
-    
+
   emergent_stories:
     - "Sectoid-Ethereal War": Two factions destroy each other
     - "Alien Refugee Crisis": Defeated faction seeks asylum
@@ -953,7 +953,7 @@ sectoids:
     - Provide resources: Sectoids become peaceful
     - Refuse aid: Sectoids become desperate (aggressive)
     - Exploit weakness: Enslave Sectoids (dark path)
-    
+
 ethereals:
   motivation: "Believe humans are primitive, need guidance"
   perspective: "Saving humanity from self-destruction"
@@ -961,7 +961,7 @@ ethereals:
     - Accept guidance: Become vassal state (peaceful ending)
     - Refuse guidance: War continues (independence)
     - Deceive Ethereals: Fake cooperation, sabotage (cunning)
-    
+
 mutons:
   motivation: "Genetically engineered slaves, rebelling"
   perspective: "Seeking freedom from alien oppressors"
@@ -977,13 +977,13 @@ mutons:
 late_game_revelation:
   - Campaign tracks total kills by faction
   - Late game: Reveal faction backstories
-  
+
   example:
     - "You have killed 347 Sectoids"
     - Sectoids revealed as refugees, not invaders
     - Player reaction: Guilt? Justification? Indifference?
     - Ending reflects player's moral choices
-    
+
   multiple_endings:
     - extermination: Kill all aliens (human supremacy)
     - coexistence: Establish peace treaties (shared Earth)
@@ -1006,17 +1006,17 @@ realtime_insights:
   - Territory warning: "Eastern provinces undefended for 3 turns"
   - Equipment advice: "Units underequipped for next threat level"
   - Economic alert: "Manufacturing costs exceed marketplace prices"
-  
+
 difficulty_assistance:
   - Detect struggle: 3+ mission failures
   - Offer: "Enable Assist Mode" (optional, not forced)
   - Assist Mode: -25% enemy aggression, +25% funding
-  
+
 performance_profiling:
   - Track weapon effectiveness: Which weapons work best
   - Identify survivor patterns: Which units live longest
   - Suggest loadouts: "Your snipers have 80% hit rate—focus here"
-  
+
 personalized_tips:
   - "Players with similar playstyle succeeded with X strategy"
   - "Consider researching Y tech—unlocks powerful abilities"
@@ -1032,12 +1032,12 @@ contextual_tutorials:
   - First interception: "How to use craft weapons"
   - First base expansion: "Facility adjacency bonuses explained"
   - First alien capture: "Interrogation mechanics unlocked"
-  
+
 progressive_complexity:
   - Early game: Basic mechanics only
   - Mid game: Advanced strategies introduced
   - Late game: Optimization techniques revealed
-  
+
 skip_option:
   - Veteran players can disable tutorials
   - Quick reference card available (hotkey)
@@ -1058,18 +1058,18 @@ timeloop_structure:
   - Campaign lasts exactly 12 months
   - When player loses OR wins, campaign RESETS
   - Player retains KNOWLEDGE, not equipment
-  
+
 meta_progression:
   - Unlock permanent abilities:
       - "Start with 2nd base unlocked"
       - "Begin with 5 veteran units"
       - "Skip first 2 months (fast-forward)"
-  
+
   - Discover secrets:
       - "Aliens weak to plasma (didn't know before)"
       - "Country X betrays at month 6 (prevent it)"
       - "Hidden research project (find earlier)"
-  
+
   - Optimize strategy:
       - "Perfect research path to victory in 8 months"
       - "Speedrun: Complete campaign in 6 months"
@@ -1083,13 +1083,13 @@ story_integration:
   - Player character is psychic, reliving timeline
   - Goal: Find "perfect timeline" where humanity survives
   - Each loop reveals more lore, hidden mechanics
-  
+
 gameplay_loop:
   loop_1: "What's happening?" (tutorial, discovery)
   loop_2: "How do I fight back?" (experimentation)
   loop_3: "What's the optimal path?" (optimization)
   loop_10: "Can I achieve perfect victory?" (mastery)
-  
+
 ending:
   - After X loops, achieve "true ending"
   - Break time loop, save humanity permanently
@@ -1106,7 +1106,7 @@ sandbox_features:
   - Instant research (no time gates)
   - All units available immediately
   - Custom scenario editor
-  
+
 use_cases:
   - Test strategies without commitment
   - Create custom battles (share with community)
@@ -1139,3 +1139,84 @@ These opportunities represent potential directions for future development. Not a
 
 *These ideas are brainstorming outputs—not committed features. Use as inspiration for future design decisions.*
 
+## Examples
+
+### Scenario 1: Mid-Game Engagement Feature
+**Setup**: Player at 40-60 hour mark in campaign
+**Action**: New diplomatic mission system becomes available
+**Result**: Increased gameplay variety, emotional engagement with faction dynamics
+
+### Scenario 2: Environmental System Integration
+**Setup**: Base in volcanic region affected by seasonal events
+**Action**: Volcanic activity increases, geothermal energy available
+**Result**: New facility types become viable, strategic adaptation required
+
+## Balance Parameters
+
+| Parameter | Value | Range | Reasoning | Difficulty Scaling |
+|-----------|-------|-------|-----------|-------------------|
+| Feature Complexity | Variable | Low-High | Implementation cost | Varies |
+| Player Impact | Medium | Low-High | Engagement value | Varies |
+| Development Effort | High | Low-High | Time investment | Varies |
+| Replayability Bonus | Variable | 1.0-2.0x | Longevity multiplier | Varies |
+
+## Difficulty Scaling
+
+Future features would scale with difficulty based on feature type:
+
+### Easy Mode
+- Enhanced content availability
+- More generous feature parameters
+- Relaxed complexity requirements
+
+### Normal Mode
+- Standard feature implementation
+- Balanced parameters
+- Normal complexity
+
+### Hard Mode
+- Restrictive feature parameters
+- Increased complexity
+- Reduced feature availability
+
+### Impossible Mode
+- Maximum feature complexity
+- Severe parameter restrictions
+- Limited opportunities
+
+## Testing Scenarios
+
+- [ ] **Feature Feasibility Test**: Evaluate implementation complexity
+  - **Setup**: Feature design specification
+  - **Action**: Code prototype implementation
+  - **Expected**: Prototype demonstrates core mechanic
+  - **Verify**: Feasibility assessment confirms viability
+
+- [ ] **Player Impact Test**: Measure engagement improvement
+  - **Setup**: Game with new feature
+  - **Action**: Test player feedback
+  - **Expected**: Positive engagement metrics
+  - **Verify**: Retention or playtime improvements measurable
+
+## Related Features
+
+- **[All Core Systems]**: Dependent on existing architecture
+
+## Implementation Notes
+
+- Brainstorming document, not implementation spec
+- Prioritization should consider impact vs. effort
+- Many features require significant architectural changes
+- Community feedback should inform prioritization
+- Iterative implementation recommended
+
+## Review Checklist
+
+- [ ] All brainstorm ideas documented
+- [ ] Feasibility assessments completed
+- [ ] Prioritization framework established
+- [ ] Impact projections reasonable
+- [ ] Integration requirements identified
+- [ ] Resource estimates provided
+- [ ] Timeline considerations noted
+- [ ] Community feedback incorporated

@@ -1,7 +1,7 @@
 # Lore System
 
-> **Status**: Design Document  
-> **Last Updated**: 2025-10-28  
+> **Status**: Design Document
+> **Last Updated**: 2025-10-28
 > **Related Systems**: ai_systems.md, Geoscape.md, Battlescape.md
 
 ## Table of Contents
@@ -240,7 +240,7 @@ Mobile enemy craft executing predetermined missions (recon flights, resource gat
 - **Movement**: Continuously mobile; follows scripted patrol route (speed 1-2 hexes/day typical)
 - **Persistence**: Temporary; disappears after mission completion (3-14 days typical duration)
 - **Script-Based**: Follows predetermined mission script with sequential steps
-- **Scoring System**: 
+- **Scoring System**:
   - Awards points upon mission completion (+50-200)
   - Awards points upon completion of each script step (+10-50 per step)
   - Multiple opportunities for gradual point accumulation
@@ -525,16 +525,16 @@ The enemy faction scoring system parallels and mirrors the player scoring system
 - **Campaign Success**: +100 points (all missions completed without player interference)
 
 **Mission-Level Scoring**
-- **Mission Site**: 
+- **Mission Site**:
   - +50-150 points when mission completes (time expires or player fails to intercept)
   - -50 points if player successfully intercepts
   - +0 points if site expires without alien completion (rare)
-- **Mission UFO**: 
+- **Mission UFO**:
   - +50-200 points upon UFO mission completion (departs successfully)
   - +10-50 points per mission step completed (before departure)
   - -100 points if player destroys UFO
   - -50 points if player damages/forces UFO retreat
-- **Mission Base**: 
+- **Mission Base**:
   - +10 points per week base remains active (regardless of player action)
   - +50 points per level advancement
   - +200 points if base successfully assaults player base
@@ -552,7 +552,7 @@ Enemy Threat Level = Monthly Score / 100 (capped at 10)
 ```
 Enemy Threat Level = Monthly Score / 100
 - Level 1-3 (Low): 1-2 campaigns/month, basic units
-- Level 4-6 (Medium): 3-4 campaigns/month, upgraded units  
+- Level 4-6 (Medium): 3-4 campaigns/month, upgraded units
 - Level 7-9 (High): 5-6 campaigns/month, elite units
 - Level 10+ (Critical): Multiple simultaneous campaigns, max unit deployment
 ```
@@ -600,3 +600,89 @@ Lore provides context for:
 - Equipment origin stories
 - Unit faction allegiances
 **For complete system integration details, see [Integration.md](Integration.md)**
+
+## Examples
+
+### Scenario 1: Faction Escalation
+**Setup**: Player defeats initial faction missions
+**Action**: Faction research advances, unlocks new units
+**Result**: Stronger enemies appear, campaign intensifies
+
+### Scenario 2: Story Mission
+**Setup**: Faction reaches campaign milestone
+**Action**: Special narrative mission becomes available
+**Result**: Unique rewards, story progression, faction weakening
+
+## Balance Parameters
+
+| Parameter | Value | Range | Reasoning | Difficulty Scaling |
+|-----------|-------|-------|-----------|-------------------|
+| Faction Count | 3-5 active | 1-8 | Campaign complexity | +2 on Hard |
+| Mission Frequency | 1-3 per week | 0.5-5 | Pacing control | +1 on Hard |
+| Technology Progression | 5-10 levels | 3-15 | Long-term challenge | +2 on Hard |
+| Story Mission Rarity | 10-20% of missions | 5-30% | Narrative focus | -5% on Easy |
+
+## Difficulty Scaling
+
+### Easy Mode
+- Fewer active factions
+- Slower enemy progression
+- More story mission opportunities
+- Reduced mission frequency
+
+### Normal Mode
+- Standard faction count
+- Balanced progression rate
+- Normal story mission frequency
+- Standard mission pacing
+
+### Hard Mode
+- More active factions
+- Faster enemy advancement
+- Fewer story missions
+- Increased mission frequency
+
+### Impossible Mode
+- Maximum faction count
+- Rapid enemy progression
+- Minimal story content
+- Constant mission pressure
+
+## Testing Scenarios
+
+- [ ] **Faction Generation Test**: New faction appears
+  - **Setup**: Game reaches faction threshold
+  - **Action**: Wait for campaign progression
+  - **Expected**: New faction with unique units appears
+  - **Verify**: Faction has complete unit roster and research tree
+
+- [ ] **Campaign Progression Test**: Faction advances technology
+  - **Setup**: Faction at technology level 1
+  - **Action**: Allow time progression
+  - **Expected**: Technology level increases, new units unlock
+  - **Verify**: Enemy encounters include advanced units
+
+## Related Features
+
+- **[AI Systems]**: Faction behavior and strategies (AI.md)
+- **[Geoscape System]**: World and mission context (Geoscape.md)
+- **[Battlescape System]**: Enemy unit encounters (Battlescape.md)
+- **[Missions System]**: Story and campaign missions (Missions.md)
+
+## Implementation Notes
+
+- Dynamic faction generation system
+- Independent research trees per faction
+- Campaign progression through milestones
+- Story integration with mission system
+
+## Review Checklist
+
+- [ ] Factions system designed
+- [ ] Races classification complete
+- [ ] Campaign system implemented
+- [ ] Mission types defined
+- [ ] Quest system functional
+- [ ] Event system integrated
+- [ ] Calendar system operational
+- [ ] Enemy scoring balanced

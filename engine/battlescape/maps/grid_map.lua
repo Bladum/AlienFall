@@ -23,7 +23,7 @@
 ---@see design.mechanics.hex_vertical_axial_system For coordinate system
 
 -- Import hex math module for all hex calculations
-local HexMath = require("engine.battlescape.battle_ecs.hex_math")
+local HexMath = require("battlescape.battle_ecs.hex_math")
 
 --- @class GridMap
 --- @field gridWidth number Number of blocks wide (4-7)
@@ -134,10 +134,10 @@ end
 function GridMap:worldToLocal(worldX, worldY)
     local blockX, blockY = self:worldToBlock(worldX, worldY)
     local blockWorldX, blockWorldY = self:blockToWorld(blockX, blockY)
-    
+
     local localX = worldX - blockWorldX + 1
     local localY = worldY - blockWorldY + 1
-    
+
     return localX, localY, blockX, blockY
 end
 
@@ -148,19 +148,19 @@ end
 -- Get terrain ID at world tile coordinates
 function GridMap:getTileAt(worldX, worldY)
     -- Check bounds
-    if worldX < 1 or worldX > self.worldWidth or 
+    if worldX < 1 or worldX > self.worldWidth or
        worldY < 1 or worldY > self.worldHeight then
         return nil
     end
-    
+
     -- Get block and local coordinates
     local localX, localY, blockX, blockY = self:worldToLocal(worldX, worldY)
     local block = self:getBlock(blockX, blockY)
-    
+
     if not block then
         return "floor"  -- Default terrain if no block
     end
-    
+
     return block:getTile(localX, localY) or "floor"
 end
 
@@ -173,15 +173,15 @@ function GridMap:generateRandom(blockPool, seed)
     if seed then
         math.randomseed(seed)
     end
-    
+
     if not blockPool or #blockPool == 0 then
         print("[GridMap] ERROR: Empty block pool")
         return false
     end
-    
-    print(string.format("[GridMap] Generating %dx%d grid from %d blocks", 
+
+    print(string.format("[GridMap] Generating %dx%d grid from %d blocks",
         self.gridWidth, self.gridHeight, #blockPool))
-    
+
     -- Place random blocks
     for by = 1, self.gridHeight do
         for bx = 1, self.gridWidth do
@@ -189,10 +189,10 @@ function GridMap:generateRandom(blockPool, seed)
             self:setBlock(bx, by, randomBlock)
         end
     end
-    
-    print(string.format("[GridMap] Generated %dx%d tile map", 
+
+    print(string.format("[GridMap] Generated %dx%d tile map",
         self.worldWidth, self.worldHeight))
-    
+
     return true
 end
 
@@ -202,7 +202,7 @@ function GridMap:generateThemed(blockPool, biomePreferences)
         print("[GridMap] ERROR: Empty block pool")
         return false
     end
-    
+
     -- Group blocks by biome
     local biomeBlocks = {}
     for _, block in ipairs(blockPool) do
@@ -212,14 +212,14 @@ function GridMap:generateThemed(blockPool, biomePreferences)
         end
         table.insert(biomeBlocks[biome], block)
     end
-    
+
     -- Select primary biome
     local primaryBiome = biomePreferences and biomePreferences[1] or "mixed"
     local blocks = biomeBlocks[primaryBiome] or blockPool
-    
-    print(string.format("[GridMap] Generating themed map (biome: %s, %d blocks)", 
+
+    print(string.format("[GridMap] Generating themed map (biome: %s, %d blocks)",
         primaryBiome, #blocks))
-    
+
     -- Place themed blocks
     for by = 1, self.gridHeight do
         for bx = 1, self.gridWidth do
@@ -238,15 +238,15 @@ function GridMap:generateThemed(blockPool, biomePreferences)
                     useBlocks = biomeBlocks[randomBiome]
                 end
             end
-            
+
             local randomBlock = useBlocks[math.random(1, #useBlocks)]
             self:setBlock(bx, by, randomBlock)
         end
     end
-    
-    print(string.format("[GridMap] Generated %dx%d themed tile map", 
+
+    print(string.format("[GridMap] Generated %dx%d themed tile map",
         self.worldWidth, self.worldHeight))
-    
+
     return true
 end
 
@@ -256,19 +256,19 @@ end
 
 -- Convert GridMap to Battlefield instance
 function GridMap:toBattlefield()
-    print(string.format("[GridMap] Converting to Battlefield (%dx%d)", 
+    print(string.format("[GridMap] Converting to Battlefield (%dx%d)",
         self.worldWidth, self.worldHeight))
-    
+
     -- Create battlefield
     local Battlefield = require("battlescape.battlefield.battlefield")
     local battlefield = Battlefield.new(self.worldWidth, self.worldHeight)
-    
+
     -- Copy all tiles
     for y = 1, self.worldHeight do
         for x = 1, self.worldWidth do
             local terrainId = self:getTileAt(x, y)
             local terrain = DataLoader.terrainTypes.get(terrainId)
-            
+
             if terrain then
                 local tile = battlefield:getTile(x, y)
                 if tile then
@@ -286,7 +286,7 @@ function GridMap:toBattlefield()
             end
         end
     end
-    
+
     print("[GridMap] Battlefield conversion complete")
     return battlefield
 end
@@ -298,11 +298,11 @@ end
 -- Generate ASCII representation of grid
 function GridMap:toASCII()
     local lines = {}
-    
-    table.insert(lines, string.format("GridMap %dx%d (World: %dx%d)", 
+
+    table.insert(lines, string.format("GridMap %dx%d (World: %dx%d)",
         self.gridWidth, self.gridHeight, self.worldWidth, self.worldHeight))
     table.insert(lines, "")
-    
+
     -- Show block grid
     for by = 1, self.gridHeight do
         local row = {}
@@ -316,7 +316,7 @@ function GridMap:toASCII()
         end
         table.insert(lines, table.concat(row, " "))
     end
-    
+
     return table.concat(lines, "\n")
 end
 
@@ -327,7 +327,7 @@ end
 function GridMap:getStats()
     local blockCount = 0
     local biomeCount = {}
-    
+
     for by = 1, self.gridHeight do
         for bx = 1, self.gridWidth do
             local block = self:getBlock(bx, by)
@@ -338,7 +338,7 @@ function GridMap:getStats()
             end
         end
     end
-    
+
     return {
         gridSize = {width = self.gridWidth, height = self.gridHeight},
         worldSize = {width = self.worldWidth, height = self.worldHeight},
@@ -348,29 +348,3 @@ function GridMap:getStats()
 end
 
 return GridMap
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

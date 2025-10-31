@@ -137,6 +137,17 @@ function Geoscape:enter()
         print(string.format("[Geoscape] Advanced to %s", self.world:getDate()))
         CampaignManager:printStatus()
     end
+
+    self.launchMissionButton = Widgets.Button.new(
+        windowWidth - 144,
+        168,
+        120,
+        48,
+        "LAUNCH MISSION"
+    )
+    self.launchMissionButton.onClick = function()
+        self:launchTestMission()
+    end
 end
 
 function Geoscape:exit()
@@ -171,6 +182,7 @@ function Geoscape:draw()
     self.backButton:draw()
     self.pauseButton:draw()
     self.advanceButton:draw()
+    self.launchMissionButton:draw()
 end
 
 function Geoscape:mousepressed(x, y, button)
@@ -178,6 +190,7 @@ function Geoscape:mousepressed(x, y, button)
     if self.backButton:mousepressed(x, y, button) then return end
     if self.pauseButton:mousepressed(x, y, button) then return end
     if self.advanceButton:mousepressed(x, y, button) then return end
+    if self.launchMissionButton:mousepressed(x, y, button) then return end
 
     if button == 1 then
         -- Left click - select province or start drag
@@ -208,6 +221,7 @@ function Geoscape:mousemoved(x, y, dx, dy)
     self.backButton:mousemoved(x, y)
     self.pauseButton:mousemoved(x, y)
     self.advanceButton:mousemoved(x, y)
+    self.launchMissionButton:mousemoved(x, y)
 
     -- Handle camera drag
     if self.isDragging then
@@ -267,6 +281,36 @@ function Geoscape:initTestProvinces()
     self.world.provinceGraph:addConnection("p3", "p4", 1)
 
     print(string.format("[Geoscape] Created %d test provinces", #provinceData))
+end
+
+-- Launch a test mission for demonstration
+function Geoscape:launchTestMission()
+    print("[Geoscape] Launching test mission")
+
+    -- Create a test mission
+    local MissionGenerator = require("geoscape.systems.missions.mission_generator")
+    local mission = MissionGenerator.generateRandomMission(3)
+
+    -- Add some test data
+    mission.name = "Test Terror Mission"
+    mission.type = "terror"
+    mission.location = "Test City"
+    mission.timeOfDay = "Night"
+    mission.enemies = {
+        {name = "Sectoid Soldier", count = 6},
+        {name = "Sectoid Leader", count = 1}
+    }
+    mission.rewards = {
+        funds = 150,
+        xp = 100
+    }
+
+    print(string.format("[Geoscape] Created test mission: %s", mission.name))
+
+    -- Transition to mission launch screen
+    StateManager.switch("mission_launch", {
+        missionData = mission
+    })
 end
 
 return Geoscape
