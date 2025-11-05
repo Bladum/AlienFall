@@ -1,179 +1,31 @@
 {
-	"version": "2.0.0",
-	"tasks": [
-		{
-			"label": "🎮 RUN: Game with Debug Console",
-			"type": "shell",
-			"command": "${workspaceFolder}/run_debug.bat",
-			"isBackground": false,
-			"problemMatcher": [],
-			"group": {
-				"kind": "build",
-				"isDefault": true
-			},
-			"presentation": {
-				"reveal": "always",
-				"panel": "shared"
-			}
-		},
-		{
-			"label": "🎮 RUN: Game (Release - No Debug)",
-			"type": "shell",
-			"command": "${workspaceFolder}/run_release.bat",
-			"isBackground": false,
-			"problemMatcher": [],
-			"group": "build",
-			"presentation": {
-				"reveal": "silent",
-				"panel": "shared"
-			}
-		},
-		{
-			"label": "🧪 TEST: All Tests",
-			"type": "shell",
-			"command": "C:\\Program Files\\LOVE\\lovec.exe",
-			"args": ["tests2/runners/run_all.lua"],
-			"isBackground": false,
-			"problemMatcher": [],
-			"group": "test",
-			"presentation": {
-				"reveal": "always",
-				"panel": "shared"
-			}
-		},
-		{
-			"label": "🧪 TEST: All Tests with Coverage",
-			"type": "shell",
-			"command": "powershell.exe",
-			"args": [
-				"-NoProfile",
-				"-Command",
-				"$env:TEST_COVERAGE=1; & 'C:\\Program Files\\LOVE\\lovec.exe' tests/runners"
-			],
-			"isBackground": false,
-			"problemMatcher": [],
-			"group": "test",
-			"presentation": {
-				"reveal": "always",
-				"panel": "shared"
-			}
-		},
-		{
-			"label": "🧪 Submodule: Battlescape Tests",
-			"type": "shell",
-			"command": "C:\\Program Files\\LOVE\\lovec.exe",
-			"args": ["tests/runners", "battlescape"],
-			"isBackground": false,
-			"problemMatcher": [],
-			"group": "test",
-			"presentation": {
-				"reveal": "always",
-				"panel": "shared"
-			}
-		},
-		{
-			"label": "🧪 Submodule: Geoscape Tests",
-			"type": "shell",
-			"command": "C:\\Program Files\\LOVE\\lovec.exe",
-			"args": ["tests/runners", "geoscape"],
-			"isBackground": false,
-			"problemMatcher": [],
-			"group": "test",
-			"presentation": {
-				"reveal": "always",
-				"panel": "shared"
-			}
-		},
-		{
-			"label": "🧪 Submodule: Basescape Tests",
-			"type": "shell",
-			"command": "C:\\Program Files\\LOVE\\lovec.exe",
-			"args": ["tests/runners", "basescape"],
-			"isBackground": false,
-			"problemMatcher": [],
-			"group": "test",
-			"presentation": {
-				"reveal": "always",
-				"panel": "shared"
-			}
-		},
-		{
-			"label": "🧪 Submodule: Unit Tests",
-			"type": "shell",
-			"command": "C:\\Program Files\\LOVE\\lovec.exe",
-			"args": ["tests/runners", "unit"],
-			"isBackground": false,
-			"problemMatcher": [],
-			"group": "test",
-			"presentation": {
-				"reveal": "always",
-				"panel": "shared"
-			}
-		},
-		{
-			"label": "🧪 Submodule: Systems Tests",
-			"type": "shell",
-			"command": "C:\\Program Files\\LOVE\\lovec.exe",
-			"args": ["tests/runners", "systems"],
-			"isBackground": false,
-			"problemMatcher": [],
-			"group": "test",
-			"presentation": {
-				"reveal": "always",
-				"panel": "shared"
-			}
-		},
-		{
-			"label": "🧪 Submodule: Integration Tests",
-			"type": "shell",
-			"command": "C:\\Program Files\\LOVE\\lovec.exe",
-			"args": ["tests/runners", "integration"],
-			"isBackground": false,
-			"problemMatcher": [],
-			"group": "test",
-			"presentation": {
-				"reveal": "always",
-				"panel": "shared"
-			}
-		},
-		{
-			"label": "🧪 Submodule: Battle Tests",
-			"type": "shell",
-			"command": "C:\\Program Files\\LOVE\\lovec.exe",
-			"args": ["tests/runners", "battle"],
-			"isBackground": false,
-			"problemMatcher": [],
-			"group": "test",
-			"presentation": {
-				"reveal": "always",
-				"panel": "shared"
-			}
-		},
-		{
-			"label": "🧪 Submodule: Widgets Tests",
-			"type": "shell",
-			"command": "C:\\Program Files\\LOVE\\lovec.exe",
-			"args": ["tests/runners", "widgets"],
-			"isBackground": false,
-			"problemMatcher": [],
-			"group": "test",
-			"presentation": {
-				"reveal": "always",
-				"panel": "shared"
-			}
-		},
-		{
-			"label": "🧪 Submodule: Performance Tests",
-			"type": "shell",
-			"command": "C:\\Program Files\\LOVE\\lovec.exe",
-			"args": ["tests/runners", "performance"],
-			"isBackground": false,
-			"problemMatcher": [],
-			"group": "test",
-			"presentation": {
-				"reveal": "always",
-				"panel": "shared"
-			}
-		}
-	]
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Run MINI SET (launcher)",
+      "type": "shell",
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File \"${workspaceFolder}\\MINI SET\\run_mini_set.ps1\"",
+      "problemMatcher": [],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "panel": "dedicated",
+        "focus": false
+      }
+    },
+    {
+      "label": "Run MINI SET (love)",
+      "type": "shell",
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -Command \"Set-Location -Path '${workspaceFolder}\\MINI SET'; if (Get-Command love -ErrorAction SilentlyContinue) { love . } else { Write-Error 'love not found on PATH'; exit 1 }\"",
+      "problemMatcher": [],
+      "presentation": { "panel": "shared" }
+    },
+    {
+      "label": "Run MINI SET (lovec explicit)",
+      "type": "shell",
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -Command \"Set-Location -Path '${workspaceFolder}\\MINI SET'; if (Get-Command lovec -ErrorAction SilentlyContinue) { lovec . } else { Write-Error 'lovec not found on PATH'; exit 1 }\"",
+      "problemMatcher": [],
+      "presentation": { "panel": "shared" }
+    }
+  ]
 }

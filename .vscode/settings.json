@@ -1,57 +1,18 @@
 {
-	"editor.formatOnSave": false,
-	"editor.tabSize": 4,
-	"editor.insertSpaces": true,
-	"editor.trimAutoWhitespace": true,
-	"files.trimTrailingWhitespace": true,
-	"files.insertFinalNewline": true,
-	"files.trimFinalNewlines": true,
-	"files.exclude": {
-		"**/.DS_Store": true,
-		"**/Thumbs.db": true,
-		"**/node_modules": true,
-		"**/.git": true,
-		"temp/**": false
-	},
-	"search.exclude": {
-		"**/node_modules": true,
-		"**/dist": true,
-		"**/build": true,
-		"**/.git": true,
-		"temp/**": false
-	},
-	"[lua]": {
-		"editor.defaultFormatter": "sumneko.lua",
-		"editor.formatOnSave": false
-	},
-	"Lua.diagnostics.globals": [
-		"love",
-		"print",
-		"tostring",
-		"tonumber"
-	],
-	"Lua.runtime.version": "Lua 5.1",
-	"[toml]": {
-		"editor.defaultFormatter": "tamasfe.even-better-toml",
-		"editor.formatOnSave": true
-	},
-	"evenBetterToml.formatter.indentTables": true,
-	"evenBetterToml.formatter.alignComments": false,
-	"workbench.startupEditor": "none",
-	"editor.allowVariableFontsInAccessibilityMode": true,
-	"editor.aiStats.enabled": true,
-	"github.copilot.chat.codesearch.enabled": true,
-	"github.copilot.chat.agent.thinkingTool": true,
-	"github.copilot.chat.alternateGptPrompt.enabled": true,
-	"github.copilot.chat.executePrompt.enabled": true,
-	"github.copilot.chat.generateTests.codeLens": true,
-	"Lua.codeLens.enable": true,
-	"Lua.completion.callSnippet": "Both",
-	"lua.debug.settings.luaVersion": "luajit",
-	"telemetry.editStats.enabled": false,
-	"telemetry.feedback.enabled": false,
-	"scm.alwaysShowActions": true,
-	"scm.alwaysShowRepositories": true,
-	"debug.allowBreakpointsEverywhere": true,
-	"problems.defaultViewMode": "table"
+    "Lua.runtime.version": "Lua 5.1",
+    "Lua.diagnostics.globals": [
+        "love",
+        "INTERNAL_WIDTH",
+        "INTERNAL_HEIGHT"
+    ],
+    "Lua.diagnostics.disable": [
+        "duplicate-set-field",
+        "deprecated"
+    ],
+    "Lua.workspace.library": [
+        "${3rd}/love2d/library"
+    ],
+    "Lua.workspace.checkThirdParty": true,
+    "Lua.hint.enable": true,
+    "Lua.hint.setType": true
 }
