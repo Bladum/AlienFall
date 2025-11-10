@@ -1,12 +1,16 @@
 {
     "runtime": {
-        "version": "Lua 5.1"
+        "version": "LuaJIT"
     },
     "diagnostics": {
         "globals": [
             "love",
             "INTERNAL_WIDTH",
-            "INTERNAL_HEIGHT"
+            "INTERNAL_HEIGHT",
+            "lfs",
+            "bit",
+            "ffi",
+            "jit"
         ],
         "disable": [
             "duplicate-set-field",
@@ -16,7 +20,8 @@
     "workspace": {
         "library": [
             "${3rd}/love2d/library",
-            "./LOVE"
+            "./LOVE",
+            "${3rd}/lfs/library"
         ],
         "checkThirdParty": true,
         "ignoreDir": [

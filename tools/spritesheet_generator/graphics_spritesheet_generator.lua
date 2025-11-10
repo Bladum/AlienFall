@@ -9,14 +9,14 @@ local generator = {}
 local A4_WIDTH = 2480   -- piksele na 300 DPI
 local A4_HEIGHT = 3508
 local SPACING = 8       -- czarna przestrzeń między grafikami (piksele)
-local COLS = 10         -- 10 kolumn = 10 różnych grafik
-local ROWS = 15         -- 15 wierszy = 15 kopii każdej grafiki
+local COLS = 11         -- 11 kolumn = 11 różnych grafik
+local ROWS = 17         -- 17 wierszy = 17 kopii każdej grafiki
 local TOTAL_ITEMS = COLS * ROWS  -- 150 elementów razem
 
 -- Oblicz rzeczywisty rozmiar arkusza (bez skalowania)
-local CELL_SIZE = 64    -- każda komórka 64×64
-local ACTUAL_WIDTH = COLS * CELL_SIZE + (COLS - 1) * SPACING   -- 10×64 + 9×8
-local ACTUAL_HEIGHT = ROWS * CELL_SIZE + (ROWS - 1) * SPACING  -- 15×64 + 14×8
+local CELL_SIZE = 80    -- każda komórka 80×80
+local ACTUAL_WIDTH = COLS * CELL_SIZE + (COLS - 1) * SPACING   -- 11×80 + 10×8
+local ACTUAL_HEIGHT = ROWS * CELL_SIZE + (ROWS - 1) * SPACING  -- 17×80 + 16×8
 
 -- Załaduj wszystkie grafiki
 function generator.load_graphics()
@@ -33,7 +33,8 @@ function generator.load_graphics()
         "red_harpy.png",
         "red_kraken.png",
         "red_pikeman.png",
-        "red_worker.png"
+        "red_worker.png",
+        "blue_archer.png"
     }
     
     print("[Generator] Wczytywanie grafik:\n")
@@ -73,18 +74,18 @@ function generator.create_combined_spritesheet(graphics)
     
     print("[Generator] Tworzenie arkusza A4 ze wszystkimi grafikami\n")
     
-    -- Każda komórka to 64×64 dla jednostki
+    -- Każda komórka to 80×80 dla jednostki
     -- Spacing (8px) między nimi będzie czarny
-    local cell_width = 64
-    local cell_height = 64
+    local cell_width = CELL_SIZE
+    local cell_height = CELL_SIZE
     
     print("[Generator] Rozmiar każdej komórki: " .. cell_width .. " x " .. cell_height .. " px")
     print("[Generator] Spacing: " .. SPACING .. " px (czarny)\n")
     
     -- Utwórz Canvas o dokładnym rozmiarze (bez pustego czarnego miejsca)
     local border = 4  -- 4 piksele czarna ramka na krawędziach
-    local actual_width = COLS * 64 + (COLS - 1) * SPACING + (2 * border)    -- 10×64 + 9×8 + 2×4 = 720 px
-    local actual_height = ROWS * 64 + (ROWS - 1) * SPACING + (2 * border)   -- 15×64 + 14×8 + 2×4 = 1078 px
+    local actual_width = COLS * CELL_SIZE + (COLS - 1) * SPACING + (2 * border)    -- 11×80 + 10×8 + 2×4 = 968 px
+    local actual_height = ROWS * CELL_SIZE + (ROWS - 1) * SPACING + (2 * border)   -- 17×80 + 16×8 + 2×4 = 1496 px
     print("[Generator] RZECZYWISTY rozmiar arkusza: " .. actual_width .. " x " .. actual_height .. " px")
     print("[Generator] Ramka: " .. border .. " px czarna na krawędziach\n")
     
@@ -97,8 +98,8 @@ function generator.create_combined_spritesheet(graphics)
     love.graphics.clear(0, 0, 0, 1)
     
     -- Narysuj wszystkie grafiki
-    -- Kolumny = różne typy grafik (0-9)
-    -- Wiersze = kopie każdej grafiki (0-14)
+    -- Kolumny = różne typy grafik (0-10)
+    -- Wiersze = kopie każdej grafiki (0-16)
     local border = 4  -- Offset dla ramki
     
     for row = 0, ROWS - 1 do
@@ -107,20 +108,20 @@ function generator.create_combined_spritesheet(graphics)
             
             if graphic then
                 -- Pozycja komórki (z spacingiem między nimi + offset ramki)
-                local x = col * (64 + SPACING) + border
-                local y = row * (64 + SPACING) + border
+                local x = col * (CELL_SIZE + SPACING) + border
+                local y = row * (CELL_SIZE + SPACING) + border
                 
-                -- Rysuj białe tło 64×64
+                -- Rysuj białe tło 80×80
                 love.graphics.setColor(1, 1, 1, 1)  -- Biały
-                love.graphics.rectangle("fill", x, y, 64, 64)
+                love.graphics.rectangle("fill", x, y, CELL_SIZE, CELL_SIZE)
                 
                 -- Rysuj grafikę na środku białego kwadratu
-                local center_x = x + 32
-                local center_y = y + 32
+                local center_x = x + CELL_SIZE / 2
+                local center_y = y + CELL_SIZE / 2
                 
-                -- Oblicz skalę (zmieść w 64×64)
-                local scale_x = 64 / graphic.width
-                local scale_y = 64 / graphic.height
+                -- Oblicz skalę (zmieść w 80×80)
+                local scale_x = CELL_SIZE / graphic.width
+                local scale_y = CELL_SIZE / graphic.height
                 local scale = math.min(scale_x, scale_y)
                 
                 -- Narysuj grafikę wyśrodkowaną
@@ -154,7 +155,7 @@ function generator.save_canvas_to_file(canvas, filepath)
     end
     
     -- Ścieżka wewnątrz Love2D filesystem
-    local love_path = "output_spritesheets/ALL_UNITS_A4_150items.png"
+    local love_path = "output_spritesheets/ALL_UNITS_A4_187items.png"
     print("[Generator] Zapisywanie do: " .. love_path)
     
     local success, err = pcall(function()
@@ -171,7 +172,7 @@ function generator.save_canvas_to_file(canvas, filepath)
         -- Teraz skopiuj do rzeczywistego folderu na dysku
         local source_dir = love.filesystem.getSaveDirectory()
         local source_file = source_dir .. "\\output_spritesheets\\ALL_UNITS_A4_150items.png"
-        local dest_file = love.filesystem.getSourceBaseDirectory() .. "\\output_spritesheets\\ALL_UNITS_A4_150items.png"
+        local dest_file = love.filesystem.getSourceBaseDirectory() .. "\\output_spritesheets\\ALL_UNITS_A4_187items.png"
         
         print("[Generator] Ścieżka źródła (Love2D): " .. source_file)
         print("[Generator] Ścieżka docelowa (dysk): " .. dest_file)
@@ -189,10 +190,10 @@ function generator.generate_combined_sheet()
     print("[Generator] GENERATOR ARKUSZA A4")
     print("[Generator] ========================================")
     print("[Generator] Format: A4 (2480 x 3508 px @ 300 DPI)")
-    print("[Generator] Grafiki: 10 typów")
-    print("[Generator] Kopie: 15 sztuk każdej grafiki")
-    print("[Generator] Razem: 150 elementów")
-    print("[Generator] Layout: 10 kolumn × 15 wierszy")
+    print("[Generator] Grafiki: 11 typów")
+    print("[Generator] Kopie: 17 sztuk każdej grafiki")
+    print("[Generator] Razem: 187 elementów")
+    print("[Generator] Layout: 11 kolumn × 17 wierszy")
     print("[Generator] Spacing: " .. SPACING .. " px (czarne tło)")
     print("[Generator] ========================================\n")
     

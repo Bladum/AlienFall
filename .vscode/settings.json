@@ -1,9 +1,12 @@
 {
-    "Lua.runtime.version": "Lua 5.1",
+    "Lua.runtime.version": "LuaJIT",
     "Lua.diagnostics.globals": [
         "love",
         "INTERNAL_WIDTH",
-        "INTERNAL_HEIGHT"
+        "INTERNAL_HEIGHT",
+        "bit",
+        "ffi",
+        "jit"
     ],
     "Lua.diagnostics.disable": [
         "duplicate-set-field",
